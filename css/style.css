@@ -1,0 +1,214 @@
+/* 
+COLOR PALATTE
+https://coolors.co/6a041d-f5b841-f4ff52-53ff45-1e2ede
+#f7fff7 - almost white
+#343434 - dark gray
+#2f3061 - blue dark
+#ffe66d - yellow
+#a1c6d7 - blue light
+
+*/
+
+/* Global styles
+--------------------------------------------- */
+
+/* border box fix */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+    color: #343434;
+    margin: 0;      /* remove margine/space around the background */
+    padding: 0;     /* It's a convention to also set the padding to zero on the body, 
+                    just to reset the default style, since its wraps around all the content on the page. */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+h1 {
+    font-size: 100px;
+    line-height: 1;
+}
+
+h2 {
+    font-size: 45px;
+}
+
+h1, h2 {
+    font-family: 'Caveat', cursive;
+    font-weight: 400;
+    margin: 0;
+}
+
+img {
+    width: 300px;
+}
+
+a {
+    color: #ffe66d;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.content-wrap {
+    max-width: 800px;
+    width: 85%;
+    margin: 0 auto;
+    padding: 60px 0;
+}
+
+/*  */
+h3 {
+    margin-bottom: 0;
+}
+
+/* Since we don't want to include this in project section */
+.item-details h3 + p {
+    font-style: italic;
+}
+
+.item-details h3 ~ p {
+    margin: 0;
+}
+
+/* Add border in both project and work experience section */
+.divider > section {
+    border-bottom: 1px dashed #343434;
+    padding: 25px 0;
+}
+
+.divider > section:last-of-type {
+    border-bottom: none;
+}
+
+/* Profile
+--------------------------------------------- */
+header {
+    background: #2f3061;
+    color: #f7fff7;
+    /* text-align: center; */
+}
+
+/* Projects
+--------------------------------------------- */
+.projects {
+    background: #cae6ca;
+}
+.projects a {
+    color: #2f3061;
+}
+.projects .btn {
+    color: #c7e7c7;
+    background: #2f3061;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 4px;
+    display: inline-block;      /* Inline element don't align vertically when you ad padding and margin to it.
+                                So we can change this behaviour by adding inline-block to the button. */
+}
+.projects .btn:hover {
+    background: rgba(47,48,97, 80%);
+}
+
+/* without adding this, img item is floated but there's some issues. I can't put it on the paragraph because want
+those to flow around the image. So this overflow will add self-clear in the parent element instead. */
+.project-item {
+    overflow: hidden;
+}
+
+.project-item h3 {
+    margin-top: 0;
+}
+
+/* Work Experience
+--------------------------------------------- */
+.work-experience {
+    background: #a1c6d7;
+}
+
+
+/* Education
+--------------------------------------------- */
+.education {
+    background-image: url(../images/joanna-kosinska-unsplash.jpg);
+    background-size: cover;
+    background-position: top right;
+    padding-bottom: 100px;
+}
+.education p {
+    width: 65%;
+}
+
+/* Contacts Info
+--------------------------------------------- */
+footer {
+    background: #343434;
+    color: #f7fff7;
+    /* text-align: center; */
+}
+
+.contact-list {
+    /* We're going to usse the list style type property to remove the bullets. */
+    list-style-type: none;
+    padding: 0;
+    /* display: flex;
+    justify-content: center; */
+}
+
+/* I want all items centre align within the container. But first, I'm going to need to add some space between
+    the links with padding. I'm choosing padding instead of margin because this can help with accessibility. */
+
+.contact-list a {
+    padding: 15px;
+    display: inline-block;
+}
+
+
+/* Responsive Styles
+--------------------------------------------- */
+@media screen and (min-width: 750px) {
+    header, footer {
+        text-align: center;
+    }
+
+    .project-item img {
+    float: left;
+    /* To add some spacing between image and the paragraph */
+    margin-right: 20px;
+    }
+
+    /* This is going to our grid container */
+    .job-item {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        column-gap: 20px;
+    }
+
+    .contact-list {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 749px) {
+    h1 {
+        font-size: 75px;
+        line-height: 0.9;
+        margin-bottom: 20px;
+    }
+    h2 {
+        line-height: 1;
+    }
+    .contact-list a {
+        padding: 5px;
+    }
+}
+
+
