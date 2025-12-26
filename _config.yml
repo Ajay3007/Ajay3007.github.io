@@ -1,1 +1,22 @@
-theme: jekyll-theme-cayman
+title: Ajay3007
+description: Projects and Learning Resources
+author: Ajay Kumar Gupt
+baseurl: ""
+url: "https://ajay3007.github.io"
+
+# Build settings
+markdown: kramdown
+theme: minima
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
+  posts:
+    output: true
+    permalink: /blog/:year/:month/:day/:slug/
+
+# Plugins
+plugins:
+  - jekyll-feed
