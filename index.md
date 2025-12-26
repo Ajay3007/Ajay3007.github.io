@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-# 👋 Welcome to AJdevHUB
+# 👋 Welcome to ajdevhub
 
 My personal hub for projects, blogs, and learning resources in programming..
 
