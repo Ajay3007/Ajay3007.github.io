@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Networking
+permalink: /learning/networking/
 ---
 
 # Networking
