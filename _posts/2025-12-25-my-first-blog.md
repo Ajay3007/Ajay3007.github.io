@@ -49,7 +49,7 @@ Use short paragraphs and lists to break information into digestible chunks. Add 
 - Use syntax-highlighted code blocks for clarity.
 - Link to related projects or posts for deeper reading.
 
-[See linked-list implementation →]({{ '/learning/data-structures/LinkedList/leetcode-876.cpp' | relative_url }})
+[See linked-list implementation →]({{ '/learning/dsa/LinkedList/leetcode-876.cpp' | relative_url }})
 
 ---
 
