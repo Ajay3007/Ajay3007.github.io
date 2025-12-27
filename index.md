@@ -114,19 +114,6 @@ Explore topic-wise paths and quick intros below.
 
 [Explore full learning index →]({{ '/learning' | relative_url }})
 
-
-## CSE BTech Curriculum
-
-Explore program-specific curriculum:
-
-<div class="projects-list">
-    <div class="project-card">
-        <h3><a href="{{ '/learning/CSE%20BTech/' | relative_url }}">CSE B.Tech (IIIT Pune)</a></h3>
-        <p>Semester-wise course structure and subject intros.</p>
-    </div>
-</div>
-
-
 ## 💡 About This Site
 
 This portfolio showcases my journey in programming, learning data structures & Algorithm during my Computer Science Engineering. Feel free to explore my work and [learn more about me]({{ '/about' | relative_url }}).
