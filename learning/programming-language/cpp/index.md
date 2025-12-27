@@ -7,3 +7,5 @@ permalink: /learning/programming-language/cpp/
 # C++ Language
 
 Learn C++ from fundamentals to advanced OOP, STL, and problem-solving techniques.
+
+## [Lambda Functions](lambda-functions/index.md)
