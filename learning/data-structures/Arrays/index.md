@@ -1,3 +1,10 @@
+---
+layout: default
+title: Backtracking
+permalink: /learning/data-structures-algorithms/arrays/
+---
+
+
 # <img src="/ajdevhub/assets/icons/rocket.svg" class="inline-icon" alt=""> Arrays Mastery Guide
 
 ## ⭐ 1. Array Concepts You Must Master
