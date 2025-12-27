@@ -47,17 +47,25 @@ permalink: /learning/dsa/
         <div style="color:#607d8b;font-size:0.98rem;">Fundamentals, implementations, and problem-solving patterns.</div>
       </div>
     </div>
+</div>
 
-    <div style="margin:2.5rem auto 1.5rem auto;text-align:center;color:#607d8b;font-size:1.08rem;max-width:700px;">
-      <span style="background:#e3f2fd;padding:0.4rem 1.1rem;border-radius:8px;">Explore projects and implementations in the Linked List folder and more.</span>
-    </div>
+## Data Structures
 
-    <div style="text-align:center;margin-top:2.5rem;">
-      <a href="{{ '/' | relative_url }}" style="color:#607d8b;">&larr; Back to home</a>
-    </div>
-
+<div class="projects-list">
+  <!-- Linked List -->
+  <div class="project-card">
+    <h3>
+      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/>
+      </svg>
+      <a href="{{ '/learning/dsa/linked-list/' | relative_url }}">Linked List</a>
+    </h3>
+    <p>Fundamentals, implementations, and problem-solving patterns.</p>
+    <ul class="sub-links">
+      <li><a href="{{ '/learning/dsa/linked-list/singly-linked-list/' | relative_url }}">Singly Linked List</a></li>
       <li><a href="{{ '/learning/dsa/linked-list/doubly-linked-list/' | relative_url }}">Doubly Linked List</a></li>
     </ul>
+  </div>
 
   <!-- Trees -->
   <div class="project-card">
