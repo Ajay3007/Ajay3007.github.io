@@ -1,34 +1,64 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title | default: site.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title | default: site.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 </head>
 <body>
-    <header class="site-header">
-        <div class="site-header-inner">
-            <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-            <nav class="site-nav">
-                {% assign cur = page.url | default: '/' %}
-                <a href="{{ '/' | relative_url }}" class="{% if cur == '/' or cur == '' %}active{% endif %}">Home</a>
-                <a href="{{ '/learning' | relative_url }}" class="{% if cur contains '/learning' %}active{% endif %}">Learning</a>
-                <a href="{{ '/projects' | relative_url }}" class="{% if cur contains '/projects' %}active{% endif %}">Projects</a>
-                <a href="{{ '/blogs' | relative_url }}" class="{% if cur contains '/blogs' %}active{% endif %}">Blogs</a>
-                <a href="{{ '/about' | relative_url }}" class="{% if cur contains '/about' %}active{% endif %}">About</a>
-            </nav>
-        </div>
-    </header>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
 
-    <main class="site-main">
-        {{ content }}
-    </main>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
 
-    <footer class="site-footer">
-        <p>&copy; {{ 'now' | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
-    </footer>
-    <script src="{{ '/assets/js/nav.js' | relative_url }}"></script>
+      <!-- Add data-baseurl for JS to be baseurl-aware if you ever set it -->
+      <nav class="site-nav" data-baseurl="{{ site.baseurl }}">
+        {% assign cur = page.url | default: '/' %}
+
+        <a href="{{ '/' | relative_url }}"
+           class="{% if cur == '/' or cur == '' %}active{% endif %}"
+           {% if cur == '/' or cur == '' %}aria-current="page"{% endif %}>
+          Home
+        </a>
+
+        <a href="{{ '/learning/' | relative_url }}"
+           class="{% if cur contains '/learning/' %}active{% endif %}"
+           {% if cur contains '/learning/' %}aria-current="page"{% endif %}>
+          Learnings
+        </a>
+
+        <a href="{{ '/projects/' | relative_url }}"
+           class="{% if cur contains '/projects/' %}active{% endif %}"
+           {% if cur contains '/projects/' %}aria-current="page"{% endif %}>
+          Projects
+        </a>
+
+        <a href="{{ '/blogs/' | relative_url }}"
+           class="{% if cur contains '/blogs/' %}active{% endif %}"
+           {% if cur contains '/blogs/' %}aria-current="page"{% endif %}>
+          Blogs
+        </a>
+
+        <a href="{{ '/about/' | relative_url }}"
+           class="{% if cur contains '/about/' %}active{% endif %}"
+           {% if cur contains '/about/' %}aria-current="page"{% endif %}>
+          About
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; {{ 'now' | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
+  </footer>
+
+  <script src="{{ '/assets/js/nav.js' | relative_url }}"></script>
 </body>
 </html>
