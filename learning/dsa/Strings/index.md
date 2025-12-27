@@ -94,7 +94,7 @@ Why important?
 
 - Implement Trie
 
-## <img src="/ajdevhub/assets/icons/puzzle.svg" class="inline-icon" alt=""> 6. Advanced String Topics
+## <img src="/assets/icons/puzzle.svg" class="inline-icon" alt=""> 6. Advanced String Topics
 
 These help in elite interviews.
 

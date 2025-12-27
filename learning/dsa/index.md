@@ -162,6 +162,4 @@ permalink: /learning/dsa/
 </div>
 
 
-Explore projects and implementations in the LinkedList folder and more.
-
 [Back to home]({{ '/' | relative_url }})

@@ -13,19 +13,16 @@ My personal hub for projects, blogs, and learning resources in programming and C
         <div class="hf-tab active" data-target="overview">Overview</div>
         <div class="hf-tab" data-target="activity">Activity</div>
     </div>
-
     <div class="home-search">
         <input id="home-search" type="search" placeholder="Search projects & posts..." aria-label="Search" />
         <a href="{{ '/projects' | relative_url }}" role="button">All Projects</a>
     </div>
-
     <div id="overview" class="hf-panel active">
         <div class="blog-hero">
             <h2>Quick Overview</h2>
             <p>Recent projects, blog posts, and learning highlights — interactive and filterable.</p>
         </div>
     </div>
-
     <div id="activity" class="hf-panel">
         <div class="activity-list">
             <div class="col">
@@ -51,21 +48,6 @@ My personal hub for projects, blogs, and learning resources in programming and C
     </div>
 </div>
 
-## 🚀 Latest Projects
-
-<div class="projects-list">
-    {% for project in site.projects limit: 3 %}
-    <div class="project-card">
-        <h3><a href="{{ project.url }}">{{ project.title }}</a></h3>
-        {% if project.description %}
-            <p>{{ project.description }}</p>
-        {% endif %}
-    </div>
-    {% endfor %}
-</div>
-
-
-[View All Projects →]({{ '/projects' | relative_url }})
 
 
 ## 📝 Latest Blog Posts
@@ -82,6 +64,10 @@ My personal hub for projects, blogs, and learning resources in programming and C
 Explore topic-wise paths and quick intros below.
 
 <div class="projects-list">
+    <div class="project-card">
+        <h3><a href="{{ '/learning/programming-language/' | relative_url }}">Explore Programming Languages</a></h3>
+        <p>All about C, C++, Java, Python and other language basics.</p>
+    </div>
     <div class="project-card">
         <h3><a href="{{ '/learning/dsa/' | relative_url }}">Data Structures & Algorithms</a></h3>
         <p>Fundamentals, implementations, and problem-solving patterns.</p>
@@ -110,9 +96,30 @@ Explore topic-wise paths and quick intros below.
                 <h3><a href="{{ '/learning/ai-ml/' | relative_url }}">AI & ML</a></h3>
                 <p>Introductory ML concepts, models and projects.</p>
     </div>
+    <div class="project-card">
+                <h3><a href="{{ '/learning/data-plane/' | relative_url }}">Data Plane Development</a></h3>
+                <p>Data Plane Products Development and projects.</p>
+    </div>
 </div>
 
 [Explore full learning index →]({{ '/learning' | relative_url }})
+
+## 🚀 Latest Projects
+
+<div class="projects-list">
+    {% for project in site.projects limit: 3 %}
+    <div class="project-card">
+        <h3><a href="{{ project.url }}">{{ project.title }}</a></h3>
+        {% if project.description %}
+            <p>{{ project.description }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+
+[View All Projects →]({{ '/projects' | relative_url }})
+
 
 ## 💡 About This Site
 

@@ -1,4 +1,10 @@
-# Basics of Strings (Foundations)
+---
+layout: default
+title: String Basics
+permalink: /learning/dsa/strings/string-basics/
+---
+
+# Foundations
 
 These are must-know before solving problems.
 
