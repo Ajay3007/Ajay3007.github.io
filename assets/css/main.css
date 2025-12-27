@@ -524,3 +524,9 @@ a[role="button"]:hover, .btn:hover {
     display: block;
   }
 }
+
+/* Optional: compact inline sub-links under cards */
+.sub-links { list-style: none; margin: 0.5rem 0 0; padding: 0; font-size: 0.95rem; }
+.sub-links li { margin: 0; color: var(--light-text); }
+.sub-links a { color: var(--secondary-color); text-decoration: none; font-weight: 600; }
+.sub-links a:hover { color: var(--accent-color); }
