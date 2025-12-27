@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Sliding Window
+title: Two Pointers
 permalink: /learning/dsa/arrays/two-pointers/
 ---
 

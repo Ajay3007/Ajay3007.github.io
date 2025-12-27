@@ -3,20 +3,19 @@ layout: default
 title: Data Structures & Algorithms
 permalink: /learning/dsa/
 ---
-
+<h2 style="font-size:1.5rem;margin:2.5rem 0 1.2rem 0;font-weight:700;">Explore Algorithms</h2>
 <div class="projects-list">
-    <h2 style="font-size:1.5rem;margin:2.5rem 0 1.2rem 0;font-weight:700;">Explore Algorithms</h2>
     <div class="projects-list" style="display:flex;flex-wrap:wrap;gap:2rem 2.5rem;justify-content:center;">
       <!-- Sorting & Searching -->
       <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
         <span style="font-size:2rem;">🔎</span>
         <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
-          <a href="{{ '/learning/dsa/sorting/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Sorting & Searching</a>
+          <a href="{{ '/learning/dsa/searching-sorting/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Sorting & Searching</a>
         </h3>
         <div style="color:#607d8b;font-size:0.98rem;">Fundamentals, implementations, and problem-solving patterns.</div>
         <ul class="sub-links" style="margin:0.7rem 0 0 0;padding:0;list-style:none;">
-          <li><a href="{{ '/learning/dsa/binary-search/' | relative_url }}">Binary Search</a></li>
-          <li><a href="{{ '/learning/dsa/sorting/' | relative_url }}">Sorting Techniques</a></li>
+          <li><a href="{{ '/learning/dsa/Searching-Sorting/binary-search/' | relative_url }}">Binary Search</a></li>
+          <li><a href="{{ '/learning/dsa/Searching-Sorting/sorting/' | relative_url }}">Sorting Techniques</a></li>
         </ul>
       </div>
       <!-- Recursion -->
@@ -49,9 +48,25 @@ permalink: /learning/dsa/
     </div>
 </div>
 
-## Data Structures
+<h2 style="font-size:1.5rem;margin:2.5rem 0 1.2rem 0;font-weight:700;">Explore Data Structures</h2>
 
 <div class="projects-list">
+
+  <!-- Arrays -->
+  <div class="project-card">
+    <h3>
+      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/>
+      </svg>
+      <a href="{{ '/learning/dsa/arrays/' | relative_url }}">Arrays</a>
+    </h3>
+    <p>Fundamentals, implementations, and problem-solving patterns.</p>
+    <ul class="sub-links">
+      <li><a href="{{ '/learning/dsa/arrays/sliding-window/' | relative_url }}">Sliding Window</a></li>
+      <li><a href="{{ '/learning/dsa/arrays/two-pointers/' | relative_url }}">Two Pointers</a></li>
+    </ul>
+  </div>
+
   <!-- Linked List -->
   <div class="project-card">
     <h3>
@@ -146,62 +161,6 @@ permalink: /learning/dsa/
 
 </div>
 
-## Algorithms
-
-<div class="projects-list">
-
-  <!-- Sorting & Searching -->
-  <div class="project-card">
-    <h3>
-      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/>
-      </svg>
-      <a href="{{ '/learning/dsa/sorting/' | relative_url }}">Sorting & Searching</a>
-    </h3>
-    <p>Fundamentals, implementations, and problem-solving patterns.</p>
-    <ul class="sub-links">
-      <li><a href="{{ '/learning/dsa/binary-search/' | relative_url }}">Binary Search</a></li>
-      <li><a href="{{ '/learning/dsa/sorting/' | relative_url }}">Sorting Techniques</a></li>
-    </ul>
-  </div>
-
-  <!-- Recursion -->
-  <div class="project-card">
-    <h3>
-      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/>
-      </svg>
-      <a href="{{ '/learning/dsa/recursion/' | relative_url }}">Recursion</a>
-    </h3>
-    <p>Fundamentals, implementations, and problem-solving patterns.</p>
-  </div>
-
-  <!-- Dynamic Programming -->
-  <div class="project-card">
-    <h3>
-      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/>
-      </svg>
-      <a href="{{ '/learning/dsa/dynamic-programming/' | relative_url }}">Dynamic Programming</a>
-    </h3>
-    <p>Fundamentals, implementations, and problem-solving patterns.</p>
-    <ul class="sub-links">
-      <li><a href="{{ '/learning/dsa/dynamic-programming/knapsack-family/' | relative_url }}">Knapsack Family</a></li>
-    </ul>
-  </div>
-
-  <!-- Backtracking -->
-  <div class="project-card">
-    <h3>
-      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/>
-      </svg>
-      <a href="{{ '/learning/dsa/backtracking/' | relative_url }}">Backtracking</a>
-    </h3>
-    <p>Fundamentals, implementations, and problem-solving patterns.</p>
-  </div>
-
-</div>
 
 Explore projects and implementations in the LinkedList folder and more.
 

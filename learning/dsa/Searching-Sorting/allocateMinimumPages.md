@@ -1,3 +1,9 @@
+---
+layout: default
+title: Sorting
+permalink: /learning/dsa/Searching-Sorting/allocateMinimumPages/
+---
+
 # Problem Link 
 
 - **[Allocate Minimum Pages - GFG](https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1)**

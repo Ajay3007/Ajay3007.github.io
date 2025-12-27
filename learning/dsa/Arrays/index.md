@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Backtracking
+title: Arrays
 permalink: /learning/dsa/arrays/
 ---
 

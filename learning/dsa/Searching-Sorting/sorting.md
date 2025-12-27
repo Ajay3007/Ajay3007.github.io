@@ -1,8 +1,14 @@
+---
+layout: default
+title: Sorting
+permalink: /learning/dsa/Searching-Sorting/sorting/
+---
+
 # <img src="/ajdevhub/assets/icons/rocket.svg" class="inline-icon" alt=""> Sorting Master Guide (Interview-Focused)
 
 ## Sorting Algorithms You MUST Know (Interview Level)
 
-### [Sorting an Array using Recursion](../../recursion/sort_array_using_rec.cpp)
+### [Sorting an Array using Recursion](../recursion/sort_array_using_rec.cpp)
 
 ---
 
