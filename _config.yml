@@ -20,26 +20,5 @@ collections:
 # Plugins
 plugins:
   - jekyll-feed
-
-
-# _config.yml (additions)
-permalink: pretty
-timezone: Asia/Kolkata
-
-# Keep your existing config as-is, then add:
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: post
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: page
-
-# Optional: better code blocks
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
+  - jekyll-seo-tag
+  - jekyll-sitemap

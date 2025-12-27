@@ -3,14 +3,10 @@ layout: default
 title: Home
 ---
 
-# 👋 Welcome to Calculusphile
+# 👋 Welcome to ajdevhub
 
 My personal hub for projects, blogs, and learning resources in programming and Computer Science & Engineering.
 
-
-<div style="text-align:center; margin:1rem 0;">
-    <a href="https://youtube.com/@calculusphile?si=ZXuiXQ2fsTA3Fhax" target="_blank" rel="noopener noreferrer" style="display:inline-block; background:#FF0000; color:white; padding:0.5rem 1rem; border-radius:6px; text-decoration:none; font-weight:600;">▶️ Subscribe on YouTube</a>
-</div>
 
 <div class="home-top">
     <div class="hf-tabs">
