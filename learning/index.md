@@ -1,6 +1,7 @@
 ---
 layout: default
 title: Learning Journey
+permalink: /learning/
 ---
 
 # Learning Journey
@@ -8,11 +9,25 @@ title: Learning Journey
 Explore topic-wise learning paths and resources.
 
 <div class="projects-list">
-  <div class="project-card">
+  <!-- <div class="project-card">
     <h3><svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/></svg>
       <a href="{{ '/learning/data-structures/' | relative_url }}">Data Structures & Algorithms</a></h3>
     <p>Fundamentals, implementations, and problem-solving patterns.</p>
+  </div> -->
+
+  <div class="project-card">
+    <h3>
+      <svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 6.5C3 5.12 4.12 4 5.5 4h13C20.88 4 22 5.12 22 6.5v11c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 20 3 18.88 3 17.5v-11zM6 7v10h12V7H6z"/></svg>
+      <a href="{{ '/learning/data-structures/' | relative_url }}">Data Structures & Algorithms</a>
+    </h3>
+    <p>Fundamentals, implementations, and problem-solving patterns.</p>
+    <ul class="sub-links">
+      <li><a href="{{ '/learning/data-structures/arrays/' | relative_url }}">Arrays</a> · <a href="{{ '/learning/data-structures/arrays/two-pointers/' | relative_url }}">Two Pointers</a> · <a href="{{ '/learning/data-structures/arrays/sliding-window/' | relative_url }}">Sliding Window</a></li>
+      <li><a href="{{ '/learning/data-structures/linked-list/' | relative_url }}">Linked List</a> · <a href="{{ '/learning/data-structures/trees/' | relative_url }}">Trees</a></li>
+      <li><a href="{{ '/learning/data-structures/sorting/' | relative_url }}">Sorting</a> · <a href="{{ '/learning/data-structures/dynamic-programming/' | relative_url }}">Dynamic Programming</a> · <a href="{{ '/learning/data-structures/graphs/' | relative_url }}">Graphs</a></li>
+    </ul>
   </div>
+
   <div class="project-card">
     <h3><svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 13h4v8H3v-8zm6-6h4v14h-4V7zm6 3h4v11h-4V10z"/></svg>
       <a href="{{ '/learning/system-design/' | relative_url }}">System Design</a></h3>
