@@ -7,24 +7,6 @@ title: Home
 
 My personal hub for projects, blogs, and learning resources in programming..
 
-
-## 🚀 Latest Projects
-
-<div class="projects-list">
-    {% for project in site.projects limit: 3 %}
-    <div class="project-card">
-        <h3><a href="{{ project.url }}">{{ project.title }}</a></h3>
-        {% if project.description %}
-            <p>{{ project.description }}</p>
-        {% endif %}
-    </div>
-    {% endfor %}
-</div>
-
-
-[View All Projects →]({{ '/projects' | relative_url }})
-
-
 ## 📝 Latest Blog Posts
 
 {% for post in site.posts limit: 3 %}
@@ -71,6 +53,21 @@ Explore topic-wise paths and quick intros below.
 
 [Explore full learning index →]({{ '/learning' | relative_url }})
 
+## 🚀 Latest Projects
+
+<div class="projects-list">
+    {% for project in site.projects limit: 3 %}
+    <div class="project-card">
+        <h3><a href="{{ project.url }}">{{ project.title }}</a></h3>
+        {% if project.description %}
+            <p>{{ project.description }}</p>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+
+[View All Projects →]({{ '/projects' | relative_url }})
 
 
 ## 💡 About This Site
