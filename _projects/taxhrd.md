@@ -4,7 +4,7 @@ title: TaxHrd - Investment Tax Calculation System
 permalink: /projects/taxhrd/
 ---
 
-# TaxHrd — Investment Tax Calculation Engine
+# TaxHrd Engine
 
 **A Java-based system to calculate and categorize investment taxes (STCG) from equity trading activity.**
 
