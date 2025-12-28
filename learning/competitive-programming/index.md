@@ -3,6 +3,8 @@ layout: default
 title: Competitive Programming
 ---
 
+---
+
 
 <div class="project-card" style="max-width:600px;margin:2rem auto 2rem auto;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem 1.2rem;">
 	<h1 style="display:flex;align-items:center;gap:0.7rem;font-size:2rem;">

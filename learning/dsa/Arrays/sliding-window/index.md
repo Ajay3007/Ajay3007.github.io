@@ -4,6 +4,25 @@ title: Sliding Window
 permalink: /learning/dsa/arrays/sliding-window/
 ---
 
+## 📑 Table of Contents
+
+1. **[<img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sliding Window](#img-src-assets-icons-rocket-svg-relativeurl-class-inline-icon-alt-sliding-window)**
+    1.1. [⭐ 2. Types of Sliding Window](#-2-types-of-sliding-window)
+    1.2. [⭐ Templates (MOST IMPORTANT PART)](#-templates-most-important-part)
+    1.3. [⭐ Top 5 Sliding Window Patterns](#-top-5-sliding-window-patterns)
+    1.4. [⭐ Must-Do Sliding Window Problems](#-must-do-sliding-window-problems)
+
+---
+
+### 🎯 Main Topics Covered
+
+1. **2 Types of Sliding Window**
+2. **Templates MOST IMPORTANT PART**
+3. **Top 5 Sliding Window Patterns**
+4. **Must-Do Sliding Window Problems**
+
+---
+
 # <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sliding Window
 
 Sliding Window is used when we deal with **contiguous subarrays or substrings**.

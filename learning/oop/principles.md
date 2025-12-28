@@ -6,14 +6,7 @@ permalink: /learning/oop/principles/
 
 ## 📑 Table of Contents
 
-  1. [📋 Executive Summary](#-executive-summary)
-    1.1. [📊 Quick Stats](#-quick-stats)
-    1.2. [🎯 Main Principles Covered](#-main-principles-covered)
-    1.3. [💡 What You'll Learn](#-what-you-ll-learn)
-    1.4. [📚 Prerequisites](#-prerequisites)
-    1.5. [👥 Target Audience](#-target-audience)
-    1.6. [🎓 Learning Path](#-learning-path)
-    1.7. [🔑 Key Insight](#-key-insight)
+    1. [📋 Executive Summary](#-executive-summary)
 1. **[OOP Principles (SOLID etc.)](#oop-principles-solid-etc)**
 
 ---

@@ -6,8 +6,8 @@ title: AI & ML Topics
 ## 📑 Table of Contents
 
 1. **[AI & Machine Learning — Topics](#ai-machine-learning-topics)**
-  1.1. [Subtopics](#subtopics)
-  1.2. [Starter Resources](#starter-resources)
+    1.1. [Subtopics](#subtopics)
+    1.2. [Starter Resources](#starter-resources)
 
 ---
 

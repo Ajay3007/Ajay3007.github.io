@@ -4,6 +4,14 @@ title: Programming Languages
 permalink: /learning/programming-language/
 ---
 
+## 📑 Table of Contents
+
+1. **[Programming Languages](#programming-languages)**
+
+---
+
+---
+
 # Programming Languages
 
 Explore the basics to advanced concepts of various programming languages. Find learning paths, resources, and projects for each language below.

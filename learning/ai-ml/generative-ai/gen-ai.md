@@ -1,9 +1,9 @@
 ## 📑 Table of Contents
 
 1. **[Introduction to Generative AI](#introduction-to-generative-ai)**
-  1.1. [Key Concepts](#key-concepts)
-  1.2. [Why Learn Generative AI?](#why-learn-generative-ai)
-  1.3. [Learning Path](#learning-path)
+    1.1. [Key Concepts](#key-concepts)
+    1.2. [Why Learn Generative AI?](#why-learn-generative-ai)
+    1.3. [Learning Path](#learning-path)
 
 ---
 

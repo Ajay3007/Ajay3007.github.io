@@ -4,6 +4,36 @@ title: Strings
 permalink: /learning/dsa/strings/
 ---
 
+## 📑 Table of Contents
+
+1. **[📘 DSA: Strings Learning Roadmap (Beginner → Advanced)](#-dsa-strings-learning-roadmap-beginner-advanced)**
+    1.1. [1. Basics of Strings (Foundations)](#1-basics-of-strings-foundations)
+    1.2. [🔍 2. Two Pointers on Strings](#-2-two-pointers-on-strings)
+    1.3. [🪟 3. Sliding Window (Very Important)](#-3-sliding-window-very-important)
+    1.4. [🧮 4. Hashing for Strings](#-4-hashing-for-strings)
+    1.5. [🔤 5. Pattern Matching Algorithms](#-5-pattern-matching-algorithms)
+    1.6. [<img src="{{ '/assets/icons/puzzle.svg' | relative_url }}" class="inline-icon" alt=""> 6. Advanced String Topics](#img-src-assets-icons-puzzle-svg-relativeurl-class-inline-icon-alt-6-advanced-string-topics)
+2. **[📝 Must Do String Problems](#-must-do-string-problems)**
+    2.1. [🔹 Level 1 – Easy](#-level-1-easy)
+    2.2. [🔹 Level 2 – Medium](#-level-2-medium)
+    2.3. [🔹 Level 3 – Hard](#-level-3-hard)
+
+---
+
+### 🎯 Main Topics Covered
+
+1. **1 Basics of Strings Foundations**
+2. **2 Two Pointers on Strings**
+3. **3 Sliding Window Very Important**
+4. **4 Hashing for Strings**
+5. **5 Pattern Matching Algorithms**
+6. **img src assetsiconspuzzlesvg  relative_url  classinline-icon alt 6 Advanced String Topics**
+7. **Level 1  Easy**
+8. **Level 2  Medium**
+... and 1 more
+
+---
+
 # 📘 DSA: Strings Learning Roadmap (Beginner → Advanced)
 
 ## 1. Basics of Strings (Foundations)

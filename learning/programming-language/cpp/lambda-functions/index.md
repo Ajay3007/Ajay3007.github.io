@@ -4,6 +4,39 @@ title: C++ Language
 permalink: /learning/programming-language/cpp/lambda-functions
 ---
 
+## 📑 Table of Contents
+
+1. **[Lambda Functions in Modern C++](#lambda-functions-in-modern-c)**
+    1.1. [Quick overview](#quick-overview)
+    1.2. [Syntax](#syntax)
+    1.3. [Basic examples](#basic-examples)
+    1.4. [Capture modes](#capture-modes)
+    1.5. [Lambda in a Class (Capturing `this`)](#lambda-in-a-class-capturing-this)
+    1.6. [`mutable` lambdas](#mutable-lambdas)
+    1.7. [Generic lambdas (C++14)](#generic-lambdas-c14)
+    1.8. [Using lambdas with STL](#using-lambdas-with-stl)
+    1.9. [`std::move` capture (C++14/17)](#std-move-capture-c14-17)
+    1.10. [Storing Lambdas in `std::function`](#storing-lambdas-in-std-function)
+    1.11. [UML-Style Diagram (Conceptual)](#uml-style-diagram-conceptual)
+    1.12. [Best practices](#best-practices)
+    1.13. [Runnable C++ Examples](#runnable-c-examples)
+
+---
+
+### 🎯 Main Topics Covered
+
+1. **Quick overview**
+2. **Syntax**
+3. **Basic examples**
+4. **Capture modes**
+5. **Lambda in a Class Capturing this**
+6. **mutable lambdas**
+7. **Generic lambdas C14**
+8. **Using lambdas with STL**
+... and 5 more
+
+---
+
 # Lambda Functions in Modern C++
 
 Lambda functions are essential for writing concise, expressive code — especially with STL algorithms(eg. sort), callbacks, event handeling, threading, and functional patterns.

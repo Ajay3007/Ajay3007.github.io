@@ -1,3 +1,40 @@
+## 📑 Table of Contents
+
+1. **[TaxHrd Project Documentation Hub](#taxhrd-project-documentation-hub)**
+    1.1. [🎯 Quick Navigation](#-quick-navigation)
+    1.2. [📚 Complete Document List](#-complete-document-list)
+    1.3. [📊 Document Comparison](#-document-comparison)
+    1.4. [🎓 Reading Paths](#-reading-paths)
+    1.5. [🗂️ File Structure](#-file-structure)
+    1.6. [🎯 Key Topics Quick Reference](#-key-topics-quick-reference)
+    1.7. [📝 Documentation Stats](#-documentation-stats)
+    1.8. [✨ Features of This Documentation](#-features-of-this-documentation)
+    1.9. [🚀 Getting Started](#-getting-started)
+    1.10. [🔗 External Resources](#-external-resources)
+    1.11. [🤝 Contributing](#-contributing)
+    1.12. [📞 Questions & Support](#-questions-support)
+    1.13. [📊 Documentation Roadmap](#-documentation-roadmap)
+    1.14. [📈 Document Maintenance](#-document-maintenance)
+    1.15. [🎓 Learning Outcomes](#-learning-outcomes)
+    1.16. [🏆 Quality Standards](#-quality-standards)
+    1.17. [📬 Feedback](#-feedback)
+    1.18. [📖 Document Navigation](#-document-navigation)
+
+---
+
+### 🎯 Main Topics Covered
+
+1. **Quick Navigation**
+2. **Complete Document List**
+3. **Document Comparison**
+4. **Reading Paths**
+5. **File Structure**
+6. **Key Topics Quick Reference**
+7. **Documentation Stats**
+8. **Features of This Documentation**
+... and 10 more
+
+---
 # TaxHrd Project Documentation Hub
 
 **Complete documentation suite for the TaxHrd investment tax calculation system.**

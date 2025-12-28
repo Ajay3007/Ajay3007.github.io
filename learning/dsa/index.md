@@ -3,6 +3,8 @@ layout: default
 title: Data Structures & Algorithms
 permalink: /learning/dsa/
 ---
+
+---
 <h2 style="font-size:1.5rem;margin:2.5rem 0 1.2rem 0;font-weight:700;">Explore Algorithms</h2>
 <div class="projects-list">
     <div class="projects-list" style="display:flex;flex-wrap:wrap;gap:2rem 2.5rem;justify-content:center;">

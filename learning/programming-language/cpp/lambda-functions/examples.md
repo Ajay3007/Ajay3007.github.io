@@ -1,8 +1,8 @@
 ## 📑 Table of Contents
 
 1. **[Lambda Examples (Runnable C++ files)](#lambda-examples-runnable-c-files)**
-  1.1. [Example Source Files and Purpose](#example-source-files-and-purpose)
-  1.2. [Build & Run (Linux / macOS / WSL)](#build-run-linux-macos-wsl)
+    1.1. [Example Source Files and Purpose](#example-source-files-and-purpose)
+    1.2. [Build & Run (Linux / macOS / WSL)](#build-run-linux-macos-wsl)
 
 ---
 

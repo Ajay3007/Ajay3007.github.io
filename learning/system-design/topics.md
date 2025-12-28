@@ -6,8 +6,8 @@ title: System Design Topics
 ## 📑 Table of Contents
 
 1. **[System Design — Topics](#system-design-topics)**
-  1.1. [Subtopics](#subtopics)
-  1.2. [Starter Resources](#starter-resources)
+    1.1. [Subtopics](#subtopics)
+    1.2. [Starter Resources](#starter-resources)
 
 ---
 

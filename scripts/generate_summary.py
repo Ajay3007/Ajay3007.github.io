@@ -116,69 +116,50 @@ class MarkdownSummaryGenerator:
         }
     
     def generate_toc(self, headings: List[Tuple[int, str, int]]) -> str:
-        """Generate hierarchical Table of Contents from all headings (H1-H6)."""
+        """Generate hierarchical Table of Contents from H1 and H2 only, tree style."""
         if not headings:
             return ""
-        
+
         toc = []
         toc.append("## 📑 Table of Contents")
         toc.append("")
-        
-        # Track numbering for each level
-        counters = [0, 0, 0, 0, 0, 0]  # For H1-H6
-        
+
+        counters = [0, 0]  # For H1, H2
+        last_h1 = None
         for level, heading, _ in headings:
-            if level > 6:  # Skip any heading deeper than H6
+            if level > 2:
                 continue
-            
-            # Create anchor link matching Jekyll/Kramdown behavior exactly
-            # Check if heading starts with non-ASCII character (emoji)
+
+            # Anchor generation (same as before)
             starts_with_emoji = heading and ord(heading[0]) > 127
-            
             anchor = heading
-            # Remove all emojis and special unicode (anything above ASCII 127)
             anchor = ''.join(char if ord(char) < 128 else ' ' for char in anchor)
-            # Convert to lowercase
             anchor = anchor.lower()
-            # Replace common punctuation with spaces first
-            for char in '()[]{}:;,.!?"\'/\\|':
+            for char in '()[]{}:;,.!?"\'/\\|&':
                 anchor = anchor.replace(char, ' ')
-            # Replace whitespace with single hyphens
             anchor = re.sub(r'\s+', '-', anchor)
-            # Remove any remaining non-alphanumeric except hyphens
             anchor = re.sub(r'[^a-z0-9-]', '', anchor)
-            # Remove multiple consecutive hyphens
             anchor = re.sub(r'-+', '-', anchor)
-            # Remove leading/trailing hyphens
             anchor = anchor.strip('-')
-            
-            # If heading started with emoji, Jekyll adds leading hyphen
             if starts_with_emoji and anchor:
                 anchor = '-' + anchor
-            
-            # Update counters
+
             counters[level - 1] += 1
-            # Reset deeper level counters
-            for i in range(level, 6):
+            for i in range(level, 2):
                 counters[i] = 0
-            
-            # Create numbering (e.g., 1, 1.1, 1.1.1)
             number_parts = [str(counters[i]) for i in range(level) if counters[i] > 0]
             number = '.'.join(number_parts)
-            
-            # Create indentation based on level
-            indent = '  ' * (level - 1)
-            
-            # Format TOC entry
+
             if level == 1:
                 toc.append(f"{number}. **[{heading}](#{anchor})**")
-            else:
-                toc.append(f"{indent}{number}. [{heading}](#{anchor})")
-        
+                last_h1 = number
+            elif level == 2:
+                toc.append(f"    {number}. [{heading}](#{anchor})")
+
         toc.append("")
         toc.append("---")
         toc.append("")
-        
+
         return '\n'.join(toc)
     
     def generate_summary(self) -> str:
@@ -296,16 +277,10 @@ def process_directory(directory: str, recursive: bool = True) -> None:
     fail_count = 0
     
     for md_file in md_files:
-        # Skip index files (usually don't need summaries)
-        if md_file.name.lower() == 'index.md':
-            skip_count += 1
-            continue
-        
         # Skip README files
         if md_file.name.lower() == 'readme.md':
             skip_count += 1
             continue
-        
         if process_file(str(md_file)):
             success_count += 1
         else:

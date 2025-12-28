@@ -7,11 +7,11 @@ permalink: /learning/dsa/Searching-Sorting/binary-search/
 ## 📑 Table of Contents
 
 1. **[✅ Binary Search (Important)](#-binary-search-important)**
-  1.1. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
+    1.1. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
 2. **[📝 Must Do Practice Problems](#-must-do-practice-problems)**
-  2.1. [🔹 Level 1 – Easy](#-level-1-easy)
-  2.2. [🔹 Level 2 – Medium](#-level-2-medium)
-  2.3. [🔹 Level 3 – Hard](#-level-3-hard)
+    2.1. [🔹 Level 1 – Easy](#-level-1-easy)
+    2.2. [🔹 Level 2 – Medium](#-level-2-medium)
+    2.3. [🔹 Level 3 – Hard](#-level-3-hard)
 
 ---
 

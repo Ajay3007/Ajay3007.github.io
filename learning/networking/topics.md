@@ -6,8 +6,8 @@ title: Networking Topics
 ## 📑 Table of Contents
 
 1. **[Networking — Topics](#networking-topics)**
-  1.1. [Subtopics](#subtopics)
-  1.2. [Starter Resources](#starter-resources)
+    1.1. [Subtopics](#subtopics)
+    1.2. [Starter Resources](#starter-resources)
 
 ---
 

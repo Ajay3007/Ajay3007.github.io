@@ -6,8 +6,8 @@ title: Operating Systems Topics
 ## 📑 Table of Contents
 
 1. **[Operating Systems — Topics](#operating-systems-topics)**
-  1.1. [Subtopics](#subtopics)
-  1.2. [Starter Resources](#starter-resources)
+    1.1. [Subtopics](#subtopics)
+    1.2. [Starter Resources](#starter-resources)
 
 ---
 

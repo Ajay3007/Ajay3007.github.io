@@ -4,6 +4,26 @@ title: Searching & Sorting Technique
 permalink: /learning/dsa/searching-sorting/
 ---
 
+## 📑 Table of Contents
+
+1. **[📘 Searching & Sorting](#-searching-sorting)**
+    1.1. [✅ 1. Linear Search (Basics)](#-1-linear-search-basics)
+    1.2. [✅ 2. Binary Search (Important)](#-2-binary-search-important)
+    1.3. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
+2. **[[For Sorting Guide Click Here](sorting.md)](#for-sorting-guide-click-here-sorting-md)**
+    2.1. [<img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> Practical Sorting Problems](#img-src-assets-icons-brain-svg-relativeurl-class-inline-icon-alt-practical-sorting-problems)
+
+---
+
+### 🎯 Main Topics Covered
+
+1. **1 Linear Search Basics**
+2. **2 Binary Search Important**
+3. **Binary Search on Answer Advanced**
+4. **img src assetsiconsbrainsvg  relative_url  classinline-icon alt Practical Sorting Problems**
+
+---
+
 # 📘 Searching & Sorting
 
 ## ✅ 1. Linear Search (Basics)

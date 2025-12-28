@@ -6,8 +6,8 @@ title: Competitive Programming Topics
 ## 📑 Table of Contents
 
 1. **[Competitive Programming — Topics](#competitive-programming-topics)**
-  1.1. [Subtopics](#subtopics)
-  1.2. [Starter Resources](#starter-resources)
+    1.1. [Subtopics](#subtopics)
+    1.2. [Starter Resources](#starter-resources)
 
 ---
 

@@ -6,14 +6,7 @@ permalink: /learning/oop/design-patterns/
 
 ## 📑 Table of Contents
 
-  1. [📋 Executive Summary](#-executive-summary)
-    1.1. [📊 Quick Stats](#-quick-stats)
-    1.2. [🎯 Main Patterns Covered](#-main-patterns-covered)
-    1.3. [💡 What You'll Learn](#-what-you-ll-learn)
-    1.4. [📚 Prerequisites](#-prerequisites)
-    1.5. [👥 Target Audience](#-target-audience)
-    1.6. [🎓 Learning Path](#-learning-path)
-    1.7. [🔑 Key Principle](#-key-principle)
+    1. [📋 Executive Summary](#-executive-summary)
 1. **[Design Patterns](#design-patterns)**
 
 ---

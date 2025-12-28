@@ -1,26 +1,14 @@
 ## 📑 Table of Contents
 
 1. **[TaxHrd — Code Improvement Refactoring Guide](#taxhrd-code-improvement-refactoring-guide)**
-  1.1. [🎯 Refactoring Overview](#-refactoring-overview)
-  1.2. [🔴 Priority 1: Critical Issues](#-priority-1-critical-issues)
-    1.2.1. [1.1 Implement Average Price Calculation (FIFO Matching)](#1-1-implement-average-price-calculation-fifo-matching)
-    1.2.2. [1.2 Replace java.util.Date with java.time.LocalDate](#1-2-replace-java-util-date-with-java-time-localdate)
-    1.2.3. [1.3 Fix Exception Handling (Proper Logging)](#1-3-fix-exception-handling-proper-logging)
-  1.3. [🟡 Priority 2: Important Improvements](#-priority-2-important-improvements)
-    1.3.1. [2.1 Externalize Quarter Configuration](#2-1-externalize-quarter-configuration)
-    1.3.2. [2.2 Parameterize File Paths](#2-2-parameterize-file-paths)
+    1.1. [🎯 Refactoring Overview](#-refactoring-overview)
+    1.2. [🔴 Priority 1: Critical Issues](#-priority-1-critical-issues)
+    1.3. [🟡 Priority 2: Important Improvements](#-priority-2-important-improvements)
 2. **[File paths](#file-paths)**
 3. **[Logging](#logging)**
-    3.1. [2.3 Add Input Validation Layer](#2-3-add-input-validation-layer)
-  3.1. [🟢 Priority 3: Enhancements](#-priority-3-enhancements)
-    3.1.1. [3.1 Add Report Export Functionality](#3-1-add-report-export-functionality)
-    3.1.2. [3.2 Add Comprehensive Unit Tests](#3-2-add-comprehensive-unit-tests)
-  3.2. [📋 Summary Table](#-summary-table)
-  3.3. [🚀 Implementation Roadmap](#-implementation-roadmap)
-    3.3.1. [Phase 1 (Week 1-2): Critical Fixes](#phase-1-week-1-2-critical-fixes)
-    3.3.2. [Phase 2 (Week 3): Configuration](#phase-2-week-3-configuration)
-    3.3.3. [Phase 3 (Week 4): Testing & Polish](#phase-3-week-4-testing-polish)
-    3.3.4. [Phase 4: Future Enhancements](#phase-4-future-enhancements)
+    3.1. [🟢 Priority 3: Enhancements](#-priority-3-enhancements)
+    3.2. [📋 Summary Table](#-summary-table)
+    3.3. [🚀 Implementation Roadmap](#-implementation-roadmap)
 
 ---
 

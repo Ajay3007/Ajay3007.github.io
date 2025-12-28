@@ -4,6 +4,29 @@ title: Two Pointers
 permalink: /learning/dsa/arrays/two-pointers/
 ---
 
+## 📑 Table of Contents
+
+1. **[<img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Two Ponters Technique](#img-src-assets-icons-rocket-svg-relativeurl-class-inline-icon-alt-two-ponters-technique)**
+    1.1. [1️⃣ Opposite Direction Pointers (Left + Right)](#1-opposite-direction-pointers-left-right)
+    1.2. [2️⃣ Sliding Window (Two Pointers in same direction)](#2-sliding-window-two-pointers-in-same-direction)
+    1.3. [3️⃣ Fast & Slow Pointers (Tortoise & Hare)](#3-fast-slow-pointers-tortoise-hare)
+    1.4. [4️⃣ Same Direction but With Gap / K-distance Pointers](#4-same-direction-but-with-gap-k-distance-pointers)
+    1.5. [5️⃣ Two Pointers on Two Arrays](#5-two-pointers-on-two-arrays)
+    1.6. [⭐ Must Do Problems](#-must-do-problems)
+
+---
+
+### 🎯 Main Topics Covered
+
+1. **1 Opposite Direction Pointers Left  Right**
+2. **2 Sliding Window Two Pointers in same direction**
+3. **3 Fast  Slow Pointers Tortoise  Hare**
+4. **4 Same Direction but With Gap  K-distance Pointers**
+5. **5 Two Pointers on Two Arrays**
+6. **Must Do Problems**
+
+---
+
 # <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Two Ponters Technique
 
 - Two pointers = using two indices that move across an array/string to solve a problem efficiently.
