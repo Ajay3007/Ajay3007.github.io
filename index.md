@@ -109,7 +109,7 @@ My personal hub for projects, blogs, and learning resources in programming and C
 - **[{{ post.title }}]({{ post.url }})** - <time>{{ post.date | date: "%B %d, %Y" }}</time>
 {% endfor %}
 
-[Read More Posts →]({{ '/blogs' | relative_url }})
+<a href="{{ '/blogs' | relative_url }}" class="btn-crosslink" style="display: inline-flex; margin-top: 1rem;"><span style="font-size: 1.2rem; margin-right: 0.5rem;">📖</span> Read More Posts</a>
 
 
 ## 📚 Learning Journey
@@ -155,7 +155,7 @@ Explore topic-wise paths and quick intros below.
     </div>
 </div>
 
-[Explore full learning index →]({{ '/learning' | relative_url }})
+<a href="{{ '/learning' | relative_url }}" class="btn-crosslink" style="display: inline-flex; margin-top: 1rem;"><span style="font-size: 1.2rem; margin-right: 0.5rem;">📚</span> Explore Full Learning Hub</a>
 
 ## 🚀 Latest Projects
 
@@ -171,7 +171,7 @@ Explore topic-wise paths and quick intros below.
 </div>
 
 
-[View All Projects →]({{ '/projects' | relative_url }})
+<a href="{{ '/projects' | relative_url }}" class="btn-crosslink" style="display: inline-flex; margin-top: 1rem;"><span style="font-size: 1.2rem; margin-right: 0.5rem;">🚀</span> View All Projects</a>
 
 
 ## 💡 About This Site
