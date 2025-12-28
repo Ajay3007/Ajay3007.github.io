@@ -329,6 +329,28 @@ a[role="button"]:hover, .btn:hover {
     background: linear-gradient(135deg, var(--accent-color), #ff5a8d);
 }
 
+/* Modern cross-page link button */
+.btn-crosslink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.08rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #00d4ff, #ff6b9d);
+    color: white !important;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,212,255,0.08);
+    text-decoration: none;
+    border: none;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-crosslink:hover {
+    background: linear-gradient(90deg, #ff6b9d, #00d4ff);
+    box-shadow: 0 8px 24px rgba(255,107,157,0.13);
+    color: #fff !important;
+}
+
 /* List Styles */
 .site-main ul, .site-main ol {
     margin-left: 1.5rem;

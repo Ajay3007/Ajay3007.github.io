@@ -3,7 +3,7 @@ layout: post
 title: "Sample Blog"
 date: 2025-12-25 00:00:00 +0000
 author: Calculusphile
-categories: blogs
+categories: general
 permalink: /blogs/my-first-blog.html
 ---
 

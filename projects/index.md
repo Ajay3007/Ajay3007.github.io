@@ -25,5 +25,7 @@ Welcome to the projects index. Explore the following projects:
 </div>
 
 <div style="text-align:center;margin-top:2.5rem;">
-  <a href="{{ '/' | relative_url }}" style="color:#607d8b;">&larr; Back to home</a>
+  <a href="{{ '/' | relative_url }}" class="btn-crosslink">
+    <span style="font-size:1.3rem;">🏠</span> Back to Home
+  </a>
 </div>

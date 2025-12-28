@@ -62,4 +62,8 @@ Explore topic-wise learning paths and resources.
   </div>
 </div>
 
-[Back to home]({{ '/' | relative_url }})
+<div style="text-align:center; margin:2.5rem 0 1.5rem 0;">
+  <a href="{{ '/' | relative_url }}" class="btn-crosslink">
+    <span style="font-size:1.3rem;">🏠</span> Back to Home
+  </a>
+</div>
