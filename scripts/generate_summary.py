@@ -115,6 +115,59 @@ class MarkdownSummaryGenerator:
             'reading_time': reading_time,
         }
     
+    def generate_toc(self, headings: List[Tuple[int, str, int]]) -> str:
+        """Generate hierarchical Table of Contents from all headings (H1-H6)."""
+        if not headings:
+            return ""
+        
+        toc = []
+        toc.append("## 📑 Table of Contents")
+        toc.append("")
+        
+        # Track numbering for each level
+        counters = [0, 0, 0, 0, 0, 0]  # For H1-H6
+        
+        for level, heading, _ in headings:
+            if level > 6:  # Skip any heading deeper than H6
+                continue
+            
+            # Create anchor link (Jekyll strips emojis and special chars)
+            anchor = heading.lower()
+            # Remove all non-ASCII characters (including emojis)
+            anchor = anchor.encode('ascii', 'ignore').decode('ascii')
+            anchor = anchor.replace(' ', '-')
+            # Remove special characters (keep only alphanumeric and hyphens)
+            anchor = re.sub(r'[^\w-]', '', anchor)
+            # Remove multiple consecutive hyphens
+            anchor = re.sub(r'-+', '-', anchor)
+            # Remove leading/trailing hyphens
+            anchor = anchor.strip('-')
+            
+            # Update counters
+            counters[level - 1] += 1
+            # Reset deeper level counters
+            for i in range(level, 6):
+                counters[i] = 0
+            
+            # Create numbering (e.g., 1, 1.1, 1.1.1)
+            number_parts = [str(counters[i]) for i in range(level) if counters[i] > 0]
+            number = '.'.join(number_parts)
+            
+            # Create indentation based on level
+            indent = '  ' * (level - 1)
+            
+            # Format TOC entry
+            if level == 1:
+                toc.append(f"{number}. **[{heading}](#{anchor})**")
+            else:
+                toc.append(f"{indent}{number}. [{heading}](#{anchor})")
+        
+        toc.append("")
+        toc.append("---")
+        toc.append("")
+        
+        return '\n'.join(toc)
+    
     def generate_summary(self) -> str:
         """Generate comprehensive executive summary."""
         analysis = self.analyze_content()
@@ -123,8 +176,12 @@ class MarkdownSummaryGenerator:
         file_title = self.file_path.stem.replace('-', ' ').replace('_', ' ').title()
         
         summary = []
-        summary.append("---")
-        summary.append("")
+        
+        # Add Table of Contents first
+        toc = self.generate_toc(analysis['headings'])
+        if toc:
+            summary.append(toc)
+        
         summary.append("## 📋 Executive Summary")
         summary.append("")
         summary.append(f"**Document:** {file_title}  ")
@@ -197,16 +254,16 @@ class MarkdownSummaryGenerator:
             before = self.lines[:self.frontmatter_end]
             after = self.lines[self.frontmatter_end:]
             
-            # Check if summary already exists
-            if any('Executive Summary' in line for line in after[:20]):
-                print("⚠️  Summary section already exists. Skipping...")
+            # Check if summary/TOC already exists
+            if any('Executive Summary' in line or 'Table of Contents' in line for line in after[:30]):
+                print("⚠️  Summary/TOC section already exists. Skipping...")
                 return None
             
             return '\n'.join(before) + '\n\n' + summary + '\n'.join(after)
         else:
-            # Check if summary already exists
-            if any('Executive Summary' in line for line in self.lines[:20]):
-                print("⚠️  Summary section already exists. Skipping...")
+            # Check if summary/TOC already exists
+            if any('Executive Summary' in line or 'Table of Contents' in line for line in self.lines[:30]):
+                print("⚠️  Summary/TOC section already exists. Skipping...")
                 return None
             
             # Insert at the beginning

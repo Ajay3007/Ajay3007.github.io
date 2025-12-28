@@ -1,67 +1,19 @@
----
-layout: default
-title: Sorting
-permalink: /learning/dsa/Searching-Sorting/binary-search/
----
+# 📘 Searching & Sorting
 
-## 📑 Table of Contents
+## ✅ 1. Linear Search (Basics)
 
-1. **[✅ Binary Search (Important)](#binary-search-important)**
-  1.1. [🔥 Binary Search on Answer (Advanced)](#binary-search-on-answer-advanced)
-2. **[📝 Must Do Practice Problems](#-must-do-practice-problems)**
-  2.1. [🔹 Level 1 – Easy](#level-1-easy)
-  2.2. [🔹 Level 2 – Medium](#level-2-medium)
-  2.3. [🔹 Level 3 – Hard](#level-3-hard)
+Even though simple, it's the foundation for understanding search operations.
 
----
+**Learn:**
 
-## 📋 Executive Summary
+- Iterative linear search
 
-**Document:** Binary Search  
-**Type:** Technical Documentation  
-**Reading Time:** ~4 min  
-**Last Updated:** December 2025  
+- Sentinel linear search
 
-### 📊 Quick Stats
+- Searching unsorted arrays
 
-| Metric | Value |
-|--------|-------|
-| **Sections** | 4 main topics |
-| **Code Examples** | 2 blocks |
-| **Lists/Points** | 44 items |
-| **References** | 42 links |
-| **Lines** | 174 total |
 
-### 🎯 Main Topics Covered
-
-1. **Binary Search on Answer Advanced**
-2. **Level 1  Easy**
-3. **Level 2  Medium**
-4. **Level 3  Hard**
-
-### 💡 What You'll Learn
-
-- Core concepts and fundamental principles
-- Practical implementation with code examples
-- Best practices and common patterns
-- Real-world applications and use cases
-
-### 📚 Prerequisites
-
-- Basic programming knowledge
-- Understanding of fundamental data structures
-- Familiarity with algorithmic thinking
-
-### 👥 Target Audience
-
-✅ Students learning computer science fundamentals  
-✅ Developers preparing for technical interviews  
-✅ Engineers looking to strengthen their foundation  
-✅ Anyone interested in algorithmic problem-solving  
-
----
-
-# ✅ Binary Search (Important)
+## ✅ 2. Binary Search (Important)
 
 Most used searching technique in interviews.
 
@@ -107,6 +59,32 @@ Most used searching technique in interviews.
 
 - Koko eating bananas
 
+
+# [For Sorting Guide Click Here](sorting.md)
+
+## <img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> Practical Sorting Problems
+
+**Learn how sorting enables solutions:**
+
+- Sorting + Two Pointers
+
+- Sorting + Greedy
+
+- Sorting + Binary Search
+
+**Must-practice problems:**
+
+- Merge intervals
+
+- Meeting rooms
+
+- Largest number
+
+- Sort characters by frequency
+
+- Top K frequent elements
+
+- Kth smallest/largest (use sorting or heaps)
 
 # 📝 Must Do Practice Problems
 
@@ -225,6 +203,10 @@ public:
 2. [Leetcode 4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/median-of-two-sorted-arrays/solutions/7430537/median-of-two-sorted-arrays-binary-searc-hjg4/){:target="_blank" rel="noopener noreferrer"}**
 
     - For visual examples **[Click Here](median-sorted-array.pdf)**
+
+
+
+
 
 
 
