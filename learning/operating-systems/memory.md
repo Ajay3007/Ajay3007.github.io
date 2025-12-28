@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Memory Management
 permalink: /learning/operating-systems/memory/
@@ -8,4 +8,5 @@ permalink: /learning/operating-systems/memory/
 
 Key ideas, algorithms, and pitfalls.
 
-[← Back to Operating Systems]({ '/learning/operating-systems/' | relative_url })
+[â† Back to Operating Systems]({ '/learning/operating-systems/' | relative_url })
+

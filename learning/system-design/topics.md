@@ -1,9 +1,9 @@
----
+﻿---
 layout: default
 title: System Design Topics
 ---
 
-# System Design — Topics
+# System Design â€” Topics
 
 ## Subtopics
 
@@ -19,4 +19,5 @@ title: System Design Topics
 - Read: "Designing Data-Intensive Applications" by Martin Kleppmann
 - Practice: System design interview questions, mock designs
 
-[Back to System Design main →]({{ '/learning/system-design/' | relative_url }})
+[Back to System Design main â†’]({{ '/learning/system-design/' | relative_url }})
+

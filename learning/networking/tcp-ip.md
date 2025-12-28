@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: TCP/IP
 permalink: /learning/networking/tcp-ip/
@@ -8,4 +8,5 @@ permalink: /learning/networking/tcp-ip/
 
 Overview, message flows, and practical notes.
 
-[← Back to Networking]({ '/learning/networking/' | relative_url })
+[â† Back to Networking]({ '/learning/networking/' | relative_url })
+

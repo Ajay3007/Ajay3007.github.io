@@ -1,12 +1,12 @@
----
+﻿---
 layout: default
 title: Searching & Sorting Technique
 permalink: /learning/dsa/searching-sorting/
 ---
 
-# 📘 Searching & Sorting
+# ðŸ“˜ Searching & Sorting
 
-## ✅ 1. Linear Search (Basics)
+## âœ… 1. Linear Search (Basics)
 
 Even though simple, it's the foundation for understanding search operations.
 
@@ -19,7 +19,7 @@ Even though simple, it's the foundation for understanding search operations.
 - Searching unsorted arrays
 
 
-## ✅ 2. Binary Search (Important)
+## âœ… 2. Binary Search (Important)
 
 Most used searching technique in interviews.
 
@@ -47,7 +47,7 @@ Most used searching technique in interviews.
 
 - Binary search on monotonic functions
 
-## 🔥 Binary Search on Answer (Advanced)
+## ðŸ”¥ Binary Search on Answer (Advanced)
 
 **Used when:**
 
@@ -91,6 +91,7 @@ Most used searching technique in interviews.
 - Top K frequent elements
 
 - Kth smallest/largest (use sorting or heaps)
+
 
 
 

@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: ML Fundamentals
 permalink: /learning/ai-ml/fundamentals/
@@ -8,4 +8,5 @@ permalink: /learning/ai-ml/fundamentals/
 
 Notes, datasets, and evaluation.
 
-[← Back to AI & ML]({ '/learning/ai-ml/' | relative_url })
+[â† Back to AI & ML]({ '/learning/ai-ml/' | relative_url })
+

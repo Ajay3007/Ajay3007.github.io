@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Arrays
 permalink: /learning/dsa/arrays/
@@ -7,8 +7,8 @@ permalink: /learning/dsa/arrays/
 
 # <img src="/ajdevhub/assets/icons/rocket.svg" class="inline-icon" alt=""> Arrays Mastery Guide
 
-## ⭐ 1. Array Concepts You Must Master
-### 🔹 Basic Operations
+## â­ 1. Array Concepts You Must Master
+### ðŸ”¹ Basic Operations
 
 - Traversal
 
@@ -22,7 +22,7 @@ permalink: /learning/dsa/arrays/
 
 - Using hash maps to optimize
 
-### 🔹 Core Patterns
+### ðŸ”¹ Core Patterns
 
 **Arrays revolve around 10 major patterns:**
 
@@ -36,7 +36,7 @@ permalink: /learning/dsa/arrays/
 
 **5. Binary Search on Answer**
 
-**6. Kadane’s Algorithm**
+**6. Kadaneâ€™s Algorithm**
 
 **7. Sorting + Greedy**
 
@@ -48,38 +48,38 @@ permalink: /learning/dsa/arrays/
 
 We will cover each with template + example.
 
-## ⭐ Must-Do Array Problems - Practice
+## â­ Must-Do Array Problems - Practice
 
-#### 1. [Leetcode 1. Two Sum](https://leetcode.com/problems/two-sum/description/)
+#### 1. [Leetcode 1. Two Sum](https://leetcode.com/problems/two-sum/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 2. [Leetcode 217. Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/)
+#### 2. [Leetcode 217. Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 3. [Leetcode 219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/)
+#### 3. [Leetcode 219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 4. [Leetcode 242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
+#### 4. [Leetcode 242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 5. [Leetcode 49. Group Anagrams](https://leetcode.com/problems/group-anagrams/description/)
+#### 5. [Leetcode 49. Group Anagrams](https://leetcode.com/problems/group-anagrams/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 6. [Leetcode 238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/)
+#### 6. [Leetcode 238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 7. [Leetcode 347. Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/)
+#### 7. [Leetcode 347. Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 8. [Leetcode 13. Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/)
+#### 8. [Leetcode 13. Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 9. [Leetcode 953. Verifying an Alien Dictionary](https://leetcode.com/problems/verifying-an-alien-dictionary/description/)
+#### 9. [Leetcode 953. Verifying an Alien Dictionary](https://leetcode.com/problems/verifying-an-alien-dictionary/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 10. [Leetcode 128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/)
+#### 10. [Leetcode 128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/){:target="_blank" rel="noopener noreferrer"}
 
-#### 11. [Leetcode 41. First Missing Positive](https://leetcode.com/problems/first-missing-positive/description/)
+#### 11. [Leetcode 41. First Missing Positive](https://leetcode.com/problems/first-missing-positive/description/){:target="_blank" rel="noopener noreferrer"}
 
 
-## ⭐ Pattern → Template → Example
+## â­ Pattern â†’ Template â†’ Example
 
-### 🔶 [Pattern 1: Sliding Window](sliding-window/index.md)
+### ðŸ”¶ [Pattern 1: Sliding Window](sliding-window/index.md)
 
 Sliding Window is used when we deal with **contiguous subarrays or substrings**.
 
-#### 📌 Template (Variable-size window)
+#### ðŸ“Œ Template (Variable-size window)
 
 ```cpp
 int left = 0;
@@ -95,16 +95,16 @@ for (int right = 0; right < n; right++) {
 }
 ```
 
-#### 📘 Example
+#### ðŸ“˜ Example
 
-1. [Longest substring without repeating characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
+1. [Longest substring without repeating characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/){:target="_blank" rel="noopener noreferrer"}
 
 
-### 🔶 [Pattern 2: Two Pointers](two-pointers/index.md)
+### ðŸ”¶ [Pattern 2: Two Pointers](two-pointers/index.md)
 
 Used when array is sorted, or when you're searching for pairs.
 
-#### 📌 Template
+#### ðŸ“Œ Template
 
 ```cpp
 int left = 0, right = n - 1;
@@ -117,7 +117,7 @@ while (left < right) {
 }
 ```
 
-#### 📘 Example
+#### ðŸ“˜ Example
 
 Two Sum (sorted)
 
@@ -125,11 +125,11 @@ Two Sum (sorted)
 
 Container With Most Water
 
-### 🔶 Pattern 3: Prefix Sum
+### ðŸ”¶ Pattern 3: Prefix Sum
 
 Instant sum queries from index `l` to `r`.
 
-#### 📌 Template
+#### ðŸ“Œ Template
 
 ```cpp
 vector<int> pref(n+1, 0);
@@ -139,17 +139,17 @@ for (int i = 0; i < n; i++) pref[i+1] = pref[i] + arr[i];
 int sum = pref[r+1] - pref[l];
 ```
 
-#### 📘 Example
+#### ðŸ“˜ Example
 
 Subarray sum equals K
 
 Range sum queries
 
-### 🔶 Pattern 4: Kadane’s Algorithm
+### ðŸ”¶ Pattern 4: Kadaneâ€™s Algorithm
 
 Max subarray sum in O(n).
 
-#### 📌 Template
+#### ðŸ“Œ Template
 
 ```cpp
 int max_ending_here = 0, best = INT_MIN;
@@ -160,7 +160,7 @@ for (int x : arr) {
 }
 ```
 
-### 🔶 Pattern 5: Sorting + Greedy
+### ðŸ”¶ Pattern 5: Sorting + Greedy
 
 Used in:
 
@@ -170,11 +170,11 @@ Task scheduling
 
 Minimum arrows to burst balloons
 
-### 🔶 Pattern 6: Binary Search
+### ðŸ”¶ Pattern 6: Binary Search
 
 Used on sorted arrays.
 
-#### 📌 Standard Template
+#### ðŸ“Œ Standard Template
 
 ```cpp
 int l = 0, r = n - 1;
@@ -186,7 +186,7 @@ while (l <= r) {
 }
 ```
 
-### 🔶 Pattern 7: Binary Search on Answer
+### ðŸ”¶ Pattern 7: Binary Search on Answer
 
 Used when the array is not sorted but the answer lies in a monotonic search space.
 #### Examples:
@@ -197,7 +197,7 @@ Minimum pages allocation
 
 Aggressive cows
 
-### 🔶 Pattern 8: Intervals (Important!)
+### ðŸ”¶ Pattern 8: Intervals (Important!)
 
 Many array problems are actually interval problems.
 
@@ -207,7 +207,7 @@ Many array problems are actually interval problems.
 
 2. Merge or process based on end
 
-### 🔶 Pattern 9: Matrix as Array of Arrays
+### ðŸ”¶ Pattern 9: Matrix as Array of Arrays
 
 2D array concepts:
 
@@ -219,7 +219,7 @@ Many array problems are actually interval problems.
 
 - Simulation problems
 
-### 🔶 Pattern 10: Hashmap + Array Combo
+### ðŸ”¶ Pattern 10: Hashmap + Array Combo
 
 Most-used pattern in arrays.
 

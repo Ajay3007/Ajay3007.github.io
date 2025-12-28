@@ -1,6 +1,6 @@
-# Introduction to Generative AI
+﻿# Introduction to Generative AI
 
-Generative AI refers to artificial intelligence systems capable of creating new content—such as text, images, code, and audio—based on patterns learned from training data. Unlike traditional AI that focuses on classification or prediction, generative models learn the underlying structure of data to generate novel outputs.
+Generative AI refers to artificial intelligence systems capable of creating new contentâ€”such as text, images, code, and audioâ€”based on patterns learned from training data. Unlike traditional AI that focuses on classification or prediction, generative models learn the underlying structure of data to generate novel outputs.
 
 ## Key Concepts
 

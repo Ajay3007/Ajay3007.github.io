@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Leetcode 271. Encode and Decode Strings
 permalink: /learning/dsa/strings/leetcode-271/
@@ -84,8 +84,8 @@ This scheme is deterministic and unambiguous because every chunk begins with the
 ## Complexity
 - Time complexity:  
   Let `n` be number of strings and `L` be the total number of characters across all strings.  
-  - **Encode:** O(L + n) — computing lengths and appending each string and its fixed-length header.  
-  - **Decode:** O(L + n) — reading each header and extracting each substring.  
+  - **Encode:** O(L + n) â€” computing lengths and appending each string and its fixed-length header.  
+  - **Decode:** O(L + n) â€” reading each header and extracting each substring.  
   In big-O terms this is **O(L)**.
 
 - Space complexity:  

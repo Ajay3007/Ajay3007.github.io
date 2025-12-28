@@ -1,9 +1,9 @@
----
+﻿---
 layout: default
 title: Competitive Programming Topics
 ---
 
-# Competitive Programming — Topics
+# Competitive Programming â€” Topics
 
 ## Subtopics
 
@@ -17,4 +17,5 @@ title: Competitive Programming Topics
 - Practice: Codeforces, AtCoder, LeetCode contest modes
 - Read: Tutorials and strategy posts on common patterns
 
-[Back to Competitive Programming main →]({{ '/learning/competitive-programming/' | relative_url }})
+[Back to Competitive Programming main â†’]({{ '/learning/competitive-programming/' | relative_url }})
+

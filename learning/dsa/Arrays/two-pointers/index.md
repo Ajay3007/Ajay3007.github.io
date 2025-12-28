@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Two Pointers
 permalink: /learning/dsa/arrays/two-pointers/
@@ -8,15 +8,15 @@ permalink: /learning/dsa/arrays/two-pointers/
 
 - Two pointers = using two indices that move across an array/string to solve a problem efficiently.
 
-- It usually reduces complexity from **O(n²)** to **O(n)**.
+- It usually reduces complexity from **O(nÂ²)** to **O(n)**.
 
 **There are 5 major types of two-pointers patterns.**
 
-## 1️⃣ Opposite Direction Pointers (Left + Right)
+## 1ï¸âƒ£ Opposite Direction Pointers (Left + Right)
 
 ```bash
 Array: [4, 7, 9, 12, 15, 20]
-         ↑                ↑
+         â†‘                â†‘
          l                r
 Opposite-direction pointers
 ```
@@ -50,11 +50,11 @@ while (l < r) {
 }
 ```
 
-## 2️⃣ Sliding Window (Two Pointers in same direction)
+## 2ï¸âƒ£ Sliding Window (Two Pointers in same direction)
 
 ```bash
 Array: [3, 5, 7, 1, 4, 9]
-         ↑--------↑
+         â†‘--------â†‘
          l        r
 Sliding window
 ```
@@ -94,7 +94,7 @@ for (int r = 0; r < n; r++) {
 
 ### [For more on Sliding Window Click Here](../SlidingWindow/sliding-window.md)
 
-## 3️⃣ Fast & Slow Pointers (Tortoise & Hare)
+## 3ï¸âƒ£ Fast & Slow Pointers (Tortoise & Hare)
 
 **Used for:**
 
@@ -117,7 +117,7 @@ while (fast && fast->next) {
 }
 ```
 
-## 4️⃣ Same Direction but With Gap / K-distance Pointers
+## 4ï¸âƒ£ Same Direction but With Gap / K-distance Pointers
 
 **Used for:**
 
@@ -142,7 +142,7 @@ for (int j = 0; j < n; j++) {
 }
 ```
 
-## 5️⃣ Two Pointers on Two Arrays
+## 5ï¸âƒ£ Two Pointers on Two Arrays
 
 **Used for:**
 
@@ -163,47 +163,48 @@ while (i < n && j < m) {
 }
 ```
 
-## ⭐ Must Do Problems
+## â­ Must Do Problems
 
-### Level 1 — Basics
+### Level 1 â€” Basics
 
-#### 1. [Leetcode 125. Valid Palindrome](https://leetcode.com/problems/valid-palindrome/description/)
+#### 1. [Leetcode 125. Valid Palindrome](https://leetcode.com/problems/valid-palindrome/description/){:target="_blank" rel="noopener noreferrer"}
 
-- **For my Leetcode Solution link click [Efficient O(n) palindrome check using two pointers and character normalization](https://leetcode.com/problems/valid-palindrome/solutions/7386854/efficient-on-palindrome-check-using-two-yt59z/)**
+- **For my Leetcode Solution link click [Efficient O(n) palindrome check using two pointers and character normalization](https://leetcode.com/problems/valid-palindrome/solutions/7386854/efficient-on-palindrome-check-using-two-yt59z/){:target="_blank" rel="noopener noreferrer"}**
 
-#### 2. [Leetcode 26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/)
+#### 2. [Leetcode 26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/description/){:target="_blank" rel="noopener noreferrer"}
 
-- **For my Leetcode Solution link click [Remove Duplicates from Sorted Array — In-place Two-Pointer (O(n))](https://leetcode.com/problems/remove-duplicates-from-sorted-array/solutions/7389802/remove-duplicates-from-sorted-array-in-p-jar9/)**
+- **For my Leetcode Solution link click [Remove Duplicates from Sorted Array â€” In-place Two-Pointer (O(n))](https://leetcode.com/problems/remove-duplicates-from-sorted-array/solutions/7389802/remove-duplicates-from-sorted-array-in-p-jar9/){:target="_blank" rel="noopener noreferrer"}**
 
 
-### Level 2 — Medium
+### Level 2 â€” Medium
 
-#### 1. [Leetcode 167. Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/)
+#### 1. [Leetcode 167. Two Sum II - Input Array Is Sorted](https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/){:target="_blank" rel="noopener noreferrer"}
 
 - **For my Solution click [PDF Solution](leetcode-167.pdf)**
 
-#### 2. [Leetcode 15. 3Sum](https://leetcode.com/problems/3sum/description/)
+#### 2. [Leetcode 15. 3Sum](https://leetcode.com/problems/3sum/description/){:target="_blank" rel="noopener noreferrer"}
 
-- **For my Leetcode Solution link click [Three-Sum Using Sorting + Two Pointers (C++, O(n²))](https://leetcode.com/problems/3sum/solutions/7388635/three-sum-using-sorting-two-pointers-c-o-r6ta/)**
+- **For my Leetcode Solution link click [Three-Sum Using Sorting + Two Pointers (C++, O(nÂ²))](https://leetcode.com/problems/3sum/solutions/7388635/three-sum-using-sorting-two-pointers-c-o-r6ta/){:target="_blank" rel="noopener noreferrer"}**
 
-#### 3. [Leetcode 11. Container With Most Water](https://leetcode.com/problems/container-with-most-water/description/)
+#### 3. [Leetcode 11. Container With Most Water](https://leetcode.com/problems/container-with-most-water/description/){:target="_blank" rel="noopener noreferrer"}
 
-- **For my Leetcode Solution link click [Container With Most Water — Two-Pointer Optimized Solution (O(n))](https://leetcode.com/problems/container-with-most-water/solutions/7388718/container-with-most-water-two-pointer-op-k9im/)**
-
-
-#### 4. [Leetcode 31. Next Permutation](https://leetcode.com/problems/next-permutation/description/)
-
-- **For my Leetcode Solution link click [Next Permutation — Pivot + Swap + Reverse (O(n) Optimal Approach)](https://leetcode.com/problems/next-permutation/solutions/7389967/next-permutation-pivot-swap-reverse-on-o-ggbj/)**
+- **For my Leetcode Solution link click [Container With Most Water â€” Two-Pointer Optimized Solution (O(n))](https://leetcode.com/problems/container-with-most-water/solutions/7388718/container-with-most-water-two-pointer-op-k9im/){:target="_blank" rel="noopener noreferrer"}**
 
 
+#### 4. [Leetcode 31. Next Permutation](https://leetcode.com/problems/next-permutation/description/){:target="_blank" rel="noopener noreferrer"}
 
-### Level 3 — Hard
+- **For my Leetcode Solution link click [Next Permutation â€” Pivot + Swap + Reverse (O(n) Optimal Approach)](https://leetcode.com/problems/next-permutation/solutions/7389967/next-permutation-pivot-swap-reverse-on-o-ggbj/){:target="_blank" rel="noopener noreferrer"}**
 
-#### 1. [Leetcode 42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/)
 
-- **For my Leetcode Solution link click [Trapping Rain Water — Prefix/Suffix Max Approach (O(n) Time, O(n) Space)](https://leetcode.com/problems/trapping-rain-water/solutions/7388828/trapping-rain-water-prefixsuffix-max-app-zatc/)**
 
-- **My Leetcode Optimal Solution link click [Trapping Rain Water — Optimal O(1)-Space Two-Pointer Approach](https://leetcode.com/problems/trapping-rain-water/solutions/7389700/trapping-rain-water-optimal-o1-space-two-snbg/)**
+### Level 3 â€” Hard
+
+#### 1. [Leetcode 42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/description/){:target="_blank" rel="noopener noreferrer"}
+
+- **For my Leetcode Solution link click [Trapping Rain Water â€” Prefix/Suffix Max Approach (O(n) Time, O(n) Space)](https://leetcode.com/problems/trapping-rain-water/solutions/7388828/trapping-rain-water-prefixsuffix-max-app-zatc/){:target="_blank" rel="noopener noreferrer"}**
+
+- **My Leetcode Optimal Solution link click [Trapping Rain Water â€” Optimal O(1)-Space Two-Pointer Approach](https://leetcode.com/problems/trapping-rain-water/solutions/7389700/trapping-rain-water-optimal-o1-space-two-snbg/){:target="_blank" rel="noopener noreferrer"}**
+
 
 
 

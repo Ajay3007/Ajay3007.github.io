@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Sorting
 permalink: /learning/dsa/Searching-Sorting/allocateMinimumPages/
@@ -6,8 +6,8 @@ permalink: /learning/dsa/Searching-Sorting/allocateMinimumPages/
 
 # Problem Link 
 
-- **[Allocate Minimum Pages - GFG](https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1)**
-- **[Allocate Books - InterviewBit](https://www.interviewbit.com/problems/allocate-books/)**
+- **[Allocate Minimum Pages - GFG](https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1){:target="_blank" rel="noopener noreferrer"}**
+- **[Allocate Books - InterviewBit](https://www.interviewbit.com/problems/allocate-books/){:target="_blank" rel="noopener noreferrer"}**
 
 
 # Intuition

@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Design Patterns
 permalink: /learning/oop/design-patterns/
@@ -8,4 +8,5 @@ permalink: /learning/oop/design-patterns/
 
 Concepts, examples, and anti-patterns.
 
-[← Back to OOP]({ '/learning/oop/' | relative_url })
+[â† Back to OOP]({ '/learning/oop/' | relative_url })
+

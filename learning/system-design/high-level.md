@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: High-Level Design
 permalink: /learning/system-design/high-level/
@@ -8,4 +8,5 @@ permalink: /learning/system-design/high-level/
 
 Intro, core concepts, and practical examples.
 
-[← Back to System Design]({ '/learning/system-design/' | relative_url })
+[â† Back to System Design]({ '/learning/system-design/' | relative_url })
+

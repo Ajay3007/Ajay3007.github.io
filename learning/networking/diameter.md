@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Diameter Protocol
 permalink: /learning/networking/diameter/
@@ -8,4 +8,5 @@ permalink: /learning/networking/diameter/
 
 Overview, message flows, and practical notes.
 
-[← Back to Networking]({ '/learning/networking/' | relative_url })
+[â† Back to Networking]({ '/learning/networking/' | relative_url })
+

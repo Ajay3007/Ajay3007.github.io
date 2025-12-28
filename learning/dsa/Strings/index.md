@@ -1,10 +1,10 @@
----
+﻿---
 layout: default
 title: Strings
 permalink: /learning/dsa/strings/
 ---
 
-# 📘 DSA: Strings Learning Roadmap (Beginner → Advanced)
+# ðŸ“˜ DSA: Strings Learning Roadmap (Beginner â†’ Advanced)
 
 ## 1. Basics of Strings (Foundations)
 
@@ -20,7 +20,7 @@ These are must-know before solving problems.
 
 ### -> [Click here for more details](string-basics.md)
 
-## 🔍 2. Two Pointers on Strings
+## ðŸ” 2. Two Pointers on Strings
 
 Used for many interview problems (palindrome, substring checks).
 
@@ -30,29 +30,29 @@ Used for many interview problems (palindrome, substring checks).
 
 - Shrink/expand window on conditions
 
-## 🪟 3. Sliding Window (Very Important)
+## ðŸªŸ 3. Sliding Window (Very Important)
 
 Strings + Sliding Window = 20% of interview questions.
 
 ### Understand two types:
 
-#### 🔸 Fixed Window
+#### ðŸ”¸ Fixed Window
 
 E.g., find anagrams of a pattern.
 
-#### 🔸 Variable Window
+#### ðŸ”¸ Variable Window
 
 E.g., longest substring with K distinct characters.
 
-## 🧮 4. Hashing for Strings
+## ðŸ§® 4. Hashing for Strings
 
 ### Character frequency arrays
 
-- For lowercase → size 26
+- For lowercase â†’ size 26
 
-- For ASCII → size 256
+- For ASCII â†’ size 256
 
-- For Unicode → use hash maps
+- For Unicode â†’ use hash maps
 
 ### Rolling Hash / Rabin-Karp
 
@@ -66,9 +66,9 @@ E.g., longest substring with K distinct characters.
 
 - Longest duplicate substring (binary search + rolling hash)
 
-## 🔤 5. Pattern Matching Algorithms
+## ðŸ”¤ 5. Pattern Matching Algorithms
 
-### KMP (Knuth–Morris–Pratt)
+### KMP (Knuthâ€“Morrisâ€“Pratt)
 
 Why important?
 
@@ -110,14 +110,14 @@ These help in elite interviews.
 
 - Rare but high-reward for deep interviews
 
-### Manacher’s Algorithm
+### Manacherâ€™s Algorithm
 
 - O(n) longest palindromic substring
 
 
-# 📝 Must Do String Problems
+# ðŸ“ Must Do String Problems
 
-## 🔹 Level 1 – Easy
+## ðŸ”¹ Level 1 â€“ Easy
 
 1. Reverse string
 
@@ -129,13 +129,13 @@ These help in elite interviews.
 
 5. String compression
 
-6. [Leetcode 412. Fizz Buzz](https://leetcode.com/problems/fizz-buzz/description/) - **[Solution](Leetcode-412.cpp)**
+6. [Leetcode 412. Fizz Buzz](https://leetcode.com/problems/fizz-buzz/description/){:target="_blank" rel="noopener noreferrer"} - **[Solution](Leetcode-412.cpp)**
 
-7. [Leetcode 14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/description/) - **[Solution](https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/)**
+7. [Leetcode 14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/description/){:target="_blank" rel="noopener noreferrer"} - **[Solution](https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/){:target="_blank" rel="noopener noreferrer"}**
 
 
 
-## 🔹 Level 2 – Medium
+## ðŸ”¹ Level 2 â€“ Medium
 
 1. Longest substring without repeating
 
@@ -147,16 +147,16 @@ These help in elite interviews.
 
 5. Multiply large numbers (string simulation)
 
-6. [Leetcode 271. Encode and Decode Strings{Premium Problem}](https://leetcode.com/problems/encode-and-decode-strings/description/) - **[My Leetcode Solution link](https://leetcode.com/problems/encode-and-decode-strings/solutions/7391904/encode-decode-strings-fixed-length-heade-3h9i/)**
+6. [Leetcode 271. Encode and Decode Strings{Premium Problem}](https://leetcode.com/problems/encode-and-decode-strings/description/){:target="_blank" rel="noopener noreferrer"} - **[My Leetcode Solution link](https://leetcode.com/problems/encode-and-decode-strings/solutions/7391904/encode-decode-strings-fixed-length-heade-3h9i/){:target="_blank" rel="noopener noreferrer"}**
 
     - If you can't see the problem, **[Click Here](leetcode-271.md)**
 
-7. [Leetcode 647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/description/) - **[My Leetcode Solution link](https://leetcode.com/problems/palindromic-substrings/solutions/7395151/expand-around-center-on2-solution-by-aja-6hvd/)**
+7. [Leetcode 647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/description/){:target="_blank" rel="noopener noreferrer"} - **[My Leetcode Solution link](https://leetcode.com/problems/palindromic-substrings/solutions/7395151/expand-around-center-on2-solution-by-aja-6hvd/){:target="_blank" rel="noopener noreferrer"}**
 
-8. [Leetcode 5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/description/) - **[My Leetcode Solution link](https://leetcode.com/problems/longest-palindromic-substring/solutions/7395617/longest-palindromic-substring-expand-aro-ky6o/)**
+8. [Leetcode 5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/description/){:target="_blank" rel="noopener noreferrer"} - **[My Leetcode Solution link](https://leetcode.com/problems/longest-palindromic-substring/solutions/7395617/longest-palindromic-substring-expand-aro-ky6o/){:target="_blank" rel="noopener noreferrer"}**
 
 
-## 🔹 Level 3 – Hard
+## ðŸ”¹ Level 3 â€“ Hard
 
 1. Minimum window substring
 
@@ -170,7 +170,8 @@ These help in elite interviews.
 
 6. Longest duplicate substring (binary search + hash)
 
-7. [Leetcode 647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/description/) - **[My Leetcode Solution link](https://leetcode.com/problems/palindromic-substrings/solutions/7395151/expand-around-center-on2-solution-by-aja-6hvd/)**
+7. [Leetcode 647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/description/){:target="_blank" rel="noopener noreferrer"} - **[My Leetcode Solution link](https://leetcode.com/problems/palindromic-substrings/solutions/7395151/expand-around-center-on2-solution-by-aja-6hvd/){:target="_blank" rel="noopener noreferrer"}**
 
-8. [Leetcode 68. Text Justification](https://leetcode.com/problems/text-justification/description/) - **[My Leetcode Solution link](https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/)**
+8. [Leetcode 68. Text Justification](https://leetcode.com/problems/text-justification/description/){:target="_blank" rel="noopener noreferrer"} - **[My Leetcode Solution link](https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/){:target="_blank" rel="noopener noreferrer"}**
+
 

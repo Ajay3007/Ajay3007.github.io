@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Strategies
 permalink: /learning/competitive-programming/strategies/
@@ -8,4 +8,5 @@ permalink: /learning/competitive-programming/strategies/
 
 Templates, problem sets, and tracking.
 
-[← Back to Competitive Programming]({ '/learning/competitive-programming/' | relative_url })
+[â† Back to Competitive Programming]({ '/learning/competitive-programming/' | relative_url })
+

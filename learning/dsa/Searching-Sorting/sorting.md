@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Sorting
 permalink: /learning/dsa/Searching-Sorting/sorting/
@@ -12,9 +12,9 @@ permalink: /learning/dsa/Searching-Sorting/sorting/
 
 ---
 
-### 🔶 1. Selection Sort (Basic)
+### ðŸ”¶ 1. Selection Sort (Basic)
 
-#### 🔹 Intuition
+#### ðŸ”¹ Intuition
 
 Selection Sort works on a very simple idea:
 ```
@@ -33,7 +33,7 @@ Think of it like:
 
 - Repeat
 
-**🔹 C++ Implementation**
+**ðŸ”¹ C++ Implementation**
 
 ```cpp
 void selectionSort(vector<int>& arr) {
@@ -54,7 +54,7 @@ void selectionSort(vector<int>& arr) {
 
 1. Complexity:
 
-    - Time: O(N²)
+    - Time: O(NÂ²)
 
     - Space: O(1)
 
@@ -67,13 +67,13 @@ void selectionSort(vector<int>& arr) {
 
 4. Not used in interviews except conceptual warmup
 
-#### [For more on Stable and Adaptive sorting CLICK HERE](stable-adaptive-sort.pdf)
+#### [For more on Stable and Adaptive sorting <a href="stable-adaptive-sort.pdf" target="_blank" rel="noopener noreferrer">CLICK HERE</a>](javascript:void(0))
 
 ---
 
-### 🔶 2. Bubble Sort
+### ðŸ”¶ 2. Bubble Sort
 
-#### 🔹 Intuition
+#### ðŸ”¹ Intuition
 
 ```
 Keep swapping adjacent elements if they are in the wrong order until the largest element bubbles to the end.
@@ -83,29 +83,29 @@ Largest elements bubble up to the right in each pass.
 
 1. Complexity
 
-    - Time: O(N²)
+    - Time: O(NÂ²)
 
     - Space: O(1)
 
 2. Space: O(1)
 
-3. Stable: ✅ Yes
+3. Stable: âœ… Yes
 
-4. Adaptive: ✅ Yes (with optimization)
+4. Adaptive: âœ… Yes (with optimization)
 
 5. Again, basic; rarely asked.
 
-#### 🔹 Optimized Bubble Sort (IMPORTANT)
+#### ðŸ”¹ Optimized Bubble Sort (IMPORTANT)
 
-If no swaps occur in a pass, array is already sorted → stop early.
+If no swaps occur in a pass, array is already sorted â†’ stop early.
 
-#### [👉 Bubble Sort Code](bubble_sort.cpp)
+#### [ðŸ‘‰ Bubble Sort Code](bubble_sort.cpp)
 
 ---
 
-### 🔶 3. Insertion Sort
+### ðŸ”¶ 3. Insertion Sort
 
-#### 🔹 Intuition
+#### ðŸ”¹ Intuition
 
 ```
 Take the next element and insert it into its correct position in the already sorted part.
@@ -113,7 +113,7 @@ Take the next element and insert it into its correct position in the already sor
 
 Exactly how you sort playing cards in hand.
 
-#### 🔹 Algorithm Steps
+#### ðŸ”¹ Algorithm Steps
 
 - Assume first element is sorted
 
@@ -125,10 +125,10 @@ Exactly how you sort playing cards in hand.
 
 - Repeat
 
-#### [👉 Insertion Sort Code](insertion_sort.cpp)
+#### [ðŸ‘‰ Insertion Sort Code](insertion_sort.cpp)
 
 1. Complexity
-    - Time: O(N²)
+    - Time: O(NÂ²)
     - Space: O(1)
     - Best case O(N) when array is nearly sorted
 
@@ -136,11 +136,11 @@ Exactly how you sort playing cards in hand.
     - TimSort
     - Hybrid sorts in C++ STL
 
-3. Stable: ✅ Yes
+3. Stable: âœ… Yes
 
-4. Adaptive: ✅ Yes
+4. Adaptive: âœ… Yes
 
-5. 👉 Conceptually important.
+5. ðŸ‘‰ Conceptually important.
 
 6. Used inside:
 
@@ -152,7 +152,7 @@ Exactly how you sort playing cards in hand.
 
 ---
 
-### 🔥 Which Sorting Algorithm Is Used in C++ STL sort()?
+### ðŸ”¥ Which Sorting Algorithm Is Used in C++ STL sort()?
 
 C++ STL sort() uses **Introsort**, a hybrid algorithm combining **Quick Sort, Heap Sort, and Insertion Sort**.
 
@@ -162,8 +162,8 @@ C++ STL sort() uses **Introsort**, a hybrid algorithm combining **Quick Sort, He
 
 - Monitors recursion depth
 
-- If recursion goes too deep (risk of O(n²)),
-→ switches to Heap Sort
+- If recursion goes too deep (risk of O(nÂ²)),
+â†’ switches to Heap Sort
 
 - For small subarrays, it uses **Insertion Sort**
 
@@ -183,15 +183,15 @@ To guarantee:
 
     - Very fast due to cache locality
 
-2. If recursion depth > 2 × log₂(n)
+2. If recursion depth > 2 Ã— logâ‚‚(n)
 
     - Switch to Heap Sort
 
-3. If subarray size ≤ 16 (or small constant)
+3. If subarray size â‰¤ 16 (or small constant)
 
     - Use Insertion Sort
 
-#### 📌 If you need stability, use:
+#### ðŸ“Œ If you need stability, use:
 
 ```cpp
 stable_sort()
@@ -199,24 +199,24 @@ stable_sort()
 
 which uses **Merge Sort**.
 
-#### 🧪 Interview Trap Question
+#### ðŸ§ª Interview Trap Question
 
 Q: Is `std::sort()` stable?
-❌ No
+âŒ No
 
 Q: Why not use merge sort always?
-✅ Extra memory + slower in practice due to cache misses.
+âœ… Extra memory + slower in practice due to cache misses.
 
 ---
 
-### 🔶 4. Merge Sort (VERY IMPORTANT)
+### ðŸ”¶ 4. Merge Sort (VERY IMPORTANT)
 
-#### 🔹 Intuition (Say This in Interviews)
+#### ðŸ”¹ Intuition (Say This in Interviews)
 
 - **Merge Sort uses Divide & Conquer:**
 - Divide the array into halves until single elements remain, then merge them back in sorted order.
 
-#### 🔹 High-Level Steps
+#### ðŸ”¹ High-Level Steps
 
 - Divide array into two halves
 
@@ -224,7 +224,7 @@ Q: Why not use merge sort always?
 
 - Merge two sorted halves
 
-#### [👉 Merge Sort Code](merge_sort.cpp)
+#### [ðŸ‘‰ Merge Sort Code](merge_sort.cpp)
 
 
 1. Used in:
@@ -235,7 +235,7 @@ Q: Why not use merge sort always?
 
     - Counting inversions
 
-1. ⏱ Time Complexity
+1. â± Time Complexity
 
     - Best: O(n log n)
 
@@ -253,18 +253,18 @@ Q: Why not use merge sort always?
 
     - Recursion stack: O(log n)
 
-    - 👉 Overall: O(n)
+    - ðŸ‘‰ Overall: O(n)
 
 4. Stability, In-Place, Adaptive
 
 | Property | Merge Sort |
 | -------- | ---------- |
-| Stable   | ✅ Yes      |
-| In-place | ❌ No       |
-| Adaptive | ❌ No       |
+| Stable   | âœ… Yes      |
+| In-place | âŒ No       |
+| Adaptive | âŒ No       |
 
 
-#### 📌 You MUST know:
+#### ðŸ“Œ You MUST know:
 
 - How merge works
 
@@ -272,7 +272,7 @@ Q: Why not use merge sort always?
 
 - Space complexity reasoning
 
-#### 📌 Interview problems that use Merge Sort technique:
+#### ðŸ“Œ Interview problems that use Merge Sort technique:
 
 - Count inversions in array
 
@@ -282,17 +282,17 @@ Q: Why not use merge sort always?
 
 - Count smaller elements after self
 
-**🔹 Why Merge Sort Is Preferred for Linked Lists**
+**ðŸ”¹ Why Merge Sort Is Preferred for Linked Lists**
 
-👉 Arrays need extra space for merging
-👉 Linked lists can merge by changing pointers
+ðŸ‘‰ Arrays need extra space for merging
+ðŸ‘‰ Linked lists can merge by changing pointers
 
-- ✔ No extra array
-- ✔ Truly O(1) extra space
-- ✔ Still stable
+- âœ” No extra array
+- âœ” Truly O(1) extra space
+- âœ” Still stable
 
-#### 🔹 Interview Problems Based on Merge Sort
-**🔥 MUST-DO**
+#### ðŸ”¹ Interview Problems Based on Merge Sort
+**ðŸ”¥ MUST-DO**
 
 1. Merge two sorted arrays
 
@@ -304,7 +304,7 @@ Q: Why not use merge sort always?
 
 5. Count smaller elements after self
 
-**🔥 HARD (Advanced)**
+**ðŸ”¥ HARD (Advanced)**
 
 1. Reverse pairs
 
@@ -314,19 +314,19 @@ Q: Why not use merge sort always?
 
 ---
 
-### 🔶 5. Quick Sort (VERY IMPORTANT)
+### ðŸ”¶ 5. Quick Sort (VERY IMPORTANT)
 
 The most commonly asked theoretical sorting algorithm.
 
 - Average: O(N log N)
 
-- Worst case: O(N²)
+- Worst case: O(NÂ²)
 
 - In-place
 
 - Not stable
 
-📌 You must know:
+ðŸ“Œ You must know:
 
 - Partitioning (Lomuto/Hoare)
 
@@ -338,7 +338,7 @@ The most commonly asked theoretical sorting algorithm.
 
 ---
 
-### 🔶 6. Heap Sort
+### ðŸ”¶ 6. Heap Sort
 
 - Time: O(N log N)
 
@@ -354,7 +354,7 @@ Used indirectly in:
 
 ---
 
-### 🔶 7. Counting Sort
+### ðŸ”¶ 7. Counting Sort
 
 - Time: O(N + K)
 
@@ -370,7 +370,7 @@ Used in:
 
 ---
 
-### 🔶 8. Bucket Sort
+### ðŸ”¶ 8. Bucket Sort
 
 - Used when input is uniformly distributed.
 
@@ -384,7 +384,7 @@ Used in:
 
 ---
 
-### 🔶 9. Radix Sort
+### ðŸ”¶ 9. Radix Sort
 
 - Time: O(d * (N + K))
 
@@ -402,16 +402,16 @@ Used in:
 
 ### C++ STL sorts you must know
 
-1. `sort()` → IntroSort (Quick + Heap + Insertion)
+1. `sort()` â†’ IntroSort (Quick + Heap + Insertion)
 Time: O(N log N)
 
-2. `stable_sort()` → Merge Sort
+2. `stable_sort()` â†’ Merge Sort
 
 3. `partial_sort()`
 
-4. `nth_element()` → QuickSelect (VERY IMPORTANT)
+4. `nth_element()` â†’ QuickSelect (VERY IMPORTANT)
 
-### ❗ Interviewers often ask:
+### â— Interviewers often ask:
 
 - How does `sort()` work internally?
 
@@ -425,7 +425,7 @@ Time: O(N log N)
 
 ## Coding Templates You Must Know
 
-### 🔹 Merge Sort (Template)
+### ðŸ”¹ Merge Sort (Template)
 
 ```cpp
 void mergeSort(vector<int>& arr, int l, int r) {
@@ -439,7 +439,7 @@ void mergeSort(vector<int>& arr, int l, int r) {
 }
 ```
 
-### 🔹 Quick Sort (Lomuto Partition)
+### ðŸ”¹ Quick Sort (Lomuto Partition)
 
 ```cpp
 int partition(vector<int>& a, int l, int r) {
@@ -462,7 +462,7 @@ int partition(vector<int>& a, int l, int r) {
 
 ### Level 1 (Basic)
 
-1. [Leetcode 88. Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/) - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/merge-sorted-array/solutions/7417731/merge-sorted-array-in-place-backward-two-j35p/)**
+1. [Leetcode 88. Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/merge-sorted-array/solutions/7417731/merge-sorted-array-in-place-backward-two-j35p/){:target="_blank" rel="noopener noreferrer"}**
 
 
 
@@ -470,13 +470,13 @@ Meeting rooms II
 
 ### Level 2 (Medium)
 
-1. [Leetcode 148. Sort List](https://leetcode.com/problems/sort-list/description/) - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/sort-list/solutions/7428100/merge-sort-on-linked-list-on-log-n-time-v8lx2/)**
+1. [Leetcode 148. Sort List](https://leetcode.com/problems/sort-list/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/sort-list/solutions/7428100/merge-sort-on-linked-list-on-log-n-time-v8lx2/){:target="_blank" rel="noopener noreferrer"}**
 
 
-2. [Leetcode 179. Largest Number](https://leetcode.com/problems/largest-number/description/) - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/largest-number/solutions/7429080/largest-number-custom-sorting-by-concate-z4et/)**
+2. [Leetcode 179. Largest Number](https://leetcode.com/problems/largest-number/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/largest-number/solutions/7429080/largest-number-custom-sorting-by-concate-z4et/){:target="_blank" rel="noopener noreferrer"}**
 
 
-3. [Leetcode 75. Sort Colors](https://leetcode.com/problems/sort-colors/description/) - **[My Approach & Leetcode Solution link - Dutch National Flag Algorithm](https://leetcode.com/problems/sort-colors/solutions/7418299/sort-colors-dutch-national-flag-algorith-e7eo/)**
+3. [Leetcode 75. Sort Colors](https://leetcode.com/problems/sort-colors/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link - Dutch National Flag Algorithm](https://leetcode.com/problems/sort-colors/solutions/7418299/sort-colors-dutch-national-flag-algorith-e7eo/){:target="_blank" rel="noopener noreferrer"}**
 
 
 
@@ -500,6 +500,7 @@ Merge k sorted lists
 Count smaller elements after self
 
 Skyline problem
+
 
 
 
