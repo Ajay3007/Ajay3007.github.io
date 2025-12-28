@@ -69,10 +69,13 @@ Welcome to the blogs index. Explore posts by category:
 {%- if posts_in_cat.size > 0 -%}
 {%- for post in posts_in_cat -%}
 - [{{ post.title }}]({{ post.url | relative_url }}) <small>{{ post.date | date: "%B %d, %Y" }}</small>
+  {%- if post.excerpt -%}<br><span style="color:#607d8b;font-size:0.9rem;">{{ post.excerpt | strip_html | truncatewords: 20 }}</span>{%- endif -%}
 {%- endfor -%}
 {%- else -%}
 > No posts in this category yet.
 {%- endif -%}
+
+<div style="border-top:1px solid #e2e8f0;margin:1.5rem 0;"></div>
 
 {%- endfor -%}
 
