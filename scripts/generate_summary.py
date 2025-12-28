@@ -131,17 +131,30 @@ class MarkdownSummaryGenerator:
             if level > 6:  # Skip any heading deeper than H6
                 continue
             
-            # Create anchor link (Jekyll strips emojis and special chars)
-            anchor = heading.lower()
-            # Remove all non-ASCII characters (including emojis)
-            anchor = anchor.encode('ascii', 'ignore').decode('ascii')
-            anchor = anchor.replace(' ', '-')
-            # Remove special characters (keep only alphanumeric and hyphens)
-            anchor = re.sub(r'[^\w-]', '', anchor)
+            # Create anchor link matching Jekyll/Kramdown behavior exactly
+            # Check if heading starts with non-ASCII character (emoji)
+            starts_with_emoji = heading and ord(heading[0]) > 127
+            
+            anchor = heading
+            # Remove all emojis and special unicode (anything above ASCII 127)
+            anchor = ''.join(char if ord(char) < 128 else ' ' for char in anchor)
+            # Convert to lowercase
+            anchor = anchor.lower()
+            # Replace common punctuation with spaces first
+            for char in '()[]{}:;,.!?"\'/\\|':
+                anchor = anchor.replace(char, ' ')
+            # Replace whitespace with single hyphens
+            anchor = re.sub(r'\s+', '-', anchor)
+            # Remove any remaining non-alphanumeric except hyphens
+            anchor = re.sub(r'[^a-z0-9-]', '', anchor)
             # Remove multiple consecutive hyphens
             anchor = re.sub(r'-+', '-', anchor)
             # Remove leading/trailing hyphens
             anchor = anchor.strip('-')
+            
+            # If heading started with emoji, Jekyll adds leading hyphen
+            if starts_with_emoji and anchor:
+                anchor = '-' + anchor
             
             # Update counters
             counters[level - 1] += 1
@@ -172,35 +185,12 @@ class MarkdownSummaryGenerator:
         """Generate comprehensive executive summary."""
         analysis = self.analyze_content()
         
-        # Get file name without extension for title
-        file_title = self.file_path.stem.replace('-', ' ').replace('_', ' ').title()
-        
         summary = []
         
         # Add Table of Contents first
         toc = self.generate_toc(analysis['headings'])
         if toc:
             summary.append(toc)
-        
-        summary.append("## 📋 Executive Summary")
-        summary.append("")
-        summary.append(f"**Document:** {file_title}  ")
-        summary.append(f"**Type:** Technical Documentation  ")
-        summary.append(f"**Reading Time:** ~{analysis['reading_time']} min  ")
-        summary.append(f"**Last Updated:** {datetime.now().strftime('%B %Y')}  ")
-        summary.append("")
-        
-        # Quick Stats
-        summary.append("### 📊 Quick Stats")
-        summary.append("")
-        summary.append("| Metric | Value |")
-        summary.append("|--------|-------|")
-        summary.append(f"| **Sections** | {analysis['h2_count']} main topics |")
-        summary.append(f"| **Code Examples** | {analysis['code_blocks']} blocks |")
-        summary.append(f"| **Lists/Points** | {analysis['lists']} items |")
-        summary.append(f"| **References** | {len(analysis['links'])} links |")
-        summary.append(f"| **Lines** | {analysis['total_lines']} total |")
-        summary.append("")
         
         # Main Topics
         if analysis['main_topics']:
@@ -213,32 +203,6 @@ class MarkdownSummaryGenerator:
             if len(analysis['main_topics']) > 8:
                 summary.append(f"... and {len(analysis['main_topics']) - 8} more")
             summary.append("")
-        
-        # What You'll Learn
-        summary.append("### 💡 What You'll Learn")
-        summary.append("")
-        summary.append("- Core concepts and fundamental principles")
-        summary.append("- Practical implementation with code examples")
-        summary.append("- Best practices and common patterns")
-        summary.append("- Real-world applications and use cases")
-        summary.append("")
-        
-        # Prerequisites
-        summary.append("### 📚 Prerequisites")
-        summary.append("")
-        summary.append("- Basic programming knowledge")
-        summary.append("- Understanding of fundamental data structures")
-        summary.append("- Familiarity with algorithmic thinking")
-        summary.append("")
-        
-        # Target Audience
-        summary.append("### 👥 Target Audience")
-        summary.append("")
-        summary.append("✅ Students learning computer science fundamentals  ")
-        summary.append("✅ Developers preparing for technical interviews  ")
-        summary.append("✅ Engineers looking to strengthen their foundation  ")
-        summary.append("✅ Anyone interested in algorithmic problem-solving  ")
-        summary.append("")
         
         summary.append("---")
         summary.append("")
@@ -255,14 +219,14 @@ class MarkdownSummaryGenerator:
             after = self.lines[self.frontmatter_end:]
             
             # Check if summary/TOC already exists
-            if any('Executive Summary' in line or 'Table of Contents' in line for line in after[:30]):
+            if any('Table of Contents' in line or 'Main Topics Covered' in line for line in after[:30]):
                 print("⚠️  Summary/TOC section already exists. Skipping...")
                 return None
             
             return '\n'.join(before) + '\n\n' + summary + '\n'.join(after)
         else:
             # Check if summary/TOC already exists
-            if any('Executive Summary' in line or 'Table of Contents' in line for line in self.lines[:30]):
+            if any('Table of Contents' in line or 'Main Topics Covered' in line for line in self.lines[:30]):
                 print("⚠️  Summary/TOC section already exists. Skipping...")
                 return None
             

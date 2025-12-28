@@ -1,34 +1,17 @@
 ## 📑 Table of Contents
 
-1. **[📘 Searching & Sorting](#searching-sorting)**
-  1.1. [✅ 1. Linear Search (Basics)](#1-linear-search-basics)
-  1.2. [✅ 2. Binary Search (Important)](#2-binary-search-important)
-  1.3. [🔥 Binary Search on Answer (Advanced)](#binary-search-on-answer-advanced)
-2. **[[For Sorting Guide Click Here](sorting.md)](#for-sorting-guide-click-heresortingmd)**
-  2.1. [<img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> Practical Sorting Problems](#img-src-assetsiconsbrainsvg-relative_url-classinline-icon-alt-practical-sorting-problems)
-3. **[📝 Must Do Practice Problems](#must-do-practice-problems)**
-  3.1. [🔹 Level 1 – Easy](#level-1-easy)
-  3.2. [🔹 Level 2 – Medium](#level-2-medium)
-  3.3. [🔹 Level 3 – Hard](#level-3-hard)
+1. **[📘 Searching & Sorting](#-searching-sorting)**
+  1.1. [✅ 1. Linear Search (Basics)](#-1-linear-search-basics)
+  1.2. [✅ 2. Binary Search (Important)](#-2-binary-search-important)
+  1.3. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
+2. **[[For Sorting Guide Click Here](sorting.md)](#for-sorting-guide-click-here-sorting-md)**
+  2.1. [<img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> Practical Sorting Problems](#img-src-assets-icons-brain-svg-relativeurl-class-inline-icon-alt-practical-sorting-problems)
+3. **[📝 Must Do Practice Problems](#-must-do-practice-problems)**
+  3.1. [🔹 Level 1 – Easy](#-level-1-easy)
+  3.2. [🔹 Level 2 – Medium](#-level-2-medium)
+  3.3. [🔹 Level 3 – Hard](#-level-3-hard)
 
 ---
-
-## 📋 Executive Summary
-
-**Document:** Searching Sorting  
-**Type:** Technical Documentation  
-**Reading Time:** ~5 min  
-**Last Updated:** December 2025  
-
-### 📊 Quick Stats
-
-| Metric | Value |
-|--------|-------|
-| **Sections** | 7 main topics |
-| **Code Examples** | 2 blocks |
-| **Lists/Points** | 56 items |
-| **References** | 43 links |
-| **Lines** | 213 total |
 
 ### 🎯 Main Topics Covered
 
@@ -39,26 +22,6 @@
 5. **Level 1  Easy**
 6. **Level 2  Medium**
 7. **Level 3  Hard**
-
-### 💡 What You'll Learn
-
-- Core concepts and fundamental principles
-- Practical implementation with code examples
-- Best practices and common patterns
-- Real-world applications and use cases
-
-### 📚 Prerequisites
-
-- Basic programming knowledge
-- Understanding of fundamental data structures
-- Familiarity with algorithmic thinking
-
-### 👥 Target Audience
-
-✅ Students learning computer science fundamentals  
-✅ Developers preparing for technical interviews  
-✅ Engineers looking to strengthen their foundation  
-✅ Anyone interested in algorithmic problem-solving  
 
 ---
 # 📘 Searching & Sorting
