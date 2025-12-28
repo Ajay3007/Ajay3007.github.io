@@ -40,7 +40,7 @@ My personal hub for projects, blogs, and learning resources in programming and C
                 <h3>Recent Posts</h3>
                 <ul>
                     {% for post in site.posts limit:5 %}
-                    <li class="home-post-item">**[{{ post.title }}]({{ post.url }})** - <time>{{ post.date | date: "%b %d, %Y" }}</time></li>
+                    <li class="home-post-item"><a href="{{ post.url }}">{{ post.title }}</a> - <time>{{ post.date | date: "%b %d, %Y" }}</time></li>
                     {% endfor %}
                 </ul>
             </div>
