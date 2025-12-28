@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Dynamic Programming
 permalink: /learning/dsa/dynamic-programming/

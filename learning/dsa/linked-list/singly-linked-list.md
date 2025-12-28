@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Singly Linked List
 permalink: /learning/dsa/linked-list/singly-linked-list/

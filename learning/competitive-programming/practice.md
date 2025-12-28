@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Practice Plan
 permalink: /learning/competitive-programming/practice/
@@ -8,5 +8,5 @@ permalink: /learning/competitive-programming/practice/
 
 Templates, problem sets, and tracking.
 
-[â† Back to Competitive Programming]({ '/learning/competitive-programming/' | relative_url })
+[← Back to Competitive Programming]({ '/learning/competitive-programming/' | relative_url })
 

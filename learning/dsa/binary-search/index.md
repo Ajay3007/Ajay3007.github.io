@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Binary Search
 permalink: /learning/dsa/binary-search/

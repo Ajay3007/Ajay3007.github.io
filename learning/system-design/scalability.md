@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Scalability Patterns
 permalink: /learning/system-design/scalability/
@@ -8,5 +8,5 @@ permalink: /learning/system-design/scalability/
 
 Intro, core concepts, and practical examples.
 
-[â† Back to System Design]({ '/learning/system-design/' | relative_url })
+[← Back to System Design]({ '/learning/system-design/' | relative_url })
 

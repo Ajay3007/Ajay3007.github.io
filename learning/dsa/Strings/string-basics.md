@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: String Basics
 permalink: /learning/dsa/strings/string-basics/
@@ -16,11 +16,11 @@ These are must-know before solving problems.
 
 - ASCII & Unicode basics
 
-## ðŸ“˜ 1. Mutable vs Immutable Strings
+## 📘 1. Mutable vs Immutable Strings
 
 In C++:
 
-### âœ… `std::string` is mutable
+### ✅ `std::string` is mutable
 
 You can change characters in place.
 
@@ -29,9 +29,9 @@ string s = "hello";
 s[0] = 'H';   // modifies original string
 ```
 
-After modification â†’ `"Hello"`
+After modification → `"Hello"`
 
-#### âŒ Character arrays are also mutable (as long as not stored in read-only memory)
+#### ❌ Character arrays are also mutable (as long as not stored in read-only memory)
 
 ```cpp
 char arr[] = "hello";
@@ -42,20 +42,20 @@ BUT this is NOT allowed:
 
 ```cpp
 char* s = "hello";  
-s[1] = 'a';   // âŒ undefined behavior (string literal is read-only)
+s[1] = 'a';   // ❌ undefined behavior (string literal is read-only)
 ```
 
-### ðŸ“Œ Takeaway
+### 📌 Takeaway
 
 | Type                  | Mutable? | Notes              |
 | --------------------- | -------- | ------------------ |
-| `std::string`         | âœ… Yes    | Safe, dynamic size |
-| `char arr[]`          | âœ“ Yes    | Static size        |
-| `char* s = "literal"` | âŒ No     | Read-only memory   |
+| `std::string`         | ✅ Yes    | Safe, dynamic size |
+| `char arr[]`          | ✓ Yes    | Static size        |
+| `char* s = "literal"` | ❌ No     | Read-only memory   |
 
-## ðŸ“˜ 2. Character Arrays vs std::string
+## 📘 2. Character Arrays vs std::string
 
-### ðŸ”· Character Array (char[])
+### 🔷 Character Array (char[])
 
 - Fixed size
 
@@ -67,9 +67,9 @@ s[1] = 'a';   // âŒ undefined behavior (string literal is read-only)
 char name[10] = "Ajay";
 ```
 
-If you modify without checking size â†’ risk of overflow.
+If you modify without checking size → risk of overflow.
 
-### ðŸ”¶ `std::string` (Recommended)
+### 🔶 `std::string` (Recommended)
 
 - Dynamically grows
 
@@ -93,32 +93,32 @@ name += " Gupta";
 **`std::string` internals:**
 
 ```cpp
-size, capacity, pointer â†’ ['A','j','a','y']
+size, capacity, pointer → ['A','j','a','y']
 ```
 
-### ðŸ“Œ Conclusion:
+### 📌 Conclusion:
 Use `std::string` unless you specifically need low-level C-style operations.
 
-## ðŸ“˜ 3. Common String Operations
+## 📘 3. Common String Operations
 
 Let's see the most used methods in DSA.
 
-### ðŸ”¹ Length
+### 🔹 Length
 
 ```cpp
 string s = "hello";
 int len = s.length();  // or s.size()
 ```
 
-### ðŸ”¹ Substring
+### 🔹 Substring
 
 ```cpp
 string s = "abcdef";
 string sub = s.substr(1, 3);  
-// starts at index 1, length 3 â†’ "bcd"
+// starts at index 1, length 3 → "bcd"
 ```
 
-### ðŸ”¹ Concatenation
+### 🔹 Concatenation
 
 ```cpp
 string a = "Ajay";
@@ -126,7 +126,7 @@ string b = "Gupta";
 string c = a + " " + b;
 ```
 
-### ðŸ”¹ Comparison
+### 🔹 Comparison
 
 Lexicographical comparison (dictionary order):
 
@@ -138,43 +138,43 @@ if (a < b) cout << "apple comes first";
 
 Character comparison uses **ASCII** values.
 
-### ðŸ”¹ Search operations
+### 🔹 Search operations
 ```cpp
 string s = "hello world";
 int pos = s.find("world");   // returns 6
 ```
 
-If not found â†’ returns `string::npos`.
+If not found → returns `string::npos`.
 
-### ðŸ”¹ Access characters
+### 🔹 Access characters
 ```cpp
 char ch = s[2];
 s[3] = 'x';
 ```
 
-### ðŸ“Œ std::to_string() â€” Overview
+### 📌 std::to_string() — Overview
 
 Converts numeric values to `std::string`
 
-#### ðŸ“˜ Example: Convert int to string
+#### 📘 Example: Convert int to string
 ```cpp
 int x = 42;
 string s = to_string(x);  
 cout << s;   // "42"
 ```
 
-#### ðŸ“˜ Example: Using inside concatenation
+#### 📘 Example: Using inside concatenation
 ```cpp
 int age = 25;
 string info = "Age = " + to_string(age);
 cout << info;
 ```
 
-#### âš ï¸ Precision Issue (Important!)
+#### ⚠️ Precision Issue (Important!)
 
 `to_string(double)` always prints 6 decimal places.
 ```cpp
-to_string(3.1) â†’ "3.100000"
+to_string(3.1) → "3.100000"
 ```
 
 If you want precise formatting, use:
@@ -186,7 +186,7 @@ ss << fixed << setprecision(2) << 3.14159;
 string s = ss.str();    // "3.14"
 ```
 
-### âœ… stringstream
+### ✅ stringstream
 
 - A general formatting tool
 
@@ -203,7 +203,7 @@ ss << "Value = " << 42;
 string s = ss.str();
 ```
 
-#### âœ” Use stringstream when:
+#### ✔ Use stringstream when:
 
 - You need precision control
 
@@ -222,10 +222,10 @@ string s = ss.str();
 ss << "x=" << x << ", y=" << y;
 ```
 
-## ðŸ“˜ 4. ASCII & Unicode Basics
-### ðŸ”¹ ASCII
+## 📘 4. ASCII & Unicode Basics
+### 🔹 ASCII
 
-- `0â€“127` values
+- `0–127` values
 
 - C++ char is typically 1 byte
 
@@ -239,10 +239,10 @@ int val = (int)c;   // 97 (ASCII of 'a')
 Character manipulation using ASCII:
 
 ```cpp
-char up = c - 32;   // 'a' â†’ 'A'
+char up = c - 32;   // 'a' → 'A'
 ```
 
-### ðŸ”¹ Unicode
+### 🔹 Unicode
 
 Supports all world languages.
 
@@ -255,5 +255,5 @@ Supports all world languages.
 - `wstring` (wide strings)
 
 For DSA interviews:
-ðŸ‘‰ ASCII-based problems are 95% of what you need
-ðŸ‘‰ Unicode only matters in advanced parsing tasks
+👉 ASCII-based problems are 95% of what you need
+👉 Unicode only matters in advanced parsing tasks

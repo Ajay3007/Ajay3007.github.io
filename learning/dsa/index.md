@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Data Structures & Algorithms
 permalink: /learning/dsa/
@@ -8,7 +8,7 @@ permalink: /learning/dsa/
     <div class="projects-list" style="display:flex;flex-wrap:wrap;gap:2rem 2.5rem;justify-content:center;">
       <!-- Sorting & Searching -->
       <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-        <span style="font-size:2rem;">ðŸ”Ž</span>
+        <span style="font-size:2rem;">🔍</span>
         <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
           <a href="{{ '/learning/dsa/searching-sorting/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Sorting & Searching</a>
         </h3>
@@ -20,7 +20,7 @@ permalink: /learning/dsa/
       </div>
       <!-- Recursion -->
       <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-        <span style="font-size:2rem;">ðŸ”</span>
+        <span style="font-size:2rem;">🔄</span>
         <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
           <a href="{{ '/learning/dsa/recursion/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Recursion</a>
         </h3>
@@ -28,7 +28,7 @@ permalink: /learning/dsa/
       </div>
       <!-- Dynamic Programming -->
       <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-        <span style="font-size:2rem;">ðŸ§©</span>
+        <span style="font-size:2rem;">🧩</span>
         <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
           <a href="{{ '/learning/dsa/dynamic-programming/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Dynamic Programming</a>
         </h3>
@@ -39,7 +39,7 @@ permalink: /learning/dsa/
       </div>
       <!-- Backtracking -->
       <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-        <span style="font-size:2rem;">ðŸ§ </span>
+        <span style="font-size:2rem;">🧠</span>
         <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
           <a href="{{ '/learning/dsa/backtracking/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Backtracking</a>
         </h3>
@@ -52,7 +52,7 @@ permalink: /learning/dsa/
 <div class="projects-list" style="display:flex;flex-wrap:wrap;gap:2rem 2.5rem;justify-content:center;">
   <!-- Arrays -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸ—ƒï¸</span>
+    <span style="font-size:2rem;">🗃️</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/arrays/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Arrays</a>
     </h3>
@@ -64,7 +64,7 @@ permalink: /learning/dsa/
   </div>
   <!-- Linked List -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸ”—</span>
+    <span style="font-size:2rem;">📗</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/linked-list/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Linked List</a>
     </h3>
@@ -76,7 +76,7 @@ permalink: /learning/dsa/
   </div>
   <!-- Trees -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸŒ³</span>
+    <span style="font-size:2rem;">🌳</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/tree/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Tree</a>
     </h3>
@@ -90,7 +90,7 @@ permalink: /learning/dsa/
   </div>
   <!-- Strings -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸ”¤</span>
+    <span style="font-size:2rem;">🔤</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/strings/' | relative_url }}" style="color:#1976d2;text-decoration:none;">String</a>
     </h3>
@@ -102,7 +102,7 @@ permalink: /learning/dsa/
   </div>
   <!-- Stacks -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸ“š</span>
+    <span style="font-size:2rem;">📚</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/stacks/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Stacks</a>
     </h3>
@@ -113,7 +113,7 @@ permalink: /learning/dsa/
   </div>
   <!-- Queues -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸ“¬</span>
+    <span style="font-size:2rem;">🔬</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/queues/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Queues</a>
     </h3>
@@ -125,7 +125,7 @@ permalink: /learning/dsa/
   </div>
   <!-- Graphs -->
   <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">ðŸ—ºï¸</span>
+    <span style="font-size:2rem;">🗺️</span>
     <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
       <a href="{{ '/learning/dsa/graphs/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Graphs</a>
     </h3>
@@ -140,7 +140,7 @@ permalink: /learning/dsa/
 
 <div style="text-align:center; margin:2.5rem 0 1.5rem 0;">
   <a href="{{ '/' | relative_url }}" class="btn-crosslink">
-    <span style="font-size:1.3rem;">ðŸ </span> Back to Home
+    <span style="font-size:1.3rem;">🏠</span> Back to Home
   </a>
 </div>
 

@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Priority Queue
 permalink: /learning/dsa/queues/priority-queue/

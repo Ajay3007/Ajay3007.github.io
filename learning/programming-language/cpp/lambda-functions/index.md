@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: C++ Language
 permalink: /learning/programming-language/cpp/lambda-functions
@@ -6,7 +6,7 @@ permalink: /learning/programming-language/cpp/lambda-functions
 
 # Lambda Functions in Modern C++
 
-Lambda functions are essential for writing concise, expressive code â€” especially with STL algorithms(eg. sort), callbacks, event handeling, threading, and functional patterns.
+Lambda functions are essential for writing concise, expressive code — especially with STL algorithms(eg. sort), callbacks, event handeling, threading, and functional patterns.
 
 This guide covers the main concepts, syntax, examples, properties, pitfalls, and best practices.
 
@@ -29,13 +29,13 @@ This guide covers the main concepts, syntax, examples, properties, pitfalls, and
 };
 ```
 
-- capture â€” how the lambda accesses variables from the enclosing scope.
+- capture — how the lambda accesses variables from the enclosing scope.
 
-- parameters â€” function parameter list (optional if none).
+- parameters — function parameter list (optional if none).
 
-- mutable â€” allows modifying captured variables that were captured by value.
+- mutable — allows modifying captured variables that were captured by value.
 
-- -> return_type â€” optional trailing return type (often inferred).
+- -> return_type — optional trailing return type (often inferred).
 
 - The lambda expression produces a unique, unnamed closure type; assignable to auto.
 
@@ -65,13 +65,13 @@ auto div = [](double a, double b) -> double {
 
 ## Capture modes
 
-- **By value** â€” captures copies of variables: [x, y] or [=] (capture all by value)
+- **By value** — captures copies of variables: [x, y] or [=] (capture all by value)
 ```cpp
 int x = 10;
 auto f = [x]() { cout << x << endl; };  
 ```
 
-- **By reference** â€” captures references: [&x, &y] or [&] (capture all by reference)
+- **By reference** — captures references: [&x, &y] or [&] (capture all by reference)
 ```cpp
 int x = 10;
 auto f = [&x]() { x++; };
@@ -87,12 +87,12 @@ auto f = [&x]() { x++; };
 [&]() { ... }
 ```
 
-- **Mixed** â€” e.g. [=, &z] (capture all by value, z by reference)
+- **Mixed** — e.g. [=, &z] (capture all by value, z by reference)
 ```cpp
 [x, &y]() { ... }
 ```
 
-- **`this` capture** â€” capture current object pointer: [this] or use [=] (C++20 allows [=, this] semantics more explicitly)
+- **`this` capture** — capture current object pointer: [this] or use [=] (C++20 allows [=, this] semantics more explicitly)
 
 ## Lambda in a Class (Capturing `this`)
 ```cpp
@@ -177,9 +177,9 @@ std::function<int(int)> square = [](int x){
 
 Internally, a lambda is a compiler-generated class with:
 
-- captured variables â†’ data members
+- captured variables → data members
 
-- body â†’ operator()
+- body → operator()
 
 **Example:**
 ```cpp
@@ -205,7 +205,7 @@ This explains why capture types matter.
 
 - Use mutable sparingly; prefer explicit state in enclosing scope or return updated values.
 
-- Avoid heavy logic in lambdas â€” extract to named functions for clarity and testability.
+- Avoid heavy logic in lambdas — extract to named functions for clarity and testability.
 
 - Be explicit about captures when readability matters (`[=]` and `[&]` are concise but can hide intent).
 
@@ -215,7 +215,7 @@ This explains why capture types matter.
 
 Full runnable `.cpp` examples are available here:
 
-ðŸ‘‰ **For runnable C++ examples, see the accompanying [Lambda Examples](./examples.md).**
+👉 **For runnable C++ examples, see the accompanying [Lambda Examples](./examples.md).**
 
 This includes:
 - Sorting with lambdas  

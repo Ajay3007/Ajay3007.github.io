@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Quicksort
 permalink: /learning/dsa/sorting/quicksort/

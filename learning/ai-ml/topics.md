@@ -1,9 +1,9 @@
-﻿---
+---
 layout: default
 title: AI & ML Topics
 ---
 
-# AI & Machine Learning â€” Topics
+# AI & Machine Learning — Topics
 
 ## Subtopics
 
@@ -17,5 +17,5 @@ title: AI & ML Topics
 - Read: "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow"
 - Practice: Kaggle competitions and small projects
 
-[Back to AI & ML main â†’]({{ '/learning/ai-ml/' | relative_url }})
+[Back to AI & ML main →]({{ '/learning/ai-ml/' | relative_url }})
 

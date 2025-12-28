@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Stacks
 permalink: /learning/dsa/stacks/

@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Backtracking
 permalink: /learning/dsa/backtracking/

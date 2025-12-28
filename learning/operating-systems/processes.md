@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Processes
 permalink: /learning/operating-systems/processes/
@@ -8,5 +8,5 @@ permalink: /learning/operating-systems/processes/
 
 Key ideas, algorithms, and pitfalls.
 
-[â† Back to Operating Systems]({ '/learning/operating-systems/' | relative_url })
+[← Back to Operating Systems]({ '/learning/operating-systems/' | relative_url })
 

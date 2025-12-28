@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Data Plane
 permalink: /learning/data-plane/

@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Queues
 permalink: /learning/dsa/queues/

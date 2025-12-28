@@ -1,10 +1,10 @@
-﻿---
+---
 layout: default
 title: Sliding Window
 permalink: /learning/dsa/arrays/sliding-window/
 ---
 
-# <img src="/ajdevhub/assets/icons/rocket.svg" class="inline-icon" alt=""> Sliding Window
+# <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sliding Window
 
 Sliding Window is used when we deal with **contiguous subarrays or substrings**.
 
@@ -18,36 +18,36 @@ Sliding Window is used when we deal with **contiguous subarrays or substrings**.
 - at most / at least K distinct
 - average of size K
 
-## â­ 2. Types of Sliding Window
+## ⭐ 2. Types of Sliding Window
 
 You must know BOTH:
 
-### 1ï¸âƒ£ Fixed-Size Window (size = K)
+### 1️⃣ Fixed-Size Window (size = K)
 
 Useful when **K is fixed.**
 
-#### ðŸ“Œ Examples
+#### 📌 Examples
 
 Max sum of subarray size K
 
 First negative number in window size K
 
-#### 2ï¸âƒ£ Variable-Size Window (stretch/shrink)
+#### 2️⃣ Variable-Size Window (stretch/shrink)
 
 Used when the **window grows** until a **condition** becomes **invalid**, then we **shrink**.
 
-#### ðŸ“Œ Examples
+#### 📌 Examples
 
 Longest substring without repeating characters
 
-Longest subarray with sum â‰¤ K
+Longest subarray with sum ≤ K
 
 Minimum window substring
 
 Fruits into baskets (max subarray with at most 2 distinct fruits)
 
-## â­ Templates (MOST IMPORTANT PART)
-### ðŸ”¶ Template 1 â€” Fixed Size Window (size = K)
+## ⭐ Templates (MOST IMPORTANT PART)
+### 🔶 Template 1 — Fixed Size Window (size = K)
 
 ```cpp
 int left = 0;
@@ -64,7 +64,7 @@ for (int right = 0; right < n; right++) {
 }
 ```
 
-### ðŸ”¶ Template 2 â€” Variable Window (Most Important)
+### 🔶 Template 2 — Variable Window (Most Important)
 
 ```cpp
 int left = 0;
@@ -81,9 +81,9 @@ for (int right = 0; right < n; right++) {
 ```
 
 Use when:
-ðŸ‘‰ window size is always exactly K
+👉 window size is always exactly K
 
-### ðŸ”¶ Template 2 â€” Variable Window (Most Important)
+### 🔶 Template 2 — Variable Window (Most Important)
 
 ```cpp
 int left = 0;
@@ -99,7 +99,7 @@ for (int right = 0; right < n; right++) {
 }
 ```
 
-### ðŸ”¶ Template 3 â€” Window with Frequency Map
+### 🔶 Template 3 — Window with Frequency Map
 
 Used for substring problems.
 
@@ -119,23 +119,23 @@ for (int right = 0; right < s.size(); right++) {
 }
 ```
 
-## â­ Top 5 Sliding Window Patterns
+## ⭐ Top 5 Sliding Window Patterns
 
-#### ðŸ”¸ Pattern 1: Longest substring without repeating characters
+#### 🔸 Pattern 1: Longest substring without repeating characters
 
 Condition: window is invalid when any character count > 1
 
-ðŸ‘‰ shrink until all chars have freq 1
+👉 shrink until all chars have freq 1
 
-#### ðŸ”¸ Pattern 2: At most K distinct characters
+#### 🔸 Pattern 2: At most K distinct characters
 
 Condition: invalid when freq_map.size() > K
 
-#### ðŸ”¸ Pattern 3: Sum â‰¤ K
+#### 🔸 Pattern 3: Sum ≤ K
 
-When sum exceeds K â†’ shrink window
+When sum exceeds K → shrink window
 
-#### ðŸ”¸ Pattern 4: Minimum window substring
+#### 🔸 Pattern 4: Minimum window substring
 
 A classic variable window with two hash maps:
 
@@ -145,19 +145,19 @@ A classic variable window with two hash maps:
 
 Shrink window only when it satisfies the target.
 
-#### ðŸ”¸ Pattern 5: Fixed Size
+#### 🔸 Pattern 5: Fixed Size
 
 Very direct.
 
-## â­ Must-Do Sliding Window Problems
-### Level 1 â€” Basics
+## ⭐ Must-Do Sliding Window Problems
+### Level 1 — Basics
 
 #### 1. [Leetcode 121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/){:target="_blank" rel="noopener noreferrer"}
 
 **- Brute Force Approach:**
 For every prices[i], check profit for every prices[j]; where, j>i
 take maximum of all profits.
-In formal, find max(prices[j]âˆ’prices[i]), for every i and j such that j>i.
+In formal, find max(prices[j]−prices[i]), for every i and j such that j>i.
 
 Time Complexity - O(n^2)
 
@@ -272,7 +272,7 @@ First negative number in window size K
 
 Count occurrences of anagrams
 
-### Level 2 â€” Medium
+### Level 2 — Medium
 
 Longest substring without repeating
 
@@ -286,7 +286,7 @@ Subarray sum equals K (prefix + sliding combination)
 
 Binary subarray with sum
 
-### Level 3 â€” Hard
+### Level 3 — Hard
 
 Subarrays with K different integers
 
@@ -300,7 +300,7 @@ Max consecutive ones III
 
 Number of nice subarrays
 
-Longest subarray with sum â‰¤ K
+Longest subarray with sum ≤ K
 
 Sliding window maximum (Deque, bonus)
 

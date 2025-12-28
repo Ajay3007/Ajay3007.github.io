@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Segment Tree
 permalink: /learning/dsa/tree/segment-tree/

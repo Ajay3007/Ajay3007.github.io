@@ -1,14 +1,14 @@
-﻿# Lambda Examples (Runnable C++ files)
+# Lambda Examples (Runnable C++ files)
 
 This folder contains simple, runnable C++ example programs that accompany the `lambda.md` tutorial.
 
 ## Example Source Files and Purpose
 
 - [test_main.cpp](./test_main.cpp) `test_main.cpp` - demonstrate syntax uses of lambda function
-- [sort_by_length.cpp](./sort_by_length.cpp) `sort_by_length.cpp` â€” sort strings by length using a lambda comparator.
-- [transform_squares.cpp](./transform_squares.cpp) `transform_squares.cpp` â€” use `std::transform` with a generic lambda to compute squares.
-- [move_capture_thread.cpp](./move_capture_thread.cpp) `move_capture_thread.cpp` â€” demonstrate move-capture of `std::unique_ptr` into a lambda used by `std::thread`.
-- [counter_lambda.cpp](./counter_lambda.cpp) `counter_lambda.cpp` â€” a function returning a lambda that keeps an internal counter (closure state).
+- [sort_by_length.cpp](./sort_by_length.cpp) `sort_by_length.cpp` — sort strings by length using a lambda comparator.
+- [transform_squares.cpp](./transform_squares.cpp) `transform_squares.cpp` — use `std::transform` with a generic lambda to compute squares.
+- [move_capture_thread.cpp](./move_capture_thread.cpp) `move_capture_thread.cpp` — demonstrate move-capture of `std::unique_ptr` into a lambda used by `std::thread`.
+- [counter_lambda.cpp](./counter_lambda.cpp) `counter_lambda.cpp` — a function returning a lambda that keeps an internal counter (closure state).
 
 
 ## Build & Run (Linux / macOS / WSL)

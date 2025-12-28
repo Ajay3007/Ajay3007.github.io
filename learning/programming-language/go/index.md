@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Go Language
 permalink: /learning/programming-language/go/

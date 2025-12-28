@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: C++ Language
 permalink: /learning/programming-language/cpp/

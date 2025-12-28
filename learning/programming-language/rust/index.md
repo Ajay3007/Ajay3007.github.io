@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Rust Language
 permalink: /learning/programming-language/rust/

@@ -1,9 +1,9 @@
-﻿---
+---
 layout: default
 title: OOP Topics
 ---
 
-# Object Oriented Programming â€” Topics
+# Object Oriented Programming — Topics
 
 ## Subtopics
 
@@ -18,5 +18,5 @@ title: OOP Topics
 - Read: "Head First Design Patterns" and SOLID articles
 - Practice: Build small projects applying patterns
 
-[Back to OOP main â†’]({{ '/learning/oop/' | relative_url }})
+[Back to OOP main →]({{ '/learning/oop/' | relative_url }})
 

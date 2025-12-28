@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Java Language
 permalink: /learning/programming-language/java/

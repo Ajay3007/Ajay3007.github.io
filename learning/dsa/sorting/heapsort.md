@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Heapsort
 permalink: /learning/dsa/sorting/heapsort/

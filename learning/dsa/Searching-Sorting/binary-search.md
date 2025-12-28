@@ -1,10 +1,10 @@
-﻿---
+---
 layout: default
 title: Sorting
 permalink: /learning/dsa/Searching-Sorting/binary-search/
 ---
 
-# âœ… Binary Search (Important)
+# ✅ Binary Search (Important)
 
 Most used searching technique in interviews.
 
@@ -32,7 +32,7 @@ Most used searching technique in interviews.
 
 - Binary search on monotonic functions
 
-## ðŸ”¥ Binary Search on Answer (Advanced)
+## 🔥 Binary Search on Answer (Advanced)
 
 **Used when:**
 
@@ -51,9 +51,9 @@ Most used searching technique in interviews.
 - Koko eating bananas
 
 
-# ðŸ“ Must Do Practice Problems
+# 📝 Must Do Practice Problems
 
-## ðŸ”¹ Level 1 â€“ Easy
+## 🔹 Level 1 – Easy
 
 1. [Leetcode 704. Binary Search](https://leetcode.com/problems/binary-search/description/){:target="_blank" rel="noopener noreferrer"}
 
@@ -111,7 +111,7 @@ public:
 
 
 
-## ðŸ”¹ Level 2 â€“ Medium
+## 🔹 Level 2 – Medium
 
 1. [Leetcode 34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/solutions/7403935/two-binary-searches-to-locate-target-ran-6k3i/){:target="_blank" rel="noopener noreferrer"}**
 
@@ -161,7 +161,7 @@ public:
 
 
 
-## ðŸ”¹ Level 3 â€“ Hard
+## 🔹 Level 3 – Hard
 
 1. [Leetcode 1095. Find in Mountain Array](https://leetcode.com/problems/find-in-mountain-array/description/){:target="_blank" rel="noopener noreferrer"} - **[My Approach & Leetcode Solution link](https://leetcode.com/problems/find-in-mountain-array/solutions/7414067/binary-search-on-mountain-array-find-pea-s9fz/){:target="_blank" rel="noopener noreferrer"}**
 

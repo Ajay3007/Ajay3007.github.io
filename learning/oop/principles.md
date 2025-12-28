@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: OOP Principles (SOLID etc.)
 permalink: /learning/oop/principles/
@@ -8,5 +8,5 @@ permalink: /learning/oop/principles/
 
 Concepts, examples, and anti-patterns.
 
-[â† Back to OOP]({ '/learning/oop/' | relative_url })
+[← Back to OOP]({ '/learning/oop/' | relative_url })
 

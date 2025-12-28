@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Trie
 permalink: /learning/dsa/tree/trie/

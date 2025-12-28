@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Sorting
 permalink: /learning/dsa/sorting/

@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Mergesort
 permalink: /learning/dsa/sorting/mergesort/

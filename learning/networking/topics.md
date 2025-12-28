@@ -1,9 +1,9 @@
-﻿---
+---
 layout: default
 title: Networking Topics
 ---
 
-# Networking â€” Topics
+# Networking — Topics
 
 ## Subtopics
 
@@ -17,5 +17,5 @@ title: Networking Topics
 - Read: "Computer Networking: A Top-Down Approach"
 - Practice: small socket-based projects and packet inspection
 
-[Back to Networking main â†’]({{ '/learning/networking/' | relative_url }})
+[Back to Networking main →]({{ '/learning/networking/' | relative_url }})
 

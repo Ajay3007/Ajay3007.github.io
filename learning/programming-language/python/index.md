@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Python Language
 permalink: /learning/programming-language/python/

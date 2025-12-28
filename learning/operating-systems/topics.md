@@ -1,9 +1,9 @@
-﻿---
+---
 layout: default
 title: Operating Systems Topics
 ---
 
-# Operating Systems â€” Topics
+# Operating Systems — Topics
 
 ## Subtopics
 
@@ -17,5 +17,5 @@ title: Operating Systems Topics
 - Read: "Operating System Concepts" (Silberschatz) chapters on scheduling and memory
 - Practice: implement small simulators for scheduling and synchronization
 
-[Back to OS main â†’]({{ '/learning/operating-systems/' | relative_url }})
+[Back to OS main →]({{ '/learning/operating-systems/' | relative_url }})
 

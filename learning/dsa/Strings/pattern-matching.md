@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: String Pattern Matching
 permalink: /learning/dsa/strings/pattern-matching/

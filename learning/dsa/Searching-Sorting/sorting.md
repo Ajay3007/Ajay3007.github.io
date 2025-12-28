@@ -4,7 +4,7 @@ title: Sorting
 permalink: /learning/dsa/Searching-Sorting/sorting/
 ---
 
-# <img src="/assets/icons/rocket.svg" class="inline-icon" alt=""> Sorting Master Guide (Interview-Focused)
+# <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sorting Master Guide (Interview-Focused)
 
 ## Sorting Algorithms You MUST Know (Interview Level)
 
@@ -156,7 +156,7 @@ Exactly how you sort playing cards in hand.
 
 C++ STL sort() uses **Introsort**, a hybrid algorithm combining **Quick Sort, Heap Sort, and Insertion Sort**.
 
-#### <img src="/assets/icons/brain.svg" class="inline-icon" alt=""> What Is Introsort? (Deep but Clear)
+#### <img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> What Is Introsort? (Deep but Clear)
 
 **Introsort** (Introspective Sort) starts like **Quick Sort**, but:
 
@@ -177,7 +177,7 @@ To guarantee:
 
 - High practical performance
 
-#### <img src="/assets/icons/puzzle.svg" class="inline-icon" alt=""> STL sort() Strategy (Step-by-Step)
+#### <img src="{{ '/assets/icons/puzzle.svg' | relative_url }}" class="inline-icon" alt=""> STL sort() Strategy (Step-by-Step)
 
 1. Start with Quick Sort
 
@@ -247,7 +247,7 @@ Q: Why not use merge sort always?
 
     - Work at each level: `n`
 
-3.  <img src="/assets/icons/brain.svg" class="inline-icon" alt=""> Space Complexity
+3.  <img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> Space Complexity
 
     - Extra array: O(n)
 

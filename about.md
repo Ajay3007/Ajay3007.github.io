@@ -77,8 +77,8 @@ I believe in continuous learning, practical implementation, and contributing to 
 Feel free to reach out or explore my work:
 
 - **GitHub**: [Ajay3007](https://github.com/Ajay3007) – Open-source contributions and projects
-- **Projects**: Browse my [portfolio](/projects) – real-world implementations
-- **Blog**: Read my [latest posts](/blogs) – technical articles and tutorials
+- **Projects**: Browse my [portfolio]({{ '/projects' | relative_url }}) – real-world implementations
+- **Blog**: Read my [latest posts]({{ '/blogs' | relative_url }}) – technical articles and tutorials
 - **Email**: Open to discussions on system design, networking, and backend optimization
 
 ## 🎯 Current Interests

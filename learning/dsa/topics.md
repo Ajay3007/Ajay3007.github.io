@@ -1,21 +1,21 @@
-﻿---
+---
 layout: default
 title: Data Structures Topics
 ---
 
-# Data Structures & Algorithms â€” Topics
+# Data Structures & Algorithms — Topics
 
 This page lists focused subtopics and starter resources you can follow.
 
 ## Subtopics
 
-- Arrays & Strings â€” basics, two-pointer, sliding window
-- Linked Lists â€” singly, doubly, fast/slow pointers, cycle detection
-- Stacks & Queues â€” implementation & use-cases
-- Trees â€” traversal, BST, segment trees
-- Graphs â€” BFS, DFS, shortest paths, MST
-- Sorting & Searching â€” quicksort, mergesort, binary search
-- Dynamic Programming â€” patterns and example problems
+- Arrays & Strings — basics, two-pointer, sliding window
+- Linked Lists — singly, doubly, fast/slow pointers, cycle detection
+- Stacks & Queues — implementation & use-cases
+- Trees — traversal, BST, segment trees
+- Graphs — BFS, DFS, shortest paths, MST
+- Sorting & Searching — quicksort, mergesort, binary search
+- Dynamic Programming — patterns and example problems
 
 ## Starter Resources
 
@@ -23,5 +23,5 @@ This page lists focused subtopics and starter resources you can follow.
 - Reading: CLRS (chapters on data structures), Algorithms by Sedgewick
 - Projects: implement core structures and use in small projects
 
-[Back to Data Structures main â†’]({{ '/learning/data-structures/' | relative_url }})
+[Back to Data Structures main →]({{ '/learning/data-structures/' | relative_url }})
 

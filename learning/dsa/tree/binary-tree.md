@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Binary Tree
 permalink: /learning/dsa/tree/binary-tree/

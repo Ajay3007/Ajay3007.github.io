@@ -1,4 +1,4 @@
-﻿# ðŸ“˜ DSA: Strings Learning Roadmap (Beginner â†’ Advanced)
+# 📘 DSA: Strings Learning Roadmap (Beginner → Advanced)
 
 ## 1. Basics of Strings (Foundations)
 
@@ -14,7 +14,7 @@ These are must-know before solving problems.
 
 ### -> [Click here for more details](string-basics.md)
 
-## ðŸ” 2. Two Pointers on Strings
+## 🔍 2. Two Pointers on Strings
 
 Used for many interview problems (palindrome, substring checks).
 
@@ -24,29 +24,29 @@ Used for many interview problems (palindrome, substring checks).
 
 - Shrink/expand window on conditions
 
-## ðŸªŸ 3. Sliding Window (Very Important)
+## 🪟 3. Sliding Window (Very Important)
 
 Strings + Sliding Window = 20% of interview questions.
 
 ### Understand two types:
 
-#### ðŸ”¸ Fixed Window
+#### 🔸 Fixed Window
 
 E.g., find anagrams of a pattern.
 
-#### ðŸ”¸ Variable Window
+#### 🔸 Variable Window
 
 E.g., longest substring with K distinct characters.
 
-## ðŸ§® 4. Hashing for Strings
+## 🧮 4. Hashing for Strings
 
 ### Character frequency arrays
 
-- For lowercase â†’ size 26
+- For lowercase → size 26
 
-- For ASCII â†’ size 256
+- For ASCII → size 256
 
-- For Unicode â†’ use hash maps
+- For Unicode → use hash maps
 
 ### Rolling Hash / Rabin-Karp
 
@@ -60,9 +60,9 @@ E.g., longest substring with K distinct characters.
 
 - Longest duplicate substring (binary search + rolling hash)
 
-## ðŸ”¤ 5. Pattern Matching Algorithms
+## 🔤 5. Pattern Matching Algorithms
 
-### KMP (Knuthâ€“Morrisâ€“Pratt)
+### KMP (Knuth–Morris–Pratt)
 
 Why important?
 
@@ -88,7 +88,7 @@ Why important?
 
 - Implement Trie
 
-## <img src="/ajdevhub/assets/icons/puzzle.svg" class="inline-icon" alt=""> 6. Advanced String Topics
+## <img src="{{ '/assets/icons/puzzle.svg' | relative_url }}" class="inline-icon" alt=""> 6. Advanced String Topics
 
 These help in elite interviews.
 
@@ -104,14 +104,14 @@ These help in elite interviews.
 
 - Rare but high-reward for deep interviews
 
-### Manacherâ€™s Algorithm
+### Manacher's Algorithm
 
 - O(n) longest palindromic substring
 
 
-# ðŸ“ Must Do String Problems
+# 📝 Must Do String Problems
 
-## ðŸ”¹ Level 1 â€“ Easy
+## 🔹 Level 1 – Easy
 
 1. Reverse string
 
@@ -129,7 +129,7 @@ These help in elite interviews.
 
 
 
-## ðŸ”¹ Level 2 â€“ Medium
+## 🔹 Level 2 – Medium
 
 1. Longest substring without repeating
 
@@ -150,7 +150,7 @@ These help in elite interviews.
 8. [Leetcode 5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring/description/){:target="_blank" rel="noopener noreferrer"} - **[My Leetcode Solution link](https://leetcode.com/problems/longest-palindromic-substring/solutions/7395617/longest-palindromic-substring-expand-aro-ky6o/){:target="_blank" rel="noopener noreferrer"}**
 
 
-## ðŸ”¹ Level 3 â€“ Hard
+## 🔹 Level 3 – Hard
 
 1. Minimum window substring
 

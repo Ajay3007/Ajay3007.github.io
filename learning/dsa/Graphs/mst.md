@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Minimum Spanning Tree
 permalink: /learning/dsa/graphs/mst/

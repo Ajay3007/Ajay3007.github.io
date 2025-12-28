@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Shortest Paths
 permalink: /learning/dsa/graphs/shortest-paths/

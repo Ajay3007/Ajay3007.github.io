@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: String Hashing
 permalink: /learning/dsa/strings/hashing/
