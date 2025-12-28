@@ -47,10 +47,11 @@ Welcome to the blogs index. Explore posts by category:
 
 
 
-## All Blog Posts by Category
+## Recent Posts by Category
 
 {% assign categories = "dsa|algorithms|competitive-programming|system-design|data-plane|general" | split: "|" %}
 
+<div style="max-width:900px;margin:0 auto;">
 {% for cat in categories %}
 {% case cat %}
   {% when 'dsa' %}{% assign label = "Data Structures & Algorithms" %}{% assign emoji = "🔎" %}
@@ -62,22 +63,39 @@ Welcome to the blogs index. Explore posts by category:
 {% endcase %}
 
 {% assign cat_url = '/blogs/' | append: cat | append: '/' %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" | sort: "date" | reverse %}
 
-{%- assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" | sort: "date" | reverse -%}
+<div style="margin-bottom:3rem;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:2px solid #e2e8f0;">
+    <h3 style="margin:0;display:flex;align-items:center;gap:0.5rem;">
+      <span style="font-size:1.8rem;">{{ emoji }}</span>
+      <span>{{ label }}</span>
+      <span style="background:#e2e8f0;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.8rem;color:#34495e;font-weight:600;">{{ posts_in_cat.size }}</span>
+    </h3>
+    <a href="{{ cat_url | relative_url }}" style="color:#3b82f6;text-decoration:none;font-size:0.95rem;font-weight:500;">View all →</a>
+  </div>
+  
+  {% if posts_in_cat.size > 0 %}
+  <div style="display:grid;gap:1rem;">
+    {% for post in posts_in_cat limit:3 %}
+    <div style="padding:1rem;background:#f8fafc;border-radius:8px;border-left:3px solid #3b82f6;transition:all 0.2s;">
+      <a href="{{ post.url | relative_url }}" style="text-decoration:none;color:#1e293b;display:block;">
+        <div style="font-weight:600;font-size:1.05rem;margin-bottom:0.4rem;">{{ post.title }}</div>
+        <div style="color:#64748b;font-size:0.85rem;margin-bottom:0.5rem;">{{ post.date | date: "%B %d, %Y" }}</div>
+        {% if post.excerpt %}
+        <div style="color:#475569;font-size:0.92rem;line-height:1.5;">{{ post.excerpt | strip_html | truncatewords: 20 }}</div>
+        {% endif %}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p style="color:#64748b;font-style:italic;padding:1.5rem;text-align:center;background:#f8fafc;border-radius:8px;">No posts in this category yet.</p>
+  {% endif %}
+</div>
 
-### {{ emoji }} {{ label }} <span style="background:#e2e8f0;border-radius:12px;padding:0.1rem 0.45rem;font-size:0.85rem;color:#34495e;margin-left:0.35rem;">{{ posts_in_cat.size }}</span> <small><a href="{{ cat_url | relative_url }}">View all »</a></small>
-{%- if posts_in_cat.size > 0 -%}
-{%- for post in posts_in_cat -%}
-- [{{ post.title }}]({{ post.url | relative_url }}) <small>{{ post.date | date: "%B %d, %Y" }}</small>
-  {%- if post.excerpt -%}<br><span style="color:#607d8b;font-size:0.9rem;">{{ post.excerpt | strip_html | truncatewords: 20 }}</span>{%- endif -%}
-{%- endfor -%}
-{%- else -%}
-> No posts in this category yet.
-{%- endif -%}
-
-<div style="border-top:1px solid #e2e8f0;margin:1.5rem 0;"></div>
-
-{%- endfor -%}
+{% endfor %}
+</div>
 
 <div style="text-align:center;margin-top:2.5rem;">
   <a href="{{ '/' | relative_url }}" class="btn-crosslink">
