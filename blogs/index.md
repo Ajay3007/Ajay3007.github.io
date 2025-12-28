@@ -47,12 +47,31 @@ Welcome to the blogs index. Explore posts by category:
 
 
 
-## All Blog Posts
+## All Blog Posts by Category
 
-{% assign all_posts = site.posts %}
-{% for post in all_posts %}
+{% assign categories = "dsa|algorithms|competitive-programming|system-design|data-plane|general" | split: "|" %}
+
+{% for cat in categories %}
+{% case cat %}
+  {% when 'dsa' %}{% assign label = "Data Structures & Algorithms" %}
+  {% when 'algorithms' %}{% assign label = "Algorithms" %}
+  {% when 'competitive-programming' %}{% assign label = "Competitive Programming" %}
+  {% when 'system-design' %}{% assign label = "System Design" %}
+  {% when 'data-plane' %}{% assign label = "Data Plane & Networking" %}
+  {% when 'general' %}{% assign label = "General & Learning" %}
+{% endcase %}
+
+### {{ label }}
+{%- assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" -%}
+{%- if posts_in_cat.size > 0 -%}
+{%- for post in posts_in_cat -%}
 - [{{ post.title }}]({{ post.url | relative_url }}) <small>{{ post.date | date: "%B %d, %Y" }}</small>
-{% endfor %}
+{%- endfor -%}
+{%- else -%}
+> No posts in this category yet.
+{%- endif -%}
+
+{%- endfor -%}
 
 <div style="text-align:center;margin-top:2.5rem;">
   <a href="{{ '/' | relative_url }}" class="btn-crosslink">
