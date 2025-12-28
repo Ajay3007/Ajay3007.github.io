@@ -4,9 +4,9 @@ title: Data Plane & Networking
 permalink: /blogs/data-plane/
 ---
 
-# Data Plane & Networking
+# Data Plane & Networking <small><a href="{{ '/blogs/' | relative_url }}">All blogs »</a></small>
 
-{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'data-plane'" %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'data-plane'" | sort: "date" | reverse %}
 
 {% if posts_in_cat.size > 0 %}
 {% for post in posts_in_cat %}

@@ -4,9 +4,9 @@ title: General & Learning
 permalink: /blogs/general/
 ---
 
-# General & Learning
+# General & Learning <small><a href="{{ '/blogs/' | relative_url }}">All blogs »</a></small>
 
-{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'general'" %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'general'" | sort: "date" | reverse %}
 
 {% if posts_in_cat.size > 0 %}
 {% for post in posts_in_cat %}

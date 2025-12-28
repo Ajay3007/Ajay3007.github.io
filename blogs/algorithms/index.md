@@ -4,9 +4,9 @@ title: Algorithms
 permalink: /blogs/algorithms/
 ---
 
-# Algorithms
+# Algorithms <small><a href="{{ '/blogs/' | relative_url }}">All blogs »</a></small>
 
-{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'algorithms'" %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'algorithms'" | sort: "date" | reverse %}
 
 {% if posts_in_cat.size > 0 %}
 {% for post in posts_in_cat %}

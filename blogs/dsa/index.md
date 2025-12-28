@@ -4,9 +4,9 @@ title: Data Structures & Algorithms
 permalink: /blogs/dsa/
 ---
 
-# Data Structures & Algorithms
+# Data Structures & Algorithms <small><a href="{{ '/blogs/' | relative_url }}">All blogs »</a></small>
 
-{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'dsa'" %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'dsa'" | sort: "date" | reverse %}
 
 {% if posts_in_cat.size > 0 %}
 {% for post in posts_in_cat %}

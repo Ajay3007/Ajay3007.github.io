@@ -4,9 +4,9 @@ title: System Design
 permalink: /blogs/system-design/
 ---
 
-# System Design
+# System Design <small><a href="{{ '/blogs/' | relative_url }}">All blogs »</a></small>
 
-{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'system-design'" %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'system-design'" | sort: "date" | reverse %}
 
 {% if posts_in_cat.size > 0 %}
 {% for post in posts_in_cat %}

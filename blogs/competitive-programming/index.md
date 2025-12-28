@@ -4,9 +4,9 @@ title: Competitive Programming
 permalink: /blogs/competitive-programming/
 ---
 
-# Competitive Programming
+# Competitive Programming <small><a href="{{ '/blogs/' | relative_url }}">All blogs »</a></small>
 
-{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'competitive-programming'" %}
+{% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains 'competitive-programming'" | sort: "date" | reverse %}
 
 {% if posts_in_cat.size > 0 %}
 {% for post in posts_in_cat %}

@@ -53,16 +53,19 @@ Welcome to the blogs index. Explore posts by category:
 
 {% for cat in categories %}
 {% case cat %}
-  {% when 'dsa' %}{% assign label = "Data Structures & Algorithms" %}
-  {% when 'algorithms' %}{% assign label = "Algorithms" %}
-  {% when 'competitive-programming' %}{% assign label = "Competitive Programming" %}
-  {% when 'system-design' %}{% assign label = "System Design" %}
-  {% when 'data-plane' %}{% assign label = "Data Plane & Networking" %}
-  {% when 'general' %}{% assign label = "General & Learning" %}
+  {% when 'dsa' %}{% assign label = "Data Structures & Algorithms" %}{% assign emoji = "🔎" %}
+  {% when 'algorithms' %}{% assign label = "Algorithms" %}{% assign emoji = "🧩" %}
+  {% when 'competitive-programming' %}{% assign label = "Competitive Programming" %}{% assign emoji = "🏆" %}
+  {% when 'system-design' %}{% assign label = "System Design" %}{% assign emoji = "🧠" %}
+  {% when 'data-plane' %}{% assign label = "Data Plane & Networking" %}{% assign emoji = "🌐" %}
+  {% when 'general' %}{% assign label = "General & Learning" %}{% assign emoji = "📝" %}
 {% endcase %}
 
-### {{ label }}
-{%- assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" -%}
+{% assign cat_url = '/blogs/' | append: cat | append: '/' %}
+
+{%- assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" | sort: "date" | reverse -%}
+
+### {{ emoji }} {{ label }} <span style="background:#e2e8f0;border-radius:12px;padding:0.1rem 0.45rem;font-size:0.85rem;color:#34495e;margin-left:0.35rem;">{{ posts_in_cat.size }}</span> <small><a href="{{ cat_url | relative_url }}">View all »</a></small>
 {%- if posts_in_cat.size > 0 -%}
 {%- for post in posts_in_cat -%}
 - [{{ post.title }}]({{ post.url | relative_url }}) <small>{{ post.date | date: "%B %d, %Y" }}</small>
