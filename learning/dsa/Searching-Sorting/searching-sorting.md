@@ -1,3 +1,9 @@
+---
+layout: default
+title: Searching and Sorting
+permalink: /learning/dsa/Searching-Sorting/
+---
+
 ## 📑 Table of Contents
 
 1. **[📘 Searching & Sorting](#-searching-sorting)**
@@ -24,6 +30,7 @@
 7. **Level 3  Hard**
 
 ---
+
 # 📘 Searching & Sorting
 
 ## ✅ 1. Linear Search (Basics)
