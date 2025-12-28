@@ -1,16 +1,30 @@
 ## 📑 Table of Contents
 
 1. **[📘 DSA: Strings Learning Roadmap (Beginner → Advanced)](#-dsa-strings-learning-roadmap-beginner-advanced)**
-    1.1. [1. Basics of Strings (Foundations)](#1-basics-of-strings-foundations)
-    1.2. [🔍 2. Two Pointers on Strings](#-2-two-pointers-on-strings)
-    1.3. [🪟 3. Sliding Window (Very Important)](#-3-sliding-window-very-important)
-    1.4. [🧮 4. Hashing for Strings](#-4-hashing-for-strings)
-    1.5. [🔤 5. Pattern Matching Algorithms](#-5-pattern-matching-algorithms)
-    1.6. [<img src="{{ '/assets/icons/puzzle.svg' | relative_url }}" class="inline-icon" alt=""> 6. Advanced String Topics](#img-src-assets-icons-puzzle-svg-relativeurl-class-inline-icon-alt-6-advanced-string-topics)
+  1.1. [1. Basics of Strings (Foundations)](#1-basics-of-strings-foundations)
+    1.1.1. [-> [Click here for more details](string-basics.md)](#click-here-for-more-details-string-basics-md)
+  1.2. [🔍 2. Two Pointers on Strings](#-2-two-pointers-on-strings)
+  1.3. [🪟 3. Sliding Window (Very Important)](#-3-sliding-window-very-important)
+    1.3.1. [Understand two types:](#understand-two-types)
+      1.3.1.1. [🔸 Fixed Window](#-fixed-window)
+      1.3.1.2. [🔸 Variable Window](#-variable-window)
+  1.4. [🧮 4. Hashing for Strings](#-4-hashing-for-strings)
+    1.4.1. [Character frequency arrays](#character-frequency-arrays)
+    1.4.2. [Rolling Hash / Rabin-Karp](#rolling-hash-rabin-karp)
+    1.4.3. [Interview problems:](#interview-problems)
+  1.5. [🔤 5. Pattern Matching Algorithms](#-5-pattern-matching-algorithms)
+    1.5.1. [KMP (Knuth–Morris–Pratt)](#kmp-knuth-morris-pratt)
+    1.5.2. [Z-Algorithm](#z-algorithm)
+    1.5.3. [Trie (String Tree)](#trie-string-tree)
+    1.5.4. [Problems:](#problems)
+  1.6. [<img src="{{ '/assets/icons/puzzle.svg' | relative_url }}" class="inline-icon" alt=""> 6. Advanced String Topics](#img-src-assets-icons-puzzle-svg-relativeurl-class-inline-icon-alt-6-advanced-string-topics)
+    1.6.1. [Suffix Array](#suffix-array)
+    1.6.2. [Suffix Tree / Compressed Trie](#suffix-tree-compressed-trie)
+    1.6.3. [Manacher's Algorithm](#manacher-s-algorithm)
 2. **[📝 Must Do String Problems](#-must-do-string-problems)**
-    2.1. [🔹 Level 1 – Easy](#-level-1-easy)
-    2.2. [🔹 Level 2 – Medium](#-level-2-medium)
-    2.3. [🔹 Level 3 – Hard](#-level-3-hard)
+  2.1. [🔹 Level 1 – Easy](#-level-1-easy)
+  2.2. [🔹 Level 2 – Medium](#-level-2-medium)
+  2.3. [🔹 Level 3 – Hard](#-level-3-hard)
 
 ---
 

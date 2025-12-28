@@ -6,7 +6,7 @@ permalink: /learning/dsa/Searching-Sorting/
 
 ## 📑 Table of Contents
 
-1. **[📘 Searching & Sorting](#-searching-sorting)**
+1. **[📘 Searching and Sorting](#-searching-and-sorting)**
   1.1. [✅ 1. Linear Search (Basics)](#-1-linear-search-basics)
   1.2. [✅ 2. Binary Search (Important)](#-2-binary-search-important)
   1.3. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
@@ -31,7 +31,7 @@ permalink: /learning/dsa/Searching-Sorting/
 
 ---
 
-# 📘 Searching & Sorting
+# 📘 Searching and Sorting
 
 ## ✅ 1. Linear Search (Basics)
 

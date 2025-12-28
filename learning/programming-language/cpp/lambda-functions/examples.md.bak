@@ -1,17 +1,3 @@
-## 📑 Table of Contents
-
-1. **[Lambda Examples (Runnable C++ files)](#lambda-examples-runnable-c-files)**
-  1.1. [Example Source Files and Purpose](#example-source-files-and-purpose)
-  1.2. [Build & Run (Linux / macOS / WSL)](#build-run-linux-macos-wsl)
-
----
-
-### 🎯 Main Topics Covered
-
-1. **Example Source Files and Purpose**
-2. **Build  Run Linux  macOS  WSL**
-
----
 # Lambda Examples (Runnable C++ files)
 
 This folder contains simple, runnable C++ example programs that accompany the `lambda.md` tutorial.

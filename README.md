@@ -41,6 +41,35 @@ GitHub Pages builds the site automatically on push. No CI scripts are required; 
 - Use relative links or the `relative_url` filter for new nav items and cross-page links.
 - Run a local serve before committing layout or CSS changes to catch Liquid or build errors early.
 
+
+## Maintenance: Remove Backups & Regenerate Summaries
+
+To clean up all `.md.bak` backup files in a directory (e.g., after running the summary generator) and then re-run the summary script:
+
+### 1. Remove all backup files (PowerShell)
+
+Open PowerShell in the repo root and run:
+
+```powershell
+Get-ChildItem "learning\dsa\" -Filter "*.md.bak" -Recurse | ForEach-Object {
+	$mdFile = $_.FullName -replace '\.bak$', ''
+	Copy-Item $_.FullName $mdFile -Force
+	Remove-Item $_.FullName
+}
+```
+
+This restores each `.md.bak` file to its original `.md` and deletes the backup.
+
+### 2. Regenerate summaries/TOC for all markdown files
+
+Run the summary generator script (adjust the path as needed):
+
+```powershell
+python scripts/generate_summary.py --batch learning/dsa/
+```
+
+This will update all markdown files in the directory with fresh summaries and TOCs.
+
 ### Create a blog post
 1) In `_posts`, add a file named `YYYY-MM-DD-slug.md` (e.g., `2025-02-15-my-topic.md`).
 2) Add front matter like:

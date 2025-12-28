@@ -7,10 +7,31 @@ permalink: /learning/dsa/strings/string-basics/
 ## 📑 Table of Contents
 
 1. **[Foundations](#foundations)**
-    1.1. [📘 1. Mutable vs Immutable Strings](#-1-mutable-vs-immutable-strings)
-    1.2. [📘 2. Character Arrays vs std::string](#-2-character-arrays-vs-std-string)
-    1.3. [📘 3. Common String Operations](#-3-common-string-operations)
-    1.4. [📘 4. ASCII & Unicode Basics](#-4-ascii-unicode-basics)
+  1.1. [📘 1. Mutable vs Immutable Strings](#-1-mutable-vs-immutable-strings)
+    1.1.1. [✅ `std::string` is mutable](#-std-string-is-mutable)
+      1.1.1.1. [❌ Character arrays are also mutable (as long as not stored in read-only memory)](#-character-arrays-are-also-mutable-as-long-as-not-stored-in-read-only-memory)
+    1.1.2. [📌 Takeaway](#-takeaway)
+  1.2. [📘 2. Character Arrays vs std::string](#-2-character-arrays-vs-std-string)
+    1.2.1. [🔷 Character Array (char[])](#-character-array-char)
+    1.2.2. [🔶 `std::string` (Recommended)](#-std-string-recommended)
+    1.2.3. [Differences in memory view:](#differences-in-memory-view)
+    1.2.4. [📌 Conclusion:](#-conclusion)
+  1.3. [📘 3. Common String Operations](#-3-common-string-operations)
+    1.3.1. [🔹 Length](#-length)
+    1.3.2. [🔹 Substring](#-substring)
+    1.3.3. [🔹 Concatenation](#-concatenation)
+    1.3.4. [🔹 Comparison](#-comparison)
+    1.3.5. [🔹 Search operations](#-search-operations)
+    1.3.6. [🔹 Access characters](#-access-characters)
+    1.3.7. [📌 std::to_string() — Overview](#-std-tostring-overview)
+      1.3.7.1. [📘 Example: Convert int to string](#-example-convert-int-to-string)
+      1.3.7.2. [📘 Example: Using inside concatenation](#-example-using-inside-concatenation)
+      1.3.7.3. [⚠️ Precision Issue (Important!)](#-precision-issue-important)
+    1.3.8. [✅ stringstream](#-stringstream)
+      1.3.8.1. [✔ Use stringstream when:](#-use-stringstream-when)
+  1.4. [📘 4. ASCII & Unicode Basics](#-4-ascii-unicode-basics)
+    1.4.1. [🔹 ASCII](#-ascii)
+    1.4.2. [🔹 Unicode](#-unicode)
 
 ---
 

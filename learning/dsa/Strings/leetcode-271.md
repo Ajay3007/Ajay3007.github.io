@@ -8,10 +8,10 @@ permalink: /learning/dsa/strings/leetcode-271/
 
 1. **[Problem Description](#problem-description)**
 2. **[Solution](#solution)**
-    2.1. [Intuition](#intuition)
-    2.2. [Approach](#approach)
-    2.3. [Complexity](#complexity)
-    2.4. [Code](#code)
+  2.1. [Intuition](#intuition)
+  2.2. [Approach](#approach)
+  2.3. [Complexity](#complexity)
+  2.4. [Code](#code)
 
 ---
 

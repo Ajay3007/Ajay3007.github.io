@@ -6,8 +6,8 @@ title: Data Structures Topics
 ## 📑 Table of Contents
 
 1. **[Data Structures & Algorithms — Topics](#data-structures-algorithms-topics)**
-    1.1. [Subtopics](#subtopics)
-    1.2. [Starter Resources](#starter-resources)
+  1.1. [Subtopics](#subtopics)
+  1.2. [Starter Resources](#starter-resources)
 
 ---
 
