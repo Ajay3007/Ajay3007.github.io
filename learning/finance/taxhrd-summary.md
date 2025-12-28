@@ -6,14 +6,14 @@
 
 ## 📑 Table of Contents
 
-1. [Executive Summary](#executive-summary)
-2. [Project Overview](#project-overview)
-3. [Key Documents](#key-documents)
-4. [Quick Start](#quick-start)
-5. [Project Structure](#project-structure)
-6. [Core Concepts](#core-concepts)
-7. [Implementation Status](#implementation-status)
-8. [Next Steps](#next-steps)
+1. [Executive Summary](#-executive-summary)
+2. [Project Overview](#-project-overview)
+3. [Key Documents](#-key-documents)
+4. [Quick Start](#-quick-start)
+5. [Project Structure](#-project-structure)
+6. [Core Concepts](#-core-concepts)
+7. [Implementation Status](#-implementation-status)
+8. [Next Steps](#-next-steps)
 
 ---
 

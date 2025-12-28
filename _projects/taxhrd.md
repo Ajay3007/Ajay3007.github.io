@@ -1,6 +1,7 @@
 ---
 layout: project
 title: TaxHrd - Investment Tax Calculation System
+description: "Java-based investment tax calculator for Indian equity traders. Automates STCG calculation with quarter-wise breakdown, Excel integration, and comprehensive logging."
 permalink: /projects/taxhrd/
 ---
 
