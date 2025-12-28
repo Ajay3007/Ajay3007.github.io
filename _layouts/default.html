@@ -27,9 +27,51 @@
     </main>
 
     <footer class="site-footer">
-        <p>&copy; {{ 'now' | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
-        <div style="margin-top:1rem;">
-          <a href="https://youtube.com/@calculusphile?si=ZXuiXQ2fsTA3Fhax" target="_blank" rel="noopener noreferrer" style="display:inline-block; background:#FF0000; color:white; padding:0.5rem 1.2rem; border-radius:6px; text-decoration:none; font-weight:600; font-size:1.1rem;">▶️ Subscribe on YouTube</a>
+        <div style="max-width: 900px; margin: 0 auto; padding: 0 1rem;">
+            <!-- Footer Content Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <!-- About Section -->
+                <div>
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem;">About</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ '/about' | relative_url }}" style="color: #cbd5e0; text-decoration: none; transition: color 0.2s;">About Me</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ '/projects' | relative_url }}" style="color: #cbd5e0; text-decoration: none; transition: color 0.2s;">Projects</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ '/blogs' | relative_url }}" style="color: #cbd5e0; text-decoration: none; transition: color 0.2s;">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Learning Section -->
+                <div>
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Learning</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ '/learning/dsa' | relative_url }}" style="color: #cbd5e0; text-decoration: none; transition: color 0.2s;">DSA & Algorithms</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ '/learning/system-design' | relative_url }}" style="color: #cbd5e0; text-decoration: none; transition: color 0.2s;">System Design</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="{{ '/learning/networking' | relative_url }}" style="color: #cbd5e0; text-decoration: none; transition: color 0.2s;">Networking</a></li>
+                    </ul>
+                </div>
+
+                <!-- Connect Section -->
+                <div>
+                    <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem;">Connect</h3>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="https://github.com/Ajay3007" target="_blank" rel="noopener noreferrer" title="GitHub" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #cbd5e0; text-decoration: none; transition: all 0.2s; font-size: 1.2rem;">
+                            <span>🐙</span>
+                        </a>
+                        <a href="https://linkedin.com/in/ajay-gupt" target="_blank" rel="noopener noreferrer" title="LinkedIn" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #cbd5e0; text-decoration: none; transition: all 0.2s; font-size: 1.2rem;">
+                            <span>💼</span>
+                        </a>
+                        <!-- <a href="https://youtube.com/@calculusphile?si=ZXuiXQ2fsTA3Fhax" target="_blank" rel="noopener noreferrer" title="YouTube" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 8px; color: #cbd5e0; text-decoration: none; transition: all 0.2s; font-size: 1.2rem;">
+                            <span>▶️</span>
+                        </a> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p style="margin: 0; font-size: 0.9rem;">&copy; {{ 'now' | date: '%Y' }} {{ site.author }}. All rights reserved.</p>
+                <p style="margin: 0; font-size: 0.85rem; color: #a0aec0;">Built with Jekyll • Hosted on GitHub Pages</p>
+            </div>
         </div>
     </footer>
     <script src="{{ '/assets/js/nav.js' | relative_url }}"></script>

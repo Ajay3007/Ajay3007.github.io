@@ -176,5 +176,7 @@ Explore topic-wise paths and quick intros below.
 
 ## 💡 About This Site
 
-This portfolio showcases my journey in programming, learning data structures & Algorithm during my Computer Science Engineering. Feel free to explore my work and [learn more about me]({{ '/about' | relative_url }}).
+A comprehensive portfolio and learning hub documenting my **4+ years** in high-performance systems, data plane development, and backend infrastructure. Here you'll find technical deep dives, real-world projects, and learning resources across DSA, system design, networking, and more.
+
+<a href="{{ '/about' | relative_url }}" class="btn-crosslink" style="display: inline-flex; margin-top: 1.5rem;"><span style="font-size: 1.2rem; margin-right: 0.5rem;">👤</span> Learn More About Me</a>
 
