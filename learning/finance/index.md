@@ -98,7 +98,7 @@ learning/finance/
 ## 📚 Complete Document List
 
 ### 1. **Project Summary** 🚀
-**File:** [taxhrd-summary.md](taxhrd-summary.md)
+**File:** [tax_hurdle/summary.md](tax_hurdle/summary.md)
 
 Quick reference guide with:
 - Executive overview
@@ -113,7 +113,7 @@ Quick reference guide with:
 ---
 
 ### 2. **Portfolio Page** 💼
-**File:** [_projects/taxhrd.md](_projects/taxhrd.md)
+**File:** [_projects/tax_hurdle.md](_projects/tax_hurdle.md)
 
 Showcase for your portfolio site:
 - Project description
@@ -129,7 +129,7 @@ Showcase for your portfolio site:
 ---
 
 ### 3. **Technical Architecture & Code Analysis** 🏗️
-**File:** [taxhrd-technical-analysis.md](taxhrd-technical-analysis.md)
+**File:** [tax_hurdle/technical-analysis.md](tax_hurdle/technical-analysis.md)
 
 Deep technical dive:
 - System architecture diagram
@@ -154,7 +154,7 @@ Deep technical dive:
 ---
 
 ### 4. **Refactoring & Improvement Guide** 🔧
-**File:** [taxhrd-refactoring-guide.md](taxhrd-refactoring-guide.md)
+**File:** [tax_hurdle/refactoring-guide.md](tax_hurdle/refactoring-guide.md)
 
 Step-by-step improvement guide:
 
@@ -213,8 +213,8 @@ Complete user guide:
 ## 🎓 Reading Paths
 
 ### Path 1: Business Overview (15 min)
-1. [Project Summary](taxhrd-summary.md) — Understand what it does
-2. [Portfolio Page](_projects/taxhrd.md) — See the showcase
+1. [Project Summary](tax_hurdle/summary.md) — Understand what it does
+2. [Portfolio Page](_projects/tax_hurdle.md) — See the showcase
 3. GitHub README — Learn how to use it
 
 **Outcome:** Can explain TaxHrd to non-technical people
@@ -222,8 +222,8 @@ Complete user guide:
 ---
 
 ### Path 2: Technical Understanding (45 min)
-1. [Project Summary](taxhrd-summary.md) — Big picture
-2. [Technical Analysis](taxhrd-technical-analysis.md) — How it works
+1. [Project Summary](tax_hurdle/summary.md) — Big picture
+2. [Technical Analysis](tax_hurdle/technical-analysis.md) — How it works
 3. GitHub README — Setup & usage
 4. Code review — Study actual source code
 
@@ -232,9 +232,9 @@ Complete user guide:
 ---
 
 ### Path 3: Contribution (60 min)
-1. [Project Summary](taxhrd-summary.md) — Overview
-2. [Technical Analysis](taxhrd-technical-analysis.md) — Architecture
-3. [Refactoring Guide](taxhrd-refactoring-guide.md) — What to improve
+1. [Project Summary](tax_hurdle/summary.md) — Overview
+2. [Technical Analysis](tax_hurdle/technical-analysis.md) — Architecture
+3. [Refactoring Guide](tax_hurdle/refactoring-guide.md) — What to improve
 4. GitHub — Clone & setup
 5. Start implementing improvements
 
@@ -258,13 +258,14 @@ Complete user guide:
 ```
 Portfolio/Learning Documentation
 ├── _projects/
-│   └── taxhrd.md                    # Portfolio showcase page
+│   └── tax_hurdle.md                    # Portfolio showcase page
 │
 └── learning/finance/
     ├── index.md                     # This file (hub)
-    ├── taxhrd-summary.md            # Quick overview
-    ├── taxhrd-technical-analysis.md # Architecture details
-    └── taxhrd-refactoring-guide.md  # Improvement roadmap
+    ├── tax_hurdle/
+    │   ├── summary.md            # Quick overview
+    │   ├── technical-analysis.md # Architecture details
+    │   └── refactoring-guide.md  # Improvement roadmap
     
 GitHub Repository
 └── README.md                        # User guide
@@ -280,7 +281,7 @@ GitHub Repository
 - **Quarters:** Q1-Q5 breakdown
 - **FIFO:** First-In-First-Out cost matching
 
-**Where:** [Summary](taxhrd-summary.md#core-concepts) or [Portfolio](_projects/taxhrd.md#financial-concepts)
+**Where:** [Summary](tax_hurdle/summary.md#core-concepts) or [Portfolio](_projects/tax_hurdle.md#financial-concepts)
 
 ---
 
@@ -290,7 +291,7 @@ GitHub Repository
 - **Queue Pattern:** FIFO trade processing
 - **Strategy Pattern:** Tax calculation algorithms
 
-**Where:** [Technical Analysis](taxhrd-technical-analysis.md#design-patterns)
+**Where:** [Technical Analysis](tax_hurdle/technical-analysis.md#design-patterns)
 
 ---
 
@@ -301,7 +302,7 @@ GitHub Repository
 - No unit tests
 - Static file paths
 
-**Where:** [Technical Analysis](taxhrd-technical-analysis.md#code-quality-analysis) or [Refactoring Guide](taxhrd-refactoring-guide.md)
+**Where:** [Technical Analysis](tax_hurdle/technical-analysis.md#code-quality-analysis) or [Refactoring Guide](tax_hurdle/refactoring-guide.md)
 
 ---
 
@@ -312,7 +313,7 @@ GitHub Repository
 - Configuration externalization
 - Unit test suite
 
-**Where:** [Refactoring Guide](taxhrd-refactoring-guide.md)
+**Where:** [Refactoring Guide](tax_hurdle/refactoring-guide.md)
 
 ---
 
@@ -362,10 +363,10 @@ GitHub Repository
 ## 🚀 Getting Started
 
 ### Step 1: Choose Your Role
-- **Manager/Stakeholder:** Start with [Summary](taxhrd-summary.md)
-- **Job Interviewer/Recruiter:** Check [Portfolio](_projects/taxhrd.md)
-- **Developer Contributing:** Read [Refactoring Guide](taxhrd-refactoring-guide.md)
-- **Architect Reviewing:** Study [Technical Analysis](taxhrd-technical-analysis.md)
+- **Manager/Stakeholder:** Start with [Summary](tax_hurdle/summary.md)
+- **Job Interviewer/Recruiter:** Check [Portfolio](_projects/tax_hurdle.md)
+- **Developer Contributing:** Read [Refactoring Guide](tax_hurdle/refactoring-guide.md)
+- **Architect Reviewing:** Study [Technical Analysis](tax_hurdle/technical-analysis.md)
 
 ### Step 2: Read Appropriate Documents
 Select from the reading paths above based on your time and interest level.
@@ -406,8 +407,8 @@ Trading and settlement information
 
 Want to improve documentation or code?
 
-1. **Read:** [Refactoring Guide](taxhrd-refactoring-guide.md)
-2. **Understand:** [Technical Analysis](taxhrd-technical-analysis.md)
+1. **Read:** [Refactoring Guide](tax_hurdle/refactoring-guide.md)
+2. **Understand:** [Technical Analysis](tax_hurdle/technical-analysis.md)
 3. **Implement:** Pick an improvement from the guide
 4. **Test:** Write unit tests (examples provided)
 5. **Submit:** Create pull request
@@ -417,15 +418,15 @@ Want to improve documentation or code?
 ## 📞 Questions & Support
 
 ### Documentation Questions
-- Check the [Summary](taxhrd-summary.md) FAQ
-- Review [Technical Analysis](taxhrd-technical-analysis.md) details
+- Check the [Summary](tax_hurdle/summary.md) FAQ
+- Review [Technical Analysis](tax_hurdle/technical-analysis.md) details
 
 ### Code Questions
-- See [Refactoring Guide](taxhrd-refactoring-guide.md) examples
+- See [Refactoring Guide](tax_hurdle/refactoring-guide.md) examples
 - Review GitHub issues
 
 ### General Support
-- **GitHub:** https://github.com/Ajay3007/TaxHrd
+- **GitHub:** https://github.com/Ajay3007/tax_hurdle
 - **Author:** Ajay Gupta (@Ajay3007)
 - **Portfolio:** https://ajay3007.github.io
 

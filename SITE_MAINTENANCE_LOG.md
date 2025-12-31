@@ -4,7 +4,22 @@ Last Updated: 2025-12-31
 
 **Changelog**
 
-- 2025-12-31:
+- 2025-12-31 (Evening - Link Audit):
+  - Comprehensive link verification and correction across the site
+  - Updated `/learning/finance/index.md` with 10+ link corrections:
+    - Updated all document references from `taxhrd-*.md` to `tax_hurdle/*.md` (e.g., `taxhrd-summary.md` → `tax_hurdle/summary.md`)
+    - Updated portfolio page reference from `_projects/taxhrd.md` to `_projects/tax_hurdle.md` (5 instances)
+    - Updated file structure documentation to reflect new subdirectory layout
+    - Updated all reading paths (Path 1-4) with corrected file references
+    - Fixed all reference section links (Financial Concepts, Design Patterns, Code Quality, Implementations)
+    - Updated Getting Started section role-based navigation links
+    - Updated Contributing and Support section links
+    - Updated GitHub repository URL from `TaxHrd` to `tax_hurdle`
+  - Verified all links in `_projects/tax_hurdle.md` already point to correct `tax_hurdle/` subdirectory
+  - Confirmed all active site files use new path structure; old references only in `.bak` backup files
+  - **Result:** All internal cross-references now use correct new directory structure
+
+- 2025-12-31 (Morning - Initial Restructuring):
   - Renamed TaxHrd project to Tax Hurdle (updated repo reference to tax_hurdle)
   - Reorganized learning/finance documentation structure:
     - Created /finance/tax_hurdle/ subdirectory for project-specific docs

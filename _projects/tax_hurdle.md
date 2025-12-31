@@ -147,7 +147,7 @@ Tax Hurdle follows the **April-March** financial year:
 ✅ **Queue Pattern** — FIFO trade processing  
 ✅ **Strategy Pattern** — Tax calculation algorithms  
 
-**Want to dive deeper?** 👉 [View Technical Analysis]({{ '/learning/finance/tax_hurdle-technical-analysis.html' | relative_url }})
+**Want to dive deeper?** 👉 [View Technical Analysis]({{ '/learning/finance/tax_hurdle/technical-analysis.html' | relative_url }})
 
 ---
 
@@ -160,31 +160,31 @@ This project includes **comprehensive documentation** (15,000+ words):
 <div class="project-card" style="border-left: 4px solid #2196F3;">
   <h4 style="margin-top: 0;">📖 Quick Reference</h4>
   <p>One-page cheat sheet with key commands, formulas, and quick fixes.</p>
-  <a href="{{ '/learning/finance/tax_hurdle-quickref.html' | relative_url }}">View Quick Ref →</a>
+  <a href="{{ '/learning/finance/tax_hurdle/quickref.html' | relative_url }}">View Quick Ref →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #4CAF50;">
   <h4 style="margin-top: 0;">📋 Project Summary</h4>
   <p>Executive overview with metrics, status, and roadmap.</p>
-  <a href="{{ '/learning/finance/tax_hurdle-summary.html' | relative_url }}">Read Summary →</a>
+  <a href="{{ '/learning/finance/tax_hurdle/summary.html' | relative_url }}">Read Summary →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #FF9800;">
   <h4 style="margin-top: 0;">🏗️ Technical Analysis</h4>
   <p>Deep dive into architecture, design patterns, and code quality.</p>
-  <a href="{{ '/learning/finance/tax_hurdle-technical-analysis.html' | relative_url }}">View Technical →</a>
+  <a href="{{ '/learning/finance/tax_hurdle/technical-analysis.html' | relative_url }}">View Technical →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #9C27B0;">
   <h4 style="margin-top: 0;">🔧 Refactoring Guide</h4>
   <p>8 prioritized improvements with production-ready code examples.</p>
-  <a href="{{ '/learning/finance/tax_hurdle-refactoring-guide.html' | relative_url }}">See Improvements →</a>
+  <a href="{{ '/learning/finance/tax_hurdle/refactoring-guide.html' | relative_url }}">See Improvements →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #F44336;">
   <h4 style="margin-top: 0;">✅ Implementation Checklist</h4>
   <p>Track progress on improvements with detailed checklists.</p>
-  <a href="{{ '/learning/finance/tax_hurdle-checklist.html' | relative_url }}">View Checklist →</a>
+  <a href="{{ '/learning/finance/tax_hurdle/checklist.html' | relative_url }}">View Checklist →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #00BCD4;">
@@ -250,7 +250,7 @@ This project includes **comprehensive documentation** (15,000+ words):
 - [ ] Multi-year tax reports
 - [ ] Dividend tracking integration
 
-**Want to contribute?** 👉 [View Refactoring Guide]({{ '/learning/finance/tax_hurdle-refactoring-guide.html' | relative_url }})
+**Want to contribute?** 👉 [View Refactoring Guide]({{ '/learning/finance/tax_hurdle/refactoring-guide.html' | relative_url }})
 
 ---
 
@@ -299,10 +299,10 @@ This project includes **comprehensive documentation** (15,000+ words):
   <a href="{{ '/learning/finance/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">📚</span> Full Documentation
   </a>
-  <a href="{{ '/learning/finance/tax_hurdle-quickref.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #f093fb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a href="{{ '/learning/finance/tax_hurdle/quickref.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #f093fb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">⚡</span> Quick Reference
   </a>
-  <a href="{{ '/learning/finance/tax_hurdle-refactoring-guide.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #4CAF50; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a href="{{ '/learning/finance/tax_hurdle/refactoring-guide.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #4CAF50; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">🔧</span> Contribute
   </a>
 </div>
