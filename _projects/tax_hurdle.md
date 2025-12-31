@@ -1,16 +1,16 @@
 ---
 layout: project
-title: TaxHrd - Investment Tax Calculation System
+title: Tax Hurdle - Investment Tax Calculation System
 description: "Java-based investment tax calculator for Indian equity traders. Automates STCG calculation with quarter-wise breakdown, Excel integration, and comprehensive logging."
-permalink: /projects/taxhrd/
+permalink: /projects/tax_hurdle/
 ---
 
-# 💼 TaxHrd — Investment Tax Calculator
+# 💼 Tax Hurdle — Investment Tax Calculator
 
 > **Automate tax calculations for equity trading with quarter-wise STCG analysis**
 
 <div style="text-align: center; margin: 2rem 0;">
-  <a href="https://github.com/Ajay3007/TaxHrd" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.5rem;">
+  <a href="https://github.com/Ajay3007/tax_hurdle" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.5rem;">
     📦 View on GitHub
   </a>
   <a href="{{ '/learning/finance/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.5rem;">
@@ -28,7 +28,7 @@ permalink: /projects/taxhrd/
 - 📊 **Complex** — Must categorize by quarters, separate intraday vs. STCG
 - 📝 **Tedious** — Preparing reports for CA/ITR filing
 
-**The Solution:** TaxHrd automates the entire workflow — read Excel files, categorize trades, calculate STCG by quarter, and generate tax-ready reports.
+**The Solution:** Tax Hurdle automates the entire workflow — read Excel files, categorize trades, calculate STCG by quarter, and generate tax-ready reports.
 
 ---
 
@@ -116,7 +116,7 @@ Intraday Turnover: ₹8,50,000
 
 ### Indian Financial Year Quarters
 
-TaxHrd follows the **April-March** financial year:
+Tax Hurdle follows the **April-March** financial year:
 
 | Quarter | Period | Use Case |
 |---------|--------|----------|
@@ -147,7 +147,7 @@ TaxHrd follows the **April-March** financial year:
 ✅ **Queue Pattern** — FIFO trade processing  
 ✅ **Strategy Pattern** — Tax calculation algorithms  
 
-**Want to dive deeper?** 👉 [View Technical Analysis]({{ '/learning/finance/taxhrd-technical-analysis.html' | relative_url }})
+**Want to dive deeper?** 👉 [View Technical Analysis]({{ '/learning/finance/tax_hurdle-technical-analysis.html' | relative_url }})
 
 ---
 
@@ -160,31 +160,31 @@ This project includes **comprehensive documentation** (15,000+ words):
 <div class="project-card" style="border-left: 4px solid #2196F3;">
   <h4 style="margin-top: 0;">📖 Quick Reference</h4>
   <p>One-page cheat sheet with key commands, formulas, and quick fixes.</p>
-  <a href="{{ '/learning/finance/taxhrd-quickref.html' | relative_url }}">View Quick Ref →</a>
+  <a href="{{ '/learning/finance/tax_hurdle-quickref.html' | relative_url }}">View Quick Ref →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #4CAF50;">
   <h4 style="margin-top: 0;">📋 Project Summary</h4>
   <p>Executive overview with metrics, status, and roadmap.</p>
-  <a href="{{ '/learning/finance/taxhrd-summary.html' | relative_url }}">Read Summary →</a>
+  <a href="{{ '/learning/finance/tax_hurdle-summary.html' | relative_url }}">Read Summary →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #FF9800;">
   <h4 style="margin-top: 0;">🏗️ Technical Analysis</h4>
   <p>Deep dive into architecture, design patterns, and code quality.</p>
-  <a href="{{ '/learning/finance/taxhrd-technical-analysis.html' | relative_url }}">View Technical →</a>
+  <a href="{{ '/learning/finance/tax_hurdle-technical-analysis.html' | relative_url }}">View Technical →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #9C27B0;">
   <h4 style="margin-top: 0;">🔧 Refactoring Guide</h4>
   <p>8 prioritized improvements with production-ready code examples.</p>
-  <a href="{{ '/learning/finance/taxhrd-refactoring-guide.html' | relative_url }}">See Improvements →</a>
+  <a href="{{ '/learning/finance/tax_hurdle-refactoring-guide.html' | relative_url }}">See Improvements →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #F44336;">
   <h4 style="margin-top: 0;">✅ Implementation Checklist</h4>
   <p>Track progress on improvements with detailed checklists.</p>
-  <a href="{{ '/learning/finance/taxhrd-checklist.html' | relative_url }}">View Checklist →</a>
+  <a href="{{ '/learning/finance/tax_hurdle-checklist.html' | relative_url }}">View Checklist →</a>
 </div>
 
 <div class="project-card" style="border-left: 4px solid #00BCD4;">
@@ -250,7 +250,7 @@ This project includes **comprehensive documentation** (15,000+ words):
 - [ ] Multi-year tax reports
 - [ ] Dividend tracking integration
 
-**Want to contribute?** 👉 [View Refactoring Guide]({{ '/learning/finance/taxhrd-refactoring-guide.html' | relative_url }})
+**Want to contribute?** 👉 [View Refactoring Guide]({{ '/learning/finance/tax_hurdle-refactoring-guide.html' | relative_url }})
 
 ---
 
@@ -293,16 +293,16 @@ This project includes **comprehensive documentation** (15,000+ words):
 ## 🔗 Quick Links
 
 <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
-  <a href="https://github.com/Ajay3007/TaxHrd" style="display: inline-block; padding: 0.75rem 1.5rem; background: #24292e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a href="https://github.com/Ajay3007/tax_hurdle" style="display: inline-block; padding: 0.75rem 1.5rem; background: #24292e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">📦</span> GitHub Repository
   </a>
   <a href="{{ '/learning/finance/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">📚</span> Full Documentation
   </a>
-  <a href="{{ '/learning/finance/taxhrd-quickref.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #f093fb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a href="{{ '/learning/finance/tax_hurdle-quickref.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #f093fb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">⚡</span> Quick Reference
   </a>
-  <a href="{{ '/learning/finance/taxhrd-refactoring-guide.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #4CAF50; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+  <a href="{{ '/learning/finance/tax_hurdle-refactoring-guide.html' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #4CAF50; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
     <span style="font-size: 1.2rem;">🔧</span> Contribute
   </a>
 </div>
@@ -334,7 +334,7 @@ This project includes **comprehensive documentation** (15,000+ words):
 
 Have questions or want to collaborate?
 
-- **GitHub Issues:** [Report bugs or suggest features](https://github.com/Ajay3007/TaxHrd/issues)
+- **GitHub Issues:** [Report bugs or suggest features](https://github.com/Ajay3007/tax_hurdle/issues)
 - **Documentation:** [Browse complete docs]({{ '/learning/finance/' | relative_url }})
 - **Portfolio:** [View other projects]({{ '/projects/' | relative_url }})
 
@@ -351,6 +351,6 @@ Have questions or want to collaborate?
 ---
 
 <p style="text-align: center; color: #666; margin-top: 3rem;">
-  <strong>TaxHrd</strong> — Automating Investment Tax Calculations<br>
+  <strong>Tax Hurdle</strong> — Automating Investment Tax Calculations<br>
   Built with Java • Documented with Care • Ready for Production 🚀
 </p>

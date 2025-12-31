@@ -5,9 +5,10 @@ Last Updated: 2025-12-31
 **Changelog**
 
 - 2025-12-31:
-  - Added DevToolBox project to projects section
+  - Renamed TaxHrd project to Tax Hurdle (updated repo reference to tax_hurdle)
   - Created comprehensive project page for DevToolBox PCAP analysis suite
-  - Updated projects index with TaxHrd and DevToolBox cards
+  - Updated projects index with Tax Hurdle and DevToolBox cards
+  - Updated all internal documentation references from taxhrd to tax_hurdle
 
 - 2025-12-29:
   - Modernized blogs index with category cards, badges, and excerpts
