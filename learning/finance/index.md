@@ -1,64 +1,97 @@
-## 📑 Table of Contents
+# 💰 Finance Learning Hub
 
-1. **[TaxHrd Project Documentation Hub](#taxhrd-project-documentation-hub)**
-    1.1. [🎯 Quick Navigation](#-quick-navigation)
-    1.2. [📚 Complete Document List](#-complete-document-list)
-    1.3. [📊 Document Comparison](#-document-comparison)
-    1.4. [🎓 Reading Paths](#-reading-paths)
-    1.5. [🗂️ File Structure](#-file-structure)
-    1.6. [🎯 Key Topics Quick Reference](#-key-topics-quick-reference)
-    1.7. [📝 Documentation Stats](#-documentation-stats)
-    1.8. [✨ Features of This Documentation](#-features-of-this-documentation)
-    1.9. [🚀 Getting Started](#-getting-started)
-    1.10. [🔗 External Resources](#-external-resources)
-    1.11. [🤝 Contributing](#-contributing)
-    1.12. [📞 Questions & Support](#-questions-support)
-    1.13. [📊 Documentation Roadmap](#-documentation-roadmap)
-    1.14. [📈 Document Maintenance](#-document-maintenance)
-    1.15. [🎓 Learning Outcomes](#-learning-outcomes)
-    1.16. [🏆 Quality Standards](#-quality-standards)
-    1.17. [📬 Feedback](#-feedback)
-    1.18. [📖 Document Navigation](#-document-navigation)
+Comprehensive documentation for finance-related projects and investment tax management.
 
 ---
 
-### 🎯 Main Topics Covered
+## 📚 Project Documentation
 
-1. **Quick Navigation**
-2. **Complete Document List**
-3. **Document Comparison**
-4. **Reading Paths**
-5. **File Structure**
-6. **Key Topics Quick Reference**
-7. **Documentation Stats**
-8. **Features of This Documentation**
-... and 10 more
+### Tax Hurdle - Investment Tax Calculator
+
+A Java-based system for automating STCG (Short-Term Capital Gains) calculations for Indian equity traders.
+
+**Quick Links:**
+- 📖 [Tax Hurdle Documentation Hub](tax_hurdle/index.md) — Complete documentation suite
+- 📊 [Project Summary](tax_hurdle/summary.md) — Quick overview (5-10 min)
+- 🏗️ [Technical Analysis](tax_hurdle/technical-analysis.md) — Architecture & patterns (20-30 min)
+- 🔧 [Refactoring Guide](tax_hurdle/refactoring-guide.md) — Code improvements (15-20 min)
+- ⚡ [Quick Reference](tax_hurdle/quickref.md) — Fast lookup guide
+- ✅ [Implementation Checklist](tax_hurdle/checklist.md) — Track improvements
+
+**Repository:** [Ajay3007/tax_hurdle](https://github.com/Ajay3007/tax_hurdle){:target="_blank" rel="noopener noreferrer"}
 
 ---
-# TaxHrd Project Documentation Hub
 
-**Complete documentation suite for the TaxHrd investment tax calculation system.**
+## 📑 Navigation
+
+### For Different Users
+
+| Role | Start Here | Time |
+|------|-----------|------|
+| **First-time Visitor** | [Tax Hurdle Summary](tax_hurdle/summary.md) | 5-10 min |
+| **Job Interviewer** | [Project Portfolio](_projects/tax_hurdle.md) | 10-15 min |
+| **Contributor/Developer** | [Refactoring Guide](tax_hurdle/refactoring-guide.md) | 20-30 min |
+| **Architect** | [Technical Analysis](tax_hurdle/technical-analysis.md) | 30-40 min |
+| **Quick Lookup** | [Quick Reference](tax_hurdle/quickref.md) | 2-5 min |
 
 ---
 
-## 🎯 Quick Navigation
+## 🎯 Key Concepts
 
-### For Different Audiences
+### Short-Term Capital Gains (STCG)
+- Profit on shares held **>24 hours but <1 year**
+- Taxed as **ordinary income** in India
+- Must be reported in **Schedule CG of ITR-2**
 
-**📌 First-time visitors?**  
-Start with: [Project Summary](taxhrd-summary.md) (5-minute overview)
+### Financial Year
+- Indian FY: **April 1 – March 31**
+- Quarters: Q1-Q5 breakdown
+- Tax calculation by quarter for ITR filing
 
-**💼 Portfolio/Recruiter?**  
-Go to: [Portfolio Page](_projects/taxhrd.md) (Showcase & highlights)
+### FIFO Method
+- **First-In-First-Out** cost basis matching
+- Standard method for calculating P&L
+- Essential for accurate tax compliance
 
-**👨‍💻 Want to contribute?**  
-Read: [Refactoring Guide](taxhrd-refactoring-guide.md) (Implementation roadmap)
+---
 
-**🏗️ Architecture deep-dive?**  
-Study: [Technical Analysis](taxhrd-technical-analysis.md) (Design patterns & code review)
+## 📊 Documentation Structure
 
-**📖 Need user guide?**  
-See: GitHub README (Setup & usage instructions)
+```
+learning/finance/
+├── index.md (this file)
+│
+└── tax_hurdle/
+    ├── index.md           # Hub for tax_hurdle docs
+    ├── summary.md         # Executive overview
+    ├── technical-analysis.md
+    ├── refactoring-guide.md
+    ├── quickref.md
+    └── checklist.md
+```
+
+---
+
+## 🚀 Getting Started
+
+1. **New to the project?** → Read [Tax Hurdle Summary](tax_hurdle/summary.md)
+2. **Need technical details?** → Study [Technical Analysis](tax_hurdle/technical-analysis.md)
+3. **Want to contribute?** → Follow [Refactoring Guide](tax_hurdle/refactoring-guide.md)
+4. **Need quick info?** → Check [Quick Reference](tax_hurdle/quickref.md)
+
+---
+
+## 🔗 Related Resources
+
+- [Tax Hurdle GitHub Repository](https://github.com/Ajay3007/tax_hurdle){:target="_blank" rel="noopener noreferrer"}
+- [Tax Hurdle Project Page](_projects/tax_hurdle.md)
+- [Indian Income Tax Portal](https://www.incometaxindia.gov.in/){:target="_blank" rel="noopener noreferrer"}
+
+---
+
+**Hub Version:** 2.0  
+**Last Updated:** December 31, 2025  
+**Status:** Reorganized with tax_hurdle subdirectory
 
 ---
 

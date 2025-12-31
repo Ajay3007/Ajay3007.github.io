@@ -6,9 +6,13 @@ Last Updated: 2025-12-31
 
 - 2025-12-31:
   - Renamed TaxHrd project to Tax Hurdle (updated repo reference to tax_hurdle)
-  - Created comprehensive project page for DevToolBox PCAP analysis suite
-  - Updated projects index with Tax Hurdle and DevToolBox cards
-  - Updated all internal documentation references from taxhrd to tax_hurdle
+  - Reorganized learning/finance documentation structure:
+    - Created /finance/tax_hurdle/ subdirectory for project-specific docs
+    - Moved and updated 5 documentation files with new references
+    - Updated all internal links from taxhrd to tax_hurdle paths
+  - Restructured finance hub as multi-project learning center
+  - Updated projects section with Tax Hurdle and DevToolBox cards
+  - Created comprehensive blog post about DevToolBox project
 
 - 2025-12-29:
   - Modernized blogs index with category cards, badges, and excerpts
