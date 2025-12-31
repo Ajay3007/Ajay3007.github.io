@@ -17,7 +17,7 @@ title: Tax Hurdle Documentation Hub
 Start with: [Project Summary](summary.md) (5-minute overview)
 
 **💼 Portfolio/Recruiter?**  
-Go to: [Project Portfolio](../../_projects/tax_hurdle.md) (Showcase & highlights)
+Go to: [Project Portfolio](../../../_projects/tax_hurdle.md) (Showcase & highlights)
 
 **👨‍💻 Want to contribute?**  
 Read: [Refactoring Guide](refactoring-guide.md) (Implementation roadmap)
@@ -46,7 +46,7 @@ See: [Quick Reference](quickref.md) (Cheat sheet)
 
 ### Path 1: Business Overview (15 min)
 1. [Project Summary](summary.md) — Understand what it does
-2. [Project Portfolio](../../_projects/tax_hurdle.md) — See the showcase  
+2. [Project Portfolio](../../../_projects/tax_hurdle.md) — See the showcase  
 3. GitHub README — Learn how to use it
 
 **Outcome:** Can explain Tax Hurdle to non-technical people
@@ -114,7 +114,7 @@ learning/finance/
 ## 🔗 External Links
 
 - **GitHub Repository:** [Ajay3007/tax_hurdle](https://github.com/Ajay3007/tax_hurdle){:target="_blank" rel="noopener noreferrer"}
-- **Project Portfolio:** [Tax Hurdle Showcase](../../_projects/tax_hurdle.md)
+- **Project Portfolio:** [Tax Hurdle Showcase](../../../_projects/tax_hurdle.md)
 - **Finance Hub:** [Learning/Finance](../index.md)
 - **Indian Tax System:** [incometaxindia.gov.in](https://www.incometaxindia.gov.in/){:target="_blank" rel="noopener noreferrer"}
 
