@@ -1,8 +1,17 @@
 # Site Maintenance Log & Fix Guide
 
-Last Updated: 2025-12-28
+Last Updated: 2025-12-31
 
 **Changelog**
+
+- 2025-12-31:
+  - Added DevToolBox project to projects section
+  - Created comprehensive project page for DevToolBox PCAP analysis suite
+  - Updated projects index with TaxHrd and DevToolBox cards
+
+- 2025-12-29:
+  - Modernized blogs index with category cards, badges, and excerpts
+  - Restyled all blog category pages with card layout, gradient CTA, and improved spacing
 
 - 2025-12-28:
   - Emoji/mojibake repair across learning/* via `ftfy` script
