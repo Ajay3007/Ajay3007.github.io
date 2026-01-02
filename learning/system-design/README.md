@@ -1,0 +1,23 @@
+---
+layout: default
+title: System Design Learning Hub
+---
+
+# System Design Learning Hub
+
+Structure for learning High-Level Design (HLD) and Low-Level Design (LLD).
+
+## Folder Organization
+
+- **journal/** - Daily learning entries and reflections
+- **fundamentals/** - Core system design concepts
+- **hld/** - High-level design projects and case studies
+- **lld/** - Low-level design implementations
+- **patterns/** - Design patterns documentation
+
+## Workflow
+
+1. Capture raw thoughts in journal entries
+2. Organize concepts in fundamentals and patterns
+3. Work through HLD and LLD projects
+4. Document architectural decisions and trade-offs

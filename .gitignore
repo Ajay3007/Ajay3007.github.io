@@ -1,0 +1,32 @@
+# Copilot instructions (local agent configuration)
+.github/copilot-instructions.md
+
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+
+# Logs
+*.log
