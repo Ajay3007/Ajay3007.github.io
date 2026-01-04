@@ -7,6 +7,21 @@ title: OOP
 
 Object-oriented programming concepts in Java.
 
+## OOPS Overview
+
+- Object Oriented Programming
+    - `Object` -> Real-world entity
+    - `Object` has Properties & Behavior
+
+- Procedural Programming vs OOPS
+
+| Procedural Programming | OOPS |
+|---|---|
+| Program is divided into **Functions** | Program is divided into **Objects** |
+| ❌ No data hiding | ✅ Data hiding |
+| ❌ No overloading & Inheritance | ✅ Overloading & Inheritance |
+| ❌ No code reusability | ✅ Code Reusability |
+
 ---
 
 <div style="text-align:center;margin-top:2.5rem;">
