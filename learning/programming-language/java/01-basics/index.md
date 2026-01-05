@@ -14,8 +14,13 @@ Syntax, data types, operators, and control flow.
 <div style="display: grid; gap: 1rem; margin: 2rem 0;">
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/java/01-basics/data-types' | relative_url }}" style="color:#1976d2;text-decoration:none;">Data Types – Floating Point Precision</a></h3>
+  <h3><a href="{{ '/learning/programming-language/java/01-basics/primitive-data-types' | relative_url }}" style="color:#1976d2;text-decoration:none;">Primitive Data Types – Integrals and Floating Point Precision</a></h3>
   <p>Understanding float/double precision issues, IEEE 754, and default values for primitives.</p>
+</div>
+
+<div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
+  <h3><a href="{{ '/learning/programming-language/java/01-basics/reference-data-type' | relative_url }}" style="color:#1976d2;text-decoration:none;">Reference Data Types</a></h3>
+  <p>How references work, pass-by-value for objects, string pooling, and interfaces as reference types.</p>
 </div>
 
 </div>
