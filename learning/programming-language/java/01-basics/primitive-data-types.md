@@ -9,6 +9,15 @@ This document covers fundamental concepts about Java primitive data types includ
 
 ---
 
+## Table of Contents
+
+- [1. Floating-Point Precision in Java](#1-floating-point-precision-in-java)
+- [2. Default Values vs Local Variables in Java](#2-default-values-vs-local-variables-in-java)
+- [3. Type Conversion in Java](#3-type-conversion-in-java)
+- [4. Kinds of Variables in Java](#4-kinds-of-variables-in-java)
+
+---
+
 ## 1. Floating-Point Precision in Java
 
 This section explains how **floating-point data types (`float`, `double`) work in Java**, why precision issues occur, and how to handle them correctly in real applications.
