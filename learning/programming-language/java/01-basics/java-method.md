@@ -18,7 +18,8 @@ Complete guide to method declaration, components, and access control in Java.
 - [5. Real-World Design Insight](#5-real-world-design-insight)
 - [6. Interview Takeaways](#6-interview-takeaways)
 - [7. Types of Methods in Java](#7-types-of-methods-in-java)
-- [8. Final Methods in Java](#8-final-methods-in-java)
+ - [8. Final Methods in Java](#final-methods)
+ - [9. Abstract Methods in Java](#abstract-methods)
 
 ## 1. What Is a Method in Java?
 
@@ -240,7 +241,7 @@ public void profession() {
 
 ---
 
-### 7.3 Method Overloading
+### 7.3 Method Overloading {#method-overloading}
 
 **Definition:** Multiple methods with the same name but different parameter lists (type/count/order).
 
@@ -254,9 +255,11 @@ int add(int a, int b, int c) { return a + b + c; }
 - Return type alone is not sufficient
 - Resolved at compile time → compile-time polymorphism
 
+📎 See also: [Varargs – flexible parameters](var-args.md)
+
 ---
 
-### 7.4 Method Overriding
+### 7.4 Method Overriding {#method-overriding}
 
 **Definition:** A child class provides its own implementation of a method defined in the parent class.
 
@@ -279,7 +282,7 @@ obj.profession(); // calls Doctor’s implementation
 
 ---
 
-### 7.5 Rules for Method Overriding (Must Remember)
+### 7.5 Rules for Method Overriding (Must Remember) {#overriding-rules}
 
 - Method name must be the same
 - Parameter list must be the same
@@ -328,7 +331,7 @@ obj.profession(); // calls Doctor’s implementation
 
 ---
 
-## 8. Final Methods in Java
+## 8. Final Methods in Java {#final-methods}
 
 ### 8.1 What Is a Final Method?
 
@@ -433,7 +436,144 @@ p.profession();
 
 ---
 
+## 9. Abstract Methods in Java {#abstract-methods}
+
+### 9.1 What Is an Abstract Method?
+
+An abstract method is a method **without a body**. It only defines what needs to be done, not how.
+
+```java
+public abstract void work();
+```
+
+📌 **Key idea:** Abstract methods force subclasses to provide an implementation.
+
+---
+
+### 9.2 Where Can Abstract Methods Exist?
+
+- Abstract methods can exist **only inside abstract classes**.
+- A class containing at least one abstract method **must be abstract**.
+
+```java
+public abstract class Person { }
+```
+
+---
+
+### 9.3 Abstract Class with Both Concrete and Abstract Methods
+
+Abstract classes can mix concrete and abstract behavior:
+
+```java
+public abstract class Person {
+
+        public void profession() { }
+
+        public abstract void work();
+}
+```
+
+📌 **Design insight:** Abstract classes provide partial implementation.
+
+---
+
+### 9.4 Implementing Abstract Methods in Child Class
+
+```java
+public class Doctor extends Person {
+
+        @Override
+        public void work() {
+                System.out.println("Doctor work");
+        }
+}
+```
+
+**Rule:**
+- Child class must implement **all** abstract methods, otherwise it must also be declared abstract.
+
+---
+
+### 9.5 Abstract Methods and Overriding
+
+```java
+@Override
+public void work() { }
+```
+
+- Abstract methods are meant to be overridden.
+- `@Override` is recommended and valid; it enforces correct signature.
+
+📌 **Important:** Abstract methods enable runtime polymorphism.
+
+---
+
+### 9.6 Abstract Method vs Final Method
+
+| Feature | Abstract Method | Final Method |
+|---|---|---|
+| Has body | ❌ | ✅ |
+| Can be overridden | Must be | ❌ |
+| Enforces implementation | ✅ | ❌ |
+| Used for | Contracts | Locked behavior |
+
+📌 **Rule:** A method cannot be both abstract and final.
+
+---
+
+### 9.7 Abstract Methods and Polymorphism
+
+```java
+Person p = new Doctor();
+p.work();
+```
+
+- Reference type → `Person`
+- Object type → `Doctor`
+- Method executed → `Doctor.work()`
+
+📌 **Key Insight:** Abstract methods are the foundation of runtime polymorphism.
+
+---
+
+### 9.8 Why Use Abstract Methods?
+
+- To define mandatory behavior
+- To enforce design contracts
+- To allow flexibility in implementation
+- To avoid incomplete classes being instantiated
+
+---
+
+### 9.9 Restrictions on Abstract Methods
+
+- Cannot be `private`
+- Cannot be `static`
+- Cannot be `final`
+- Must be implemented by concrete subclasses
+
+---
+
+### 9.10 One-Line Mental Model
+
+**Abstract method → “you must implement this.”**
+
+**Concrete method → “you may use this as-is.”**
+
+---
+
+### 9.11 Interview Carry-Forward Points
+
+- Abstract methods have **no body**
+- Abstract classes can have **both abstract and concrete methods**
+- Subclasses **must** implement abstract methods
+- Abstract methods **enable polymorphism**
+- Abstract ≠ interface (abstract classes can have state)
+
+---
+
 <div style="text-align:center;margin-top:2.5rem;">
-  <a href="{{ '/learning/programming-language/java/01-basics' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#1976d2;color:white;text-decoration:none;border-radius:8px;font-weight:600;margin-right:1rem;">← Back to Basics</a>
-  <a href="{{ '/learning/programming-language/java' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#2d3748;color:white;text-decoration:none;border-radius:8px;font-weight:600;">☕ Java Hub</a>
+    <a href="{{ '/learning/programming-language/java/01-basics' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#1976d2;color:white;text-decoration:none;border-radius:8px;font-weight:600;margin-right:1rem;">← Back to Basics</a>
+    <a href="{{ '/learning/programming-language/java' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#2d3748;color:white;text-decoration:none;border-radius:8px;font-weight:600;">☕ Java Hub</a>
 </div>

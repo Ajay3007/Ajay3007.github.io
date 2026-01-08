@@ -11,13 +11,13 @@ Complete guide to static methods, method hiding, overriding behavior, and design
 
 ## Table of Contents
 
-- [1. Static Methods in Java](#1-static-methods-in-java)
-- [2. Static Methods and Overriding in Java](#2-static-methods-and-overriding-in-java)
-- [3. Static Method Definition and Design Considerations](#3-static-method-definition-and-design-considerations)
+ - [1. Static Methods in Java](#static-methods)
+ - [2. Static Methods and Overriding in Java](#static-overriding)
+ - [3. Static Method Definition and Design Considerations](#static-design-considerations)
 
 ---
 
-## 1. Static Methods in Java
+## 1. Static Methods in Java {#static-methods}
 
 ### 1.1 What Is a Static Method?
 
@@ -150,7 +150,7 @@ StaticMethod.getOddSum(11);
 
 ---
 
-## 2. Static Methods and Overriding in Java
+## 2. Static Methods and Overriding in Java {#static-overriding}
 
 ### 2.1 Can Static Methods Be Overridden?
 
@@ -348,7 +348,7 @@ p.profession();   // calls Person.profession()
 
 ---
 
-## 3. Static Method Definition and Design Considerations
+## 3. Static Method Definition and Design Considerations {#static-design-considerations}
 
 This example highlights how static and instance methods should be designed, and where developers must be careful.
 
