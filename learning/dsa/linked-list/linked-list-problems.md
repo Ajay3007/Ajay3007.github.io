@@ -26,12 +26,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Problem Title</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐ Easy</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Problem description or key concept.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">� Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -39,12 +37,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Reverse Linked List</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #206</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐ Easy</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Reverse the direction of pointer links in the list.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="reverse-linked-list.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="leetcode-206-solution.md" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -52,12 +48,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Middle of the Linked List</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #876</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐ Easy</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Find the middle node using slow-fast pointer technique.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -65,12 +59,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Palindrome Linked List</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #234</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐ Easy</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Check if a linked list reads the same forwards and backwards.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -86,12 +78,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Merge Two Sorted Lists</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #21</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐ Medium</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Merge two sorted linked lists into one sorted list.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #d97706; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #b45309; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -99,12 +89,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Remove Nth Node From End</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #19</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐ Medium</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Remove the nth node from the end of the list.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #d97706; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #b45309; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -112,12 +100,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Linked List Cycle</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #141</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐ Medium</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Detect if a linked list has a cycle using Floyd's algorithm.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #d97706; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #b45309; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -125,12 +111,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Reverse Nodes in K-Group</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #25</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐ Medium</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Reverse every k nodes in a linked list.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #d97706; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #b45309; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -146,12 +130,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); border-left: 4px solid #ef4444; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Copy List with Random Pointer</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #138</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐⭐ Hard</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Deep copy a linked list with random pointers to random nodes.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #ef4444; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #dc2626; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #b91c1c; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -159,12 +141,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); border-left: 4px solid #ef4444; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">LRU Cache</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #146</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐⭐ Hard</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Implement LRU Cache using doubly linked list + hashmap.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #ef4444; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #dc2626; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="https://leetcode.com/problems/lru-cache/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #b91c1c; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/lru-cache/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
@@ -172,12 +152,10 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div style="background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); border-left: 4px solid #ef4444; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);">
     <h3 style="margin-top: 0; color: #1e293b;">Hard Problem Placeholder</h3>
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode</p>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> ⭐⭐⭐ Hard</p>
-    <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">Add more hard problems as you practice.</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #ef4444; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #dc2626; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #b91c1c; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 
