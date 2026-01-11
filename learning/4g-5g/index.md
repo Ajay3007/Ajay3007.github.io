@@ -135,9 +135,9 @@ Responsibilities:
 
 ### Architecture Diagram
 
-📊 **[View 4G Architecture Diagram](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/4g-architecture.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![4G LTE Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/4g-architecture.puml)
 
-*Complete 4G architecture showing E-UTRAN, EPC components, IMS, and external networks with all interfaces (S1-MME, S1-U, S5/S8, S6a, Gx, SGi). Opens PlantUML viewer in new tab.*
+*Complete 4G architecture showing E-UTRAN, EPC components, IMS, and external networks with all interfaces (S1-MME, S1-U, S5/S8, S6a, Gx, SGi).* 
 
 ---
 
@@ -175,9 +175,9 @@ Data is tunneled using **GTP-U** (GPRS Tunneling Protocol - User Plane):
 
 ### Attach & Bearer Setup Flow
 
-📊 **[View 4G Attach & Bearer Setup Flow](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/4g-attach-bearer.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![4G Attach and Bearer Setup](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/4g-attach-bearer.puml)
 
-*Sequence diagram showing complete 4G attach procedure: RRC connection, NAS authentication with HSS, bearer setup via MME/SGW/PGW, and QoS policy from PCRF. Opens PlantUML viewer in new tab.*
+*Sequence diagram showing complete 4G attach procedure: RRC connection, NAS authentication with HSS, bearer setup via MME/SGW/PGW, and QoS policy from PCRF.*
 
 ---
 
@@ -218,9 +218,9 @@ VoLTE leverages the **IMS (IP Multimedia Subsystem)** core:
 
 ### VoLTE Call Flow Diagram
 
-📊 **[View VoLTE Call Flow](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/volte-call-flow.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![VoLTE Call Flow](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/volte-call-flow.puml)
 
-*Complete VoLTE call flow showing IMS registration, SIP INVITE/200 OK signaling via P-CSCF/S-CSCF, and RTP media establishment with QoS bearer (QCI=1). Opens PlantUML viewer in new tab.*
+*Complete VoLTE call flow showing IMS registration, SIP INVITE/200 OK signaling via P-CSCF/S-CSCF, and RTP media establishment with QoS bearer (QCI=1).* 
 
 ---
 
@@ -398,9 +398,9 @@ UE (Device) ↔ gNB ↔ 5GC (Core) ↔ Internet/IMS
 
 ### 5G Architecture Diagram
 
-📊 **[View 5G Architecture Diagram](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/5g-architecture.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![5G Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-architecture.puml)
 
-*5G architecture with NG-RAN (gNB), 5GC network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NSSF), IMS, and external networks showing service-based architecture (SBA) with N1-N6 interfaces. Opens PlantUML viewer in new tab.*
+*5G architecture with NG-RAN (gNB), 5GC network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NSSF), IMS, and external networks showing service-based architecture (SBA) with N1-N6 interfaces.*
 
 ---
 
@@ -447,9 +447,9 @@ Tunneling:
 
 ### Complete 5G Flow Diagram
 
-📊 **[View 5G Registration + Authentication + PDU Session Flow](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/5g-registration-AKA-PDU-session.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![5G Registration + 5G-AKA + PDU Session](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-registration-AKA-PDU-session.puml)
 
-*End-to-end sequence diagram showing: UE registration via gNB → AMF, NF discovery through NRF, 5G-AKA authentication with AUSF/UDM, PDU session establishment via SMF, and UPF configuration for data flow. Opens PlantUML viewer in new tab.*
+*End-to-end sequence diagram showing: UE registration via gNB → AMF, NF discovery through NRF, 5G-AKA authentication with AUSF/UDM, PDU session establishment via SMF, and UPF configuration for data flow.*
 
 ---
 
@@ -505,9 +505,9 @@ If radio encryption broken, NAS is still protected!
 
 ### AS vs NAS Signaling Flow
 
-📊 **[View AS vs NAS Signaling Diagram](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/5g-NAS-AS.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![5G AS vs NAS](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-NAS-AS.puml)
 
-*Sequence diagram showing the separation between Access Stratum (AS) signaling (UE ↔ gNB: RRC, PDCP, RLC, MAC) and Non-Access Stratum (NAS) signaling (UE ↔ AMF: Registration, Authentication, Session) with NAS messages encapsulated through AS. Opens PlantUML viewer in new tab.*
+*Sequence diagram showing the separation between Access Stratum (AS) signaling (UE ↔ gNB: RRC, PDCP, RLC, MAC) and Non-Access Stratum (NAS) signaling (UE ↔ AMF: Registration, Authentication, Session) with NAS messages encapsulated through AS.*
 
 ---
 
@@ -572,9 +572,9 @@ UE ↔ gNB ↔ UPF ↔ Internet
 
 ### Control Plane vs User Plane Diagram
 
-📊 **[View Control Plane vs User Plane Diagram](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/5g-user-vs-control-plane.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![5G Control vs User Plane](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-user-vs-control-plane.puml)
 
-*Sequence diagram illustrating the separation of Control Plane (N2: gNB ↔ AMF, setup/signaling) and User Plane (N3: gNB ↔ UPF, data traffic) with N4 interface (SMF ↔ UPF) for forwarding rule configuration. Opens PlantUML viewer in new tab.*
+*Sequence diagram illustrating the separation of Control Plane (N2: gNB ↔ AMF, setup/signaling) and User Plane (N3: gNB ↔ UPF, data traffic) with N4 interface (SMF ↔ UPF) for forwarding rule configuration.*
 
 ---
 
@@ -744,9 +744,9 @@ If VoNR unavailable (no 5G coverage):
 
 ### VoNR Call Flow Diagram
 
-📊 **[View VoNR Call Flow](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/vonr-call-flow.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![VoNR Call Flow](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/vonr-call-flow.puml)
 
-*VoNR call flow showing IMS registration on 5G SA, SIP signaling via P-CSCF/S-CSCF, and RTP media with 5G QoS flow (5QI) - demonstrating ultra-low latency voice over 5G NR. Opens PlantUML viewer in new tab.*
+*VoNR call flow showing IMS registration on 5G SA, SIP signaling via P-CSCF/S-CSCF, and RTP media with 5G QoS flow (5QI) - demonstrating ultra-low latency voice over 5G NR.*
 
 ---
 
@@ -790,9 +790,9 @@ UE → gNB → UPF → [ normal traffic ] → Internet
 
 ### 5G NGFW/SASE Integration Diagram
 
-📊 **[View 5G NGFW/SASE Integration](https://www.plantuml.com/plantuml/uml/{{ 'learning/4g-5g/5g-ngfw-sase.puml' | relative_url }}){:target="_blank" rel="noopener noreferrer"}**
+![5G NGFW/SASE Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-ngfw-sase.puml)
 
-*Sequence diagram showing runtime traffic steering to NGFW/SASE: PCF policy decision → SMF configures UPF via N4 → UPF forwards traffic through security chain (DPI, URL filter, threat prevention) at N6 interface before reaching Internet/DN. Opens PlantUML viewer in new tab.*
+*Sequence diagram showing runtime traffic steering to NGFW/SASE: PCF policy decision → SMF configures UPF via N4 → UPF forwards traffic through security chain (DPI, URL filter, threat prevention) at N6 interface before reaching Internet/DN.*
 
 ---
 
