@@ -1,0 +1,62 @@
+name: Render PlantUML to SVG
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "**/*.puml"
+      - ".github/workflows/plantuml-render.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Java (required for PlantUML)
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Install PlantUML + Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz plantuml
+
+      - name: Render all .puml files to SVG
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/diagrams
+
+          while IFS= read -r file; do
+            rel_path=${file#./}
+            out_dir="assets/diagrams/$(dirname "$rel_path")"
+            mkdir -p "$out_dir"
+            echo "Rendering: $rel_path -> $out_dir"
+            plantuml -tsvg "$rel_path" -o "$PWD/$out_dir"
+          done < <(find . -type f -name "*.puml" -print)
+
+      - name: Commit rendered SVGs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add assets/diagrams
+
+          if git diff --cached --quiet; then
+            echo "No rendered SVG changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Auto-render PlantUML diagrams (SVG)"
+          git push
