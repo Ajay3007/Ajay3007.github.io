@@ -133,6 +133,12 @@ Responsibilities:
 
 **Interfaces:** Rx (to IMS/App servers), Gx (to PGW)
 
+### Architecture Diagram
+
+![4G LTE Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/4g-architecture.puml)
+
+*Complete 4G architecture showing E-UTRAN, EPC components, IMS, and external networks with all interfaces (S1-MME, S1-U, S5/S8, S6a, Gx, SGi).*
+
 ---
 
 ## How 4G Works (Practical Example) {#how-4g-works}
@@ -166,6 +172,12 @@ Data is tunneled using **GTP-U** (GPRS Tunneling Protocol - User Plane):
 - Bearer has QCI (QoS Class Identifier)
 - YouTube traffic gets standard QCI, not prioritized
 - Buffering happens in eNB (radio) and PGW (internet)
+
+### Attach & Bearer Setup Flow
+
+![4G Attach and Bearer Setup](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/4g-attach-bearer.puml)
+
+*Sequence diagram showing complete 4G attach procedure: RRC connection, NAS authentication with HSS, bearer setup via MME/SGW/PGW, and QoS policy from PCRF.*
 
 ---
 
@@ -203,6 +215,12 @@ VoLTE leverages the **IMS (IP Multimedia Subsystem)** core:
 3. LTE QoS Bearer:
    - SMF/PCRF allocates high-priority bearer (e.g., QCI=1)
    - Voice traffic gets low-latency, low-jitter handling
+
+### VoLTE Call Flow Diagram
+
+![VoLTE Call Flow](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/volte-call-flow.puml)
+
+*Complete VoLTE call flow showing IMS registration, SIP INVITE/200 OK signaling via P-CSCF/S-CSCF, and RTP media establishment with QoS bearer (QCI=1).*
 
 ---
 
@@ -378,6 +396,12 @@ UE (Device) ↔ gNB ↔ 5GC (Core) ↔ Internet/IMS
 - Selects network slice instance for UE
 - Slice-specific AMF/SMF selection
 
+### 5G Architecture Diagram
+
+![5G Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-architecture.puml)
+
+*5G architecture with NG-RAN (gNB), 5GC network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NSSF), IMS, and external networks showing service-based architecture (SBA) with N1-N6 interfaces.*
+
 ---
 
 ## How 5G Works (Practical Example) {#how-5g-works}
@@ -420,6 +444,12 @@ Tunneling:
 - gNB change triggered at RRC (radio) level
 - UPF stays same (anchor) — no SGW needed
 - Simpler, faster handover
+
+### Complete 5G Flow Diagram
+
+![5G Registration + 5G-AKA + PDU Session](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-registration-AKA-PDU-session.puml)
+
+*End-to-end sequence diagram showing: UE registration via gNB → AMF, NF discovery through NRF, 5G-AKA authentication with AUSF/UDM, PDU session establishment via SMF, and UPF configuration for data flow.*
 
 ---
 
@@ -472,6 +502,12 @@ Telecom networks split control signaling into two **logical layers**:
 - **NAS:** Secured end-to-end UE ↔ AMF (encrypt after NAS layer)
 
 If radio encryption broken, NAS is still protected!
+
+### AS vs NAS Signaling Flow
+
+![5G AS vs NAS](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-NAS-AS.puml)
+
+*Sequence diagram showing the separation between Access Stratum (AS) signaling (UE ↔ gNB: RRC, PDCP, RLC, MAC) and Non-Access Stratum (NAS) signaling (UE ↔ AMF: Registration, Authentication, Session) with NAS messages encapsulated through AS.*
 
 ---
 
@@ -533,6 +569,12 @@ UE ↔ gNB ↔ UPF ↔ Internet
 - Scale CP and UP independently
 - CP can be centralized, UP can be distributed (edge)
 - Easier to add security controls on UP
+
+### Control Plane vs User Plane Diagram
+
+![5G Control vs User Plane](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-user-vs-control-plane.puml)
+
+*Sequence diagram illustrating the separation of Control Plane (N2: gNB ↔ AMF, setup/signaling) and User Plane (N3: gNB ↔ UPF, data traffic) with N4 interface (SMF ↔ UPF) for forwarding rule configuration.*
 
 ---
 
@@ -700,6 +742,12 @@ If VoNR unavailable (no 5G coverage):
 - Seamless transition to VoLTE
 - Call setup triggers fallback automatically
 
+### VoNR Call Flow Diagram
+
+![VoNR Call Flow](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/vonr-call-flow.puml)
+
+*VoNR call flow showing IMS registration on 5G SA, SIP signaling via P-CSCF/S-CSCF, and RTP media with 5G QoS flow (5QI) - demonstrating ultra-low latency voice over 5G NR.*
+
 ---
 
 ## NGFW/SASE Alignment {#ngfw-sase-alignment}
@@ -739,6 +787,12 @@ UE → gNB → UPF → [ normal traffic ] → Internet
 - **N6 interface:** UPF to external networks (best point for security insertion)
 - **N4 interface:** SMF tells UPF forwarding rules (can encode security policy)
 - **SASE architecture:** UPF acts as local "secure gateway" for edge branch
+
+### 5G NGFW/SASE Integration Diagram
+
+![5G NGFW/SASE Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Ajay3007/Ajay3007.github.io/main/learning/4g-5g/5g-ngfw-sase.puml)
+
+*Sequence diagram showing runtime traffic steering to NGFW/SASE: PCF policy decision → SMF configures UPF via N4 → UPF forwards traffic through security chain (DPI, URL filter, threat prevention) at N6 interface before reaching Internet/DN.*
 
 ---
 

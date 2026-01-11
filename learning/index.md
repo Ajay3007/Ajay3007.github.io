@@ -4,25 +4,6 @@ title: Learning Portal
 permalink: /learning/
 ---
 
-## 📑 Table of Contents
-
-1. **[Learning Portal](#learning-portal)**
-    1.1. [🌟 Featured: New Addition](#-featured-new-addition)
-    1.2. [📚 All Learning Topics](#-all-learning-topics)
-    1.3. [🎓 Curated Learning Paths](#-curated-learning-paths)
-    1.4. [📈 Recent Updates](#-recent-updates)
-
----
-
-### 🎯 Main Topics Covered
-
-1. **Featured New Addition**
-2. **All Learning Topics**
-3. **Curated Learning Paths**
-4. **Recent Updates**
-
----
-
 # Learning Portal
 
 **Comprehensive resources for competitive programming, software development, and financial technology.**
