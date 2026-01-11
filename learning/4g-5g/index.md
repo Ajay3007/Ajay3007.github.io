@@ -133,11 +133,17 @@ Responsibilities:
 
 **Interfaces:** Rx (to IMS/App servers), Gx (to PGW)
 
-### Architecture Diagram
+### 4G Architecture Diagram
 
 ![4G LTE Architecture]({{ '/assets/diagrams/learning/4g-5g/4g-architecture.svg' | relative_url }}){:class="diagram-img"}
 
 *Complete 4G architecture showing E-UTRAN, EPC components, IMS, and external networks with all interfaces (S1-MME, S1-U, S5/S8, S6a, Gx, SGi).* 
+
+### 4G Architecture Class Diagram
+
+![4G LTE Class Architecture]({{ '/assets/diagrams/learning/4g-5g/4g-architecture-class.svg' | relative_url }}){:class="diagram-img"}
+
+*Complete 4G architecture class-diagram showing E-UTRAN, EPC components, IMS, and external networks with all interfaces (S1-MME, S1-U, S5/S8, S6a, Gx, SGi).* 
 
 ---
 
@@ -401,6 +407,12 @@ UE (Device) ↔ gNB ↔ 5GC (Core) ↔ Internet/IMS
 ![5G Architecture]({{ '/assets/diagrams/learning/4g-5g/5g-architecture.svg' | relative_url }}){:class="diagram-img"}
 
 *5G architecture with NG-RAN (gNB), 5GC network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NSSF), IMS, and external networks showing service-based architecture (SBA) with N1-N6 interfaces.*
+
+### 5G Architecture Class Diagram
+
+![5G Architecture Class]({{ '/assets/diagrams/learning/4g-5g/5g-architecture-class.svg' | relative_url }}){:class="diagram-img"}
+
+*5G architecture Class Diagram with NG-RAN (gNB), 5GC network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NSSF), IMS, and external networks showing service-based architecture (SBA) with N1-N6 interfaces.*
 
 ---
 
@@ -766,7 +778,7 @@ UE → gNB → UPF → Security/SASE → Internet
 ```
 
 Or selective routing:
-```
+```bash
 UE → gNB → UPF → [ normal traffic ] → Internet
               ↓
               [ suspicious/policy traffic ] → SASE/NGFW → Internet
@@ -788,9 +800,16 @@ UE → gNB → UPF → [ normal traffic ] → Internet
 - **N4 interface:** SMF tells UPF forwarding rules (can encode security policy)
 - **SASE architecture:** UPF acts as local "secure gateway" for edge branch
 
-### 5G NGFW/SASE Integration Diagram
+### 5G Security Steering: SMF→UPF Rules + Data Path
 
-![5G NGFW/SASE Architecture]({{ '/assets/diagrams/learning/4g-5g/5g-ngfw-sase.svg' | relative_url }}){:class="diagram-img"}
+![5G Security Steering: SMF→UPF Rules + Data Path]({{ '/assets/diagrams/learning/4g-5g/5g-ngfw-sase-architecture.svg' | relative_url }}){:class="diagram-img"}
+
+*Sequence diagram showing 5G Security Steering: SMF→UPF Rules + Data Path (N4 + N6): PCF policy decision → SMF configures UPF via N4 → UPF forwards traffic through security chain (DPI, URL filter, threat prevention) at N6 interface before reaching Internet/DN.*
+
+
+### 5G NGFW/SASE Integration Flow Diagram
+
+![5G NGFW/SASE Architecture Flow]({{ '/assets/diagrams/learning/4g-5g/5g-ngfw-sase.svg' | relative_url }}){:class="diagram-img"}
 
 *Sequence diagram showing runtime traffic steering to NGFW/SASE: PCF policy decision → SMF configures UPF via N4 → UPF forwards traffic through security chain (DPI, URL filter, threat prevention) at N6 interface before reaching Internet/DN.*
 
