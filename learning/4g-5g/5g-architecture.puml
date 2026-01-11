@@ -1,0 +1,101 @@
+@startuml
+allowmixing
+title 5G Architecture (NG-RAN + 5GC + IMS) — Component Diagram
+
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+' ============================================================
+' UE + RAN
+' ============================================================
+rectangle "UE" as UEBOX {
+  component "UE\n(USIM, SUPI/SUCI,\nNAS + PDU sessions)" as UE
+}
+
+rectangle "NG-RAN" as RANBOX {
+  component "gNB\n(5G Base Station)" as GNB
+}
+
+' ============================================================
+' 5G Core NFs
+' ============================================================
+rectangle "5GC (5G Core)" as CORE {
+
+  component "AMF\nAccess & Mobility\n(NAS termination)" as AMF
+  component "SMF\nSession Mgmt\n(PDU sessions)" as SMF
+  component "UPF\nUser Plane\n(Packet forwarding)" as UPF
+
+  component "AUSF\nAuthentication" as AUSF
+  component "UDM\nSubscriber DB" as UDM
+  component "ARPF\nAuth Vector Gen" as ARPF
+
+  component "PCF\nPolicy Control" as PCF
+  component "NRF\nNF Registry/Discovery" as NRF
+  component "NSSF\nSlice Selection" as NSSF
+}
+
+' ============================================================
+' IMS for Voice
+' ============================================================
+rectangle "IMS (VoNR)" as IMSBOX {
+  component "P-CSCF\nSIP Proxy" as PCSCF
+  component "S-CSCF\nSIP Serving" as SCSCF
+  component "IMS AS\n(TAS/AS)" as IMSAS
+}
+
+' ============================================================
+' External Network
+' ============================================================
+rectangle "External Networks" as EXT {
+  cloud "DN / Internet" as DN
+  cloud "PSTN\n(optional)" as PSTN
+}
+
+' ============================================================
+' Interfaces / connectivity
+' ============================================================
+
+' Radio
+UE --> GNB : 5G NR Air\n(AS: RRC/PDCP/RLC/MAC/PHY)
+
+' Control plane (N2)
+GNB --> AMF : N2\n(Control Plane, NAS)
+
+' User plane (N3)
+GNB --> UPF : N3\n(User Plane, GTP-U)
+
+' UPF to data network
+UPF --> DN : N6\n(IP traffic)
+
+' SMF programs UPF
+SMF --> UPF : N4\n(PDR/FAR/QER rules)
+
+' SBA / service calls (HTTP2 APIs)
+AMF --> NRF : NF Discovery
+SMF --> NRF : NF Discovery
+AUSF --> NRF : NF Discovery
+
+AMF --> AUSF : Nausf\n(UE Authentication)
+AUSF --> UDM : Nudm\n(Auth data)
+UDM --> ARPF : Generate AV\n(RAND,AUTN,XRES*)
+
+AMF --> PCF : Npcf\n(AM policy)
+SMF --> PCF : Npcf\n(SM policy)
+
+AMF --> NSSF : Nnssf\n(Slice selection)
+
+' Voice/IMS
+UE --> PCSCF : SIP Signaling\n(VoNR)
+PCSCF --> SCSCF : SIP core
+SCSCF --> IMSAS : Service logic
+IMSAS --> PSTN : Interconnect\n(optional)
+
+note bottom
+Key Split:
+- Control Plane: UE NAS -> gNB -> AMF (N2) + SBA calls inside 5GC
+- User Plane: UE data -> gNB -> UPF (N3) -> DN (N6)
+- SMF configures UPF using N4 rules.
+end note
+
+@enduml

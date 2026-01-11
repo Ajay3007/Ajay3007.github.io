@@ -1,0 +1,103 @@
+@startuml
+allowmixing
+title 4G (LTE) Architecture: E-UTRAN + EPC + IMS (Clean Layout)
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 20
+skinparam padding 10
+skinparam nodesep 55
+skinparam ranksep 60
+left to right direction
+
+' ============================================================
+' UE
+' ============================================================
+rectangle "UE" as UEBOX {
+  rectangle "UE / USIM" as UE
+}
+
+' ============================================================
+' E-UTRAN
+' ============================================================
+rectangle "E-UTRAN\n(Radio Access Network)" as RAN {
+  rectangle "eNodeB (eNB)\nLTE Base Station" as ENB
+}
+
+' ============================================================
+' EPC
+' ============================================================
+rectangle "EPC\n(Evolved Packet Core)" as EPC {
+
+  rectangle "MME\n(Control Plane)" as MME
+  rectangle "SGW\n(User Plane Anchor)" as SGW
+  rectangle "PGW\n(Internet Gateway)" as PGW
+
+  rectangle "HSS\n(Subscriber DB)" as HSS
+  rectangle "PCRF\n(Policy/QoS)" as PCRF
+}
+
+' ============================================================
+' IMS
+' ============================================================
+rectangle "IMS\n(VoLTE Services)" as IMS {
+  rectangle "P-CSCF" as PCSCF
+  rectangle "S-CSCF" as SCSCF
+  rectangle "IMS App Servers\n(TAS/AS)" as IMSSRV
+}
+
+' ============================================================
+' External Networks
+' ============================================================
+rectangle "External Networks" as EXT {
+  rectangle "Internet / DN" as INET
+  rectangle "PSTN / Legacy Voice" as PSTN
+}
+
+' ============================================================
+' Hidden alignment helpers (reduce overlaps)
+' ============================================================
+UE -[hidden]-> ENB
+ENB -[hidden]-> MME
+MME -[hidden]-> SGW
+SGW -[hidden]-> PGW
+PGW -[hidden]-> INET
+
+PCSCF -[hidden]-> SCSCF
+SCSCF -[hidden]-> IMSSRV
+
+HSS -[hidden]-> PCRF
+
+' ============================================================
+' Interfaces / connectivity
+' ============================================================
+
+' Radio access
+UE --> ENB : LTE Air Interface\nAS (RRC/PDCP/RLC/MAC/PHY)
+
+' Control plane
+ENB --> MME : S1-MME\n(NAS signaling)
+MME --> HSS : S6a\n(Auth + subscription)
+
+' User plane
+ENB --> SGW : S1-U\n(GTP-U data)
+SGW --> PGW : S5/S8\n(GTP-U tunnel)
+PGW --> INET : SGi\n(IP traffic)
+
+' Policy
+PGW --> PCRF : Gx\n(Policy/QoS)
+PCRF --> PGW : PCC rules
+
+' VoLTE / IMS
+UE --> PCSCF : SIP signaling\n(VoLTE)
+PCSCF --> SCSCF : SIP core
+SCSCF --> IMSSRV : Service logic
+IMSSRV --> PSTN : Interconnect\n(optional)
+
+note bottom
+Layout improvements:
+- Use nested rectangles instead of components
+- Increased spacing (nodesep/ranksep/padding)
+- Added hidden edges for alignment
+end note
+@enduml

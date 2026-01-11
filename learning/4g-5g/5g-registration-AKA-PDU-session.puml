@@ -1,0 +1,98 @@
+@startuml
+title 5G Registration + 5G-AKA + PDU Session Establishment (End-to-End)
+
+actor UE
+participant gNB
+participant AMF
+participant AUSF
+participant "UDM/ARPF\n(Home Network)" as UDM
+participant NRF
+participant SMF
+participant PCF
+participant UPF
+participant "DN\n(Internet)" as DN
+
+== (A) UE Registration ==
+UE -> gNB: RRC Setup Request
+gNB -> UE: RRC Setup
+UE -> gNB: RRC Setup Complete\n(NAS: Registration Request)
+gNB -> AMF: N2 Initial UE Message\n(NAS Registration Request)
+
+note right of AMF
+AMF is control-plane entry point.
+Handles NAS, mobility, orchestration.
+end note
+
+== (B) NF Discovery (SBA Style) ==
+AMF -> NRF: Discover AUSF service\n(Nnrf_NFDiscovery)
+NRF --> AMF: AUSF endpoint details
+
+== (C) 5G-AKA Authentication ==
+AMF -> AUSF: Authenticate UE\n(Nausf_UEAuthentication)
+
+AUSF -> NRF: Discover UDM service
+NRF --> AUSF: UDM endpoint details
+
+AUSF -> UDM: Get Authentication Vector\n(Nudm_UEAuthentication_Get)
+UDM --> AUSF: AV: RAND, AUTN, XRES*, K_AUSF
+
+AUSF -> AUSF: Derive HXRES*\n& K_SEAF (anchor key)
+AUSF --> AMF: Auth Challenge (RAND, AUTN)\n+ HXRES*
+
+AMF --> UE: NAS Authentication Request\n(RAND, AUTN)
+UE -> UE: Verify AUTN (network authenticity)
+UE -> UE: Compute RES* using USIM secret K
+UE --> AMF: NAS Authentication Response\n(RES*)
+
+AMF -> AUSF: Verify RES*
+AUSF -> AUSF: Compute HRES* from RES*\nCompare with HXRES*
+AUSF --> AMF: Auth Result = SUCCESS\n(K_SEAF / key material)
+
+== (D) Security Mode ==
+AMF -> AMF: Derive NAS keys from K_SEAF
+AMF --> UE: NAS Security Mode Command\n(Integrity/Ciphering)
+UE --> AMF: NAS Security Mode Complete
+
+== (E) Registration Complete ==
+AMF --> UE: Registration Accept
+UE --> AMF: Registration Complete
+
+== (F) PDU Session Establishment (Internet Session) ==
+UE --> AMF: NAS PDU Session Establishment Request\n(DNN, S-NSSAI, Session ID)
+
+AMF -> NRF: Discover SMF service\n(slice/DNN aware)
+NRF --> AMF: SMF endpoint details
+
+AMF --> SMF: Create PDU Session\n(Nsmf_PDUSession_CreateSMContext)
+
+SMF -> NRF: Discover PCF service
+NRF --> SMF: PCF endpoint details
+SMF -> PCF: Get Session Policy/QoS rules\n(Npcf_SMPolicyControl)
+PCF --> SMF: QoS/Policy decision
+
+SMF -> NRF: Discover UPF (optional)\n(Nnrf_NFDiscovery)
+NRF --> SMF: UPF endpoint details
+
+SMF -> UPF: Establish N4 Session\n(PDR/FAR/QER rules)
+UPF --> SMF: N4 Session OK
+
+SMF --> AMF: PDU Session Accepted\n+ N2 SM Info + N3 info
+AMF --> gNB: N2 PDU Session Resource Setup Request\n(N2 SM info)
+gNB -> gNB: Setup DRB/QoS flows\n(map QFI->DRB)
+gNB --> AMF: Resource Setup Response
+
+AMF --> UE: PDU Session Establishment Accept\n(IP info / QoS rules)
+
+== (G) User Plane Data ==
+UE <-> gNB: User Data (N3)
+gNB <-> UPF: GTP-U tunnel (N3)
+UPF <-> DN: N6 traffic (Internet)
+
+note bottom
+After this:
+- UE has IP
+- UPF forwards packets
+- QoS flows are active
+end note
+
+@enduml

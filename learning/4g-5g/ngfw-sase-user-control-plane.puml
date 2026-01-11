@@ -1,0 +1,95 @@
+@startuml
+allowmixing
+title 5G Telco Style: CP vs UP + NGFW/SASE Service Chain (Renderer-Safe)
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 20
+skinparam padding 10
+skinparam nodesep 50
+skinparam ranksep 55
+left to right direction
+
+' ============================================================
+' Lane 1: UE + RAN
+' ============================================================
+rectangle "UE + NG-RAN" as L1 {
+  rectangle "UE" as UE
+  rectangle "gNB\n(5G Base Station)" as GNB
+}
+
+' ============================================================
+' Lane 2: 5GC Control Plane
+' ============================================================
+rectangle "5GC — Control Plane" as L2 {
+  rectangle "PCF\nPolicy Control" as PCF
+  rectangle "SMF\nSession Mgmt" as SMF
+}
+
+' ============================================================
+' Lane 3: 5GC User Plane
+' ============================================================
+rectangle "5GC — User Plane" as L3 {
+  rectangle "UPF\nUser Plane Function" as UPF
+}
+
+' ============================================================
+' Lane 4: Security Service Chain
+' ============================================================
+rectangle "Security Service Chain" as L4 {
+  rectangle "NGFW / SASE\n(DPI, IPS/IDS,\nURL Filtering,\nThreat Intel,\nTelemetry)" as NGFW
+}
+
+' ============================================================
+' Lane 5: Data Network
+' ============================================================
+rectangle "Data Network (DN)" as L5 {
+  rectangle "Internet / Enterprise DN" as DN
+}
+
+' ============================================================
+' Hidden alignment edges (avoid overlap)
+' ============================================================
+UE -[hidden]-> GNB
+GNB -[hidden]-> PCF
+PCF -[hidden]-> SMF
+SMF -[hidden]-> UPF
+UPF -[hidden]-> NGFW
+NGFW -[hidden]-> DN
+
+' ============================================================
+' User Plane
+' ============================================================
+UE --> GNB : 5G NR Air\n(User traffic)
+
+GNB --> UPF : N3 (GTP-U)\nUser plane packets
+UPF --> NGFW : N6 Steering\n(service chain / redirect)
+NGFW --> DN : Forward clean traffic
+
+UPF ..> DN : N6 Direct\n(Bypass)\n(optional)
+
+' ============================================================
+' Control Plane
+' ============================================================
+PCF --> SMF : Npcf\nPolicy + QoS + steering intent
+SMF --> UPF : N4 (PFCP)\nInstall rules:\nPDR/FAR/QER/URR
+
+' ============================================================
+' Notes
+' ============================================================
+note right of UPF
+UPF applies rules:
+- PDR: match flow
+- FAR: forward/redirect/drop
+- QER: QoS enforcement
+- URR: usage report
+end note
+
+note bottom
+Two modes:
+1) Full inline: all traffic -> NGFW/SASE
+2) Selective steering: only risky flows -> NGFW/SASE,
+   rest bypasses to keep latency low.
+end note
+
+@enduml

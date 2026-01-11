@@ -1,0 +1,62 @@
+@startuml
+title 5G Signaling: Access Stratum (AS) vs Non-Access Stratum (NAS)
+
+skinparam shadowing false
+skinparam participantPadding 10
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 90
+
+actor UE
+participant "gNB\n(5G Base Station)" as gNB
+participant "AMF\n(Core Control Plane)" as AMF
+
+== Access Stratum (AS) - Radio Control ==
+
+note left of gNB
+RRC = Radio Resource Control
+end note
+
+UE -> gNB: RRC Setup Request
+gNB -> UE: RRC Setup
+UE -> gNB: RRC Setup Complete
+
+note right of gNB
+AS = UE <-> gNB
+Radio access control
+Examples: RRC, PDCP, RLC, MAC/PHY
+end note
+
+== NAS messages carried inside AS ==
+UE -> gNB: NAS: Registration Request\n(encapsulated in RRC/N2 transport)
+gNB -> AMF: Forward NAS via N2\n(Initial UE Message)
+
+note right of AMF
+NAS = UE <-> AMF
+Core control messaging
+Examples:
+- Registration
+- Authentication (5G-AKA)
+- NAS Security Mode
+- Mobility updates
+end note
+
+== NAS Authentication Example ==
+AMF -> gNB: NAS: Authentication Request
+gNB -> UE: NAS: Authentication Request
+
+UE -> gNB: NAS: Authentication Response
+gNB -> AMF: NAS: Authentication Response
+
+== After NAS Security ==
+AMF -> gNB: NAS Security Mode Command
+gNB -> UE: NAS Security Mode Command
+UE -> gNB: NAS Security Mode Complete
+gNB -> AMF: NAS Security Mode Complete
+
+note bottom
+Key point:
+NAS is UE<->AMF logically,
+but physically passes through gNB.
+gNB forwards NAS like a courier.
+end note
+@enduml

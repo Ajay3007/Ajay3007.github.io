@@ -94,6 +94,12 @@ permalink: /learning/
   </div>
 
   <div class="project-card">
+    <h3><svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/><circle cx="18" cy="6" r="3" fill="#4CAF50"/></svg>
+      <a href="{{ '/learning/4g-5g/' | relative_url }}">4G/5G Networks</a></h3>
+    <p>LTE and 5G NR architecture, protocols, NAS/AS, user/control planes, and authentication.</p>
+  </div>
+
+  <div class="project-card">
     <h3><svg class="card-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>
       <a href="{{ '/learning/competitive-programming/' | relative_url }}">Competitive Programming</a></h3>
     <p>Strategies, patterns, and contest practice.</p>

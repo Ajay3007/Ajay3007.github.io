@@ -50,8 +50,8 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #876</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
       <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+      <a href="/learning/dsa/linked-list/leetcode-876-solution/" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="/learning/dsa/linked-list/leetcode-876-solution/" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
   </div>
 

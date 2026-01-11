@@ -1,0 +1,67 @@
+@startuml
+title VoLTE Call Flow (4G LTE + IMS) — SIP Signaling + RTP Media
+
+skinparam shadowing false
+skinparam participantPadding 10
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 90
+
+actor "UE-A\n(Caller)" as UEA
+actor "UE-B\n(Callee)" as UEB
+participant "P-CSCF" as PCSCF
+participant "S-CSCF" as SCSCF
+participant "IMS App Server\n(TAS/AS)" as IMSSRV
+participant "PSTN Gateway\n(optional)" as PSTNGW
+
+== Precondition ==
+note over UEA,UEB
+UEs already attached to LTE and have IP connectivity.
+VoLTE uses IMS for SIP signaling.
+end note
+
+== IMS Registration ==
+UEA -> PCSCF: SIP REGISTER
+PCSCF -> SCSCF: SIP REGISTER
+SCSCF -> IMSSRV: Service triggers / profile
+IMSSRV --> SCSCF: OK
+SCSCF --> PCSCF: 200 OK
+PCSCF --> UEA: 200 OK
+
+UEB -> PCSCF: SIP REGISTER
+PCSCF -> SCSCF: SIP REGISTER
+SCSCF -> IMSSRV: Service triggers / profile
+IMSSRV --> SCSCF: OK
+SCSCF --> PCSCF: 200 OK
+PCSCF --> UEB: 200 OK
+
+== Call Setup ==
+UEA -> PCSCF: SIP INVITE (SDP offer)
+PCSCF -> SCSCF: INVITE
+SCSCF -> IMSSRV: Apply services
+IMSSRV --> SCSCF: Proceed
+SCSCF --> PCSCF: Route INVITE
+PCSCF --> UEB: INVITE
+
+UEB --> PCSCF: 180 Ringing
+PCSCF --> UEA: 180 Ringing
+
+UEB --> PCSCF: 200 OK (SDP answer)
+PCSCF --> UEA: 200 OK
+
+UEA -> PCSCF: ACK
+PCSCF -> UEB: ACK
+
+== Media ==
+UEA <-> UEB: RTP/RTCP Media\n(voice packets)
+
+== Release ==
+UEA -> PCSCF: BYE
+PCSCF -> UEB: BYE
+UEB --> PCSCF: 200 OK
+PCSCF --> UEA: 200 OK
+
+note right of PSTNGW
+If callee is PSTN/legacy:
+IMS routes call via gateways.
+end note
+@enduml

@@ -1,0 +1,76 @@
+@startuml
+title 5G Traffic Steering to NGFW/SASE (Runtime Sequence: N4 + N3/N6)
+
+skinparam shadowing false
+skinparam participantPadding 10
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 90
+
+actor UE
+participant "gNB\n(5G RAN)" as GNB
+participant "AMF\n(Control)" as AMF
+participant "SMF\n(Session Control)" as SMF
+participant "PCF\n(Policy)" as PCF
+participant "UPF\n(User Plane)" as UPF
+participant "NGFW/SASE\n(Security Chain)" as NGFW
+participant "DN\n(Internet/Enterprise)" as DN
+
+== (A) Precondition ==
+note over UE,UPF
+UE is already registered (5G-AKA done).
+UE now requests / has a PDU Session for internet/enterprise DN.
+end note
+
+== (B) PDU Session / Policy Decision ==
+UE -> GNB: NAS: PDU Session Establishment Request\n(DNN, S-NSSAI)
+GNB -> AMF: N2: Forward NAS message
+AMF -> SMF: Create SM Context\n(Nsmf_PDUSession...)
+
+SMF -> PCF: Query policy\n(Npcf_SMPolicyControl)
+PCF --> SMF: Policy + Steering intent\n(QoS, which traffic needs inspection)
+
+note right of PCF
+Example policy:
+- All traffic in enterprise slice -> inspect
+- Unknown domains -> inspect
+- Trusted apps -> bypass
+end note
+
+== (C) SMF programs UPF (N4 PFCP) ==
+SMF -> UPF: PFCP Session Establishment/Modify\nInstall rules:
+note right of UPF
+Rules installed by SMF:
+- PDR: match flow (5-tuple/QFI/DNN/slice)
+- FAR: action (forward to DN / redirect to NGFW / drop)
+- QER: QoS enforcement
+- URR: usage report (counters)
+end note
+
+UPF --> SMF: PFCP Response (OK)
+
+== (D) User Plane Traffic Begins ==
+UE -> GNB: Send packets (YouTube/WhatsApp/etc.)
+GNB -> UPF: N3 GTP-U packets\n(User plane)
+
+UPF -> UPF: Classify packet using PDRs
+
+alt Flow requires Security Inspection
+  UPF -> NGFW: N6 Steering/Redirect\n(Service chain)
+  NGFW -> NGFW: DPI / URLF / IPS checks
+  NGFW --> DN: Forward clean traffic
+else Trusted / Bypass Flow
+  UPF --> DN: N6 Direct traffic
+end
+
+== (E) Telemetry / Accounting ==
+UPF --> SMF: PFCP Report\n(URR usage: bytes, packets, events)
+SMF --> PCF: Optional updates\n(policy/charging triggers)
+
+note bottom
+Key learning:
+- Steering happens in USER PLANE (UPF).
+- Decision/rules come from CONTROL PLANE (SMF/PCF).
+- gNB transports user packets (N3) but does not do security inspection.
+end note
+
+@enduml

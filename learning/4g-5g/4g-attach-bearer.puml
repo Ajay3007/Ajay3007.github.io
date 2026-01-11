@@ -1,0 +1,68 @@
+@startuml
+title 4G LTE Attach + Default Bearer Setup (End-to-End Sequence)
+
+skinparam shadowing false
+skinparam participantPadding 10
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 80
+
+actor UE
+participant "eNodeB\n(LTE RAN)" as ENB
+participant "MME\n(Control Plane)" as MME
+participant "HSS\n(Subscriber DB)" as HSS
+participant "SGW\n(User Plane Anchor)" as SGW
+participant "PGW\n(Internet GW)" as PGW
+participant "PCRF\n(Policy/QoS)" as PCRF
+participant "Internet/DN" as DN
+
+== (A) RRC Connection ==
+UE -> ENB: RRC Connection Request
+ENB -> UE: RRC Connection Setup
+UE -> ENB: RRC Connection Setup Complete\n(NAS: Attach Request)
+
+== (B) NAS Attach & Authentication ==
+ENB -> MME: S1-AP Initial UE Message\n(NAS Attach Request)
+MME -> HSS: Update Location / Auth Info Req (S6a)
+HSS --> MME: Auth Vector + Subscription Data
+
+MME -> ENB: NAS Authentication Request
+ENB -> UE: NAS Authentication Request
+UE -> ENB: NAS Authentication Response
+ENB -> MME: NAS Authentication Response
+
+MME -> ENB: NAS Security Mode Command
+ENB -> UE: NAS Security Mode Command
+UE -> ENB: NAS Security Mode Complete
+ENB -> MME: NAS Security Mode Complete
+
+== (C) Default Bearer Setup ==
+MME -> SGW: Create Session Request (S11)\n(IMSI, APN, EPS Bearer)
+SGW -> PGW: Create Session Request (S5/S8)
+PGW -> PCRF: Credit/Policy Request (Gx)
+PCRF --> PGW: PCC Rules + QoS
+
+PGW --> SGW: Create Session Response\n(UE IP, TEIDs, QoS)
+SGW --> MME: Create Session Response\n(Bearer Context)
+
+MME -> ENB: Initial Context Setup Request\n(Bearer/QoS, TEIDs)
+ENB -> ENB: Setup DRB + S1-U tunnel
+ENB --> MME: Initial Context Setup Response
+
+== (D) Attach Complete ==
+MME -> ENB: NAS Attach Accept\n+ Default Bearer Info
+ENB -> UE: NAS Attach Accept
+UE -> ENB: NAS Attach Complete
+ENB -> MME: NAS Attach Complete
+
+== (E) User Plane Data ==
+UE <-> ENB: User Data (LTE Radio)
+ENB <-> SGW: S1-U GTP-U Tunnel
+SGW <-> PGW: S5/S8 GTP-U Tunnel
+PGW <-> DN: SGi IP Traffic
+
+note bottom
+NAS is logically UE<->MME but carried via eNB.
+Control Plane: S1-MME, S6a, S11
+User Plane: S1-U, S5/S8, SGi
+end note
+@enduml

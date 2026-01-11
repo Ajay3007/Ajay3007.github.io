@@ -1,0 +1,66 @@
+@startuml
+title VoNR Call Flow (5G SA + IMS) — SIP Signaling + RTP Media
+
+skinparam shadowing false
+skinparam participantPadding 10
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 90
+
+actor "UE-A\n(Caller)" as UEA
+actor "UE-B\n(Callee)" as UEB
+participant "P-CSCF" as PCSCF
+participant "S-CSCF" as SCSCF
+participant "IMS App Server\n(TAS/AS)" as IMSSRV
+
+== Precondition ==
+note over UEA,UEB
+UEs already registered on 5G SA and have
+a PDU Session for IMS connectivity.
+Voice uses 5G QoS flow (5QI).
+end note
+
+== IMS Registration ==
+UEA -> PCSCF: SIP REGISTER
+PCSCF -> SCSCF: SIP REGISTER
+SCSCF -> IMSSRV: Service triggers / profile
+IMSSRV --> SCSCF: OK
+SCSCF --> PCSCF: 200 OK
+PCSCF --> UEA: 200 OK
+
+UEB -> PCSCF: SIP REGISTER
+PCSCF -> SCSCF: SIP REGISTER
+SCSCF -> IMSSRV: Service triggers / profile
+IMSSRV --> SCSCF: OK
+SCSCF --> PCSCF: 200 OK
+PCSCF --> UEB: 200 OK
+
+== Call Setup ==
+UEA -> PCSCF: SIP INVITE (SDP offer)
+PCSCF -> SCSCF: INVITE
+SCSCF -> IMSSRV: Apply services
+IMSSRV --> SCSCF: Proceed
+SCSCF --> PCSCF: Route INVITE
+PCSCF --> UEB: INVITE
+
+UEB --> PCSCF: 180 Ringing
+PCSCF --> UEA: 180 Ringing
+
+UEB --> PCSCF: 200 OK (SDP answer)
+PCSCF --> UEA: 200 OK
+
+UEA -> PCSCF: ACK
+PCSCF -> UEB: ACK
+
+== Media ==
+UEA <-> UEB: RTP/RTCP Media\n(voice packets)
+
+== Release ==
+UEA -> PCSCF: BYE
+PCSCF -> UEB: BYE
+UEB --> PCSCF: 200 OK
+PCSCF --> UEA: 200 OK
+
+note bottom
+If VoNR not supported, UE may do EPS fallback to LTE (VoLTE).
+end note
+@enduml

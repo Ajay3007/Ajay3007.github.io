@@ -1,0 +1,54 @@
+@startuml
+title 5G: Control Plane vs User Plane (N2 vs N3)
+
+skinparam shadowing false
+skinparam participantPadding 10
+skinparam sequenceMessageAlign center
+skinparam maxMessageSize 90
+
+actor UE
+participant "gNB\n(5G Base Station)" as gNB
+participant "AMF\n(Control Plane)" as AMF
+participant "SMF\n(Session Control)" as SMF
+participant "UPF\n(User Plane)" as UPF
+participant "DN\n(Internet)" as DN
+
+== CONTROL PLANE (Signaling) ==
+note over UE,SMF
+Control Plane = setup + management
+- Registration
+- 5G-AKA
+- Security Mode
+- PDU Session Establishment
+end note
+
+UE -> gNB: NAS: Registration / Session signaling
+gNB -> AMF: N2: Forwards NAS signaling
+
+AMF -> SMF: SBA: Create Session Context\n(Nsmf_PDUSession...)
+SMF -> UPF: N4: Install forwarding rules\n(PDR/FAR/QER)
+
+SMF --> AMF: Session Accepted\n(N2 SM info)
+AMF -> gNB: N2: Resource Setup Request
+gNB --> AMF: Resource Setup Response
+
+AMF -> gNB: NAS: PDU Session Establishment Accept
+gNB -> UE: NAS: PDU Session Establishment Accept
+
+== USER PLANE (Actual Data) ==
+note over UE,DN
+User Plane = real packets
+YouTube / WhatsApp / RTP / HTTP etc.
+end note
+
+UE <-> gNB: User Data (Radio)
+gNB <-> UPF: N3: GTP-U Tunnel\n(User plane packets)
+UPF <-> DN: N6: IP traffic to Internet
+
+note bottom
+N2 = gNB <-> AMF (Control Plane)
+N3 = gNB <-> UPF (User Plane)
+N4 = SMF <-> UPF (Rule installation)
+N6 = UPF <-> Internet (Data Network)
+end note
+@enduml

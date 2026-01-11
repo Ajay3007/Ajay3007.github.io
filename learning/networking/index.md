@@ -13,6 +13,7 @@ permalink: /learning/networking/
 	</h1>
 	<p style="font-size:1.1rem;">Fundamentals of computer networks and protocols.</p>
 	<ul style="margin:1.2rem 0 1.5rem 1.2rem;">
+		<li><a href="{{ '/learning/networking/4g-5g' | relative_url }}" style="color:#1976d2;text-decoration:none;">4G/5G Networks</a> - LTE, 5G NR, Architecture, NAS, AS, User/Control Planes</li>
 		<li>OSI and TCP/IP models</li>
 		<li>Routing and switching</li>
 		<li>TCP, UDP and HTTP</li>

@@ -1,0 +1,158 @@
+@startuml
+title 5G Architecture — NG-RAN + 5GC + IMS (Pure Class Diagram Style)
+
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+' ============================================================
+' UE + RAN
+' ============================================================
+package "UE" {
+  class UE {
+    + USIM
+    + SUPI/SUCI
+    + NAS Signaling
+    + PDU Sessions
+  }
+}
+
+package "NG-RAN (5G Radio Access Network)" {
+  class gNB {
+    + Radio scheduling
+    + Handover
+    + QoS flow mapping\n(QFI -> DRB)
+    + Forwards NAS messages
+  }
+}
+
+' ============================================================
+' 5G Core Network Functions (5GC)
+' ============================================================
+package "5GC (5G Core)" {
+
+  class AMF {
+    + Control Plane entry
+    + Registration
+    + Mobility Management
+    + NAS termination
+    + Auth orchestration
+  }
+
+  class AUSF {
+    + Authentication Server
+    + Verifies RES*
+    + Derives auth outputs
+  }
+
+  class UDM {
+    + Subscriber DB
+    + Subscription data
+  }
+
+  class ARPF {
+    + Auth credential processing
+    + Generates AV\n(RAND,AUTN,XRES*)
+  }
+
+  class SMF {
+    + Session mgmt
+    + Creates PDU session
+    + Selects UPF
+    + QoS rules for session
+  }
+
+  class UPF {
+    + User Plane forwarding
+    + Routing/traffic steering
+    + QoS enforcement
+    + Gateway to DN
+  }
+
+  class PCF {
+    + Policy control
+    + QoS/policy decisions
+  }
+
+  class NRF {
+    + NF repository
+    + Service discovery
+    + Registry of NF endpoints
+  }
+
+  class NSSF {
+    + Slice selection
+    + Chooses S-NSSAI policy
+  }
+}
+
+package "IMS (Voice Services: VoNR)" {
+  class "P-CSCF" as PCSCF {
+    + SIP Proxy
+    + First IMS hop
+  }
+
+  class "S-CSCF" as SCSCF {
+    + SIP Serving
+    + Call control
+  }
+
+  class "IMS App Server" as IMSSRV {
+    + TAS/AS logic
+    + Supplementary services
+  }
+}
+
+package "External Networks" {
+  class "DN / Internet" as DN
+  class "PSTN / Legacy Voice" as PSTN
+}
+
+' ============================================================
+' Interfaces / Connections
+' ============================================================
+
+' UE <-> RAN
+UE --> gNB : 5G NR Air\n(AS: RRC/PDCP/RLC/MAC/PHY)
+
+' Control Plane path
+gNB --> AMF : N2\n(Control Plane, NAS forwarding)
+
+' User Plane path
+gNB --> UPF : N3\n(GTP-U user data)
+
+' UPF to Internet
+UPF --> DN : N6\n(IP traffic)
+
+' SMF configures UPF
+SMF --> UPF : N4\n(PDR/FAR/QER rules)
+
+' SBA Service-based interactions (HTTP/2 APIs)
+AMF --> NRF : Discover NFs\n(service discovery)
+SMF --> NRF : Discover NFs
+AUSF --> NRF : Discover UDM
+
+AMF --> AUSF : Nausf\n(UE Authentication)
+AUSF --> UDM : Nudm\n(UE Auth Data)
+UDM --> ARPF : Credential processing\n(generate auth vectors)
+
+SMF --> PCF : Npcf\n(Session Policy)
+AMF --> PCF : Npcf\n(Access/Mobility Policy)
+AMF --> NSSF : Nnssf\n(Slice selection)
+
+' Voice over NR uses IMS
+UE --> PCSCF : SIP Signaling\n(VoNR)
+PCSCF --> SCSCF : SIP core
+SCSCF --> IMSSRV : Service triggers
+IMSSRV --> PSTN : Interconnect\n(optional)
+
+note bottom
+Key Concepts:
+- NAS is logically UE<->AMF (via gNB forwarding)
+- Control Plane: N2 + SBA APIs (AMF/SMF/AUSF/UDM/PCF/NRF)
+- User Plane: N3 (gNB<->UPF) and N6 (UPF<->Internet)
+- UPF is data gateway; SMF programs UPF using N4.
+- IMS supports voice: VoNR (or EPS fallback to VoLTE).
+end note
+
+@enduml

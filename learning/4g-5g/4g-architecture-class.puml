@@ -1,0 +1,109 @@
+@startuml
+title 4G (LTE) Architecture — E-UTRAN + EPC + IMS (Class Diagram Style)
+
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+package "UE" {
+  class UE {
+    + USIM
+    + IMSI
+    + NAS Signaling
+  }
+}
+
+package "E-UTRAN (RAN)" {
+  class eNodeB {
+    + Radio Scheduling
+    + Handover
+    + AS Signaling (RRC)
+  }
+}
+
+package "EPC (Evolved Packet Core)" {
+
+  class MME {
+    + Control Plane
+    + Mobility Mgmt
+    + Auth orchestration
+    + Bearer setup (signaling)
+  }
+
+  class SGW {
+    + User Plane anchor
+    + GTP-U forwarding
+    + Mobility anchor (data)
+  }
+
+  class PGW {
+    + Internet gateway
+    + UE IP allocation
+    + NAT/Charging hooks
+  }
+
+  class HSS {
+    + Subscriber DB
+    + Auth vectors
+    + Subscription profile
+  }
+
+  class PCRF {
+    + Policy control
+    + QoS rules
+    + Charging policies
+  }
+}
+
+package "IMS (VoLTE Services)" {
+  class "P-CSCF" as PCSCF {
+    + SIP Proxy
+    + First IMS hop
+  }
+
+  class "S-CSCF" as SCSCF {
+    + SIP Serving node
+    + Call control
+  }
+
+  class "IMS App Server" as IMSSRV {
+    + TAS/AS logic
+    + Supplementary services
+  }
+}
+
+package "External Networks" {
+  class "Internet / DN" as INET
+  class "PSTN / Legacy Voice" as PSTN
+}
+
+' ---------------------------
+' Interfaces / Connections
+' ---------------------------
+
+UE --> eNodeB : LTE Air\n(AS: RRC/PDCP/RLC/MAC/PHY)
+
+' Control Plane
+eNodeB --> MME : S1-MME\n(NAS signaling)
+MME --> HSS : S6a\n(Authentication,\nSubscriber profile)
+
+' User Plane
+eNodeB --> SGW : S1-U\n(GTP-U user data)
+SGW --> PGW : S5/S8\n(GTP-U)
+PGW --> INET : SGi\n(IP traffic)
+
+' Policy control
+PGW --> PCRF : Gx\n(Policy/QoS rules)
+
+' IMS / VoLTE
+UE --> PCSCF : SIP signaling\n(VoLTE)
+PCSCF --> SCSCF : SIP core
+SCSCF --> IMSSRV : Service triggers
+IMSSRV --> PSTN : Interconnect\n(optional)
+
+note bottom
+This is a "pure class" PlantUML diagram:
+- Uses only classes/packages/associations
+- Guaranteed to render without allowmixing/component keywords
+end note
+@enduml

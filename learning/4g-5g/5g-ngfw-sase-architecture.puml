@@ -1,0 +1,95 @@
+@startuml
+allowmixing
+title 5G Traffic Steering with NGFW/SASE (Clean Layout)
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 15
+skinparam padding 8
+skinparam nodesep 40
+skinparam ranksep 45
+left to right direction
+
+' -----------------------------
+' UE + RAN
+' -----------------------------
+rectangle "UE + NG-RAN" as RAN {
+  component "UE" as UE
+  component "gNB\n(5G Base Station)" as GNB
+}
+
+' -----------------------------
+' 5GC Control Plane
+' -----------------------------
+rectangle "5G Core (5GC)\nControl Plane" as CP {
+  together {
+    component "PCF\n(Policy)" as PCF
+    component "SMF\n(Session Mgmt)" as SMF
+  }
+}
+
+' -----------------------------
+' 5GC User Plane
+' -----------------------------
+rectangle "5G Core (5GC)\nUser Plane" as UP {
+  component "UPF\n(User Plane Function)" as UPF
+}
+
+' -----------------------------
+' Security chain + DN
+' -----------------------------
+rectangle "Security Service Chain" as SEC {
+  component "NGFW / SASE" as NGFW
+}
+
+cloud "Data Network (DN)\nInternet / Enterprise" as DN
+
+' -----------------------------
+' Alignment helpers (hidden)
+' -----------------------------
+PCF -[hidden]-> SMF
+SMF -[hidden]-> UPF
+GNB -[hidden]-> UPF
+NGFW -[hidden]-> DN
+
+' -----------------------------
+' Traffic + Interfaces
+' -----------------------------
+UE --> GNB : 5G NR Air\n(User traffic)
+
+GNB --> UPF : N3 (GTP-U)\nUser plane packets
+
+PCF --> SMF : Npcf\nQoS + Steering intent
+
+SMF --> UPF : N4 (PFCP)\nInstall PDR/FAR/QER/URR rules
+
+UPF --> NGFW : N6 Steering\n(redirect / service-chain)
+NGFW --> DN : Forward clean traffic
+
+UPF ..> DN : N6 Direct\n(Bypass path)\n(optional)
+
+' -----------------------------
+' Notes: move details here
+' -----------------------------
+note right of UPF
+UPF executes:
+- PDR: match traffic
+- FAR: action (forward/redirect/drop)
+- QER: QoS enforce
+- URR: usage report
+end note
+
+note right of PCF
+Policy examples:
+- enterprise slice => inspect
+- unknown domain => inspect
+- trusted apps => bypass
+end note
+
+note bottom
+Goal:
+- Keep heavy text out of components
+- Use notes for clarity
+- Avoid arrow label collisions
+end note
+@enduml
