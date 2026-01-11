@@ -60,6 +60,10 @@ My personal hub for projects, blogs, and learning resources in programming and C
                         <div style="font-weight: 700; margin-bottom: 0.3rem;">🌐 Networking</div>
                         <div style="font-size: 0.9rem; color: var(--light-text);">Protocols & data plane</div>
                     </a>
+                    <a href="{{ '/learning/4g-5g/' | relative_url }}" style="padding: 1.25rem; background: white; border-radius: 8px; text-decoration: none; color: var(--primary-color); border-left: 4px solid #00d4ff; transition: all 0.2s; box-shadow: var(--shadow-sm);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow)';" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)';">
+                        <div style="font-weight: 700; margin-bottom: 0.3rem;">📡 4G/5G Networks</div>
+                        <div style="font-size: 0.9rem; color: var(--light-text);">Mobile architecture & protocols</div>
+                    </a>
                     <a href="{{ '/learning/data-plane/' | relative_url }}" style="padding: 1.25rem; background: white; border-radius: 8px; text-decoration: none; color: var(--primary-color); border-left: 4px solid #00d4ff; transition: all 0.2s; box-shadow: var(--shadow-sm);" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow)';" onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-sm)';">
                         <div style="font-weight: 700; margin-bottom: 0.3rem;">⚡ Data Plane (DPDK/VPP)</div>
                         <div style="font-size: 0.9rem; color: var(--light-text);">Performance & optimization</div>
@@ -140,6 +144,10 @@ Explore topic-wise paths and quick intros below.
     <div class="project-card">
         <h3><a href="{{ '/learning/networking/' | relative_url }}">Networking</a></h3>
         <p>Protocols, routing, TCP/UDP and practical networking.</p>
+    </div>
+    <div class="project-card">
+        <h3><a href="{{ '/learning/4g-5g/' | relative_url }}">4G/5G Networks</a></h3>
+        <p>Mobile architecture, LTE, 5G NR, and cellular protocols.</p>
     </div>
     <div class="project-card">
         <h3><a href="{{ '/learning/competitive-programming/' | relative_url }}">Competitive Programming</a></h3>
