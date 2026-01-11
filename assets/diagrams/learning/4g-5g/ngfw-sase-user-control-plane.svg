@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="686px" preserveAspectRatio="none" style="width:2457px;height:686px;" version="1.1" viewBox="0 0 2457 686" width="2457px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="634" x="923" y="26.708">5G Telco Style: CP vs UP + NGFW/SASE Service Chain (Renderer-Safe)</text><!--MD5=[4499c58aefeb8777a4ef8729a6b9746a]
+cluster L1--><rect fill="#FFFFFF" height="180" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="410" x="22" y="437.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="103" x="175.5" y="462.9482">UE + NG-RAN</text><!--MD5=[30107c386ad61863a1077fa9b8608265]
+cluster L2--><rect fill="#FFFFFF" height="180" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="575" x="465" y="338.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="163" x="671" y="363.9482">5GC — Control Plane</text><!--MD5=[34c507e18fc183d68ebbdf9f74fe0bb7]
+cluster L3--><rect fill="#FFFFFF" height="163" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="210" x="1208" y="404.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="142" x="1242" y="429.9482">5GC — User Plane</text><!--MD5=[faba4da492b916cef897e57c3e88ce83]
+cluster L4--><rect fill="#FFFFFF" height="273" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="214" x="1721" y="312.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="178" x="1739" y="337.9482">Security Service Chain</text><!--MD5=[a0db8f97357b434a43a32cbc167ab7a2]
+cluster L5--><rect fill="#FFFFFF" height="127" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="235" x="2211" y="453.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="146" x="2255.5" y="478.9482">Data Network (DN)</text><!--MD5=[42419ff7dc8f43a9feecfed2767e5994]
+entity UE--><rect fill="#FEFECE" height="56.2969" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="59" x="38" y="531.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="19" x="58" y="564.9482">UE</text><!--MD5=[ad0209bad8b3577366a57d71cf135ab8]
+entity GNB--><rect fill="#FEFECE" height="92.5938" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="161" x="255" y="504.4531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="275" y="537.4482">gNB</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="121" x="275" y="573.7451">(5G Base Station)</text><!--MD5=[90288e32e828afc4ee81443329641143]
+entity PCF--><rect fill="#FEFECE" height="92.5938" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="133" x="481" y="410.4531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="27" x="501" y="443.4482">PCF</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="93" x="501" y="479.7451">Policy Control</text><!--MD5=[2e47724fafa86dd38d5a50a78a98da07]
+entity SMF--><rect fill="#FEFECE" height="92.5938" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="138" x="886" y="405.4531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="29" x="906" y="438.4482">SMF</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="98" x="906" y="474.7451">Session Mgmt</text><!--MD5=[59c1d6ab00f72529b2b616494adaadbc]
+entity UPF--><rect fill="#FEFECE" height="92.5938" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="178" x="1224" y="459.4531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="27" x="1244" y="492.4482">UPF</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="138" x="1244" y="528.7451">User Plane Function</text><!--MD5=[a46a4dd2a3804adf567f5dd8800918bc]
+entity NGFW--><rect fill="#FEFECE" height="201.4844" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="131" x="1762" y="368.4531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="91" x="1782" y="401.4482">NGFW / SASE</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="89" x="1782" y="437.7451">(DPI, IPS/IDS,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="89" x="1782" y="474.042">URL Filtering,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="82" x="1782" y="510.3389">Threat Intel,</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="74" x="1782" y="546.6357">Telemetry)</text><!--MD5=[f2af5fb657be85b9dacf1970f15859a9]
+entity DN--><rect fill="#FEFECE" height="56.2969" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.5;" width="203" x="2227" y="508.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="163" x="2247" y="541.9482">Internet / Enterprise DN</text><path d="M1720,58.9531 L1720,144.6172 A10,10 0 0 0 1730,154.6172 L1925,154.6172 A10,10 0 0 0 1935,144.6172 L1935,58.9531 L1925,48.9531 L1730,48.9531 A10,10 0 0 0 1720,58.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M1925,48.9531 L1925,53.9531 A5,5 0 0 0 1930,58.9531 L1935,58.9531 L1925,48.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="113" x="1736" y="76.02">UPF applies rules:</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="112" x="1736" y="91.1528">- PDR: match flow</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="174" x="1736" y="106.2856">- FAR: forward/redirect/drop</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="156" x="1736" y="121.4185">- QER: QoS enforcement</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="125" x="1736" y="136.5513">- URR: usage report</text><path d="M1638,215.4531 L1638,285.9844 A10,10 0 0 0 1648,295.9844 L2007,295.9844 A10,10 0 0 0 2017,285.9844 L2017,215.4531 L2007,205.4531 L1832,205.4531 L1828,155.3231 L1824,205.4531 L1648,205.4531 A10,10 0 0 0 1638,215.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M2007,205.4531 L2007,210.4531 A5,5 0 0 0 2012,215.4531 L2017,215.4531 L2007,205.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="76" x="1654" y="232.52">Two modes:</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="238" x="1654" y="247.6528">1) Full inline: all traffic -&gt; NGFW/SASE</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="338" x="1654" y="262.7856">2) Selective steering: only risky flows -&gt; NGFW/SASE,</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="219" x="1666" y="277.9185">rest bypasses to keep latency low.</text><!--MD5=[4e1b092356ee8799663a51f253fdf892]
+link UE to GNB--><!--MD5=[4e1b092356ee8799663a51f253fdf892]
+link UE to GNB--><path d="M97.2,550.6231 C97.2,550.6231 249.84,550.6231 249.84,550.6231 " fill="none" id="UE-&gt;GNB-1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="254.84,550.6231,245.84,546.6231,249.84,550.6231,245.84,554.6231,254.84,550.6231" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="61" x="145.5" y="516.02">5G NR Air</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="80" x="136" y="531.1528">(User traffic)</text><!--MD5=[28f920e6c3ab71fa40720c55cc67c3ac]
+link GNB to PCF--><!--MD5=[f0306586acedfd90c35bb7cf59e4f0a8]
+link PCF to SMF--><!--MD5=[f0306586acedfd90c35bb7cf59e4f0a8]
+link PCF to SMF--><path d="M614.33,439.7831 C614.33,439.7831 880.74,439.7831 880.74,439.7831 " fill="none" id="PCF-&gt;SMF-1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="885.74,439.7831,876.74,435.7831,880.74,439.7831,876.74,443.7831,885.74,439.7831" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="29" x="735.5" y="417.02">Npcf</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="194" x="653" y="432.1528">Policy + QoS + steering intent</text><!--MD5=[4a40000fd54c0d5d1dd9b5287db2ba8d]
+link SMF to UPF--><!--MD5=[4a40000fd54c0d5d1dd9b5287db2ba8d]
+link SMF to UPF--><path d="M1024.03,472.4531 C1024.03,472.4531 1218.82,472.4531 1218.82,472.4531 " fill="none" id="SMF-&gt;UPF-1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="1223.82,472.4531,1214.82,468.4531,1218.82,472.4531,1214.82,476.4531,1223.82,472.4531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="64" x="1092" y="462.02">N4 (PFCP)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="76" x="1086" y="477.1528">Install rules:</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="114" x="1067" y="492.2856">PDR/FAR/QER/URR</text><!--MD5=[880e8a732240b05a19ffa563540a6a42]
+link UPF to NGFW--><!--MD5=[880e8a732240b05a19ffa563540a6a42]
+link UPF to NGFW--><path d="M1402.03,490.4531 C1402.03,490.4531 1756.98,490.4531 1756.98,490.4531 " fill="none" id="UPF-&gt;NGFW-1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="1761.98,490.4531,1752.98,486.4531,1756.98,490.4531,1752.98,494.4531,1761.98,490.4531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="76" x="1484" y="498.02">N6 Steering</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="154" x="1445" y="513.1528">(service chain / redirect)</text><!--MD5=[65b5031c181b3c6c1e65b6fb51c5f7ac]
+link NGFW to DN--><!--MD5=[65b5031c181b3c6c1e65b6fb51c5f7ac]
+link NGFW to DN--><path d="M1893.25,527.6231 C1893.25,527.6231 2221.62,527.6231 2221.62,527.6231 " fill="none" id="NGFW-&gt;DN-1" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="2226.62,527.6231,2217.62,523.6231,2221.62,527.6231,2217.62,531.6231,2226.62,527.6231" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="128" x="2056" y="523.02">Forward clean traffic</text><!--MD5=[02c0c5f9c53249aecdd10fe9a330fa9d]
+link GNB to UPF--><path d="M416.32,536.4531 C416.32,536.4531 1218.67,536.4531 1218.67,536.4531 " fill="none" id="GNB-&gt;UPF" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="1223.67,536.4531,1214.67,532.4531,1218.67,536.4531,1214.67,540.4531,1223.67,536.4531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="72" x="714" y="558.02">N3 (GTP-U)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="123" x="688.5" y="573.1528">User plane packets</text><!--MD5=[e8c097fe5d52a61487e06e04f0c79ac4]
+link UPF to DN--><path d="M1313,552.8231 C1313,569.1431 1313,583.4531 1313,583.4531 C1313,583.4531 2329,583.4531 2329,583.4531 C2329,583.4531 2329,570.0731 2329,570.0731 " fill="none" id="UPF-&gt;DN" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="2329,565.0731,2325,574.0731,2329,570.0731,2333,574.0731,2329,565.0731" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="60" x="1797.5" y="643.02">N6 Direct</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="56" x="1799.5" y="658.1528">(Bypass)</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="61" x="1797" y="673.2856">(optional)</text><!--MD5=[526eeccc9bf5ed5253395fc68db0fee2]
+link UPF to GMN27--><path d="M1313,459.2131 C1313,352.8731 1313,101.9531 1313,101.9531 C1313,101.9531 1569.13,101.9531 1719.96,101.9531 " fill="none" id="UPF-GMN27" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[bf0eee6525d105f1395dc15d5c3cc8da]
+@startuml
+allowmixing
+title 5G Telco Style: CP vs UP + NGFW/SASE Service Chain (Renderer-Safe)
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 20
+skinparam padding 10
+skinparam nodesep 50
+skinparam ranksep 55
+left to right direction
+
+rectangle "UE + NG-RAN" as L1 {
+  rectangle "UE" as UE
+  rectangle "gNB\n(5G Base Station)" as GNB
+}
+
+rectangle "5GC — Control Plane" as L2 {
+  rectangle "PCF\nPolicy Control" as PCF
+  rectangle "SMF\nSession Mgmt" as SMF
+}
+
+rectangle "5GC — User Plane" as L3 {
+  rectangle "UPF\nUser Plane Function" as UPF
+}
+
+rectangle "Security Service Chain" as L4 {
+  rectangle "NGFW / SASE\n(DPI, IPS/IDS,\nURL Filtering,\nThreat Intel,\nTelemetry)" as NGFW
+}
+
+rectangle "Data Network (DN)" as L5 {
+  rectangle "Internet / Enterprise DN" as DN
+}
+
+UE -[hidden]-> GNB
+GNB -[hidden]-> PCF
+PCF -[hidden]-> SMF
+SMF -[hidden]-> UPF
+UPF -[hidden]-> NGFW
+NGFW -[hidden]-> DN
+
+UE - -> GNB : 5G NR Air\n(User traffic)
+
+GNB - -> UPF : N3 (GTP-U)\nUser plane packets
+UPF - -> NGFW : N6 Steering\n(service chain / redirect)
+NGFW - -> DN : Forward clean traffic
+
+UPF ..> DN : N6 Direct\n(Bypass)\n(optional)
+
+PCF - -> SMF : Npcf\nPolicy + QoS + steering intent
+SMF - -> UPF : N4 (PFCP)\nInstall rules:\nPDR/FAR/QER/URR
+
+note right of UPF
+UPF applies rules:
+- PDR: match flow
+- FAR: forward/redirect/drop
+- QER: QoS enforcement
+- URR: usage report
+end note
+
+note bottom
+Two modes:
+1) Full inline: all traffic -> NGFW/SASE
+2) Selective steering: only risky flows -> NGFW/SASE,
+   rest bypasses to keep latency low.
+end note
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.17+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
