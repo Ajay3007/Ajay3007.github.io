@@ -135,7 +135,7 @@ Responsibilities:
 
 ### Architecture Diagram
 
-![4G LTE Architecture]({{ '/assets/diagrams/learning/4g-5g/4g-architecture.svg' | relative_url }})
+![4G LTE Architecture]({{ '/assets/diagrams/learning/4g-5g/4g-architecture.svg' | relative_url }}){:class="diagram-img"}
 
 *Complete 4G architecture showing E-UTRAN, EPC components, IMS, and external networks with all interfaces (S1-MME, S1-U, S5/S8, S6a, Gx, SGi).* 
 
@@ -175,7 +175,7 @@ Data is tunneled using **GTP-U** (GPRS Tunneling Protocol - User Plane):
 
 ### Attach & Bearer Setup Flow
 
-![4G Attach and Bearer Setup]({{ '/assets/diagrams/learning/4g-5g/4g-attach-bearer.svg' | relative_url }})
+![4G Attach and Bearer Setup]({{ '/assets/diagrams/learning/4g-5g/4g-attach-bearer.svg' | relative_url }}){:class="diagram-img"}
 
 *Sequence diagram showing complete 4G attach procedure: RRC connection, NAS authentication with HSS, bearer setup via MME/SGW/PGW, and QoS policy from PCRF.*
 
@@ -218,7 +218,7 @@ VoLTE leverages the **IMS (IP Multimedia Subsystem)** core:
 
 ### VoLTE Call Flow Diagram
 
-![VoLTE Call Flow]({{ '/assets/diagrams/learning/4g-5g/volte-call-flow.svg' | relative_url }})
+![VoLTE Call Flow]({{ '/assets/diagrams/learning/4g-5g/volte-call-flow.svg' | relative_url }}){:class="diagram-img"}
 
 *Complete VoLTE call flow showing IMS registration, SIP INVITE/200 OK signaling via P-CSCF/S-CSCF, and RTP media establishment with QoS bearer (QCI=1).* 
 
@@ -398,7 +398,7 @@ UE (Device) ↔ gNB ↔ 5GC (Core) ↔ Internet/IMS
 
 ### 5G Architecture Diagram
 
-![5G Architecture]({{ '/assets/diagrams/learning/4g-5g/5g-architecture.svg' | relative_url }})
+![5G Architecture]({{ '/assets/diagrams/learning/4g-5g/5g-architecture.svg' | relative_url }}){:class="diagram-img"}
 
 *5G architecture with NG-RAN (gNB), 5GC network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NSSF), IMS, and external networks showing service-based architecture (SBA) with N1-N6 interfaces.*
 
@@ -447,7 +447,7 @@ Tunneling:
 
 ### Complete 5G Flow Diagram
 
-![5G Registration + 5G-AKA + PDU Session]({{ '/assets/diagrams/learning/4g-5g/5g-registration-AKA-PDU-session.svg' | relative_url }})
+![5G Registration + 5G-AKA + PDU Session]({{ '/assets/diagrams/learning/4g-5g/5g-registration-AKA-PDU-session.svg' | relative_url }}){:class="diagram-img"}
 
 *End-to-end sequence diagram showing: UE registration via gNB → AMF, NF discovery through NRF, 5G-AKA authentication with AUSF/UDM, PDU session establishment via SMF, and UPF configuration for data flow.*
 
@@ -505,7 +505,7 @@ If radio encryption broken, NAS is still protected!
 
 ### AS vs NAS Signaling Flow
 
-![5G AS vs NAS]({{ '/assets/diagrams/learning/4g-5g/5g-NAS-AS.svg' | relative_url }})
+![5G AS vs NAS]({{ '/assets/diagrams/learning/4g-5g/5g-NAS-AS.svg' | relative_url }}){:class="diagram-img"}
 
 *Sequence diagram showing the separation between Access Stratum (AS) signaling (UE ↔ gNB: RRC, PDCP, RLC, MAC) and Non-Access Stratum (NAS) signaling (UE ↔ AMF: Registration, Authentication, Session) with NAS messages encapsulated through AS.*
 
@@ -572,7 +572,7 @@ UE ↔ gNB ↔ UPF ↔ Internet
 
 ### Control Plane vs User Plane Diagram
 
-![5G Control vs User Plane]({{ '/assets/diagrams/learning/4g-5g/5g-user-vs-control-plane.svg' | relative_url }})
+![5G Control vs User Plane]({{ '/assets/diagrams/learning/4g-5g/5g-user-vs-control-plane.svg' | relative_url }}){:class="diagram-img"}
 
 *Sequence diagram illustrating the separation of Control Plane (N2: gNB ↔ AMF, setup/signaling) and User Plane (N3: gNB ↔ UPF, data traffic) with N4 interface (SMF ↔ UPF) for forwarding rule configuration.*
 
@@ -744,7 +744,7 @@ If VoNR unavailable (no 5G coverage):
 
 ### VoNR Call Flow Diagram
 
-![VoNR Call Flow]({{ '/assets/diagrams/learning/4g-5g/vonr-call-flow.svg' | relative_url }})
+![VoNR Call Flow]({{ '/assets/diagrams/learning/4g-5g/vonr-call-flow.svg' | relative_url }}){:class="diagram-img"}
 
 *VoNR call flow showing IMS registration on 5G SA, SIP signaling via P-CSCF/S-CSCF, and RTP media with 5G QoS flow (5QI) - demonstrating ultra-low latency voice over 5G NR.*
 
@@ -790,7 +790,7 @@ UE → gNB → UPF → [ normal traffic ] → Internet
 
 ### 5G NGFW/SASE Integration Diagram
 
-![5G NGFW/SASE Architecture]({{ '/assets/diagrams/learning/4g-5g/5g-ngfw-sase.svg' | relative_url }})
+![5G NGFW/SASE Architecture]({{ '/assets/diagrams/learning/4g-5g/5g-ngfw-sase.svg' | relative_url }}){:class="diagram-img"}
 
 *Sequence diagram showing runtime traffic steering to NGFW/SASE: PCF policy decision → SMF configures UPF via N4 → UPF forwards traffic through security chain (DPI, URL filter, threat prevention) at N6 interface before reaching Internet/DN.*
 
