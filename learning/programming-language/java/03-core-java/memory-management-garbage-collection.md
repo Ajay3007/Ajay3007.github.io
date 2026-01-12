@@ -10,19 +10,6 @@ This guide explains how Java manages memory using **Stack** and **Heap**, how ob
 
 ---
 
-<div style="background: linear-gradient(135deg, rgba(102,126,234,0.08), rgba(118,75,162,0.08)); border-left: 4px solid #667eea; border-radius: 10px; padding: 1.5rem; margin: 2rem 0;">
-  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
-    <span style="font-size: 1.8rem;">📄</span>
-    <h3 style="margin: 0; color: #2d3748;">Handwritten Notes (PDF)</h3>
-  </div>
-  <p style="margin: 0.5rem 0; color: #4a5568;">Original handwritten notes on Memory Management and Garbage Collection with detailed diagrams and annotations.</p>
-  <a href="{{ '/learning/programming-language/java/03-core-java/MemoryManagentAndGC.pdf' | relative_url }}" style="display: inline-block; margin-top: 1rem; padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: 600; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-    📥 Download PDF Notes
-  </a>
-</div>
-
----
-
 ## Table of Contents
 
 1. [Stack vs Heap](#1-stack-vs-heap)

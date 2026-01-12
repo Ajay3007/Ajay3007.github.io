@@ -140,6 +140,15 @@ permalink: /learning/dsa/
   </div>
 </div>
 
+<h2 style="font-size:1.5rem;margin:2.5rem 0 1.2rem 0;font-weight:700;">Master Problem List</h2>
+<div style="background:#f8fafc;border-radius:10px;padding:1.25rem 1.5rem;box-shadow:0 2px 10px #e2e8f0;margin:1.5rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;justify-content:space-between;">
+  <div>
+    <h3 style="margin:0 0 0.4rem 0;">Browse All Solved Problems</h3>
+    <p style="margin:0;color:#4a5568;">Curated links to every documented solution, organized by topic.</p>
+  </div>
+  <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display:inline-block;padding:10px 18px;background:#667eea;color:white;border-radius:6px;text-decoration:none;font-weight:600;">View List →</a>
+</div>
+
 <div style="text-align:center; margin:2.5rem 0 1.5rem 0;">
   <a href="{{ '/' | relative_url }}" class="btn-crosslink">
     <span style="font-size:1.3rem;">🏠</span> Back to Home
