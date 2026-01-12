@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="601px" preserveAspectRatio="none" style="width:912px;height:601px;" version="1.1" viewBox="0 0 912 601" width="912px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="298" x="313" y="16.708">Stack vs Heap - Memory Diagram</text><!--MD5=[f36d50cfa46329efd71dd789c06dbfb4]
+cluster Stack (Thread Main)--><polygon fill="#FFFFFF" points="22,107.9531,185,107.9531,192,130.25,514,130.25,514,283.9531,22,283.9531,22,107.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="192" y1="130.25" y2="130.25"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="157" x="26" y="122.9482">Stack (Thread Main)</text><!--MD5=[ac2b45066e53390c211a559d4a0d2268]
+cluster Heap--><polygon fill="#FFFFFF" points="621,44.9531,667,44.9531,674,67.25,890,67.25,890,459.9531,621,459.9531,621,44.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="621" x2="674" y1="67.25" y2="67.25"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="40" x="625" y="59.9482">Heap</text><rect fill="#FEFECE" height="72.5313" style="stroke: #A80036; stroke-width: 1.5;" width="97" x="62" y="170.4531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="80" x="70.5" y="183.5918">main() frame</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="63" x2="158" y1="188.4219" y2="188.4219"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="85" x="68" y="201.7041">primitiveVar = 10</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="71" x="68" y="213.3447">personObj(ref)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="79" x="68" y="224.9854">stringLiteral(ref)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="64" x="68" y="236.626">memObj(ref)</text><rect fill="#FEFECE" height="72.5313" style="stroke: #A80036; stroke-width: 1.5;" width="222" x="252" y="167.4531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="208" x="259" y="180.5918">memoryManagementTest() frame</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="253" x2="473" y1="185.4219" y2="185.4219"/><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="108" x="258" y="198.7041">personObj_param(ref)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="77" x="258" y="210.3447">personObj2(ref)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="85" x="258" y="221.9854">stringLiteral2(ref)</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="85" x="258" y="233.626">stringLiteral3(ref)</text><rect fill="#FEFECE" height="33.9688" style="stroke: #A80036; stroke-width: 1.5;" width="103" x="704" y="197.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="89" x="711" y="211.0918">Person@heap</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="705" x2="806" y1="215.9219" y2="215.9219"/><rect fill="#FEFECE" height="33.9688" style="stroke: #A80036; stroke-width: 1.5;" width="189" x="661" y="385.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="175" x="668" y="399.0918">MemoryManagement@heap</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="662" x2="849" y1="403.9219" y2="403.9219"/><rect fill="#FEFECE" height="33.9688" style="stroke: #A80036; stroke-width: 1.5;" width="138" x="686.5" y="103.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="124" x="693.5" y="117.0918">new String(Memory)</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="687.5" x2="823.5" y1="121.9219" y2="121.9219"/><rect fill="#FEFECE" height="33.9688" style="stroke: #A80036; stroke-width: 1.5;" width="146" x="682.5" y="291.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="132" x="689.5" y="305.0918">String literal: Memory</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="683.5" x2="827.5" y1="309.9219" y2="309.9219"/><!--MD5=[6137e55e35d98ca9e409990d945a5397]
+link mainFrame to testFrame--><path d="M159.18,205.4531 C159.18,205.4531 246.96,205.4531 246.96,205.4531 " fill="none" id="mainFrame-&gt;testFrame" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="251.96,205.4531,242.96,201.4531,246.96,205.4531,242.96,209.4531,251.96,205.4531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="21" x="195" y="180.02">call</text><!--MD5=[3e8d9eb4eb8cd6ace4abc9497157ff6b]
+link mainFrame to heapPerson--><path d="M135,243.6931 C135,256.4831 135,267.7031 135,267.7031 C135,267.7031 756,267.7031 756,267.7031 C756,267.7031 756,237.2231 756,237.2231 " fill="none" id="mainFrame-&gt;heapPerson" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="756,232.2231,752,241.2231,756,237.2231,760,241.2231,756,232.2231" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="65" x="330.5" y="314.02">personObj</text><!--MD5=[5c20d65ec70dcfb85fd429b5ed708a22]
+link mainFrame to heapMemObj--><path d="M87,243.8231 C87,300.5931 87,402.9531 87,402.9531 C87,402.9531 655.78,402.9531 655.78,402.9531 " fill="none" id="mainFrame-&gt;heapMemObj" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="660.78,402.9531,651.78,398.9531,655.78,402.9531,651.78,406.9531,660.78,402.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="55" x="335.5" y="588.02">memObj</text><!--MD5=[5869b9dd23488149d295f478ba303a95]
+link mainFrame to poolMemory--><path d="M111,243.4931 C111,272.7531 111,308.9531 111,308.9531 C111,308.9531 677.2,308.9531 677.2,308.9531 " fill="none" id="mainFrame-&gt;poolMemory" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="682.2,308.9531,673.2,304.9531,677.2,308.9531,673.2,312.9531,682.2,308.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="35" x="345.5" y="451.02">literal</text><!--MD5=[a01dfda5e97da35bf2ebd99bba349f58]
+link testFrame to heapPerson--><path d="M474.16,214.9531 C474.16,214.9531 698.8,214.9531 698.8,214.9531 " fill="none" id="testFrame-&gt;heapPerson" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="703.8,214.9531,694.8,210.9531,698.8,214.9531,694.8,218.9531,703.8,214.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="73" x="531" y="136.02">param,obj2</text><!--MD5=[444c5d21e5a89d2587671c4aa221c4dc]
+link testFrame to poolMemory--><path d="M474.26,236.2031 C570.07,236.2031 693,236.2031 693,236.2031 C693,236.2031 693,286.7131 693,286.7131 " fill="none" id="testFrame-&gt;poolMemory" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="693,291.7131,697,282.7131,693,286.7131,689,282.7131,693,291.7131" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="43" x="546" y="218.02">literal2</text><!--MD5=[a641dea4855e5d350d579220543cd237]
+link testFrame to heapNewString--><path d="M474.42,182.7031 C572.22,182.7031 699,182.7031 699,182.7031 C699,182.7031 699,143.1531 699,143.1531 " fill="none" id="testFrame-&gt;heapNewString" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="699,138.1531,695,147.1531,699,143.1531,703,147.1531,699,138.1531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="67" x="534" y="54.02">new String</text><!--MD5=[9ee80ad4a1df1962858567562e2490a5]
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+skinparam nodesep 60
+skinparam ranksep 70
+skinparam packagePadding 20
+skinparam classAttributeIconSize 0
+
+title Stack vs Heap - Memory Diagram
+
+package "Stack (Thread Main)" {
+
+  together {
+    object "main() frame" as mainFrame {
+      primitiveVar = 10
+      personObj(ref)
+      stringLiteral(ref)
+      memObj(ref)
+    }
+
+    object "memoryManagementTest() frame" as testFrame {
+      personObj_param(ref)
+      personObj2(ref)
+      stringLiteral2(ref)
+      stringLiteral3(ref)
+    }
+  }
+}
+
+package "Heap" {
+
+  together {
+    object "Person@heap" as heapPerson
+    object "MemoryManagement@heap" as heapMemObj
+    object "new String(Memory)" as heapNewString
+    object "String literal: Memory" as poolMemory
+  }
+}
+
+mainFrame - -> testFrame : call
+
+mainFrame - -> heapPerson : personObj
+mainFrame - -> heapMemObj : memObj
+mainFrame - -> poolMemory : literal
+
+testFrame - -> heapPerson : param,obj2
+testFrame - -> poolMemory : literal2
+testFrame - -> heapNewString : new String
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.17+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

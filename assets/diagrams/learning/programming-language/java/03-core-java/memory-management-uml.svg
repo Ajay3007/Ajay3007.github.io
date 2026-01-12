@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="264px" preserveAspectRatio="none" style="width:362px;height:264px;" version="1.1" viewBox="0 0 362 264" width="362px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="348" x="2" y="16.708">MemoryManagement - UML Class View</text><!--MD5=[71b8f281265fca1490ee5647a90c28d9]
+class MemoryManagement--><rect fill="#FEFECE" height="73.6094" id="MemoryManagement" style="stroke: #A80036; stroke-width: 1.5;" width="282" x="29" y="28.9531"/><ellipse cx="100.75" cy="44.9531" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M103.7188,50.5938 Q103.1406,50.8906 102.5,51.0313 Q101.8594,51.1875 101.1563,51.1875 Q98.6563,51.1875 97.3281,49.5469 Q96.0156,47.8906 96.0156,44.7656 Q96.0156,41.6406 97.3281,39.9844 Q98.6563,38.3281 101.1563,38.3281 Q101.8594,38.3281 102.5,38.4844 Q103.1563,38.6406 103.7188,38.9375 L103.7188,41.6563 Q103.0938,41.0781 102.5,40.8125 Q101.9063,40.5313 101.2813,40.5313 Q99.9375,40.5313 99.25,41.6094 Q98.5625,42.6719 98.5625,44.7656 Q98.5625,46.8594 99.25,47.9375 Q99.9375,49 101.2813,49 Q101.9063,49 102.5,48.7344 Q103.0938,48.4531 103.7188,47.875 L103.7188,50.5938 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="130" x="121.25" y="49.1074">MemoryManagement</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="30" x2="310" y1="60.9531" y2="60.9531"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="30" x2="310" y1="68.9531" y2="68.9531"/><ellipse cx="40" cy="79.9531" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="108" x="49" y="83.1636">main(String[] args)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="37" y="89.7578"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="256" x="49" y="95.9683">memoryManagementTest(Person personObj)</text><!--MD5=[09ce52be0ee7de43c61b6e2d59bf108b]
+class Person--><rect fill="#FEFECE" height="73.6094" id="Person" style="stroke: #A80036; stroke-width: 1.5;" width="100" x="120" y="179.9531"/><ellipse cx="145.8" cy="195.9531" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M148.7688,201.5938 Q148.1906,201.8906 147.55,202.0313 Q146.9094,202.1875 146.2063,202.1875 Q143.7063,202.1875 142.3781,200.5469 Q141.0656,198.8906 141.0656,195.7656 Q141.0656,192.6406 142.3781,190.9844 Q143.7063,189.3281 146.2063,189.3281 Q146.9094,189.3281 147.55,189.4844 Q148.2063,189.6406 148.7688,189.9375 L148.7688,192.6563 Q148.1438,192.0781 147.55,191.8125 Q146.9563,191.5313 146.3313,191.5313 Q144.9875,191.5313 144.3,192.6094 Q143.6125,193.6719 143.6125,195.7656 Q143.6125,197.8594 144.3,198.9375 Q144.9875,200 146.3313,200 Q146.9563,200 147.55,199.7344 Q148.1438,199.4531 148.7688,198.875 L148.7688,201.5938 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="44" x="162.2" y="200.1074">Person</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="121" x2="219" y1="211.9531" y2="211.9531"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="128" y="219.9531"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="74" x="140" y="226.1636">name: String</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="128" y="232.7578"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="43" x="140" y="238.9683">age: int</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="121" x2="219" y1="245.5625" y2="245.5625"/><!--MD5=[df0869ae191dc5300b504875adc7d90d]
+link MemoryManagement to Person--><path d="M170,103.2831 C170,103.2831 170,174.7931 170,174.7931 " fill="none" id="MemoryManagement-&gt;Person" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="170,179.7931,174,170.7931,170,174.7931,166,170.7931,170,179.7931" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="30" x="171" y="146.02">uses</text><!--MD5=[fc4938e2224e98f74a61476d7d953cc4]
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title MemoryManagement - UML Class View
+
+class MemoryManagement {
+  + main(String[] args)
+  - memoryManagementTest(Person personObj)
+}
+
+class Person {
+  - name: String
+  - age: int
+}
+
+MemoryManagement ..> Person : uses
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.17+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
