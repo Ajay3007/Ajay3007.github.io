@@ -161,12 +161,7 @@ My personal hub for projects, blogs, and learning resources in programming and C
     <a href="{{ '/blogs' | relative_url }}" style="display: inline-flex; align-items: center; padding: 12px 28px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(102,126,234,0.3);" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(102,126,234,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(102,126,234,0.3)';">
         <span style="font-size: 1.2rem; margin-right: 0.5rem;">📖</span> View All Blog Posts
     </a>
-</div
-- **[{{ post.title }}]({{ post.url }})** - <time>{{ post.date | date: "%B %d, %Y" }}</time>
-{% endfor %}
-
-<a href="{{ '/blogs' | relative_url }}" class="btn-crosslink" style="display: inline-flex; margin-top: 1rem;"><span style="font-size: 1.2rem; margin-right: 0.5rem;">📖</span> Read More Posts</a>
-
+</div>
 
 ## 📚 Learning Journey
 
@@ -205,7 +200,9 @@ Explore topic-wise paths and quick intros below.
         <h3><a href="{{ '/learning/competitive-programming/' | relative_url }}">Competitive Programming</a></h3>
         <p>Contest strategy, patterns and practice resources.</p>
     </div>
-    <dFeatured Projects
+</div>
+
+## 🚀 Featured Projects
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
     {% for project in site.projects limit: 3 %}
@@ -225,20 +222,7 @@ Explore topic-wise paths and quick intros below.
     <a href="{{ '/projects' | relative_url }}" style="display: inline-flex; align-items: center; padding: 12px 28px; background: linear-gradient(135deg, #764ba2, #667eea); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 15px rgba(118,75,162,0.3);" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(118,75,162,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(118,75,162,0.3)';">
         <span style="font-size: 1.2rem; margin-right: 0.5rem;">🚀</span> View All Projects
     </a>
-</div
-    {% for project in site.projects limit: 3 %}
-    <div class="project-card">
-        <h3><a href="{{ project.url }}">{{ project.title }}</a></h3>
-        {% if project.description %}
-            <p>{{ project.description }}</p>
-        {% endif %}
-    </div>
-    {% endfor %}
 </div>
-
-
-<a href="{{ '/projects' | relative_url }}" class="btn-crosslink" style="display: inline-flex; margin-top: 1rem;"><span style="font-size: 1.2rem; margin-right: 0.5rem;">🚀</span> View All Projects</a>
-
 
 ## 💡 About This Site
 
