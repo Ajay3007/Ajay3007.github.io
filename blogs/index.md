@@ -43,13 +43,18 @@ Welcome to the blogs index. Explore posts by category:
     <span style="font-size:1.13rem;font-weight:700;margin:1.1rem 0 0.2rem 0;">General & Learning</span>
     <span style="color:#607d8b;font-size:0.98rem;">General & Learning posts</span>
   </a>
+  <a href="{{ '/blogs/finance/' | relative_url }}" class="category-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:220px;max-width:260px;padding:2.2rem 1.2rem;background:rgba(255,255,255,0.88);border-radius:16px;box-shadow:0 2px 12px #e2e8f0;transition:transform 0.15s,box-shadow 0.15s;text-decoration:none;color:#222;position:relative;overflow:hidden;">
+    <span style="font-size:2.2rem;">💰</span>
+    <span style="font-size:1.13rem;font-weight:700;margin:1.1rem 0 0.2rem 0;">Finance & Economics</span>
+    <span style="color:#607d8b;font-size:0.98rem;">Finance, Economics & Markets</span>
+  </a>
 </div>
 
 
 
 ## Recent Posts by Category
 
-{% assign categories = "dsa|algorithms|competitive-programming|system-design|data-plane|general" | split: "|" %}
+{% assign categories = "dsa|algorithms|competitive-programming|system-design|data-plane|general|finance" | split: "|" %}
 
 <div style="max-width:900px;margin:0 auto;">
 {% for cat in categories %}
@@ -60,6 +65,7 @@ Welcome to the blogs index. Explore posts by category:
   {% when 'system-design' %}{% assign label = "System Design" %}{% assign emoji = "🧠" %}
   {% when 'data-plane' %}{% assign label = "Data Plane & Networking" %}{% assign emoji = "🌐" %}
   {% when 'general' %}{% assign label = "General & Learning" %}{% assign emoji = "📝" %}
+  {% when 'finance' %}{% assign label = "Finance & Economics" %}{% assign emoji = "💰" %}
 {% endcase %}
 
 {% assign cat_url = '/blogs/' | append: cat | append: '/' %}

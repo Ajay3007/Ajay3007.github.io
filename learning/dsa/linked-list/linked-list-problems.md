@@ -66,6 +66,17 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
     </div>
   </div>
 
+  <!-- Linked List Cycle -->
+  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
+    <h3 style="margin-top: 0; color: #1e293b;">Linked List Cycle</h3>
+    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #141</p>
+    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
+      <a href="{{ '/learning/dsa/linked-list/linked-list-cycle.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
+      <a href="{{ '/learning/dsa/linked-list/leetcode-141-solution/' | relative_url }}" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+    </div>
+  </div>
+
 </div>
 
 ---
@@ -91,17 +102,6 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
     <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #19</p>
     <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
       <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Detect Cycle in Linked List -->
-  <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left: 4px solid #f59e0b; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);">
-    <h3 style="margin-top: 0; color: #1e293b;">Linked List Cycle</h3>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #141</p>
-    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
       <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
       <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
     </div>
