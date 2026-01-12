@@ -36,6 +36,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Two Sum -->
   <div class="problem-card-easy">
     <span class="problem-number">11</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Two Sum</h3>
     <p><strong>Platform:</strong> LeetCode #1</p>
     <div class="problem-buttons">
@@ -48,6 +49,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Best Time to Buy and Sell Stock -->
   <div class="problem-card-easy">
     <span class="problem-number">12</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Best Time to Buy and Sell Stock</h3>
     <p><strong>Platform:</strong> LeetCode #121</p>
     <div class="problem-buttons">
@@ -60,6 +62,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Contains Duplicate -->
   <div class="problem-card-easy">
     <span class="problem-number">13</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Contains Duplicate</h3>
     <p><strong>Platform:</strong> LeetCode #217</p>
     <div class="problem-buttons">
@@ -80,6 +83,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Product of Array Except Self -->
   <div class="problem-card-medium">
     <span class="problem-number">14</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Product of Array Except Self</h3>
     <p><strong>Platform:</strong> LeetCode #238</p>
     <div class="problem-buttons">
@@ -92,6 +96,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Maximum Subarray -->
   <div class="problem-card-medium">
     <span class="problem-number">15</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Maximum Subarray</h3>
     <p><strong>Platform:</strong> LeetCode #53</p>
     <div class="problem-buttons">
@@ -104,6 +109,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- 3Sum -->
   <div class="problem-card-medium">
     <span class="problem-number">16</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>3Sum</h3>
     <p><strong>Platform:</strong> LeetCode #15</p>
     <div class="problem-buttons">
@@ -124,6 +130,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Trapping Rain Water -->
   <div class="problem-card-hard">
     <span class="problem-number">17</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Trapping Rain Water</h3>
     <p><strong>Platform:</strong> LeetCode #42</p>
     <div class="problem-buttons">
@@ -136,6 +143,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- First Missing Positive -->
   <div class="problem-card-hard">
     <span class="problem-number">18</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>First Missing Positive</h3>
     <p><strong>Platform:</strong> LeetCode #41</p>
     <div class="problem-buttons">

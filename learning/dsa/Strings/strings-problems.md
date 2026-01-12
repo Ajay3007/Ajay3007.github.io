@@ -25,6 +25,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Valid Palindrome -->
   <div class="problem-card-easy">
     <span class="problem-number">19</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Valid Palindrome</h3>
     <p><strong>Platform:</strong> LeetCode #125</p>
     <div class="problem-buttons">
@@ -37,6 +38,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Valid Anagram -->
   <div class="problem-card-easy">
     <span class="problem-number">20</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Valid Anagram</h3>
     <p><strong>Platform:</strong> LeetCode #242</p>
     <div class="problem-buttons">
@@ -57,6 +59,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Longest Substring Without Repeating Characters -->
   <div class="problem-card-medium">
     <span class="problem-number">21</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Longest Substring Without Repeating Characters</h3>
     <p><strong>Platform:</strong> LeetCode #3</p>
     <div class="problem-buttons">
@@ -69,6 +72,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Group Anagrams -->
   <div class="problem-card-medium">
     <span class="problem-number">22</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Group Anagrams</h3>
     <p><strong>Platform:</strong> LeetCode #49</p>
     <div class="problem-buttons">
@@ -81,6 +85,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Longest Palindromic Substring -->
   <div class="problem-card-medium">
     <span class="problem-number">23</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Longest Palindromic Substring</h3>
     <p><strong>Platform:</strong> LeetCode #5</p>
     <div class="problem-buttons">
@@ -101,6 +106,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Minimum Window Substring -->
   <div class="problem-card-hard">
     <span class="problem-number">24</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Minimum Window Substring</h3>
     <p><strong>Platform:</strong> LeetCode #76</p>
     <div class="problem-buttons">

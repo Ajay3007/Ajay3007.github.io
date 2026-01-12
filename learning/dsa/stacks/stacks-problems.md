@@ -25,6 +25,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Valid Parentheses -->
   <div class="problem-card-easy">
     <span class="problem-number">25</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Valid Parentheses</h3>
     <p><strong>Platform:</strong> LeetCode #20</p>
     <div class="problem-buttons">
@@ -45,6 +46,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Min Stack -->
   <div class="problem-card-medium">
     <span class="problem-number">26</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Min Stack</h3>
     <p><strong>Platform:</strong> LeetCode #155</p>
     <div class="problem-buttons">
@@ -57,6 +59,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Daily Temperatures -->
   <div class="problem-card-medium">
     <span class="problem-number">27</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Daily Temperatures</h3>
     <p><strong>Platform:</strong> LeetCode #739</p>
     <div class="problem-buttons">
@@ -77,6 +80,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Largest Rectangle in Histogram -->
   <div class="problem-card-hard">
     <span class="problem-number">28</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Largest Rectangle in Histogram</h3>
     <p><strong>Platform:</strong> LeetCode #84</p>
     <div class="problem-buttons">
