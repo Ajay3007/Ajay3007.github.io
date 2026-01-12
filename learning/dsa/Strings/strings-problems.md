@@ -48,6 +48,32 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
     </div>
   </div>
 
+  <!-- Fizz Buzz -->
+  <div class="problem-card-easy">
+    <span class="problem-number">29</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Fizz Buzz</h3>
+    <p><strong>Platform:</strong> LeetCode #412</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/fizz-buzz/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="{{ '/learning/dsa/Strings/index.md' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="{{ '/learning/dsa/Strings/Leetcode-412.cpp' | relative_url }}" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Longest Common Prefix -->
+  <div class="problem-card-easy">
+    <span class="problem-number">30</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Longest Common Prefix</h3>
+    <p><strong>Platform:</strong> LeetCode #14</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/longest-common-prefix/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
 </div>
 
 ---
@@ -85,13 +111,39 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Longest Palindromic Substring -->
   <div class="problem-card-medium">
     <span class="problem-number">23</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
+    <span class="problem-status solved">✓ Solved</span>
     <h3>Longest Palindromic Substring</h3>
     <p><strong>Platform:</strong> LeetCode #5</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+      <a href="https://leetcode.com/problems/longest-palindromic-substring/solutions/7395617/longest-palindromic-substring-expand-aro-ky6o/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="https://leetcode.com/problems/longest-palindromic-substring/solutions/7395617/longest-palindromic-substring-expand-aro-ky6o/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Encode and Decode Strings -->
+  <div class="problem-card-medium">
+    <span class="problem-number">31</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Encode and Decode Strings</h3>
+    <p><strong>Platform:</strong> LeetCode #271 (Premium)</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/encode-and-decode-strings/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/encode-and-decode-strings/solutions/7391904/encode-decode-strings-fixed-length-heade-3h9i/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="{{ '/learning/dsa/Strings/leetcode-271.md' | relative_url }}" class="problem-btn-link btn-solution">💻 Alternative Link</a>
+    </div>
+  </div>
+
+  <!-- Palindromic Substrings -->
+  <div class="problem-card-medium">
+    <span class="problem-number">32</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Palindromic Substrings</h3>
+    <p><strong>Platform:</strong> LeetCode #647</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/palindromic-substrings/solutions/7395151/expand-around-center-on2-solution-by-aja-6hvd/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="https://leetcode.com/problems/palindromic-substrings/solutions/7395151/expand-around-center-on2-solution-by-aja-6hvd/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
@@ -106,13 +158,26 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <!-- Minimum Window Substring -->
   <div class="problem-card-hard">
     <span class="problem-number">24</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
+    <span class="problem-status solved">✓ Solved</span>
     <h3>Minimum Window Substring</h3>
     <p><strong>Platform:</strong> LeetCode #76</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+      <a href="https://leetcode.com/problems/minimum-window-substring/solutions/7384109/leetcode-76-minimum-window-substring-two-jqes/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="https://leetcode.com/problems/minimum-window-substring/solutions/7384109/leetcode-76-minimum-window-substring-two-jqes/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Text Justification -->
+  <div class="problem-card-hard">
+    <span class="problem-number">33</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Text Justification</h3>
+    <p><strong>Platform:</strong> LeetCode #68</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/text-justification/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
