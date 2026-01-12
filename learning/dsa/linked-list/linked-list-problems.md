@@ -20,60 +20,60 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
 ## Easy Problems {#easy-problems}
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+<div class="problems-grid">
 
   <!-- Problem Card Template -->
-  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
-    <h3 style="margin-top: 0; color: #1e293b;">Problem Title</h3>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode</p>
-    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">� Problem</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+  <div class="problem-card-easy">
+    <h3>Problem Title</h3>
+    <p><strong>Platform:</strong> LeetCode</p>
+    <div class="problem-buttons">
+      <a href="#" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
   <!-- Reverse Linked List -->
-  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
-    <h3 style="margin-top: 0; color: #1e293b;">Reverse Linked List</h3>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #206</p>
-    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/reverse-linked-list.pdf" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="/learning/dsa/linked-list/leetcode-206-solution/" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+  <div class="problem-card-easy">
+    <h3>Reverse Linked List</h3>
+    <p><strong>Platform:</strong> LeetCode #206</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="/learning/dsa/linked-list/reverse-linked-list.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="/learning/dsa/linked-list/leetcode-206-solution/" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
   <!-- Middle of Linked List -->
-  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
-    <h3 style="margin-top: 0; color: #1e293b;">Middle of the Linked List</h3>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #876</p>
-    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/leetcode-876-solution/" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="/learning/dsa/linked-list/leetcode-876-solution/" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+  <div class="problem-card-easy">
+    <h3>Middle of the Linked List</h3>
+    <p><strong>Platform:</strong> LeetCode #876</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
   <!-- Palindrome Linked List -->
-  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
-    <h3 style="margin-top: 0; color: #1e293b;">Palindrome Linked List</h3>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #234</p>
-    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="#" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+  <div class="problem-card-easy">
+    <h3>Palindrome Linked List</h3>
+    <p><strong>Platform:</strong> LeetCode #234</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
   <!-- Linked List Cycle -->
-  <div style="background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%); border-left: 4px solid #667eea; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
-    <h3 style="margin-top: 0; color: #1e293b;">Linked List Cycle</h3>
-    <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> LeetCode #141</p>
-    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 Problem</a>
-      <a href="{{ '/learning/dsa/linked-list/linked-list-cycle.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 14px; background: #764ba2; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 Approach</a>
-      <a href="{{ '/learning/dsa/linked-list/leetcode-141-solution/' | relative_url }}" style="display: inline-block; padding: 8px 14px; background: #f59e0b; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 Solution</a>
+  <div class="problem-card-easy">
+    <h3>Linked List Cycle</h3>
+    <p><strong>Platform:</strong> LeetCode #141</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="{{ '/learning/dsa/linked-list/linked-list-cycle.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="{{ '/learning/dsa/linked-list/leetcode-141-solution/' | relative_url }}" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
