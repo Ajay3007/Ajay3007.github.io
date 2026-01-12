@@ -589,6 +589,20 @@ a[role="button"]:hover, .btn:hover {
     background: #f8fafc;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+}
+
+.site-main .problem-number {
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
 }
 
 .site-main .problem-card:hover {
@@ -634,4 +648,95 @@ a[role="button"]:hover, .btn:hover {
     background: #5568d3;
     color: white;
     text-decoration: none;
+}
+
+/* Linked List Problems Page Styles */
+.problems-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.problem-card-easy {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    border-left: 4px solid #667eea;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+}
+
+.problem-card-medium {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-left: 4px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+}
+
+.problem-card-hard {
+    background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+    border-left: 4px solid #ef4444;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+}
+
+.site-main .problem-card-easy h3,
+.site-main .problem-card-medium h3,
+.site-main .problem-card-hard h3 {
+    margin-top: 0;
+    color: #1e293b;
+}
+
+.site-main .problem-card-easy p,
+.site-main .problem-card-medium p,
+.site-main .problem-card-hard p {
+    color: #64748b;
+    margin: 0.5rem 0;
+}
+
+.problem-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.problem-btn-link {
+    display: inline-block;
+    padding: 8px 14px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.problem-btn-link:hover {
+    transform: translateY(-2px);
+}
+
+.btn-problem {
+    background: #667eea;
+}
+
+.btn-problem:hover {
+    background: #5568d3;
+}
+
+.btn-approach {
+    background: #764ba2;
+}
+
+.btn-approach:hover {
+    background: #6a3d94;
+}
+
+.btn-solution {
+    background: #f59e0b;
+}
+
+.btn-solution:hover {
+    background: #d97706;
 }
