@@ -1,72 +1,61 @@
 ---
 layout: default
-title: Sliding Window
+title: Sliding Window Technique
 permalink: /learning/dsa/arrays/sliding-window/
 ---
 
+# 🪟 Sliding Window Technique
+
+Sliding Window is a fundamental technique used for solving problems involving **contiguous subarrays or substrings**. It optimizes problems that would otherwise require nested loops by maintaining a dynamic window that expands and contracts based on a condition.
+
 ## 📑 Table of Contents
 
-1. **[<img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sliding Window](#img-src-assets-icons-rocket-svg-relativeurl-class-inline-icon-alt-sliding-window)**
-    1.1. [⭐ 2. Types of Sliding Window](#-2-types-of-sliding-window)
-    1.2. [⭐ Templates (MOST IMPORTANT PART)](#-templates-most-important-part)
-    1.3. [⭐ Top 5 Sliding Window Patterns](#-top-5-sliding-window-patterns)
-    1.4. [⭐ Must-Do Sliding Window Problems](#-must-do-sliding-window-problems)
+1. [Overview & Keywords](#overview--keywords)
+2. [Types of Sliding Window](#types-of-sliding-window)
+3. [Core Templates](#core-templates)
+4. [Key Patterns](#key-patterns)
+5. [Practice Problems](#practice-problems)
 
 ---
 
-### 🎯 Main Topics Covered
+## Overview & Keywords
 
-1. **2 Types of Sliding Window**
-2. **Templates MOST IMPORTANT PART**
-3. **Top 5 Sliding Window Patterns**
-4. **Must-Do Sliding Window Problems**
-
----
-
-# <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sliding Window
-
-Sliding Window is used when we deal with **contiguous subarrays or substrings**.
-
-**Common keywords:**
-
-- longest
-- smallest
-- maximum
-- minimum
-- subarray/substring
+**Common problem indicators:**
+- longest / smallest
+- maximum / minimum
+- subarray / substring
 - at most / at least K distinct
 - average of size K
+- contiguous elements
 
-## ⭐ 2. Types of Sliding Window
+---
 
-You must know BOTH:
+## Types of Sliding Window
 
 ### 1️⃣ Fixed-Size Window (size = K)
 
-Useful when **K is fixed.**
+Use when **window size is constant**.
 
-#### 📌 Examples
+**Common Use Cases:**
+- Max sum of subarray of size K
+- First negative number in every window of size K
+- Average of every subarray of size K
 
-Max sum of subarray size K
+### 2️⃣ Variable-Size Window (Stretch/Shrink)
 
-First negative number in window size K
+Use when **window grows and shrinks dynamically** based on a condition.
 
-#### 2️⃣ Variable-Size Window (stretch/shrink)
+**Common Use Cases:**
+- Longest substring without repeating characters
+- Longest subarray with sum ≤ K
+- Minimum window substring
+- Fruits into baskets (at most K distinct elements)
 
-Used when the **window grows** until a **condition** becomes **invalid**, then we **shrink**.
+---
 
-#### 📌 Examples
+## Core Templates
 
-Longest substring without repeating characters
-
-Longest subarray with sum ≤ K
-
-Minimum window substring
-
-Fruits into baskets (max subarray with at most 2 distinct fruits)
-
-## ⭐ Templates (MOST IMPORTANT PART)
-### 🔶 Template 1 — Fixed Size Window (size = K)
+### 🔶 Template 1: Fixed Size Window
 
 ```cpp
 int left = 0;
@@ -76,61 +65,41 @@ for (int right = 0; right < n; right++) {
     sum += arr[right]; // expand window
 
     if (right - left + 1 == K) {
-        best = max(best, sum);
+        best = max(best, sum); // process window
         sum -= arr[left]; // shrink
         left++;
     }
 }
 ```
 
-### 🔶 Template 2 — Variable Window (Most Important)
+### 🔶 Template 2: Variable Window (Universal)
 
 ```cpp
 int left = 0;
 for (int right = 0; right < n; right++) {
-    // Add arr[right] and make window bigger
+    // Add arr[right] to window
 
-    while (window_invalid_condition) {
-        // Shrink window
+    while (window_condition_invalid) {
+        // Shrink window from left
         left++;
     }
 
-    // track best window
+    // Update answer with current window [left, right]
 }
 ```
 
-Use when:
-👉 window size is always exactly K
-
-### 🔶 Template 2 — Variable Window (Most Important)
+### 🔶 Template 3: Frequency Map (Substring Problems)
 
 ```cpp
-int left = 0;
-for (int right = 0; right < n; right++) {
-    // Add arr[right] and make window bigger
-
-    while (window_invalid_condition) {
-        // Shrink window
-        left++;
-    }
-
-    // track best window
-}
-```
-
-### 🔶 Template 3 — Window with Frequency Map
-
-Used for substring problems.
-
-unordered_map<char,int> freq;
+unordered_map<char, int> freq;
 int left = 0;
 
-```cpp
 for (int right = 0; right < s.size(); right++) {
     freq[s[right]]++;
 
     while (condition_invalid) {
         freq[s[left]]--;
+        if (freq[s[left]] == 0) freq.erase(s[left]);
         left++;
     }
 
@@ -138,189 +107,165 @@ for (int right = 0; right < s.size(); right++) {
 }
 ```
 
-## ⭐ Top 5 Sliding Window Patterns
-
-#### 🔸 Pattern 1: Longest substring without repeating characters
-
-Condition: window is invalid when any character count > 1
-
-👉 shrink until all chars have freq 1
-
-#### 🔸 Pattern 2: At most K distinct characters
-
-Condition: invalid when freq_map.size() > K
-
-#### 🔸 Pattern 3: Sum ≤ K
-
-When sum exceeds K → shrink window
-
-#### 🔸 Pattern 4: Minimum window substring
-
-A classic variable window with two hash maps:
-
-- need
-
-- have
-
-Shrink window only when it satisfies the target.
-
-#### 🔸 Pattern 5: Fixed Size
-
-Very direct.
-
-## ⭐ Must-Do Sliding Window Problems
-### Level 1 — Basics
-
-#### 1. [Leetcode 121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/){:target="_blank" rel="noopener noreferrer"}
-
-**- Brute Force Approach:**
-For every prices[i], check profit for every prices[j]; where, j>i
-take maximum of all profits.
-In formal, find max(prices[j]−prices[i]), for every i and j such that j>i.
-
-Time Complexity - O(n^2)
-
-**- Optimal Solution**
-We can maintain two variables - minprice(buy) and maxprofit corresponding to the smallest buy and maximum profit (maximum difference between selling price and minprice(buy)) obtained so far respectively.
-
-Time Complexity : O(n)
-
-**[Solution Leetcode 121](Leetcode-121.cpp)**
-
-#### 2. [Leetcode 567. Permutation in String](https://leetcode.com/problems/permutation-in-string/description/){:target="_blank" rel="noopener noreferrer"}
-
-**- Brute Force Approach:**
-
-```cpp
-s1 = "abc"; 
-s2 = "badcbalm";
-```
-
-Check for each permutation of s1 whether it is present in s2 or not!
-
-**- Optimal Solution**
-
-1. Use hashmap or array(size - 26) to store frequency of each character of s1.
-2. Decide a window size(size = s1, say k
-) in s2.
-3. For each possible window size check the same frequency matches with the original frequency of s1.
-
-**[Solution Leetcode 567](Leetcode-567.cpp)**
-
-#### 3. [Leetcode 424. Longest Repeating Character Replacement](https://leetcode.com/problems/longest-repeating-character-replacement/description/){:target="_blank" rel="noopener noreferrer"}
-
-**- Brute Force Approach:**
-
-```cpp 
-s = "PXQXYXB";
-k = 2
-```
-What will be a valid substring? Because we are allowed only k operations to do so, we would want to minimize the number of operations.
-
-Lets a substring with length `len`. It is valid if following condition satisfies:
-
-`(len - [most occuring char freq]) <= k`
-
-Generate all substring and check for a valid substring as defined above.
-
-**- Optimal Solution**
-
-**[Refer this pdf image for Explaination](leetcode424.pdf)**
-
-**[Solution Leetcode 424](Leetcode-424.cpp)**
-
-#### 4. [Leetcode 3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/){:target="_blank" rel="noopener noreferrer"}
-
-**- Brute Force Approach:**
-
-```cpp
-s = "abatman"
-ans = 4
-```
-
-Generate all substring and check for the longest substring without repeating character
-
-**- Optimal Solution**
-
-**[Refer this pdf image for Explaination](leetcode-3.pdf)**
-
-**[Solution Leetcode 3](Leetcode-3.cpp)**
-
-#### 5. [Leetcode 239. Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/description/){:target="_blank" rel="noopener noreferrer"}
-
-**- Brute Force Approach:**
-
-```cpp
-nums = [1,3,-1,-3,5,3,6,7]
-k = 3
-```
-
-Iterate for each window and find maximum of each window 
-
-Time Complexity : O(n*k)
-
-**- Better Approach**
-
-**[For my Leetcode Solution link click here](https://leetcode.com/problems/sliding-window-maximum/solutions/7381366/sliding-window-maximum-using-multiset-cl-pres/){:target="_blank" rel="noopener noreferrer"}**
-
-**- Optimal Solution**
-
-We may observe that in a window, the elements that come before the largest element will never be selected as the largest element of any future windows.
-
-In general, whenever we encounter a new element x, we want to discard all elements that are less than x before adding x. Let's say we currently have [63, 15, 8, 3] and we encounter 12. Any future window with 8 or 3 will also contain 12, so we can discard them. After discarding them and adding 12, we have [63, 15, 12]. As you can see, we keep elements in descending order.
-
-**[Solution Leetcode 239](Leetcode-239.cpp)**
-
-
-#### 6. [Leetcode 76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/description/){:target="_blank" rel="noopener noreferrer"}
-
-```cpp
-s = "ADOBECODEBANC"
-T = "ABC"
-```
-
-**[For my Leetcode Solution link click here](https://leetcode.com/problems/minimum-window-substring/solutions/7384109/leetcode-76-minimum-window-substring-two-jqes/){:target="_blank" rel="noopener noreferrer"}**
-
-All solution and approaches are discussed in above link.
-
-
-
-Max sum subarray of size K
-
-First negative number in window size K
-
-Count occurrences of anagrams
-
-### Level 2 — Medium
-
-Longest substring without repeating
-
-Longest repeating character replacement
-
-Fruits into baskets
-
-Minimum window substring
-
-Subarray sum equals K (prefix + sliding combination)
-
-Binary subarray with sum
-
-### Level 3 — Hard
-
-Subarrays with K different integers
-
-Minimum size subarray sum
-
-Longest substring with at most K distinct characters
-
-Count substring with exactly K distinct
-
-Max consecutive ones III
-
-Number of nice subarrays
-
-Longest subarray with sum ≤ K
-
-Sliding window maximum (Deque, bonus)
+---
+
+## Key Patterns
+
+| Pattern | Condition | Trigger | Use When |
+|---------|-----------|---------|----------|
+| **No Repeating** | Any char count > 1 | Shrink until all freq = 1 | Longest substring without repeating chars |
+| **At Most K Distinct** | freq_map.size() > K | Shrink until size ≤ K | Max subarray with ≤ K distinct elements |
+| **Sum ≤ Target** | sum > target | Shrink until sum ≤ target | Min subarray, max subarray with constraint |
+| **Two Hash Maps** | Elements not in target | Shrink while valid | Minimum window substring |
+| **Fixed Size** | window size = K | Always process at size K | Fixed window problems |
+
+---
+
+## Practice Problems
+
+### 📋 Level 1 — Fundamentals
+
+<div class="problem-grid">
+  <div class="problem-card">
+    <span class="problem-number">121</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 121 - Best Time to Buy and Sell Stock</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#best-time-to-buy-and-sell-stock' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">567</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/permutation-in-string/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 567 - Permutation in String</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#permutation-in-string' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">3</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 3 - Longest Substring Without Repeating</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#longest-substring-without-repeating-characters' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">424</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 424 - Longest Repeating Character Replacement</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#longest-repeating-character-replacement' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">239</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 239 - Sliding Window Maximum</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#sliding-window-maximum' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">76</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 76 - Minimum Window Substring</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#minimum-window-substring' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+</div>
+
+### 📋 Level 2 — Medium
+
+<div class="problem-grid">
+  <div class="problem-card">
+    <span class="problem-number">904</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/fruit-into-baskets/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 904 - Fruits Into Baskets</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#fruits-into-baskets' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">560</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 560 - Subarray Sum Equals K</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#subarray-sum-equals-k' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">930</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/binary-subarrays-with-sum/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 930 - Binary Subarrays With Sum</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#binary-subarrays-with-sum' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">209</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/minimum-size-subarray-sum/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 209 - Minimum Size Subarray Sum</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#minimum-size-subarray-sum' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+</div>
+
+### 📋 Level 3 — Advanced
+
+<div class="problem-grid">
+  <div class="problem-card">
+    <span class="problem-number">992</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 992 - Subarrays with K Different Integers</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#subarrays-with-k-different-integers' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">340</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 340 - Longest Substring with At Most K Distinct</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#longest-substring-with-at-most-k-distinct-characters' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">1004</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/max-consecutive-ones-iii/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 1004 - Max Consecutive Ones III</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#max-consecutive-ones-iii' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+
+  <div class="problem-card">
+    <span class="problem-number">1248</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/count-number-of-nice-subarrays/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 1248 - Count Number of Nice Subarrays</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#count-number-of-nice-subarrays' | relative_url }}" class="problem-btn">📋 View Solution</a>
+    </div>
+  </div>
+</div>
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+  <a href="{{ '/learning/dsa/arrays' | relative_url }}" style="display: inline-block; padding: 12px 28px; background: #667eea; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; margin-right: 1rem;">← Back to Arrays</a>
+  <a href="{{ '/learning/dsa' | relative_url }}" style="display: inline-block; padding: 12px 28px; background: #764ba2; color: white; border-radius: 8px; text-decoration: none; font-weight: 600;">DSA Hub 🏠</a>
+</div>
 
 
