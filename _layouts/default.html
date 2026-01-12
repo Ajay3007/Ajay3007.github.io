@@ -15,6 +15,7 @@
                 {% assign cur = page.url | default: '/' %}
                 <a href="{{ '/' | relative_url }}" class="{% if cur == '/' or cur == '' %}active{% endif %}">Home</a>
                 <a href="{{ '/learning' | relative_url }}" class="{% if cur contains '/learning' %}active{% endif %}">Learning</a>
+                <a href="{{ '/problems' | relative_url }}" class="{% if cur contains '/problems' %}active{% endif %}">Problems</a>
                 <a href="{{ '/projects' | relative_url }}" class="{% if cur contains '/projects' %}active{% endif %}">Projects</a>
                 <a href="{{ '/blogs' | relative_url }}" class="{% if cur contains '/blogs' %}active{% endif %}">Blogs</a>
                 <a href="{{ '/about' | relative_url }}" class="{% if cur contains '/about' %}active{% endif %}">About</a>

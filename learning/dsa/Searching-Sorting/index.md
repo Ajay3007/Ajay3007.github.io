@@ -4,25 +4,13 @@ title: Searching & Sorting Technique
 permalink: /learning/dsa/searching-sorting/
 ---
 
-## 📑 Table of Contents
-
-1. **[📘 Searching & Sorting](#-searching-sorting)**
-    1.1. [✅ 1. Linear Search (Basics)](#-1-linear-search-basics)
-    1.2. [✅ 2. Binary Search (Important)](#-2-binary-search-important)
-    1.3. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
-2. **[[For Sorting Guide Click Here](sorting.md)](#for-sorting-guide-click-here-sorting-md)**
-    2.1. [<img src="{{ '/assets/icons/brain.svg' | relative_url }}" class="inline-icon" alt=""> Practical Sorting Problems](#img-src-assets-icons-brain-svg-relativeurl-class-inline-icon-alt-practical-sorting-problems)
-
----
-
-### 🎯 Main Topics Covered
-
-1. **1 Linear Search Basics**
-2. **2 Binary Search Important**
-3. **Binary Search on Answer Advanced**
-4. **img src assetsiconsbrainsvg  relative_url  classinline-icon alt Practical Sorting Problems**
-
----
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
+  <h2 style="color: white; margin: 0 0 1rem 0;">📋 Practice Problems</h2>
+  <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/' | relative_url }}" style="display: inline-block; padding: 12px 30px; background: white; color: #667eea; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    ⚡ View All Searching & Sorting Problems →
+  </a>
+  <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 0.95rem;">22 curated problems with solutions • All Solved! 🎉</p>
+</div>
 
 # 📘 Searching & Sorting
 

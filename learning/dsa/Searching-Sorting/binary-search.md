@@ -4,25 +4,6 @@ title: Sorting
 permalink: /learning/dsa/Searching-Sorting/binary-search/
 ---
 
-## 📑 Table of Contents
-
-1. **[✅ Binary Search (Important)](#-binary-search-important)**
-    1.1. [🔥 Binary Search on Answer (Advanced)](#-binary-search-on-answer-advanced)
-2. **[📝 Must Do Practice Problems](#-must-do-practice-problems)**
-    2.1. [🔹 Level 1 – Easy](#-level-1-easy)
-    2.2. [🔹 Level 2 – Medium](#-level-2-medium)
-    2.3. [🔹 Level 3 – Hard](#-level-3-hard)
-
----
-
-### 🎯 Main Topics Covered
-
-1. **Binary Search on Answer Advanced**
-2. **Level 1  Easy**
-3. **Level 2  Medium**
-4. **Level 3  Hard**
-
----
 
 # ✅ Binary Search (Important)
 

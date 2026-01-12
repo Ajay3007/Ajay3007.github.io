@@ -4,62 +4,13 @@ title: Arrays
 permalink: /learning/dsa/arrays/
 ---
 
----
-
-## 📋 Executive Summary
-
-**Document:** Arrays Mastery Guide  
-**Type:** Technical Documentation  
-**Reading Time:** ~12 min  
-**Last Updated:** December 2025  
-
-### 📊 Quick Stats
-
-| Metric | Value |
-|--------|-------|
-| **Core Patterns** | 10 essential techniques |
-| **Code Examples** | 25+ implementations |
-| **Practice Problems** | 30+ curated questions |
-| **Difficulty Range** | Easy to Hard |
-| **Languages** | C++, Python, Java examples |
-
-### 🎯 Main Topics Covered
-
-1. **Array Fundamentals** — Traversal, searching, basic operations
-2. **Sliding Window** — Fixed/variable size window problems
-3. **Two Pointers** — Opposite/same direction techniques
-4. **Prefix & Suffix Sums** — Cumulative computation tricks
-5. **Binary Search** — On sorted arrays & answer space
-6. **Kadane's Algorithm** — Maximum subarray problems
-7. **Sorting + Greedy** — Combined pattern strategies
-8. **Intervals** — Merge, insert, overlap problems
-9. **Matrix Operations** — 2D array manipulations
-10. **HashMap + Array** — Frequency counting optimizations
-
-### 💡 What You'll Learn
-
-- Master 10 core array patterns used in 90% of interview questions
-- Recognize when to apply sliding window vs two pointers
-- Implement binary search on answer space for optimization problems
-- Use prefix sums to achieve O(1) range queries
-- Apply Kadane's algorithm and its variations
-- Solve interval problems with sorting-based approaches
-- Optimize brute force solutions using hashmap techniques
-- Handle edge cases and boundary conditions confidently
-
-### 📚 Prerequisites
-
-- Basic programming knowledge (loops, conditionals, functions)
-- Understanding of Big-O notation and time complexity
-- Familiarity with arrays/lists in your chosen language
-- Basic knowledge of sorting algorithms
-
-### 👥 Target Audience
-
-✅ **Interview Candidates** — Preparing for FAANG/tech company interviews  
-✅ **CS Students** — Learning data structures and algorithms  
-✅ **Competitive Programmers** — Building pattern recognition skills  
-✅ **Self-Learners** — Strengthening algorithmic problem-solving  
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
+  <h2 style="color: white; margin: 0 0 1rem 0;">📋 Practice Problems</h2>
+  <a href="{{ '/learning/dsa/arrays/arrays-problems/' | relative_url }}" style="display: inline-block; padding: 12px 30px; background: white; color: #667eea; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    ⚡ View All Arrays Problems →
+  </a>
+  <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 0.95rem;">18 curated problems with solutions • Easy to Hard difficulty</p>
+</div>
 
 ### 🎓 Learning Path
 

@@ -415,7 +415,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/binary-search/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 704 - Binary Search</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#binary-search' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#binary-search' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -423,7 +423,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 35 - Search Insert Position</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#search-insert-position' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#search-insert-position' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -431,7 +431,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/find-smallest-letter-greater-than-target/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 744 - Find Smallest Letter Greater Than Target</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#find-smallest-letter-greater-than-target' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#find-smallest-letter-greater-than-target' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -439,7 +439,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/majority-element/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 169 - Majority Element</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#majority-element' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#majority-element' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -447,7 +447,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 88 - Merge Sorted Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#merge-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#merge-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -455,7 +455,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 34 - Find First and Last Position</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#find-first-and-last-position-of-element' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#find-first-and-last-position-of-element' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -463,7 +463,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/single-element-in-a-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 540 - Single Element in Sorted Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#single-element-in-a-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#single-element-in-a-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -471,7 +471,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/find-rotation-count-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">GFG - Rotation Count in Rotated Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#rotation-count-in-rotated-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#rotation-count-in-rotated-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -479,7 +479,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 153 - Find Minimum in Rotated Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#find-minimum-in-rotated-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#find-minimum-in-rotated-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -487,7 +487,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 33 - Search in Rotated Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#search-in-rotated-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#search-in-rotated-sorted-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -495,7 +495,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/find-peak-element/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 162 - Find Peak Element</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#find-peak-element' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#find-peak-element' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -503,7 +503,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 852 - Peak Index in Mountain Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#peak-index-in-a-mountain-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#peak-index-in-a-mountain-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -511,7 +511,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/search-in-row-wise-and-column-wise-sorted-matrix/" target="_blank" rel="noopener noreferrer" class="problem-title">GFG - Search in Sorted Matrix</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#search-in-row-column-sorted-matrix' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#search-in-row-column-sorted-matrix' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -519,7 +519,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 74 - Search a 2D Matrix</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#search-a-2d-matrix' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#search-a-2d-matrix' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -527,7 +527,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/allocate-minimum-number-pages/" target="_blank" rel="noopener noreferrer" class="problem-title">GFG - Allocate Minimum Pages</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#allocate-minimum-pages' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#allocate-minimum-pages' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -535,7 +535,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 875 - Koko Eating Bananas</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#koko-eating-bananas' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#koko-eating-bananas' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -543,7 +543,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/time-based-key-value-store/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 981 - Time Based Key-Value Store</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#time-based-key-value-store' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#time-based-key-value-store' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -551,7 +551,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/sort-list/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 148 - Sort List</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#sort-list' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#sort-list' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -559,7 +559,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/largest-number/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 179 - Largest Number</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#largest-number' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#largest-number' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -567,7 +567,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 75 - Sort Colors</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#sort-colors' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#sort-colors' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -575,7 +575,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/find-in-mountain-array/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 1095 - Find in Mountain Array</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#find-in-mountain-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#find-in-mountain-array' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -583,7 +583,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 4 - Median of Two Sorted Arrays</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searching-sorting-problems/#median-of-two-sorted-arrays' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+      <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#median-of-two-sorted-arrays' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
 </div>
