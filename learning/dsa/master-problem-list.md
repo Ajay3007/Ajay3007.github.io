@@ -12,7 +12,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
   <div style="text-align: center; padding: 1rem;">
-    <div style="font-size: 2.5rem; font-weight: bold;">55</div>
+    <div style="font-size: 2.5rem; font-weight: bold;">62</div>
     <div style="font-size: 0.9rem; opacity: 0.9;">Total Problems</div>
   </div>
   <div style="text-align: center; padding: 1rem;">
@@ -24,18 +24,18 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <div style="font-size: 0.9rem; opacity: 0.9;">⚡ In Progress</div>
   </div>
   <div style="text-align: center; padding: 1rem;">
-    <div style="font-size: 2.5rem; font-weight: bold; color: #94a3b8;">12</div>
+    <div style="font-size: 2.5rem; font-weight: bold; color: #94a3b8;">19</div>
     <div style="font-size: 0.9rem; opacity: 0.9;">○ Unsolved</div>
   </div>
   <div style="text-align: center; padding: 1rem; grid-column: span 2;">
-    <div style="font-size: 2.5rem; font-weight: bold;">78%</div>
+    <div style="font-size: 2.5rem; font-weight: bold;">69%</div>
     <div style="font-size: 0.9rem; opacity: 0.9;">Success Rate</div>
   </div>
 </div>
 
 ### 📈 Topic-wise Breakdown
 - **Linked List:** 3/10 solved (30%)
-- **Arrays:** 13/18 solved (72%)
+- **Arrays:** 13/25 solved (52%)
 - **Strings:** 7/9 solved (78%)
 - **Stacks:** 0/4 solved (0%)
 - **Searching & Sorting:** 22/22 solved (100%) 🎉
@@ -267,6 +267,62 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 76 - Minimum Window Substring</a>
       <a href="{{ '/learning/dsa/arrays/arrays-problems/#minimum-window-substring' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">29</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/contains-duplicate-ii/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 219 - Contains Duplicate II</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#contains-duplicate-ii' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">30</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 242 - Valid Anagram</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#valid-anagram' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">31</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 49 - Group Anagrams</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#group-anagrams' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">32</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 347 - Top K Frequent Elements</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#top-k-frequent-elements' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">33</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/roman-to-integer/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 13 - Roman to Integer</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#roman-to-integer' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">34</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/verifying-an-alien-dictionary/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 953 - Verifying an Alien Dictionary</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#verifying-an-alien-dictionary' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">35</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/longest-consecutive/" target="_blank" rel="noopener noreferrer" class="problem-title">LeetCode 128 - Longest Consecutive Sequence</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#longest-consecutive-sequence' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
 </div>
