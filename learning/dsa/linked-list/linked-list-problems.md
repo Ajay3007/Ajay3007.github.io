@@ -35,10 +35,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Reverse Linked List -->
   <div class="problem-card-easy">
-    <span class="problem-number">1</span>
+    <span class="problem-number">206</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Reverse Linked List</h3>
-    <p><strong>Platform:</strong> LeetCode #206</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="/learning/dsa/linked-list/reverse-linked-list.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -48,10 +47,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Middle of Linked List -->
   <div class="problem-card-easy">
-    <span class="problem-number">2</span>
+    <span class="problem-number">876</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Middle of the Linked List</h3>
-    <p><strong>Platform:</strong> LeetCode #876</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -61,10 +59,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Palindrome Linked List -->
   <div class="problem-card-easy">
-    <span class="problem-number">3</span>
+    <span class="problem-number">234</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Palindrome Linked List</h3>
-    <p><strong>Platform:</strong> LeetCode #234</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -74,10 +71,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Linked List Cycle -->
   <div class="problem-card-easy">
-    <span class="problem-number">4</span>
+    <span class="problem-number">141</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Linked List Cycle</h3>
-    <p><strong>Platform:</strong> LeetCode #141</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="{{ '/learning/dsa/linked-list/linked-list-cycle.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -95,10 +91,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Merge Two Sorted Lists -->
   <div class="problem-card-medium">
-    <span class="problem-number">5</span>
+    <span class="problem-number">21</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Merge Two Sorted Lists</h3>
-    <p><strong>Platform:</strong> LeetCode #21</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -108,10 +103,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Remove Nth Node From End -->
   <div class="problem-card-medium">
-    <span class="problem-number">6</span>
+    <span class="problem-number">19</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Remove Nth Node From End</h3>
-    <p><strong>Platform:</strong> LeetCode #19</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -121,10 +115,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Reverse Nodes in K Group -->
   <div class="problem-card-medium">
-    <span class="problem-number">7</span>
+    <span class="problem-number">25</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Reverse Nodes in K-Group</h3>
-    <p><strong>Platform:</strong> LeetCode #25</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -142,10 +135,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Copy List with Random Pointer -->
   <div class="problem-card-hard">
-    <span class="problem-number">8</span>
+    <span class="problem-number">138</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Copy List with Random Pointer</h3>
-    <p><strong>Platform:</strong> LeetCode #138</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -155,10 +147,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- LRU Cache (using Doubly Linked List) -->
   <div class="problem-card-hard">
-    <span class="problem-number">9</span>
+    <span class="problem-number">146</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>LRU Cache</h3>
-    <p><strong>Platform:</strong> LeetCode #146</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/lru-cache/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>

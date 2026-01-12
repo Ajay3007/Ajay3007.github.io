@@ -24,10 +24,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Valid Parentheses -->
   <div class="problem-card-easy">
-    <span class="problem-number">25</span>
+    <span class="problem-number">20</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Valid Parentheses</h3>
-    <p><strong>Platform:</strong> LeetCode #20</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -45,10 +44,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Min Stack -->
   <div class="problem-card-medium">
-    <span class="problem-number">26</span>
+    <span class="problem-number">155</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Min Stack</h3>
-    <p><strong>Platform:</strong> LeetCode #155</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/min-stack/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -58,10 +56,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Daily Temperatures -->
   <div class="problem-card-medium">
-    <span class="problem-number">27</span>
+    <span class="problem-number">739</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Daily Temperatures</h3>
-    <p><strong>Platform:</strong> LeetCode #739</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/daily-temperatures/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -79,10 +76,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Largest Rectangle in Histogram -->
   <div class="problem-card-hard">
-    <span class="problem-number">28</span>
+    <span class="problem-number">84</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Largest Rectangle in Histogram</h3>
-    <p><strong>Platform:</strong> LeetCode #84</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>

@@ -24,10 +24,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Maximum Depth of Binary Tree -->
   <div class="problem-card-easy">
-    <span class="problem-number">29</span>
+    <span class="problem-number">104</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Maximum Depth of Binary Tree</h3>
-    <p><strong>Platform:</strong> LeetCode #104</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -37,10 +36,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Invert Binary Tree -->
   <div class="problem-card-easy">
-    <span class="problem-number">30</span>
+    <span class="problem-number">226</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Invert Binary Tree</h3>
-    <p><strong>Platform:</strong> LeetCode #226</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/invert-binary-tree/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -58,10 +56,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Binary Tree Level Order Traversal -->
   <div class="problem-card-medium">
-    <span class="problem-number">31</span>
+    <span class="problem-number">102</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Binary Tree Level Order Traversal</h3>
-    <p><strong>Platform:</strong> LeetCode #102</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -71,10 +68,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Validate Binary Search Tree -->
   <div class="problem-card-medium">
-    <span class="problem-number">32</span>
+    <span class="problem-number">98</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Validate Binary Search Tree</h3>
-    <p><strong>Platform:</strong> LeetCode #98</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -84,10 +80,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Lowest Common Ancestor of BST -->
   <div class="problem-card-medium">
-    <span class="problem-number">33</span>
+    <span class="problem-number">235</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Lowest Common Ancestor of BST</h3>
-    <p><strong>Platform:</strong> LeetCode #235</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -105,10 +100,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Binary Tree Maximum Path Sum -->
   <div class="problem-card-hard">
-    <span class="problem-number">34</span>
+    <span class="problem-number">124</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Binary Tree Maximum Path Sum</h3>
-    <p><strong>Platform:</strong> LeetCode #124</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/binary-tree-maximum-path-sum/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -118,10 +112,9 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Serialize and Deserialize Binary Tree -->
   <div class="problem-card-hard">
-    <span class="problem-number">35</span>
+    <span class="problem-number">297</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <h3>Serialize and Deserialize Binary Tree</h3>
-    <p><strong>Platform:</strong> LeetCode #297</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>

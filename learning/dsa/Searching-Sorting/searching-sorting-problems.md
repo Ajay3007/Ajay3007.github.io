@@ -24,10 +24,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Binary Search -->
   <div class="problem-card-easy">
-    <span class="problem-number">34</span>
+    <span class="problem-number">704</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Binary Search</h3>
-    <p><strong>Platform:</strong> LeetCode #704</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/binary-search/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="{{ '/learning/dsa/Searching-Sorting/binary-search.md' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -40,7 +39,6 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
     <span class="problem-number">35</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Search Insert Position</h3>
-    <p><strong>Platform:</strong> LeetCode #35</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="{{ '/learning/dsa/Searching-Sorting/floorAndCeil.pdf' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -50,10 +48,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Find Smallest Letter Greater Than Target -->
   <div class="problem-card-easy">
-    <span class="problem-number">36</span>
+    <span class="problem-number">744</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Find Smallest Letter Greater Than Target</h3>
-    <p><strong>Platform:</strong> LeetCode #744</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/find-smallest-letter-greater-than-target/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="{{ '/learning/dsa/Searching-Sorting/binary-search.md' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -63,10 +60,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Majority Element -->
   <div class="problem-card-easy">
-    <span class="problem-number">37</span>
+    <span class="problem-number">169</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Majority Element</h3>
-    <p><strong>Platform:</strong> LeetCode #169</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/majority-element/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/majority-element/solutions/7418398/majority-element-step-by-step-intuition-woccs/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -76,10 +72,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Merge Sorted Array -->
   <div class="problem-card-easy">
-    <span class="problem-number">38</span>
+    <span class="problem-number">88</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Merge Sorted Array</h3>
-    <p><strong>Platform:</strong> LeetCode #88</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/merge-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/merge-sorted-array/solutions/7417731/merge-sorted-array-in-place-backward-two-j35p/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -97,10 +92,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Find First and Last Position -->
   <div class="problem-card-medium">
-    <span class="problem-number">39</span>
+    <span class="problem-number">34</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Find First and Last Position of Element</h3>
-    <p><strong>Platform:</strong> LeetCode #34</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/solutions/7403935/two-binary-searches-to-locate-target-ran-6k3i/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -110,10 +104,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Single Element in Sorted Array -->
   <div class="problem-card-medium">
-    <span class="problem-number">40</span>
+    <span class="problem-number">540</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Single Element in a Sorted Array</h3>
-    <p><strong>Platform:</strong> LeetCode #540</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/single-element-in-a-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/single-element-in-a-sorted-array/solutions/7404225/single-element-in-a-sorted-array-parity-ktevy/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -136,10 +129,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Find Minimum in Rotated Sorted Array -->
   <div class="problem-card-medium">
-    <span class="problem-number">42</span>
+    <span class="problem-number">153</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Find Minimum in Rotated Sorted Array</h3>
-    <p><strong>Platform:</strong> LeetCode #153</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/solutions/7407426/binary-search-to-locate-rotation-point-o-vh1h/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -149,10 +141,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Search in Rotated Sorted Array -->
   <div class="problem-card-medium">
-    <span class="problem-number">43</span>
+    <span class="problem-number">33</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Search in Rotated Sorted Array</h3>
-    <p><strong>Platform:</strong> LeetCode #33</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/search-in-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/search-in-rotated-sorted-array/solutions/7407549/search-in-rotated-sorted-array-find-rota-q0h3/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -162,10 +153,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Find Peak Element -->
   <div class="problem-card-medium">
-    <span class="problem-number">44</span>
+    <span class="problem-number">162</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Find Peak Element</h3>
-    <p><strong>Platform:</strong> LeetCode #162</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/find-peak-element/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/find-peak-element/solutions/7413917/find-peak-element-binary-search-on-slope-sjc3/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -175,10 +165,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Peak Index in Mountain Array -->
   <div class="problem-card-medium">
-    <span class="problem-number">45</span>
+    <span class="problem-number">852</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Peak Index in a Mountain Array</h3>
-    <p><strong>Platform:</strong> LeetCode #852</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/solutions/7413977/binary-search-on-increasingdecreasing-sl-w36n/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -227,10 +216,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Koko Eating Bananas -->
   <div class="problem-card-medium">
-    <span class="problem-number">49</span>
+    <span class="problem-number">875</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Koko Eating Bananas</h3>
-    <p><strong>Platform:</strong> LeetCode #875 | Binary Search on Answer</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/koko-eating-bananas/solutions/7429088/binary-search-on-eating-speed-efficient-6ydvw/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -240,10 +228,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Time Based Key-Value Store -->
   <div class="problem-card-medium">
-    <span class="problem-number">50</span>
+    <span class="problem-number">981</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Time Based Key-Value Store</h3>
-    <p><strong>Platform:</strong> LeetCode #981</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/time-based-key-value-store/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/time-based-key-value-store/solutions/7429283/time-based-key-value-store-hashmap-order-k75k/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -253,10 +240,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Sort List -->
   <div class="problem-card-medium">
-    <span class="problem-number">51</span>
+    <span class="problem-number">148</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Sort List</h3>
-    <p><strong>Platform:</strong> LeetCode #148 | Merge Sort</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/sort-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/sort-list/solutions/7428100/merge-sort-on-linked-list-on-log-n-time-v8lx2/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -266,10 +252,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Largest Number -->
   <div class="problem-card-medium">
-    <span class="problem-number">52</span>
+    <span class="problem-number">179</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Largest Number</h3>
-    <p><strong>Platform:</strong> LeetCode #179 | Custom Sorting</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/largest-number/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/largest-number/solutions/7429080/largest-number-custom-sorting-by-concate-z4et/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -279,10 +264,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Sort Colors -->
   <div class="problem-card-medium">
-    <span class="problem-number">53</span>
+    <span class="problem-number">75</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Sort Colors</h3>
-    <p><strong>Platform:</strong> LeetCode #75 | Dutch National Flag</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/sort-colors/solutions/7418299/sort-colors-dutch-national-flag-algorith-e7eo/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -300,10 +284,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Find in Mountain Array -->
   <div class="problem-card-hard">
-    <span class="problem-number">54</span>
+    <span class="problem-number">1095</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Find in Mountain Array</h3>
-    <p><strong>Platform:</strong> LeetCode #1095</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/find-in-mountain-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/find-in-mountain-array/solutions/7414067/binary-search-on-mountain-array-find-pea-s9fz/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -313,10 +296,9 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Median of Two Sorted Arrays -->
   <div class="problem-card-hard">
-    <span class="problem-number">55</span>
+    <span class="problem-number">4</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Median of Two Sorted Arrays</h3>
-    <p><strong>Platform:</strong> LeetCode #4</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/solutions/7430537/median-of-two-sorted-arrays-binary-searc-hjg4/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
