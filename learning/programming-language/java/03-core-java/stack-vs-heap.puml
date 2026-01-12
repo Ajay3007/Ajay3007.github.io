@@ -3,33 +3,53 @@ skinparam shadowing false
 skinparam linetype ortho
 left to right direction
 
+' --------- spacing / layout tuning ----------
+skinparam nodesep 60
+skinparam ranksep 70
+skinparam packagePadding 20
+skinparam classAttributeIconSize 0
+
 title Stack vs Heap - Memory Diagram
 
+' --------- Stack side ----------
 package "Stack (Thread Main)" {
-  object "main()" as mainFrame {
-    primitiveVar = 10
-    personObj --> heapPerson
-    stringLiteral --> poolMemory
-    memObj --> heapMemObj
-  }
 
-  object "memoryManagementTest()" as testFrame {
-    personObj_param --> heapPerson
-    personObj2 --> heapPerson
-    stringLiteral2 --> poolMemory
-    stringLiteral3 --> heapNewString
+  together {
+    object "main() frame" as mainFrame {
+      primitiveVar = 10
+      personObj(ref)
+      stringLiteral(ref)
+      memObj(ref)
+    }
+
+    object "memoryManagementTest() frame" as testFrame {
+      personObj_param(ref)
+      personObj2(ref)
+      stringLiteral2(ref)
+      stringLiteral3(ref)
+    }
   }
 }
 
+' --------- Heap side ----------
 package "Heap" {
-  object "Person@heap" as heapPerson
-  object "MemoryManagement@heap" as heapMemObj
-  object "new String(\"Memory\")" as heapNewString
+
+  together {
+    object "Person@heap" as heapPerson
+    object "MemoryManagement@heap" as heapMemObj
+    object "new String(Memory)" as heapNewString
+    object "String literal: Memory" as poolMemory
+  }
 }
 
-package "String Pool (Heap Area)" {
-  object "\"Memory\"" as poolMemory
-}
+' --------- Relations (references) ----------
+mainFrame --> testFrame : call
 
-mainFrame --> testFrame : method call
+mainFrame --> heapPerson : personObj
+mainFrame --> heapMemObj : memObj
+mainFrame --> poolMemory : literal
+
+testFrame --> heapPerson : param,obj2
+testFrame --> poolMemory : literal2
+testFrame --> heapNewString : new String
 @enduml

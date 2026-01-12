@@ -138,6 +138,12 @@ memObj.memoryManagementTest(personObj);
 ### Memory Layout Diagram:
 
 <div style="text-align:center;margin:2rem 0;">
+  <img src="{{ '/assets/images/stack-vs-heap.png' | relative_url }}" alt="Stack vs Heap Memory Diagram" style="max-width:100%;width:auto;max-height:600px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+</div>
+
+### PlantUML Generated Diagram:
+
+<div style="text-align:center;margin:2rem 0;">
   <img src="{{ '/assets/diagrams/learning/programming-language/java/03-core-java/stack-vs-heap.svg' | relative_url }}" alt="Stack vs Heap Memory Diagram" class="diagram-img">
 </div>
 
