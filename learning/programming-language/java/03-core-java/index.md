@@ -21,6 +21,14 @@ String, Wrapper classes, and essential Java APIs.
   <p style="color:#4a5568;margin-bottom:0;">Complete guide to constructors, default vs no-args, parameterized, overloading, chaining, and private constructors for controlled instantiation.</p>
 </div>
 
+<!-- Memory Management & Garbage Collection -->
+<div style="background:#f8fafc;border-radius:10px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);border-left:4px solid #764ba2;">
+  <h3 style="margin-top:0;display:flex;align-items:center;gap:0.5rem;">
+    🧠 <a href="{{ '/learning/programming-language/java/03-core-java/memory-management-garbage-collection' | relative_url }}" style="text-decoration:none;color:#2d3748;">Memory Management & Garbage Collection</a>
+  </h3>
+  <p style="color:#4a5568;margin-bottom:0;">Stack vs Heap, GC algorithms, generational collection, memory leaks, and reference types (Strong, Weak, Soft).</p>
+</div>
+
 </div>
 
 ---

@@ -1,0 +1,17 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title MemoryManagement - UML Class View
+
+class MemoryManagement {
+  + main(String[] args)
+  - memoryManagementTest(Person personObj)
+}
+
+class Person {
+  - name: String
+  - age: int
+}
+
+MemoryManagement ..> Person : uses
+@enduml

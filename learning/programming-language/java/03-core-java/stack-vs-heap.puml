@@ -1,0 +1,35 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+left to right direction
+
+title Stack vs Heap - Memory Diagram
+
+package "Stack (Thread Main)" {
+  object "main()" as mainFrame {
+    primitiveVar = 10
+    personObj --> heapPerson
+    stringLiteral --> poolMemory
+    memObj --> heapMemObj
+  }
+
+  object "memoryManagementTest()" as testFrame {
+    personObj_param --> heapPerson
+    personObj2 --> heapPerson
+    stringLiteral2 --> poolMemory
+    stringLiteral3 --> heapNewString
+  }
+}
+
+package "Heap" {
+  object "Person@heap" as heapPerson
+  object "MemoryManagement@heap" as heapMemObj
+  object "new String(\"Memory\")" as heapNewString
+}
+
+package "String Pool (Heap Area)" {
+  object "\"Memory\"" as poolMemory
+}
+
+mainFrame --> testFrame : method call
+@enduml

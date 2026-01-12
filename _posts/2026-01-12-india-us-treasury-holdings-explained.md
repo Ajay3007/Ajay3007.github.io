@@ -130,7 +130,9 @@ Forex reserves mainly **4 parts:**
 
 ## 6️⃣ News analysis: India ne 2025 me 21% holdings kyun kam ki? 📰
 
-![India US Treasury Holdings Reduction]({{ '/assets/images/rbi-us-treasury-cut.png' | relative_url }})
+<div style="text-align:center;margin:2rem 0;">
+  <img src="{{ '/assets/images/rbi-us-treasury-cut.png' | relative_url }}" alt="India US Treasury Holdings Reduction" style="max-width:100%;width:auto;max-height:500px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+</div>
 
 News ke according:
 - **Oct 2024:** ~$241.4B
