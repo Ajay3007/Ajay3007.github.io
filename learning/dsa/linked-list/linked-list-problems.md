@@ -24,7 +24,6 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Problem Card Template -->
   <div class="problem-card-easy">
-    <span class="problem-number">1</span>
     <h3>Problem Title</h3>
     <p><strong>Platform:</strong> LeetCode</p>
     <div class="problem-buttons">
@@ -36,7 +35,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Reverse Linked List -->
   <div class="problem-card-easy">
-    <span class="problem-number">2</span>
+    <span class="problem-number">1</span>
     <h3>Reverse Linked List</h3>
     <p><strong>Platform:</strong> LeetCode #206</p>
     <div class="problem-buttons">
@@ -48,7 +47,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Middle of Linked List -->
   <div class="problem-card-easy">
-    <span class="problem-number">3</span>
+    <span class="problem-number">2</span>
     <h3>Middle of the Linked List</h3>
     <p><strong>Platform:</strong> LeetCode #876</p>
     <div class="problem-buttons">
@@ -60,7 +59,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Palindrome Linked List -->
   <div class="problem-card-easy">
-    <span class="problem-number">4</span>
+    <span class="problem-number">3</span>
     <h3>Palindrome Linked List</h3>
     <p><strong>Platform:</strong> LeetCode #234</p>
     <div class="problem-buttons">
@@ -72,7 +71,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Linked List Cycle -->
   <div class="problem-card-easy">
-    <span class="problem-number">5</span>
+    <span class="problem-number">4</span>
     <h3>Linked List Cycle</h3>
     <p><strong>Platform:</strong> LeetCode #141</p>
     <div class="problem-buttons">
@@ -92,7 +91,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Merge Two Sorted Lists -->
   <div class="problem-card-medium">
-    <span class="problem-number">6</span>
+    <span class="problem-number">5</span>
     <h3>Merge Two Sorted Lists</h3>
     <p><strong>Platform:</strong> LeetCode #21</p>
     <div class="problem-buttons">
@@ -104,7 +103,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Remove Nth Node From End -->
   <div class="problem-card-medium">
-    <span class="problem-number">7</span>
+    <span class="problem-number">6</span>
     <h3>Remove Nth Node From End</h3>
     <p><strong>Platform:</strong> LeetCode #19</p>
     <div class="problem-buttons">
@@ -116,7 +115,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Reverse Nodes in K Group -->
   <div class="problem-card-medium">
-    <span class="problem-number">8</span>
+    <span class="problem-number">7</span>
     <h3>Reverse Nodes in K-Group</h3>
     <p><strong>Platform:</strong> LeetCode #25</p>
     <div class="problem-buttons">
@@ -136,7 +135,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Copy List with Random Pointer -->
   <div class="problem-card-hard">
-    <span class="problem-number">9</span>
+    <span class="problem-number">8</span>
     <h3>Copy List with Random Pointer</h3>
     <p><strong>Platform:</strong> LeetCode #138</p>
     <div class="problem-buttons">
@@ -148,7 +147,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- LRU Cache (using Doubly Linked List) -->
   <div class="problem-card-hard">
-    <span class="problem-number">10</span>
+    <span class="problem-number">9</span>
     <h3>LRU Cache</h3>
     <p><strong>Platform:</strong> LeetCode #146</p>
     <div class="problem-buttons">
@@ -160,7 +159,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
   <!-- Placeholder for more hard problems -->
   <div class="problem-card-hard">
-    <span class="problem-number">11</span>
+    <span class="problem-number">10</span>
     <h3>Hard Problem Placeholder</h3>
     <p><strong>Platform:</strong> LeetCode</p>
     <div class="problem-buttons">
