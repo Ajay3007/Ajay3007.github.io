@@ -20,69 +20,6 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
 ## Easy Problems {#easy-problems}
 
-<div class="problems-grid">
-
-  <!-- Problem Card Template -->
-  <div class="problem-card-easy">
-    <h3>Problem Title</h3>
-    <p><strong>Platform:</strong> LeetCode</p>
-    <div class="problem-buttons">
-      <a href="#" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Reverse Linked List -->
-  <div class="problem-card-easy">
-    <h3>Reverse Linked List</h3>
-    <p><strong>Platform:</strong> LeetCode #206</p>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/reverse-linked-list.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="/learning/dsa/linked-list/leetcode-206-solution/" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Middle of Linked List -->
-  <div class="problem-card-easy">
-    <h3>Middle of the Linked List</h3>
-    <p><strong>Platform:</strong> LeetCode #876</p>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Palindrome Linked List -->
-  <div class="problem-card-easy">
-    <h3>Palindrome Linked List</h3>
-    <p><strong>Platform:</strong> LeetCode #234</p>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Linked List Cycle -->
-  <div class="problem-card-easy">
-    <h3>Linked List Cycle</h3>
-    <p><strong>Platform:</strong> LeetCode #141</p>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="{{ '/learning/dsa/linked-list/linked-list-cycle.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="{{ '/learning/dsa/linked-list/leetcode-141-solution/' | relative_url }}" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-</div>
-
----
-
-## Easy Problems {#easy-problems}
-
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
 
   <!-- Problem Card Template -->
