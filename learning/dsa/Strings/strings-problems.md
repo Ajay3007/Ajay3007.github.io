@@ -1,0 +1,121 @@
+---
+layout: default
+title: Strings - Practice Problems
+permalink: /learning/dsa/strings/strings-problems/
+---
+
+# ⚡ Strings Practice Problems
+
+Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and other platforms with approaches and solutions.
+
+---
+
+## Table of Contents
+
+- [Easy Problems](#easy-problems)
+- [Medium Problems](#medium-problems)
+- [Hard Problems](#hard-problems)
+
+---
+
+## Easy Problems {#easy-problems}
+
+<div class="problems-grid">
+
+  <!-- Valid Palindrome -->
+  <div class="problem-card-easy">
+    <span class="problem-number">19</span>
+    <h3>Valid Palindrome</h3>
+    <p><strong>Platform:</strong> LeetCode #125</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Valid Anagram -->
+  <div class="problem-card-easy">
+    <span class="problem-number">20</span>
+    <h3>Valid Anagram</h3>
+    <p><strong>Platform:</strong> LeetCode #242</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/valid-anagram/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+</div>
+
+---
+
+## Medium Problems {#medium-problems}
+
+<div class="problems-grid">
+
+  <!-- Longest Substring Without Repeating Characters -->
+  <div class="problem-card-medium">
+    <span class="problem-number">21</span>
+    <h3>Longest Substring Without Repeating Characters</h3>
+    <p><strong>Platform:</strong> LeetCode #3</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Group Anagrams -->
+  <div class="problem-card-medium">
+    <span class="problem-number">22</span>
+    <h3>Group Anagrams</h3>
+    <p><strong>Platform:</strong> LeetCode #49</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/group-anagrams/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Longest Palindromic Substring -->
+  <div class="problem-card-medium">
+    <span class="problem-number">23</span>
+    <h3>Longest Palindromic Substring</h3>
+    <p><strong>Platform:</strong> LeetCode #5</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/longest-palindromic-substring/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+</div>
+
+---
+
+## Hard Problems {#hard-problems}
+
+<div class="problems-grid">
+
+  <!-- Minimum Window Substring -->
+  <div class="problem-card-hard">
+    <span class="problem-number">24</span>
+    <h3>Minimum Window Substring</h3>
+    <p><strong>Platform:</strong> LeetCode #76</p>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+</div>
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+  <p style="color: #64748b; margin-bottom: 1.5rem; font-style: italic;">💡 Tip: Solve problems in order from Easy → Medium → Hard. Master patterns before attempting hard variations.</p>
+  <a href="{{ '/learning/dsa/strings' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#667eea;color:white;border-radius:5px;text-decoration:none;margin-right:10px;">← Back to Strings</a>
+  <a href="{{ '/learning/dsa' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#764ba2;color:white;border-radius:5px;text-decoration:none;">DSA Hub 🏠</a>
+</div>

@@ -664,6 +664,7 @@ a[role="button"]:hover, .btn:hover {
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+    position: relative;
 }
 
 .problem-card-medium {
@@ -672,6 +673,7 @@ a[role="button"]:hover, .btn:hover {
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
+    position: relative;
 }
 
 .problem-card-hard {
@@ -680,6 +682,7 @@ a[role="button"]:hover, .btn:hover {
     border-radius: 8px;
     padding: 1.5rem;
     box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
+    position: relative;
 }
 
 .site-main .problem-card-easy h3,
@@ -739,32 +742,4 @@ a[role="button"]:hover, .btn:hover {
 
 .btn-solution:hover {
     background: #d97706;
-}
-/* Medium & Hard Problem Cards */
-.problem-card-medium {
-    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    border-left: 4px solid #f59e0b;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.1);
-}
-
-.problem-card-hard {
-    background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
-    border-left: 4px solid #ef4444;
-    border-radius: 8px;
-    padding: 1.5rem;
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
-}
-
-.problem-card-medium h3,
-.problem-card-hard h3 {
-    margin-top: 0;
-    color: #1e293b;
-}
-
-.problem-card-medium p,
-.problem-card-hard p {
-    color: #64748b;
-    margin: 0.5rem 0;
 }
