@@ -141,12 +141,16 @@ permalink: /learning/dsa/
 </div>
 
 <h2 style="font-size:1.5rem;margin:2.5rem 0 1.2rem 0;font-weight:700;">Master Problem List</h2>
-<div style="background:#f8fafc;border-radius:10px;padding:1.25rem 1.5rem;box-shadow:0 2px 10px #e2e8f0;margin:1.5rem 0;display:flex;flex-wrap:wrap;align-items:center;gap:0.75rem;justify-content:space-between;">
-  <div>
-    <h3 style="margin:0 0 0.4rem 0;">Browse All Solved Problems</h3>
-    <p style="margin:0;color:#4a5568;">Curated links to every documented solution, organized by topic.</p>
+
+<div class="problem-masterlist-cta" style="max-width:540px;margin:2.2rem auto 2.2rem auto;background:linear-gradient(135deg,#e0e7ff 0%,#f8fafc 100%);border-radius:14px;box-shadow:0 2px 16px #e2e8f0;padding:2.1rem 2.2rem 1.7rem 2.2rem;text-align:center;">
+  <div style="font-size:2.3rem;line-height:1.1;margin-bottom:0.5rem;">🗂️</div>
+  <h2 style="font-size:1.35rem;font-weight:700;margin:0 0 0.5rem 0;letter-spacing:-0.5px;">Browse All Problems</h2>
+  <div style="color:#4a5568;font-size:1.07rem;margin-bottom:1.2rem;">
+    Curated, topic-wise links to every solved problem and solution in this DSA section.
   </div>
-  <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display:inline-block;padding:10px 18px;background:#667eea;color:white;border-radius:6px;text-decoration:none;font-weight:600;">View List →</a>
+  <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display:inline-block;padding:0.85em 2.1em;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:7px;text-decoration:none;font-weight:600;font-size:1.08rem;box-shadow:0 2px 8px #c7d2fe;transition:background 0.2s;">
+    📋 View Master List
+  </a>
 </div>
 
 <div style="text-align:center; margin:2.5rem 0 1.5rem 0;">

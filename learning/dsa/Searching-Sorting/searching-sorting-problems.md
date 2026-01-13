@@ -116,7 +116,7 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Rotation Count -->
   <div class="problem-card-medium">
-    <span class="problem-number">41</span>
+    <span class="problem-number">Rotation Count</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Rotation Count in Rotated Sorted Array</h3>
     <p><strong>Platform:</strong> GeeksforGeeks</p>
@@ -175,25 +175,24 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
     </div>
   </div>
 
-  <!-- Search in Sorted Matrix -->
+  <!-- Search in Row-Column Sorted Matrix -->
   <div class="problem-card-medium">
-    <span class="problem-number">46</span>
+    <span class="problem-number">Sorted Matrix</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Search in Row-Column Sorted Matrix</h3>
     <p><strong>Platform:</strong> GeeksforGeeks</p>
     <div class="problem-buttons">
       <a href="https://www.geeksforgeeks.org/dsa/search-in-row-wise-and-column-wise-sorted-matrix/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="{{ '/learning/dsa/Searching-Sorting/searchInSortedMatrix.pdf' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="{{ '/learning/dsa/Searching-Sorting/searchInSortedMatrix.pdf' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach (PDF)</a>
       <a href="{{ '/learning/dsa/Searching-Sorting/searchInSortedMatrix.pdf' | relative_url }}" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 
   <!-- Search a 2D Matrix -->
   <div class="problem-card-medium">
-    <span class="problem-number">47</span>
+    <span class="problem-number">74</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Search a 2D Matrix</h3>
-    <p><strong>Platform:</strong> LeetCode #74</p>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/search-a-2d-matrix/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/search-a-2d-matrix/solutions/7415712/search-a-2d-matrix-double-binary-search-01x4d/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
@@ -203,7 +202,7 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
 
   <!-- Allocate Minimum Pages -->
   <div class="problem-card-medium">
-    <span class="problem-number">48</span>
+    <span class="problem-number">Allocate Minimum Pages</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Allocate Minimum Pages</h3>
     <p><strong>Platform:</strong> GeeksforGeeks | Binary Search on Answer</p>
@@ -274,6 +273,30 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
     </div>
   </div>
 
+  <!-- Find Position in Infinite Sorted Array -->
+  <div class="problem-card-medium">
+    <span class="problem-number">Infinite Array</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Find Position in Infinite Sorted Array</h3>
+    <div class="problem-buttons">
+      <a href="https://www.geeksforgeeks.org/dsa/find-position-element-sorted-array-infinite-numbers/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="bsOnInfiniteNum.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 Approach (PDF)</a>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Index of First 1 in Infinite Binary Array -->
+  <div class="problem-card-medium">
+    <span class="problem-number">First 1 in Infinite Array</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Index of First 1 in Infinite Binary Array</h3>
+    <div class="problem-buttons">
+      <a href="https://www.geeksforgeeks.org/dsa/find-index-first-1-infinite-sorted-array-0s-1s/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="firstOneInBinaryInfiniteArray.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 Approach (PDF)</a>
+      <a href="#" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
 </div>
 
 ---
@@ -303,6 +326,54 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/solutions/7430537/median-of-two-sorted-arrays-binary-searc-hjg4/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
       <a href="{{ '/learning/dsa/Searching-Sorting/median-sorted-array.pdf' | relative_url }}" class="problem-btn-link btn-solution">💻 Visual Solution</a>
+    </div>
+  </div>
+
+  <!-- Split Array Largest Sum -->
+  <div class="problem-card-hard">
+    <span class="problem-number">410</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <h3>Split Array Largest Sum</h3>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/split-array-largest-sum/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Merge k Sorted Lists -->
+  <div class="problem-card-hard">
+    <span class="problem-number">23</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <h3>Merge k Sorted Lists</h3>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Count of Smaller Numbers After Self -->
+  <div class="problem-card-hard">
+    <span class="problem-number">315</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <h3>Count of Smaller Numbers After Self</h3>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+    </div>
+  </div>
+
+  <!-- Maximum Gap -->
+  <div class="problem-card-hard">
+    <span class="problem-number">164</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <h3>Maximum Gap</h3>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/maximum-gap/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
+      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
   </div>
 

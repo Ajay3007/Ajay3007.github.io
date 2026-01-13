@@ -366,11 +366,35 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     </div>
   </div>
   <div class="problem-card">
+    <span class="problem-number">23</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" rel="noopener noreferrer" class="problem-title">Merge k Sorted Lists</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#merge-k-sorted-lists' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">315</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/count-of-smaller-numbers-after-self/" target="_blank" rel="noopener noreferrer" class="problem-title">Count of Smaller Numbers After Self</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#merge-k-sorted-lists' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
     <span class="problem-number">340</span>
     <span class="problem-status unsolved">○ Unsolved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Substring with At Most K Distinct</a>
       <a href="{{ '/learning/dsa/arrays/arrays-problems/#longest-substring-with-at-most-k-distinct-characters' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
+    </div>
+  </div>
+  <div class="problem-card">
+    <span class="problem-number">164</span>
+    <span class="problem-status unsolved">○ Unsolved</span>
+    <div class="problem-card-inner">
+      <a href="https://leetcode.com/problems/maximum-gap/" target="_blank" rel="noopener noreferrer" class="problem-title">Maximum Gap</a>
+      <a href="{{ '/learning/dsa/arrays/arrays-problems/#maximum-gap' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>
   <div class="problem-card">
@@ -587,7 +611,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     </div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">41</span>
+    <span class="problem-number">Rotation Count</span>
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/find-rotation-count-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">Rotation Count in Rotated Array</a>
@@ -627,10 +651,10 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     </div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">46</span>
+    <span class="problem-number">Sorted Matrix</span>
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
-      <a href="https://www.geeksforgeeks.org/dsa/search-in-row-wise-and-column-wise-sorted-matrix/" target="_blank" rel="noopener noreferrer" class="problem-title">Search in Sorted Matrix</a>
+      <a href="https://www.geeksforgeeks.org/dsa/search-in-row-wise-and-column-wise-sorted-matrix/" target="_blank" rel="noopener noreferrer" class="problem-title">Search in Row-Column Sorted Matrix</a>
       <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/#search-in-row-column-sorted-matrix' | relative_url }}" class="problem-btn">📋 Approach & Solution</a>
     </div>
   </div>

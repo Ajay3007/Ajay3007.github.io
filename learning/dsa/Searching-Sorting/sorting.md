@@ -4,24 +4,6 @@ title: Sorting
 permalink: /learning/dsa/Searching-Sorting/sorting/
 ---
 
-## 📑 Table of Contents
-
-1. **[<img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sorting Master Guide (Interview-Focused)](#img-src-assets-icons-rocket-svg-relativeurl-class-inline-icon-alt-sorting-master-guide-interview-focused)**
-    1.1. [Sorting Algorithms You MUST Know (Interview Level)](#sorting-algorithms-you-must-know-interview-level)
-    1.2. [Sorting in C++ (VERY IMPORTANT for interviews)](#sorting-in-c-very-important-for-interviews)
-    1.3. [Coding Templates You Must Know](#coding-templates-you-must-know)
-2. **[MUST DO PROBLEMS](#must-do-problems)**
-
----
-
-### 🎯 Main Topics Covered
-
-1. **Sorting Algorithms You MUST Know Interview Level**
-2. **Sorting in C VERY IMPORTANT for interviews**
-3. **Coding Templates You Must Know**
-
----
-
 # <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Sorting Master Guide (Interview-Focused)
 
 ## Sorting Algorithms You MUST Know (Interview Level)
