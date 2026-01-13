@@ -4,16 +4,6 @@ title: Arrays
 permalink: /learning/dsa/arrays/
 ---
 
-<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
-  <h2 style="color: white; margin: 0 0 1rem 0;">📋 Practice Problems</h2>
-  <a href="{{ '/learning/dsa/arrays/arrays-problems/' | relative_url }}" style="display: inline-block; padding: 12px 30px; background: white; color: #667eea; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-    ⚡ View All Arrays Problems →
-  </a>
-  <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 0.95rem;">18 curated problems with solutions • Easy to Hard difficulty</p>
-</div>
-
----
-
 # <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Arrays Mastery Guide
 
 Welcome to the complete hub for Array. Here you'll find guides, templates, and curated problems for interviews and mastery.

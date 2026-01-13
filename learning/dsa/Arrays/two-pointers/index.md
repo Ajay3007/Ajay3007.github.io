@@ -197,5 +197,10 @@ Two pointers is a general approach where you use two indices (or iterators) to t
 </div>
 
 
+---
 
+<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+  <a href="{{ '/learning/dsa/arrays' | relative_url }}" style="display: inline-block; padding: 12px 28px; background: #667eea; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; margin-right: 1rem;">← Back to Arrays</a>
+  <a href="{{ '/learning/dsa' | relative_url }}" style="display: inline-block; padding: 12px 28px; background: #764ba2; color: white; border-radius: 8px; text-decoration: none; font-weight: 600;">DSA Hub 🏠</a>
+</div>
 

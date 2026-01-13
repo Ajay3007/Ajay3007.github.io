@@ -611,7 +611,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     </div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">Rotation Count</span>
+    <span class="problem-number">gfg</span>
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/find-rotation-count-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">Rotation Count in Rotated Array</a>
@@ -651,7 +651,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     </div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">Sorted Matrix</span>
+    <span class="problem-number">gfg</span>
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/search-in-row-wise-and-column-wise-sorted-matrix/" target="_blank" rel="noopener noreferrer" class="problem-title">Search in Row-Column Sorted Matrix</a>

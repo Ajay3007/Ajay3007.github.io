@@ -191,7 +191,7 @@ Collection of curated problems from LeetCode, GeeksforGeeks, and other platforms
     <span class="problem-number">gfg</span>
     <span class="problem-status solved">✓ Solved</span>
     <h3>Allocate Minimum Pages</h3>
-    <p><strong>Platform:</strong> GeeksforGeeks | Binary Search on Answer</p>
+    <!-- <p><strong>Platform:</strong> GeeksforGeeks | Binary Search on Answer</p> -->
     <div class="problem-buttons">
       <a href="https://www.geeksforgeeks.org/dsa/allocate-minimum-number-pages/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="{{ '/learning/dsa/searching-sorting/allocateMinimumPages.md' | relative_url }}" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
