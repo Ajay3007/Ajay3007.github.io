@@ -8,7 +8,7 @@ permalink: /learning/dsa/master-problem-list/
 
 Curated list of solved problems with direct links to their write-ups. Organized by topic for quick navigation.
 
-## 📊 Progress Statistics
+<!-- ## 📊 Progress Statistics
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
   <div style="text-align: center; padding: 1rem;">
@@ -40,6 +40,8 @@ Curated list of solved problems with direct links to their write-ups. Organized 
 - **Stacks:** 0/4 solved (0%)
 - **Searching & Sorting:** 22/22 solved (100%) 🎉
 - **Tree:** 0/7 solved (0%)
+
+--- -->
 
 ---
 
