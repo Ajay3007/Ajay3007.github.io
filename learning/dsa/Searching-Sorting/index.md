@@ -29,14 +29,12 @@ Welcome to the complete hub for searching and sorting algorithms. Here you'll fi
   </div>
 </div>
 
----
-
-## 🔥 Featured Topics
+<!-- ## 🔥 Featured Topics
 
 <ul style="display:flex;flex-wrap:wrap;gap:1.2rem 2.2rem;justify-content:center;list-style:none;padding:0;margin:2rem 0 2.5rem 0;">
-  <li><a href="{{ '/learning/dsa/Searching-Sorting/searching-guide/' | relative_url }}" style="color:#764ba2;font-weight:600;">Binary Search</a></li>
+  <li><a href="{{ '/learning/dsa/Searching-Sorting/searching-guide/' | relative_url }}" style="color:#764ba2;font-weight:600;">Searching Techniques</a></li>
   <li><a href="{{ '/learning/dsa/Searching-Sorting/sorting-guide/' | relative_url }}" style="color:#667eea;font-weight:600;">Sorting Techniques</a></li>
-</ul>
+</ul> -->
 
 ---
 
@@ -48,8 +46,13 @@ Welcome to the complete hub for searching and sorting algorithms. Here you'll fi
   <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 0.95rem;">22 curated problems with solutions • All Solved! 🎉</p>
 </div>
 
+---
 
+<div style="text-align:center;margin-top:2.5rem;">
+  <a href="{{ '/learning/dsa' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#1976d2;color:white;text-decoration:none;border-radius:8px;font-weight:600;margin-right:1rem;">← Back to DSA</a>
 
+  <a href="{{ '/' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#2d3748;color:white;text-decoration:none;border-radius:8px;font-weight:600;">🏠 Home</a>
+</div>
 
 
 

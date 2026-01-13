@@ -12,15 +12,45 @@ permalink: /learning/dsa/arrays/
   <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 0.95rem;">18 curated problems with solutions • Easy to Hard difficulty</p>
 </div>
 
-### 🎓 Learning Path
-
-**Beginner** → Start with patterns 1-4 (Sliding Window, Two Pointers, Prefix Sum)  
-**Intermediate** → Add patterns 5-7 (Binary Search, Kadane's, Sorting+Greedy)  
-**Advanced** → Master patterns 8-10 (Intervals, Matrix, HashMap combinations)  
-
 ---
 
 # <img src="{{ '/assets/icons/rocket.svg' | relative_url }}" class="inline-icon" alt=""> Arrays Mastery Guide
+
+Welcome to the complete hub for Array. Here you'll find guides, templates, and curated problems for interviews and mastery.
+
+---
+
+<div style="display:flex;flex-wrap:wrap;gap:2.2rem 2.5rem;justify-content:center;margin-bottom:2.5rem;">
+  <!-- Sliding Window Card -->
+  <div class="project-card" style="min-width:260px;max-width:340px;background:#f8fafc;border-radius:12px;box-shadow:0 2px 10px #e2e8f0;padding:1.7rem 1.2rem;text-align:center;">
+    <span style="font-size:2.2rem;">🧮</span>
+    <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
+      <a href="{{ '/learning/dsa/arrays/sliding-window/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Sliding Window Technique</a>
+    </h3>
+    <div style="color:#607d8b;font-size:0.98rem;">Sliding Window is a fundamental technique used for solving problems involving contiguous subarrays or substrings.</div>
+  </div>
+  <!-- Two Pointer Technique -->
+  <div class="project-card" style="min-width:260px;max-width:340px;background:#f8fafc;border-radius:12px;box-shadow:0 2px 10px #e2e8f0;padding:1.7rem 1.2rem;text-align:center;">
+    <span style="font-size:2.2rem;">🔎</span>
+    <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
+      <a href="{{ '/learning/dsa/arrays/two-pointers/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Two Pointer Technique</a>
+    </h3>
+    <div style="color:#607d8b;font-size:0.98rem;">Two indices that move independently, reduce time complexity from O(n²) to O(n)</div>
+  </div>
+</div>
+
+---
+
+
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
+  <h2 style="color: white; margin: 0 0 1rem 0;">📋 Practice Problems</h2>
+  <a href="{{ '/learning/dsa/arrays/arrays-problems/' | relative_url }}" style="display: inline-block; padding: 12px 30px; background: white; color: #667eea; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+    ⚡ View All Arrays Problems →
+  </a>
+  <!-- <p style="color: rgba(255,255,255,0.9); margin: 1rem 0 0 0; font-size: 0.95rem;">22 curated problems with solutions • All Solved! 🎉</p> -->
+</div>
+
+---
 
 ## ⭐ 1. Array Concepts You Must Master
 ### 🔹 Basic Operations
@@ -62,30 +92,6 @@ permalink: /learning/dsa/arrays/
 **10. Hashmap + Array Combo**
 
 We will cover each with template + example.
-
-## ⭐ Must-Do Array Problems - Practice
-
-#### 1. [Leetcode 1. Two Sum](https://leetcode.com/problems/two-sum/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 2. [Leetcode 217. Contains Duplicate](https://leetcode.com/problems/contains-duplicate/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 3. [Leetcode 219. Contains Duplicate II](https://leetcode.com/problems/contains-duplicate-ii/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 4. [Leetcode 242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 5. [Leetcode 49. Group Anagrams](https://leetcode.com/problems/group-anagrams/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 6. [Leetcode 238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 7. [Leetcode 347. Top K Frequent Elements](https://leetcode.com/problems/top-k-frequent-elements/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 8. [Leetcode 13. Roman to Integer](https://leetcode.com/problems/roman-to-integer/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 9. [Leetcode 953. Verifying an Alien Dictionary](https://leetcode.com/problems/verifying-an-alien-dictionary/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 10. [Leetcode 128. Longest Consecutive Sequence](https://leetcode.com/problems/longest-consecutive-sequence/description/){:target="_blank" rel="noopener noreferrer"}
-
-#### 11. [Leetcode 41. First Missing Positive](https://leetcode.com/problems/first-missing-positive/description/){:target="_blank" rel="noopener noreferrer"}
 
 
 ## ⭐ Pattern → Template → Example
@@ -247,3 +253,14 @@ Most-used pattern in arrays.
 - Top K frequent
 
 - Subarray sum K
+
+---
+
+<div style="text-align:center;margin-top:2.5rem;">
+  <a href="{{ '/learning/dsa' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#1976d2;color:white;text-decoration:none;border-radius:8px;font-weight:600;margin-right:1rem;">← Back to DSA</a>
+
+  <a href="{{ '/' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:#2d3748;color:white;text-decoration:none;border-radius:8px;font-weight:600;">🏠 Home</a>
+</div>
+
+
+
