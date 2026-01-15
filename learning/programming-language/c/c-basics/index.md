@@ -62,12 +62,12 @@ debugging tips, and interview-friendly clarifications.
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/09-structures' | relative_url }}" style="color:#1976d2;text-decoration:none;">Structures in C</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/structures' | relative_url }}" style="color:#1976d2;text-decoration:none;">Structures in C</a></h3>
   <p>Struct usage, dot vs arrow, initialization styles, typedef, passing structs, shallow vs deep copy, self-referential structs.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/10-padding-packing' | relative_url }}" style="color:#1976d2;text-decoration:none;">Padding, Alignment & Packing</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/padding-packing' | relative_url }}" style="color:#1976d2;text-decoration:none;">Padding, Alignment & Packing</a></h3>
   <p>Structure padding/alignment, minimizing wasted bytes, and packing using GCC attributes / `#pragma pack`.</p>
 </div>
 

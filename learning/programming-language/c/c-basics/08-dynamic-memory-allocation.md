@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Dynamic Memory Allocation
-permalink: /learning/programming-language/c/c-basics/dynamic-memory/
+permalink: /learning/programming-language/c/c-basics/08-dynamic-memory/
 ---
 
 # Dynamic Memory Allocation (Heap)

@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Memory Layout in C
-permalink: /learning/programming-language/c/c-basics/memory-layout/
+permalink: /learning/programming-language/c/c-basics/01-memory-layout/
 ---
 
 # Memory Layout in C

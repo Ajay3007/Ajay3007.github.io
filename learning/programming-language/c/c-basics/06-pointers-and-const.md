@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Pointers and const
-permalink: /learning/programming-language/c/c-basics/pointers-const/
+permalink: /learning/programming-language/c/c-basics/06-pointers-const/
 ---
 
 # Pointers and `const`

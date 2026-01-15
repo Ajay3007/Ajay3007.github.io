@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Multidimensional Arrays & Pointers
-permalink: /learning/programming-language/c/c-basics/multidimensional-arrays/
+permalink: /learning/programming-language/c/c-basics/05-multidimensional-arrays/
 ---
 
 # Multidimensional Arrays & Pointers

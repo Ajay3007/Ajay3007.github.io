@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Arrays and Pointers
-permalink: /learning/programming-language/c/c-basics/arrays-and-pointers/
+permalink: /learning/programming-language/c/c-basics/04-arrays-and-pointers/
 ---
 
 # Arrays and Pointers
