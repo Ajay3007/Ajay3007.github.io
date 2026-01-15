@@ -669,7 +669,7 @@ Curated list of solved problems with direct links to their write-ups. Organized 
     </div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">48</span>
+    <span class="problem-number">gfg</span>
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/allocate-minimum-number-pages/" target="_blank" rel="noopener noreferrer" class="problem-title">Allocate Minimum Pages</a>
