@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Function Pointers
-permalink: /learning/programming-language/c/c-basics/07-function-pointers/
+permalink: /learning/programming-language/c/c-basics/function-pointers/
 ---
 
 # Function Pointers

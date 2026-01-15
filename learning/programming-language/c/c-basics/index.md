@@ -22,42 +22,42 @@ debugging tips, and interview-friendly clarifications.
 <div style="display: grid; gap: 1rem; margin: 2rem 0;">
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/01-memory-layout' | relative_url }}" style="color:#1976d2;text-decoration:none;">Memory Layout in C</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/memory-layout' | relative_url }}" style="color:#1976d2;text-decoration:none;">Memory Layout in C</a></h3>
   <p>C program memory segments (text/data/bss/heap/stack), how they grow, and how OS maps memory at runtime.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/02-pointers' | relative_url }}" style="color:#1976d2;text-decoration:none;">Pointers in C</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/pointers' | relative_url }}" style="color:#1976d2;text-decoration:none;">Pointers in C</a></h3>
   <p>Pointer fundamentals, dereferencing, pointer arithmetic, void/NULL pointers, pointer-to-pointer, and common bugs.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/03-stack-frame-call-stack' | relative_url }}" style="color:#1976d2;text-decoration:none;">Stack Frame & Call Stack</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/stack-frame-call-stack' | relative_url }}" style="color:#1976d2;text-decoration:none;">Stack Frame & Call Stack</a></h3>
   <p>Stack frames, call stack execution flow (LIFO), what gets stored per call, and stack overflow causes.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/04-arrays-and-pointers' | relative_url }}" style="color:#1976d2;text-decoration:none;">Arrays & Pointers</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/arrays-and-pointers' | relative_url }}" style="color:#1976d2;text-decoration:none;">Arrays & Pointers</a></h3>
   <p>Array-pointer relation, `[]` equivalence, array decay, `sizeof` behavior, strings, and pointer-to-array.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/05-multidimensional-arrays' | relative_url }}" style="color:#1976d2;text-decoration:none;">Multidimensional Arrays & Pointers</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/multidimensional-arrays' | relative_url }}" style="color:#1976d2;text-decoration:none;">Multidimensional Arrays & Pointers</a></h3>
   <p>2D/3D array memory model (row-major), correct pointer types, address math, and passing arrays to functions.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/06-pointers-and-const' | relative_url }}" style="color:#1976d2;text-decoration:none;">Pointers and `const`</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/pointers-and-const' | relative_url }}" style="color:#1976d2;text-decoration:none;">Pointers and `const`</a></h3>
   <p>All const combinations (`const int*`, `int* const`, `const int* const`) with rule-based understanding and examples.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/07-function-pointers' | relative_url }}" style="color:#1976d2;text-decoration:none;">Function Pointers</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/function-pointers' | relative_url }}" style="color:#1976d2;text-decoration:none;">Function Pointers</a></h3>
   <p>Function pointer syntax, callbacks, array of function pointers, and function pointers inside structures.</p>
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/08-dynamic-memory-allocation' | relative_url }}" style="color:#1976d2;text-decoration:none;">Dynamic Memory Allocation</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/dynamic-memory-allocation' | relative_url }}" style="color:#1976d2;text-decoration:none;">Dynamic Memory Allocation</a></h3>
   <p>`malloc/calloc/realloc/free`, safe realloc pattern, dynamic arrays, and dynamic 2D allocation methods.</p>
 </div>
 

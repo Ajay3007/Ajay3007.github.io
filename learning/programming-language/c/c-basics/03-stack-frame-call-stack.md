@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Stack Frame and Call Stack
-permalink: /learning/programming-language/c/c-basics/03-stack-frame/
+permalink: /learning/programming-language/c/c-basics/stack-frame/
 ---
 
 # Stack Frame and Call Stack

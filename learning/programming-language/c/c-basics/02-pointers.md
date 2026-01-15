@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Pointers in C
-permalink: /learning/programming-language/c/c-basics/02-pointers/
+permalink: /learning/programming-language/c/c-basics/pointers/
 ---
 
 # Pointers in C/C++
