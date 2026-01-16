@@ -1,0 +1,21 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title Pointer Mental Model (int*, int**)
+
+object "a : int\nvalue = 10\naddr = 0x100" as A
+object "p : int*\nvalue = &a\naddr = 0x200" as P
+object "q : int**\nvalue = &p\naddr = 0x300" as Q
+
+P --> A : points to
+Q --> P : points to
+
+note bottom of P
+*p  -> read value at address in p
+end note
+
+note bottom of Q
+*q   -> gives p
+**q  -> gives a
+end note
+@enduml

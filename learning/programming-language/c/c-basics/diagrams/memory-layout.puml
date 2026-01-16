@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title C Process Memory Layout (High Level)
+
+package "Process Virtual Memory" {
+  [Text / Code\n(.text + .rodata)\nRead-only] as TEXT
+  [Data Segment\nInitialized globals/statics] as DATA
+  [BSS Segment\nUninitialized globals/statics\n(auto = 0)] as BSS
+  [Heap\nmalloc/calloc/realloc\nGrows upward ↑] as HEAP
+  [Stack\nFunction frames\nLocals, return address\nGrows downward ↓] as STACK
+}
+
+TEXT -down-> DATA
+DATA -down-> BSS
+BSS -down-> HEAP
+HEAP -down-> STACK
+
+note right of HEAP
+Heap allocations persist until free()
+Fragmentation may occur.
+end note
+
+note right of STACK
+Each function call creates a stack frame.
+Limited size (per thread).
+end note
+
+@enduml

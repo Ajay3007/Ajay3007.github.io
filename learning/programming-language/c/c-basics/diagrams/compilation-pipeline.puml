@@ -1,0 +1,12 @@
+@startuml
+skinparam shadowing false
+title C Build Pipeline (gcc)
+
+start
+:Source Code\nmain.c;
+:Preprocessing\n(#include, #define)\noutput: main.i;
+:Compilation\nC -> Assembly\noutput: main.s;
+:Assembling\nAssembly -> Object\noutput: main.o;
+:Linking\nResolve symbols + libs\noutput: executable;
+stop
+@enduml

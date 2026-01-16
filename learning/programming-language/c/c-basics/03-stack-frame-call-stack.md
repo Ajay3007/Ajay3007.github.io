@@ -56,6 +56,14 @@ Bottom
 
 ---
 
+### Function Call Flow Diagram
+
+![Function Call Flow]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/call-stack-sequence.svg' | relative_url }}){:class="diagram-img"}
+
+*Visualizes the function calling sequence and how stack frames are created and destroyed using LIFO behavior during nested function calls.*
+
+---
+
 ## Stack Overflow
 
 Occurs when stack memory exceeds limit.

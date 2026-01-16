@@ -44,6 +44,14 @@ struct X {
 
 ---
 
+### Structure Padding Example Diagram
+
+![Structure Padding Example]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/struct-padding.svg' | relative_url }}){:class="diagram-img"}
+
+*Explains structure padding and alignment, showing why `sizeof(struct)` can be larger than sum of its fields due to inserted padding bytes.*
+
+---
+
 ## Packing
 
 Used in:

@@ -57,7 +57,7 @@ debugging tips, and interview-friendly clarifications.
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/dynamic-memory-allocation' | relative_url }}" style="color:#1976d2;text-decoration:none;">Dynamic Memory Allocation</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/dynamic-memory' | relative_url }}" style="color:#1976d2;text-decoration:none;">Dynamic Memory Allocation</a></h3>
   <p>`malloc/calloc/realloc/free`, safe realloc pattern, dynamic arrays, and dynamic 2D allocation methods.</p>
 </div>
 

@@ -1,0 +1,21 @@
+@startuml
+skinparam shadowing false
+title Function Pointer Callback Flow
+
+participant "main()" as MAIN
+participant "operate(x,y,op)" as OP
+participant "add(x,y)" as ADD
+participant "sub(x,y)" as SUB
+
+MAIN -> OP: operate(10,5, add)
+activate OP
+OP -> ADD: op(10,5)
+ADD --> OP: return 15
+deactivate OP
+
+MAIN -> OP: operate(10,5, sub)
+activate OP
+OP -> SUB: op(10,5)
+SUB --> OP: return 5
+deactivate OP
+@enduml

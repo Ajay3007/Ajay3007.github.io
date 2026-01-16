@@ -1,0 +1,26 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title Arrays and Pointers (Address & Arithmetic)
+
+object "A : int[5]\nbase = &A[0] = 0x400" as ARR {
+  "A[0] = 2  @0x400"
+  "A[1] = 4  @0x404"
+  "A[2] = 5  @0x408"
+  "A[3] = 8  @0x40C"
+  "A[4] = 1  @0x410"
+}
+
+object "p : int*\nvalue = &A[0]" as P
+
+P --> ARR : points to A[0]
+
+note right of ARR
+A[i]  == *(A + i)
+&A[i] == (A + i)
+end note
+
+note bottom of P
+p+1 jumps by sizeof(int)=4 bytes
+end note
+@enduml

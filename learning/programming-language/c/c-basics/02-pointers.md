@@ -64,6 +64,14 @@ printf("%d", *p);
 
 ---
 
+### Pointer Diagram
+
+![Pointer]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/pointers-object.svg' | relative_url }}){:class="diagram-img"}
+
+*Explains the pointer mental model—how an `int*` points to an integer variable and how an `int**` (pointer-to-pointer) points to the `int*` pointer.*
+
+---
+
 ## Special pointer types
 
 ### 1) NULL pointer

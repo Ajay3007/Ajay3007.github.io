@@ -1,0 +1,20 @@
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title Structure Padding Example
+
+class "struct A" as SA {
+  + char c
+  + int  i
+}
+
+note right of SA
+Expected = 1 + 4 = 5 bytes
+Actual   = 8 bytes (padding added)
+end note
+
+note bottom
+Typical layout:
+| c | pad pad pad | i i i i |
+end note
+@enduml

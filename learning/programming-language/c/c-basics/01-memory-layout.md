@@ -44,6 +44,14 @@ When heap and stack collide → memory exhausted / crash.
 
 ---
 
+### Memory Layout Diagram
+
+![Memory Layout]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/memory-layout.svg' | relative_url }}){:class="diagram-img"}
+
+*Shows how a C program is organized in memory into segments like text, data, bss, heap, and stack, including heap/stack growth direction.* 
+
+---
+
 ## 1) Text Segment (Code Segment)
 
 - Stores **compiled machine instructions**

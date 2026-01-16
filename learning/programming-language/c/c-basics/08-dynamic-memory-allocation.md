@@ -82,6 +82,14 @@ p = NULL;
 
 ---
 
+### Dynamic Memory Allocation (malloc/free lifecycle) Diagram
+
+![Dynamic Memory Allocation (malloc/free lifecycle)]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/dma-activity.svg' | relative_url }}){:class="diagram-img"}
+
+*Shows the lifecycle of dynamic allocation on heap using malloc/calloc, safe usage, and cleanup using `free()` and setting pointer to `NULL`.*
+
+---
+
 ## Dynamic 2D array (important)
 
 ### Method 1: row pointers

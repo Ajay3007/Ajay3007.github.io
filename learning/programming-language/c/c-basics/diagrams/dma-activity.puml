@@ -1,0 +1,18 @@
+@startuml
+skinparam shadowing false
+title Dynamic Memory Allocation (malloc/free lifecycle)
+
+start
+:Request memory (malloc/calloc);
+if (allocation failed?) then (yes)
+  :Handle NULL;
+  stop
+else (no)
+  :Use memory safely;
+  :Avoid out-of-bounds;
+endif
+
+:free(ptr);
+:ptr = NULL;
+stop
+@enduml

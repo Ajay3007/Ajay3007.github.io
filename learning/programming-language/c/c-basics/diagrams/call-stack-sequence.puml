@@ -1,0 +1,27 @@
+@startuml
+skinparam shadowing false
+title Function Call Flow (Stack Frames)
+
+actor User
+participant "main()" as MAIN
+participant "funcA()" as A
+participant "funcB()" as B
+
+User -> MAIN: start program
+activate MAIN
+
+MAIN -> A: call funcA()
+activate A
+
+A -> B: call funcB()
+activate B
+
+B --> A: return
+deactivate B
+
+A --> MAIN: return
+deactivate A
+
+MAIN --> User: exit program
+deactivate MAIN
+@enduml

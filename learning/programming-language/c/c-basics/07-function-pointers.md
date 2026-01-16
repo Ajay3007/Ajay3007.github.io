@@ -69,6 +69,14 @@ operate(10,5,sub);
 
 ---
 
+### Function Pointer Callback Flow Diagram
+
+![Function Pointer Callback Flow]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/function-pointer-callback.svg' | relative_url }}){:class="diagram-img"}
+
+*Illustrates how function pointers enable callbacks, where a function like `operate()` calls different operations (`add/sub`) via a passed function pointer.*
+
+---
+
 ## Array of function pointers
 
 ```c

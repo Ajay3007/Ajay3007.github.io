@@ -34,6 +34,14 @@ So `[]` is syntactic sugar.
 
 ---
 
+### Arrays and Pointers Diagram
+
+![Arrays and Pointers]({{ '/assets/diagrams/learning/programming-language/c/c-basics/diagrams/arrays-pointers-object.svg' | relative_url }}){:class="diagram-img"}
+
+*Demonstrates how arrays and pointers are related, including base address concept, memory layout of elements, and pointer arithmetic like `A[i] == *(A+i)`*
+
+---
+
 ## Why `A++` is invalid?
 
 Array name is constant base address (non-modifiable lvalue).
