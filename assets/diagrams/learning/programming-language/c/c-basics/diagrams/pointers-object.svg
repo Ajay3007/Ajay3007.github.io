@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="379px" preserveAspectRatio="none" style="width:386px;height:379px;" version="1.1" viewBox="0 0 386 379" width="386px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="295" x="49" y="16.708">Pointer Mental Model (int*, int**)</text><rect fill="#FEFECE" height="61.9063" style="stroke: #A80036; stroke-width: 1.5;" width="99" x="6" y="306.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="36" x="37.5" y="320.0918">a : int</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="67" x="22" y="334.0605">value = 10</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="85" x="13" y="348.0293">addr = 0x100</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="104" y1="352.8594" y2="352.8594"/><rect fill="#FEFECE" height="61.9063" style="stroke: #A80036; stroke-width: 1.5;" width="99" x="107" y="167.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="42" x="135.5" y="181.0918">p : int*</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="69" x="122" y="195.0605">value = &amp;a</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="85" x="114" y="209.0293">addr = 0x200</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="108" x2="205" y1="213.8594" y2="213.8594"/><rect fill="#FEFECE" height="61.9063" style="stroke: #A80036; stroke-width: 1.5;" width="99" x="180" y="28.9531"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="48" x="205.5" y="42.0918">q : int**</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="69" x="195" y="56.0605">value = &amp;p</text><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="85" x="187" y="70.0293">addr = 0x300</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="181" x2="278" y1="74.8594" y2="74.8594"/><path d="M140.5,325.4531 L140.5,350.5859 A0,0 0 0 0 140.5,350.5859 L374.5,350.5859 A0,0 0 0 0 374.5,350.5859 L374.5,335.4531 L364.5,325.4531 L177.25,325.4531 L173.25,230.1431 L169.25,325.4531 L140.5,325.4531 A0,0 0 0 0 140.5,325.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M364.5,325.4531 L364.5,335.4531 L374.5,335.4531 L364.5,325.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><ellipse cx="152" cy="338.0859" fill="#000000" rx="2.5" ry="2.5" style="stroke: #000000; stroke-width: 0.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="202" x="157.5" y="342.52">p  -&gt; read value at address in p</text><path d="M241.5,178.9531 L241.5,219.2188 A0,0 0 0 0 241.5,219.2188 L365.5,219.2188 A0,0 0 0 0 365.5,219.2188 L365.5,188.9531 L355.5,178.9531 L264.25,178.9531 L260.25,91.1431 L256.25,178.9531 L241.5,178.9531 A0,0 0 0 0 241.5,178.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M355.5,178.9531 L355.5,188.9531 L365.5,188.9531 L355.5,178.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><ellipse cx="253" cy="191.5859" fill="#000000" rx="2.5" ry="2.5" style="stroke: #000000; stroke-width: 0.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="85" x="258.5" y="196.02">q   -&gt; gives p</text><rect fill="#000000" height="3.5" style="stroke: #000000; stroke-width: 0.0;" width="3.5" x="264.5" y="206.2188"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="81" x="269.5" y="211.1528">q  -&gt; gives a</text><!--MD5=[5851da52440e58b1e74b4473db4b28ba]
+link P to A--><path d="M123.75,229.9531 C123.75,264.9131 123.75,316.9531 123.75,316.9531 C123.75,316.9531 110.1,316.9531 110.1,316.9531 " fill="none" id="P-&gt;A" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="105.1,316.9531,114.1,320.9531,110.1,316.9531,114.1,312.9531,105.1,316.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="56" x="56.5" y="273.02">points to</text><!--MD5=[d7c603d145badcde7c86716e07ff6468]
+link Q to P--><path d="M193,91.1431 C193,91.1431 193,162.8631 193,162.8631 " fill="none" id="Q-&gt;P" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="193,167.8631,197,158.8631,193,162.8631,189,158.8631,193,167.8631" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="56" x="190.5" y="134.02">points to</text><!--MD5=[25b5ffac706de82add4fd49416586e34]
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title Pointer Mental Model (int*, int**)
+
+object "a : int\nvalue = 10\naddr = 0x100" as A
+object "p : int*\nvalue = &a\naddr = 0x200" as P
+object "q : int**\nvalue = &p\naddr = 0x300" as Q
+
+P - -> A : points to
+Q - -> P : points to
+
+note bottom of P
+*p  -> read value at address in p
+end note
+
+note bottom of Q
+*q   -> gives p
+**q  -> gives a
+end note
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.17+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
