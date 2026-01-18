@@ -22,6 +22,11 @@ debugging tips, and interview-friendly clarifications.
 <div style="display: grid; gap: 1rem; margin: 2rem 0;">
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/c-compilation-process' | relative_url }}" style="color:#1976d2;text-decoration:none;">C Compilation Process</a></h3>
+  <p>The full life of a C program. Preprocessing, Compiler, Assembler, Linker.</p>
+</div>
+
+<div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
   <h3><a href="{{ '/learning/programming-language/c/c-basics/memory-layout' | relative_url }}" style="color:#1976d2;text-decoration:none;">Memory Layout in C</a></h3>
   <p>C program memory segments (text/data/bss/heap/stack), how they grow, and how OS maps memory at runtime.</p>
 </div>
@@ -32,7 +37,7 @@ debugging tips, and interview-friendly clarifications.
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/stack-frame-call-stack' | relative_url }}" style="color:#1976d2;text-decoration:none;">Stack Frame & Call Stack</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/stack-frame' | relative_url }}" style="color:#1976d2;text-decoration:none;">Stack Frame & Call Stack</a></h3>
   <p>Stack frames, call stack execution flow (LIFO), what gets stored per call, and stack overflow causes.</p>
 </div>
 
@@ -47,7 +52,7 @@ debugging tips, and interview-friendly clarifications.
 </div>
 
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
-  <h3><a href="{{ '/learning/programming-language/c/c-basics/pointers-and-const' | relative_url }}" style="color:#1976d2;text-decoration:none;">Pointers and `const`</a></h3>
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/pointers-const' | relative_url }}" style="color:#1976d2;text-decoration:none;">Pointers and `const`</a></h3>
   <p>All const combinations (`const int*`, `int* const`, `const int* const`) with rule-based understanding and examples.</p>
 </div>
 

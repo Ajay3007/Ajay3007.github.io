@@ -1,0 +1,132 @@
+@startuml
+title C Program Build + Run Pipeline (Detailed)
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam roundcorner 12
+
+' ---------- INPUTS ----------
+rectangle "Source Files" as SRC {
+  file "main.c" as C1
+  file "utils.c" as C2
+  file "utils.h" as H1
+  file "stdio.h\n(and other headers)" as H2
+}
+
+note right of SRC
+.c contains actual code
+.h contains declarations / macros
+end note
+
+' ---------- BUILD PIPELINE ----------
+rectangle "Build Pipeline (gcc/clang)" as BUILD {
+
+  component "1) Preprocessor\n(Handles #include, #define, #if)" as PRE
+  artifact "main.i\n(preprocessed C)" as I1
+
+  component "2) Compiler\n(Front-end + Optimizer + CodeGen)" as COM
+  artifact "main.s\n(assembly)" as S1
+
+  component "3) Assembler\n(assembly -> machine code)" as ASM
+  artifact "main.o\n(object file)" as O1
+  artifact "utils.o\n(object file)" as O2
+
+  component "4) Linker (ld)\n(symbol resolution + relocation)\n(layout final binary)" as LNK
+  artifact "a.out / app\n(executable ELF)" as EXE
+}
+
+' pipeline arrows
+C1 --> PRE
+C2 --> PRE
+H1 --> PRE
+H2 --> PRE
+
+PRE --> I1
+I1 --> COM
+COM --> S1
+S1 --> ASM
+ASM --> O1
+ASM --> O2
+O1 --> LNK
+O2 --> LNK
+LNK --> EXE
+
+note right of COM
+Compiler internally:
+- tokenization
+- parsing -> AST
+- semantic checks
+- IR generation
+- optimizations
+- assembly output
+end note
+
+note right of ASM
+Object file contains:
+- machine code
+- symbol table
+- relocation entries
+end note
+
+' ---------- LIBRARIES ----------
+rectangle "Libraries" as LIBS {
+  artifact "libc.a\n(static library)" as LIBC_A
+  artifact "libc.so\n(shared library)" as LIBC_SO
+  artifact "libm.so / libpthread.so\n(shared libraries)" as OTHER_SO
+}
+
+note right of LIBS
+Libraries provide external functions like:
+printf(), malloc(), pthread_create()
+end note
+
+' ---------- LINKING MODES ----------
+component "Linking Mode\n(Static vs Dynamic)" as MODE
+
+rectangle "Static Linking" as STATIC {
+  artifact "Executable with libs included\n(big binary)" as EXE_STATIC
+}
+
+rectangle "Dynamic Linking (default)" as DYNAMIC {
+  artifact "Executable + shared lib deps\n(smaller binary)" as EXE_DYNAMIC
+}
+
+EXE --> MODE
+MODE --> STATIC
+MODE --> DYNAMIC
+
+LIBC_A --> EXE_STATIC : copied into binary
+LIBC_SO --> EXE_DYNAMIC : dependency
+OTHER_SO --> EXE_DYNAMIC : dependency
+
+' ---------- RUNTIME / LOADER ----------
+rectangle "Runtime (OS Loader)" as RUN {
+  component "Loader (ld-linux.so)\nMaps executable into memory" as LOADER
+  component "Program entry point\n_start (CRT startup)" as START
+  component "main()" as MAIN
+  component "exit()" as EXIT
+}
+
+EXE_STATIC --> LOADER
+EXE_DYNAMIC --> LOADER
+
+LOADER --> START
+START --> MAIN
+MAIN --> EXIT
+
+note right of LOADER
+Loader responsibilities:
+- map .text/.data/.bss
+- set up stack (argv, envp)
+- load shared libs (.so)
+- resolve dynamic symbols (PLT/GOT)
+end note
+
+note bottom of START
+CRT startup:
+- initializes runtime
+- calls main()
+- handles return value -> exit()
+end note
+
+@enduml
