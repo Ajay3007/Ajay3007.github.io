@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="399px" preserveAspectRatio="none" style="width:383px;height:399px;" version="1.1" viewBox="0 0 383 399" width="383px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="299" x="40.5" y="26.708">Function Call Flow (Stack Frames)</text><rect fill="#FFFFFF" height="145.6641" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="135" y="148.3828"/><rect fill="#FFFFFF" height="87.3984" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="235" y="177.5156"/><rect fill="#FFFFFF" height="29.1328" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="335" y="206.6484"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="27" x2="27" y1="117.25" y2="312.0469"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="139.5" x2="139.5" y1="117.25" y2="312.0469"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="239.5" x2="239.5" y1="117.25" y2="312.0469"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="340" x2="340" y1="117.25" y2="312.0469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="32" x="8" y="113.9482">User</text><ellipse cx="27" cy="47.9531" fill="#FEFECE" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;"/><path d="M27,55.9531 L27,82.9531 M14,63.9531 L40,63.9531 M27,82.9531 L14,97.9531 M27,82.9531 L40,97.9531 " fill="none" style="stroke: #A80036; stroke-width: 2.0;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="32" x="8" y="324.042">User</text><ellipse cx="27" cy="337.3438" fill="#FEFECE" rx="8" ry="8" style="stroke: #A80036; stroke-width: 2.0;"/><path d="M27,345.3438 L27,372.3438 M14,353.3438 L40,353.3438 M27,372.3438 L14,387.3438 M27,372.3438 L40,387.3438 " fill="none" style="stroke: #A80036; stroke-width: 2.0;"/><rect fill="#FEFECE" height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="57" x="111.5" y="85.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="43" x="118.5" y="105.9482">main()</text><rect fill="#FEFECE" height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="57" x="111.5" y="311.0469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="43" x="118.5" y="331.042">main()</text><rect fill="#FEFECE" height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="63" x="208.5" y="85.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="49" x="215.5" y="105.9482">funcA()</text><rect fill="#FEFECE" height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="63" x="208.5" y="311.0469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="49" x="215.5" y="331.042">funcA()</text><rect fill="#FEFECE" height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="64" x="308" y="85.9531"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="50" x="315" y="105.9482">funcB()</text><rect fill="#FEFECE" height="30.2969" style="stroke: #A80036; stroke-width: 1.5;" width="64" x="308" y="311.0469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="50" x="315" y="331.042">funcB()</text><rect fill="#FFFFFF" height="145.6641" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="135" y="148.3828"/><rect fill="#FFFFFF" height="87.3984" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="235" y="177.5156"/><rect fill="#FFFFFF" height="29.1328" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="335" y="206.6484"/><polygon fill="#A80036" points="123,144.3828,133,148.3828,123,152.3828,127,148.3828" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="27" x2="129" y1="148.3828" y2="148.3828"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="89" x="34" y="143.3169">start program</text><polygon fill="#A80036" points="223,173.5156,233,177.5156,223,181.5156,227,177.5156" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="145" x2="229" y1="177.5156" y2="177.5156"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="71" x="152" y="172.4497">call funcA()</text><polygon fill="#A80036" points="323,202.6484,333,206.6484,323,210.6484,327,206.6484" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="245" x2="329" y1="206.6484" y2="206.6484"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="71" x="252" y="201.5825">call funcB()</text><polygon fill="#A80036" points="256,231.7813,246,235.7813,256,239.7813,252,235.7813" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="250" x2="339" y1="235.7813" y2="235.7813"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="39" x="262" y="230.7153">return</text><polygon fill="#A80036" points="156,260.9141,146,264.9141,156,268.9141,152,264.9141" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="150" x2="239" y1="264.9141" y2="264.9141"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="39" x="162" y="259.8481">return</text><polygon fill="#A80036" points="38,290.0469,28,294.0469,38,298.0469,34,294.0469" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="32" x2="139" y1="294.0469" y2="294.0469"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="82" x="44" y="288.981">exit program</text><!--MD5=[42e70eb9754082770eb4a6109066a529]
+@startuml
+skinparam shadowing false
+title Function Call Flow (Stack Frames)
+
+actor User
+participant "main()" as MAIN
+participant "funcA()" as A
+participant "funcB()" as B
+
+User -> MAIN: start program
+activate MAIN
+
+MAIN -> A: call funcA()
+activate A
+
+A -> B: call funcB()
+activate B
+
+B - -> A: return
+deactivate B
+
+A - -> MAIN: return
+deactivate A
+
+MAIN - -> User: exit program
+deactivate MAIN
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.17+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

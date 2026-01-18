@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="692px" preserveAspectRatio="none" style="width:567px;height:692px;" version="1.1" viewBox="0 0 567 692" width="567px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="346" x="113.5" y="16.708">C Process Memory Layout (High Level)</text><!--MD5=[f6f7f33aeeb133ddf8a02ad75ddef8d2]
+cluster Process Virtual Memory--><polygon fill="#FFFFFF" points="22,44.9531,216,44.9531,223,67.25,258,67.25,258,680.9531,22,680.9531,22,44.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="223" y1="67.25" y2="67.25"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="188" x="26" y="59.9482">Process Virtual Memory</text><!--MD5=[923726eae91cf2317c1c063f965da6f8]
+entity TEXT--><rect fill="#FEFECE" height="68.8906" style="stroke: #A80036; stroke-width: 1.5;" width="128" x="76" y="79.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="71" y="84.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="71" y="138.8438"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="80" x="86" y="102.9482">Text / Code</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="108" x="86" y="119.2451">(.text + .rodata)</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="69" x="86" y="135.542">Read-only</text><!--MD5=[4c532a2f71ebde4f3db08a6bedb73265]
+entity DATA--><rect fill="#FEFECE" height="52.5938" style="stroke: #A80036; stroke-width: 1.5;" width="186" x="47" y="208.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="42" y="213.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="42" y="251.5469"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="99" x="57" y="231.9482">Data Segment</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="166" x="57" y="248.2451">Initialized globals/statics</text><!--MD5=[2fdef00b3d5083a5c78f465906177642]
+entity BSS--><rect fill="#FEFECE" height="68.8906" style="stroke: #A80036; stroke-width: 1.5;" width="205" x="37.5" y="321.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="32.5" y="326.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="32.5" y="380.8438"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="95" x="47.5" y="344.9482">BSS Segment</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="185" x="47.5" y="361.2451">Uninitialized globals/statics</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="70" x="47.5" y="377.542">(auto = 0)</text><!--MD5=[fbc36c51729d50c228110440546bf3ca]
+entity HEAP--><rect fill="#FEFECE" height="68.8906" style="stroke: #A80036; stroke-width: 1.5;" width="158" x="74" y="450.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="69" y="455.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="69" y="509.8438"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="36" x="84" y="473.9482">Heap</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="138" x="84" y="490.2451">malloc/calloc/realloc</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="115" x="84" y="506.542">Grows upward ↑</text><!--MD5=[92ba92863198f164d988da152e1502ef]
+entity STACK--><rect fill="#FEFECE" height="85.1875" style="stroke: #A80036; stroke-width: 1.5;" width="173" x="66.5" y="579.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="61.5" y="584.9531"/><rect fill="#FEFECE" height="5" style="stroke: #A80036; stroke-width: 1.5;" width="10" x="61.5" y="655.1406"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="38" x="76.5" y="602.9482">Stack</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="111" x="76.5" y="619.2451">Function frames</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="153" x="76.5" y="635.542">Locals, return address</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="135" x="76.5" y="651.8389">Grows downward ↓</text><path d="M274,465.4531 L274,481.9531 L232.23,485.9531 L274,489.9531 L274,505.7188 A0,0 0 0 0 274,505.7188 L518,505.7188 A0,0 0 0 0 518,505.7188 L518,475.4531 L508,465.4531 L274,465.4531 A0,0 0 0 0 274,465.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M508,465.4531 L508,475.4531 L518,475.4531 L508,465.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="223" x="280" y="482.52">Heap allocations persist until free()</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="169" x="280" y="497.6528">Fragmentation may occur.</text><path d="M275,602.4531 L275,618.9531 L239.51,622.9531 L275,626.9531 L275,642.7188 A0,0 0 0 0 275,642.7188 L555,642.7188 A0,0 0 0 0 555,642.7188 L555,612.4531 L545,602.4531 L275,602.4531 A0,0 0 0 0 275,602.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M545,602.4531 L545,612.4531 L555,612.4531 L545,602.4531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="259" x="281" y="619.52">Each function call creates a stack frame.</text><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="161" x="281" y="634.6528">Limited size (per thread).</text><!--MD5=[f97e9099c726ad1284e86e8397598c59]
+link TEXT to DATA--><path d="M140,149.1231 C140,149.1231 140,203.8531 140,203.8531 " fill="none" id="TEXT-&gt;DATA" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="140,208.8531,144,199.8531,140,203.8531,136,199.8531,140,208.8531" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a8343f512521aea49c640a6a9f388c12]
+link DATA to BSS--><path d="M140,262.0031 C140,262.0031 140,316.6831 140,316.6831 " fill="none" id="DATA-&gt;BSS" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="140,321.6831,144,312.6831,140,316.6831,136,312.6831,140,321.6831" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1b04f08bfb4040152f4313bc28a56189]
+link BSS to HEAP--><path d="M153,391.0231 C153,391.0231 153,445.7831 153,445.7831 " fill="none" id="BSS-&gt;HEAP" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="153,450.7831,157,441.7831,153,445.7831,149,441.7831,153,450.7831" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e2ddb14541c01426d3a6ac3c1d1b38ec]
+link HEAP to STACK--><path d="M153,520.0231 C153,520.0231 153,574.8031 153,574.8031 " fill="none" id="HEAP-&gt;STACK" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="153,579.8031,157,570.8031,153,574.8031,149,570.8031,153,579.8031" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[4495c030da92240927e123eeb571c2a6]
+@startuml
+skinparam shadowing false
+skinparam linetype ortho
+title C Process Memory Layout (High Level)
+
+package "Process Virtual Memory" {
+  [Text / Code\n(.text + .rodata)\nRead-only] as TEXT
+  [Data Segment\nInitialized globals/statics] as DATA
+  [BSS Segment\nUninitialized globals/statics\n(auto = 0)] as BSS
+  [Heap\nmalloc/calloc/realloc\nGrows upward ↑] as HEAP
+  [Stack\nFunction frames\nLocals, return address\nGrows downward ↓] as STACK
+}
+
+TEXT -down-> DATA
+DATA -down-> BSS
+BSS -down-> HEAP
+HEAP -down-> STACK
+
+note right of HEAP
+Heap allocations persist until free()
+Fragmentation may occur.
+end note
+
+note right of STACK
+Each function call creates a stack frame.
+Limited size (per thread).
+end note
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 10:22:07 UTC 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 17.0.17+10
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
