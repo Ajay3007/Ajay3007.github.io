@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How to Create a New GitHub Repo and Push a Local Project"
-date: 2025-01-18
+date: 2026-01-18
 categories: [general]
 excerpt: "When you start a new project locally (Java, DSA notes, website, etc.), the next step is usually to push it into GitHub. This guide explains the complete workflow."
 ---
