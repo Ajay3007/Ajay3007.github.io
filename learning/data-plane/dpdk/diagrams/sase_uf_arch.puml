@@ -1,0 +1,49 @@
+@startuml
+title SASE URL Filtering Engine - Distributed Microservices Architecture
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+
+rectangle "Enterprise Admin / Ops" as admin
+
+component "Central Manager (CM)\n- HA & Cluster Mgmt\n- Signature ID Generator\n(DPI Signature Mapping)" as CM
+
+component "Provisioning Module (PM)\n(Java)\n- Enterprise/Group/Conn\n- Policy: WL/BL\n- URLs provision" as PM
+
+component "Core Service Integration (CSI)\n(Java)\n- User onboarding\n- SUPI/MSISDN\n- Assigned IP mapping" as CSI
+
+component "Malicious Resource Indicator (MRI)\n(Java)\n- Fetch malicious URLs\n- Categorize threats\n- Sources: URLHaus etc" as MRI
+
+component "Kafka Cluster\n(Policy & Data bus)" as Kafka
+
+database "Aerospike Cluster\n(Distributed KV Store)" as Aero
+
+component "SASEURLFILTER (SASEDP)\n(C/C++)\n- Dataplane (DPDK)\n- URL Filter + DPI\n- Allow/Block Decision" as DP
+
+admin --> PM : Create Enterprise/Group\nWL/BL Policies
+
+PM --> Aero : Store policy datasets
+CSI --> Aero : Store user datasets
+MRI --> Aero : Store malicious datasets
+
+PM --> Kafka : Publish policy updates
+CSI --> Kafka : Publish user updates
+MRI --> Kafka : Publish malicious updates
+
+Kafka --> DP : Subscribe & sync\n(User + Policy + Threat intel)
+
+CM --> PM : HA / service orchestration
+CM --> CSI : HA / orchestration
+CM --> MRI : HA / orchestration
+CM --> Kafka : Cluster coordination
+CM --> Aero : Cluster coordination
+
+CM --> DP : Cluster HA\nSignature IDs for DPI
+
+note right of DP
+DP makes decisions locally
+(no runtime REST calls)
+Data pushed via Kafka
+end note
+
+@enduml

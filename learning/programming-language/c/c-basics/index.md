@@ -76,6 +76,12 @@ debugging tips, and interview-friendly clarifications.
   <p>Structure padding/alignment, minimizing wasted bytes, and packing using GCC attributes / `#pragma pack`.</p>
 </div>
 
+<div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
+  <h3><a href="{{ '/learning/programming-language/c/c-basics/pointer-practice' | relative_url }}" style="color:#1976d2;text-decoration:none;">C Pointer Practice</a></h3>
+  <p>This document explains pointer, memory, and data structure concepts
+using practical C examples.</p>
+</div>
+
 </div>
 
 ---

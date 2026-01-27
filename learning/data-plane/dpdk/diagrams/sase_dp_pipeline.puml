@@ -1,0 +1,58 @@
+@startuml
+title SASEDP (SASEURLFILTER) - Dataplane Packet Processing Pipeline
+
+skinparam shadowing false
+skinparam dpi 140
+
+rectangle "NIC" as nic
+queue "DPDK RX Queues\n(Rx0..RxN)" as rx
+
+component "Distributor Worker\n(Per RX Queue)\nLoad balance packets\nto Worker Cores" as dist
+
+component "Worker Core Pool\n(Example: 12 workers)\nPinned to CPU cores" as workers
+
+component "L2/L3/L4 Parsing\n- Ethernet/IP/TCP/UDP\n- Flow metadata extraction" as parse
+
+database "In-memory User Map\n(from CSI via Kafka)\nIP -> SUPI/MSISDN -> Group" as usermap
+database "In-memory Group Policy\n(from PM via Kafka)\nGroup -> WL/BL policy" as policy
+database "In-memory Threat Intel\n(from MRI via Kafka)\nMalicious domains/categories" as threat
+
+component "Decision Router\n(Fast path selection)\nDNS/IP flow separation" as router
+
+component "Domain Extraction\n(DNS / SNI / Host)\n+ normalization" as dom
+
+component "Hyperscan Matcher\nWL/BL + Malicious match" as hyperscan
+
+component "DPI Engine\nENEA SDK\n+ Signature IDs (CM)" as dpi
+
+component "Policy Enforcement\nAllow / Block / Tag\n(Logging/Stats)" as enforce
+
+queue "DPDK TX Queues" as tx
+
+nic --> rx
+rx --> dist
+dist --> workers
+workers --> parse
+
+parse --> usermap : Lookup user by SrcIP
+parse --> policy : Fetch group policy
+parse --> router
+
+router --> dom : DNS/IP flow\nDomain filtering enabled
+dom --> hyperscan
+hyperscan --> enforce
+
+router --> dpi : DPI enabled\n(App detection)
+dpi --> enforce
+
+enforce --> tx
+tx --> nic
+
+note right of router
+Decision based on Group policy:
+1) only Malicious domain
+2) WL/BL based domain filtering
+3) optional DPI application detection
+end note
+
+@enduml
