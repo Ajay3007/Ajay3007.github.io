@@ -18,7 +18,7 @@ using practical C examples.
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">C Pointer Practice</h3>
     </div>
     <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">This code contains pointer, memory, and data structure concepts using practical C examples.</p>
-    <a href="{{ '/learning/programming-language/c/c-basics/practice/pointer_practice.c' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+    <a href="{{ '/learning/programming-language/c/practice/pointer_practice.c' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Code →
     </a>
   </div>
@@ -280,7 +280,7 @@ These exercises are relevant for:
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">C Pointer Practice</h3>
     </div>
     <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">This code contains pointer, memory, and data structure concepts using practical C examples.</p>
-    <a href="{{ '/learning/programming-language/c/c-basics/practice/pointer_practice.c' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
+    <a href="{{ '/learning/programming-language/c/practice/pointer_practice.c' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Code →
     </a>
   </div>
