@@ -133,7 +133,9 @@ void reverse_str(char *s) {
  * ============================================================ */
 void demo_char_array_vs_pointer() {
     char arr[] = "hello";
+    // arr++; // error: assignment of read-only variable 'arr'
     const char *ptr = "hello";
+    // ptr++; // valid - pointer can be incremented
 
     printf("\n[TASK 9] Char array vs pointer\n");
     printf("arr=\"%s\", sizeof(arr)=%zu\n", arr, sizeof(arr));

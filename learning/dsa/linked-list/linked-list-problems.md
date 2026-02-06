@@ -81,6 +81,17 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
     </div>
   </div>
 
+  <!-- Merge Two Sorted Lists -->
+  <div class="problem-card-easy">
+    <span class="problem-number">21</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Merge Two Sorted Lists</h3>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="/learning/dsa/linked-list/leetcode-21-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
+    </div>
+  </div>
+
 </div>
 
 ---
@@ -89,27 +100,26 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
 
 <div class="problems-grid">
 
-  <!-- Merge Two Sorted Lists -->
-  <div class="problem-card-medium">
-    <span class="problem-number">21</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Merge Two Sorted Lists</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
 
   <!-- Remove Nth Node From End -->
   <div class="problem-card-medium">
     <span class="problem-number">19</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
+    <span class="problem-status solved">✓ Solved</span>
     <h3>Remove Nth Node From End</h3>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
+      <a href="/learning/dsa/linked-list/leetcode-19-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
+    </div>
+  </div>
+
+  <!-- Add Two Numbers -->
+  <div class="problem-card-medium">
+    <span class="problem-number">2</span>
+    <span class="problem-status solved">✓ Solved</span>
+    <h3>Remove Nth Node From End</h3>
+    <div class="problem-buttons">
+      <a href="https://leetcode.com/problems/add-two-numbers/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+      <a href="/learning/dsa/linked-list/leetcode-2-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
     </div>
   </div>
 
