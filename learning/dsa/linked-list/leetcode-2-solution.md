@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Merge Two Sorted Lists - Solution
+title: Add Two Numbers - Solution
 permalink: /learning/dsa/linked-list/leetcode-2-solution/
 ---
 
-# Remove Nth Node From End of List — Two Approaches
+# Add Two Numbers — Two Approaches
 
 **LeetCode #2** | **Difficulty:** Medium
 
@@ -38,11 +38,11 @@ This handles different list lengths and carry propagation automatically.
 
 ### Complexity
 - **Time complexity:**  
-  $$O(\max(m, n))$$  
+  $$O(max(m, n))$$  
   Each node of both lists is processed once.
 
 - **Space complexity:**  
-  $$O(\max(m, n))$$  
+  $$O(max(m, n))$$  
   A new list is created to store the result.
 
 ---
@@ -118,7 +118,7 @@ This approach performs addition directly on the first list and extends it only w
 
 ### Complexity
 - **Time complexity:**  
-  $$O(\max(m, n))$$  
+  $$O(max(m, n))$$  
   Each node of both lists is processed at most once.
 
 - **Space complexity:**  

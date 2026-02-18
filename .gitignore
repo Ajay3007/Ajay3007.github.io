@@ -1,32 +1,33 @@
-# Copilot instructions (local agent configuration)
-.github/copilot-instructions.md
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
 
-# Jekyll
+# Backup files
+*.bak
+*.md.bak
+
+# Project dumps and AI prompts
+project_dump.txt
+dump_*.txt
+feed_*.txt
+prompt.md
+
+# Jekyll build output
 _site/
 .jekyll-cache/
 .jekyll-metadata
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-.env
-
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
-# Backup files
-*.bak
-*.backup
+# Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# Logs
-*.log
+# Node
+node_modules/

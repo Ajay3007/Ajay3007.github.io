@@ -1,12 +1,40 @@
-<!-- Problem Card Include: Usage: {% include problem-card.html title="Title" platform="LeetCode #206" difficulty="Easy" description="Description" btn1="Approach" btn2="Solution" btn3="Problem" link3="https://..." %} -->
-<div style="background: linear-gradient(135deg, {% if include.difficulty == 'Easy' %}#f8fafc 0%, #e0e7ff{% elsif include.difficulty == 'Medium' %}#fef3c7 0%, #fde68a{% else %}#fecaca 0%, #fca5a5{% endif %} 100%); border-left: 4px solid {% if include.difficulty == 'Easy' %}#667eea{% elsif include.difficulty == 'Medium' %}#f59e0b{% else %}#ef4444{% endif %}; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba({% if include.difficulty == 'Easy' %}102, 126, 234{% elsif include.difficulty == 'Medium' %}245, 158, 11{% else %}239, 68, 68{% endif %}, 0.1);">
-  <h3 style="margin-top: 0; color: #1e293b;">{{ include.title }}</h3>
-  <p style="color: #64748b; margin: 0.5rem 0;"><strong>Platform:</strong> {{ include.platform }}</p>
-  <p style="color: #64748b; margin: 0.5rem 0;"><strong>Difficulty:</strong> {% if include.difficulty == 'Easy' %}⭐{% elsif include.difficulty == 'Medium' %}⭐⭐{% else %}⭐⭐⭐{% endif %} {{ include.difficulty }}</p>
-  <p style="color: #475569; margin: 1rem 0; font-size: 0.95rem;">{{ include.description }}</p>
-  <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-    <a href="{{ include.link1 | default: '#' }}" style="display: inline-block; padding: 8px 14px; background: {% if include.difficulty == 'Easy' %}#667eea{% elsif include.difficulty == 'Medium' %}#f59e0b{% else %}#ef4444{% endif %}; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">📋 {{ include.btn1 | default: 'Approach' }}</a>
-    <a href="{{ include.link2 | default: '#' }}" style="display: inline-block; padding: 8px 14px; background: {% if include.difficulty == 'Easy' %}#764ba2{% elsif include.difficulty == 'Medium' %}#d97706{% else %}#dc2626{% endif %}; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">💻 {{ include.btn2 | default: 'Solution' }}</a>
-    <a href="{{ include.link3 | default: '#' }}" target="{% if include.link3 contains 'http' %}blank{% endif %}" rel="{% if include.link3 contains 'http' %}noopener noreferrer{% endif %}" style="display: inline-block; padding: 8px 14px; background: {% if include.difficulty == 'Easy' %}#f59e0b{% elsif include.difficulty == 'Medium' %}#b45309{% else %}#b91c1c{% endif %}; color: white; text-decoration: none; border-radius: 5px; font-size: 0.85rem;">🔗 {{ include.btn3 | default: 'Problem' }}</a>
+{% comment %}
+  _includes/problem-card.html
+  Universal problem card — single source of truth.
+  Replaces the 3 competing HTML systems across the site.
+
+  Pass a problem object from site.data.problems:
+    {% include problem-card.html problem=p %}
+{% endcomment %}
+
+{% assign p = include.problem %}
+
+{% if p.solved %}
+  {% assign status_class = "solved" %}
+  {% assign status_label = "✓ Solved" %}
+{% else %}
+  {% assign status_class = "unsolved" %}
+  {% assign status_label = "○ Unsolved" %}
+{% endif %}
+
+<div class="problem-card problem-card--{{ p.difficulty }}">
+  <div class="problem-card__header">
+    <span class="problem-number">{{ p.id }}</span>
+    <span class="problem-status {{ status_class }}">{{ status_label }}</span>
+  </div>
+  <div class="problem-card-inner">
+    {% if p.problem_url != "" %}
+      <a href="{{ p.problem_url }}" target="_blank" rel="noopener noreferrer" class="problem-title">{{ p.title }}</a>
+    {% else %}
+      <span class="problem-title">{{ p.title }}</span>
+    {% endif %}
+    <div class="problem-card__actions">
+      {% if p.approach_url != "" %}
+        <a href="{{ p.approach_url }}" class="problem-btn">📋 Approach</a>
+      {% endif %}
+      {% if p.solution_url != "" %}
+        <a href="{{ p.solution_url }}" class="problem-btn problem-btn--solution">💻 Solution</a>
+      {% endif %}
+    </div>
   </div>
 </div>

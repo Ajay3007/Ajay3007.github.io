@@ -116,7 +116,7 @@ Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and o
   <div class="problem-card-medium">
     <span class="problem-number">2</span>
     <span class="problem-status solved">✓ Solved</span>
-    <h3>Remove Nth Node From End</h3>
+    <h3>Add Two Numbers</h3>
     <div class="problem-buttons">
       <a href="https://leetcode.com/problems/add-two-numbers/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
       <a href="/learning/dsa/linked-list/leetcode-2-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
