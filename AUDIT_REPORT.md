@@ -220,8 +220,8 @@
 ### This Week (Bugs)
 1. Delete `_posts/2025-01-01-first-post.md`
 2. Fix or delete `_posts/2025-12-25-my-first-blog.md` (wrong author "Calculusphile")
-3. Fix Liquid tags: `{` → `{{` in scalability.md and lld/index.md
-4. Fix broken path: `LinkedList` → `linked-list` in Fast Pointer post
+
+4. Fix broken path: `LinkedList` -> `linked-list` in Fast Pointer post
 5. Drop `.gitignore` from deliverables (provided)
 6. Fix emoji encoding: check `.gitattributes` — add `* text=auto eol=lf`
 7. Remove `theme: minima` from `_config.yml`
