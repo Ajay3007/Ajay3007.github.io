@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Practice Problems Hub
 permalink: /problems/
 ---
@@ -18,20 +18,23 @@ Central hub for all coding practice problems organized by topic with solutions a
   <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display: inline-block; padding: 15px 40px; background: white; color: #667eea; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
     📋 View Master Problem List →
   </a>
-  <!-- <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+    {% assign total = site.data.problems | size %}
+    {% assign solved = site.data.problems | where: "solved", true | size %}
+    {% assign percent = solved | times: 100.0 | divided_by: total | round %}
     <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
-      <div style="font-size: 2rem; font-weight: bold; color: white;">77</div>
+      <div style="font-size: 2rem; font-weight: bold; color: white;">{{ total }}</div>
       <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Total Problems</div>
     </div>
     <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
-      <div style="font-size: 2rem; font-weight: bold; color: #4ade80;">43</div>
+      <div style="font-size: 2rem; font-weight: bold; color: #4ade80;">{{ solved }}</div>
       <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Solved</div>
     </div>
     <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
-      <div style="font-size: 2rem; font-weight: bold; color: white;">78%</div>
+      <div style="font-size: 2rem; font-weight: bold; color: white;">{{ percent }}%</div>
       <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Success Rate</div>
     </div>
-  </div> -->
+  </div>
 </div>
 
 ---
@@ -46,11 +49,14 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span style="font-size: 2.5rem;">🔗</span>
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Linked List</h3>
     </div>
-    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Master pointer manipulation, cycle detection, and reversal techniques with 10 curated problems.</p>
-    <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
+    {% assign ll_total = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | size %}
+    {% assign ll_solved = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | where: "solved", true | size %}
+    {% assign ll_percent = ll_solved | times: 100.0 | divided_by: ll_total | round %}
+    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Master pointer manipulation, cycle detection, and reversal techniques with {{ ll_total }} curated problems.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
       <span style="font-size: 0.9rem; color: #64748b;">Progress</span>
-      <span style="font-weight: bold; color: #3b82f6;">3/10 solved (30%)</span>
-    </div> -->
+      <span style="font-weight: bold; color: #3b82f6;">{{ ll_solved }}/{{ ll_total }} solved ({{ ll_percent }}%)</span>
+    </div>
     <a href="{{ '/learning/dsa/linked-list/linked-list-problems/' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Problems →
     </a>
@@ -62,11 +68,14 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span style="font-size: 2.5rem;">📊</span>
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Arrays</h3>
     </div>
-    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Two pointers, sliding window, and sorting patterns across 18 problems from easy to hard.</p>
-    <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
+    {% assign arr_total = site.data.problems | where_exp: "p", "p.topics contains 'arrays'" | size %}
+    {% assign arr_solved = site.data.problems | where_exp: "p", "p.topics contains 'arrays'" | where: "solved", true | size %}
+    {% assign arr_percent = arr_solved | times: 100.0 | divided_by: arr_total | round %}
+    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Two pointers, sliding window, and sorting patterns across {{ arr_total }} problems from easy to hard.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
       <span style="font-size: 0.9rem; color: #64748b;">Progress</span>
-      <span style="font-weight: bold; color: #10b981;">13/18 solved (72%)</span>
-    </div> -->
+      <span style="font-weight: bold; color: #10b981;">{{ arr_solved }}/{{ arr_total }} solved ({{ arr_percent }}%)</span>
+    </div>
     <a href="{{ '/learning/dsa/arrays/arrays-problems/' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Problems →
     </a>
@@ -78,11 +87,14 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span style="font-size: 2.5rem;">🔤</span>
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Strings</h3>
     </div>
-    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Pattern matching, palindromes, and string manipulation with 9 essential problems.</p>
-    <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
+    {% assign str_total = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | size %}
+    {% assign str_solved = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | where: "solved", true | size %}
+    {% assign str_percent = str_solved | times: 100.0 | divided_by: str_total | round %}
+    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Pattern matching, palindromes, and string manipulation with {{ str_total }} problems.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
       <span style="font-size: 0.9rem; color: #64748b;">Progress</span>
-      <span style="font-weight: bold; color: #f59e0b;">7/9 solved (78%)</span>
-    </div> -->
+      <span style="font-weight: bold; color: #f59e0b;">{{ str_solved }}/{{ str_total }} solved ({{ str_percent }}%)</span>
+    </div>
     <a href="{{ '/learning/dsa/strings/strings-problems/' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #f59e0b, #d97706); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Problems →
     </a>
@@ -94,11 +106,14 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span style="font-size: 2.5rem;">📚</span>
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Stacks</h3>
     </div>
-    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">LIFO operations, monotonic stacks, and expression evaluation across 4 problems.</p>
-    <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
+    {% assign stk_total = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" | size %}
+    {% assign stk_solved = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" | where: "solved", true | size %}
+    {% assign stk_percent = stk_solved | times: 100.0 | divided_by: stk_total | round %}
+    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">LIFO operations, monotonic stacks, and expression evaluation across {{ stk_total }} problems.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
       <span style="font-size: 0.9rem; color: #64748b;">Progress</span>
-      <span style="font-weight: bold; color: #64748b;">0/4 solved (0%)</span>
-    </div> -->
+      <span style="font-weight: bold; color: #ef4444;">{{ stk_solved }}/{{ stk_total }} solved ({{ stk_percent }}%)</span>
+    </div>
     <a href="{{ '/learning/dsa/stacks/stacks-problems/' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Problems →
     </a>
@@ -110,11 +125,14 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span style="font-size: 2.5rem;">🔍</span>
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Searching & Sorting</h3>
     </div>
-    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Binary search variations and sorting algorithms with 22 comprehensive problems.</p>
-    <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #dcfce7; border-radius: 6px;">
-      <span style="font-size: 0.9rem; color: #15803d;">Complete! 🎉</span>
-      <span style="font-weight: bold; color: #15803d;">22/22 solved (100%)</span>
-    </div> -->
+    {% assign ss_total = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | size %}
+    {% assign ss_solved = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | where: "solved", true | size %}
+    {% assign ss_percent = ss_solved | times: 100.0 | divided_by: ss_total | round %}
+    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Binary search variations and sorting algorithms with {{ ss_total }} comprehensive problems.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: {% if ss_percent == 100 %}#dcfce7{% else %}#f1f5f9{% endif %}; border-radius: 6px;">
+      <span style="font-size: 0.9rem; color: {% if ss_percent == 100 %}#15803d{% else %}#64748b{% endif %};">{% if ss_percent == 100 %}Complete! 🎉{% else %}Progress{% endif %}</span>
+      <span style="font-weight: bold; color: {% if ss_percent == 100 %}#15803d{% else %}#8b5cf6{% endif %};">{{ ss_solved }}/{{ ss_total }} solved ({{ ss_percent }}%)</span>
+    </div>
     <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/' | relative_url }}" style="display: block; text-align: center; padding: 12px 24px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;" onmouseover="this.style.transform='scale(1.02)';" onmouseout="this.style.transform='scale(1)';">
       View Problems →
     </a>
@@ -126,11 +144,15 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span style="font-size: 2.5rem;">🌳</span>
       <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Tree</h3>
     </div>
-    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Binary trees, BST, and traversal patterns with 7 problems to master.</p>
-    <!-- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
+    {% assign tree_total = site.data.problems | where_exp: "p", "p.topics contains 'tree'" | size %}
+    {% assign tree_solved = site.data.problems | where_exp: "p", "p.topics contains 'tree'" | where: "solved", true | size %}
+    {% assign tree_percent = 0 %}
+    {% if tree_total > 0 %}{% assign tree_percent = tree_solved | times: 100.0 | divided_by: tree_total | round %}{% endif %}
+    <p style="color: #64748b; margin: 0 0 1rem 0; line-height: 1.6;">Binary trees, BST, and traversal patterns with {{ tree_total }} problems to master.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; padding: 0.75rem; background: #f1f5f9; border-radius: 6px;">
       <span style="font-size: 0.9rem; color: #64748b;">Progress</span>
-      <span style="font-weight: bold; color: #64748b;">0/7 solved (0%)</span>
-    </div> -->
+      <span style="font-weight: bold; color: #06b6d4;">{{ tree_solved }}/{{ tree_total }} solved ({{ tree_percent }}%)</span>
+    </div>
     <div style="display: block; text-align: center; padding: 12px 24px; background: #e2e8f0; color: #64748b; border-radius: 8px; font-weight: 600;">
       Coming Soon
     </div>

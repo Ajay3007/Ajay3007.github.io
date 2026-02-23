@@ -15,6 +15,9 @@ collections:
   posts:
     output: true
     permalink: /blog/:year/:month/:day/:slug/
+  learning:
+    output: true
+    permalink: /learning/:path/
 
 # Plugins
 plugins:
