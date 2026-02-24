@@ -9,8 +9,11 @@ permalink: /projects/devtoolbox/
 
 > **Comprehensive developer tools for PCAP editing, generation, merging, and binary file inspection**
 
-<div style="text-align: center; margin: 2rem 0;">
-  <a href="https://github.com/Ajay3007/devtoolbox" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.5rem;">
+<div style="text-align: center; margin: 2rem 0; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+  <a href="https://devtoolbox-sandy.vercel.app/" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 1.75rem; background: linear-gradient(135deg, #FF6B6B 0%, #EE5253 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 700; box-shadow: 0 4px 15px rgba(238, 82, 83, 0.4); transition: transform 0.2s, box-shadow 0.2s;">
+    🌐 Live Demo (Vercel)
+  </a>
+  <a href="https://github.com/Ajay3007/devtoolbox" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; justify-content: center; padding: 0.85rem 1.75rem; background: #2d3748; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 15px rgba(45, 55, 72, 0.2); transition: transform 0.2s, box-shadow 0.2s;">
     📦 View on GitHub
   </a>
 </div>
@@ -59,9 +62,9 @@ DevToolBox addresses critical needs for network engineers, security professional
 
 **Tech Stack:**
 - **Backend:** Python 3.8+ with Flask & Scapy
-- **Frontend:** Vue.js 3 with Vite & Axios
+- **Frontend:** Vue.js 3 with Vite & Axios (Live on **Vercel**)
 - **PCAP Processing:** Scapy library for network packet manipulation
-- **Deployment:** Docker-ready with included Dockerfile
+- **Deployment Strategy:** Frontend via Vercel Edge Networks, Backend via Docker containers.
 
 **Project Structure:**
 - `backend/` — Flask API server with PCAP processing logic
