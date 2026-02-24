@@ -3,29 +3,42 @@ layout: default
 title: Projects
 ---
 
-# Projects
+<!-- Hero Section -->
+<section class="hero-section" style="margin-top: 1rem; padding: 3rem 1rem;">
+    <h1 class="hero-title" style="font-size: 2.8rem;">Projects & Case Studies 🚀</h1>
+    <p class="hero-subtitle" style="margin-bottom: 1rem;">
+        A showcase of my applications, architecture designs, and high-performance infrastructure builds.
+    </p>
+</section>
 
-Welcome to the projects index. Explore the following projects:
+<!-- Dynamic Project Grid -->
+<section class="modern-section" style="margin-bottom: 3rem;">
+    <div class="project-grid">
+        {% for project in site.projects %}
+        <div class="featured-project-card" style="border-top-color: {% cycle '#667eea', '#00d4ff', '#9C27B0', '#4CAF50', '#f59e0b' %};">
+            <div class="featured-project-title">
+                <a href="{{ project.url | relative_url }}" style="text-decoration: none; color: inherit;">
+                    {% if project.title contains "Tax" %}💼{% elsif project.title contains "Dev" %}🛠️{% elsif project.title contains "work" %}🤖{% else %}💻{% endif %} 
+                    {{ project.title }}
+                </a>
+            </div>
+            {% if project.description %}
+            <div class="featured-project-desc" style="font-size: 1.05rem;">{{ project.description }}</div>
+            {% endif %}
+            <div style="margin-top: 1rem;">
+                <a href="{{ project.url | relative_url }}" class="featured-project-link">Read Case Study →</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
 
-<div class="projects-list" style="display:flex;flex-wrap:wrap;gap:2rem 2.5rem;justify-content:center;">
-  <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">💼</span>
-    <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
-      <a href="{{ '/projects/tax_hurdle/' | relative_url }}" style="color:#1976d2;text-decoration:none;">Tax Hurdle</a>
-    </h3>
-    <div style="color:#607d8b;font-size:0.98rem;">Java-based investment tax calculator with quarter-wise STCG breakdown and Excel integration.</div>
-  </div>
-  <div class="project-card" style="min-width:240px;max-width:320px;background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.2rem 1rem;text-align:center;">
-    <span style="font-size:2rem;">🛠️</span>
-    <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
-      <a href="{{ '/projects/devtoolbox/' | relative_url }}" style="color:#1976d2;text-decoration:none;">DevToolBox</a>
-    </h3>
-    <div style="color:#607d8b;font-size:0.98rem;">Hybrid web application for PCAP editing, generation, merging, and hex file analysis.</div>
-  </div>
-</div>
-
-<div style="text-align:center;margin-top:2.5rem;">
-  <a href="{{ '/' | relative_url }}" class="btn-crosslink">
-    <span style="font-size:1.3rem;">🏠</span> Back to Home
+<!-- Cross-Linking -->
+<div style="text-align: center; margin: 4rem 0 2rem 0; border-top: 1px solid var(--border-color); padding-top: 3rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+  <a href="{{ '/' | relative_url }}" class="btn-secondary">
+    <span style="margin-right: 0.5rem;">🏠</span> Back to Home
+  </a>
+  <a href="{{ '/learning/' | relative_url }}" class="btn-secondary">
+    <span style="margin-right: 0.5rem;">📚</span> View Learning Portal
   </a>
 </div>

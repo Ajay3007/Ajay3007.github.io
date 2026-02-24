@@ -5,352 +5,127 @@ description: "Java-based investment tax calculator for Indian equity traders. Au
 permalink: /projects/tax_hurdle/
 ---
 
-# 💼 Tax Hurdle — Investment Tax Calculator
+<!-- Hero Section -->
+<section class="hero-section" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05)); border: 1px solid rgba(102, 126, 234, 0.1);">
+    <h1 class="hero-title">Tax Hurdle 💼</h1>
+    <p class="hero-subtitle">
+        Java-based investment tax calculator automating <strong>Short-Term Capital Gains (STCG)</strong> and quarter-wise breakdowns for equity traders.
+    </p>
+    <div class="hero-actions">
+        <a href="https://github.com/Ajay3007/tax_hurdle" target="_blank" rel="noopener noreferrer" class="btn-primary" style="background: linear-gradient(135deg, #667eea, #764ba2); box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+            📦 View on GitHub
+        </a>
+        <a href="{{ '/learning/finance/' | relative_url }}" class="btn-secondary">
+            📚 Full Documentation
+        </a>
+    </div>
+</section>
 
-> **Automate tax calculations for equity trading with quarter-wise STCG analysis**
+<!-- The Challenge -->
+<section class="modern-section" style="max-width: 800px; margin: 0 auto 4.5rem auto;">
+    <h2 class="section-title">🎯 The Challenge</h2>
+    <p style="font-size: 1.1rem; color: var(--text-color); line-height: 1.8; margin-bottom: 2rem;">
+        Indian equity traders must calculate STCG accurately across thousands of unorganized transactions to file localized ITRs. Manual spreadsheet manipulation leads to calculation drift, missed P&L structures, and hundreds of misspent hours categorizing intraday speculations vs actual holdings. <strong>Tax Hurdle automates the entire analytical workflow.</strong>
+    </p>
+</section>
 
-<div style="text-align: center; margin: 2rem 0;">
-  <a href="https://github.com/Ajay3007/tax_hurdle" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.5rem;">
-    📦 View on GitHub
-  </a>
-  <a href="{{ '/learning/finance/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; margin: 0.5rem;">
-    📚 Full Documentation
-  </a>
-</div>
+<!-- Core Features Grid -->
+<section class="modern-section">
+    <h2 class="section-title">✨ Key Features</h2>
+    <div class="nav-grid">
+        <div class="nav-card" style="border-left-color: #f59e0b;">
+            <div class="nav-card-title">📊 Quarter STCG Arrays</div>
+            <div class="nav-card-desc">Automatically segregates capital gains bounding them by Indian financial quarters (Q1-Q5) seamlessly for advance tax planning.</div>
+        </div>
+        <div class="nav-card" style="border-left-color: #3b82f6;">
+            <div class="nav-card-title">🔄 Trade Classification</div>
+            <div class="nav-card-desc">Separates STCG (holdings >24hrs) natively from raw intraday speculation metrics, maintaining accurate tax compartmentalization.</div>
+        </div>
+        <div class="nav-card" style="border-left-color: #10b981;">
+            <div class="nav-card-title">📑 Excel Integration</div>
+            <div class="nav-card-desc">Utilizes Apache POI to parse buy/sell pipelines directly from `.xlsx` files without requiring manual data-entry conversions.</div>
+        </div>
+        <div class="nav-card" style="border-left-color: #9945ff;">
+            <div class="nav-card-title">🔒 Thread-Safe Processing</div>
+            <div class="nav-card-desc">Incorporates nested `ConcurrentHashMap` arrays for massive-scale parallel thread calculation safety and log auditing stability.</div>
+        </div>
+    </div>
+</section>
 
----
+<!-- Architecture / Tech Stack Breakdown -->
+<section class="modern-section">
+    <h2 class="section-title">🏗️ Architecture & Stack</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+        <!-- Architecture List -->
+        <div class="featured-project-card" style="flex: 1; min-width: 300px; border-top-color: #667eea;">
+            <div class="featured-project-title">Design Patterns</div>
+            <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-color); line-height: 1.8;">
+                <li><code>Singleton Pattern</code> — Regulating singular application thread states.</li>
+                <li><code>Factory Pattern</code> — Offshoring localized security object creation.</li>
+                <li><code>Queue Mechanism</code> — Enforcing strict FIFO trade processing.</li>
+                <li><code>Strategy Pattern</code> — Injecting dynamic tax calculation math algorithms.</li>
+            </ul>
+        </div>
+        
+        <!-- Tech Stack Highlight -->
+        <div class="featured-project-card" style="flex: 1; min-width: 300px; border-top-color: #764ba2; background: #f8fafc;">
+            <div class="featured-project-title">Primary Backend Stack</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                <div><span style="color: #64748b; font-size: 0.85rem; display: block;">Core Pipeline</span><strong style="color: #1a1f36;">Java 8+</strong></div>
+                <div><span style="color: #64748b; font-size: 0.85rem; display: block;">Excel Interface</span><strong style="color: #1a1f36;">Apache POI 4.x</strong></div>
+                <div><span style="color: #64748b; font-size: 0.85rem; display: block;">Trace Logging</span><strong style="color: #1a1f36;">Apache Log4j2</strong></div>
+                <div><span style="color: #64748b; font-size: 0.85rem; display: block;">Thread Integrity</span><strong style="color: #1a1f36;">ConcurrentHashMap</strong></div>
+            </div>
+        </div>
+    </div>
+</section>
 
-## 🎯 What Problem Does It Solve?
+<!-- Documentation Suite -->
+<section class="modern-section">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
+        <h2 class="section-title" style="margin-bottom: 0;">📚 Documentation Suite</h2>
+        <a href="{{ '/learning/finance/' | relative_url }}" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-bottom: 8px;">Explore Wiki →</a>
+    </div>
+    <div class="project-grid">
+        <div class="featured-project-card" style="border-top-color: #2196F3;">
+            <div class="featured-project-title"><a href="{{ '/learning/finance/tax_hurdle/summary/' | relative_url }}" style="text-decoration: none; color: inherit;">📋 Project Summary</a></div>
+            <div class="featured-project-desc">Executive overview outlining calculation constraints, system metrics, phase statuses, and software development roadmap.</div>
+        </div>
 
-**The Challenge:** Indian equity traders need to calculate Short-Term Capital Gains (STCG) accurately for tax filing, but manual calculation from hundreds of transactions is:
-- ⏱️ **Time-consuming** — Hours of spreadsheet work
-- ❌ **Error-prone** — Easy to miscalculate or miss transactions  
-- 📊 **Complex** — Must categorize by quarters, separate intraday vs. STCG
-- 📝 **Tedious** — Preparing reports for CA/ITR filing
+        <div class="featured-project-card" style="border-top-color: #FF9800;">
+            <div class="featured-project-title"><a href="{{ '/learning/finance/tax_hurdle/technical-analysis/' | relative_url }}" style="text-decoration: none; color: inherit;">🏗️ Technical Analysis</a></div>
+            <div class="featured-project-desc">Hyper-focused deep dive into internal software architecture, logic gates, design patterns, and systemic code quality benchmarks.</div>
+        </div>
 
-**The Solution:** Tax Hurdle automates the entire workflow — read Excel files, categorize trades, calculate STCG by quarter, and generate tax-ready reports.
+        <div class="featured-project-card" style="border-top-color: #9C27B0;">
+            <div class="featured-project-title"><a href="{{ '/learning/finance/tax_hurdle/refactoring-guide/' | relative_url }}" style="text-decoration: none; color: inherit;">🔧 Refactoring Trajectory</a></div>
+            <div class="featured-project-desc">Prioritized optimization roadmap yielding multi-threading improvements alongside heavily abstracted logic simplifications.</div>
+        </div>
+    </div>
+</section>
 
----
+<!-- Output Snippet -->
+<section class="modern-section">
+    <h2 class="section-title">🚀 Core Processor Log Example</h2>
+    <div style="background: linear-gradient(135deg, #1e293b, #0f172a); padding: 2rem; border-radius: 12px; border-left: 4px solid #667eea; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
+<pre style="margin: 0; background: transparent; padding: 0; border: none; box-shadow: none;"><code style="color: #e2e8f0; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.95rem;">[INFO] Initialization parameters mapped. Opening [Excel I/O stream].
+[WARN] 14 missing STCG markers found. Commencing fallback matching algorithm.
+[SUCCESS] Parsed 2401 transactional artifacts.
 
-## ✨ Key Features
-
-<div class="projects-list" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-
-<div class="project-card">
-  <h3>📊 Quarter-Wise STCG Breakdown</h3>
-  <p>Automatically segregates capital gains by Indian financial quarters (Q1-Q5). Perfect for ITR filing and advance tax planning.</p>
-</div>
-
-<div class="project-card">
-  <h3>🔄 Dual-Mode Classification</h3>
-  <p>Separates <strong>STCG</strong> (holdings >24hrs) from <strong>intraday speculation</strong> trades. Ensures accurate tax categorization.</p>
-</div>
-
-<div class="project-card">
-  <h3>📑 Excel Integration</h3>
-  <p>Reads buy/sell data directly from <code>.xlsx</code> files. No manual data entry required — just export from broker and run.</p>
-</div>
-
-<div class="project-card">
-  <h3>💰 P&L Tracking</h3>
-  <p>Calculates profit/loss per security with buy/sell value aggregation. Complete transaction history at your fingertips.</p>
-</div>
-
-<div class="project-card">
-  <h3>📝 Comprehensive Logging</h3>
-  <p>Apache Log4j2 integration with rolling file appenders. Track every calculation step for audit trails.</p>
-</div>
-
-<div class="project-card">
-  <h3>🔒 Thread-Safe Processing</h3>
-  <p>Uses <code>ConcurrentHashMap</code> for multi-threaded safety. Robust architecture for reliable calculations.</p>
-</div>
-
-</div>
-
----
-
-## 🚀 How It Works
-
-```
-📥 Input: Excel Files
-   ├─ configuration_stock.xlsx (Buy/Sell sheets)
-   └─ tax_2122_.xlsx (Equity data)
-         ↓
-🔄 Processing Engine
-   ├─ Parse transactions
-   ├─ Classify trades (STCG vs Intraday)
-   ├─ Map to quarters (Apr-Mar FY)
-   └─ Calculate P&L
-         ↓
-📊 Output: Tax Reports
-   ├─ Console summary (quarter breakdown)
-   └─ Log files (detailed audit trail)
-```
-
-**Example Output:**
-```
-STCG Summary (FY 2021-22):
+STCG Summary Data-Stream (FY 2021-22):
 ├─ Q1 (Apr-Jun):  ₹45,000
 ├─ Q2 (Jun-Sep):  ₹67,500
 ├─ Q3 (Sep-Dec):  ₹32,100
 ├─ Q4 (Dec-Mar):  ₹58,900
 └─ Q5 (Mar-end):  ₹12,500
-   Total STCG:    ₹2,16,000
 
-Intraday Turnover: ₹8,50,000
-```
+[Finalizer] Total Calculated Term Yield == ₹2,16,000
+[Finalizer] Estimated Intra-Day Liquidity == ₹8,50,000</code></pre>
+    </div>
+</section>
 
----
-
-## 🎓 Financial Concepts Explained
-
-### What is STCG?
-
-**Short-Term Capital Gains (STCG)** applies when you sell shares **after holding >24 hours but <1 year**.
-
-**Tax Treatment:**
-- ✅ Taxed as **ordinary income** (added to your salary for tax bracket)
-- ✅ Must be reported in **ITR-2 Schedule CG**
-- ✅ Different from long-term gains (>1 year, indexed benefit)
-
-### Indian Financial Year Quarters
-
-Tax Hurdle follows the **April-March** financial year:
-
-| Quarter | Period | Use Case |
-|---------|--------|----------|
-| **Q1** | Apr 1 – Jun 15 | Opening quarter |
-| **Q2** | Jun 16 – Sep 15 | Mid-year review |
-| **Q3** | Sep 16 – Dec 15 | Advance tax planning |
-| **Q4** | Dec 16 – Mar 15 | Pre-closure adjustments |
-| **Q5** | Mar 16 – Mar 31 | Year-end finalization |
-
----
-
-## 💻 Tech Stack & Architecture
-
-### Technologies Used
-
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **Language** | Java 8+ | Core application logic |
-| **Excel Parsing** | Apache POI 4.x | Read `.xlsx` files |
-| **Logging** | Apache Log4j2 | Comprehensive logging |
-| **Concurrency** | ConcurrentHashMap | Thread-safe data |
-| **Design Patterns** | Singleton, Factory, Queue | Clean architecture |
-
-### Architecture Highlights
-
-✅ **Singleton Pattern** — Single application instance  
-✅ **Factory Pattern** — Security object creation  
-✅ **Queue Pattern** — FIFO trade processing  
-✅ **Strategy Pattern** — Tax calculation algorithms  
-
-**Want to dive deeper?** 👉 [View Technical Analysis ({{ '/learning/finance/tax_hurdle/technical-analysis/' | relative_url }})]({{ '/learning/finance/tax_hurdle/technical-analysis/' | relative_url }})
-
----
-
-## 📚 Documentation Suite
-
-This project includes **comprehensive documentation** (15,000+ words):
-
-<div class="projects-list" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-
-<div class="project-card" style="border-left: 4px solid #2196F3;">
-  <h4 style="margin-top: 0;">📖 Quick Reference</h4>
-  <p>One-page cheat sheet with key commands, formulas, and quick fixes.</p>
-  <a href="{{ '/learning/finance/tax_hurdle/quickref/' | relative_url }}">View Quick Ref → ({{ '/learning/finance/tax_hurdle/quickref/' | relative_url }})</a>
-</div>
-
-<div class="project-card" style="border-left: 4px solid #4CAF50;">
-  <h4 style="margin-top: 0;">📋 Project Summary</h4>
-  <p>Executive overview with metrics, status, and roadmap.</p>
-  <a href="{{ '/learning/finance/tax_hurdle/summary/' | relative_url }}">Read Summary → ({{ '/learning/finance/tax_hurdle/summary/' | relative_url }})</a>
-</div>
-
-<div class="project-card" style="border-left: 4px solid #FF9800;">
-  <h4 style="margin-top: 0;">🏗️ Technical Analysis</h4>
-  <p>Deep dive into architecture, design patterns, and code quality.</p>
-  <a href="{{ '/learning/finance/tax_hurdle/technical-analysis/' | relative_url }}">View Technical →</a>
-</div>
-
-<div class="project-card" style="border-left: 4px solid #9C27B0;">
-  <h4 style="margin-top: 0;">🔧 Refactoring Guide</h4>
-  <p>8 prioritized improvements with production-ready code examples.</p>
-  <a href="{{ '/learning/finance/tax_hurdle/refactoring-guide/' | relative_url }}">See Improvements → ({{ '/learning/finance/tax_hurdle/refactoring-guide/' | relative_url }})</a>
-</div>
-
-<div class="project-card" style="border-left: 4px solid #F44336;">
-  <h4 style="margin-top: 0;">✅ Implementation Checklist</h4>
-  <p>Track progress on improvements with detailed checklists.</p>
-  <a href="{{ '/learning/finance/tax_hurdle/checklist/' | relative_url }}">View Checklist → ({{ '/learning/finance/tax_hurdle/checklist/' | relative_url }})</a>
-</div>
-
-<div class="project-card" style="border-left: 4px solid #00BCD4;">
-  <h4 style="margin-top: 0;">🗺️ Documentation Hub</h4>
-  <p>Central navigation with reading paths for different audiences.</p>
-  <a href="{{ '/learning/finance/' | relative_url }}">Browse All Docs →</a>
-</div>
-
-</div>
-
----
-
-## 🎯 Project Impact
-
-### What You Get
-
-✅ **Time Savings** — Automate 8+ hours of manual calculation  
-✅ **Accuracy** — Eliminate human calculation errors  
-✅ **Compliance** — Tax-ready reports for CA/ITR filing  
-✅ **Transparency** — Complete audit trail with logs  
-✅ **Scalability** — Handles hundreds of transactions  
-
-### Use Cases
-
-- 🎯 **Individual Traders** — Calculate taxes for annual ITR filing
-- 💼 **Chartered Accountants** — Streamline client tax preparation
-- 🏢 **Trading Collectives** — Centralized tax calculation for groups
-- 📊 **Financial Advisors** — Generate client tax summaries
-
----
-
-## 🛠️ Current Status & Roadmap
-
-### Production Ready (v1.0) ✅
-
-- [x] Excel parsing (buy/sell sheets)
-- [x] STCG calculation by quarter
-- [x] Intraday vs STCG classification
-- [x] P&L tracking per security
-- [x] Comprehensive logging
-- [x] Thread-safe processing
-
-### Planned Improvements 🚧
-
-**Priority 1 (Critical):**
-- [ ] Implement FIFO cost basis matching
-- [ ] Migrate to `java.time.LocalDate`
-- [ ] Improve exception handling
-
-**Priority 2 (Important):**
-- [ ] Externalize quarter configuration
-- [ ] Parameterize file paths
-- [ ] Add comprehensive input validation
-
-**Priority 3 (Enhancements):**
-- [ ] Export reports (CSV/JSON/PDF)
-- [ ] Add unit test suite (80%+ coverage)
-- [ ] Database persistence layer
-
-**Future Vision:**
-- [ ] Spring Boot REST API
-- [ ] React/Vue web interface
-- [ ] Multi-year tax reports
-- [ ] Dividend tracking integration
-
-**Want to contribute?** 👉 [View Refactoring Guide]({{ '/learning/finance/tax_hurdle/refactoring-guide/' | relative_url }})
-
----
-
-## 📊 Project Metrics
-
-| Metric | Value |
-|--------|-------|
-| **Lines of Code** | ~870 |
-| **Classes** | 7 |
-| **Design Patterns** | 4 |
-| **Documentation** | 15,000+ words |
-| **Code Examples** | 30+ |
-| **Test Cases** | 10+ (planned) |
-| **Status** | Production-ready v1.0 |
-
----
-
-## 🌟 Why This Project Stands Out
-
-### Technical Excellence
-✅ Clean architecture with design patterns  
-✅ Thread-safe concurrent processing  
-✅ Comprehensive error handling  
-✅ Professional logging framework  
-
-### Real-World Impact
-✅ Solves actual problem for traders  
-✅ Saves time and reduces errors  
-✅ Used for real tax filing  
-✅ Extendable for future needs  
-
-### Professional Documentation
-✅ 15,000+ words of documentation  
-✅ Technical analysis with patterns  
-✅ Step-by-step improvement guide  
-✅ Production-ready code examples  
-
----
-
-## 🔗 Quick Links
-
-<div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin: 2rem 0;">
-  <a href="https://github.com/Ajay3007/tax_hurdle" style="display: inline-block; padding: 0.75rem 1.5rem; background: #24292e; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-    <span style="font-size: 1.2rem;">📦</span> GitHub Repository
-  </a>
-  <a href="{{ '/learning/finance/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #667eea; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-    <span style="font-size: 1.2rem;">📚</span> Full Documentation
-  </a>
-  <a href="{{ '/learning/finance/tax_hurdle/quickref/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #f093fb; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-    <span style="font-size: 1.2rem;">⚡</span> Quick Reference
-  </a>
-  <a href="{{ '/learning/finance/tax_hurdle/refactoring-guide/' | relative_url }}" style="display: inline-block; padding: 0.75rem 1.5rem; background: #4CAF50; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
-    <span style="font-size: 1.2rem;">🔧</span> Contribute
+<div style="text-align: center; margin: 4rem 0 2rem 0; border-top: 1px solid var(--border-color); padding-top: 3rem;">
+  <a href="{{ '/projects/' | relative_url }}" class="btn-secondary">
+    <span style="margin-right: 0.5rem;">🎒</span> Back to Projects
   </a>
 </div>
-
----
-
-## 🎓 What I Learned Building This
-
-### Financial Domain Knowledge
-- Indian tax system (STCG, quarters, ITR filing)
-- Investment terminology and concepts
-- Real-world business requirements
-
-### Technical Skills
-- Design patterns in practice (Singleton, Factory, Strategy)
-- Concurrent programming with Java
-- Excel file parsing with Apache POI
-- Enterprise logging with Log4j2
-
-### Software Engineering
-- Clean code architecture
-- Documentation best practices
-- Code quality analysis
-- Testing strategies
-
----
-
-## 📞 Get in Touch
-
-Have questions or want to collaborate?
-
-- **GitHub Issues:** [Report bugs or suggest features](https://github.com/Ajay3007/tax_hurdle/issues)
-- **Documentation:** [Browse complete docs]({{ '/learning/finance/' | relative_url }})
-- **Portfolio:** [View other projects]({{ '/projects/' | relative_url }})
-
----
-
-<div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: 12px; margin: 2rem 0;">
-  <h3 style="margin-top: 0;">Ready to Explore?</h3>
-  <p style="font-size: 1.1rem; margin: 1rem 0;">Dive into the complete documentation suite for technical details, code examples, and improvement guides.</p>
-  <a href="{{ '/learning/finance/' | relative_url }}" style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; margin-top: 1rem;">
-    📚 Explore Documentation Hub
-  </a>
-</div>
-
----
-
-<p style="text-align: center; color: #666; margin-top: 3rem;">
-  <strong>Tax Hurdle</strong> — Automating Investment Tax Calculations<br>
-  Built with Java • Documented with Care • Ready for Production 🚀
-</p>
