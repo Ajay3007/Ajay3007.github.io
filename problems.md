@@ -18,19 +18,19 @@ Central hub for all coding practice problems organized by topic with solutions a
   <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display: inline-block; padding: 15px 40px; background: white; color: #667eea; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
     📋 View Master Problem List →
   </a>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-top: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
     {% assign total = site.data.problems | size %}
     {% assign solved = site.data.problems | where: "solved", true | size %}
     {% assign percent = solved | times: 100.0 | divided_by: total | round %}
-    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 8px; backdrop-filter: blur(10px);">
       <div style="font-size: 2rem; font-weight: bold; color: white;">{{ total }}</div>
       <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Total Problems</div>
     </div>
-    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 8px; backdrop-filter: blur(10px);">
       <div style="font-size: 2rem; font-weight: bold; color: #4ade80;">{{ solved }}</div>
       <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Solved</div>
     </div>
-    <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px);">
+    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 8px; backdrop-filter: blur(10px);">
       <div style="font-size: 2rem; font-weight: bold; color: white;">{{ percent }}%</div>
       <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Success Rate</div>
     </div>
@@ -41,13 +41,13 @@ Central hub for all coding practice problems organized by topic with solutions a
 
 ## 📚 Problems by Topic
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
 
   <!-- Linked List Problems -->
-  <div style="background: white; border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #3b82f6; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
+  <div style="background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #3b82f6; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-      <span style="font-size: 2.5rem;">🔗</span>
-      <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Linked List</h3>
+      <span style="font-size: 2rem;">🔗</span>
+      <h3 style="margin: 0; color: #2d3748; font-size: 1.15rem;">Linked List</h3>
     </div>
     {% assign ll_total = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | size %}
     {% assign ll_solved = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | where: "solved", true | size %}
@@ -63,10 +63,10 @@ Central hub for all coding practice problems organized by topic with solutions a
   </div>
 
   <!-- Arrays Problems -->
-  <div style="background: white; border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #10b981; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
+  <div style="background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #10b981; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-      <span style="font-size: 2.5rem;">📊</span>
-      <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Arrays</h3>
+      <span style="font-size: 2rem;">📊</span>
+      <h3 style="margin: 0; color: #2d3748; font-size: 1.15rem;">Arrays</h3>
     </div>
     {% assign arr_total = site.data.problems | where_exp: "p", "p.topics contains 'arrays'" | size %}
     {% assign arr_solved = site.data.problems | where_exp: "p", "p.topics contains 'arrays'" | where: "solved", true | size %}
@@ -82,10 +82,10 @@ Central hub for all coding practice problems organized by topic with solutions a
   </div>
 
   <!-- Strings Problems -->
-  <div style="background: white; border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #f59e0b; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
+  <div style="background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #f59e0b; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-      <span style="font-size: 2.5rem;">🔤</span>
-      <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Strings</h3>
+      <span style="font-size: 2rem;">🔤</span>
+      <h3 style="margin: 0; color: #2d3748; font-size: 1.15rem;">Strings</h3>
     </div>
     {% assign str_total = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | size %}
     {% assign str_solved = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | where: "solved", true | size %}
@@ -101,10 +101,10 @@ Central hub for all coding practice problems organized by topic with solutions a
   </div>
 
   <!-- Stacks Problems -->
-  <div style="background: white; border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #ef4444; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
+  <div style="background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #ef4444; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-      <span style="font-size: 2.5rem;">📚</span>
-      <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Stacks</h3>
+      <span style="font-size: 2rem;">📚</span>
+      <h3 style="margin: 0; color: #2d3748; font-size: 1.15rem;">Stacks</h3>
     </div>
     {% assign stk_total = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" | size %}
     {% assign stk_solved = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" | where: "solved", true | size %}
@@ -120,10 +120,10 @@ Central hub for all coding practice problems organized by topic with solutions a
   </div>
 
   <!-- Searching & Sorting Problems -->
-  <div style="background: white; border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #8b5cf6; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
+  <div style="background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #8b5cf6; transition: all 0.3s;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.08)';">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-      <span style="font-size: 2.5rem;">🔍</span>
-      <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Searching & Sorting</h3>
+      <span style="font-size: 2rem;">🔍</span>
+      <h3 style="margin: 0; color: #2d3748; font-size: 1.15rem;">Searching & Sorting</h3>
     </div>
     {% assign ss_total = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | size %}
     {% assign ss_solved = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | where: "solved", true | size %}
@@ -139,10 +139,10 @@ Central hub for all coding practice problems organized by topic with solutions a
   </div>
 
   <!-- Tree Problems (Coming Soon) -->
-  <div style="background: white; border-radius: 12px; padding: 1.8rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #06b6d4; transition: all 0.3s; opacity: 0.7;">
+  <div style="background: white; border-radius: 12px; padding: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.08); border-left: 5px solid #06b6d4; transition: all 0.3s; opacity: 0.7;">
     <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-      <span style="font-size: 2.5rem;">🌳</span>
-      <h3 style="margin: 0; color: #2d3748; font-size: 1.3rem;">Tree</h3>
+      <span style="font-size: 2rem;">🌳</span>
+      <h3 style="margin: 0; color: #2d3748; font-size: 1.15rem;">Tree</h3>
     </div>
     {% assign tree_total = site.data.problems | where_exp: "p", "p.topics contains 'tree'" | size %}
     {% assign tree_solved = site.data.problems | where_exp: "p", "p.topics contains 'tree'" | where: "solved", true | size %}
