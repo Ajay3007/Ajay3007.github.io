@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: Practice Problems Hub
 permalink: /problems/
 ---
