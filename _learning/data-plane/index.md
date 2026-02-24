@@ -1,10 +1,13 @@
 ---
-layout: learning
+layout: default
 title: Data Plane
-description: Network data plane processing and technologies.
 permalink: /learning/data-plane/
 ---
 
-# ⚡ Data Plane (DPDK/VPP)
+# Data Plane
 
-Welcome to the Data Plane section. Learn about high-performance packet processing technologies.
+<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+  <a href="{{ '/learning/data-plane/roadmap' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#764ba2;color:white;border-radius:5px;text-decoration:none;">Dataplane Engineer Roadmap (0 → Production Ready) 🚀</a>
+</div>
+
+
