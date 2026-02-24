@@ -1,0 +1,35 @@
+backend:
+  name: github
+  repo: Ajay3007/Ajay3007.github.io
+  branch: master
+
+# Optional: Disable local Git workflow if deploying solely via GitHub
+local_backend: true
+
+media_folder: "assets/images/posts"
+public_folder: "/assets/images/posts"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "post"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Categories", name: "categories", widget: "list", default: ["general"]}
+      - {label: "Body", name: "body", widget: "markdown"}
+      
+  - name: "projects"
+    label: "Portfolio Projects"
+    folder: "_projects"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Layout", name: "layout", widget: "hidden", default: "project"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "string"}
+      - {label: "Permalink (e.g. /projects/workctl/)", name: "permalink", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
