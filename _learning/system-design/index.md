@@ -2,6 +2,7 @@
 layout: learning
 title: System Design
 description: Resources for learning System Design principles and architectures.
+permalink: /learning/system-design/
 ---
 
 # 🏗️ System Design

@@ -2,6 +2,7 @@
 layout: learning
 title: Competitive Programming
 description: Strategies and algorithms for competitive programming.
+permalink: /learning/competitive-programming/
 ---
 
 # 🏅 Competitive Programming

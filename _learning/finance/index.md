@@ -2,6 +2,7 @@
 layout: learning
 title: Finance
 description: Personal finance and investing basics.
+permalink: /learning/finance/
 ---
 
 # 📈 Finance

@@ -2,6 +2,7 @@
 layout: learning
 title: DSA
 description: Data Structures and Algorithms learning materials.
+permalink: /learning/dsa/
 ---
 
 # 🧠 Data Structures and Algorithms

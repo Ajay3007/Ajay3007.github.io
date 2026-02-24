@@ -2,6 +2,7 @@
 layout: learning
 title: AI & ML
 description: Artificial Intelligence and Machine Learning resources.
+permalink: /learning/ai-ml/
 ---
 
 # 🤖 AI & ML

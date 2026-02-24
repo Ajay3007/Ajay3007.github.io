@@ -2,6 +2,7 @@
 layout: learning
 title: OOP
 description: Learn Object-Oriented Programming concepts and patterns.
+permalink: /learning/oop/
 ---
 
 # 🧩 Object-Oriented Programming (OOP)

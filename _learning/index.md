@@ -2,6 +2,7 @@
 layout: learning
 title: Learning Portal
 description: Explore various topics including programming languages, DSA, system design, and more.
+permalink: /learning/
 ---
 
 # 📚 Learning Portal
