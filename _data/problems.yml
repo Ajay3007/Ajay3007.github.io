@@ -556,8 +556,8 @@ problems:
     topics: [searching-sorting]
     solved: false
     problem_url: "https://www.geeksforgeeks.org/dsa/find-rotation-count-rotated-sorted-array/"
-    approach_url: "/learning/dsa/searching-sorting/Kth_rotation.pdf"
-    solution_url: "/learning/dsa/searching-sorting/Kth_rotation.cpp"
+    approach_url: "/learning/dsa/Searching-Sorting/Kth_rotation.pdf"
+    solution_url: "/learning/dsa/Searching-Sorting/Kth_rotation.cpp"
 
   - id: "153"
     title: "Find Minimum in Rotated Sorted Array"

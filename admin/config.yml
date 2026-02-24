@@ -41,6 +41,17 @@ collections:
       - {label: "Permalink (e.g. /projects/workctl/)", name: "permalink", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
 
+  - name: "editorials"
+    label: "DSA Editorials"
+    folder: "_editorials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title (e.g. Valid Palindrome Solution)", name: "title", widget: "string"}
+      - {label: "Problem ID", name: "problem_id", widget: "string", required: false}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Body", name: "body", widget: "markdown"}
+
   - name: "data"
     label: "Data Files"
     files:

@@ -18,6 +18,9 @@ collections:
   learning:
     output: true
     permalink: /learning/:path/
+  editorials:
+    output: true
+    permalink: /editorials/:title/
 
 # Plugins
 plugins:
