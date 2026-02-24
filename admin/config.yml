@@ -1,5 +1,6 @@
 backend:
   name: git-gateway
+  site_domain: ajdevhub.netlify.app
   branch: master
   squash_merges: true
   commit_messages:
