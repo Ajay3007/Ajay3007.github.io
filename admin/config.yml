@@ -40,3 +40,25 @@ collections:
       - {label: "Description", name: "description", widget: "string"}
       - {label: "Permalink (e.g. /projects/workctl/)", name: "permalink", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "data"
+    label: "Data Files"
+    files:
+      - name: "problems_database"
+        label: "DSA Problems Database"
+        file: "_data/problems.yml"
+        description: "The global payload powering the interactive Problems Hub."
+        fields:
+          - name: "problems"
+            label: "All Problems"
+            widget: "list"
+            fields:
+              - {label: "Problem ID / LeetCode Number", name: "id", widget: "string"}
+              - {label: "Problem Title", name: "title", widget: "string"}
+              - {label: "Platform", name: "platform", widget: "select", options: ["leetcode", "gfg"]}
+              - {label: "Difficulty", name: "difficulty", widget: "select", options: ["easy", "medium", "hard"]}
+              - {label: "Topics", name: "topics", widget: "list", default: ["arrays"]}
+              - {label: "Solved", name: "solved", widget: "boolean", default: false}
+              - {label: "External Problem URL", name: "problem_url", widget: "string"}
+              - {label: "My Approach Link", name: "approach_url", widget: "string", required: false}
+              - {label: "My Solution Link", name: "solution_url", widget: "string", required: false}

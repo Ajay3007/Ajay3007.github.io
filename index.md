@@ -28,7 +28,7 @@ title: Home
             <div class="stat-label">Projects</div>
         </div>
         <div class="stat-card" style="border-top-color: #10b981;">
-            <div class="stat-number" style="color: #10b981;">{{ site.data.problems | size | default: '77' }}</div>
+            <div class="stat-number" style="color: #10b981;">{{ site.data.problems.problems | size | default: '77' }}</div>
             <div class="stat-label">DSA Problems</div>
         </div>
         <div class="stat-card" style="border-top-color: #9945ff;">
@@ -70,12 +70,12 @@ title: Home
             </div>
             <div class="dsa-stats">
                 <div class="dsa-stat-box">
-                    <div class="val">{{ site.data.problems | size | default: '77' }}</div>
+                    <div class="val">{{ site.data.problems.problems | size | default: '77' }}</div>
                     <div class="lbl">Total Problems</div>
                 </div>
                 <!-- Calculate total solved based on the new problems.yml structure if solving property exists, fallback to placeholder -->
                 {% assign solved_count = 0 %}
-                {% for problem in site.data.problems %}
+                {% for problem in site.data.problems.problems %}
                     {% if problem.solved == true or problem.solved == "true" or problem.status == "Solved" %}
                         {% assign solved_count = solved_count | plus: 1 %}
                     {% endif %}

@@ -6,8 +6,8 @@ permalink: /learning/dsa/
 
 # 🧠 Data Structures & Algorithms
 
-{% assign total = site.data.problems | size %}
-{% assign solved = site.data.problems | where: "solved", true | size %}
+{% assign total = site.data.problems.problems | size %}
+{% assign solved = site.data.problems.problems | where: "solved", true | size %}
 
 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
   <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
@@ -36,32 +36,32 @@ permalink: /learning/dsa/
   <div class="project-card" style="border-left: 4px solid #3b82f6;">
     <h3><a href="{{ '/learning/dsa/arrays/' | relative_url }}">📐 Arrays</a></h3>
     <p>Sliding window, two pointers, prefix sums, Kadane's. Core pattern mastery.</p>
-    {% assign arr_solved = site.data.problems | where_exp: "p", "p.topics contains 'arrays'" | where: "solved", true | size %}
-    {% assign arr_total = site.data.problems | where_exp: "p", "p.topics contains 'arrays'" | size %}
+    {% assign arr_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'arrays'" | where: "solved", true | size %}
+    {% assign arr_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'arrays'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ arr_solved }}/{{ arr_total }} solved</small>
   </div>
 
   <div class="project-card" style="border-left: 4px solid #8b5cf6;">
     <h3><a href="{{ '/learning/dsa/strings/' | relative_url }}">🔤 Strings</a></h3>
     <p>Pattern matching, hashing, palindromes, anagrams, encoding.</p>
-    {% assign str_solved = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | where: "solved", true | size %}
-    {% assign str_total = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | size %}
+    {% assign str_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'strings'" | where: "solved", true | size %}
+    {% assign str_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'strings'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ str_solved }}/{{ str_total }} solved</small>
   </div>
 
   <div class="project-card" style="border-left: 4px solid #ec4899;">
     <h3><a href="{{ '/learning/dsa/linked-list/' | relative_url }}">🔗 Linked List</a></h3>
     <p>Singly & doubly lists, cycle detection, reversal, fast/slow pointers.</p>
-    {% assign ll_solved = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | where: "solved", true | size %}
-    {% assign ll_total = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | size %}
+    {% assign ll_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'linked-list'" | where: "solved", true | size %}
+    {% assign ll_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'linked-list'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ ll_solved }}/{{ ll_total }} solved</small>
   </div>
 
   <div class="project-card" style="border-left: 4px solid #f59e0b;">
     <h3><a href="{{ '/learning/dsa/stacks/' | relative_url }}">⚡ Stacks</a></h3>
     <p>LIFO structure, monotonic stacks, applications.</p>
-    {% assign stk_solved = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" | where: "solved", true | size %}
-    {% assign stk_total = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" | size %}
+    {% assign stk_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'stacks'" | where: "solved", true | size %}
+    {% assign stk_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'stacks'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ stk_solved }}/{{ stk_total }} solved</small>
   </div>
 
@@ -73,16 +73,16 @@ permalink: /learning/dsa/
   <div class="project-card" style="border-left: 4px solid #06b6d4;">
     <h3><a href="{{ '/learning/dsa/tree/' | relative_url }}">🌲 Trees</a></h3>
     <p>Traversals, BST, segment trees, tries.</p>
-    {% assign tree_solved = site.data.problems | where_exp: "p", "p.topics contains 'tree'" | where: "solved", true | size %}
-    {% assign tree_total = site.data.problems | where_exp: "p", "p.topics contains 'tree'" | size %}
+    {% assign tree_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'tree'" | where: "solved", true | size %}
+    {% assign tree_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'tree'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ tree_solved }}/{{ tree_total }} solved</small>
   </div>
 
   <div class="project-card" style="border-left: 4px solid #6366f1;">
     <h3><a href="{{ '/learning/dsa/searching-sorting/' | relative_url }}">🔍 Searching & Sorting</a></h3>
     <p>Binary search, binary search on answer, all sorting algorithms.</p>
-    {% assign ss_solved = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | where: "solved", true | size %}
-    {% assign ss_total = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | size %}
+    {% assign ss_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | where: "solved", true | size %}
+    {% assign ss_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ ss_solved }}/{{ ss_total }} solved</small>
   </div>
 

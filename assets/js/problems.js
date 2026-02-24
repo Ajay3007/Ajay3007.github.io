@@ -11,6 +11,31 @@ document.addEventListener("DOMContentLoaded", () => {
     // The single source of truth array defined cleanly in problems.md via Liquid
     const problems = window.dsaProblems;
 
+    // Dynamically auto-populate the Topics dropdown from the dataset
+    if (topicFilter && problems) {
+        const uniqueTopics = new Set();
+        problems.forEach(p => {
+            if (p.topics && Array.isArray(p.topics)) {
+                p.topics.forEach(t => uniqueTopics.add(t));
+            }
+        });
+
+        // Convert to sorted array
+        const sortedTopics = Array.from(uniqueTopics).sort();
+
+        // Inject into dropdown
+        sortedTopics.forEach(topicStr => {
+            const option = document.createElement("option");
+            option.value = topicStr;
+            // Format "linked-list" to "Linked List"
+            const prettyLabel = topicStr.split('-')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            option.textContent = prettyLabel;
+            topicFilter.appendChild(option);
+        });
+    }
+
     function renderTable() {
         // Grab current filter values
         const query = searchInput.value.toLowerCase();
@@ -23,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const matchSearch = p.title.toLowerCase().includes(query) || (p.id || "").toString().includes(query);
             const matchDiff = diff === "all" || p.difficulty === diff;
             const matchTopic = targetTopic === "all" || (p.topics && p.topics.includes(targetTopic));
-            
+
             let matchStatus = true;
             if (status === "solved") matchStatus = p.solved === true;
             if (status === "todo") matchStatus = p.solved !== true;
@@ -47,12 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
             tr.style.transition = "background 0.2s";
 
             // Status Icon
-            const statusHtml = p.solved 
-                ? `<span title="Solved" style="color: #10b981; font-weight: bold;">✅</span>` 
+            const statusHtml = p.solved
+                ? `<span title="Solved" style="color: #10b981; font-weight: bold;">✅</span>`
                 : `<span title="Unsolved" style="color: #64748b; font-size: 1.2rem;">⭕️</span>`;
 
             // Title Link
-            const titleHtml = p.problem_url 
+            const titleHtml = p.problem_url
                 ? `<a href="${p.problem_url}" target="_blank" rel="noopener noreferrer" style="color: var(--text-color); font-weight: 600; text-decoration: none;" class="problem-link">${p.id}. ${p.title}</a>`
                 : `<span style="font-weight: 600; color: var(--text-color);">${p.id}. ${p.title}</span>`;
 
@@ -62,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (p.difficulty === "easy") { diffColor = "#10b981"; diffBg = "#dcfce7"; }
             if (p.difficulty === "medium") { diffColor = "#f59e0b"; diffBg = "#fef3c7"; }
             if (p.difficulty === "hard") { diffColor = "#ef4444"; diffBg = "#fee2e2"; }
-            
+
             const diffHtml = `<span style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; color: ${diffColor}; background: ${diffBg}; text-transform: capitalize;">${p.difficulty}</span>`;
 
             // Topics mapping

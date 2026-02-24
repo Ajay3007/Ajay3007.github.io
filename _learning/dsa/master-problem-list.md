@@ -9,15 +9,15 @@ permalink: /learning/dsa/master-problem-list/
 <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; text-align: center;">
   <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
     <div style="color: white;">
-      <div style="font-size: 2.5rem; font-weight: 700;">{{ site.data.problems | size }}</div>
+      <div style="font-size: 2.5rem; font-weight: 700;">{{ site.data.problems.problems | size }}</div>
       <div style="font-size: 0.9rem; opacity: 0.9;">Total Problems</div>
     </div>
     <div style="color: white;">
-      <div style="font-size: 2.5rem; font-weight: 700; color: #a8ffb0;">{{ site.data.problems | where: "solved", true | size }}</div>
+      <div style="font-size: 2.5rem; font-weight: 700; color: #a8ffb0;">{{ site.data.problems.problems | where: "solved", true | size }}</div>
       <div style="font-size: 0.9rem; opacity: 0.9;">Solved ✓</div>
     </div>
     <div style="color: white;">
-      <div style="font-size: 2.5rem; font-weight: 700; color: #ffd6a5;">{{ site.data.problems | where: "solved", false | size }}</div>
+      <div style="font-size: 2.5rem; font-weight: 700; color: #ffd6a5;">{{ site.data.problems.problems | where: "solved", false | size }}</div>
       <div style="font-size: 0.9rem; opacity: 0.9;">In Progress ○</div>
     </div>
   </div>
@@ -28,7 +28,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Arrays & Sliding Window
 
 <div class="problem-grid">
-{% assign sw_problems = site.data.problems | where_exp: "p", "p.topics contains 'sliding-window'" %}
+{% assign sw_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'sliding-window'" %}
 {% for p in sw_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}
@@ -39,7 +39,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Two Pointers
 
 <div class="problem-grid">
-{% assign tp_problems = site.data.problems | where_exp: "p", "p.topics contains 'two-pointers'" | where_exp: "p", "p.topics contains 'arrays'" %}
+{% assign tp_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'two-pointers'" | where_exp: "p", "p.topics contains 'arrays'" %}
 {% for p in tp_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}
@@ -50,7 +50,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Strings
 
 <div class="problem-grid">
-{% assign str_problems = site.data.problems | where_exp: "p", "p.topics contains 'strings'" | where_exp: "p", "p.topics[0] == 'strings'" %}
+{% assign str_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'strings'" | where_exp: "p", "p.topics[0] == 'strings'" %}
 {% for p in str_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}
@@ -61,7 +61,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Linked List
 
 <div class="problem-grid">
-{% assign ll_problems = site.data.problems | where_exp: "p", "p.topics contains 'linked-list'" | where_exp: "p", "p.topics[0] == 'linked-list'" %}
+{% assign ll_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'linked-list'" | where_exp: "p", "p.topics[0] == 'linked-list'" %}
 {% for p in ll_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}
@@ -72,7 +72,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Stacks
 
 <div class="problem-grid">
-{% assign stk_problems = site.data.problems | where_exp: "p", "p.topics contains 'stacks'" %}
+{% assign stk_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'stacks'" %}
 {% for p in stk_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}
@@ -83,7 +83,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Trees
 
 <div class="problem-grid">
-{% assign tree_problems = site.data.problems | where_exp: "p", "p.topics contains 'tree'" %}
+{% assign tree_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'tree'" %}
 {% for p in tree_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}
@@ -94,7 +94,7 @@ permalink: /learning/dsa/master-problem-list/
 ## Searching & Sorting
 
 <div class="problem-grid">
-{% assign ss_problems = site.data.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | where_exp: "p", "p.topics[0] == 'searching-sorting'" %}
+{% assign ss_problems = site.data.problems.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | where_exp: "p", "p.topics[0] == 'searching-sorting'" %}
 {% for p in ss_problems %}
   {% include problem-card.html problem=p %}
 {% endfor %}

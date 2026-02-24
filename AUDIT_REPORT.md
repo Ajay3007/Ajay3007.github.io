@@ -102,7 +102,7 @@
 **12. Homepage Stats Hardcoded**
 - `problems.md` manually maintains "77 problems / 43 solved" counters
 - Will always drift out of sync
-- Fix: Replace hardcoded numbers with Liquid: `{{ site.data.problems | size }}` and `{{ site.data.problems | where: "solved", true | size }}`
+- Fix: Replace hardcoded numbers with Liquid: `{{ site.data.problems.problems | size }}` and `{{ site.data.problems.problems | where: "solved", true | size }}`
 
 ---
 
@@ -182,7 +182,7 @@
 **After (delivered):** `_data/problems.yml` — single source of truth.
 - 74 problems with accurate solved status cross-referenced from all source files
 - Schema: id, title, platform, difficulty, topics[], solved, problem_url, approach_url, solution_url
-- Auto-generates stats: `{{ site.data.problems | where: "solved", true | size }}`
+- Auto-generates stats: `{{ site.data.problems.problems | where: "solved", true | size }}`
 - Enables filtering by topic, difficulty, platform in any Liquid template
 
 ### PlantUML Pipeline — Working and Impressive

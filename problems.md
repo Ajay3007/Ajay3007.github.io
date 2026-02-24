@@ -12,29 +12,21 @@ Central hub for all coding practice problems organized by topic with solutions a
 
 ## 📊 Master Problem List
 
-<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; margin-bottom: 3rem; text-align: center; box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);">
-  <h2 style="color: white; margin: 0 0 0.5rem 0; font-size: 1.8rem;">🧭 Complete Problem Tracker</h2>
-  <!-- <p style="color: rgba(255,255,255,0.95); margin: 0 0 1.5rem 0; font-size: 1.05rem;">Track your progress across all 77 problems from 6 major DSA topics</p> -->
-  <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display: inline-block; padding: 15px 40px; background: white; color: #667eea; border-radius: 10px; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.3)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
-    📋 View Master Problem List →
-  </a>
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-top: 1.5rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-    {% assign total = site.data.problems | size %}
-    {% assign solved = site.data.problems | where: "solved", true | size %}
+<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem 2rem; border-radius: 50px; margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); flex-wrap: wrap; gap: 1rem;">
+  <div style="display: flex; gap: 2rem; color: white; align-items: center;">
+    {% assign total = site.data.problems.problems | size %}
+    {% assign solved = site.data.problems.problems | where: "solved", true | size %}
     {% assign percent = solved | times: 100.0 | divided_by: total | round %}
-    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 8px; backdrop-filter: blur(10px);">
-      <div style="font-size: 2rem; font-weight: bold; color: white;">{{ total }}</div>
-      <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Total Problems</div>
-    </div>
-    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 8px; backdrop-filter: blur(10px);">
-      <div style="font-size: 2rem; font-weight: bold; color: #4ade80;">{{ solved }}</div>
-      <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Solved</div>
-    </div>
-    <div style="background: rgba(255,255,255,0.2); padding: 0.75rem; border-radius: 8px; backdrop-filter: blur(10px);">
-      <div style="font-size: 2rem; font-weight: bold; color: white;">{{ percent }}%</div>
-      <div style="font-size: 0.85rem; color: rgba(255,255,255,0.9);">Success Rate</div>
+    <span style="font-weight: 600; font-size: 1.1rem;">🧭 Complete Tracker</span>
+    <div style="display: flex; gap: 1.5rem; opacity: 0.95;">
+      <span><strong>{{ total }}</strong> Problems</span>
+      <span style="color: #4ade80;"><strong>{{ solved }}</strong> Solved</span>
+      <span><strong>{{ percent }}%</strong> Success</span>
     </div>
   </div>
+  <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="padding: 0.5rem 1.5rem; background: rgba(255,255,255,0.2); color: white; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem; backdrop-filter: blur(5px); box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.2)';">
+    Legacy Backup: Static Grid View →
+  </a>
 </div>
 
 ---
@@ -53,14 +45,7 @@ Central hub for all coding practice problems organized by topic with solutions a
     </select>
     <select id="filter-topic" style="padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 0.95rem; cursor: pointer; outline: none;">
       <option value="all">📁 All Topics</option>
-      <option value="arrays">Arrays</option>
-      <option value="strings">Strings</option>
-      <option value="linked-list">Linked List</option>
-      <option value="stacks">Stacks</option>
-      <option value="tree">Trees</option>
-      <option value="searching-sorting">Searching & Sorting</option>
-      <option value="sliding-window">Sliding Window</option>
-      <option value="two-pointers">Two Pointers</option>
+      <!-- Automatically populated by problems.js -->
     </select>
     <select id="filter-status" style="padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 0.95rem; cursor: pointer; outline: none;">
       <option value="all">🎯 All Status</option>
@@ -91,7 +76,7 @@ Central hub for all coding practice problems organized by topic with solutions a
 <!-- Serialize the Problem Data Payload for JS -->
 <script>
   window.dsaProblems = [
-    {% for p in site.data.problems %}
+    {% for p in site.data.problems.problems %}
     {
       "id": {{ p.id | jsonify | default: '""' }},
       "title": {{ p.title | jsonify | default: '""' }},
