@@ -1,7 +1,13 @@
 backend:
-  name: github
-  repo: Ajay3007/Ajay3007.github.io
+  name: git-gateway
   branch: master
+  squash_merges: true
+  commit_messages:
+    create: 'feat({{collection}}): generate new content "{{slug}}"'
+    update: 'fix({{collection}}): update content "{{slug}}"'
+    delete: 'refactor({{collection}}): remove content "{{slug}}"'
+    uploadMedia: 'chore(media): upload media "{{path}}"'
+    deleteMedia: 'chore(media): delete media "{{path}}"'
 
 # Optional: Disable local Git workflow if deploying solely via GitHub
 local_backend: true
