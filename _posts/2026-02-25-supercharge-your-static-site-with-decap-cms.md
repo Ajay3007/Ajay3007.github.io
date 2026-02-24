@@ -54,6 +54,9 @@ Now we inject the actual CMS into your repository. You only need to create two f
 ### 1. `admin/index.html`
 This is the React application payload. It loads the CMS and the Netlify Identity login widget.
 
+> [!WARNING]
+> If you are accessing the `/admin` panel from your native `github.io` domain instead of the `.netlify.app` domain, you MUST supply your Netlify URL to the Identity widget during initialization, otherwise the login will fail due to cross-origin issues!
+
 ```html
 <!doctype html>
 <html>
@@ -70,6 +73,9 @@ This is the React application payload. It loads the CMS and the Netlify Identity
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
       if (window.netlifyIdentity) {
+        window.netlifyIdentity.init({
+          APIUrl: "https://[your-netlify-url].netlify.app/.netlify/identity"
+        });
         window.netlifyIdentity.on("init", user => {
           if (!user) {
             window.netlifyIdentity.on("login", () => {
@@ -117,11 +123,23 @@ To gain access to your shiny new CMS dashboard, you have to invite yourself via 
 
 **The Problem:** The email link usually drops you onto your *homepage*, not the `/admin` page. If your homepage doesn't have the Netlify Identity script loaded, the website won't know how to intercept that `#invite=` URL token! You'll just see your normal site.
 
-**The Fix:** You *must* inject the Identity script into your global layout template (usually `_layouts/default.html`) before the closing `</head>` tag:
+**The Fix:** You *must* inject the Identity script into your global layout template (usually `_layouts/default.html`) before the closing `</head>` tag. Furthermore, if you are inviting users from the `github.io` domain, you must map the URL in the footer:
 
 ```html
-<!-- Inside _layouts/default.html -->
+<!-- Inside <head> of _layouts/default.html -->
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+<!-- Just before </body> in _layouts/default.html -->
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.init({
+      APIUrl: "https://[your-netlify-url].netlify.app/.netlify/identity"
+    });
+    window.netlifyIdentity.on("init", user => {
+      // Identity routing logic...
+    });
+  }
+</script>
 ```
 
 Now, no matter where the invite email links you, the Identity widget will catch the token and open the setup modal!
