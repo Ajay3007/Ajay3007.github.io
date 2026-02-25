@@ -1,7 +1,8 @@
 backend:
   name: git-gateway
-  site_domain: ajdevhub.netlify.app
   branch: master
+  identity_url: "https://ajdevhub.netlify.app/.netlify/identity"
+  gateway_url: "https://ajdevhub.netlify.app/.netlify/git/github"
   squash_merges: true
   commit_messages:
     create: 'feat({{collection}}): generate new content "{{slug}}"'
