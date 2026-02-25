@@ -97,13 +97,42 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // Solution & Approach Buttons
-            let actionsHtml = `<div style="display: flex; gap: 0.5rem;">`;
-            if (p.solution_url) {
-                actionsHtml += `<a href="${p.solution_url}" title="View Solution" style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;">💻 Code</a>`;
-            }
+            let actionsHtml = `<div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">`;
+
             if (p.approach_url) {
-                actionsHtml += `<a href="${p.approach_url}" title="Read Editorial" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;">📖 Editorial</a>`;
+                let text = "📖 Editorial";
+                let color = "#3b82f6";
+                let bg = "rgba(59, 130, 246, 0.1)";
+
+                if (p.approach_url.endsWith('.pdf')) {
+                    text = "📝 PDF Notes";
+                    color = "#8b5cf6";
+                    bg = "rgba(139, 92, 246, 0.1)";
+                } else if (p.approach_url.includes('leetcode.com')) {
+                    text = "🔗 External Docs";
+                    color = "#6366f1";
+                    bg = "rgba(99, 102, 241, 0.1)";
+                }
+
+                actionsHtml += `<a href="${p.approach_url}" target="_blank" rel="noopener noreferrer" title="View Approach" style="background: ${bg}; color: ${color}; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s; white-space: nowrap;">${text}</a>`;
             }
+
+            if (p.solution_url) {
+                let text = "💻 Code";
+                let color = "#10b981";
+                let bg = "rgba(16, 185, 129, 0.1)";
+
+                if (p.solution_url.match(/\.(cpp|c|java|py|js)$/i)) {
+                    text = "💻 Raw Code";
+                } else if (p.solution_url.includes('leetcode.com')) {
+                    text = "🔗 External Code";
+                    color = "#059669";
+                    bg = "rgba(5, 150, 105, 0.1)";
+                }
+
+                actionsHtml += `<a href="${p.solution_url}" target="_blank" rel="noopener noreferrer" title="View Solution" style="background: ${bg}; color: ${color}; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s; white-space: nowrap;">${text}</a>`;
+            }
+
             if (!p.solution_url && !p.approach_url) {
                 actionsHtml += `<span style="font-size: 0.85rem; color: var(--light-text); font-style: italic;">No notes yet</span>`;
             }

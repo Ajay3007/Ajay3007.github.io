@@ -268,7 +268,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/linked-list-cycle/
     approach_url: /editorials/linked-list-cycle/
-    solution_url: /editorials/linked-list-cycle/
+    solution_url: ''
   - id: '876'
     title: Middle of the Linked List
     platform: leetcode
@@ -279,7 +279,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/middle-of-the-linked-list/
     approach_url: /editorials/middle-of-the-linked-list/
-    solution_url: /editorials/middle-of-the-linked-list/
+    solution_url: ''
   - id: '206'
     title: Reverse Linked List
     platform: leetcode
@@ -289,7 +289,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/reverse-linked-list/
     approach_url: /editorials/reverse-linked-list/
-    solution_url: /editorials/reverse-linked-list/
+    solution_url: ''
   - id: '21'
     title: Merge Two Sorted Lists
     platform: leetcode
@@ -299,7 +299,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/merge-two-sorted-lists/
     approach_url: /editorials/merge-two-sorted-lists/
-    solution_url: /editorials/merge-two-sorted-lists/
+    solution_url: ''
   - id: '19'
     title: Remove Nth Node From End of List
     platform: leetcode
@@ -310,7 +310,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/remove-nth-node-from-end-of-list/
     approach_url: /editorials/remove-nth-node-from-end-of-list/
-    solution_url: /editorials/remove-nth-node-from-end-of-list/
+    solution_url: ''
   - id: '2'
     title: Add Two Numbers
     platform: leetcode
@@ -320,7 +320,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/add-two-numbers/
     approach_url: /editorials/add-two-numbers/
-    solution_url: /editorials/add-two-numbers/
+    solution_url: ''
   - id: '143'
     title: Reorder List
     platform: leetcode
@@ -786,8 +786,7 @@ problems:
     problem_url: https://leetcode.com/problems/longest-common-prefix/
     approach_url: >-
       https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/
-    solution_url: >-
-      https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/
+    solution_url: ''
   - id: '68'
     title: Text Justification
     platform: leetcode
@@ -798,5 +797,4 @@ problems:
     problem_url: https://leetcode.com/problems/text-justification/
     approach_url: >-
       https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/
-    solution_url: >-
-      https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/
+    solution_url: ''
