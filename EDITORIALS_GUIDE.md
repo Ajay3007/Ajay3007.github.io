@@ -14,7 +14,7 @@ This guide explains how to add approaches, solutions, and code files to your Pra
 *Best for written approaches, time/space complexities, and embedded code combined.*
 
 ### From Decap CMS (Netlify Admin) **[RECOMMENDED]**
-1. Navigate to **`ajay3007.github.io/admin`** and log in.
+1. Navigate to **`ajdevhub.netlify.app/admin`** and log in.
 2. Click on **DSA Editorials** on the left menu.
 3. Click **New DSA Editorial**, write out your Markdown solution, and hit Publish.
 4. Next, go to **Data Files > DSA Problems Database** and select the problem.
