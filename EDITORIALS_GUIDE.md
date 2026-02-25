@@ -1,3 +1,9 @@
+---
+layout: default
+title: Editorials & Code Solutions Guide
+permalink: /editorials-guide/
+---
+
 # 📖 Editorials & Code Solutions Guide
 
 This guide explains how to add approaches, solutions, and code files to your Practice Problems database securely. The **Interactive Problems Hub** automatically detects your links and generates beautiful, color-coded buttons based on the file type you provide!

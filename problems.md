@@ -24,9 +24,14 @@ Central hub for all coding practice problems organized by topic with solutions a
       <span><strong>{{ percent }}%</strong> Success</span>
     </div>
   </div>
-  <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="padding: 0.5rem 1.5rem; background: rgba(255,255,255,0.2); color: white; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem; backdrop-filter: blur(5px); box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.2)';">
-    Legacy Backup: Static Grid View →
-  </a>
+  <div style="display: flex; gap: 1rem; align-items: center;">
+    <a href="{{ '/editorials-guide/' | relative_url }}" style="padding: 0.5rem 1.5rem; background: rgba(59,130,246,0.3); color: white; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem; backdrop-filter: blur(5px); box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.background='rgba(59,130,246,0.5)';" onmouseout="this.style.background='rgba(59,130,246,0.3)';">
+      📖 Read Guide
+    </a>
+    <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="padding: 0.5rem 1.5rem; background: rgba(255,255,255,0.2); color: white; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 0.9rem; backdrop-filter: blur(5px); box-shadow: 0 2px 10px rgba(0,0,0,0.1); transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)';" onmouseout="this.style.background='rgba(255,255,255,0.2)';">
+      Legacy Backup View →
+    </a>
+  </div>
 </div>
 
 ---
