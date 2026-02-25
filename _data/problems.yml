@@ -492,7 +492,7 @@ problems:
       - searching-sorting
     solved: true
     problem_url: https://leetcode.com/problems/search-insert-position/
-    approach_url: /learning/dsa/searching-sorting/floorAndCeil.pdf
+    approach_url: /learning/dsa/Searching-Sorting/floorAndCeil.pdf
     solution_url: ''
   - id: '744'
     title: Find Smallest Letter Greater Than Target
@@ -502,7 +502,7 @@ problems:
       - searching-sorting
     solved: true
     problem_url: https://leetcode.com/problems/find-smallest-letter-greater-than-target/
-    approach_url: /learning/dsa/searching-sorting/floorAndCeil.pdf
+    approach_url: /learning/dsa/Searching-Sorting/floorAndCeil.pdf
     solution_url: ''
   - id: '169'
     title: Majority Element
@@ -581,7 +581,7 @@ problems:
     solved: false
     problem_url: >-
       https://www.geeksforgeeks.org/dsa/find-position-element-sorted-array-infinite-numbers/
-    approach_url: /learning/dsa/searching-sorting/bsOnInfiniteNum.pdf
+    approach_url: /learning/dsa/Searching-Sorting/bsOnInfiniteNum.pdf
     solution_url: ''
   - id: gfg-first-one-binary
     title: Index of First 1 in Infinite Binary Array
@@ -592,7 +592,7 @@ problems:
     solved: false
     problem_url: >-
       https://www.geeksforgeeks.org/dsa/find-index-first-1-infinite-sorted-array-0s-1s/
-    approach_url: /learning/dsa/searching-sorting/firstOneInBinaryInfiniteArray.pdf
+    approach_url: /learning/dsa/Searching-Sorting/firstOneInBinaryInfiniteArray.pdf
     solution_url: ''
   - id: '162'
     title: Find Peak Element
@@ -647,7 +647,7 @@ problems:
       - searching-sorting
     solved: true
     problem_url: https://www.geeksforgeeks.org/dsa/allocate-minimum-number-pages/
-    approach_url: /learning/dsa/searching-sorting/allocateMinimumPages/
+    approach_url: /learning/dsa/Searching-Sorting/allocateMinimumPages/
     solution_url: ''
   - id: '875'
     title: Koko Eating Bananas
@@ -722,7 +722,7 @@ problems:
       - searching-sorting
     solved: true
     problem_url: https://leetcode.com/problems/median-of-two-sorted-arrays/
-    approach_url: /learning/dsa/searching-sorting/median-sorted-array.pdf
+    approach_url: /learning/dsa/Searching-Sorting/median-sorted-array.pdf
     solution_url: >-
       https://leetcode.com/problems/median-of-two-sorted-arrays/solutions/7430537/median-of-two-sorted-arrays-binary-searc-hjg4/
   - id: '410'
