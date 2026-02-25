@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 actionsHtml += `<a href="${p.solution_url}" title="View Solution" style="background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;">💻 Code</a>`;
             }
             if (p.approach_url) {
-                actionsHtml += `<a href="${p.approach_url}" title="Read Approach notes" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;">📝 Notes</a>`;
+                actionsHtml += `<a href="${p.approach_url}" title="Read Editorial" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 0.3rem 0.6rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; transition: background 0.2s;">📖 Editorial</a>`;
             }
             if (!p.solution_url && !p.approach_url) {
                 actionsHtml += `<span style="font-size: 0.85rem; color: var(--light-text); font-style: italic;">No notes yet</span>`;

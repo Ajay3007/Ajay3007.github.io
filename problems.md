@@ -63,7 +63,7 @@ Central hub for all coding practice problems organized by topic with solutions a
           <th style="padding: 1.2rem 1rem; width: 40%; font-weight: 600; color: var(--text-color);">Problem Title</th>
           <th style="padding: 1.2rem 1rem; width: 10%; font-weight: 600; color: var(--text-color);">Difficulty</th>
           <th style="padding: 1.2rem 1rem; width: 25%; font-weight: 600; color: var(--text-color);">Topics</th>
-          <th style="padding: 1.2rem 1rem; width: 20%; font-weight: 600; color: var(--text-color);">Study Material</th>
+          <th style="padding: 1.2rem 1rem; width: 20%; font-weight: 600; color: var(--text-color);">Editorial / Code</th>
         </tr>
       </thead>
       <tbody id="problems-tbody">
