@@ -1,0 +1,137 @@
+---
+layout: editorial
+title: "Copy List with Random Pointer"
+problem_id: "138"
+date: 2026-02-28T12:23:22.323Z
+---
+
+# Two HashMaps (Index Mapping) Approach – O(n) Time | O(n) Space
+
+**LeetCode #138** | **Difficulty:** Medium
+
+# Intuition
+Each node has two pointers:
+- `next` → normal linked list connection
+- `random` → can point to any node in the list (or null)
+
+The main difficulty is correctly assigning the `random` pointers in the new copied list.
+
+To solve this, we need a way to map:
+- Original node → Copied node
+
+Instead of directly mapping original node pointer to copied node pointer,
+this solution maps nodes using their index positions.
+
+So the idea is:
+1. First pass → Create the new list (only next pointers).
+2. Store mapping between original nodes and their indices.
+3. Store mapping between index and copied nodes.
+4. Second pass → Use the stored mappings to correctly assign random pointers.
+
+# Approach
+
+1️⃣ **First Pass – Create the new list (only next pointers)**
+
+- Traverse the original list.
+- Create a new node for each original node.
+- Maintain two hash maps:
+  - `map2`: Original node → index
+  - `map1`: index → Copied node
+- Link the copied nodes using `next`.
+
+After this pass:
+- The structure (next pointers) of the new list is ready.
+- Random pointers are still unassigned.
+
+---
+
+2️⃣ **Second Pass – Assign random pointers**
+
+- Traverse both lists simultaneously.
+- For each original node:
+  - If its random pointer is null → set copied random as null.
+  - Otherwise:
+    - Get the index of original random node using `map2`.
+    - Use that index to get the corresponding copied node from `map1`.
+    - Assign copied node’s random pointer.
+
+---
+
+3️⃣ Return the head of the copied list.
+
+This guarantees:
+- Deep copy of all nodes
+- Correct random pointer mapping
+- No modification of original list
+
+# Complexity
+
+- Time complexity:
+  O(n)
+
+  First traversal: O(n)  
+  Second traversal: O(n)
+
+- Space complexity:
+  O(n)
+
+  Two unordered_maps storing n entries each.
+
+# Code
+```cpp
+/*
+ // Definition for a Node.
+ class Node {
+ public:
+     int val;
+     Node* next;
+     Node* random;
+     
+     Node(int _val) {
+         val = _val;
+         next = NULL;
+         random = NULL;
+     }
+ };
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(!head) return nullptr;
+        unordered_map<int, Node*> map1;
+        unordered_map<Node*, int> map2;
+        Node *temp1 = head;
+        Node *prev = new Node(temp1->val);
+        Node *list2 = prev;
+        int index = 0;
+        map1[index] = prev;
+        map2[temp1] = index;
+        while(temp1->next) {
+            index++;
+            temp1 = temp1->next;
+            Node *newNode = new Node(temp1->val);
+            prev->next = newNode;
+            prev = newNode;
+            map1[index] = prev;
+            map2[temp1] = index;
+        }
+        prev->next = nullptr;   // list2 has been created fully but random pointer of each node is still need to be linked
+        temp1 = head;   // Pointing list1 head
+        prev = list2;   // Pointing list2 head
+        while(temp1) {
+            prev->random = (temp1->random == nullptr) ? nullptr : map1[map2[temp1->random]];
+            temp1 = temp1->next;
+            prev = prev->next;
+        }
+        return list2;
+    }
+};
+```
+
+---
+
+<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+  <a href="{{ '/learning/dsa/linked-list/linked-list-problems' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#667eea;color:white;border-radius:5px;text-decoration:none;margin-right:10px;">← Back to Problems</a>
+  <a href="{{ '/learning/dsa/linked-list' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#764ba2;color:white;border-radius:5px;text-decoration:none;">Linked List Hub 🏠</a>
+</div>
