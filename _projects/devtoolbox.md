@@ -3,6 +3,7 @@ layout: project
 title: DevToolBox - Network Packet Analysis Suite
 description: "Hybrid web application for PCAP analysis, generation, merging, and hex viewing. Built with Flask and Vue.js for network forensics and packet manipulation."
 permalink: /projects/devtoolbox/
+tags: [Python, Flask, Vue.js, Docker, Scapy, Vercel]
 ---
 
 <!-- Hero Section -->

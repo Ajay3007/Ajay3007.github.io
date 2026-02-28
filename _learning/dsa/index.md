@@ -20,7 +20,7 @@ permalink: /learning/dsa/
       <div style="font-size: 0.9rem; opacity: 0.9;">Solved</div>
     </div>
     <div style="color: white;">
-      <a href="{{ '/learning/dsa/master-problem-list/' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:white;color:#667eea;border-radius:8px;text-decoration:none;font-weight:700;margin-top:0.5rem;">
+      <a href="{{ '/problems/' | relative_url }}" style="display:inline-block;padding:0.75rem 1.5rem;background:white;color:#667eea;border-radius:8px;text-decoration:none;font-weight:700;margin-top:0.5rem;">
         📋 View All Problems →
       </a>
     </div>

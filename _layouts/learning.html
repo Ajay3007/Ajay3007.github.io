@@ -4,8 +4,11 @@ layout: default
 
 <div class="learning-layout">
     <aside class="learning-sidebar">
-        <h3>📚 Topics</h3>
-        <nav>
+        <button class="sidebar-toggle" aria-expanded="false" aria-controls="sidebar-nav">
+            <span class="sidebar-toggle-label">📚 Topics</span>
+            <span class="sidebar-toggle-icon">▾</span>
+        </button>
+        <nav id="sidebar-nav" class="sidebar-nav">
             <a href="{{ '/learning/programming-language/' | relative_url }}"
                 class="{% if page.url contains '/programming-language/' %}active{% endif %}">Programming Languages</a>
             <a href="{{ '/learning/dsa/' | relative_url }}"
@@ -21,8 +24,7 @@ layout: default
             <a href="{{ '/learning/4g-5g/' | relative_url }}"
                 class="{% if page.url contains '/4g-5g/' %}active{% endif %}">4G/5G Networks</a>
             <a href="{{ '/learning/competitive-programming/' | relative_url }}"
-                class="{% if page.url contains '/competitive-programming/' %}active{% endif %}">Competitive
-                Programming</a>
+                class="{% if page.url contains '/competitive-programming/' %}active{% endif %}">Competitive Programming</a>
             <a href="{{ '/learning/ai-ml/' | relative_url }}"
                 class="{% if page.url contains '/ai-ml/' %}active{% endif %}">AI & ML</a>
             <a href="{{ '/learning/data-plane/' | relative_url }}"
@@ -40,3 +42,31 @@ layout: default
         {{ content }}
     </div>
 </div>
+
+<script>
+(function() {
+    var toggle = document.querySelector('.sidebar-toggle');
+    var nav = document.getElementById('sidebar-nav');
+    if (!toggle || !nav) return;
+
+    function isMobile() { return window.innerWidth <= 768; }
+
+    function applyState() {
+        if (!isMobile()) {
+            nav.style.display = '';
+            nav.classList.remove('open');
+            toggle.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    toggle.addEventListener('click', function() {
+        if (!isMobile()) return;
+        var open = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.querySelector('.sidebar-toggle-icon').textContent = open ? '▴' : '▾';
+    });
+
+    window.addEventListener('resize', applyState);
+    applyState();
+})();
+</script>

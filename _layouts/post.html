@@ -2,51 +2,40 @@
 layout: default
 ---
 
-<article class="post" style="max-width: 800px; margin: 0 auto; background: #ffffff; padding: 0 1.5rem 4rem 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);">
-    
+<article class="post post-article">
+
     <!-- Blog Post Hero Header -->
-    <header class="post-header" style="text-align: center; border-bottom: 2px solid #f1f5f9; padding: 4rem 0 2.5rem 0; margin-bottom: 3rem;">
-        <h1 class="post-title" style="font-size: 2.8rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em;">
+    <header class="post-header post-hero-header">
+        <h1 class="post-title post-hero-title">
             {{ page.title }}
         </h1>
-        <p class="post-meta" style="color: #64748b; font-size: 1.05rem; font-weight: 500; font-family: 'Inter', sans-serif;">
-            <span style="display: inline-flex; align-items: center; justify-content: center; background: #f8fafc; padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid #e2e8f0;">
-                📅 <time datetime="{{ page.date | date_to_xmlschema }}" style="margin-left: 0.4rem;">
+        <p class="post-meta">
+            <span class="post-meta-chip">
+                📅 <time datetime="{{ page.date | date_to_xmlschema }}" class="post-meta-time">
                     {{ page.date | date: "%B %d, %Y" }}
                 </time>
+                {% assign words = content | number_of_words %}
+                {% assign reading_time = words | divided_by: 200 | plus: 1 %}
+                <span class="post-meta-sep">|</span>
+                ⏱ <span class="post-meta-reading-time">{{ reading_time }} min read</span>
                 {% if page.categories %}
-                <span style="margin: 0 0.8rem; color: #cbd5e1;">|</span>
-                🏷️ <span style="margin-left: 0.4rem; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;">{{ page.categories | join: ", " }}</span>
+                <span class="post-meta-sep">|</span>
+                🏷️ <span class="post-meta-category">{{ page.categories | join: ", " }}</span>
                 {% endif %}
             </span>
         </p>
     </header>
 
     <!-- Markdown Content Injection -->
-    <div class="post-content modern-content" style="font-size: 1.15rem; line-height: 1.8; color: #334155;">
+    <div class="post-content modern-content">
         {{ content }}
     </div>
 
     <!-- Article Footer / Navigation Return -->
-    <footer style="margin-top: 5rem; padding-top: 2.5rem; border-top: 2px solid #f1f5f9; text-align: center;">
-        <div style="font-weight: 600; color: #1e293b; margin-bottom: 1.5rem; font-size: 1.2rem;">End of transmission.</div>
-        <a href="{{ '/blogs/' | relative_url }}" class="btn-secondary" style="display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; background: #f8fafc; color: #475569; text-decoration: none; border-radius: 8px; font-weight: 600; border: 1px solid #e2e8f0; transition: all 0.2s;">
+    <footer class="post-article-footer">
+        <div class="post-end-label">End of transmission.</div>
+        <a href="{{ '/blogs/' | relative_url }}" class="btn-secondary post-back-btn">
             <span style="margin-right: 0.5rem;">←</span> Return to Blog Archives
         </a>
     </footer>
 </article>
-
-<style>
-/* Scoped Typography Fixes for Markdown Output inside post-content */
-.modern-content h2 { margin-top: 3rem; margin-bottom: 1rem; color: #0f172a; font-weight: 700; font-size: 1.8rem; border-bottom: 2px solid #f8fafc; padding-bottom: 0.5rem; }
-.modern-content h3 { margin-top: 2rem; margin-bottom: 0.8rem; color: #1e293b; font-weight: 600; font-size: 1.4rem; }
-.modern-content p { margin-bottom: 1.5rem; }
-.modern-content a { color: #3b82f6; font-weight: 500; text-decoration: underline; text-decoration-color: #bfdbfe; text-underline-offset: 3px; transition: all 0.2s; }
-.modern-content a:hover { color: #2563eb; text-decoration-color: #3b82f6; }
-.modern-content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
-.modern-content li { margin-bottom: 0.5rem; }
-.modern-content blockquote { border-left: 4px solid #cbd5e1; background: #f8fafc; padding: 1rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; font-style: italic; color: #475569; }
-.modern-content code { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9em; color: #ef4444; }
-.modern-content pre code { background: transparent; padding: 0; color: inherit; }
-.modern-content img { max-width: 100%; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 2rem 0; }
-</style>

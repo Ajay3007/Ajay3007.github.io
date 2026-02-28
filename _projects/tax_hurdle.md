@@ -3,6 +3,7 @@ layout: project
 title: Tax Hurdle - Investment Tax Calculation System
 description: "Java-based investment tax calculator for Indian equity traders. Automates STCG calculation with quarter-wise breakdown, Excel integration, and comprehensive logging."
 permalink: /projects/tax_hurdle/
+tags: [Java, Excel, Finance, STCG, Design Patterns]
 ---
 
 <!-- Hero Section -->

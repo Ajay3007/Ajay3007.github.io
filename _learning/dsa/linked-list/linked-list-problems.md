@@ -4,188 +4,76 @@ title: Linked List - Practice Problems
 permalink: /learning/dsa/linked-list/linked-list-problems/
 ---
 
-# ⚡ Linked List Practice Problems
+{% assign topic_slug = "linked-list" %}
+{% assign topic_back_url = "/learning/dsa/linked-list/" %}
 
-Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and other platforms with approaches and solutions.
+{% assign topic_all    = site.data.problems.problems | where_exp: "p", "p.topics contains topic_slug" %}
+{% assign topic_solved = topic_all | where: "solved", true %}
+{% assign topic_easy   = topic_all | where: "difficulty", "easy" %}
+{% assign topic_medium = topic_all | where: "difficulty", "medium" %}
+{% assign topic_hard   = topic_all | where: "difficulty", "hard" %}
 
----
+# 🔗 Linked List — Practice Problems
 
-## Table of Contents
-
-- [Easy Problems](#easy-problems)
-- [Medium Problems](#medium-problems)
-- [Hard Problems](#hard-problems)
-
----
-
-## Easy Problems {#easy-problems}
-
-<div class="problems-grid">
-
-  <!-- Problem Card Template -->
-  <div class="problem-card-easy">
-    <h3>Problem Title</h3>
-    <p><strong>Platform:</strong> LeetCode</p>
-    <div class="problem-buttons">
-      <a href="#" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Reverse Linked List -->
-  <div class="problem-card-easy">
-    <span class="problem-number">206</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Reverse Linked List</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/reverse-linked-list.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="/learning/dsa/linked-list/leetcode-206-solution/" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Middle of Linked List -->
-  <div class="problem-card-easy">
-    <span class="problem-number">876</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Middle of the Linked List</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="/learning/dsa/linked-list/leetcode-876-solution/" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Palindrome Linked List -->
-  <div class="problem-card-easy">
-    <span class="problem-number">234</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Palindrome Linked List</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/palindrome-linked-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Linked List Cycle -->
-  <div class="problem-card-easy">
-    <span class="problem-number">141</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Linked List Cycle</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="{{ '/learning/dsa/linked-list/linked-list-cycle.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="{{ '/learning/dsa/linked-list/leetcode-141-solution/' | relative_url }}" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-  <!-- Merge Two Sorted Lists -->
-  <div class="problem-card-easy">
-    <span class="problem-number">21</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Merge Two Sorted Lists</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/leetcode-21-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
-    </div>
-  </div>
-
+<div class="topic-crosslinks">
+  <a href="{{ '/problems/' | relative_url }}" class="topic-hub-link topic-hub-link--primary">🎯 All Problems Hub</a>
+  <a href="{{ topic_back_url | relative_url }}" class="topic-hub-link">← Back to Linked List</a>
+  <a href="{{ '/learning/dsa' | relative_url }}" class="topic-hub-link">📊 DSA Hub</a>
 </div>
 
----
-
-## Medium Problems {#medium-problems}
-
-<div class="problems-grid">
-
-
-  <!-- Remove Nth Node From End -->
-  <div class="problem-card-medium">
-    <span class="problem-number">19</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Remove Nth Node From End</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/leetcode-19-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
-    </div>
+<div class="topic-stats-bar">
+  <div class="topic-stat">
+    <div class="topic-stat-val">{{ topic_all | size }}</div>
+    <div class="topic-stat-lbl">Total</div>
   </div>
-
-  <!-- Add Two Numbers -->
-  <div class="problem-card-medium">
-    <span class="problem-number">2</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Add Two Numbers</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/add-two-numbers/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="/learning/dsa/linked-list/leetcode-2-solution/" class="problem-btn-link btn-approach">📋 Approach & Solution</a>
-    </div>
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#10b981;">{{ topic_solved | size }}</div>
+    <div class="topic-stat-lbl">Solved</div>
   </div>
-
-  <!-- Reverse Nodes in K Group -->
-  <div class="problem-card-medium">
-    <span class="problem-number">25</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Reverse Nodes in K-Group</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/reverse-nodes-in-k-group/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#10b981;">{{ topic_easy | size }}</div>
+    <div class="topic-stat-lbl">Easy</div>
   </div>
-
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#f59e0b;">{{ topic_medium | size }}</div>
+    <div class="topic-stat-lbl">Medium</div>
+  </div>
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#ef4444;">{{ topic_hard | size }}</div>
+    <div class="topic-stat-lbl">Hard</div>
+  </div>
 </div>
 
----
+{% assign easy_count = topic_easy | size %}
+{% if easy_count > 0 %}
+## 🟢 Easy
 
-## Hard Problems {#hard-problems}
+<div class="pc-grid">
+{% for p in topic_easy %}{% include problem-card.html problem=p %}
+{% endfor %}</div>
+{% endif %}
 
-<div class="problems-grid">
+{% assign medium_count = topic_medium | size %}
+{% if medium_count > 0 %}
+## 🟡 Medium
 
-  <!-- Copy List with Random Pointer -->
-  <div class="problem-card-hard">
-    <span class="problem-number">138</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Copy List with Random Pointer</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/copy-list-with-random-pointer/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
+<div class="pc-grid">
+{% for p in topic_medium %}{% include problem-card.html problem=p %}
+{% endfor %}</div>
+{% endif %}
 
-  <!-- LRU Cache (using Doubly Linked List) -->
-  <div class="problem-card-hard">
-    <span class="problem-number">146</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>LRU Cache</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/lru-cache/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
+{% assign hard_count = topic_hard | size %}
+{% if hard_count > 0 %}
+## 🔴 Hard
 
-  <!-- Placeholder for more hard problems -->
-  <div class="problem-card-hard">
-    <span class="problem-number">10</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Hard Problem Placeholder</h3>
-    <p><strong>Platform:</strong> LeetCode</p>
-    <div class="problem-buttons">
-      <a href="#" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-</div>
+<div class="pc-grid">
+{% for p in topic_hard %}{% include problem-card.html problem=p %}
+{% endfor %}</div>
+{% endif %}
 
 ---
 
-<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
-  <p style="color: #64748b; margin-bottom: 1.5rem; font-style: italic;">💡 Tip: Solve problems in order from Easy → Medium → Hard. Master patterns before attempting hard variations.</p>
-  <a href="{{ '/learning/dsa/linked-list' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#667eea;color:white;border-radius:5px;text-decoration:none;margin-right:10px;">← Back to Linked List</a>
-  <a href="{{ '/learning/dsa' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#764ba2;color:white;border-radius:5px;text-decoration:none;">DSA Hub 🏠</a>
+<div class="topic-crosslinks" style="justify-content:center; margin-top:2rem;">
+  <a href="{{ '/problems/' | relative_url }}" class="topic-hub-link topic-hub-link--primary">🎯 View All Problems in Hub</a>
+  <a href="{{ topic_back_url | relative_url }}" class="topic-hub-link">← Back to Linked List</a>
 </div>

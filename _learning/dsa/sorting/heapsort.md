@@ -2,6 +2,7 @@
 layout: default
 title: Heapsort
 permalink: /learning/dsa/sorting/heapsort/
+published: false
 ---
 
 ## 📑 Table of Contents

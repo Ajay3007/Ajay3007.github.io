@@ -4,94 +4,76 @@ title: Stacks - Practice Problems
 permalink: /learning/dsa/stacks/stacks-problems/
 ---
 
-# ⚡ Stacks Practice Problems
+{% assign topic_slug = "stacks" %}
+{% assign topic_back_url = "/learning/dsa/stacks/" %}
 
-Collection of curated problems from LeetCode, InterviewBit, GeeksforGeeks, and other platforms with approaches and solutions.
+{% assign topic_all    = site.data.problems.problems | where_exp: "p", "p.topics contains topic_slug" %}
+{% assign topic_solved = topic_all | where: "solved", true %}
+{% assign topic_easy   = topic_all | where: "difficulty", "easy" %}
+{% assign topic_medium = topic_all | where: "difficulty", "medium" %}
+{% assign topic_hard   = topic_all | where: "difficulty", "hard" %}
 
----
+# 📚 Stacks — Practice Problems
 
-## Table of Contents
-
-- [Easy Problems](#easy-problems)
-- [Medium Problems](#medium-problems)
-- [Hard Problems](#hard-problems)
-
----
-
-## Easy Problems {#easy-problems}
-
-<div class="problems-grid">
-
-  <!-- Valid Parentheses -->
-  <div class="problem-card-easy">
-    <span class="problem-number">20</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Valid Parentheses</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/valid-parentheses/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
+<div class="topic-crosslinks">
+  <a href="{{ '/problems/' | relative_url }}" class="topic-hub-link topic-hub-link--primary">🎯 All Problems Hub</a>
+  <a href="{{ topic_back_url | relative_url }}" class="topic-hub-link">← Back to Stacks</a>
+  <a href="{{ '/learning/dsa' | relative_url }}" class="topic-hub-link">📊 DSA Hub</a>
 </div>
 
----
-
-## Medium Problems {#medium-problems}
-
-<div class="problems-grid">
-
-  <!-- Min Stack -->
-  <div class="problem-card-medium">
-    <span class="problem-number">155</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Min Stack</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/min-stack/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+<div class="topic-stats-bar">
+  <div class="topic-stat">
+    <div class="topic-stat-val">{{ topic_all | size }}</div>
+    <div class="topic-stat-lbl">Total</div>
   </div>
-
-  <!-- Daily Temperatures -->
-  <div class="problem-card-medium">
-    <span class="problem-number">739</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Daily Temperatures</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/daily-temperatures/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#10b981;">{{ topic_solved | size }}</div>
+    <div class="topic-stat-lbl">Solved</div>
   </div>
-
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#10b981;">{{ topic_easy | size }}</div>
+    <div class="topic-stat-lbl">Easy</div>
+  </div>
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#f59e0b;">{{ topic_medium | size }}</div>
+    <div class="topic-stat-lbl">Medium</div>
+  </div>
+  <div class="topic-stat">
+    <div class="topic-stat-val" style="color:#ef4444;">{{ topic_hard | size }}</div>
+    <div class="topic-stat-lbl">Hard</div>
+  </div>
 </div>
 
+{% assign easy_count = topic_easy | size %}
+{% if easy_count > 0 %}
+## 🟢 Easy
+
+<div class="pc-grid">
+{% for p in topic_easy %}{% include problem-card.html problem=p %}
+{% endfor %}</div>
+{% endif %}
+
+{% assign medium_count = topic_medium | size %}
+{% if medium_count > 0 %}
+## 🟡 Medium
+
+<div class="pc-grid">
+{% for p in topic_medium %}{% include problem-card.html problem=p %}
+{% endfor %}</div>
+{% endif %}
+
+{% assign hard_count = topic_hard | size %}
+{% if hard_count > 0 %}
+## 🔴 Hard
+
+<div class="pc-grid">
+{% for p in topic_hard %}{% include problem-card.html problem=p %}
+{% endfor %}</div>
+{% endif %}
+
 ---
 
-## Hard Problems {#hard-problems}
-
-<div class="problems-grid">
-
-  <!-- Largest Rectangle in Histogram -->
-  <div class="problem-card-hard">
-    <span class="problem-number">84</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Largest Rectangle in Histogram</h3>
-    <div class="problem-buttons">
-      <a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-      <a href="#" class="problem-btn-link btn-approach">📋 Approach</a>
-      <a href="#" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
-  </div>
-
-</div>
-
----
-
-<div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
-  <p style="color: #64748b; margin-bottom: 1.5rem; font-style: italic;">💡 Tip: Solve problems in order from Easy → Medium → Hard. Master patterns before attempting hard variations.</p>
-  <a href="{{ '/learning/dsa/stacks' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#667eea;color:white;border-radius:5px;text-decoration:none;margin-right:10px;">← Back to Stacks</a>
-  <a href="{{ '/learning/dsa' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#764ba2;color:white;border-radius:5px;text-decoration:none;">DSA Hub 🏠</a>
+<div class="topic-crosslinks" style="justify-content:center; margin-top:2rem;">
+  <a href="{{ '/problems/' | relative_url }}" class="topic-hub-link topic-hub-link--primary">🎯 View All Problems in Hub</a>
+  <a href="{{ topic_back_url | relative_url }}" class="topic-hub-link">← Back to Stacks</a>
 </div>

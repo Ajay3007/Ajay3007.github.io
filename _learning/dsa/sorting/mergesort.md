@@ -2,6 +2,7 @@
 layout: default
 title: Mergesort
 permalink: /learning/dsa/sorting/mergesort/
+published: false
 ---
 
 ## 📑 Table of Contents

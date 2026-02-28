@@ -2,6 +2,7 @@
 layout: default
 title: Quicksort
 permalink: /learning/dsa/sorting/quicksort/
+published: false
 ---
 
 ## 📑 Table of Contents

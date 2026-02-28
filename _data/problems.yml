@@ -669,6 +669,18 @@ problems:
     problem_url: https://leetcode.com/problems/time-based-key-value-store/
     approach_url: ''
     solution_url: ''
+  - id: '88'
+    title: Merge Sorted Array
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - searching-sorting
+      - arrays
+      - two-pointers
+    solved: true
+    problem_url: https://leetcode.com/problems/merge-sorted-array/
+    approach_url: ''
+    solution_url: https://leetcode.com/problems/merge-sorted-array/solutions/7417731/merge-sorted-array-in-place-backward-two-j35p/
   - id: '148'
     title: Sort List
     platform: leetcode
@@ -679,7 +691,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/sort-list/
     approach_url: ''
-    solution_url: ''
+    solution_url: https://leetcode.com/problems/sort-list/solutions/7428100/merge-sort-on-linked-list-on-log-n-time-v8lx2/
   - id: '179'
     title: Largest Number
     platform: leetcode
@@ -690,7 +702,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/largest-number/
     approach_url: ''
-    solution_url: ''
+    solution_url: https://leetcode.com/problems/largest-number/solutions/7429080/largest-number-custom-sorting-by-concate-z4et/
   - id: '75'
     title: Sort Colors
     platform: leetcode
@@ -702,7 +714,7 @@ problems:
     solved: true
     problem_url: https://leetcode.com/problems/sort-colors/
     approach_url: ''
-    solution_url: ''
+    solution_url: https://leetcode.com/problems/sort-colors/solutions/7418299/sort-colors-dutch-national-flag-algorith-e7eo/
   - id: '1095'
     title: Find in Mountain Array
     platform: leetcode

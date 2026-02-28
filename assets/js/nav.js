@@ -1,16 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Dynamic header on scroll
   var header = document.querySelector('.site-header');
-  var lastScroll = 0;
+  var scrollTopBtn = document.getElementById('scroll-to-top');
+
   window.addEventListener('scroll', function() {
     var y = window.scrollY;
+
+    // Sticky header shadow
     if (y > 10) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
-    lastScroll = y;
+
+    // Scroll-to-top button visibility
+    if (scrollTopBtn) {
+      if (y > 300) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    }
   });
+
+  // Scroll-to-top click handler
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
 
   var btn = document.querySelector('.nav-toggle');
   var nav = document.querySelector('.site-nav');

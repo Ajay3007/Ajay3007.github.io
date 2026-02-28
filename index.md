@@ -7,7 +7,8 @@ title: Home
 <section class="hero-section">
     <h1 class="hero-title">Hi, I'm Ajay 👋</h1>
     <p class="hero-subtitle">
-        Software Engineer with 4+ years building high-performance systems in <strong>networking</strong>, <strong>data plane infrastructure</strong>, and <strong>backend architecture</strong>. Passionate about real-time threat detection and scalable system design.
+        Software Engineer with 4+ years building high-performance systems.<br>
+        Specialising in <span id="hero-typed" class="hero-typed-text"></span><span class="hero-typed-cursor">|</span>
     </p>
     <div class="hero-actions">
         <a href="{{ '/projects' | relative_url }}" class="btn-primary">View Projects</a>
@@ -51,6 +52,13 @@ title: Home
             {% if project.description %}
             <div class="featured-project-desc">{{ project.description }}</div>
             {% endif %}
+            {% if project.tags %}
+            <div class="project-tags">
+                {% for tag in project.tags %}
+                <span class="project-tag">{{ tag }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
             <a href="{{ project.url | relative_url }}" class="featured-project-link">Learn more →</a>
         </div>
         {% endfor %}
@@ -61,19 +69,16 @@ title: Home
 <section class="modern-section">
     <div class="dsa-hub-card">
         <div class="dsa-hub-content">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                <span style="font-size: 3rem;">🎯</span>
-                <div>
-                    <h2 style="margin: 0; color: white; font-size: 2rem;">Practice Problems Hub</h2>
-                    <p style="margin: 0.5rem 0 0 0; color: rgba(255,255,255,0.9); font-size: 1.1rem;">Master DSA with curated problems across multiple patterns and structures.</p>
-                </div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;">
+                <span style="font-size: 1.6rem;">🎯</span>
+                <h2 style="margin: 0; color: white; font-size: 1.35rem; font-weight: 700;">Practice Problems Hub</h2>
             </div>
+            <p style="margin: 0 0 0.75rem 0; color: rgba(255,255,255,0.85); font-size: 0.9rem;">Curated DSA problems across patterns, structures &amp; difficulty levels.</p>
             <div class="dsa-stats">
                 <div class="dsa-stat-box">
                     <div class="val">{{ site.data.problems.problems | size | default: '77' }}</div>
-                    <div class="lbl">Total Problems</div>
+                    <div class="lbl">Total</div>
                 </div>
-                <!-- Calculate total solved based on the new problems.yml structure if solving property exists, fallback to placeholder -->
                 {% assign solved_count = 0 %}
                 {% for problem in site.data.problems.problems %}
                     {% if problem.solved == true or problem.solved == "true" or problem.status == "Solved" %}
@@ -86,13 +91,13 @@ title: Home
                 </div>
                 <div class="dsa-stat-box">
                     <div class="val">6</div>
-                    <div class="lbl">Core Topics</div>
+                    <div class="lbl">Topics</div>
                 </div>
             </div>
-            <a href="{{ '/problems/' | relative_url }}" class="btn-secondary" style="margin-top: 1rem; display: inline-block;">
-                🚀 Dive into the Hub
-            </a>
         </div>
+        <a href="{{ '/problems/' | relative_url }}" class="btn-secondary" style="flex-shrink: 0; white-space: nowrap; align-self: center;">
+            🚀 Open Hub
+        </a>
     </div>
 </section>
 

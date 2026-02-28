@@ -38,6 +38,20 @@ Central hub for all coding practice problems organized by topic with solutions a
 
 ## 📚 Interactive Problem Database
 
+<!-- Topic Quick-Links -->
+<div class="topic-chips">
+  <span style="font-size: 0.82rem; font-weight: 600; color: var(--light-text); align-self: center;">Jump to:</span>
+  <a href="{{ '/learning/dsa/arrays/arrays-problems/' | relative_url }}" class="topic-chip">📊 Arrays</a>
+  <a href="{{ '/learning/dsa/strings/strings-problems/' | relative_url }}" class="topic-chip">🔤 Strings</a>
+  <a href="{{ '/learning/dsa/linked-list/linked-list-problems/' | relative_url }}" class="topic-chip">🔗 Linked List</a>
+  <a href="{{ '/learning/dsa/tree/tree-problems/' | relative_url }}" class="topic-chip">🌳 Trees</a>
+  <a href="{{ '/learning/dsa/stacks/stacks-problems/' | relative_url }}" class="topic-chip">📚 Stacks</a>
+  <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/' | relative_url }}" class="topic-chip">🔍 Searching &amp; Sorting</a>
+</div>
+
+<!-- Topic-page link banner (populated by problems.js when a topic with a dedicated page is selected) -->
+<div id="topic-page-banner"></div>
+
 <div class="problems-dashboard" style="margin-top: 2rem;">
   <!-- Filters Bar -->
   <div class="filters-bar" style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
@@ -75,6 +89,10 @@ Central hub for all coding practice problems organized by topic with solutions a
         <!-- Rows will be injected instantly by problems.js -->
       </tbody>
     </table>
+  </div>
+  <!-- Back to top — useful on long filtered lists -->
+  <div style="text-align: right; margin-top: 0.75rem;">
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="font-size:0.82rem; color:var(--light-text); text-decoration:none; padding:0.3rem 0.7rem; border:1px solid var(--border-color); border-radius:20px; background:var(--card-bg); transition:color 0.2s;" onmouseover="this.style.color='var(--secondary-color)'" onmouseout="this.style.color='var(--light-text)'">↑ Back to top</a>
   </div>
 </div>
 

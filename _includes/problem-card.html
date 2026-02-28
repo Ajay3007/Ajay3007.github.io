@@ -1,40 +1,55 @@
 {% comment %}
   _includes/problem-card.html
-  Universal problem card — single source of truth.
-  Replaces the 3 competing HTML systems across the site.
-
-  Pass a problem object from site.data.problems:
-    {% include problem-card.html problem=p %}
+  Universal problem card — single source of truth for all topic pages.
+  Usage: {% include problem-card.html problem=p %}
 {% endcomment %}
 
 {% assign p = include.problem %}
 
-{% if p.solved %}
-  {% assign status_class = "solved" %}
-  {% assign status_label = "✓ Solved" %}
-{% else %}
-  {% assign status_class = "unsolved" %}
-  {% assign status_label = "○ Unsolved" %}
-{% endif %}
-
-<div class="problem-card problem-card--{{ p.difficulty }}">
-  <div class="problem-card__header">
-    <span class="problem-number">{{ p.id }}</span>
-    <span class="problem-status {{ status_class }}">{{ status_label }}</span>
-  </div>
-  <div class="problem-card-inner">
-    {% if p.problem_url != "" %}
-      <a href="{{ p.problem_url }}" target="_blank" rel="noopener noreferrer" class="problem-title">{{ p.title }}</a>
+<div class="pc-card pc-card--{{ p.difficulty }}">
+  <div class="pc-header">
+    <span class="pc-num">#{{ p.id }}</span>
+    {% if p.problem_url and p.problem_url != "" %}
+      <a href="{{ p.problem_url }}" target="_blank" rel="noopener noreferrer" class="pc-title">{{ p.title }}</a>
     {% else %}
-      <span class="problem-title">{{ p.title }}</span>
+      <span class="pc-title">{{ p.title }}</span>
     {% endif %}
-    <div class="problem-card__actions">
-      {% if p.approach_url != "" %}
-        <a href="{{ p.approach_url }}" class="problem-btn">📋 Approach</a>
+    {% if p.solved %}
+      <span class="pc-status pc-status--solved">✓ Solved</span>
+    {% else %}
+      <span class="pc-status pc-status--todo">○ Todo</span>
+    {% endif %}
+  </div>
+
+  <div class="pc-meta">
+    <span class="pc-diff pc-diff--{{ p.difficulty }}">{{ p.difficulty | capitalize }}</span>
+    {% for t in p.topics %}
+      <span class="pc-topic">{{ t | replace: '-', ' ' }}</span>
+    {% endfor %}
+  </div>
+
+  <div class="pc-actions">
+    {% if p.problem_url and p.problem_url != "" %}
+      <a href="{{ p.problem_url }}" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn--problem">🔗 Problem</a>
+    {% endif %}
+    {% if p.approach_url and p.approach_url != "" %}
+      {% if p.approach_url contains 'http' %}
+        <a href="{{ p.approach_url }}" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn--approach">📋 Approach</a>
+      {% else %}
+        <a href="{{ p.approach_url | relative_url }}" class="pc-btn pc-btn--approach">📋 Approach</a>
       {% endif %}
-      {% if p.solution_url != "" %}
-        <a href="{{ p.solution_url }}" class="problem-btn problem-btn--solution">💻 Solution</a>
+    {% endif %}
+    {% if p.solution_url and p.solution_url != "" %}
+      {% if p.solution_url contains 'http' %}
+        <a href="{{ p.solution_url }}" target="_blank" rel="noopener noreferrer" class="pc-btn pc-btn--solution">💻 Solution</a>
+      {% else %}
+        <a href="{{ p.solution_url | relative_url }}" class="pc-btn pc-btn--solution">💻 Solution</a>
       {% endif %}
-    </div>
+    {% endif %}
+    {% unless p.approach_url and p.approach_url != "" %}
+      {% unless p.solution_url and p.solution_url != "" %}
+        <span class="pc-no-notes">No notes yet</span>
+      {% endunless %}
+    {% endunless %}
   </div>
 </div>

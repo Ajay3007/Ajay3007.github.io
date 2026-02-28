@@ -3,6 +3,7 @@ layout: project
 title: "workctl - AI-Enhanced Workspace Manager"
 description: "A Java/JavaFX productivity tool featuring Kanban boards, strict Markdown tracking, and an integrated Claude AI agent. Filesystem as Database."
 permalink: /projects/workctl/
+tags: [Java, JavaFX, Claude AI, Markdown, CLI]
 ---
 
 <!-- Hero Section -->

@@ -1,80 +1,113 @@
 # ajdevhub
 
-Portfolio site for Ajay Kumar Gupt (software engineer focused on networking, data plane, and backend systems). The site is a Jekyll-powered static site deployed via GitHub Pages, with custom layouts, navigation, and content sections for blogs, projects, and learning notes.
+Portfolio and learning journal for **Ajay Kumar Gupt** — software engineer focused on networking, data plane, and backend systems. Built with Jekyll and deployed via GitHub Pages.
 
-## Quick start
-- Clone the repo and install Ruby with Jekyll: `gem install jekyll bundler` (no Gemfile is committed; use system gems).
-- From the repo root, run a local preview:
+**Live site:** https://ajay3007.github.io
 
-```
-jekyll serve --livereload
-```
+---
 
-## Site structure
-- Home: [index.md](index.md#L1-L127) sets the landing page with tabs, search, and recent posts/projects fed by `site.posts` and `site.projects`.
-- Blogs index: [blogs/index.md](blogs/index.md#L1-L70) lists categories and every post generated from [_posts](_posts).
-- Projects index: [projects.md](projects.md#L1-L20) lists all entries from [_projects](_projects).
-- Learning hub: [learning/index.md](learning/index.md) links to topic subfolders (DSA, system design, networking, AI/ML, etc.).
-- About: [about.md](about.md#L1-L33) has the personal summary.
-- Layouts: [ _layouts/default.html](_layouts/default.html#L1-L38) defines the shared shell; posts and projects use [ _layouts/post.html](_layouts/post.html#L1-L18) and [ _layouts/project.html](_layouts/project.html#L1-L17).
-- Styling: [assets/css/main.css](assets/css/main.css) contains all theme, card, and responsive rules.
-- Scripts: [assets/js/nav.js](assets/js/nav.js) handles the mobile nav toggle; [assets/js/home.js](assets/js/home.js) powers home-page tabs, search filtering, and entry animations.
+## Quick Start
 
-## Content authoring
-- Blog posts: add Markdown files to [_posts](_posts) named `YYYY-MM-DD-slug.md` with front matter `layout: post`, `title`, `date`, `categories`, and optional `excerpt`; see [2025-01-05-two-pointer-technique.md](_posts/2025-01-05-two-pointer-technique.md#L1-L46).
-- Projects: add Markdown files to [_projects](_projects) with `layout: project`, `title`, and optional `description`; see [face-recognition.md](_projects/face-recognition.md#L1-L53).
-- Learning pages: plain Markdown under [learning/](learning/index.md) and its subfolders. Use `layout: default` and relative links.
+```bash
+# First-time setup
+gem install jekyll bundler
+bundle install
 
-## Navigation and URLs
-- Active nav is computed in the default layout using `page.url` substring checks. Posts render under `/blog/...`; project pages under `/projects/...` based on [_config.yml](_config.yml#L1-L24).
-- Use `{{ '/path' | relative_url }}` in templates to stay compatible if `baseurl` changes. Content Markdown can link with relative paths.
-
-## Deploy
-GitHub Pages builds the site automatically on push. No CI scripts are required; ensure content compiles locally with `jekyll serve` if you change layouts or config.
-
-## Preview
-- Live site: https://ajay3007.github.io
-- Local: `jekyll serve --livereload` then open http://127.0.0.1:4000. The livereload script will refresh as you edit Markdown, layouts, CSS, or JS.
-
-## Contribute
-- Keep pages under the existing layouts and collections (`_posts`, `_projects`, `learning/`).
-- Use relative links or the `relative_url` filter for new nav items and cross-page links.
-- Run a local serve before committing layout or CSS changes to catch Liquid or build errors early.
-
-
-## Maintenance: Remove Backups & Regenerate Summaries
-
-To clean up all `.md.bak` backup files in a directory (e.g., after running the summary generator) and then re-run the summary script:
-
-### 1. Remove all backup files (PowerShell)
-
-Open PowerShell in the repo root and run:
-
-```powershell
-Get-ChildItem "learning\dsa\" -Filter "*.md.bak" -Recurse | ForEach-Object {
-	$mdFile = $_.FullName -replace '\.bak$', ''
-	Copy-Item $_.FullName $mdFile -Force
-	Remove-Item $_.FullName
-}
+# Local dev server with live reload
+bundle exec jekyll serve --livereload
+# Opens at http://127.0.0.1:4000
 ```
 
-This restores each `.md.bak` file to its original `.md` and deletes the backup.
+---
 
-### 2. Regenerate summaries/TOC for all markdown files
+## Site Architecture
 
-Run the summary generator script (adjust the path as needed):
+### Layout hierarchy
 
-```powershell
-python scripts/generate_summary.py --batch learning/dsa/
+| Layout | File | Used by |
+|--------|------|---------|
+| Base shell | `_layouts/default.html` | All pages — header, nav, footer, dark mode, scripts |
+| Blog post | `_layouts/post.html` | Inherits default; wraps `<article class="post">` |
+| Project | `_layouts/project.html` | Inherits default; wraps `<article class="project">` |
+| Learning | `_layouts/learning.html` | Long-form learning pages with sidebar TOC |
+
+### Key pages
+
+| URL | Source | Description |
+|-----|--------|-------------|
+| `/` | `index.md` | Home — tabs, hero, recent posts/projects |
+| `/about/` | `about.md` | Personal summary |
+| `/blog/` | `blogs/index.md` | Blog listing by category |
+| `/projects/` | `projects.md` | Projects listing |
+| `/learning/` | `learning/index.md` | Learning hub |
+| `/learning/dsa/` | `_learning/dsa/index.md` | DSA hub with live solved/total counts |
+| `/problems/` | `problems.md` | **Interactive Problems Hub** — searchable/filterable table |
+
+### Collections (defined in `_config.yml`)
+
+- `_posts/` → `/blog/:year/:month/:day/:slug/`
+- `_projects/` → `/projects/:path/`
+- `_editorials/` → `/editorials/:title/` (written approach notes)
+
+---
+
+## Problems System
+
+The Problems Hub is driven by a **single YAML file as source of truth**. No duplication across pages.
+
+### Data flow
+
+```
+_data/problems.yml
+       │
+       ├─► /problems/          (Interactive Hub — JS renders the table)
+       │
+       └─► /learning/dsa/<topic>/<topic>-problems/   (Liquid-powered topic pages)
 ```
 
-This will update all markdown files in the directory with fresh summaries and TOCs.
+### Adding a new problem
 
-### Create a blog post
-1) In `_posts`, add a file named `YYYY-MM-DD-slug.md` (e.g., `2025-02-15-my-topic.md`).
-2) Add front matter like:
+1. Open `_data/problems.yml` and append a new entry:
 
-```markdown
+```yaml
+- id: '1'
+  title: Two Sum
+  platform: leetcode
+  difficulty: easy         # easy | medium | hard
+  topics:
+    - arrays
+    - searching-sorting    # use existing slugs; see topic list below
+  solved: false            # true once you've solved it
+  problem_url: https://leetcode.com/problems/two-sum/
+  approach_url: ''         # leave empty or fill per EDITORIALS_GUIDE
+  solution_url: ''         # leave empty or fill per EDITORIALS_GUIDE
+```
+
+2. Save — the problem **automatically appears** in both the Problems Hub and every topic page whose slug matches an entry in `topics`.
+
+### Recognised topic slugs
+
+| Slug | Dedicated page |
+|------|---------------|
+| `arrays` | `/learning/dsa/arrays/arrays-problems/` |
+| `strings` | `/learning/dsa/strings/strings-problems/` |
+| `linked-list` | `/learning/dsa/linked-list/linked-list-problems/` |
+| `tree` | `/learning/dsa/tree/tree-problems/` |
+| `stacks` | `/learning/dsa/stacks/stacks-problems/` |
+| `searching-sorting` | `/learning/dsa/searching-sorting/searching-sorting-problems/` |
+| `sliding-window` | — (filters hub only) |
+| `two-pointers` | — (filters hub only) |
+
+---
+
+## Content Authoring
+
+### Blog post
+
+1. Create `_posts/YYYY-MM-DD-slug.md`
+2. Add front matter:
+
+```yaml
 ---
 layout: post
 title: "Post Title"
@@ -84,65 +117,161 @@ excerpt: "One-line summary for listings."
 ---
 ```
 
-3) Write content in Markdown below the front matter. Code blocks auto-style via the post layout.
-4) Preview locally (`jekyll serve --livereload`) and verify it appears under Blogs and in the home recent posts.
+3. Write content below. Preview at `/blog/`.
 
-### Create a project page
-1) In `_projects`, add `my-project.md`.
-2) Add front matter like:
+### Project page
 
-```markdown
+1. Create `_projects/my-project.md`
+2. Add front matter:
+
+```yaml
 ---
 layout: project
 title: "Project Name"
-description: "Short description shown on listings."
+description: "Short description shown in listings."
 ---
 ```
 
-3) Add project details (overview, tech stack, usage). Listings pull `title` and `description` automatically.
-4) Preview locally and confirm it appears on Projects and the home recent projects block.
+3. Add details. Preview at `/projects/`.
 
-### Add a learning page
-1) Pick or create a topic folder under `learning/` (e.g., `learning/dsa/` or `learning/networking/`).
-2) Add a Markdown file such as `index.md` or `topic-name.md` with front matter:
+### Learning page
 
-```markdown
+1. Create `_learning/<topic>/my-page.md` with `layout: default` or `layout: learning`.
+2. Set a permalink: `permalink: /learning/<topic>/my-page/`
+3. Link the new page from its parent `index.md`.
+
+### DSA topic page (problem list)
+
+Topic pages use a standard Liquid template — no manual HTML required. To add a new one:
+
+1. Create `_learning/dsa/<topic>/<topic>-problems.md`:
+
+```liquid
 ---
 layout: default
-title: "Topic Title"
+title: <Topic> - Practice Problems
+permalink: /learning/dsa/<topic>/<topic>-problems/
 ---
+
+{% assign topic_slug = "<topic>" %}
+{% assign topic_back_url = "/learning/dsa/<topic>/" %}
+
+{% assign topic_all    = site.data.problems.problems | where_exp: "p", "p.topics contains topic_slug" %}
+{% assign topic_solved = topic_all | where: "solved", true %}
+{% assign topic_easy   = topic_all | where: "difficulty", "easy" %}
+{% assign topic_medium = topic_all | where: "difficulty", "medium" %}
+{% assign topic_hard   = topic_all | where: "difficulty", "hard" %}
+
+# <Emoji> <Topic> — Practice Problems
+
+<div class="topic-crosslinks">
+  <a href="{{ '/problems/' | relative_url }}" class="topic-hub-link topic-hub-link--primary">🎯 All Problems Hub</a>
+  <a href="{{ topic_back_url | relative_url }}" class="topic-hub-link">← Back to <Topic></a>
+  <a href="{{ '/learning/dsa' | relative_url }}" class="topic-hub-link">📊 DSA Hub</a>
+</div>
+
+<!-- stats bar, easy/medium/hard grids — copy from any existing topic page -->
 ```
 
-3) Write your content in Markdown. Use relative links to other learning pages (e.g., `../` for sibling topics) and to site pages via `{{ '/path' | relative_url }}` if needed.
-4) Link the new page from its parent index (for example, add a bullet in `learning/index.md` or the relevant sub-index) so it’s discoverable from the Learning hub.
-5) Preview locally to ensure navigation and links work.
+2. Add the new topic slug to `topicPages` in `assets/js/problems.js` so the hub banner and tag links work.
 
-### Navigation checklist (for new sections)
-- If you add a brand-new top-level area, update the nav links in [ _layouts/default.html](_layouts/default.html#L9-L25) and use `relative_url`.
-- Ensure Learning hub indexes link down to your new page (parent `learning/index.md` and any relevant sub-index).
-- Verify the nav active state still works after your change by visiting the new page locally.
+3. Add a chip link in `problems.md` under the `topic-chips` div.
 
-### Common mistakes
-- Forgetting front matter: pages without `layout` and `title` won’t render with the site shell or show correct headings.
-- Missing `relative_url` on template links: hardcoded paths can break if `baseurl` changes; follow existing patterns.
-- Post filenames not using `YYYY-MM-DD-slug.md`: Jekyll will skip or misdate them.
-- Not updating indexes: new learning pages must be linked from their parent `index.md` to be discoverable.
-- Editing CSS/JS without local preview: always run `jekyll serve --livereload` to catch layout or script issues early.
+---
 
-## File map
-| Path | Purpose |
-| --- | --- |
-| [index.md](index.md) | Home page with tabs, search, and recent posts/projects.
-| [blogs/index.md](blogs/index.md) | Blog landing page and category tiles.
-| [projects.md](projects.md) | Projects listing fed by `_projects` collection.
-| [about.md](about.md) | About page content.
-| [_config.yml](_config.yml) | Jekyll site config, collections, plugins, permalinks.
-| [_layouts/default.html](_layouts/default.html) | Shared shell, header/nav/footer, scripts.
-| [_layouts/post.html](_layouts/post.html) | Post layout wrapper.
-| [_layouts/project.html](_layouts/project.html) | Project layout wrapper.
-| [assets/css/main.css](assets/css/main.css) | Global styling, layout, responsive rules.
-| [assets/js/nav.js](assets/js/nav.js) | Mobile nav toggle and scroll behavior.
-| [assets/js/home.js](assets/js/home.js) | Home page tabs, search filter, animations.
-| [_posts/]( _posts) | Blog posts (`YYYY-MM-DD-slug.md`).
-| [_projects/]( _projects) | Project pages with `layout: project`.
-| [learning/index.md](learning/index.md) | Learning hub index linking to topic subfolders.
+## Navigation & URLs
+
+- All template links must use the `relative_url` filter: `{{ '/path' | relative_url }}`
+- External links in Markdown must include security attrs: `[Text](https://url){:target="_blank" rel="noopener noreferrer"}`
+- Nav active state uses `page.url` substring matching in `_layouts/default.html`
+
+---
+
+## Styling & Scripts
+
+| File | Purpose |
+|------|---------|
+| `assets/css/main.css` | Single stylesheet — CSS custom properties, dark mode via `[data-theme=dark]` |
+| `assets/js/nav.js` | Mobile nav toggle, scroll-aware header |
+| `assets/js/problems.js` | Problems Hub — filtering, search, topic banners, tag links |
+| `assets/js/typing.js` | Home page typing animation |
+
+**CSS custom properties (root):**
+- `--primary-color`, `--secondary-color`, `--accent-color`
+- `--bg-color`, `--card-bg`, `--shadow`, `--shadow-sm`
+- `--text-color`, `--light-text`, `--border-color`
+
+**Dark mode:** toggled via `document.documentElement.setAttribute('data-theme', 'dark')` and persisted in `localStorage`.
+
+---
+
+## File Map
+
+```
+.
+├── _config.yml                   Jekyll config, collections, plugins
+├── _data/
+│   └── problems.yml              Single source of truth for all DSA problems
+├── _editorials/                  Written editorial .md files
+├── _includes/
+│   └── problem-card.html         Canonical reusable problem card component
+├── _layouts/
+│   ├── default.html              Base shell — header, nav, footer, dark mode
+│   ├── learning.html             Learning pages with sidebar TOC
+│   ├── post.html                 Blog post wrapper
+│   └── project.html              Project page wrapper
+├── _learning/
+│   └── dsa/
+│       ├── index.md              DSA hub (live problem counts)
+│       ├── Arrays/               Arrays guide + sub-pages
+│       ├── Strings/
+│       ├── linked-list/
+│       ├── stacks/
+│       ├── tree/
+│       ├── Searching-Sorting/    Includes sorting-guide.md, searching-guide.md
+│       ├── binary-search/
+│       ├── dynamic-programming/
+│       ├── graphs/
+│       ├── queues/
+│       ├── recursion/
+│       └── backtracking/
+├── _posts/                       Blog posts (YYYY-MM-DD-slug.md)
+├── _projects/                    Project pages (layout: project)
+├── assets/
+│   ├── css/main.css              All styles
+│   ├── js/
+│   │   ├── nav.js
+│   │   ├── problems.js
+│   │   └── typing.js
+│   └── icons/
+├── index.md                      Home page
+├── about.md                      About page
+├── problems.md                   Problems Hub (Interactive)
+├── projects.md                   Projects listing
+├── blogs/index.md                Blog listing
+├── learning/index.md             Learning hub index
+└── EDITORIALS_GUIDE.md           Guide: how to add problems & solutions
+```
+
+---
+
+## Deploy
+
+GitHub Actions deploys on push to `main`. Working branch is `master`; merge `master → main` to publish.
+
+```bash
+git push origin master        # save work
+git push origin master:main   # publish to GitHub Pages
+```
+
+---
+
+## Common Mistakes
+
+| Mistake | Fix |
+|---------|-----|
+| No `layout` in front matter | Page renders without site shell |
+| Hardcoded `/path` in templates | Use `{{ '/path' \| relative_url }}` |
+| `_posts` file not named `YYYY-MM-DD-slug.md` | Jekyll skips or misdates it |
+| Problem not appearing in topic page | Check the `topics` array in `problems.yml` uses exact slug |
+| Duplicate permalink across two files | One will silently overwrite the other in `_site` — use `published: false` on the stale file |

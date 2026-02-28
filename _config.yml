@@ -4,6 +4,11 @@ author: Ajay Kumar Gupt
 baseurl: ""
 url: "https://ajay3007.github.io"
 
+# Social / SEO
+twitter_username: ajay3007
+github_username:  Ajay3007
+og_image: /assets/images/og-default.png   # default Open Graph image
+
 # Build settings
 markdown: kramdown
 
