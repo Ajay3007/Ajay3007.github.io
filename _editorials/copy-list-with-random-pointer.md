@@ -2,14 +2,14 @@
 layout: editorial
 title: "Copy List with Random Pointer"
 problem_id: "138"
-date: 2026-02-28T12:23:22.323Z
+date: 2026-02-27T12:23:22.323Z
 ---
 
 # Two HashMaps (Index Mapping) Approach – O(n) Time | O(n) Space
 
 **LeetCode #138** | **Difficulty:** Medium
 
-# Intuition
+## Intuition
 Each node has two pointers:
 - `next` → normal linked list connection
 - `random` → can point to any node in the list (or null)
@@ -28,7 +28,7 @@ So the idea is:
 3. Store mapping between index and copied nodes.
 4. Second pass → Use the stored mappings to correctly assign random pointers.
 
-# Approach
+## Approach
 
 1️⃣ **First Pass – Create the new list (only next pointers)**
 
@@ -64,7 +64,7 @@ This guarantees:
 - Correct random pointer mapping
 - No modification of original list
 
-# Complexity
+## Complexity
 
 - Time complexity:
   O(n)
@@ -77,7 +77,7 @@ This guarantees:
 
   Two unordered_maps storing n entries each.
 
-# Code
+## Code
 ```cpp
 /*
  // Definition for a Node.
@@ -125,6 +125,117 @@ public:
             prev = prev->next;
         }
         return list2;
+    }
+};
+```
+
+---
+
+# Optimal Interleaving Technique – O(n) Time | O(1) Extra Space
+
+## Intuition
+Instead of using extra space, we can cleverly insert copied nodes
+in between original nodes.
+
+Example:
+
+Original:
+A → B → C
+
+After inserting copies:
+A → A' → B → B' → C → C'
+
+Now:
+- Each copied node is right next to its original.
+- This helps us assign random pointers without extra space.
+
+## Approach
+
+1️⃣ Insert copied nodes between originals
+
+For each node:
+- Create new node.
+- Insert it right after the original node.
+
+List becomes:
+original → copy → original → copy ...
+
+---
+
+2️⃣ Assign random pointers
+
+If:
+original->random = X
+
+Then:
+original->next->random = original->random->next
+
+Because:
+- original->next is copy node
+- original->random->next is copy of random node
+
+---
+
+3️⃣ Separate the two lists
+
+Restore original list and extract copied list.
+
+Traverse:
+- Fix original next pointers
+- Fix copied next pointers
+
+Return head of copied list.
+
+## Complexity
+
+- Time complexity:
+  O(n)
+
+  Three passes over the list.
+
+- Space complexity:
+  O(1)
+
+  No extra data structures used.
+
+## Code
+```cpp
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if (!head) return nullptr;
+
+        // Step 1: Insert copied nodes
+        Node* temp = head;
+        while (temp) {
+            Node* copy = new Node(temp->val);
+            copy->next = temp->next;
+            temp->next = copy;
+            temp = copy->next;
+        }
+
+        // Step 2: Assign random pointers
+        temp = head;
+        while (temp) {
+            if (temp->random)
+                temp->next->random = temp->random->next;
+            temp = temp->next->next;
+        }
+
+        // Step 3: Separate lists
+        Node* dummy = new Node(0);
+        Node* copyTail = dummy;
+        temp = head;
+
+        while (temp) {
+            Node* copy = temp->next;
+            temp->next = copy->next;
+            copyTail->next = copy;
+            copyTail = copy;
+            temp = temp->next;
+        }
+
+        return dummy->next;
     }
 };
 ```

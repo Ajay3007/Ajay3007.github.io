@@ -345,7 +345,7 @@ problems:
   - id: '138'
     title: Copy List with Random Pointer
     platform: leetcode
-    difficulty: hard
+    difficulty: medium
     topics:
       - linked-list
     solved: true
@@ -355,7 +355,7 @@ problems:
   - id: '146'
     title: LRU Cache
     platform: leetcode
-    difficulty: hard
+    difficulty: medium
     topics:
       - linked-list
     solved: false
@@ -754,9 +754,9 @@ problems:
     topics:
       - searching-sorting
       - linked-list
-    solved: false
+    solved: true
     problem_url: https://leetcode.com/problems/merge-k-sorted-lists/
-    approach_url: ''
+    approach_url: /editorials/merge-k-sorted-lists/
     solution_url: ''
   - id: '315'
     title: Count of Smaller Numbers After Self
