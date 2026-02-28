@@ -2,63 +2,115 @@
 layout: default
 ---
 
-<article class="post"
-    style="max-width: 800px; margin: 0 auto; background: #ffffff; padding: 0 1.5rem 4rem 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);">
+<article class="post editorial-article">
 
     <!-- Editorial Hero Header -->
-    <header class="post-header"
-        style="text-align: center; border-bottom: 2px solid #f1f5f9; padding: 4rem 0 2.5rem 0; margin-bottom: 3rem;">
-        <h1 class="post-title"
-            style="font-size: 2.8rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em;">
-            {{ page.title }}
-        </h1>
-        <p class="post-meta"
-            style="color: #64748b; font-size: 1.05rem; font-weight: 500; font-family: 'Inter', sans-serif;">
-            <span
-                style="display: inline-flex; align-items: center; justify-content: center; background: #f8fafc; padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid #e2e8f0;">
-                📅 <time datetime="{{ page.date | date_to_xmlschema }}" style="margin-left: 0.4rem;">
+    <header class="editorial-header">
+        <h1 class="editorial-title">{{ page.title }}</h1>
+        <p class="editorial-meta">
+            <span class="editorial-meta-badge">
+                📅 <time datetime="{{ page.date | date_to_xmlschema }}">
                     {{ page.date | date: "%B %d, %Y" }}
                 </time>
                 {% if page.problem_id %}
-                <span style="margin: 0 0.8rem; color: #cbd5e1;">|</span>
-                🎯 <span style="margin-left: 0.4rem; font-weight: 600; color: #3b82f6;">Problem #{{ page.problem_id
-                    }}</span>
+                <span class="editorial-meta-sep">|</span>
+                🎯 <span class="editorial-problem-id">Problem #{{ page.problem_id }}</span>
                 {% endif %}
             </span>
         </p>
     </header>
 
     <!-- Markdown Content Injection -->
-    <div class="post-content modern-content" style="font-size: 1.15rem; line-height: 1.8; color: #334155;">
+    <div class="post-content modern-content">
         {{ content }}
     </div>
 
     <!-- Article Footer / Navigation Return -->
-    <footer style="margin-top: 5rem; padding-top: 2.5rem; border-top: 2px solid #f1f5f9; text-align: center;">
-        <div style="font-weight: 600; color: #1e293b; margin-bottom: 1.5rem; font-size: 1.2rem;">End of Editorial.</div>
-        <a href="{{ '/problems/' | relative_url }}" class="btn-secondary"
-            style="display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; background: #f8fafc; color: #475569; text-decoration: none; border-radius: 8px; font-weight: 600; border: 1px solid #e2e8f0; transition: all 0.2s;">
-            <span style="margin-right: 0.5rem;">←</span> Return to Problems Hub
+    <footer class="editorial-footer">
+        <div class="editorial-footer-label">End of Editorial.</div>
+        <a href="{{ '/problems/' | relative_url }}" class="editorial-return-btn">
+            <span>←</span> Return to Problems Hub
         </a>
     </footer>
 </article>
 
 <style>
-    /* Scoped Typography Fixes for Markdown Output inside post-content */
+    /* ── Editorial Article Shell ─────────────────────────────────────── */
+    .editorial-article {
+        max-width: 800px;
+        margin: 0 auto;
+        background: var(--post-bg);
+        padding: 0 1.5rem 4rem 1.5rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    .editorial-header {
+        text-align: center;
+        border-bottom: 2px solid var(--border-color);
+        padding: 4rem 0 2.5rem 0;
+        margin-bottom: 3rem;
+    }
+
+    .editorial-title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: var(--post-heading);
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        letter-spacing: -0.02em;
+    }
+
+    .editorial-meta {
+        color: var(--light-text);
+        font-size: 1.05rem;
+        font-weight: 500;
+    }
+
+    .editorial-meta-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg-color);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        color: var(--light-text);
+    }
+
+    .editorial-meta-sep {
+        margin: 0 0.8rem;
+        color: var(--border-color);
+    }
+
+    .editorial-problem-id {
+        margin-left: 0.4rem;
+        font-weight: 600;
+        color: #3b82f6;
+    }
+
+    /* ── Content ─────────────────────────────────────────────────────── */
+    .modern-content {
+        font-size: 1.15rem;
+        line-height: 1.8;
+        color: var(--post-text);
+    }
+
     .modern-content h2 {
         margin-top: 3rem;
         margin-bottom: 1rem;
-        color: #0f172a;
+        color: var(--post-heading);
         font-weight: 700;
         font-size: 1.8rem;
-        border-bottom: 2px solid #f8fafc;
+        border-bottom: 2px solid var(--border-color);
         padding-bottom: 0.5rem;
     }
 
     .modern-content h3 {
         margin-top: 2rem;
         margin-bottom: 0.8rem;
-        color: #1e293b;
+        color: var(--post-subheading);
         font-weight: 600;
         font-size: 1.4rem;
     }
@@ -71,7 +123,7 @@ layout: default
         color: #3b82f6;
         font-weight: 500;
         text-decoration: underline;
-        text-decoration-color: #bfdbfe;
+        text-decoration-color: rgba(59, 130, 246, 0.35);
         text-underline-offset: 3px;
         transition: all 0.2s;
     }
@@ -81,7 +133,8 @@ layout: default
         text-decoration-color: #3b82f6;
     }
 
-    .modern-content ul {
+    .modern-content ul,
+    .modern-content ol {
         margin-bottom: 1.5rem;
         padding-left: 1.5rem;
     }
@@ -91,34 +144,81 @@ layout: default
     }
 
     .modern-content blockquote {
-        border-left: 4px solid #cbd5e1;
-        background: #f8fafc;
+        border-left: 4px solid var(--border-color);
+        background: var(--bg-color);
         padding: 1rem 1.5rem;
         margin: 2rem 0;
         border-radius: 0 8px 8px 0;
         font-style: italic;
-        color: #475569;
+        color: var(--light-text);
     }
 
+    /* Inline code */
     .modern-content code {
-        background: #f1f5f9;
+        background: var(--code-bg);
         padding: 0.2rem 0.4rem;
         border-radius: 4px;
         font-family: 'Fira Code', 'Courier New', monospace;
         font-size: 0.9em;
-        color: #ef4444;
+        color: var(--code-text);
+    }
+
+    /* Code blocks */
+    .modern-content pre {
+        background: var(--pre-bg);
+        border-radius: 8px;
+        padding: 1.25rem 1.5rem;
+        overflow-x: auto;
+        margin: 1.5rem 0;
     }
 
     .modern-content pre code {
         background: transparent;
         padding: 0;
-        color: inherit;
+        color: #e2e8f0;
+        font-size: 0.95em;
     }
 
     .modern-content img {
         max-width: 100%;
         border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-sm);
         margin: 2rem 0;
+    }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    .editorial-footer {
+        margin-top: 5rem;
+        padding-top: 2.5rem;
+        border-top: 2px solid var(--border-color);
+        text-align: center;
+    }
+
+    .editorial-footer-label {
+        font-weight: 600;
+        color: var(--post-subheading);
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+    }
+
+    .editorial-return-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: var(--bg-color);
+        color: var(--light-text);
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        border: 1px solid var(--border-color);
+        transition: all 0.2s;
+    }
+
+    .editorial-return-btn:hover {
+        background: var(--card-bg);
+        color: var(--text-color);
+        border-color: var(--secondary-color);
     }
 </style>
