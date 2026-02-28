@@ -328,9 +328,9 @@ problems:
     topics:
       - linked-list
       - two-pointers
-    solved: false
+    solved: true
     problem_url: https://leetcode.com/problems/reorder-list/
-    approach_url: ''
+    approach_url: /editorials/reorder-list/
     solution_url: ''
   - id: '25'
     title: Reverse Nodes in K-Group
@@ -338,9 +338,9 @@ problems:
     difficulty: hard
     topics:
       - linked-list
-    solved: false
+    solved: true
     problem_url: https://leetcode.com/problems/reverse-nodes-in-k-group/
-    approach_url: ''
+    approach_url: /editorials/reverse-nodes-in-k-group/
     solution_url: ''
   - id: '138'
     title: Copy List with Random Pointer
@@ -361,6 +361,16 @@ problems:
     solved: false
     problem_url: https://leetcode.com/problems/lru-cache/
     approach_url: ''
+    solution_url: ''
+  - id: '287'
+    title: Find the Duplicate Number
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - linked-list
+    solved: true
+    problem_url: https://leetcode.com/problems/find-the-duplicate-number/
+    approach_url: /editorials/find-the-duplicate-number/
     solution_url: ''
   - id: '20'
     title: Valid Parentheses
