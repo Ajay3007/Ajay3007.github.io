@@ -1,21 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Dynamic header on scroll
-  var header = document.querySelector('.site-header');
   var scrollTopBtn = document.getElementById('scroll-to-top');
 
   window.addEventListener('scroll', function() {
-    var y = window.scrollY;
-
-    // Sticky header shadow
-    if (y > 10) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-
     // Scroll-to-top button visibility
     if (scrollTopBtn) {
-      if (y > 300) {
+      if (window.scrollY > 300) {
         scrollTopBtn.classList.add('visible');
       } else {
         scrollTopBtn.classList.remove('visible');
