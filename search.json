@@ -4,29 +4,29 @@ layout: null
 [
   {% for post in site.posts %}
     {
-      "title"    : "{{ post.title | escape }}",
+      "title"    : {{ post.title | jsonify }},
       "category" : "Blog",
-      "url"      : "{{ site.baseurl }}{{ post.url }}",
-      "date"     : "{{ post.date | date: "%B %d, %Y" }}",
-      "content"  : "{{ post.content | strip_html | strip_newlines | escape }}"
+      "url"      : {{ post.url | prepend: site.baseurl | jsonify }},
+      "date"     : {{ post.date | date: "%B %d, %Y" | jsonify }},
+      "content"  : {{ post.content | strip_html | strip_newlines | truncate: 500 | jsonify }}
     } {% unless forloop.last and site.projects.size == 0 and site.learning.size == 0 %},{% endunless %}
   {% endfor %}
   {% for project in site.projects %}
     {
-      "title"    : "{{ project.title | escape }}",
+      "title"    : {{ project.title | jsonify }},
       "category" : "Project",
-      "url"      : "{{ site.baseurl }}{{ project.url }}",
+      "url"      : {{ project.url | prepend: site.baseurl | jsonify }},
       "date"     : "",
-      "content"  : "{{ project.content | strip_html | strip_newlines | escape }}"
+      "content"  : {{ project.content | strip_html | strip_newlines | truncate: 500 | jsonify }}
     } {% unless forloop.last and site.learning.size == 0 %},{% endunless %}
   {% endfor %}
   {% for learn in site.learning %}
     {
-      "title"    : "{{ learn.title | escape }}",
+      "title"    : {{ learn.title | jsonify }},
       "category" : "Learning",
-      "url"      : "{{ site.baseurl }}{{ learn.url }}",
+      "url"      : {{ learn.url | prepend: site.baseurl | jsonify }},
       "date"     : "",
-      "content"  : "{{ learn.content | strip_html | strip_newlines | escape }}"
+      "content"  : {{ learn.content | strip_html | strip_newlines | truncate: 500 | jsonify }}
     } {% unless forloop.last %},{% endunless %}
   {% endfor %}
 ]
