@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Close nav when clicking outside on small screens
   document.addEventListener('click', function(e) {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 1024) {
       if (!nav.contains(e.target) && !btn.contains(e.target)) {
         nav.classList.remove('open');
         btn.classList.remove('open');
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Close nav when a link inside it is clicked (mobile)
   nav.addEventListener('click', function(e) {
     var target = e.target;
-    if (target && target.tagName === 'A' && window.innerWidth <= 768) {
+    if (target && target.tagName === 'A' && window.innerWidth <= 1024) {
       nav.classList.remove('open');
       btn.classList.remove('open');
     }

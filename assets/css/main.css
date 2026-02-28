@@ -194,7 +194,7 @@ body {
     top: 0;
     width: 100%;
     z-index: 100;
-    transition: box-shadow 0.3s, padding 0.3s;
+    transition: box-shadow 0.3s;
 }
 
 .site-header.scrolled {
@@ -750,6 +750,10 @@ a[role="button"]:hover,
     flex-shrink: 0;
 }
 
+/* Emoji driven by CSS — no JS textContent needed, no flash */
+.theme-toggle::before { content: '☀️'; }
+[data-theme="dark"] .theme-toggle::before { content: '🌙'; }
+
 /* Mobile nav toggle */
 .nav-toggle {
     display: none;
@@ -763,8 +767,8 @@ a[role="button"]:hover,
     flex-shrink: 0;
 }
 
-/* When screen small, hide nav and show toggle */
-@media (max-width: 768px) {
+/* Hide nav links on tablet/mobile — show hamburger instead */
+@media (max-width: 1024px) {
     .nav-toggle {
         display: block;
     }
@@ -803,14 +807,14 @@ a[role="button"]:hover,
         transform: translateX(0);
     }
 
-    /* Hide underline animation on mobile */
+    /* Hide underline animation on tablet/mobile */
     .site-nav a::after {
         display: none;
     }
 }
 
-/* On mobile: search wrapper takes full row below title+controls */
-@media (max-width: 768px) {
+/* On tablet/mobile: search wrapper drops to full-width row below title+controls */
+@media (max-width: 1024px) {
     #global-search-wrapper {
         width: 100%;
         order: 4;

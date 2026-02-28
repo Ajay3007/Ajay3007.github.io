@@ -75,12 +75,12 @@
                     class="{% if cur contains '/about' %}active{% endif %}">About</a>
             </nav>
 
+            <div id="global-search-wrapper">
+                <input type="text" id="global-search-input" placeholder="Search..." autocomplete="off">
+                <ul id="global-results-container"></ul>
+            </div>
             <div class="header-controls">
-                <div id="global-search-wrapper">
-                    <input type="text" id="global-search-input" placeholder="Search..." autocomplete="off">
-                    <ul id="global-results-container"></ul>
-                </div>
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">☀️</button>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"></button>
                 <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             </div>
         </div>
@@ -159,25 +159,19 @@
 
         });
     </script>
-    <!-- Theme toggle: isolated script — runs after body, no DOMContentLoaded dependency -->
+    <!-- Theme toggle: emoji driven by CSS [data-theme="dark"] .theme-toggle::before -->
     <script>
         (function () {
             var btn = document.getElementById('theme-toggle');
             if (!btn) return;
-            // Sync emoji with the theme already applied by the <head> script
-            if (document.documentElement.getAttribute('data-theme') === 'dark') {
-                btn.textContent = '🌙';
-            }
             btn.addEventListener('click', function () {
                 var dark = document.documentElement.getAttribute('data-theme') === 'dark';
                 if (dark) {
                     document.documentElement.removeAttribute('data-theme');
                     localStorage.setItem('theme', 'light');
-                    this.textContent = '☀️';
                 } else {
                     document.documentElement.setAttribute('data-theme', 'dark');
                     localStorage.setItem('theme', 'dark');
-                    this.textContent = '🌙';
                 }
             });
         })();
