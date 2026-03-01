@@ -78,6 +78,7 @@ problems:
     topics:
       - arrays
       - sliding-window
+      - hashing
     solved: false
     problem_url: https://leetcode.com/problems/subarray-sum-equals-k/
     approach_url: ''
@@ -222,6 +223,7 @@ problems:
     difficulty: medium
     topics:
       - strings
+      - hashing
     solved: true
     problem_url: https://leetcode.com/problems/group-anagrams/
     approach_url: ''
@@ -358,6 +360,7 @@ problems:
     difficulty: medium
     topics:
       - linked-list
+      - hashing
     solved: false
     problem_url: https://leetcode.com/problems/lru-cache/
     approach_url: ''
@@ -1313,5 +1316,114 @@ problems:
       - sliding-window
     solved: false
     problem_url: https://leetcode.com/problems/sliding-window-maximum/
+    approach_url: ''
+    solution_url: ''
+  - id: '1'
+    title: Two Sum
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/two-sum/
+    approach_url: ''
+    solution_url: ''
+  - id: '268'
+    title: Missing Number
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/missing-number/
+    approach_url: ''
+    solution_url: ''
+  - id: '383'
+    title: Ransom Note
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/ransom-note/
+    approach_url: ''
+    solution_url: ''
+  - id: '771'
+    title: Jewels and Stones
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/jewels-and-stones/
+    approach_url: ''
+    solution_url: ''
+  - id: '1133'
+    title: Largest Unique Number
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+    solved: false
+    problem_url: https://leetcode.com/problems/largest-unique-number/
+    approach_url: ''
+    solution_url: ''
+  - id: '1189'
+    title: Maximum Number of Balloons
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/maximum-number-of-balloons/
+    approach_url: ''
+    solution_url: ''
+  - id: '1426'
+    title: Counting Elements
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/counting-elements/
+    approach_url: ''
+    solution_url: ''
+  - id: '1832'
+    title: Check if the Sentence Is Pangram
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - hashing
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/check-if-the-sentence-is-pangram/
+    approach_url: ''
+    solution_url: ''
+  - id: '347'
+    title: Top K Frequent Elements
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - hashing
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/top-k-frequent-elements/
+    approach_url: ''
+    solution_url: ''
+  - id: '2225'
+    title: Find Players With Zero or One Losses
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - hashing
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/find-players-with-zero-or-one-losses/
     approach_url: ''
     solution_url: ''

@@ -111,6 +111,14 @@ permalink: /learning/dsa/
     <p>Lower/upper bound, first/last occurrence, rotated arrays. 🚧 Content coming.</p>
   </div>
 
+  <div class="project-card" style="border-left: 4px solid #eab308;">
+    <h3><a href="{{ '/learning/dsa/hashing/' | relative_url }}">#️⃣ Hashing</a></h3>
+    <p>Hashmaps & sets: frequency counts, two-sum pattern, grouping, prefix-sum + map.</p>
+    {% assign hash_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'hashing'" | where: "solved", true | size %}
+    {% assign hash_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'hashing'" | size %}
+    <small style="color:#667eea; font-weight:600;">{{ hash_solved }}/{{ hash_total }} solved</small>
+  </div>
+
 </div>
 
 ---
