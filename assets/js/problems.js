@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'tree':              '/learning/dsa/tree/tree-problems/',
         'stacks':            '/learning/dsa/stacks/stacks-problems/',
         'searching-sorting': '/learning/dsa/searching-sorting/searching-sorting-problems/',
+        'graphs':            '/learning/dsa/graphs/graphs-problems/',
     };
 
     // Dynamically auto-populate the Topics dropdown from the dataset

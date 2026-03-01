@@ -788,6 +788,153 @@ problems:
     problem_url: https://leetcode.com/problems/maximum-gap/
     approach_url: ''
     solution_url: ''
+  - id: '1971'
+    title: Find if Path Exists in Graph
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/find-if-path-exists-in-graph/
+    approach_url: ''
+    solution_url: ''
+  - id: '200'
+    title: Number of Islands
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/number-of-islands/
+    approach_url: ''
+    solution_url: ''
+  - id: '695'
+    title: Max Area of Island
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/max-area-of-island/
+    approach_url: ''
+    solution_url: ''
+  - id: '133'
+    title: Clone Graph
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/clone-graph/
+    approach_url: ''
+    solution_url: ''
+  - id: '207'
+    title: Course Schedule
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/course-schedule/
+    approach_url: ''
+    solution_url: ''
+  - id: '743'
+    title: Network Delay Time
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/network-delay-time/
+    approach_url: ''
+    solution_url: ''
+  - id: '787'
+    title: Cheapest Flights Within K Stops
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/cheapest-flights-within-k-stops/
+    approach_url: ''
+    solution_url: ''
+  - id: '1631'
+    title: Path With Minimum Effort
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/path-with-minimum-effort/
+    approach_url: ''
+    solution_url: ''
+  - id: '1926'
+    title: Nearest Exit from Entrance in Maze
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/nearest-exit-from-entrance-in-maze/
+    approach_url: ''
+    solution_url: ''
+  - id: '909'
+    title: Snakes and Ladders
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/snakes-and-ladders/
+    approach_url: ''
+    solution_url: ''
+  - id: '433'
+    title: Minimum Genetic Mutation
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/minimum-genetic-mutation/
+    approach_url: ''
+    solution_url: ''
+  - id: '1306'
+    title: Jump Game III
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/jump-game-iii/
+    approach_url: ''
+    solution_url: ''
+  - id: '2101'
+    title: Detonate the Maximum Bombs
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - graphs
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/detonate-the-maximum-bombs/
+    approach_url: ''
+    solution_url: ''
+  - id: '127'
+    title: Word Ladder
+    platform: leetcode
+    difficulty: hard
+    topics:
+      - graphs
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/word-ladder/
+    approach_url: ''
+    solution_url: ''
   - id: '412'
     title: Fizz Buzz
     platform: leetcode
