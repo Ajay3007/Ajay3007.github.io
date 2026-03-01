@@ -778,6 +778,7 @@ problems:
     topics:
       - searching-sorting
       - linked-list
+      - heaps
     solved: true
     problem_url: https://leetcode.com/problems/merge-k-sorted-lists/
     approach_url: /editorials/merge-k-sorted-lists/
@@ -1425,5 +1426,78 @@ problems:
       - arrays
     solved: false
     problem_url: https://leetcode.com/problems/find-players-with-zero-or-one-losses/
+    approach_url: ''
+    solution_url: ''
+  - id: '703'
+    title: Kth Largest Element in a Stream
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - heaps
+    solved: false
+    problem_url: https://leetcode.com/problems/kth-largest-element-in-a-stream/
+    approach_url: ''
+    solution_url: ''
+  - id: '215'
+    title: Kth Largest Element in an Array
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - heaps
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/kth-largest-element-in-an-array/
+    approach_url: ''
+    solution_url: ''
+  - id: '973'
+    title: K Closest Points to Origin
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - heaps
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/k-closest-points-to-origin/
+    approach_url: ''
+    solution_url: ''
+  - id: '1167'
+    title: Minimum Cost to Connect Sticks
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - heaps
+    solved: false
+    problem_url: https://leetcode.com/problems/minimum-cost-to-connect-sticks/
+    approach_url: ''
+    solution_url: ''
+  - id: '1962'
+    title: Remove Stones to Minimize the Total
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - heaps
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/remove-stones-to-minimize-the-total/
+    approach_url: ''
+    solution_url: ''
+  - id: '621'
+    title: Task Scheduler
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - heaps
+    solved: false
+    problem_url: https://leetcode.com/problems/task-scheduler/
+    approach_url: ''
+    solution_url: ''
+  - id: '295'
+    title: Find Median from Data Stream
+    platform: leetcode
+    difficulty: hard
+    topics:
+      - heaps
+    solved: false
+    problem_url: https://leetcode.com/problems/find-median-from-data-stream/
     approach_url: ''
     solution_url: ''

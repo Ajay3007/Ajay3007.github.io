@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'dynamic-programming': '/learning/dsa/dynamic-programming/dynamic-programming-problems/',
         'queues':              '/learning/dsa/queues/queues-problems/',
         'hashing':             '/learning/dsa/hashing/hashing-problems/',
+        'heaps':               '/learning/dsa/heaps/heaps-problems/',
     };
 
     // Dynamically auto-populate the Topics dropdown from the dataset

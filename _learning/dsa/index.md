@@ -119,6 +119,14 @@ permalink: /learning/dsa/
     <small style="color:#667eea; font-weight:600;">{{ hash_solved }}/{{ hash_total }} solved</small>
   </div>
 
+  <div class="project-card" style="border-left: 4px solid #f43f5e;">
+    <h3><a href="{{ '/learning/dsa/heaps/' | relative_url }}">🏔️ Heaps</a></h3>
+    <p>Min/max-heap, priority queue: top-K, K-way merge, running median patterns.</p>
+    {% assign heap_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'heaps'" | where: "solved", true | size %}
+    {% assign heap_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'heaps'" | size %}
+    <small style="color:#667eea; font-weight:600;">{{ heap_solved }}/{{ heap_total }} solved</small>
+  </div>
+
 </div>
 
 ---
