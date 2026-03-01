@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'recursion':         '/learning/dsa/recursion/recursion-problems/',
         'binary-search':     '/learning/dsa/binary-search/binary-search-problems/',
         'backtracking':      '/learning/dsa/backtracking/backtracking-problems/',
+        'dynamic-programming': '/learning/dsa/dynamic-programming/dynamic-programming-problems/',
     };
 
     // Dynamically auto-populate the Topics dropdown from the dataset

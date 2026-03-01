@@ -994,6 +994,7 @@ problems:
     difficulty: easy
     topics:
       - recursion
+      - dynamic-programming
     solved: false
     problem_url: https://leetcode.com/problems/climbing-stairs/
     approach_url: ''
@@ -1173,5 +1174,112 @@ problems:
       - backtracking
     solved: false
     problem_url: https://leetcode.com/problems/sudoku-solver/
+    approach_url: ''
+    solution_url: ''
+  - id: '746'
+    title: Min Cost Climbing Stairs
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - dynamic-programming
+    solved: false
+    problem_url: https://leetcode.com/problems/min-cost-climbing-stairs/
+    approach_url: ''
+    solution_url: ''
+  - id: '322'
+    title: Coin Change
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+    solved: false
+    problem_url: https://leetcode.com/problems/coin-change/
+    approach_url: ''
+    solution_url: ''
+  - id: '714'
+    title: Best Time to Buy and Sell Stock with Transaction Fee
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/
+    approach_url: ''
+    solution_url: ''
+  - id: '309'
+    title: Best Time to Buy and Sell Stock with Cooldown
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/
+    approach_url: ''
+    solution_url: ''
+  - id: '63'
+    title: Unique Paths II
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/unique-paths-ii/
+    approach_url: ''
+    solution_url: ''
+  - id: '931'
+    title: Minimum Falling Path Sum
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/minimum-falling-path-sum/
+    approach_url: ''
+    solution_url: ''
+  - id: '198'
+    title: House Robber
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+    solved: false
+    problem_url: https://leetcode.com/problems/house-robber/
+    approach_url: ''
+    solution_url: ''
+  - id: '1143'
+    title: Longest Common Subsequence
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/longest-common-subsequence/
+    approach_url: ''
+    solution_url: ''
+  - id: '72'
+    title: Edit Distance
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/edit-distance/
+    approach_url: ''
+    solution_url: ''
+  - id: '139'
+    title: Word Break
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - dynamic-programming
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/word-break/
     approach_url: ''
     solution_url: ''
