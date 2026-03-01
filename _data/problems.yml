@@ -1283,3 +1283,35 @@ problems:
     problem_url: https://leetcode.com/problems/word-break/
     approach_url: ''
     solution_url: ''
+  - id: '346'
+    title: Moving Average from Data Stream
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - queues
+    solved: false
+    problem_url: https://leetcode.com/problems/moving-average-from-data-stream/
+    approach_url: ''
+    solution_url: ''
+  - id: '622'
+    title: Design Circular Queue
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - queues
+    solved: false
+    problem_url: https://leetcode.com/problems/design-circular-queue/
+    approach_url: ''
+    solution_url: ''
+  - id: '239'
+    title: Sliding Window Maximum
+    platform: leetcode
+    difficulty: hard
+    topics:
+      - queues
+      - arrays
+      - sliding-window
+    solved: false
+    problem_url: https://leetcode.com/problems/sliding-window-maximum/
+    approach_url: ''
+    solution_url: ''

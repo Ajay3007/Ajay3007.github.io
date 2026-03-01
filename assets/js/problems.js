@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'binary-search':     '/learning/dsa/binary-search/binary-search-problems/',
         'backtracking':      '/learning/dsa/backtracking/backtracking-problems/',
         'dynamic-programming': '/learning/dsa/dynamic-programming/dynamic-programming-problems/',
+        'queues':              '/learning/dsa/queues/queues-problems/',
     };
 
     // Dynamically auto-populate the Topics dropdown from the dataset
