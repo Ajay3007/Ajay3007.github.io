@@ -135,6 +135,14 @@ permalink: /learning/dsa/
     <small style="color:#667eea; font-weight:600;">{{ greedy_solved }}/{{ greedy_total }} solved</small>
   </div>
 
+  <div class="project-card" style="border-left: 4px solid #64748b;">
+    <h3><a href="{{ '/learning/dsa/bit-manipulation/' | relative_url }}">⚙️ Bit Manipulation</a></h3>
+    <p>AND/OR/XOR tricks, Brian Kernighan, power-of-two checks, single number.</p>
+    {% assign bit_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'bit-manipulation'" | where: "solved", true | size %}
+    {% assign bit_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'bit-manipulation'" | size %}
+    <small style="color:#667eea; font-weight:600;">{{ bit_solved }}/{{ bit_total }} solved</small>
+  </div>
+
 </div>
 
 ---

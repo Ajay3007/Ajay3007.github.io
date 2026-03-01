@@ -1009,6 +1009,7 @@ problems:
     difficulty: easy
     topics:
       - recursion
+      - bit-manipulation
     solved: false
     problem_url: https://leetcode.com/problems/power-of-two/
     approach_url: ''
@@ -1337,6 +1338,7 @@ problems:
     topics:
       - hashing
       - arrays
+      - bit-manipulation
     solved: false
     problem_url: https://leetcode.com/problems/missing-number/
     approach_url: ''
@@ -1579,5 +1581,76 @@ problems:
       - greedy
     solved: false
     problem_url: https://leetcode.com/problems/candy/
+    approach_url: ''
+    solution_url: ''
+  - id: '136'
+    title: Single Number
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - bit-manipulation
+    solved: false
+    problem_url: https://leetcode.com/problems/single-number/
+    approach_url: ''
+    solution_url: ''
+  - id: '191'
+    title: Number of 1 Bits
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - bit-manipulation
+    solved: false
+    problem_url: https://leetcode.com/problems/number-of-1-bits/
+    approach_url: ''
+    solution_url: ''
+  - id: '338'
+    title: Counting Bits
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - bit-manipulation
+      - dynamic-programming
+    solved: false
+    problem_url: https://leetcode.com/problems/counting-bits/
+    approach_url: ''
+    solution_url: ''
+  - id: '190'
+    title: Reverse Bits
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - bit-manipulation
+    solved: false
+    problem_url: https://leetcode.com/problems/reverse-bits/
+    approach_url: ''
+    solution_url: ''
+  - id: '371'
+    title: Sum of Two Integers
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - bit-manipulation
+    solved: false
+    problem_url: https://leetcode.com/problems/sum-of-two-integers/
+    approach_url: ''
+    solution_url: ''
+  - id: '201'
+    title: Bitwise AND of Numbers Range
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - bit-manipulation
+    solved: false
+    problem_url: https://leetcode.com/problems/bitwise-and-of-numbers-range/
+    approach_url: ''
+    solution_url: ''
+  - id: '260'
+    title: Single Number III
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - bit-manipulation
+    solved: false
+    problem_url: https://leetcode.com/problems/single-number-iii/
     approach_url: ''
     solution_url: ''
