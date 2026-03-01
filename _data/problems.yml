@@ -1061,3 +1061,117 @@ problems:
     problem_url: https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/
     approach_url: ''
     solution_url: ''
+  - id: '797'
+    title: All Paths From Source to Target
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+      - graphs
+    solved: false
+    problem_url: https://leetcode.com/problems/all-paths-from-source-to-target/
+    approach_url: ''
+    solution_url: ''
+  - id: '17'
+    title: Letter Combinations of a Phone Number
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+    approach_url: ''
+    solution_url: ''
+  - id: '22'
+    title: Generate Parentheses
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+      - strings
+    solved: false
+    problem_url: https://leetcode.com/problems/generate-parentheses/
+    approach_url: ''
+    solution_url: ''
+  - id: '967'
+    title: Numbers With Same Consecutive Differences
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/numbers-with-same-consecutive-differences/
+    approach_url: ''
+    solution_url: ''
+  - id: '216'
+    title: Combination Sum III
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/combination-sum-iii/
+    approach_url: ''
+    solution_url: ''
+  - id: '78'
+    title: Subsets
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/subsets/
+    approach_url: ''
+    solution_url: ''
+  - id: '46'
+    title: Permutations
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/permutations/
+    approach_url: ''
+    solution_url: ''
+  - id: '39'
+    title: Combination Sum
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/combination-sum/
+    approach_url: ''
+    solution_url: ''
+  - id: '79'
+    title: Word Search
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - backtracking
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/word-search/
+    approach_url: ''
+    solution_url: ''
+  - id: '51'
+    title: N-Queens
+    platform: leetcode
+    difficulty: hard
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/n-queens/
+    approach_url: ''
+    solution_url: ''
+  - id: '37'
+    title: Sudoku Solver
+    platform: leetcode
+    difficulty: hard
+    topics:
+      - backtracking
+    solved: false
+    problem_url: https://leetcode.com/problems/sudoku-solver/
+    approach_url: ''
+    solution_url: ''
