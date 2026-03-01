@@ -2192,3 +2192,159 @@ a[role="button"]:hover,
 [data-theme="dark"] .modern-content .highlight pre code {
     color: #cdd6f4;   /* light text on .highlight's dark (#1e1e2e) background */
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT STYLESHEET
+   Produces clean, readable print / PDF output for editorial pages and any
+   page on the site. Ctrl+P or Save as PDF will use these rules.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media print {
+    /* ── 1. Force white/black base ────────────────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+        background: #fff !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* ── 2. Hide chrome (nav, footer, theme toggle, hero gradients) ───────── */
+    nav,
+    .site-nav,
+    .navbar,
+    .nav-links,
+    .hamburger,
+    footer,
+    .site-footer,
+    .theme-toggle,
+    #theme-toggle,
+    .scroll-to-top,
+    #scroll-top,
+    .editorial-return-btn,
+    .editorial-footer,
+    .search-container,
+    #search-container,
+    .hero-section,
+    .roadmap-hero,
+    .chapter-nav,
+    .topic-chips,
+    .topic-chip,
+    #topic-page-banner,
+    .filters-bar,
+    #my-progress-bar,
+    #pagination-controls,
+    .my-check-wrap,
+    .action-btns,
+    .no-notes,
+    .pg-btn,
+    .back-btn,
+    [class*="back-to"],
+    [id*="back-to"] {
+        display: none !important;
+    }
+
+    /* ── 3. Page layout ───────────────────────────────────────────────────── */
+    html, body {
+        font-size: 11pt;
+        line-height: 1.55;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .editorial-article,
+    .post,
+    .modern-content,
+    main,
+    .main-content,
+    [class*="container"],
+    [class*="wrapper"] {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0.5cm 1cm !important;
+        border-radius: 0 !important;
+    }
+
+    /* ── 4. Typography ────────────────────────────────────────────────────── */
+    h1 { font-size: 20pt; margin-bottom: 0.3cm; page-break-after: avoid; }
+    h2 { font-size: 15pt; margin-top: 0.6cm; page-break-after: avoid; }
+    h3 { font-size: 13pt; margin-top: 0.4cm; page-break-after: avoid; }
+    h4, h5, h6 { font-size: 11pt; page-break-after: avoid; }
+
+    p, li { orphans: 3; widows: 3; }
+
+    /* ── 5. Links — show URL after text ──────────────────────────────────── */
+    a[href]::after {
+        content: " (" attr(href) ")";
+        font-size: 8pt;
+        color: #555 !important;
+        word-break: break-all;
+    }
+    /* Skip for anchors and icons-only links */
+    a[href^="#"]::after,
+    a[href^="javascript"]::after,
+    .topic-tag::after,
+    nav a::after { content: ""; }
+
+    /* ── 6. Code blocks — monochrome, no overflow ────────────────────────── */
+    pre, code {
+        font-family: "Courier New", Courier, monospace;
+        font-size: 9pt;
+        border: 1px solid #ccc !important;
+        background: #f8f8f8 !important;
+        color: #000 !important;
+        page-break-inside: avoid;
+    }
+    pre {
+        padding: 0.4cm !important;
+        white-space: pre-wrap !important;
+        word-break: break-all !important;
+        border-radius: 0 !important;
+    }
+    /* Kill all Rouge token colours */
+    .highlight span,
+    .highlight .c,  .highlight .c1, .highlight .cm,
+    .highlight .k,  .highlight .kd, .highlight .kn,
+    .highlight .n,  .highlight .nb, .highlight .nc,
+    .highlight .nf, .highlight .o,  .highlight .s,
+    .highlight .s1, .highlight .s2, .highlight .mi,
+    .highlight .mf {
+        color: #000 !important;
+        background: transparent !important;
+    }
+
+    /* ── 7. Tables ────────────────────────────────────────────────────────── */
+    table { border-collapse: collapse; width: 100%; page-break-inside: avoid; }
+    th, td {
+        border: 1px solid #888 !important;
+        padding: 0.15cm 0.25cm;
+        font-size: 9.5pt;
+    }
+    thead { background: #eee !important; }
+
+    /* ── 8. Complexity / pattern boxes ───────────────────────────────────── */
+    .complexity-row,
+    .pattern-box,
+    .roadmap-table,
+    .complexity-badge,
+    [class*="badge"],
+    [class*="diff-"] {
+        border: 1px solid #ccc !important;
+        background: #f8f8f8 !important;
+        color: #000 !important;
+        border-radius: 0 !important;
+    }
+
+    /* ── 9. Page breaks ───────────────────────────────────────────────────── */
+    .editorial-header { page-break-after: avoid; }
+    .roadmap-chapter  { page-break-before: always; }
+    .roadmap-chapter:first-of-type { page-break-before: avoid; }
+    h2, h3 { page-break-after: avoid; }
+    pre, blockquote, table, .pattern-box { page-break-inside: avoid; }
+
+    /* ── 10. Status dots — keep emoji, skip URL expansion ────────────────── */
+    .author-badge::after,
+    .status-cell::after { content: ""; }
+}

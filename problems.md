@@ -64,6 +64,9 @@ Central hub for all coding practice problems organized by topic with solutions a
 <div id="topic-page-banner"></div>
 
 <div class="problems-dashboard" style="margin-top: 2rem;">
+  <!-- Personal Progress Bar (rendered by problems.js, populated from localStorage) -->
+  <div id="my-progress-bar" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 0.9rem 1.2rem; margin-bottom: 1.25rem;"></div>
+
   <!-- Filters Bar -->
   <div class="filters-bar" style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
     <input type="text" id="filter-search" autocomplete="off" placeholder="🔍 Search prob by name/ID..." style="padding: 0.8rem 1rem; flex: 1; min-width: 250px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-color); color: var(--text-color); font-size: 0.95rem; outline: none; transition: box-shadow 0.2s;">
@@ -79,8 +82,10 @@ Central hub for all coding practice problems organized by topic with solutions a
     </select>
     <select id="filter-status" style="padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); font-size: 0.95rem; cursor: pointer; outline: none;">
       <option value="all">🎯 All Status</option>
-      <option value="solved">✅ Solved</option>
-      <option value="todo">⭕️ Unsolved</option>
+      <option value="solved">✅ Editorial Solved</option>
+      <option value="todo">⭕️ Editorial Unsolved</option>
+      <option value="my-solved">🏆 My Solved</option>
+      <option value="my-todo">📋 My Unsolved</option>
     </select>
   </div>
 
