@@ -101,6 +101,8 @@ Central hub for all coding practice problems organized by topic with solutions a
       </tbody>
     </table>
   </div>
+  <!-- Pagination controls — rendered by problems.js -->
+  <div id="pagination-controls"></div>
   <!-- Back to top — useful on long filtered lists -->
   <div style="text-align: right; margin-top: 0.75rem;">
     <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" style="font-size:0.82rem; color:var(--light-text); text-decoration:none; padding:0.3rem 0.7rem; border:1px solid var(--border-color); border-radius:20px; background:var(--card-bg); transition:color 0.2s;" onmouseover="this.style.color='var(--secondary-color)'" onmouseout="this.style.color='var(--light-text)'">↑ Back to top</a>

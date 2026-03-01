@@ -29,7 +29,7 @@ title: Home
             <div class="stat-label">Projects</div>
         </div>
         <div class="stat-card" style="border-top-color: #10b981;">
-            <div class="stat-number" style="color: #10b981;">{{ site.data.problems.problems | size | default: '77' }}</div>
+            <div class="stat-number" style="color: #10b981;">{{ site.data.problems.problems | size }}</div>
             <div class="stat-label">DSA Problems</div>
         </div>
         <div class="stat-card" style="border-top-color: #9945ff;">
@@ -76,7 +76,7 @@ title: Home
             <p style="margin: 0 0 0.75rem 0; color: rgba(255,255,255,0.85); font-size: 0.9rem;">Curated DSA problems across patterns, structures &amp; difficulty levels.</p>
             <div class="dsa-stats">
                 <div class="dsa-stat-box">
-                    <div class="val">{{ site.data.problems.problems | size | default: '77' }}</div>
+                    <div class="val">{{ site.data.problems.problems | size }}</div>
                     <div class="lbl">Total</div>
                 </div>
                 {% assign solved_count = 0 %}
@@ -86,11 +86,18 @@ title: Home
                     {% endif %}
                 {% endfor %}
                 <div class="dsa-stat-box">
-                    <div class="val" style="color: #4ade80;">{% if solved_count > 0 %}{{ solved_count }}{% else %}43{% endif %}</div>
+                    <div class="val" style="color: #4ade80;">{{ solved_count }}</div>
                     <div class="lbl">Solved</div>
                 </div>
+                {% assign all_topics = "" | split: "," %}
+                {% for problem in site.data.problems.problems %}
+                    {% if problem.topics %}
+                        {% assign all_topics = all_topics | concat: problem.topics %}
+                    {% endif %}
+                {% endfor %}
+                {% assign unique_topics = all_topics | uniq %}
                 <div class="dsa-stat-box">
-                    <div class="val">6</div>
+                    <div class="val">{{ unique_topics | size }}</div>
                     <div class="lbl">Topics</div>
                 </div>
             </div>

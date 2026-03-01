@@ -229,7 +229,7 @@ permalink: /roadmap/
 
 ---
 
-<div class="roadmap-chapter" id="ch0">
+<div class="roadmap-chapter" id="ch0" markdown="1">
 
 ## Chapter 0 — Big O &amp; Recursion
 
@@ -294,7 +294,7 @@ ReturnType solve(params, state) {
 
 ---
 
-<div class="roadmap-chapter" id="ch1">
+<div class="roadmap-chapter" id="ch1" markdown="1">
 
 ## Chapter 1 — Arrays &amp; Strings
 
@@ -425,6 +425,7 @@ for (int i = k; i < nums.size(); i++) {
 <span class="complexity-badge"><span class="label">Space</span> O(n)</span>
 </div>
 
+{% raw %}
 ```cpp
 // 1D prefix sum
 vector<int> prefix(nums.size() + 1, 0);
@@ -441,6 +442,7 @@ for (int x : nums) {
     freq[curr]++;
 }
 ```
+{% endraw %}
 
 <table class="roadmap-table">
 <thead><tr><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -460,7 +462,7 @@ for (int x : nums) {
 
 ---
 
-<div class="roadmap-chapter" id="ch2">
+<div class="roadmap-chapter" id="ch2" markdown="1">
 
 ## Chapter 2 — Hashing (Hashmaps &amp; Sets)
 
@@ -526,7 +528,7 @@ for (string& s : strs) {
 
 ---
 
-<div class="roadmap-chapter" id="ch3">
+<div class="roadmap-chapter" id="ch3" markdown="1">
 
 ## Chapter 3 — Linked Lists
 
@@ -593,7 +595,7 @@ tail->next = l1 ? l1 : l2;
 
 ---
 
-<div class="roadmap-chapter" id="ch4">
+<div class="roadmap-chapter" id="ch4" markdown="1">
 
 ## Chapter 4 — Stacks &amp; Queues
 
@@ -687,7 +689,7 @@ for (int i = 0; i < nums.size(); i++) {
 
 ---
 
-<div class="roadmap-chapter" id="ch5">
+<div class="roadmap-chapter" id="ch5" markdown="1">
 
 ## Chapter 5 — Trees &amp; Graphs
 
@@ -843,7 +845,7 @@ auto unite = [&](int a, int b) {
 
 ---
 
-<div class="roadmap-chapter" id="ch6">
+<div class="roadmap-chapter" id="ch6" markdown="1">
 
 ## Chapter 6 — Heaps
 
@@ -898,7 +900,7 @@ priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(cmp)> pq(cmp);
 
 ---
 
-<div class="roadmap-chapter" id="ch7">
+<div class="roadmap-chapter" id="ch7" markdown="1">
 
 ## Chapter 7 — Greedy Algorithms
 
@@ -946,7 +948,7 @@ for (auto& iv : intervals) {
 
 ---
 
-<div class="roadmap-chapter" id="ch8">
+<div class="roadmap-chapter" id="ch8" markdown="1">
 
 ## Chapter 8 — Binary Search
 
@@ -1007,7 +1009,7 @@ while (lo <= hi) {
 
 ---
 
-<div class="roadmap-chapter" id="ch9">
+<div class="roadmap-chapter" id="ch9" markdown="1">
 
 ## Chapter 9 — Backtracking
 
@@ -1061,7 +1063,7 @@ void backtrack(int start) {
 
 ---
 
-<div class="roadmap-chapter" id="ch10">
+<div class="roadmap-chapter" id="ch10" markdown="1">
 
 ## Chapter 10 — Dynamic Programming
 
@@ -1121,7 +1123,7 @@ for (int i = 1; i < prices.size(); i++) {
 
 ---
 
-<div class="roadmap-chapter" id="ch11">
+<div class="roadmap-chapter" id="ch11" markdown="1">
 
 ## Chapter 11 — Bonus Topics
 
@@ -1283,7 +1285,7 @@ vector<int> dijkstra(int src, vector<vector<pair<int,int>>>& adj, int n) {
 
 ---
 
-<div class="roadmap-chapter" id="ch12">
+<div class="roadmap-chapter" id="ch12" markdown="1">
 
 ## Chapter 12 — Study Plan &amp; Interview Cheatsheet
 

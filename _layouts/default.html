@@ -42,6 +42,9 @@
     <!-- Canonical -->
     <link rel="canonical" href="{{ page_url }}">
 
+    <!-- RSS / Atom auto-discovery (jekyll-feed generates /feed.xml) -->
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }} — Blog Feed" href="{{ '/feed.xml' | relative_url }}">
+
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     <!-- Theme: apply before first paint to prevent flash of unstyled content -->
     <script>
@@ -140,7 +143,9 @@
         </div>
     </footer>
     <script src="{{ '/assets/js/nav.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/home.js' | relative_url }}"></script>
+    {% if page.url == '/' or page.url == '' %}
+    <script src="{{ '/assets/js/home.js' | relative_url }}" defer></script>
+    {% endif %}
     <script src="{{ '/assets/js/simple-jekyll-search.min.js' | relative_url }}"></script>
     {% if page.url == '/' or page.url == '' %}
     <script src="{{ '/assets/js/typing.js' | relative_url }}" defer></script>
