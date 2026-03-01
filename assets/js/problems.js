@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'heaps':               '/learning/dsa/heaps/heaps-problems/',
         'greedy':              '/learning/dsa/greedy/greedy-problems/',
         'bit-manipulation':    '/learning/dsa/bit-manipulation/bit-manipulation-problems/',
+        'intervals':           '/learning/dsa/intervals/intervals-problems/',
     };
 
     // Dynamically auto-populate the Topics dropdown from the dataset

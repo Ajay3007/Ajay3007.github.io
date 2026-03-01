@@ -57,6 +57,7 @@ Central hub for all coding practice problems organized by topic with solutions a
   <a href="{{ '/learning/dsa/heaps/heaps-problems/' | relative_url }}" class="topic-chip">🏔️ Heaps</a>
   <a href="{{ '/learning/dsa/greedy/greedy-problems/' | relative_url }}" class="topic-chip">🌿 Greedy</a>
   <a href="{{ '/learning/dsa/bit-manipulation/bit-manipulation-problems/' | relative_url }}" class="topic-chip">⚙️ Bit Manipulation</a>
+  <a href="{{ '/learning/dsa/intervals/intervals-problems/' | relative_url }}" class="topic-chip">📏 Intervals</a>
 </div>
 
 <!-- Topic-page link banner (populated by problems.js when a topic with a dedicated page is selected) -->

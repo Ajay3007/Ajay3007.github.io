@@ -143,6 +143,14 @@ permalink: /learning/dsa/
     <small style="color:#667eea; font-weight:600;">{{ bit_solved }}/{{ bit_total }} solved</small>
   </div>
 
+  <div class="project-card" style="border-left: 4px solid #14b8a6;">
+    <h3><a href="{{ '/learning/dsa/intervals/' | relative_url }}">📏 Intervals</a></h3>
+    <p>Merge, insert, intersect: sort by start, sweep for overlaps.</p>
+    {% assign iv_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'intervals'" | where: "solved", true | size %}
+    {% assign iv_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'intervals'" | size %}
+    <small style="color:#667eea; font-weight:600;">{{ iv_solved }}/{{ iv_total }} solved</small>
+  </div>
+
 </div>
 
 ---
