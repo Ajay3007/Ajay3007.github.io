@@ -489,6 +489,7 @@ problems:
     difficulty: easy
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/binary-search/
     approach_url: ''
@@ -500,6 +501,7 @@ problems:
     difficulty: easy
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/search-insert-position/
     approach_url: /learning/dsa/Searching-Sorting/floorAndCeil.pdf
@@ -566,6 +568,7 @@ problems:
     difficulty: medium
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
     approach_url: ''
@@ -577,6 +580,7 @@ problems:
     difficulty: medium
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/search-in-rotated-sorted-array/
     approach_url: ''
@@ -610,6 +614,7 @@ problems:
     difficulty: medium
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/find-peak-element/
     approach_url: ''
@@ -621,6 +626,7 @@ problems:
     difficulty: medium
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/peak-index-in-a-mountain-array/
     approach_url: ''
@@ -665,6 +671,7 @@ problems:
     difficulty: medium
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/koko-eating-bananas/
     approach_url: ''
@@ -675,6 +682,7 @@ problems:
     difficulty: medium
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/time-based-key-value-store/
     approach_url: ''
@@ -731,6 +739,7 @@ problems:
     difficulty: hard
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/find-in-mountain-array/
     approach_url: ''
@@ -742,6 +751,7 @@ problems:
     difficulty: hard
     topics:
       - searching-sorting
+      - binary-search
     solved: true
     problem_url: https://leetcode.com/problems/median-of-two-sorted-arrays/
     approach_url: /learning/dsa/Searching-Sorting/median-sorted-array.pdf
@@ -753,6 +763,7 @@ problems:
     difficulty: hard
     topics:
       - searching-sorting
+      - binary-search
     solved: false
     problem_url: https://leetcode.com/problems/split-array-largest-sum/
     approach_url: ''
@@ -1027,5 +1038,26 @@ problems:
       - recursion
     solved: false
     problem_url: https://leetcode.com/problems/k-th-symbol-in-grammar/
+    approach_url: ''
+    solution_url: ''
+  - id: '2389'
+    title: Longest Subsequence With Limited Sum
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - binary-search
+      - arrays
+    solved: false
+    problem_url: https://leetcode.com/problems/longest-subsequence-with-limited-sum/
+    approach_url: ''
+    solution_url: ''
+  - id: '1283'
+    title: Find the Smallest Divisor Given a Threshold
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - binary-search
+    solved: false
+    problem_url: https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/
     approach_url: ''
     solution_url: ''
