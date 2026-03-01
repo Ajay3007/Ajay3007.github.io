@@ -967,3 +967,65 @@ problems:
     approach_url: >-
       https://leetcode.com/problems/text-justification/solutions/7398638/greedy-line-packing-smart-space-distribu-f3sp/
     solution_url: ''
+  - id: '509'
+    title: Fibonacci Number
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - recursion
+    solved: false
+    problem_url: https://leetcode.com/problems/fibonacci-number/
+    approach_url: ''
+    solution_url: ''
+  - id: '70'
+    title: Climbing Stairs
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - recursion
+    solved: false
+    problem_url: https://leetcode.com/problems/climbing-stairs/
+    approach_url: ''
+    solution_url: ''
+  - id: '231'
+    title: Power of Two
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - recursion
+    solved: false
+    problem_url: https://leetcode.com/problems/power-of-two/
+    approach_url: ''
+    solution_url: ''
+  - id: '344'
+    title: Reverse String
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - recursion
+      - strings
+      - two-pointers
+    solved: false
+    problem_url: https://leetcode.com/problems/reverse-string/
+    approach_url: ''
+    solution_url: ''
+  - id: '50'
+    title: Pow(x, n)
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - recursion
+    solved: false
+    problem_url: https://leetcode.com/problems/powx-n/
+    approach_url: ''
+    solution_url: ''
+  - id: '779'
+    title: K-th Symbol in Grammar
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - recursion
+    solved: false
+    problem_url: https://leetcode.com/problems/k-th-symbol-in-grammar/
+    approach_url: ''
+    solution_url: ''

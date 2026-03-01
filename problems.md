@@ -48,6 +48,7 @@ Central hub for all coding practice problems organized by topic with solutions a
   <a href="{{ '/learning/dsa/stacks/stacks-problems/' | relative_url }}" class="topic-chip">📚 Stacks</a>
   <a href="{{ '/learning/dsa/searching-sorting/searching-sorting-problems/' | relative_url }}" class="topic-chip">🔍 Searching &amp; Sorting</a>
   <a href="{{ '/learning/dsa/graphs/graphs-problems/' | relative_url }}" class="topic-chip">🕸️ Graphs</a>
+  <a href="{{ '/learning/dsa/recursion/recursion-problems/' | relative_url }}" class="topic-chip">🔁 Recursion</a>
 </div>
 
 <!-- Topic-page link banner (populated by problems.js when a topic with a dedicated page is selected) -->
