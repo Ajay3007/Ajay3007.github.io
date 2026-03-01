@@ -127,6 +127,14 @@ permalink: /learning/dsa/
     <small style="color:#667eea; font-weight:600;">{{ heap_solved }}/{{ heap_total }} solved</small>
   </div>
 
+  <div class="project-card" style="border-left: 4px solid #22c55e;">
+    <h3><a href="{{ '/learning/dsa/greedy/' | relative_url }}">🌿 Greedy</a></h3>
+    <p>Local optimal choices: interval scheduling, jump games, two-pass patterns.</p>
+    {% assign greedy_solved = site.data.problems.problems | where_exp: "p", "p.topics contains 'greedy'" | where: "solved", true | size %}
+    {% assign greedy_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'greedy'" | size %}
+    <small style="color:#667eea; font-weight:600;">{{ greedy_solved }}/{{ greedy_total }} solved</small>
+  </div>
+
 </div>
 
 ---

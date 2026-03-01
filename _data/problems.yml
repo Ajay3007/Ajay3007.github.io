@@ -1501,3 +1501,83 @@ problems:
     problem_url: https://leetcode.com/problems/find-median-from-data-stream/
     approach_url: ''
     solution_url: ''
+  - id: '1323'
+    title: Maximum 69 Number
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/maximum-69-number/
+    approach_url: ''
+    solution_url: ''
+  - id: '1710'
+    title: Maximum Units on a Truck
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/maximum-units-on-a-truck/
+    approach_url: ''
+    solution_url: ''
+  - id: '1338'
+    title: Reduce Array Size to The Half
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/reduce-array-size-to-the-half/
+    approach_url: ''
+    solution_url: ''
+  - id: '435'
+    title: Non-overlapping Intervals
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/non-overlapping-intervals/
+    approach_url: ''
+    solution_url: ''
+  - id: '55'
+    title: Jump Game
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/jump-game/
+    approach_url: ''
+    solution_url: ''
+  - id: '45'
+    title: Jump Game II
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/jump-game-ii/
+    approach_url: ''
+    solution_url: ''
+  - id: '134'
+    title: Gas Station
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/gas-station/
+    approach_url: ''
+    solution_url: ''
+  - id: '135'
+    title: Candy
+    platform: leetcode
+    difficulty: hard
+    topics:
+      - greedy
+    solved: false
+    problem_url: https://leetcode.com/problems/candy/
+    approach_url: ''
+    solution_url: ''

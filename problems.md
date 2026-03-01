@@ -55,6 +55,7 @@ Central hub for all coding practice problems organized by topic with solutions a
   <a href="{{ '/learning/dsa/queues/queues-problems/' | relative_url }}" class="topic-chip">🔄 Queues</a>
   <a href="{{ '/learning/dsa/hashing/hashing-problems/' | relative_url }}" class="topic-chip">#️⃣ Hashing</a>
   <a href="{{ '/learning/dsa/heaps/heaps-problems/' | relative_url }}" class="topic-chip">🏔️ Heaps</a>
+  <a href="{{ '/learning/dsa/greedy/greedy-problems/' | relative_url }}" class="topic-chip">🌿 Greedy</a>
 </div>
 
 <!-- Topic-page link banner (populated by problems.js when a topic with a dedicated page is selected) -->
