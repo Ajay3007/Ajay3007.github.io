@@ -65,10 +65,10 @@ permalink: /blogs/
     {% assign posts_in_cat = site.posts | where_exp: "post", "post.categories contains cat" | sort: "date" | reverse %}
     
     <div style="margin-bottom: 4rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0;">
-            <h3 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: #1e293b; display: flex; align-items: center; gap: 0.8rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--border-color);">
+            <h3 style="margin: 0; font-size: 1.5rem; font-weight: 700; color: var(--text-color); display: flex; align-items: center; gap: 0.8rem;">
                 {{ label }}
-                <span style="background: #f1f5f9; border-radius: 12px; padding: 0.1rem 0.6rem; font-size: 0.85rem; color: #475569;">{{ posts_in_cat.size }}</span>
+                <span style="background: var(--bg-secondary); border-radius: 12px; padding: 0.1rem 0.6rem; font-size: 0.85rem; color: var(--light-text);">{{ posts_in_cat.size }}</span>
             </h3>
             <a href="{{ cat_url | relative_url }}" style="color: #3b82f6; text-decoration: none; font-weight: 600; transition: color 0.2s;">View Archive →</a>
         </div>
@@ -77,7 +77,7 @@ permalink: /blogs/
             <div class="project-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
             {% for post in posts_in_cat limit:3 %}
                 <div class="featured-project-card" style="border-top-color: {{ line_color }};">
-                    <div style="color: #64748b; font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">
+                    <div style="color: var(--light-text); font-size: 0.85rem; margin-bottom: 0.5rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">
                         {{ post.date | date: "%b %d, %Y" }}
                     </div>
                     <div class="featured-project-title">
@@ -93,7 +93,7 @@ permalink: /blogs/
             {% endfor %}
             </div>
         {% else %}
-            <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 2rem; text-align: center; color: #64748b; font-style: italic;">
+            <div style="background: var(--bg-secondary); border: 1px dashed var(--border-color); border-radius: 12px; padding: 2rem; text-align: center; color: var(--light-text); font-style: italic;">
                 Publication stream initializing.
             </div>
         {% endif %}
