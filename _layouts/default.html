@@ -46,6 +46,9 @@
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }} — Blog Feed" href="{{ '/feed.xml' | relative_url }}">
 
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    {% if page.custom_css %}
+    <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css | append: '.css' | relative_url }}">
+    {% endif %}
     <!-- Theme: apply before first paint to prevent flash of unstyled content -->
     <script>
         (function () {
@@ -197,6 +200,9 @@
             });
         }
     </script>
+    {% if page.custom_js %}
+    <script src="{{ '/assets/js/' | append: page.custom_js | append: '.js' | relative_url }}" defer></script>
+    {% endif %}
 </body>
 
 </html>

@@ -1,0 +1,223 @@
+/* assets/css/roadmap-hub.css
+   Styles for the /roadmap/ multi-domain hub landing page.
+   Loaded via `custom_css: roadmap-hub` front matter in roadmap.md
+   ================================================================ */
+
+/* ── Hub Hero ─────────────────────────────────────────────────── */
+.hub-hero {
+    background: linear-gradient(135deg, #1a1f36 0%, #2d3e50 100%);
+    color: white;
+    padding: 3.5rem 2rem 3rem 2rem;
+    border-radius: 16px;
+    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+.hub-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 20%, rgba(0,212,255,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(255,107,157,0.10) 0%, transparent 55%);
+    pointer-events: none;
+}
+.hub-hero h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin: 0 0 0.6rem 0;
+    background: linear-gradient(135deg, #00d4ff, #ff6b9d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+}
+.hub-hero p {
+    color: rgba(255,255,255,0.72);
+    margin: 0 auto;
+    font-size: 1.05rem;
+    max-width: 580px;
+    line-height: 1.7;
+}
+.hub-hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1.8rem;
+    flex-wrap: wrap;
+}
+.hub-meta-item { text-align: center; }
+.hub-meta-val {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #00d4ff;
+    display: block;
+}
+.hub-meta-lbl {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* ── Domain Grid ──────────────────────────────────────────────── */
+.domain-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+@media (max-width: 900px) { .domain-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .domain-grid { grid-template-columns: 1fr; } }
+
+/* ── Domain Card ──────────────────────────────────────────────── */
+.domain-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 1.6rem 1.4rem 1.4rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+.domain-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--card-accent, linear-gradient(90deg, #00d4ff, #ff6b9d));
+    border-radius: 14px 14px 0 0;
+}
+.domain-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    border-color: rgba(0,212,255,0.35);
+}
+.domain-card.coming-soon {
+    opacity: 0.62;
+    filter: grayscale(30%);
+    cursor: default;
+}
+.domain-card.coming-soon:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: var(--border-color);
+}
+
+/* ── Card Inner ───────────────────────────────────────────────── */
+.dc-icon { font-size: 2.2rem; line-height: 1; margin-bottom: 0.1rem; }
+.dc-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.dc-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.3;
+}
+.dc-badge {
+    padding: 0.18rem 0.55rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.dc-badge.live, .dc-badge.active { background: rgba(16,185,129,0.15); color: #10b981; }
+.dc-badge.soon  { background: rgba(100,116,139,0.15); color: #94a3b8; }
+.dc-desc {
+    font-size: 0.88rem;
+    color: var(--light-text);
+    line-height: 1.6;
+    flex: 1;
+}
+.dc-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.dc-tag {
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: var(--bg-secondary);
+    color: var(--light-text);
+    border: 1px solid var(--border-color);
+}
+.dc-cta { margin-top: 0.25rem; }
+.dc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.87rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: opacity 0.15s;
+    background: linear-gradient(135deg, #00d4ff22, #ff6b9d22);
+    border: 1px solid rgba(0,212,255,0.3);
+    color: var(--secondary-color);
+}
+.dc-btn:hover { opacity: 0.8; }
+.dc-btn-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 8px;
+    font-size: 0.87rem;
+    font-weight: 600;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--light-text);
+    cursor: default;
+}
+
+/* ── Progress dots ────────────────────────────────────────────── */
+.dc-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    color: var(--light-text);
+}
+.dc-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border-color); }
+.dc-dot.filled { background: #10b981; }
+
+/* ── How It Works strip ───────────────────────────────────────── */
+.how-strip {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 3rem;
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+.how-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 180px;
+}
+.how-num {
+    width: 2rem; height: 2rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d4ff, #667eea);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.how-text strong { display: block; font-size: 0.9rem; color: var(--text-color); margin-bottom: 0.15rem; }
+.how-text span   { font-size: 0.82rem; color: var(--light-text); }

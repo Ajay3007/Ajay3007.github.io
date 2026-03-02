@@ -1,0 +1,220 @@
+/* assets/css/dsa-roadmap.css
+   Styles for the DSA Mastery Roadmap page at /learning/dsa/dsa-roadmap/
+   Loaded via `custom_css: dsa-roadmap` front matter in dsa-roadmap.md
+   ==================================================================== */
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+.roadmap-hero {
+    background: linear-gradient(135deg, #1a1f36 0%, #2d3e50 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+.roadmap-hero h1 {
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg, #00d4ff, #ff6b9d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.roadmap-hero p {
+    color: rgba(255,255,255,0.75);
+    margin: 0 0 1.5rem 0;
+    font-size: 1.05rem;
+}
+.roadmap-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+}
+.roadmap-stat { text-align: center; }
+.roadmap-stat-val { font-size: 2rem; font-weight: 800; color: #00d4ff; }
+.roadmap-stat-lbl { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+
+/* ── Chapter quick-nav grid ───────────────────────────────────── */
+.chapter-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+.chapter-nav a {
+    display: block;
+    padding: 0.65rem 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+.chapter-nav a:hover {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    background: var(--bg-color);
+}
+
+/* ── Chapter sections ─────────────────────────────────────────── */
+.roadmap-chapter {
+    margin-bottom: 4rem;
+    padding-top: 1rem;
+}
+.roadmap-chapter h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--post-heading);
+    border-bottom: 3px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.roadmap-chapter h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--post-subheading);
+    margin: 2rem 0 0.75rem 0;
+}
+.roadmap-chapter h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--light-text);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 1.5rem 0 0.5rem 0;
+}
+
+/* ── Pattern box ──────────────────────────────────────────────── */
+.pattern-box {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+}
+.pattern-box ul { margin: 0; padding-left: 1.25rem; }
+.pattern-box li { margin-bottom: 0.35rem; font-size: 0.95rem; color: var(--text-color); }
+
+/* ── Complexity row / badges ──────────────────────────────────── */
+.complexity-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin: 0.75rem 0;
+}
+.complexity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+.complexity-badge .label { color: var(--light-text); font-weight: 400; }
+
+/* ── Topic link badges ────────────────────────────────────────── */
+.topic-link-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 20px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    transition: all 0.2s;
+}
+.topic-link-badge:hover {
+    background: rgba(0,212,255,0.15);
+    border-color: var(--secondary-color);
+}
+
+/* ── Problem tables ───────────────────────────────────────────── */
+.roadmap-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+.roadmap-table th {
+    background: var(--bg-color);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    font-weight: 700;
+    color: var(--light-text);
+    border-bottom: 2px solid var(--border-color);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+.roadmap-table td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--border-color); }
+.roadmap-table tr:hover td { background: var(--bg-color); }
+.roadmap-table a { color: var(--secondary-color); text-decoration: none; font-weight: 600; }
+.roadmap-table a:hover { text-decoration: underline; }
+.diff-easy   { color: #10b981; font-weight: 700; }
+.diff-medium { color: #f59e0b; font-weight: 700; }
+.diff-hard   { color: #ef4444; font-weight: 700; }
+
+/* ── Cheatsheet two-column grid ───────────────────────────────── */
+.cheatsheet-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+@media (max-width: 700px) { .cheatsheet-grid { grid-template-columns: 1fr; } }
+.cheatsheet-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.25rem;
+}
+.cheatsheet-card h4 { margin: 0 0 0.75rem 0; font-size: 1rem; color: var(--post-heading); }
+.cheatsheet-card table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.cheatsheet-card th {
+    text-align: left;
+    padding: 0.3rem 0.4rem;
+    color: var(--light-text);
+    border-bottom: 1px solid var(--border-color);
+}
+.cheatsheet-card td {
+    padding: 0.3rem 0.4rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+.cheatsheet-card td:first-child { font-weight: 600; color: var(--secondary-color); }
+
+/* ── Numbered study order list ────────────────────────────────── */
+.study-order { counter-reset: study-step; }
+.study-order li {
+    counter-increment: study-step;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 500;
+}
+.study-order li::before {
+    content: counter(study-step);
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.6rem;
+    height: 1.6rem;
+    background: var(--secondary-color);
+    color: #1a1f36;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+}
