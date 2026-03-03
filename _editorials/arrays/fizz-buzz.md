@@ -1,4 +1,5 @@
 ---
+permalink: /editorials/fizz-buzz/
 layout: editorial
 title: "Fizz Buzz Solution"
 problem_id: "412"

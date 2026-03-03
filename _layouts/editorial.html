@@ -28,9 +28,42 @@ layout: default
     <!-- Article Footer / Navigation Return -->
     <footer class="editorial-footer">
         <div class="editorial-footer-label">End of Editorial.</div>
-        <a href="{{ '/problems/' | relative_url }}" class="editorial-return-btn">
-            <span>←</span> Return to Problems Hub
-        </a>
+        
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+            <!-- Smart Back Button: uses history.back() with fallback -->
+            <a href="javascript:void(0)" onclick="if(document.referrer){history.back();}else{window.location.href='{{ '/problems/' | relative_url }}';}" class="editorial-return-btn ed-btn-primary">
+                <span>←</span> Back to Problems
+            </a>
+            
+            <!-- Dynamic Chapter Notes Button based on Topic Folder -->
+            {% assign path_parts = page.path | split: '/' %}
+            {% assign topic_folder = path_parts[1] %}
+            
+            {% comment %} Find the corresponding roadmap chapter based on topic_folder {% endcomment %}
+            {% assign chapter_url = '/learning/dsa/dsa-roadmap/' %} {% comment %} Fallback {% endcomment %}
+            {% assign chapter_name = 'Chapter Notes' %}
+            
+            {% if topic_folder == 'linked-list' %}
+                {% assign chapter_url = '/learning/dsa/linked-list/ch3-linked-lists/' %}
+                {% assign chapter_name = 'Ch 3: Linked Lists Notes' %}
+            {% elsif topic_folder == 'arrays' or topic_folder == 'strings' %}
+                {% assign chapter_url = '/learning/dsa/arrays/ch1-arrays-strings/' %}
+                {% assign chapter_name = 'Ch 1: Arrays & Strings Notes' %}
+            {% elsif topic_folder == 'hashing' %}
+                {% assign chapter_url = '/learning/dsa/hashing/ch2-hashing/' %}
+                {% assign chapter_name = 'Ch 2: Hashing Notes' %}
+            {% elsif topic_folder == 'stacks' or topic_folder == 'queues' %}
+                {% assign chapter_url = '/learning/dsa/stacks/ch4-stacks/' %} 
+                {% assign chapter_name = 'Ch 4: Stacks & Queues Notes' %}
+            {% elsif topic_folder == 'tree' %}
+                {% assign chapter_url = '/learning/dsa/trees/ch5-trees/' %}
+                {% assign chapter_name = 'Ch 5: Trees & Graphs Notes' %}
+            {% endif %}
+
+            <a href="{{ chapter_url | relative_url }}" class="editorial-return-btn ed-btn-secondary">
+                📓 Read {{ chapter_name }}
+            </a>
+        </div>
     </footer>
 </article>
 
@@ -207,18 +240,31 @@ layout: default
         justify-content: center;
         gap: 0.5rem;
         padding: 0.75rem 1.5rem;
-        background: var(--bg-color);
-        color: var(--light-text);
         text-decoration: none;
         border-radius: 8px;
         font-weight: 600;
         border: 1px solid var(--border-color);
         transition: all 0.2s;
+        cursor: pointer;
     }
 
-    .editorial-return-btn:hover {
+    .ed-btn-primary {
         background: var(--card-bg);
-        color: var(--text-color);
-        border-color: var(--secondary-color);
+        color: var(--post-text) !important;
+        border-color: #3b82f6;
+    }
+    .ed-btn-primary:hover {
+        background: #3b82f6;
+        color: white !important;
+    }
+
+    .ed-btn-secondary {
+        background: var(--bg-color);
+        color: var(--light-text) !important;
+        border-color: transparent;
+    }
+    .ed-btn-secondary:hover {
+        background: var(--border-color);
+        color: var(--text-color) !important;
     }
 </style>

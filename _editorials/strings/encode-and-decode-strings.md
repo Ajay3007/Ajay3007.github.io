@@ -1,4 +1,5 @@
 ---
+permalink: /editorials/encode-and-decode-strings/
 layout: editorial
 title: "Encode and Decode Strings Solution"
 problem_id: "271"

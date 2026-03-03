@@ -41,15 +41,22 @@ custom_css: dsa-chapter
 <h3 class="section-subheading">1.1 — The Complexity Hierarchy</h3>
 <p>Memorise this table. Every time you write code, you should be able to identify which class it falls into:</p>
 
-| Complexity | Name | Example | Acceptable for n= |
-|---|---|---|---|
-| O(1) | Constant | Array index access | Any |
-| O(log n) | Logarithmic | Binary search | 10⁹ |
-| O(n) | Linear | Single for-loop | 10⁸ |
-| O(n log n) | Linearithmic | Merge sort, heap sort | 10⁷ |
-| O(n²) | Quadratic | Nested loops | 5000 |
-| O(2ⁿ) | Exponential | Subsets, backtracking | ~25 |
-| O(n!) | Factorial | All permutations | ~12 |
+<div class="ch-ed-problems">
+<table>
+  <thead>
+    <tr><th>Complexity</th><th>Name</th><th>Example</th><th>Acceptable for n=</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>O(1)</strong></td><td>Constant</td><td>Array index access</td><td>Any</td></tr>
+    <tr><td><strong>O(log n)</strong></td><td>Logarithmic</td><td>Binary search</td><td>10⁹</td></tr>
+    <tr><td><strong>O(n)</strong></td><td>Linear</td><td>Single for-loop</td><td>10⁸</td></tr>
+    <tr><td><strong>O(n log n)</strong></td><td>Linearithmic</td><td>Merge sort, heap sort</td><td>10⁷</td></tr>
+    <tr><td><strong>O(n²)</strong></td><td>Quadratic</td><td>Nested loops</td><td>5000</td></tr>
+    <tr><td><strong>O(2ⁿ)</strong></td><td>Exponential</td><td>Subsets, backtracking</td><td>~25</td></tr>
+    <tr><td><strong>O(n!)</strong></td><td>Factorial</td><td>All permutations</td><td>~12</td></tr>
+  </tbody>
+</table>
+</div>
 
 <h3 class="section-subheading">1.2 — Big O Rules</h3>
 <div class="insight-box">

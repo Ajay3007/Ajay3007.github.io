@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+:root {
+    --card-bg: #ffffff;
+    --post-text: #334155;
+    --light-text: #718096;
+    --bg-color: #f7fafc;
+    --border-color: #e2e8f0;
+    --text-color: #2d3748;
+    --secondary-color: #00d4ff;
+    --accent-color: #ff6b9d;
+}
+
+[data-theme="dark"] {
+    --card-bg: #1e293b;
+    --post-text: #cbd5e1;
+    --light-text: #94a3b8;
+    --bg-color: #0f172a;
+    --border-color: #334155;
+    --text-color: #e2e8f0;
+    --secondary-color: #38bdf8;
+    --accent-color: #f472b6;
+}
+
+body {
+    background: var(--bg-color);
+    padding: 50px;
+    font-family: sans-serif;
+}
+
+.editorial-return-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.ed-btn-primary {
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    color: white !important;
+    border-color: transparent;
+    border-width: 0px;
+}
+.ed-btn-primary:hover {
+    opacity: 0.9;
+    box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.ed-btn-secondary {
+    background: var(--bg-color);
+    color: var(--text-color) !important;
+    border-color: var(--secondary-color);
+    border-width: 2px;
+}
+.ed-btn-secondary:hover {
+    background: var(--secondary-color);
+    color: white !important;
+    border-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+</style>
+</head>
+<body data-theme="dark">
+    <div style="display: flex; gap: 1rem;">
+        <a href="#" class="editorial-return-btn ed-btn-primary"><span>←</span> Back to Problems</a>
+        <a href="#" class="editorial-return-btn ed-btn-secondary">📓 Read Ch 3: Linked Lists Notes</a>
+    </div>
+</body>
+</html>

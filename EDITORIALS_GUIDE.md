@@ -90,16 +90,17 @@ The Problems Hub generates buttons automatically based on what you put in `appro
 
 Best for: written explanations, complexity analysis, diagrams, embedded code.
 
-**Step 1.** Create a file in `_editorials/`:
+**Step 1.** Create a file in the corresponding topic subdirectory inside `_editorials/` (e.g., `arrays`, `linked-list`):
 
 ```
-_editorials/two-sum-approach.md
+_editorials/arrays/two-sum-approach.md
 ```
 
-**Step 2.** Add front matter:
+**Step 2.** Add front matter. **Crucial:** You must include a `permalink` formatted as `/editorials/<slug>/` so the URL remains stable regardless of the subdirectory structure:
 
 ```yaml
 ---
+permalink: /editorials/two-sum-approach/
 layout: editorial
 title: "Two Sum — Approach"
 problem_id: "1"
@@ -182,7 +183,7 @@ Use `approach_url` for editorial/theory links, `solution_url` for code-focused l
 If you prefer a GUI instead of editing YAML directly:
 
 1. Go to `ajdevhub.netlify.app/admin` and log in.
-2. Click **DSA Editorials** → **New DSA Editorial**, write your Markdown, and publish.
+2. Click **DSA Editorials** → **New DSA Editorial**, write your Markdown, and publish. *(Note: Decap CMS may save new editorials to the root of `_editorials/`. You can move them into topic subdirectories later; just ensure the `permalink` frontmatter is set).*
 3. Go to **Data Files → DSA Problems Database**, find the problem, and paste the slug into `approach_url`.
 
 ---
