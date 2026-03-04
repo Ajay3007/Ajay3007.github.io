@@ -441,9 +441,29 @@ problems:
     difficulty: easy
     topics:
       - tree
-    solved: false
+    solved: true
     problem_url: https://leetcode.com/problems/invert-binary-tree/
-    approach_url: ""
+    approach_url: /editorials/invert-binary-tree/
+    solution_url: ""
+  - id: "101"
+    title: Symmetric Tree
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - tree
+    solved: true
+    problem_url: https://leetcode.com/problems/symmetric-tree/
+    approach_url: /editorials/symmetric-tree/
+    solution_url: ""
+  - id: "110"
+    title: Balanced Binary Tree
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - tree
+    solved: true
+    problem_url: https://leetcode.com/problems/balanced-binary-tree/
+    approach_url: /editorials/balanced-binary-tree/
     solution_url: ""
   - id: "102"
     title: Binary Tree Level Order Traversal
@@ -451,9 +471,9 @@ problems:
     difficulty: medium
     topics:
       - tree
-    solved: false
+    solved: true
     problem_url: https://leetcode.com/problems/binary-tree-level-order-traversal/
-    approach_url: ""
+    approach_url: /editorials/binary-tree-level-order-traversal/
     solution_url: ""
   - id: "98"
     title: Validate Binary Search Tree
