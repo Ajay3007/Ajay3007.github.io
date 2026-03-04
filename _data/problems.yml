@@ -421,9 +421,19 @@ problems:
     difficulty: easy
     topics:
       - tree
-    solved: false
+    solved: true
     problem_url: https://leetcode.com/problems/maximum-depth-of-binary-tree/
     approach_url: /editorials/max-depth-binary-tree/
+    solution_url: ""
+  - id: "100"
+    title: Same Tree
+    platform: leetcode
+    difficulty: easy
+    topics:
+      - tree
+    solved: true
+    problem_url: https://leetcode.com/problems/same-tree/
+    approach_url: /editorials/same-tree/
     solution_url: ""
   - id: "226"
     title: Invert Binary Tree
