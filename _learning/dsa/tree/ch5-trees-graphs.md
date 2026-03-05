@@ -437,6 +437,266 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
 </div>
 </div>
 
+<!-- ═══════════════════════ Section 9 ═══════════════════════ -->
+<div class="chapter-section">
+<h2 class="section-heading">Section 9 — Iterative Traversals &amp; Morris Inorder</h2>
+<p>Recursive traversals use O(h) call-stack space. Two alternatives avoid this: <strong>explicit-stack iteration</strong> (still O(h) but heap-allocated) and <strong>Morris Traversal</strong> (O(1) space by temporarily threading the tree).</p>
+
+<h3 class="section-subheading">9.1 — Iterative Preorder (Root → L → R)</h3>
+<div class="insight-box">
+  <span class="insight-label">Key Idea</span>
+  Push root, then repeatedly pop-and-print, pushing <em>right child first</em> so left is processed next (LIFO order gives Root→L→R).
+</div>
+<div class="ch-code-wrap">
+<span class="ch-code-label">Iterative Preorder — O(n) time, O(h) space</span>
+{% highlight cpp %}
+void preOrder(TreeNode* root) {
+    stack<TreeNode*> s;
+    TreeNode* cur = root;
+    while (cur || !s.empty()) {
+        while (cur) {
+            cout << cur->val << " ";   // visit ROOT immediately
+            s.push(cur);
+            cur = cur->left;           // go left
+        }
+        cur = s.top(); s.pop();
+        cur = cur->right;              // backtrack, try right subtree
+    }
+}
+{% endhighlight %}
+</div>
+
+<h3 class="section-subheading">9.2 — Iterative Inorder (L → Root → R)</h3>
+<div class="insight-box">
+  <span class="insight-label">Key Idea</span>
+  Same stack pattern as preorder, but <em>print after popping</em> (not while pushing left). This naturally gives left-root-right order, and for a BST produces a <strong>sorted sequence</strong>.
+</div>
+<div class="ch-code-wrap">
+<span class="ch-code-label">Iterative Inorder — O(n) time, O(h) space</span>
+{% highlight cpp %}
+void inOrder(TreeNode* root) {
+    stack<TreeNode*> s;
+    TreeNode* cur = root;
+    while (cur || !s.empty()) {
+        while (cur) {
+            s.push(cur);
+            cur = cur->left;           // drill left first
+        }
+        cur = s.top(); s.pop();
+        cout << cur->val << " ";       // visit ROOT (left already done)
+        cur = cur->right;              // then process right subtree
+    }
+}
+{% endhighlight %}
+</div>
+
+<h3 class="section-subheading">9.3 — Morris Inorder Traversal (O(1) Space)</h3>
+<div class="insight-box">
+  <span class="insight-label">How Morris Traversal Works</span>
+  Instead of a stack, Morris threads the <em>inorder predecessor</em>'s right pointer back to the current node — creating a temporary link (thread) to return here after the left subtree finishes. On the second visit the thread is removed and the node is printed. No extra space beyond a few pointers.
+</div>
+<div class="ch-code-wrap">
+<span class="ch-code-label">Morris Inorder — O(n) time, O(1) space</span>
+{% highlight cpp %}
+void morrisInOrder(TreeNode* root) {
+    TreeNode* curr = root;
+    while (curr) {
+        if (!curr->left) {
+            cout << curr->val << " ";  // no left child → print and move right
+            curr = curr->right;
+        } else {
+            // Find inorder predecessor: rightmost node in left subtree
+            TreeNode* pred = curr->left;
+            while (pred->right && pred->right != curr)
+                pred = pred->right;
+
+            if (!pred->right) {        // Thread not created yet
+                pred->right = curr;    // create thread back to curr
+                curr = curr->left;     // descend left
+            } else {                   // Thread already exists → second visit
+                pred->right = nullptr; // remove thread (restore tree)
+                cout << curr->val << " ";
+                curr = curr->right;
+            }
+        }
+    }
+}
+{% endhighlight %}
+</div>
+<div class="dsa-pattern-box">
+<pre style="font-size:0.82rem;margin:0;color:var(--text-color);">Morris Inorder Traversal walk-through on: [4, 2, 6, 1, 3, 5, 7]
+
+        4
+       / \
+      2   6
+     / \ / \
+    1  3 5  7
+
+Step 1: curr=4, pred of 4 is 3 (rightmost of left subtree).
+        Thread 3→4. Move curr to 2.
+Step 2: curr=2, pred of 2 is 1. Thread 1→2. Move curr to 1.
+Step 3: curr=1, no left. Print 1. Move right → follows thread to 2.
+Step 4: curr=2, thread found (pred 1→2 exists). Remove thread.
+        Print 2. Move right to 3.
+Step 5: curr=3, no left. Print 3. Move right → follows thread to 4.
+Step 6: curr=4, thread found (pred 3→4). Remove thread.
+        Print 4. Move right to 6.
+... continues printing 5, 6, 7.
+
+Output: 1 2 3 4 5 6 7  ✓
+</pre>
+</div>
+<div class="ch-cplx-row">
+  <span class="ch-cplx"><span>Time</span>O(n)</span>
+  <span class="ch-cplx"><span>Space (Morris)</span>O(1) — no stack/recursion</span>
+  <span class="ch-cplx"><span>Space (Iterative)</span>O(h) — explicit stack</span>
+</div>
+</div>
+
+<!-- ═══════════════════════ Section 10 ══════════════════════ -->
+<div class="chapter-section">
+<h2 class="section-heading">Section 10 — Tree Serialization &amp; Debug Utilities</h2>
+<p>These helpers let you build trees from LeetCode-style bracket strings (e.g. <code>"[1,2,3,null,5]"</code>), serialize back to strings, and pretty-print trees visually — invaluable for local testing and debugging.</p>
+
+<h3 class="section-subheading">10.1 — stringToTreeNode (Deserialize)</h3>
+<div class="insight-box">
+  <span class="insight-label">BFS Construction Algorithm</span>
+  Parse the comma-separated input left-to-right. Use a queue of <em>parent nodes waiting for their children</em>. For each parent, consume the next two tokens as left and right child (skip if <code>"null"</code>). This mirrors LeetCode's level-order representation exactly.
+</div>
+<div class="ch-code-wrap">
+<span class="ch-code-label">stringToTreeNode — O(n) time &amp; space</span>
+{% highlight cpp %}
+void trimLeftTrailingSpaces(string& input) {
+    input.erase(input.begin(), find_if(input.begin(), input.end(), [](int ch) {
+        return !isspace(ch);
+    }));
+}
+void trimRightTrailingSpaces(string& input) {
+    input.erase(find_if(input.rbegin(), input.rend(), [](int ch) {
+        return !isspace(ch);
+    }).base(), input.end());
+}
+void trim(string& input) {
+    trimLeftTrailingSpaces(input);
+    trimRightTrailingSpaces(input);
+}
+
+// Parses "[1,2,3,null,5]" → TreeNode*
+TreeNode* stringToTreeNode(string input) {
+    trim(input);
+    input = input.substr(1, input.length() - 2); // strip [ ]
+    if (!input.size()) return nullptr;
+
+    stringstream ss; ss.str(input);
+    string item;
+    getline(ss, item, ',');
+
+    queue<TreeNode*> nodeQ;
+    TreeNode* root = new TreeNode(stoi(item));
+    nodeQ.push(root);
+
+    while (true) {
+        TreeNode* node = nodeQ.front(); nodeQ.pop();
+
+        if (!getline(ss, item, ',')) break;
+        trimLeftTrailingSpaces(item);
+        if (item != "null") {
+            node->left = new TreeNode(stoi(item));
+            nodeQ.push(node->left);
+        }
+
+        if (!getline(ss, item, ',')) break;
+        trimLeftTrailingSpaces(item);
+        if (item != "null") {
+            node->right = new TreeNode(stoi(item));
+            nodeQ.push(node->right);
+        }
+    }
+    return root;
+}
+{% endhighlight %}
+</div>
+
+<h3 class="section-subheading">10.2 — treeNodeToString (Serialize)</h3>
+<div class="ch-code-wrap">
+<span class="ch-code-label">treeNodeToString — O(n) time &amp; space</span>
+{% highlight cpp %}
+// Serializes a tree to "[1,2,3,null,5,null,null]" (LeetCode format)
+string treeNodeToString(TreeNode* root) {
+    if (!root) return "[]";
+    string output;
+    queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        TreeNode* node = q.front(); q.pop();
+        if (!node) { output += "null, "; continue; }
+        output += to_string(node->val) + ", ";
+        q.push(node->left);
+        q.push(node->right);
+    }
+    return "[" + output.substr(0, output.length() - 2) + "]";
+}
+{% endhighlight %}
+</div>
+
+<h3 class="section-subheading">10.3 — prettyPrintTree (Visual Debugger)</h3>
+<div class="insight-box">
+  <span class="insight-label">How it Works</span>
+  Recursively prints the <em>right</em> subtree first (top of console = rightmost node), then the current node, then the <em>left</em> subtree. Each level is indented with box-drawing characters (<code>└──</code>, <code>┌──</code>, <code>│</code>) to show the tree shape.
+</div>
+<div class="ch-code-wrap">
+<span class="ch-code-label">prettyPrintTree — example output for [4,2,6,1,3,5,7]</span>
+{% highlight cpp %}
+void prettyPrintTree(TreeNode* node, string prefix = "", bool isLeft = true) {
+    if (!node) { cout << "Empty tree"; return; }
+    if (node->right)
+        prettyPrintTree(node->right, prefix + (isLeft ? "│   " : "    "), false);
+    cout << prefix + (isLeft ? "└── " : "┌── ") + to_string(node->val) + "\n";
+    if (node->left)
+        prettyPrintTree(node->left,  prefix + (isLeft ? "    " : "│   "), true);
+}
+
+/*  Output for [4,2,6,1,3,5,7]:
+    ┌── 7
+│   ┌── 6
+│       └── 5
+└── 4
+    ┌── 3
+    └── 2
+        └── 1
+*/
+{% endhighlight %}
+</div>
+
+<h3 class="section-subheading">10.4 — Putting It All Together (main driver)</h3>
+<div class="ch-code-wrap">
+<span class="ch-code-label">Local test driver — reads tree strings from stdin</span>
+{% highlight cpp %}
+int main() {
+    string line;
+    while (getline(cin, line)) {
+        TreeNode* root = stringToTreeNode(line);
+        prettyPrintTree(root);
+        cout << "Pre Order:  [ "; preOrder(root);        cout << "]\n";
+        cout << "In Order:   [ "; morrisInOrder(root);   cout << "]\n";
+        cout << "Post Order: [ "; postOrderTraversal(root); cout << "]\n";
+        cout << "Serialized: " << treeNodeToString(root) << "\n\n";
+    }
+    return 0;
+}
+// Input example:  [1,2,3,4,5,null,6]
+// Pre Order:  [ 1 2 4 5 3 6 ]
+// In Order:   [ 4 2 5 1 3 6 ]
+// Post Order: [ 4 5 2 6 3 1 ]
+{% endhighlight %}
+</div>
+<div class="ch-cplx-row">
+  <span class="ch-cplx"><span>Serialize / Deserialize</span>O(n)</span>
+  <span class="ch-cplx"><span>prettyPrintTree</span>O(n)</span>
+  <span class="ch-cplx"><span>Space</span>O(n) queue / O(h) recursion</span>
+</div>
+</div>
+
 </div><!-- end .chapter-content -->
 
 <div class="chapter-nav-footer">

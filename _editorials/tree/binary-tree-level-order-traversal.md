@@ -3,7 +3,7 @@ permalink: /editorials/balanced-binary-tree/
 layout: editorial
 title: "Binary Tree Level Order Traversal Solution"
 problem_id: "102"
-date: 2026-03-04T01:00:00.000Z
+date: 2026-03-04T10:24:48.323Z
 ---
 
 # Clean BFS using Queue Size (Level-by-Level Traversal)
