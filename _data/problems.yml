@@ -475,6 +475,16 @@ problems:
     problem_url: https://leetcode.com/problems/binary-tree-level-order-traversal/
     approach_url: /editorials/binary-tree-level-order-traversal/
     solution_url: ""
+  - id: "103"
+    title: Binary Tree Zigzag Level Order Traversal
+    platform: leetcode
+    difficulty: medium
+    topics:
+      - tree
+    solved: true
+    problem_url: https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+    approach_url: /editorials/binary-tree-zigzag-level-order-traversal/
+    solution_url: ""
   - id: "98"
     title: Validate Binary Search Tree
     platform: leetcode
