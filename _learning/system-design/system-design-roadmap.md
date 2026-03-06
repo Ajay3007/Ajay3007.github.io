@@ -334,13 +334,14 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#7c6fff">🔄 LLD A5 — Concurrency in LLD</div>
+            <a href="/learning/system-design/lld/module-a5-notes/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🔄 LLD A5 — Concurrency in LLD</a>
             <div class="milestone-week">Week 8</div>
           </div>
           <div class="milestone-desc">Threads, Locks, Semaphores, Monitors. Producer-Consumer, Thread Pool, Deadlock prevention. The bridge between OOP design and systems programming.</div>
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: Thread-safe BookMyShow booking engine</div>
             <div class="deliverable">Unlock: Advanced LLD Systems</div>
+            <a href="/learning/system-design/lld/module-a5-notes/" class="deliverable" style="color:#7c6fff;text-decoration:none;">⚡ Open Module Notes</a>
           </div>
         </div>
       </div>
@@ -350,13 +351,14 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#7c6fff">🏢 LLD A6 — Advanced LLD Systems</div>
+            <a href="/learning/system-design/lld/module-a6-notes/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🏢 LLD A6 — Advanced LLD Systems</a>
             <div class="milestone-week">Weeks 9–10</div>
           </div>
           <div class="milestone-desc">LinkedIn, Amazon, Uber/Ola, Hotel Booking, Online Voting, Cache Mechanism, Rate Limiter, Food Delivery, Chat System, Restaurant Management, Bowling Alley.</div>
           <div class="milestone-deliverables">
             <div class="deliverable project">Major Project: Uber LLD end-to-end</div>
             <div class="deliverable task">10+ System Designs</div>
+            <a href="/learning/system-design/lld/module-a6-notes/" class="deliverable" style="color:#7c6fff;text-decoration:none;">⚡ Open Case Study Notes</a>
             <div class="deliverable">✅ LLD Track Complete</div>
           </div>
         </div>
