@@ -962,7 +962,7 @@ for (int i = 1; i < prices.size(); i++) {
       <div class="ch-title">Bonus Topics — Tries, Bit Manipulation, Intervals</div>
       <div class="ch-meta">
         <span class="ch-badge">Advanced</span>
-        <span class="ch-badge notes-soon">🔒 Notes Soon</span>
+        <a href="{{ '/learning/dsa/intervals/ch11-bonus-topics/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -1042,6 +1042,7 @@ public:
       <div class="ch-title">Study Plan & Complexity Cheatsheet</div>
       <div class="ch-meta">
         <span class="ch-badge">Reference</span>
+        <a href="{{ '/learning/dsa/ch12-cheat-sheet/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>

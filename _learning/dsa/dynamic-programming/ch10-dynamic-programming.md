@@ -952,7 +952,7 @@ public:
     <!-- ========================================== -->
     <div class="chapter-nav-footer">
       <a href="{{ '/learning/dsa/backtracking/ch9-backtracking/' | relative_url }}" class="ch-nav-footer-btn">← Prev: Ch9 Backtracking</a>
-      <a href="{{ '/learning/dsa/dsa-roadmap/' | relative_url }}" class="ch-nav-footer-btn">Next: Ch11 Bonus Topics (Locked)<i class="fas fa-lock" style="margin-left: 8px;"></i></a>
+      <a href="{{ '/learning/dsa/intervals/ch11-bonus-topics/' | relative_url }}" class="ch-nav-footer-btn">Next: Ch11 Bonus Topics →</a>
     </div>
 
 </div>

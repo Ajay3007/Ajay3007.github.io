@@ -269,13 +269,14 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#7c6fff">🧱 LLD A1 — SOLID + OOP + UML</div>
+            <a href="/learning/system-design/lld/module-a1-solid/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🧱 LLD A1 — SOLID + OOP + UML</a>
             <div class="milestone-week">Week 3</div>
           </div>
           <div class="milestone-desc">Master SOLID principles with real violations and fixes. Learn UML Class and Sequence diagrams. Build the design instinct before patterns.</div>
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: Refactor badly designed Parking Lot</div>
             <div class="deliverable">Unlock: All Design Patterns</div>
+            <a href="/learning/system-design/lld/module-a1-solid/" class="deliverable" style="color:#7c6fff;text-decoration:none;">⚡ Open Interactive Notes</a>
           </div>
         </div>
       </div>
@@ -285,7 +286,7 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#7c6fff">🏗️ LLD A2 — Creational Patterns</div>
+            <a href="/learning/system-design/lld/module-a2-creational/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🏭 LLD A2 — Creational Patterns</a>
             <div class="milestone-week">Week 4</div>
           </div>
           <div class="milestone-desc">Singleton, Factory, Abstract Factory, Builder, Prototype — each mapped to a real system (Logging, Parking Lot, Snake & Ladder, Chess, File System).</div>
@@ -301,7 +302,7 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#7c6fff">🔗 LLD A3 — Structural Patterns</div>
+            <a href="/learning/system-design/lld/module-a3-structural/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🔗 LLD A3 — Structural Patterns</a>
             <div class="milestone-week">Week 5</div>
           </div>
           <div class="milestone-desc">Adapter, Decorator, Proxy, Composite, Facade, Bridge, Flyweight — mapped to Vending Machine, Pizza Billing, Car Rental, Splitwise, CricBuzz, TrueCaller.</div>
@@ -317,7 +318,7 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#7c6fff">⚙️ LLD A4 — Behavioral Patterns</div>
+            <a href="/learning/system-design/lld/module-a4-behavioral/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">⚙️ LLD A4 — Behavioral Patterns</a>
             <div class="milestone-week">Weeks 6–7</div>
           </div>
           <div class="milestone-desc">12 behavioral patterns: Strategy, Observer, Chain of Responsibility, State, Command, Iterator, Mediator, Memento, Template Method, Visitor, Null Object, Interpreter.</div>

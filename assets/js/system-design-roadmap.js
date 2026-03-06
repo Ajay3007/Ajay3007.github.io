@@ -15,8 +15,8 @@ const ganttRows = [
   { section: 'TRACK A — LLD (Weeks 3–10)' },
   { label: 'A1 · SOLID + OOP + UML', start: 3, end: 3, color: '#7c6fff', tip: 'SOLID principles, UML Class/Sequence diagrams. Task: Refactor Parking Lot' },
   { label: 'A2 · Creational Patterns', start: 4, end: 4, color: '#7c6fff', tip: 'Singleton, Factory, Abstract Factory, Builder, Prototype. Project: ATM System' },
-  { label: 'A3 · Structural Patterns', start: 5, end: 5, color: '#7c6fff', tip: 'Adapter, Decorator, Proxy, Composite, Facade, Bridge, Flyweight. Project: Splitwise' },
-  { label: 'A4 · Behavioral Patterns', start: 6, end: 7, color: '#7c6fff', tip: '12 patterns: Strategy, Observer, CoR, State, Command... Project: BookMyShow' },
+  { link: '/learning/system-design/lld/module-a3-structural/', label: 'A3 · Structural Patterns', start: 5, end: 5, color: '#7c6fff', tip: 'Adapter, Decorator, Proxy, Composite, Facade, Bridge, Flyweight. Project: Splitwise' },
+  { link: '/learning/system-design/lld/module-a4-behavioral/', label: 'A4 · Behavioral Patterns', start: 6, end: 7, color: '#7c6fff', tip: '12 patterns: Strategy, Observer, CoR, State, Command... Project: BookMyShow' },
   { label: 'A5 · Concurrency in LLD', start: 8, end: 8, color: '#7c6fff', tip: 'Threads, Locks, Semaphores, Thread Pool, Deadlock prevention' },
   { label: 'A6 · Advanced LLD Systems', start: 9, end: 10, color: '#7c6fff', tip: 'LinkedIn, Amazon, Uber, Hotel, Voting, Cache, Rate Limiter. Project: Uber LLD' },
 

@@ -934,7 +934,7 @@ remain==0  —      0        [2,2,3]   SOLUTION! add to res
     <!-- ========================================== -->
     <div class="chapter-nav-footer">
       <a href="{{ '/learning/dsa/binary-search/ch8-binary-search/' | relative_url }}" class="ch-nav-footer-btn">← Prev: Ch8 Binary Search</a>
-      <a href="{{ '/learning/dsa/dsa-roadmap/' | relative_url }}" class="ch-nav-footer-btn">Next: Ch10 DP (Locked)<i class="fas fa-lock" style="margin-left: 8px;"></i></a>
+      <a href="{{ '/learning/dsa/dynamic-programming/ch10-dynamic-programming/' | relative_url }}" class="ch-nav-footer-btn">Next: Ch10 Dynamic Programming →</a>
     </div>
 
 

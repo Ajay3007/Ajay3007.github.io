@@ -242,8 +242,170 @@
 .ch-nav-footer-btn:hover { border-color: var(--ch-1); color: var(--ch-1); }
 .ch-nav-footer-btn.primary { background: var(--ch-grad); color: #fff; border-color: transparent; }
 
+/* ── Insight Table ─────────────────────────────────────────────── */
+/* Responsive wrapper — enables horizontal scroll on small screens */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  margin: 0.85rem 0 1.25rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+/* The table itself */
+.insight-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  background: var(--card-bg, #fff);
+  min-width: 480px; /* stops columns collapsing on narrow viewports */
+}
+
+/* Header row */
+.insight-table thead tr {
+  background: linear-gradient(90deg, rgba(0,201,167,.12), rgba(0,180,216,.08));
+  border-bottom: 2px solid rgba(0,201,167,.25);
+}
+
+.insight-table th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.055em;
+  color: var(--ch-1, #00c9a7);
+  white-space: nowrap;
+}
+
+/* Body cells */
+.insight-table td {
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  color: var(--text-color);
+  vertical-align: middle;
+}
+
+/* Last row — no bottom border */
+.insight-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Zebra stripe */
+.insight-table tbody tr:nth-child(even) {
+  background: rgba(0,201,167,.03);
+}
+
+/* Hover highlight */
+.insight-table tbody tr:hover {
+  background: rgba(0,201,167,.07);
+  transition: background 0.15s ease;
+}
+
+/* Strong text inside table inherits teal accent */
+.insight-table td strong {
+  color: var(--ch-1, #00c9a7);
+}
+
+/* ── Difficulty badges ─────────────────────────────────────────── */
+/* Used in Top 50 problems tables and chapter hero stats */
+.diff-easy {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: rgba(22,163,74,.12);
+  color: #16a34a;
+  border: 1px solid rgba(22,163,74,.25);
+}
+.diff-medium {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: rgba(234,179,8,.12);
+  color: #b45309;
+  border: 1px solid rgba(234,179,8,.3);
+}
+.diff-hard {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: rgba(220,38,38,.1);
+  color: #dc2626;
+  border: 1px solid rgba(220,38,38,.25);
+}
+.diff-intermediate {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: rgba(124,58,237,.1);
+  color: #7c3aed;
+  border: 1px solid rgba(124,58,237,.25);
+}
+
+/* ── hero stats badges (ch-subtitle area) ─────────────────────── */
+.hero-stats {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;
+}
+.stat-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700;
+  background: rgba(255,255,255,.1);
+  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.18);
+}
+.stat-badge .icon { font-size: 0.82rem; }
+/* Override difficulty colours in the dark hero context */
+.chapter-hero .diff-hard {
+  background: rgba(220,38,38,.2);
+  color: #fca5a5;
+  border-color: rgba(220,38,38,.35);
+}
+.chapter-hero .diff-intermediate {
+  background: rgba(124,58,237,.2);
+  color: #c4b5fd;
+  border-color: rgba(124,58,237,.35);
+}
+
+/* ── Breadcrumb inside hero ────────────────────────────────────── */
+.breadcrumb {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,.5);
+  margin-bottom: 0.6rem;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.breadcrumb a { color: var(--ch-1, #00c9a7); text-decoration: none; }
+.breadcrumb .separator { opacity: 0.45; }
+.breadcrumb .current { color: rgba(255,255,255,.75); }
+
+/* ── Chapter sub-title ─────────────────────────────────────────── */
+.ch-subtitle {
+  color: rgba(255,255,255,.6);
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0;
+  line-height: 1.6;
+}
+
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .chapter-hero h1 { font-size: 1.6rem; }
   .pattern-summary { grid-template-columns: 1fr; }
+  .insight-table { font-size: 0.8rem; }
+  .insight-table th, .insight-table td { padding: 0.45rem 0.65rem; }
 }
