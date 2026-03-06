@@ -20,49 +20,65 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B1 · Week 3</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B1 · Week 11</span>
+      <span style="background:#00d4aa;color:#030810;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Complete</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Requirements & API Design</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Functional vs non-functional requirements, capacity estimation, SLIs/SLOs, REST vs gRPC, API versioning and idempotency.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">HLD Fundamentals</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Scalability, CAP Theorem, Consistency Models, Availability Patterns, Load Balancing, Latency vs Throughput. Back-of-envelope estimation and the SD Interview Framework.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b1-hld-fundamentals/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b1-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
+  </div>
+
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B2 · Week 12</span>
+      <span style="background:#00d4aa;color:#030810;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Complete</span>
+    </div>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Databases at Scale</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Indexing (B-Tree, Hash, Composite, Covering), ACID vs BASE, SQL vs NoSQL decision framework, Replication, Sharding strategies, and a practical DB Selection Guide.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b2-databases-at-scale/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b2-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
+  </div>
+
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B3 · Week 13</span>
+      <span style="background:#00d4aa;color:#030810;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Complete</span>
+    </div>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Caching</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Cache-Aside, Write-Through, Write-Back, Read-Through. LRU/LFU eviction, cache invalidation, stampede prevention. Redis data structures (Strings, Hashes, Sets, Sorted Sets) and CDN caching.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b3-caching/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b3-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
+  </div>
+
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B4 · Week 14</span>
+      <span style="background:#00d4aa;color:#030810;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Complete</span>
+    </div>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Message Queues & Kafka</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Async messaging patterns, Kafka architecture (partitions, offsets, consumer groups), at-least-once vs exactly-once, backpressure.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b4-message-queues/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b4-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B2 · Week 4</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B5 · Week 15</span>
       <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Networking & Edge</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">DNS, CDN, Load Balancers (L4 vs L7), reverse proxies, WebSockets, long polling, and connection pooling.</p>
-  </div>
-
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B3 · Week 5</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
-    </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Hardware & Infrastructure</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">CPU, memory, disk I/O trade-offs, vertical vs horizontal scaling, data centers, cloud regions and availability zones.</p>
-  </div>
-
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B4 · Week 6</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
-    </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Caching Strategies</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Cache-aside, write-through, write-behind; Redis vs Memcached; eviction policies (LRU, LFU); cache stampede prevention.</p>
-  </div>
-
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B5 · Week 7</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
-    </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Data Store Internals</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">SQL vs NoSQL trade-offs, B-Tree & LSM indexing, WAL, ACID vs BASE, row vs column stores, polyglot persistence.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Coming Soon</h3>
+    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Next HLD module — to be announced.</p>
   </div>
 
 </div>
@@ -73,22 +89,30 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B6 · Week 8</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B6 · Week 16</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Databases at Scale</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Replication (leader-follower, multi-leader), sharding strategies (range, hash, directory), consistent hashing, cross-shard queries.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Design Twitter/X Feed</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Fan-out on write vs read, hybrid timeline generation, graph DBs, custom cache.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b6-twitter-feed/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b6-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B7 · Week 9</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B7 · Week 17</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Message Queues & Kafka</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Async messaging patterns, Kafka architecture (partitions, offsets, consumer groups), at-least-once vs exactly-once, backpressure.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Design WhatsApp</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">WebSockets, Cassandra, session store, delivery receipts, presence system.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b7-whatsapp/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b7-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">

@@ -1,8 +1,37 @@
 ---
 layout: default
 title: "Module A5 — Concurrency in LLD (Notes)"
+custom_css: dsa-chapter
 permalink: /learning/system-design/lld/module-a5-notes/
 ---
+
+<div class="chapter-hero" style="--ch-1:#7c6fff;--ch-2:#00d4aa;">
+  <div class="breadcrumb">
+    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+    <span class="separator">›</span>
+    <a href="/learning/system-design/lld/">LLD Hub</a>
+    <span class="separator">›</span>
+    <a href="/learning/system-design/lld/module-a5-concurrency/">Module A5</a>
+    <span class="separator">›</span>
+    <span class="current">Full Notes</span>
+  </div>
+  <h1>Module A5 — Concurrency in LLD</h1>
+  <p class="ch-subtitle">Complete reference notes · Track A: LLD · Week 8</p>
+  <div class="hero-stats">
+    <span class="stat-badge">Java Memory Model</span>
+    <span class="stat-badge">Locks & Semaphores</span>
+    <span class="stat-badge">Producer-Consumer</span>
+    <span class="stat-badge">Thread Pool</span>
+    <span class="stat-badge">Rate Limiter</span>
+  </div>
+</div>
+
+<div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+  <a href="/learning/system-design/lld/module-a5-concurrency/" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:rgba(124,111,255,0.1);border:1px solid rgba(124,111,255,0.3);color:#7c6fff;text-decoration:none;font-weight:700;font-size:0.85rem;">
+    ⚡ Interactive Visual Version
+  </a>
+  <span style="color:var(--c-muted,#666);font-size:0.85rem;">← Recommended for learning. This page is the printable reference.</span>
+</div>
 
 # Module A5 — Concurrency in LLD
 ## System Design Mastery Course | Track A: LLD | Week 8

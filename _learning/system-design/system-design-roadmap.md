@@ -109,19 +109,19 @@ permalink: /learning/system-design/system-design-roadmap/
         </div>
 
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B1 · System Requirements</span><span class="week-tag">W3</span>
+          <span>B1 · HLD Fundamentals</span><span class="week-tag">W11</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B2 · Networking + Protocols</span><span class="week-tag">W4</span>
+          <span>B2 · Databases at Scale</span><span class="week-tag">W12</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B3 · Hardware + Infrastructure</span><span class="week-tag">W5</span>
+          <span>B3 · Caching</span><span class="week-tag">W13</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B4 · Caching</span><span class="week-tag">W6</span>
+          <span>B4 · 🔜 Coming Soon</span><span class="week-tag">W14</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
@@ -215,9 +215,7 @@ permalink: /learning/system-design/system-design-roadmap/
 
 <!-- ==================== VIEW 3: MILESTONE ==================== -->
 <div class="view" id="view-milestone">
-  <div class="milestone-view">
-
-    <div class="stats-bar">
+  <div class="stats-bar">
       <div class="stat-card">
         <div class="stat-number" style="color:#7c6fff">24</div>
         <div class="stat-label">Total Weeks</div>
@@ -334,14 +332,13 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <a href="/learning/system-design/lld/module-a5-notes/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🔄 LLD A5 — Concurrency in LLD</a>
+            <a href="/learning/system-design/lld/module-a5-concurrency/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🔄 LLD A5 — Concurrency in LLD</a>
             <div class="milestone-week">Week 8</div>
           </div>
           <div class="milestone-desc">Threads, Locks, Semaphores, Monitors. Producer-Consumer, Thread Pool, Deadlock prevention. The bridge between OOP design and systems programming.</div>
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: Thread-safe BookMyShow booking engine</div>
             <div class="deliverable">Unlock: Advanced LLD Systems</div>
-            <a href="/learning/system-design/lld/module-a5-notes/" class="deliverable" style="color:#7c6fff;text-decoration:none;">⚡ Open Module Notes</a>
           </div>
         </div>
       </div>
@@ -351,14 +348,13 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#7c6fff"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <a href="/learning/system-design/lld/module-a6-notes/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🏢 LLD A6 — Advanced LLD Systems</a>
+            <a href="/learning/system-design/lld/module-a6-case-studies/" class="milestone-title" style="color:#7c6fff;text-decoration:none;">🏢 LLD A6 — Advanced LLD Systems</a>
             <div class="milestone-week">Weeks 9–10</div>
           </div>
           <div class="milestone-desc">LinkedIn, Amazon, Uber/Ola, Hotel Booking, Online Voting, Cache Mechanism, Rate Limiter, Food Delivery, Chat System, Restaurant Management, Bowling Alley.</div>
           <div class="milestone-deliverables">
             <div class="deliverable project">Major Project: Uber LLD end-to-end</div>
             <div class="deliverable task">10+ System Designs</div>
-            <a href="/learning/system-design/lld/module-a6-notes/" class="deliverable" style="color:#7c6fff;text-decoration:none;">⚡ Open Case Study Notes</a>
             <div class="deliverable">✅ LLD Track Complete</div>
           </div>
         </div>
@@ -369,13 +365,13 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">📋 HLD B1–B3 — Requirements, Networking, Infrastructure</div>
-            <div class="milestone-week">Weeks 3–5</div>
+            <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" class="milestone-title" style="color:#00d4aa;text-decoration:none;">📋 HLD B1 — HLD Fundamentals</a>
+            <div class="milestone-week">Week 11</div>
           </div>
-          <div class="milestone-desc">System qualities (availability, scalability, durability, consistency). Network protocols deep dive. Hardware topology: servers → VMs → containers → serverless. CDN, Proxy, API Gateway.</div>
+          <div class="milestone-desc">Scalability, CAP Theorem, Consistency Models, Availability Patterns, Load Balancing, Latency vs Throughput. Back-of-envelope estimation and the SD Interview Framework.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Protocol comparison for 5 real systems</div>
-            <div class="deliverable task">Task: Global infra layout design</div>
+            <div class="deliverable task">Task: Back-of-envelope estimation for 3 systems</div>
+            <div class="deliverable task">Task: CAP trade-off analysis for 5 real systems</div>
           </div>
         </div>
       </div>
@@ -384,28 +380,84 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">💾 HLD B4–B5 — Caching + Data Store Internals</div>
-            <div class="milestone-week">Weeks 6–7</div>
+            <a href="/learning/system-design/hld/module-b2-databases-at-scale/" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🗄️ HLD B2 — Databases at Scale</a>
+            <div class="milestone-week">Week 12</div>
           </div>
-          <div class="milestone-desc">Cache eviction, invalidation, distributed caching. Then the course differentiator: LSM-tree vs B-tree, RocksDB, Page Cache, Log-structured storage, build a key-value store.</div>
-          <div class="milestone-deliverables">
-            <div class="deliverable project">Mini Project: Build a minimal Key-Value Store</div>
-            <div class="deliverable task">Task: Caching layer for Twitter feed</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="milestone">
-        <div class="milestone-dot" style="background:#00d4aa"></div>
-        <div class="milestone-card">
-          <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🗄️ HLD B6–B7 — Databases at Scale + Queues</div>
-            <div class="milestone-week">Weeks 8–9</div>
-          </div>
-          <div class="milestone-desc">SQL vs NoSQL decision framework. Sharding, Partitioning, Replication, Leader Election, Indexing. Then Kafka deep dive: consumer offsets, delivery guarantees, async patterns.</div>
+          <div class="milestone-desc">Indexing (B-Tree, Hash, Composite), ACID vs BASE, SQL vs NoSQL decision framework, Replication (leader-follower, multi-leader), Sharding (range, hash, consistent), DB Selection Guide.</div>
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: DB design for Instagram</div>
+            <div class="deliverable task">Task: Sharding strategy for Twitter</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="/learning/system-design/hld/module-b3-caching/" class="milestone-title" style="color:#00d4aa;text-decoration:none;">⚡ HLD B3 — Caching</a>
+            <div class="milestone-week">Week 13</div>
+          </div>
+          <div class="milestone-desc">Cache-Aside, Write-Through, Write-Back, Read-Through patterns. LRU/LFU eviction, cache invalidation strategies, stampede prevention. Redis data structures and CDN caching.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: Caching layer for Twitter feed</div>
+            <div class="deliverable task">Task: Redis sorted set leaderboard design</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b4-message-queues/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">📨 HLD B4 — Message Queues & Kafka</a>
+            <div class="milestone-week">Week 14</div>
+          </div>
+          <div class="milestone-desc">Async messaging patterns, Kafka architecture (partitions, offsets, consumer groups), at-least-once vs exactly-once delivery guarantees, push vs pull semantics, event-driven backpressure.</div>
+          <div class="milestone-deliverables">
             <div class="deliverable task">Task: Notification pipeline with Kafka</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b5-url-shortener/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🔗 HLD B5 — URL Shortener (Pastebin)</a>
+            <div class="milestone-week">Week 15</div>
+          </div>
+          <div class="milestone-desc">Base62 encoding strategies, distributed unique ID generation (Snowflake), API rate limiting, 301 vs 302 redirects, caching topologies, read-heavy system scaling.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable project">Project: Build a scalable URL Shortener</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b6-twitter-feed/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🐦 HLD B6 — Design Twitter/X Feed</a>
+            <div class="milestone-week">Week 16</div>
+          </div>
+          <div class="milestone-desc">Fan-out on write vs read methodologies, hybrid timeline generation for celebrities, distributed caching with Redis, timeline pre-computation, asynchronous count updates.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: Fan-out strategy for 100M followers</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b7-whatsapp/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">💬 HLD B7 — Design WhatsApp (Real-Time)</a>
+            <div class="milestone-week">Week 17</div>
+          </div>
+          <div class="milestone-desc">Persistent WebSockets with session stores, Cassandra optimizations for chat history, three-state delivery receipts, high-throughput presence systems, group messaging fan-out.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: 45-min full WhatsApp interview simulation</div>
           </div>
         </div>
       </div>
@@ -539,7 +591,6 @@ permalink: /learning/system-design/system-design-roadmap/
       </div>
 
     </div>
-  </div>
 </div>
 
 <div class="tooltip" id="tooltip">

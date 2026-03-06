@@ -10,7 +10,7 @@ Design classes, components, and interactions at the code level — SOLID princip
 
 <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0 2rem;">
   <span style="background:rgba(124,111,255,0.1);color:#7c6fff;border:1px solid rgba(124,111,255,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">Track A · Weeks 3–10</span>
-  <span style="background:rgba(16,185,129,0.1);color:#10b981;border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">4 of 6 modules complete</span>
+  <span style="background:rgba(16,185,129,0.1);color:#10b981;border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">6 of 6 modules complete</span>
   <span style="background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">23 Design Patterns</span>
 </div>
 
@@ -77,28 +77,30 @@ Design classes, components, and interactions at the code level — SOLID princip
   </div>
 
   <!-- A5 -->
-  <div class="project-card" style="border-left:4px solid #94a3b8;opacity:0.8;">
+  <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;">A5 · Week 8</span>
-      <span style="background:#f59e0b;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">📝 Notes Only</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#7c6fff;text-transform:uppercase;letter-spacing:0.05em;">A5 · Week 8</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Complete</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Concurrency in LLD</h3>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);"><a href="{{ '/learning/system-design/lld/module-a5-concurrency/' | relative_url }}">Concurrency in LLD</a></h3>
     <p style="margin:0 0 0.75rem;font-size:0.9rem;color:var(--light-text);">Thread safety, synchronization primitives, Producer-Consumer, Reader-Writer, Thread Pool, deadlock detection and prevention.</p>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <span style="font-size:0.8rem;color:#94a3b8;font-weight:600;">📖 Module coming soon</span>
+      <a href="{{ '/learning/system-design/lld/module-a5-concurrency/' | relative_url }}" style="font-size:0.8rem;color:#7c6fff;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/lld/module-a5-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
 
   <!-- A6 -->
-  <div class="project-card" style="border-left:4px solid #94a3b8;opacity:0.8;">
+  <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:0.05em;">A6 · Weeks 9–10</span>
-      <span style="background:#f59e0b;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">📝 Notes Only</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#7c6fff;text-transform:uppercase;letter-spacing:0.05em;">A6 · Weeks 9–10</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Complete</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">LLD Case Studies</h3>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);"><a href="{{ '/learning/system-design/lld/module-a6-case-studies/' | relative_url }}">LLD Case Studies</a></h3>
     <p style="margin:0 0 0.75rem;font-size:0.9rem;color:var(--light-text);">6 full systems: Chess Game, Elevator, Library Management, Food Ordering, Parking Lot, Hotel Booking — applying all patterns end-to-end.</p>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
-      <span style="font-size:0.8rem;color:#94a3b8;font-weight:600;">📖 Module coming soon</span>
+      <a href="{{ '/learning/system-design/lld/module-a6-case-studies/' | relative_url }}" style="font-size:0.8rem;color:#7c6fff;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/lld/module-a6-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
 
@@ -114,8 +116,8 @@ Design classes, components, and interactions at the code level — SOLID princip
 | **Structural** (7) | Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy | A3 | ✅ Complete |
 | **Behavioral** (11) | CoR, Command, Iterator, Mediator, Memento, Observer, State, Strategy, Template, Visitor, Interpreter | A4 | ✅ Complete |
 | **SOLID + OOP** | SRP, OCP, LSP, ISP, DIP + 4 OOP pillars + UML | A1 | ✅ Complete |
-| **Concurrency** | Thread safety, locks, semaphores, concurrent patterns | A5 | 🔜 Coming |
-| **LLD Systems** | Chess, Elevator, Library, Food Ordering, Parking Lot, Hotel | A6 | 🔜 Coming |
+| **Concurrency** | Thread safety, locks, semaphores, concurrent patterns | A5 | ✅ Complete |
+| **LLD Systems** | Chess, Elevator, Library, Food Ordering, Parking Lot, Hotel | A6 | ✅ Complete |
 
 ---
 
