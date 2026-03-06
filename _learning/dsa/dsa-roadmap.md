@@ -618,7 +618,7 @@ while (!q.empty()) {
       <div class="ch-meta">
         <span class="ch-badge">Intermediate</span>
         <span class="ch-badge">Prereq: Ch5</span>
-        <span class="ch-badge notes-soon">🔒 Notes Soon</span>
+        <a href="{{ '/learning/dsa/heaps/ch6-heaps/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -683,7 +683,7 @@ priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(cmp)> pq(cmp);
       <div class="ch-meta">
         <span class="ch-badge">Intermediate</span>
         <span class="ch-badge">Prereq: Ch3</span>
-        <span class="ch-badge notes-soon">🔒 Notes Soon</span>
+        <a href="{{ '/learning/dsa/greedy/ch7-greedy/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>

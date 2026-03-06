@@ -115,12 +115,12 @@ custom_css: roadmap-hub
   </div>
 
 
-  <!-- ── System Design ── SOON ───────────────────────────────── -->
-  <div class="domain-card coming-soon" style="--card-accent: linear-gradient(90deg,#f59e0b,#ef4444);">
+  <!-- ── System Design ── LIVE ───────────────────────────────── -->
+  <div class="domain-card" style="--card-accent: linear-gradient(90deg,#f59e0b,#ef4444);">
     <div class="dc-icon">🏗️</div>
     <div class="dc-header">
       <div class="dc-title">System Design</div>
-      <span class="dc-badge soon">🔜 Soon</span>
+      <span class="dc-badge active">✅ Live</span>
     </div>
     <div class="dc-desc">HLD &amp; LLD from scratch — scalability, databases, caching, message queues, distributed systems, and real design case studies.</div>
     <div class="dc-tags">
@@ -131,14 +131,14 @@ custom_css: roadmap-hub
     </div>
     <div class="dc-progress">
       <span class="dc-dot filled"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span style="margin-left:0.25rem;">Outline ready</span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span style="margin-left:0.25rem;">14 HLD · 6 LLD Modules</span>
     </div>
     <div class="dc-cta">
-      <span class="dc-btn-soon">🔒 Coming Soon</span>
+      <a href="{{ '/learning/system-design/system-design-roadmap/' | relative_url }}" class="dc-btn">🏗️ Open Roadmap →</a>
     </div>
   </div>
 
