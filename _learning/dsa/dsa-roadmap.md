@@ -745,7 +745,7 @@ for (auto& iv : intervals)
       <div class="ch-meta">
         <span class="ch-badge">Intermediate</span>
         <span class="ch-badge">Prereq: Ch1</span>
-        <span class="ch-badge notes-soon">🔒 Notes Soon</span>
+        <a href="{{ '/learning/dsa/binary-search/ch8-binary-search/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -817,7 +817,7 @@ while (lo <= hi) {
       <div class="ch-meta">
         <span class="ch-badge">Advanced</span>
         <span class="ch-badge">Prereq: Ch0 Recursion</span>
-        <span class="ch-badge notes-soon">🔒 Notes Soon</span>
+        <a href="{{ '/learning/dsa/backtracking/ch9-backtracking/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -889,7 +889,7 @@ void backtrack(int start) {
       <div class="ch-meta">
         <span class="ch-badge">Advanced</span>
         <span class="ch-badge">Prereq: Ch0, Ch9</span>
-        <span class="ch-badge notes-soon">🔒 Notes Soon</span>
+        <a href="{{ '/learning/dsa/dynamic-programming/ch10-dynamic-programming/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>

@@ -47,7 +47,7 @@
 
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     {% if page.custom_css %}
-    <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css | append: '.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css | append: '.css?v=1.1' | relative_url }}">
     {% endif %}
     <!-- Theme: apply before first paint to prevent flash of unstyled content -->
     <script>

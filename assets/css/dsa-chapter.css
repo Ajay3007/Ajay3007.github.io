@@ -89,7 +89,35 @@
 .ch-nav-btn:hover { opacity: 0.8; }
 
 /* ── Section layout ───────────────────────────────────────────── */
-.chapter-content { max-width: 860px; }
+.chapter-content { max-width: 860px; margin: 0 auto; }
+.chapter-content.has-sidebar { max-width: 1100px; display: flex; gap: 2.5rem; align-items: flex-start; }
+
+.chapter-sidebar { width: 260px; flex-shrink: 0; }
+.sidebar-sticky {
+  position: sticky; top: 90px;
+  background: var(--bg-color, #fff); border: 1px solid var(--border-color, #eee);
+  border-radius: 12px; padding: 1.25rem;
+}
+.sidebar-title {
+  font-size: 0.95rem; font-weight: 800; margin: 0 0 1rem;
+  color: var(--text-color); padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color, #eee);
+}
+.chapter-sidebar .toc-nav ul { list-style: none !important; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+.chapter-sidebar .toc-nav li { padding: 0; margin: 0; list-style-type: none !important; }
+.chapter-sidebar .toc-nav a {
+  text-decoration: none !important; color: var(--text-color) !important; font-size: 0.85rem; line-height: 1.4;
+  display: block; padding: 0.4rem 0.6rem; border-radius: 6px; transition: all 0.2s ease;
+}
+.chapter-sidebar .toc-nav a:hover {
+  background: rgba(0,201,167,.15) !important; color: var(--ch-1) !important; font-weight: 600;
+}
+.chapter-main { flex: 1; min-width: 0; }
+
+@media (max-width: 800px) {
+  .chapter-content.has-sidebar { flex-direction: column; }
+  .chapter-sidebar { width: 100%; border-bottom: 1px solid var(--border-color, #eee); padding-bottom: 1.5rem; margin-bottom: 1rem; }
+  .sidebar-sticky { position: static; border: none; padding: 0; background: transparent; }
+}
 
 .chapter-section {
   margin-bottom: 2.5rem;
