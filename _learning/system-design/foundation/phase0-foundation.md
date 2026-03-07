@@ -358,14 +358,9 @@ Peak &asymp; Average &times; <span class="ca">3</span></pre>
       <li onclick="chk(this)"><div class="chk"></div><span>Can fill the 7-metric estimation table for any system in under 5 minutes</span></li>
     </ul>
   </div>
-  <div style="margin-top:24px;padding:20px 24px;background:var(--ink);color:var(--bg);border-radius:4px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
-    <div>
-      <div style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:4px">Phase 0 Complete? Choose your track:</div>
-      <div style="font-size:12px;color:rgba(255,255,255,0.4)">Both tracks can be taken in parallel starting Week 3</div>
-    </div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap">
-      <div style="padding:10px 16px;border:1px solid rgba(124,111,255,0.5);border-radius:4px;font-size:12px;font-family:'DM Mono',monospace;color:#b0a8ff">&rarr; Track A &middot; A1<br><span style="color:rgba(255,255,255,0.35)">SOLID + OOP + UML</span></div>
-      <div style="padding:10px 16px;border:1px solid rgba(0,212,170,0.5);border-radius:4px;font-size:12px;font-family:'DM Mono',monospace;color:#7ae8d4">&rarr; Track B &middot; B1<br><span style="color:rgba(255,255,255,0.35)">System Requirements</span></div>
-    </div>
-  </div>
+</div>
+
+<div style="margin-top:40px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding: 24px 0; border-top: 1px solid var(--border-color); font-family:'IBM Plex Mono',monospace; font-size:13px;">
+  <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid var(--border-color);border-radius:4px;color:var(--text-color);text-decoration:none;transition:all 0.2s;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a1-solid/" style="padding:12px 24px;border:1px solid #7c6fff;background:rgba(124,111,255,0.1);color:#7c6fff;border-radius:4px;text-decoration:none;font-weight:600;transition:all 0.2s;">NEXT: LLD A1 — SOLID →</a>
 </div>

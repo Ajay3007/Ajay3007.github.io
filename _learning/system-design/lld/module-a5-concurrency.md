@@ -783,9 +783,9 @@ function animateCounts() {
 }
 setInterval(animateCounts, 400);
 </script>
-<div class="m5-bottom-nav">
-  <a href="/learning/system-design/lld/module-a4-behavioral/" class="m5-nav-footer-btn">← A4: Behavioral Patterns</a>
-  <a href="/learning/system-design/lld/module-a5-notes/" class="m5-nav-footer-btn">📄 Full Notes</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="m5-nav-footer-btn">↑ Roadmap</a>
-  <a href="/learning/system-design/lld/module-a6-case-studies/" class="m5-nav-footer-btn">A6: Case Studies →</a>
+<div class="m5-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border2);padding-top:20px;">
+  <a href="/learning/system-design/lld/module-a4-behavioral/" class="m5-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">← PREVIOUS: LLD A4</a>
+  <a href="/learning/system-design/lld/module-a5-notes/" class="m5-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--cyan);color:var(--cyan);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="m5-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a6-case-studies/" class="m5-nav-footer-btn" style="padding:12px 24px;background:var(--cyan);color:var(--bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A6 →</a>
 </div>

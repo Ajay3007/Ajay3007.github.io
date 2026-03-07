@@ -735,10 +735,11 @@ Deliverable:
 </div><!-- end .m1-content -->
 
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
-<div class="m1-bottom-nav">
-  <a href="/learning/system-design/foundation/phase0-foundation/" class="m1-nav-footer-btn">← Phase 0: Foundation</a>
-  <a href="/learning/system-design/lld/module-a1-notes/" class="m1-nav-footer-btn">📄 Full Notes</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="m1-nav-footer-btn">↑ Roadmap</a>
+<div class="m1-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--m1-border);padding-top:20px;">
+  <a href="/learning/system-design/foundation/phase0-foundation/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-border);border-radius:4px;color:var(--m1-muted);text-decoration:none;">← PREVIOUS: PHASE 0</a>
+  <a href="/learning/system-design/lld/module-a1-notes/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-s);color:var(--m1-s);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-border);border-radius:4px;color:var(--m1-muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a2-creational/" class="m1-nav-footer-btn" style="padding:12px 24px;background:var(--m1-s);color:var(--m1-bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A2 →</a>
 </div>
 
 </div><!-- end .m1-page -->

@@ -88,11 +88,7 @@ permalink: /learning/system-design/lld/module-a2-creational/
     </table>
     </div>
   </div>
-  
-  <div class="m2-bottom-nav">
-    <a href="/learning/system-design/lld/module-a2-notes/" class="m2-btn-primary">📝 Read Full Notes</a>
-    <a href="/learning/system-design/system-design-roadmap/" class="m2-btn-secondary">↑ Back to Roadmap</a>
-  </div>
+
 </div>
 
 <!-- ===== PATTERNS ===== -->

@@ -180,22 +180,30 @@ Scale systems to millions of users — networking, databases, caching, message q
     <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Full-text search, notification systems (push/pull), geospatial systems, unique ID generation (UUID, Snowflake), top-K / trending.</p>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B13 · Week 15</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">ML Systems Design</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Feature stores, model serving infrastructure, A/B testing at scale, recommendation system design, stream processing for ML pipelines.</p>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Feature stores, model serving infrastructure, A/B testing at scale, recommendation system design, stream processing for ML pipelines.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b13-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B14 · Week 16</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Kubernetes & Containers</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Docker fundamentals, Kubernetes architecture (pods, services, ingress), horizontal pod autoscaling, rolling deployments, Helm.</p>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Docker fundamentals, Kubernetes architecture (pods, services, ingress), horizontal pod autoscaling, rolling deployments, Helm.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b14-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
 </div>

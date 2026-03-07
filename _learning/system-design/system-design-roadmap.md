@@ -556,13 +556,14 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🤖 HLD B13 — ML Systems Design</div>
+            <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🤖 HLD B13 — ML Systems Design</a>
             <div class="milestone-week">Week 15</div>
           </div>
           <div class="milestone-desc">Feature stores, training pipelines, model serving, A/B testing infrastructure, recommendation systems, real-time ML inference at scale. MLOps fundamentals.</div>
           <div class="milestone-deliverables">
             <div class="deliverable project">Mini Project: Design a Recommendation System</div>
             <div class="deliverable task">Task: Design Feature Store</div>
+            <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
           </div>
         </div>
       </div>
@@ -571,12 +572,13 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">☸️ HLD B14 — Kubernetes + Container Orchestration</div>
+            <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">☸️ HLD B14 — Kubernetes + Container Orchestration</a>
             <div class="milestone-week">Week 16</div>
           </div>
           <div class="milestone-desc">Containers → Pods → Services → Ingress. Deployments, StatefulSets, HPA, resource management. Service mesh basics (Istio). K8s in system design interviews.</div>
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: K8s architecture for a microservices system</div>
+            <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
             <div class="deliverable">✅ HLD Track Complete</div>
           </div>
         </div>
