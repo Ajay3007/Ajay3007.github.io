@@ -9,14 +9,14 @@ permalink: /learning/system-design/hld/
 Scale systems to millions of users — networking, databases, caching, message queues, distributed systems, reliability, and full case studies.
 
 <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0 2rem;">
-  <span style="background:rgba(0,212,170,0.1);color:#00d4aa;border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">Track B · Weeks 3–16</span>
-  <span style="background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">14 Modules · Coming Soon</span>
+  <span style="background:rgba(0,212,170,0.1);color:#00d4aa;border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">Track B · Weeks 11–24</span>
+  <span style="background:rgba(16,185,129,0.1);color:#10b981;border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">4 / 14 Modules Complete</span>
   <span style="background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">3 Phases</span>
 </div>
 
 ---
 
-## Phase B-I — Foundations of Scale (Weeks 3–7)
+## Phase B-I — Foundations (Weeks 11–15)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
@@ -85,7 +85,7 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 ---
 
-## Phase B-II — Distributed Systems (Weeks 8–12)
+## Phase B-II — System Designs at Scale (Weeks 16–20)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
@@ -158,13 +158,13 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 ---
 
-## Phase B-III — Advanced Systems (Weeks 13–16)
+## Phase B-III — Advanced & Distributed Topics (Weeks 21–24)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B11 · Week 13</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B11 · Week 21</span>
       <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Storage Systems</h3>
@@ -173,7 +173,7 @@ Scale systems to millions of users — networking, databases, caching, message q
 
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B12 · Week 14</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B12 · Week 22</span>
       <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Special Topics</h3>
@@ -182,7 +182,7 @@ Scale systems to millions of users — networking, databases, caching, message q
 
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B13 · Week 15</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B13 · Week 23</span>
       <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">ML Systems Design</h3>
@@ -195,7 +195,7 @@ Scale systems to millions of users — networking, databases, caching, message q
 
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B14 · Week 16</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B14 · Week 24</span>
       <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Kubernetes & Containers</h3>
@@ -214,9 +214,9 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 | Phase | Modules | Weeks | Topics |
 |-------|---------|-------|--------|
-| **B-I: Foundations** | B1–B5 | 3–7 | Requirements, Networking, Hardware, Caching, Data Stores |
-| **B-II: Distributed** | B6–B10 | 8–12 | DB Scale, Kafka, CAP/Raft, Scalability, Reliability |
-| **B-III: Advanced** | B11–B14 | 13–16 | Storage, Special Topics, ML Systems, Kubernetes |
+| **B-I: Foundations** | B1–B5 | 11–15 | HLD Fundamentals, Databases at Scale, Caching, Message Queues, URL Shortener |
+| **B-II: System Designs** | B6–B10 | 16–20 | Twitter Feed, WhatsApp, YouTube, Rate Limiter, Consistent Hashing |
+| **B-III: Advanced** | B11–B14 | 21–24 | Distributed Transactions, Interview Framework, ML Systems, Kubernetes |
 
 ---
 
