@@ -31,6 +31,7 @@ permalink: /learning/system-design/system-design-roadmap/
     <div class="legend-item"><div class="legend-dot" style="background:#ff6b9d"></div> Phase 2 · Convergence</div>
     <div class="legend-item"><div class="legend-dot" style="background:#e879f9"></div> Phase 3 · Advanced</div>
     <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div> Phase 4 · Mock + Capstone</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a060ff"></div> Track C · Advanced Topics</div>
     <div class="legend-item"><div class="legend-dot" style="background:#ffa94d;border-radius:2px"></div> Task/Project</div>
   </div>
 
@@ -207,6 +208,35 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: Uber E2E<span class="node-tag">LLD + HLD</span></div>
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: YouTube E2E<span class="node-tag">LLD + HLD + CDN</span></div>
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: BookMyShow<span class="node-tag">Concurrency + Scale</span></div>
+      </div>
+    </div>
+
+    <div class="dep-connector">↓ optional advanced track</div>
+
+    <div class="dep-phase" style="border:1px solid rgba(160,96,255,0.25);background:rgba(160,96,255,0.04);padding:16px;border-radius:6px;">
+      <div class="dep-phase-title" style="background:rgba(160,96,255,0.1);color:#a060ff;border:1px solid rgba(160,96,255,0.25)">
+        ⬡ TRACK C — Advanced Topics (Weeks 25–29)
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;max-width:320px;">
+        <div class="dep-module" style="border-left-color:#4080ff">
+          <a href="/learning/system-design/hld/module-c1-consensus/" style="color:inherit;text-decoration:none;"><span>C1 · Consensus: Raft &amp; Paxos</span></a><span class="week-tag">W25</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#00b8c8">
+          <a href="/learning/system-design/hld/module-c2-geo-distribution/" style="color:inherit;text-decoration:none;"><span>C2 · Geo-Distribution &amp; Multi-Region</span></a><span class="week-tag">W26</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#a060ff">
+          <a href="/learning/system-design/hld/module-b13-ml-systems/" style="color:inherit;text-decoration:none;"><span>C3 · ML Systems Design</span></a><span class="week-tag">W27</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#00c840">
+          <a href="/learning/system-design/hld/module-c4-observability/" style="color:inherit;text-decoration:none;"><span>C4 · Observability &amp; SRE</span></a><span class="week-tag">W28</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#e03040">
+          <a href="/learning/system-design/hld/module-c5-security/" style="color:inherit;text-decoration:none;"><span>C5 · Security Architecture</span></a><span class="week-tag">W29</span>
+        </div>
       </div>
     </div>
 
@@ -640,6 +670,26 @@ permalink: /learning/system-design/system-design-roadmap/
             <div class="deliverable capstone">Capstone: YouTube E2E (+ CDN + Storage)</div>
             <div class="deliverable capstone">Capstone: BookMyShow (Concurrency + Scale)</div>
             <div class="deliverable">✅ Course Complete · FAANG Ready</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRACK C — Advanced Topics -->
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#a060ff"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <div class="milestone-title" style="color:#a060ff">🔬 Track C — Advanced Topics (Optional)</div>
+            <div class="milestone-week">Weeks 25–29</div>
+          </div>
+          <div class="milestone-desc">Deep-dive into production-grade advanced systems. Five focused modules covering distributed consensus (Raft/Paxos), geo-distribution, ML infrastructure, observability/SRE, and security architecture.</div>
+          <div class="milestone-deliverables">
+            <a href="{{ '/learning/system-design/hld/module-c1-consensus/' | relative_url }}" class="deliverable" style="color:#4080ff;text-decoration:none;">⚡ C1 — Consensus: Raft &amp; Paxos (W25)</a>
+            <a href="{{ '/learning/system-design/hld/module-c2-geo-distribution/' | relative_url }}" class="deliverable" style="color:#00b8c8;text-decoration:none;">⚡ C2 — Geo-Distribution &amp; Multi-Region (W26)</a>
+            <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" class="deliverable" style="color:#a060ff;text-decoration:none;">⚡ C3 — ML Systems Design (W27)</a>
+            <a href="{{ '/learning/system-design/hld/module-c4-observability/' | relative_url }}" class="deliverable" style="color:#00c840;text-decoration:none;">⚡ C4 — Observability &amp; SRE (W28)</a>
+            <a href="{{ '/learning/system-design/hld/module-c5-security/' | relative_url }}" class="deliverable" style="color:#e03040;text-decoration:none;">⚡ C5 — Security Architecture (W29)</a>
+            <div class="deliverable">✅ Track C Complete · FAANG+ Ready</div>
           </div>
         </div>
       </div>

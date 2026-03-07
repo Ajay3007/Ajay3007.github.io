@@ -4,6 +4,11 @@ function show(tab,el){
   document.getElementById('view-'+tab).classList.add('active');
   el.classList.add('active');
 }
+function qa(hd){
+  const bd=hd.nextElementSibling,arr=hd.querySelector('.iqa-arr');
+  bd.classList.toggle('open',!bd.classList.contains('open'));
+  arr.classList.toggle('open',!arr.classList.contains('open'));
+}
 function tt(hd){
   const bd=hd.nextElementSibling,arr=hd.querySelector('.t-arr');
   bd.classList.toggle('open',!bd.classList.contains('open'));
