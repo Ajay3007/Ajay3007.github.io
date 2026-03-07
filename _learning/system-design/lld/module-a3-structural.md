@@ -7,7 +7,7 @@ permalink: /learning/system-design/lld/module-a3-structural/
 ---
 
 <div class="m3-page m3-bg">
-<header>
+<header class="m3-header">
   <div class="m3-colour-bar">
     <div class="m3-colour-seg" style="background:var(--c1)"></div>
     <div class="m3-colour-seg" style="background:var(--c2)"></div>
@@ -39,12 +39,12 @@ permalink: /learning/system-design/lld/module-a3-structural/
 </header>
 
 <m3-nav class="m3-nav">
-  <div class="m3-m3-nav-tab active" onclick="m3Show('overview',this)">Overview</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('patterns',this)">Pattern Deep Dives</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('distinctions',this)">Key Distinctions</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('splitwise',this)">Splitwise Project</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('tasks',this)">Tasks</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('checklist',this)">Checklist</div>
+  <div class="m3-nav-tab active" onclick="m3Show('overview',this)">Overview</div>
+  <div class="m3-nav-tab" onclick="m3Show('patterns',this)">Pattern Deep Dives</div>
+  <div class="m3-nav-tab" onclick="m3Show('distinctions',this)">Key Distinctions</div>
+  <div class="m3-nav-tab" onclick="m3Show('splitwise',this)">Splitwise Project</div>
+  <div class="m3-nav-tab" onclick="m3Show('tasks',this)">Tasks</div>
+  <div class="m3-nav-tab" onclick="m3Show('checklist',this)">Checklist</div>
 </m3-nav>
 
 <div class="m3-content">

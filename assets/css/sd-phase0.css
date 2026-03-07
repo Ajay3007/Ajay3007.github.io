@@ -66,7 +66,7 @@ tr:hover td { background:var(--amber-light); }
 .res-lbl { font-size:9px; font-family:"DM Mono",monospace; color:rgba(255,255,255,0.45); margin-bottom:4px; letter-spacing:1px; }
 .res-val { font-family:"DM Serif Display",serif; font-size:22px; color:#f0d98a; }
 .checklist { list-style:none; }
-.checklist li { display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid var(--rule); font-size:13px; cursor:pointer; }
+.checklist li { display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid var(--rule); font-size:13px; cursor:pointer; color:var(--ink); }
 .checklist li:last-child { border-bottom:none; }
 .chk { width:18px; height:18px; border:1.5px solid var(--rule); border-radius:3px; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; font-size:11px; }
 .checklist li.done .chk { background:var(--green); border-color:var(--green); color:#fff; }

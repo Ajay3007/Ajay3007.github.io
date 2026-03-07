@@ -719,3 +719,10 @@ shallow clone intentional? When is it a bug?</pre>
 </div>
 
 </div><!-- end content -->
+
+<div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border);padding-top:20px;">
+  <a href="/learning/system-design/lld/module-a1-solid/" style="padding:12px 24px;border:1px solid var(--border);border-radius:4px;color:var(--muted);text-decoration:none;">← LLD A1: SOLID + OOP + UML</a>
+  <a href="/learning/system-design/lld/module-a2-notes/" style="padding:12px 24px;border:1px solid var(--gold);color:var(--gold);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid var(--border);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a3-structural/" style="padding:12px 24px;background:var(--gold);color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A3 →</a>
+</div>

@@ -77,27 +77,27 @@ permalink: /learning/system-design/system-design-roadmap/
         </div>
 
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A1 · SOLID + OOP + UML</span><span class="week-tag">W3</span>
+          <a href="/learning/system-design/lld/module-a1-solid/" style="color:inherit;text-decoration:none;"><span>A1 · SOLID + OOP + UML</span></a><span class="week-tag">W3</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A2 · Creational Patterns (5)</span><span class="week-tag">W4</span>
+          <a href="/learning/system-design/lld/module-a2-creational/" style="color:inherit;text-decoration:none;"><span>A2 · Creational Patterns (5)</span></a><span class="week-tag">W4</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A3 · Structural Patterns (7)</span><span class="week-tag">W5</span>
+          <a href="/learning/system-design/lld/module-a3-structural/" style="color:inherit;text-decoration:none;"><span>A3 · Structural Patterns (7)</span></a><span class="week-tag">W5</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A4 · Behavioral Patterns (12)</span><span class="week-tag">W6–7</span>
+          <a href="/learning/system-design/lld/module-a4-behavioral/" style="color:inherit;text-decoration:none;"><span>A4 · Behavioral Patterns (12)</span></a><span class="week-tag">W6–7</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A5 · Concurrency in LLD</span><span class="week-tag">W8</span>
+          <a href="/learning/system-design/lld/module-a5-concurrency/" style="color:inherit;text-decoration:none;"><span>A5 · Concurrency in LLD</span></a><span class="week-tag">W8</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A6 · Advanced LLD Systems</span><span class="week-tag">W9–10</span>
+          <a href="/learning/system-design/lld/module-a6-case-studies/" style="color:inherit;text-decoration:none;"><span>A6 · Advanced LLD Systems</span></a><span class="week-tag">W9–10</span>
         </div>
       </div>
 
@@ -109,59 +109,59 @@ permalink: /learning/system-design/system-design-roadmap/
         </div>
 
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B1 · HLD Fundamentals</span><span class="week-tag">W11</span>
+          <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" style="color:inherit;text-decoration:none;"><span>B1 · HLD Fundamentals</span></a><span class="week-tag">W11</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B2 · Databases at Scale</span><span class="week-tag">W12</span>
+          <a href="/learning/system-design/hld/module-b2-databases-at-scale/" style="color:inherit;text-decoration:none;"><span>B2 · Databases at Scale</span></a><span class="week-tag">W12</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B3 · Caching</span><span class="week-tag">W13</span>
+          <a href="/learning/system-design/hld/module-b3-caching/" style="color:inherit;text-decoration:none;"><span>B3 · Caching</span></a><span class="week-tag">W13</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b4-message-queues/" style="color:inherit;text-decoration:none;"><span>B4 · Message Queues &amp; Kafka</span><span class="week-tag">W14</span></a>
+          <a href="/learning/system-design/hld/module-b4-message-queues/" style="color:inherit;text-decoration:none;"><span>B4 · Message Queues &amp; Kafka</span></a><span class="week-tag">W14</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b5-url-shortener/" style="color:inherit;text-decoration:none;"><span>B5 · URL Shortener</span><span class="week-tag">W15</span></a>
+          <a href="/learning/system-design/hld/module-b5-url-shortener/" style="color:inherit;text-decoration:none;"><span>B5 · URL Shortener</span></a><span class="week-tag">W15</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b6-twitter-feed/" style="color:inherit;text-decoration:none;"><span>B6 · Design Twitter Feed</span><span class="week-tag">W16</span></a>
+          <a href="/learning/system-design/hld/module-b6-twitter-feed/" style="color:inherit;text-decoration:none;"><span>B6 · Design Twitter Feed</span></a><span class="week-tag">W16</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b7-whatsapp/" style="color:inherit;text-decoration:none;"><span>B7 · Design WhatsApp</span><span class="week-tag">W17</span></a>
+          <a href="/learning/system-design/hld/module-b7-whatsapp/" style="color:inherit;text-decoration:none;"><span>B7 · Design WhatsApp</span></a><span class="week-tag">W17</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b8-youtube/" style="color:inherit;text-decoration:none;"><span>B8 · Design YouTube</span><span class="week-tag">W18</span></a>
+          <a href="/learning/system-design/hld/module-b8-youtube/" style="color:inherit;text-decoration:none;"><span>B8 · Design YouTube</span></a><span class="week-tag">W18</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b9-rate-limiter/" style="color:inherit;text-decoration:none;"><span>B9 · Rate Limiter</span><span class="week-tag">W19</span></a>
+          <a href="/learning/system-design/hld/module-b9-rate-limiter/" style="color:inherit;text-decoration:none;"><span>B9 · Rate Limiter</span></a><span class="week-tag">W19</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b10-consistent-hashing/" style="color:inherit;text-decoration:none;"><span>B10 · Consistent Hashing</span><span class="week-tag">W20</span></a>
+          <a href="/learning/system-design/hld/module-b10-consistent-hashing/" style="color:inherit;text-decoration:none;"><span>B10 · Consistent Hashing</span></a><span class="week-tag">W20</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b11-distributed-tx/" style="color:inherit;text-decoration:none;"><span>B11 · Distributed Transactions</span><span class="week-tag">W21</span></a>
+          <a href="/learning/system-design/hld/module-b11-distributed-tx/" style="color:inherit;text-decoration:none;"><span>B11 · Distributed Transactions</span></a><span class="week-tag">W21</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <a href="/learning/system-design/hld/module-b12-interview-framework/" style="color:inherit;text-decoration:none;"><span>B12 · Interview Framework</span><span class="week-tag">W22</span></a>
+          <a href="/learning/system-design/hld/module-b12-interview-framework/" style="color:inherit;text-decoration:none;"><span>B12 · Interview Framework</span></a><span class="week-tag">W22</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B13 · ML Systems Design</span><span class="week-tag">W15</span>
+          <a href="/learning/system-design/hld/module-b13-ml-systems/" style="color:inherit;text-decoration:none;"><span>B13 · ML Systems Design</span></a><span class="week-tag">W23</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B14 · Kubernetes + Containers</span><span class="week-tag">W16</span>
+          <a href="/learning/system-design/hld/module-b14-kubernetes/" style="color:inherit;text-decoration:none;"><span>B14 · Kubernetes + Containers</span></a><span class="week-tag">W24</span>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@ permalink: /learning/system-design/lld/module-a4-behavioral/
 ---
 
 <div class="m4-page">
-<header>
+<header class="m4-header">
   <div class="m4-eyebrow">Track A · LLD · Module A4 · Weeks 6–7</div>
   <h1>Behavioral<br><em>Patterns</em></h1>
   <div class="m4-h-count">12 patterns · 2 weeks · BookMyShow mini project</div>
