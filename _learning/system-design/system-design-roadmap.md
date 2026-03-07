@@ -137,23 +137,23 @@ permalink: /learning/system-design/system-design-roadmap/
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B8 · Distributed Sys Concepts</span><span class="week-tag">W10</span>
+          <a href="/learning/system-design/hld/module-b8-youtube/" style="color:inherit;text-decoration:none;"><span>B8 · Design YouTube</span><span class="week-tag">W18</span></a>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B9 · Scalability Patterns</span><span class="week-tag">W11</span>
+          <a href="/learning/system-design/hld/module-b9-rate-limiter/" style="color:inherit;text-decoration:none;"><span>B9 · Rate Limiter</span><span class="week-tag">W19</span></a>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B10 · Reliability + Fault Tolerance</span><span class="week-tag">W12</span>
+          <a href="/learning/system-design/hld/module-b10-consistent-hashing/" style="color:inherit;text-decoration:none;"><span>B10 · Consistent Hashing</span><span class="week-tag">W20</span></a>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B11 · Storage Systems</span><span class="week-tag">W13</span>
+          <a href="/learning/system-design/hld/module-b11-distributed-tx/" style="color:inherit;text-decoration:none;"><span>B11 · Distributed Transactions</span><span class="week-tag">W21</span></a>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B12 · Special Topics</span><span class="week-tag">W14</span>
+          <a href="/learning/system-design/hld/module-b12-interview-framework/" style="color:inherit;text-decoration:none;"><span>B12 · Interview Framework</span><span class="week-tag">W22</span></a>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
@@ -466,13 +466,16 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">⚖️ HLD B8–B9 — Distributed Concepts + Scalability</div>
-            <div class="milestone-week">Weeks 10–11</div>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🎬 HLD B8 — Design YouTube</a>
+            <div class="milestone-week">Week 18</div>
           </div>
-          <div class="milestone-desc">CAP Theorem, Consistency models, Consistent Hashing, Bloom Filter, Merkle Tree, Gossip Protocol. Then: 0-to-million scaling, Load Balancing, Autoscaling, Microservices patterns.</div>
+          <div class="milestone-desc">Chunked resumable uploads with SHA-256 deduplication, temporal parallelism transcoding (60× speedup), HLS adaptive bitrate streaming (.m3u8 manifests + .ts segments), 3-tier CDN architecture (58 Tbps), sharded view counter with Kafka durability, Elasticsearch search via CDC.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Consistent hashing ring implementation</div>
-            <div class="deliverable task">Task: Monolith → microservices evolution</div>
+            <div class="deliverable task">Task: Transcoding pipeline for 8.3 hrs video/sec</div>
+            <div class="deliverable task">Task: CDN pre-warming strategy for viral videos</div>
+            <div class="deliverable task">Task: 45-min full YouTube design simulation</div>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b8-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -481,13 +484,16 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🛡️ HLD B10–B11 — Reliability + Storage Systems</div>
-            <div class="milestone-week">Weeks 12–13</div>
+            <a href="{{ '/learning/system-design/hld/module-b9-rate-limiter/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">⚡ HLD B9 — Design a Rate Limiter</a>
+            <div class="milestone-week">Week 19</div>
           </div>
-          <div class="milestone-desc">Circuit Breaker, Bulkhead, Shuffle Sharding, Timeouts, Retries, Fail-fast. Then Block/File/Object storage, RAID, GFS, HDFS for large-scale file systems.</div>
+          <div class="milestone-desc">Five rate limiting algorithms with exact memory/accuracy trade-offs: Fixed Window, Sliding Window Log, Sliding Window Counter (production default), Token Bucket, Leaky Bucket. Redis Lua scripts for atomicity, centralised vs distributed strategies, HTTP 429 headers, multi-tier architecture at CDN → Gateway → App → DB layers.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Resilience patterns for payment system</div>
-            <div class="deliverable task">Task: Storage layer for Dropbox</div>
+            <div class="deliverable task">Task: Algorithm selection for 5 real scenarios</div>
+            <div class="deliverable task">Task: Redis Lua implementation + failure modes</div>
+            <div class="deliverable task">Task: Add rate limiting to URL Shortener (B5)</div>
+            <a href="{{ '/learning/system-design/hld/module-b9-rate-limiter/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b9-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -496,12 +502,52 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🔍 HLD B12 — Special Topics</div>
-            <div class="milestone-week">Week 14</div>
+            <a href="{{ '/learning/system-design/hld/module-b10-consistent-hashing/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">� HLD B10 — Consistent Hashing &amp; Service Discovery</a>
+            <div class="milestone-week">Week 20</div>
           </div>
-          <div class="milestone-desc">Search Autocomplete/Typeahead internals, Web Crawler architecture, News Feed ranking, Geospatial systems (NearbyFriends, Yelp).</div>
+          <div class="milestone-desc">Why modulo hashing breaks when nodes change, hash ring with [0, 2³²) address space, clockwise key lookup (TreeMap ceilingEntry), virtual nodes (150/node) for uniform distribution, heterogeneous capacity weighting. Service discovery patterns: client-side, server-side, DNS (Kubernetes CoreDNS). Consul HTTP API, ZooKeeper ephemeral znodes, health checks, gossip protocol vs Raft.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Design Typeahead search system</div>
+            <div class="deliverable task">Task: Implement ConsistentHashRing in Java (TreeMap)</div>
+            <div class="deliverable task">Task: Virtual node distribution analysis (1–300 vnodes)</div>
+            <div class="deliverable task">Task: Service discovery design for 50 microservices</div>
+            <div class="deliverable task">Task: Add consistent hashing to URL Shortener cache</div>
+            <a href="{{ '/learning/system-design/hld/module-b10-consistent-hashing/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b10-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b11-distributed-tx/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">⚗️ HLD B11 — ACID, Distributed Transactions &amp; Saga</a>
+            <div class="milestone-week">Week 21</div>
+          </div>
+          <div class="milestone-desc">ACID properties, isolation levels. The distributed transaction problem: no ACID across DBs. Two-Phase Commit (blocking, coordinator SPOF). Saga pattern: local transactions + compensating transactions. Choreography vs Orchestration. Outbox pattern for atomic DB + event publishing. Idempotency keys. BASE vs ACID.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: Design a payment saga with compensation path</div>
+            <div class="deliverable task">Task: 2PC vs Saga — money transfer trade-offs</div>
+            <div class="deliverable task">Task: Capstone — full Place Order saga (Order, Payment, Inventory, Shipping, Notification)</div>
+            <a href="{{ '/learning/system-design/hld/module-b11-distributed-tx/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b11-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b12-interview-framework/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🎓 HLD B12 — Interview Framework &amp; Track B Capstone</a>
+            <div class="milestone-week">Week 22</div>
+          </div>
+          <div class="milestone-desc">The 7-step framework for 45-minute system design interviews. Time allocation map. Requirements templates. Capacity estimation cheat sheet. Communication patterns that signal seniority. 7 most common mistakes. 6 full mock interview problems (Pastebin, Notifications, Job Scheduler, Google Drive, Live Streaming, Autocomplete). Quick answers card.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: 6 mock interviews — 45 min timed, no notes</div>
+            <div class="deliverable task">Task: Identify personal weaknesses from mock review</div>
+            <a href="{{ '/learning/system-design/hld/module-b12-interview-framework/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b12-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>

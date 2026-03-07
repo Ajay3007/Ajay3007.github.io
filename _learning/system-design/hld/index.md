@@ -115,31 +115,43 @@ Scale systems to millions of users — networking, databases, caching, message q
     </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B8 · Week 10</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B8 · Week 18</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Distributed Systems Concepts</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">CAP theorem, PACELC, consistency models, Paxos & Raft consensus, vector clocks, distributed transactions (2PC, Saga).</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Design YouTube</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Chunked upload, transcoding (temporal parallelism), HLS adaptive streaming, 3-tier CDN, sharded view counter, Elasticsearch search.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b8-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B9 · Week 11</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B9 · Week 19</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Scalability Patterns</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Microservices, API gateway, service mesh, rate limiting (token bucket, leaky bucket), circuit breakers, bulkhead pattern.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Design a Rate Limiter</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">5 algorithms (fixed/sliding window, token/leaky bucket), Redis Lua scripts, distributed limiting, HTTP 429 headers, multi-tier architecture.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b9-rate-limiter/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b9-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B10 · Week 12</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B10 · Week 20</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Reliability & Fault Tolerance</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Availability (nines), SLIs/SLOs/SLAs, health checks, retries with exponential backoff, chaos engineering, disaster recovery.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Consistent Hashing &amp; Service Discovery</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Hash ring, virtual nodes, Consul, ZooKeeper, client vs server-side discovery, health checks, gossip protocol, Raft consensus.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b10-consistent-hashing/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b10-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
 </div>
