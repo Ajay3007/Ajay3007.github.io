@@ -1,7 +1,7 @@
 :root{
   --bg:#04080f;--panel:#080e1c;--surf:#0c1428;--bord:#0e1e3a;--bord2:#162848;
   --blu:#2060e0;--bri:#4080ff;--dim:#102040;--faint:#060c18;
-  --white:#e8f0ff;--text:#7090c0;--muted:#2a3e60;--aged:#121c30;
+  --white:#e8f0ff;--text:#90b0d8;--muted:#5878a8;--aged:#5060a8;
   --grn:#20c060;--yel:#e0b020;--red:#e03040;--cya:#20b8d8;--pur:#8040d8;
   --ora:#e06020;
 }
@@ -49,7 +49,7 @@ h1 .acc{color:var(--bri);font-style:italic;}
 .cb{background:var(--panel);border:1px solid var(--bord2);border-left:2px solid var(--bri);margin:12px 0;}
 .cb-top{display:flex;justify-content:space-between;padding:5px 12px;background:var(--surf);border-bottom:1px solid var(--bord);font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;}
 .cb-l{color:var(--bri);}
-pre.c{padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.85;color:var(--muted);overflow-x:auto;white-space:pre;}
+pre.c{padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.85;color:var(--text);overflow-x:auto;white-space:pre;}
 .kw{color:var(--cya);font-weight:600;}.fn{color:var(--grn);}.str{color:var(--yel);}.cm{color:var(--aged);}
 .hl{color:var(--white);font-weight:700;}.ok{color:var(--grn);}.er{color:var(--red);}.bl{color:var(--bri);}
 

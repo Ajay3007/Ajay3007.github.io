@@ -174,10 +174,10 @@ permalink: /learning/system-design/system-design-roadmap/
         ⬡ PHASE 2 — Convergence: Full System Designs (Weeks 17–20)
       </div>
       <div class="dep-nodes">
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">URL Shortener · Pastebin<span class="node-tag">W17</span></div>
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">WhatsApp · Notification System<span class="node-tag">W17</span></div>
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">Instagram · Twitter · News Feed<span class="node-tag">W18</span></div>
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">YouTube · Dropbox · Google Drive<span class="node-tag">W19</span></div>
+        <a href="/learning/system-design/hld/module-b5-url-shortener/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">URL Shortener · Pastebin<span class="node-tag">W17</span></a>
+        <a href="/learning/system-design/hld/module-b7-whatsapp/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">WhatsApp · Notification System<span class="node-tag">W17</span></a>
+        <a href="/learning/system-design/hld/module-b6-twitter-feed/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">Instagram · Twitter · News Feed<span class="node-tag">W18</span></a>
+        <a href="/learning/system-design/hld/module-b8-youtube/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">YouTube · Dropbox · Google Drive<span class="node-tag">W19</span></a>
         <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">Ticket Master · Web Crawler<span class="node-tag">W20</span></div>
       </div>
     </div>
@@ -189,8 +189,8 @@ permalink: /learning/system-design/system-design-roadmap/
         ⬡ PHASE 3 — Advanced Production Topics (Weeks 21–22)
       </div>
       <div class="dep-nodes">
-        <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Maintainability<span class="node-tag">Observability · SLOs</span></div>
-        <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Security Patterns<span class="node-tag">AuthN · AuthZ · mTLS</span></div>
+        <a href="/learning/system-design/hld/module-c4-observability/" class="dep-node" style="border-color:rgba(0,200,64,0.5);color:#00c840;text-decoration:none;">Maintainability<span class="node-tag">Observability · SLOs</span></a>
+        <a href="/learning/system-design/hld/module-c5-security/" class="dep-node" style="border-color:rgba(224,48,64,0.5);color:#e03040;text-decoration:none;">Security Patterns<span class="node-tag">AuthN · AuthZ · mTLS</span></a>
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Cost Optimization<span class="node-tag">Spot · Reserved · Tiering</span></div>
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Fraud Detection System<span class="node-tag">Mini Project</span></div>
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Auth + Monitoring System<span class="node-tag">Mini Project</span></div>
@@ -204,9 +204,9 @@ permalink: /learning/system-design/system-design-roadmap/
         ⬡ PHASE 4 — Mock Interviews + Capstone (Weeks 23–24)
       </div>
       <div class="dep-nodes">
-        <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">20 Mock Problems<span class="node-tag">With rubric</span></div>
+        <a href="/learning/system-design/hld/module-b12-interview-framework/" class="dep-node" style="border-color:rgba(56,189,248,0.6);color:#38bdf8;text-decoration:none;">20 Mock Problems<span class="node-tag">With rubric</span></a>
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: Uber E2E<span class="node-tag">LLD + HLD</span></div>
-        <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: YouTube E2E<span class="node-tag">LLD + HLD + CDN</span></div>
+        <a href="/learning/system-design/hld/module-b8-youtube/" class="dep-node" style="border-color:rgba(56,189,248,0.6);color:#38bdf8;text-decoration:none;">Capstone: YouTube E2E<span class="node-tag">LLD + HLD + CDN</span></a>
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: BookMyShow<span class="node-tag">Concurrency + Scale</span></div>
       </div>
     </div>
@@ -630,10 +630,10 @@ permalink: /learning/system-design/system-design-roadmap/
           </div>
           <div class="milestone-desc">Both tracks merge. Apply LLD + HLD together. Each system: Requirements → Estimation → HLD diagram → Deep dive 2 components → Trade-offs. 10+ complete system designs.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable project">URL Shortener · Pastebin</div>
-            <div class="deliverable project">WhatsApp · Notification System</div>
-            <div class="deliverable project">Instagram · Twitter · News Feed</div>
-            <div class="deliverable project">YouTube · Dropbox · Google Drive</div>
+            <a href="{{ '/learning/system-design/hld/module-b5-url-shortener/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ URL Shortener · Pastebin</a>
+            <a href="{{ '/learning/system-design/hld/module-b7-whatsapp/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ WhatsApp · Notification System</a>
+            <a href="{{ '/learning/system-design/hld/module-b6-twitter-feed/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ Instagram · Twitter · News Feed</a>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ YouTube · Dropbox · Google Drive</a>
             <div class="deliverable project">Ticket Master · Web Crawler · NearbyFriends</div>
           </div>
         </div>
@@ -651,6 +651,8 @@ permalink: /learning/system-design/system-design-roadmap/
           <div class="milestone-deliverables">
             <div class="deliverable project">Mini Project: Fraud Detection System</div>
             <div class="deliverable project">Mini Project: Auth + Monitoring System</div>
+            <a href="{{ '/learning/system-design/hld/module-c4-observability/' | relative_url }}" class="deliverable" style="color:#00c840;text-decoration:none;">⚡ C4 — Observability &amp; SRE</a>
+            <a href="{{ '/learning/system-design/hld/module-c5-security/' | relative_url }}" class="deliverable" style="color:#e03040;text-decoration:none;">⚡ C5 — Security Architecture</a>
           </div>
         </div>
       </div>
@@ -665,9 +667,9 @@ permalink: /learning/system-design/system-design-roadmap/
           </div>
           <div class="milestone-desc">20 timed mock problems with evaluation rubric. Then the final capstone: choose one end-to-end project that combines everything — LLD entities, HLD architecture, storage, reliability, and trade-off analysis.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable mock">20 Mock Interview Problems</div>
+            <a href="{{ '/learning/system-design/hld/module-b12-interview-framework/' | relative_url }}" class="deliverable mock" style="color:#f59e0b;text-decoration:none;">⚡ 20 Mock Interview Problems</a>
             <div class="deliverable capstone">Capstone: Uber E2E (LLD + HLD)</div>
-            <div class="deliverable capstone">Capstone: YouTube E2E (+ CDN + Storage)</div>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="deliverable capstone" style="color:#f59e0b;text-decoration:none;">⚡ Capstone: YouTube E2E (+ CDN + Storage)</a>
             <div class="deliverable capstone">Capstone: BookMyShow (Concurrency + Scale)</div>
             <div class="deliverable">✅ Course Complete · FAANG Ready</div>
           </div>
