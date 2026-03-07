@@ -374,9 +374,9 @@ When ACID is still needed within microservices:
 
 ---
 
-<div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
-  <a href="/learning/system-design/hld/module-b10-notes/" style="padding:0.5rem 1rem;border:1px solid #5a4200;color:#c8960a;text-decoration:none;font-family:monospace;font-size:0.8rem;">← B10 NOTES</a>
-  <a href="/learning/system-design/hld/module-b11-distributed-tx/" style="padding:0.5rem 1rem;border:1px solid #5a4200;color:#c8960a;text-decoration:none;font-family:monospace;font-size:0.8rem;">⚡ INTERACTIVE MODULE</a>
-  <a href="/learning/system-design/hld/" style="padding:0.5rem 1rem;border:1px solid #5a4200;color:#c8960a;text-decoration:none;font-family:monospace;font-size:0.8rem;">↑ HLD TRACK</a>
-  <a href="/learning/system-design/hld/module-b12-notes/" style="padding:0.5rem 1rem;border:1px solid #5a4200;color:#c8960a;text-decoration:none;font-family:monospace;font-size:0.8rem;">B12 NOTES →</a>
+<div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid #ddd;padding-top:20px;">
+  <a href="/learning/system-design/hld/module-b10-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B10 Consistent Hashing Notes</a>
+  <a href="/learning/system-design/hld/module-b11-distributed-tx/" style="padding:12px 24px;border:1px solid #00d4aa;color:#00d4aa;border-radius:4px;text-decoration:none;font-weight:600;">⚡ Interactive Module</a>
+  <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">↑ Roadmap</a>
+  <a href="/learning/system-design/hld/module-b12-notes/" style="padding:12px 24px;background:#00d4aa;color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B12 Interview Framework →</a>
 </div>

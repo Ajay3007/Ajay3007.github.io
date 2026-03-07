@@ -212,7 +212,8 @@ permalink: /learning/system-design/hld/module-b14-kubernetes/
 
 <div class="mb-nav">
   <a href="/learning/system-design/hld/module-b13-ml-systems/" class="btn">← B13 ML SYSTEMS</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="btn">BACK TO ROADMAP →</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="btn">↑ ROADMAP</a>
+  <a href="/learning/system-design/hld/module-c1-consensus/" class="btn">NEXT: C1 CONSENSUS →</a>
 </div>
 
 </div>

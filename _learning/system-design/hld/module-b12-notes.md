@@ -292,9 +292,9 @@ A: "Expand-contract: add new column (nullable), dual-write to both,
 
 ---
 
-<div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;border-top:2px solid #1a1208;padding-top:1.5rem;">
-  <a href="/learning/system-design/hld/module-b11-notes/" style="padding:0.5rem 1rem;border:2px solid #c0a878;color:#1a1208;text-decoration:none;font-family:monospace;font-size:0.8rem;background:#faf7f0;">← B11 NOTES</a>
-  <a href="/learning/system-design/hld/module-b12-interview-framework/" style="padding:0.5rem 1rem;border:2px solid #c0a878;color:#1a1208;text-decoration:none;font-family:monospace;font-size:0.8rem;background:#faf7f0;">⚡ INTERACTIVE MODULE</a>
-  <a href="/learning/system-design/hld/" style="padding:0.5rem 1rem;border:2px solid #c0a878;color:#1a1208;text-decoration:none;font-family:monospace;font-size:0.8rem;background:#faf7f0;">↑ HLD TRACK</a>
-  <strong style="padding:0.5rem 1rem;font-family:monospace;font-size:0.8rem;color:#205820;">✓ TRACK B COMPLETE</strong>
+<div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid #ddd;padding-top:20px;">
+  <a href="/learning/system-design/hld/module-b11-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B11 Distributed TX Notes</a>
+  <a href="/learning/system-design/hld/module-b12-interview-framework/" style="padding:12px 24px;border:1px solid #00d4aa;color:#00d4aa;border-radius:4px;text-decoration:none;font-weight:600;">⚡ Interactive Module</a>
+  <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">↑ Roadmap</a>
+  <a href="/learning/system-design/hld/module-b13-notes/" style="padding:12px 24px;background:#00d4aa;color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B13 ML Systems →</a>
 </div>
