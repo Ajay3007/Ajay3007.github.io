@@ -718,8 +718,9 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-<div class="m6-bottom-nav">
-  <a href="/learning/system-design/lld/module-a5-concurrency/" class="m6-nav-footer-btn">← A5: Concurrency</a>
-  <a href="/learning/system-design/lld/module-a6-notes/" class="m6-nav-footer-btn">📄 Full Notes</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="m6-nav-footer-btn">↑ Roadmap</a>
+<div class="m6-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border2);padding-top:20px;">
+  <a href="/learning/system-design/lld/module-a5-concurrency/" class="m6-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">← PREVIOUS: LLD A5</a>
+  <a href="/learning/system-design/lld/module-a6-notes/" class="m6-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--amber);color:var(--amber);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="m6-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" class="m6-nav-footer-btn" style="padding:12px 24px;background:var(--amber);color:var(--bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: HLD B1 →</a>
 </div>

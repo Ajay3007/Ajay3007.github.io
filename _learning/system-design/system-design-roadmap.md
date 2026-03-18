@@ -31,6 +31,7 @@ permalink: /learning/system-design/system-design-roadmap/
     <div class="legend-item"><div class="legend-dot" style="background:#ff6b9d"></div> Phase 2 · Convergence</div>
     <div class="legend-item"><div class="legend-dot" style="background:#e879f9"></div> Phase 3 · Advanced</div>
     <div class="legend-item"><div class="legend-dot" style="background:#38bdf8"></div> Phase 4 · Mock + Capstone</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a060ff"></div> Track C · Advanced Topics</div>
     <div class="legend-item"><div class="legend-dot" style="background:#ffa94d;border-radius:2px"></div> Task/Project</div>
   </div>
 
@@ -77,27 +78,27 @@ permalink: /learning/system-design/system-design-roadmap/
         </div>
 
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A1 · SOLID + OOP + UML</span><span class="week-tag">W3</span>
+          <a href="/learning/system-design/lld/module-a1-solid/" style="color:inherit;text-decoration:none;"><span>A1 · SOLID + OOP + UML</span></a><span class="week-tag">W3</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A2 · Creational Patterns (5)</span><span class="week-tag">W4</span>
+          <a href="/learning/system-design/lld/module-a2-creational/" style="color:inherit;text-decoration:none;"><span>A2 · Creational Patterns (5)</span></a><span class="week-tag">W4</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A3 · Structural Patterns (7)</span><span class="week-tag">W5</span>
+          <a href="/learning/system-design/lld/module-a3-structural/" style="color:inherit;text-decoration:none;"><span>A3 · Structural Patterns (7)</span></a><span class="week-tag">W5</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A4 · Behavioral Patterns (12)</span><span class="week-tag">W6–7</span>
+          <a href="/learning/system-design/lld/module-a4-behavioral/" style="color:inherit;text-decoration:none;"><span>A4 · Behavioral Patterns (12)</span></a><span class="week-tag">W6–7</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A5 · Concurrency in LLD</span><span class="week-tag">W8</span>
+          <a href="/learning/system-design/lld/module-a5-concurrency/" style="color:inherit;text-decoration:none;"><span>A5 · Concurrency in LLD</span></a><span class="week-tag">W8</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#7c6fff">
-          <span>A6 · Advanced LLD Systems</span><span class="week-tag">W9–10</span>
+          <a href="/learning/system-design/lld/module-a6-case-studies/" style="color:inherit;text-decoration:none;"><span>A6 · Advanced LLD Systems</span></a><span class="week-tag">W9–10</span>
         </div>
       </div>
 
@@ -105,63 +106,63 @@ permalink: /learning/system-design/system-design-roadmap/
       <div class="dep-track" style="border-color:rgba(0,212,170,0.3)">
         <div class="dep-track-title" style="color:#00d4aa">
           <span>Track B · HLD</span>
-          <span class="track-badge" style="background:rgba(0,212,170,0.1);color:#00d4aa">Weeks 3–16</span>
+          <span class="track-badge" style="background:rgba(0,212,170,0.1);color:#00d4aa">Weeks 11–22</span>
         </div>
 
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B1 · HLD Fundamentals</span><span class="week-tag">W11</span>
+          <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" style="color:inherit;text-decoration:none;"><span>B1 · HLD Fundamentals</span></a><span class="week-tag">W11</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B2 · Databases at Scale</span><span class="week-tag">W12</span>
+          <a href="/learning/system-design/hld/module-b2-databases-at-scale/" style="color:inherit;text-decoration:none;"><span>B2 · Databases at Scale</span></a><span class="week-tag">W12</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B3 · Caching</span><span class="week-tag">W13</span>
+          <a href="/learning/system-design/hld/module-b3-caching/" style="color:inherit;text-decoration:none;"><span>B3 · Caching</span></a><span class="week-tag">W13</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B4 · 🔜 Coming Soon</span><span class="week-tag">W14</span>
+          <a href="/learning/system-design/hld/module-b4-message-queues/" style="color:inherit;text-decoration:none;"><span>B4 · Message Queues &amp; Kafka</span></a><span class="week-tag">W14</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B5 · Data Store Internals</span><span class="week-tag">W7</span>
+          <a href="/learning/system-design/hld/module-b5-url-shortener/" style="color:inherit;text-decoration:none;"><span>B5 · URL Shortener</span></a><span class="week-tag">W15</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B6 · Databases at Scale</span><span class="week-tag">W8</span>
+          <a href="/learning/system-design/hld/module-b6-twitter-feed/" style="color:inherit;text-decoration:none;"><span>B6 · Design Twitter Feed</span></a><span class="week-tag">W16</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B7 · Queues + Kafka</span><span class="week-tag">W9</span>
+          <a href="/learning/system-design/hld/module-b7-whatsapp/" style="color:inherit;text-decoration:none;"><span>B7 · Design WhatsApp</span></a><span class="week-tag">W17</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B8 · Distributed Sys Concepts</span><span class="week-tag">W10</span>
+          <a href="/learning/system-design/hld/module-b8-youtube/" style="color:inherit;text-decoration:none;"><span>B8 · Design YouTube</span></a><span class="week-tag">W18</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B9 · Scalability Patterns</span><span class="week-tag">W11</span>
+          <a href="/learning/system-design/hld/module-b9-rate-limiter/" style="color:inherit;text-decoration:none;"><span>B9 · Rate Limiter</span></a><span class="week-tag">W19</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B10 · Reliability + Fault Tolerance</span><span class="week-tag">W12</span>
+          <a href="/learning/system-design/hld/module-b10-consistent-hashing/" style="color:inherit;text-decoration:none;"><span>B10 · Consistent Hashing</span></a><span class="week-tag">W20</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B11 · Storage Systems</span><span class="week-tag">W13</span>
+          <a href="/learning/system-design/hld/module-b11-distributed-tx/" style="color:inherit;text-decoration:none;"><span>B11 · Distributed Transactions</span></a><span class="week-tag">W21</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B12 · Special Topics</span><span class="week-tag">W14</span>
+          <a href="/learning/system-design/hld/module-b12-interview-framework/" style="color:inherit;text-decoration:none;"><span>B12 · Interview Framework</span></a><span class="week-tag">W22</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B13 · ML Systems Design</span><span class="week-tag">W15</span>
+          <a href="/learning/system-design/hld/module-b13-ml-systems/" style="color:inherit;text-decoration:none;"><span>B13 · ML Systems Design</span></a><span class="week-tag">W23</span>
         </div>
         <div class="dep-arrow">↓</div>
         <div class="dep-module" style="border-left-color:#00d4aa">
-          <span>B14 · Kubernetes + Containers</span><span class="week-tag">W16</span>
+          <a href="/learning/system-design/hld/module-b14-kubernetes/" style="color:inherit;text-decoration:none;"><span>B14 · Kubernetes + Containers</span></a><span class="week-tag">W24</span>
         </div>
       </div>
     </div>
@@ -173,10 +174,10 @@ permalink: /learning/system-design/system-design-roadmap/
         ⬡ PHASE 2 — Convergence: Full System Designs (Weeks 17–20)
       </div>
       <div class="dep-nodes">
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">URL Shortener · Pastebin<span class="node-tag">W17</span></div>
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">WhatsApp · Notification System<span class="node-tag">W17</span></div>
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">Instagram · Twitter · News Feed<span class="node-tag">W18</span></div>
-        <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">YouTube · Dropbox · Google Drive<span class="node-tag">W19</span></div>
+        <a href="/learning/system-design/hld/module-b5-url-shortener/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">URL Shortener · Pastebin<span class="node-tag">W17</span></a>
+        <a href="/learning/system-design/hld/module-b7-whatsapp/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">WhatsApp · Notification System<span class="node-tag">W17</span></a>
+        <a href="/learning/system-design/hld/module-b6-twitter-feed/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">Instagram · Twitter · News Feed<span class="node-tag">W18</span></a>
+        <a href="/learning/system-design/hld/module-b8-youtube/" class="dep-node" style="border-color:rgba(255,107,157,0.6);color:#ff6b9d;text-decoration:none;">YouTube · Dropbox · Google Drive<span class="node-tag">W19</span></a>
         <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">Ticket Master · Web Crawler<span class="node-tag">W20</span></div>
       </div>
     </div>
@@ -188,8 +189,8 @@ permalink: /learning/system-design/system-design-roadmap/
         ⬡ PHASE 3 — Advanced Production Topics (Weeks 21–22)
       </div>
       <div class="dep-nodes">
-        <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Maintainability<span class="node-tag">Observability · SLOs</span></div>
-        <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Security Patterns<span class="node-tag">AuthN · AuthZ · mTLS</span></div>
+        <a href="/learning/system-design/hld/module-c4-observability/" class="dep-node" style="border-color:rgba(0,200,64,0.5);color:#00c840;text-decoration:none;">Maintainability<span class="node-tag">Observability · SLOs</span></a>
+        <a href="/learning/system-design/hld/module-c5-security/" class="dep-node" style="border-color:rgba(224,48,64,0.5);color:#e03040;text-decoration:none;">Security Patterns<span class="node-tag">AuthN · AuthZ · mTLS</span></a>
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Cost Optimization<span class="node-tag">Spot · Reserved · Tiering</span></div>
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Fraud Detection System<span class="node-tag">Mini Project</span></div>
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Auth + Monitoring System<span class="node-tag">Mini Project</span></div>
@@ -203,10 +204,39 @@ permalink: /learning/system-design/system-design-roadmap/
         ⬡ PHASE 4 — Mock Interviews + Capstone (Weeks 23–24)
       </div>
       <div class="dep-nodes">
-        <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">20 Mock Problems<span class="node-tag">With rubric</span></div>
+        <a href="/learning/system-design/hld/module-b12-interview-framework/" class="dep-node" style="border-color:rgba(56,189,248,0.6);color:#38bdf8;text-decoration:none;">20 Mock Problems<span class="node-tag">With rubric</span></a>
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: Uber E2E<span class="node-tag">LLD + HLD</span></div>
-        <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: YouTube E2E<span class="node-tag">LLD + HLD + CDN</span></div>
+        <a href="/learning/system-design/hld/module-b8-youtube/" class="dep-node" style="border-color:rgba(56,189,248,0.6);color:#38bdf8;text-decoration:none;">Capstone: YouTube E2E<span class="node-tag">LLD + HLD + CDN</span></a>
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: BookMyShow<span class="node-tag">Concurrency + Scale</span></div>
+      </div>
+    </div>
+
+    <div class="dep-connector">↓ optional advanced track</div>
+
+    <div class="dep-phase" style="border:1px solid rgba(160,96,255,0.25);background:rgba(160,96,255,0.04);padding:16px;border-radius:6px;">
+      <div class="dep-phase-title" style="background:rgba(160,96,255,0.1);color:#a060ff;border:1px solid rgba(160,96,255,0.25)">
+        ⬡ TRACK C — Advanced Topics (Weeks 25–29)
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:12px;max-width:320px;">
+        <div class="dep-module" style="border-left-color:#4080ff">
+          <a href="/learning/system-design/hld/module-c1-consensus/" style="color:inherit;text-decoration:none;"><span>C1 · Consensus: Raft &amp; Paxos</span></a><span class="week-tag">W25</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#00b8c8">
+          <a href="/learning/system-design/hld/module-c2-geo-distribution/" style="color:inherit;text-decoration:none;"><span>C2 · Geo-Distribution &amp; Multi-Region</span></a><span class="week-tag">W26</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#a060ff">
+          <a href="/learning/system-design/hld/module-b13-ml-systems/" style="color:inherit;text-decoration:none;"><span>C3 · ML Systems Design</span></a><span class="week-tag">W27</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#00c840">
+          <a href="/learning/system-design/hld/module-c4-observability/" style="color:inherit;text-decoration:none;"><span>C4 · Observability &amp; SRE</span></a><span class="week-tag">W28</span>
+        </div>
+        <div class="dep-arrow">↓</div>
+        <div class="dep-module" style="border-left-color:#e03040">
+          <a href="/learning/system-design/hld/module-c5-security/" style="color:inherit;text-decoration:none;"><span>C5 · Security Architecture</span></a><span class="week-tag">W29</span>
+        </div>
       </div>
     </div>
 
@@ -372,6 +402,8 @@ permalink: /learning/system-design/system-design-roadmap/
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: Back-of-envelope estimation for 3 systems</div>
             <div class="deliverable task">Task: CAP trade-off analysis for 5 real systems</div>
+            <a href="{{ '/learning/system-design/hld/module-b1-hld-fundamentals/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b1-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -387,6 +419,8 @@ permalink: /learning/system-design/system-design-roadmap/
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: DB design for Instagram</div>
             <div class="deliverable task">Task: Sharding strategy for Twitter</div>
+            <a href="{{ '/learning/system-design/hld/module-b2-databases-at-scale/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b2-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -402,6 +436,8 @@ permalink: /learning/system-design/system-design-roadmap/
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: Caching layer for Twitter feed</div>
             <div class="deliverable task">Task: Redis sorted set leaderboard design</div>
+            <a href="{{ '/learning/system-design/hld/module-b3-caching/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b3-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -466,13 +502,16 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">⚖️ HLD B8–B9 — Distributed Concepts + Scalability</div>
-            <div class="milestone-week">Weeks 10–11</div>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🎬 HLD B8 — Design YouTube</a>
+            <div class="milestone-week">Week 18</div>
           </div>
-          <div class="milestone-desc">CAP Theorem, Consistency models, Consistent Hashing, Bloom Filter, Merkle Tree, Gossip Protocol. Then: 0-to-million scaling, Load Balancing, Autoscaling, Microservices patterns.</div>
+          <div class="milestone-desc">Chunked resumable uploads with SHA-256 deduplication, temporal parallelism transcoding (60× speedup), HLS adaptive bitrate streaming (.m3u8 manifests + .ts segments), 3-tier CDN architecture (58 Tbps), sharded view counter with Kafka durability, Elasticsearch search via CDC.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Consistent hashing ring implementation</div>
-            <div class="deliverable task">Task: Monolith → microservices evolution</div>
+            <div class="deliverable task">Task: Transcoding pipeline for 8.3 hrs video/sec</div>
+            <div class="deliverable task">Task: CDN pre-warming strategy for viral videos</div>
+            <div class="deliverable task">Task: 45-min full YouTube design simulation</div>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b8-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -481,13 +520,16 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🛡️ HLD B10–B11 — Reliability + Storage Systems</div>
-            <div class="milestone-week">Weeks 12–13</div>
+            <a href="{{ '/learning/system-design/hld/module-b9-rate-limiter/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">⚡ HLD B9 — Design a Rate Limiter</a>
+            <div class="milestone-week">Week 19</div>
           </div>
-          <div class="milestone-desc">Circuit Breaker, Bulkhead, Shuffle Sharding, Timeouts, Retries, Fail-fast. Then Block/File/Object storage, RAID, GFS, HDFS for large-scale file systems.</div>
+          <div class="milestone-desc">Five rate limiting algorithms with exact memory/accuracy trade-offs: Fixed Window, Sliding Window Log, Sliding Window Counter (production default), Token Bucket, Leaky Bucket. Redis Lua scripts for atomicity, centralised vs distributed strategies, HTTP 429 headers, multi-tier architecture at CDN → Gateway → App → DB layers.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Resilience patterns for payment system</div>
-            <div class="deliverable task">Task: Storage layer for Dropbox</div>
+            <div class="deliverable task">Task: Algorithm selection for 5 real scenarios</div>
+            <div class="deliverable task">Task: Redis Lua implementation + failure modes</div>
+            <div class="deliverable task">Task: Add rate limiting to URL Shortener (B5)</div>
+            <a href="{{ '/learning/system-design/hld/module-b9-rate-limiter/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b9-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -496,12 +538,17 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🔍 HLD B12 — Special Topics</div>
-            <div class="milestone-week">Week 14</div>
+            <a href="{{ '/learning/system-design/hld/module-b10-consistent-hashing/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">� HLD B10 — Consistent Hashing &amp; Service Discovery</a>
+            <div class="milestone-week">Week 20</div>
           </div>
-          <div class="milestone-desc">Search Autocomplete/Typeahead internals, Web Crawler architecture, News Feed ranking, Geospatial systems (NearbyFriends, Yelp).</div>
+          <div class="milestone-desc">Why modulo hashing breaks when nodes change, hash ring with [0, 2³²) address space, clockwise key lookup (TreeMap ceilingEntry), virtual nodes (150/node) for uniform distribution, heterogeneous capacity weighting. Service discovery patterns: client-side, server-side, DNS (Kubernetes CoreDNS). Consul HTTP API, ZooKeeper ephemeral znodes, health checks, gossip protocol vs Raft.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable task">Task: Design Typeahead search system</div>
+            <div class="deliverable task">Task: Implement ConsistentHashRing in Java (TreeMap)</div>
+            <div class="deliverable task">Task: Virtual node distribution analysis (1–300 vnodes)</div>
+            <div class="deliverable task">Task: Service discovery design for 50 microservices</div>
+            <div class="deliverable task">Task: Add consistent hashing to URL Shortener cache</div>
+            <a href="{{ '/learning/system-design/hld/module-b10-consistent-hashing/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b10-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
           </div>
         </div>
       </div>
@@ -510,13 +557,49 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">🤖 HLD B13 — ML Systems Design</div>
-            <div class="milestone-week">Week 15</div>
+            <a href="{{ '/learning/system-design/hld/module-b11-distributed-tx/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">⚗️ HLD B11 — ACID, Distributed Transactions &amp; Saga</a>
+            <div class="milestone-week">Week 21</div>
+          </div>
+          <div class="milestone-desc">ACID properties, isolation levels. The distributed transaction problem: no ACID across DBs. Two-Phase Commit (blocking, coordinator SPOF). Saga pattern: local transactions + compensating transactions. Choreography vs Orchestration. Outbox pattern for atomic DB + event publishing. Idempotency keys. BASE vs ACID.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: Design a payment saga with compensation path</div>
+            <div class="deliverable task">Task: 2PC vs Saga — money transfer trade-offs</div>
+            <div class="deliverable task">Task: Capstone — full Place Order saga (Order, Payment, Inventory, Shipping, Notification)</div>
+            <a href="{{ '/learning/system-design/hld/module-b11-distributed-tx/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b11-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b12-interview-framework/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🎓 HLD B12 — Interview Framework &amp; Track B Capstone</a>
+            <div class="milestone-week">Week 22</div>
+          </div>
+          <div class="milestone-desc">The 7-step framework for 45-minute system design interviews. Time allocation map. Requirements templates. Capacity estimation cheat sheet. Communication patterns that signal seniority. 7 most common mistakes. 6 full mock interview problems (Pastebin, Notifications, Job Scheduler, Google Drive, Live Streaming, Autocomplete). Quick answers card.</div>
+          <div class="milestone-deliverables">
+            <div class="deliverable task">Task: 6 mock interviews — 45 min timed, no notes</div>
+            <div class="deliverable task">Task: Identify personal weaknesses from mock review</div>
+            <a href="{{ '/learning/system-design/hld/module-b12-interview-framework/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
+            <a href="{{ '/learning/system-design/hld/module-b12-notes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">📝 Study Notes</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#00d4aa"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">🤖 HLD B13 — ML Systems Design</a>
+            <div class="milestone-week">Week 23</div>
           </div>
           <div class="milestone-desc">Feature stores, training pipelines, model serving, A/B testing infrastructure, recommendation systems, real-time ML inference at scale. MLOps fundamentals.</div>
           <div class="milestone-deliverables">
             <div class="deliverable project">Mini Project: Design a Recommendation System</div>
             <div class="deliverable task">Task: Design Feature Store</div>
+            <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
           </div>
         </div>
       </div>
@@ -525,12 +608,13 @@ permalink: /learning/system-design/system-design-roadmap/
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
           <div class="milestone-header">
-            <div class="milestone-title" style="color:#00d4aa">☸️ HLD B14 — Kubernetes + Container Orchestration</div>
-            <div class="milestone-week">Week 16</div>
+            <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" class="milestone-title" style="color:#00d4aa;text-decoration:none;">☸️ HLD B14 — Kubernetes + Container Orchestration</a>
+            <div class="milestone-week">Week 24</div>
           </div>
           <div class="milestone-desc">Containers → Pods → Services → Ingress. Deployments, StatefulSets, HPA, resource management. Service mesh basics (Istio). K8s in system design interviews.</div>
           <div class="milestone-deliverables">
             <div class="deliverable task">Task: K8s architecture for a microservices system</div>
+            <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" class="deliverable" style="color:#00d4aa;text-decoration:none;">⚡ Open Interactive Module</a>
             <div class="deliverable">✅ HLD Track Complete</div>
           </div>
         </div>
@@ -546,10 +630,10 @@ permalink: /learning/system-design/system-design-roadmap/
           </div>
           <div class="milestone-desc">Both tracks merge. Apply LLD + HLD together. Each system: Requirements → Estimation → HLD diagram → Deep dive 2 components → Trade-offs. 10+ complete system designs.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable project">URL Shortener · Pastebin</div>
-            <div class="deliverable project">WhatsApp · Notification System</div>
-            <div class="deliverable project">Instagram · Twitter · News Feed</div>
-            <div class="deliverable project">YouTube · Dropbox · Google Drive</div>
+            <a href="{{ '/learning/system-design/hld/module-b5-url-shortener/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ URL Shortener · Pastebin</a>
+            <a href="{{ '/learning/system-design/hld/module-b7-whatsapp/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ WhatsApp · Notification System</a>
+            <a href="{{ '/learning/system-design/hld/module-b6-twitter-feed/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ Instagram · Twitter · News Feed</a>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="deliverable project" style="color:#f59e0b;text-decoration:none;">⚡ YouTube · Dropbox · Google Drive</a>
             <div class="deliverable project">Ticket Master · Web Crawler · NearbyFriends</div>
           </div>
         </div>
@@ -567,6 +651,8 @@ permalink: /learning/system-design/system-design-roadmap/
           <div class="milestone-deliverables">
             <div class="deliverable project">Mini Project: Fraud Detection System</div>
             <div class="deliverable project">Mini Project: Auth + Monitoring System</div>
+            <a href="{{ '/learning/system-design/hld/module-c4-observability/' | relative_url }}" class="deliverable" style="color:#00c840;text-decoration:none;">⚡ C4 — Observability &amp; SRE</a>
+            <a href="{{ '/learning/system-design/hld/module-c5-security/' | relative_url }}" class="deliverable" style="color:#e03040;text-decoration:none;">⚡ C5 — Security Architecture</a>
           </div>
         </div>
       </div>
@@ -581,11 +667,31 @@ permalink: /learning/system-design/system-design-roadmap/
           </div>
           <div class="milestone-desc">20 timed mock problems with evaluation rubric. Then the final capstone: choose one end-to-end project that combines everything — LLD entities, HLD architecture, storage, reliability, and trade-off analysis.</div>
           <div class="milestone-deliverables">
-            <div class="deliverable mock">20 Mock Interview Problems</div>
+            <a href="{{ '/learning/system-design/hld/module-b12-interview-framework/' | relative_url }}" class="deliverable mock" style="color:#f59e0b;text-decoration:none;">⚡ 20 Mock Interview Problems</a>
             <div class="deliverable capstone">Capstone: Uber E2E (LLD + HLD)</div>
-            <div class="deliverable capstone">Capstone: YouTube E2E (+ CDN + Storage)</div>
+            <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" class="deliverable capstone" style="color:#f59e0b;text-decoration:none;">⚡ Capstone: YouTube E2E (+ CDN + Storage)</a>
             <div class="deliverable capstone">Capstone: BookMyShow (Concurrency + Scale)</div>
             <div class="deliverable">✅ Course Complete · FAANG Ready</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRACK C — Advanced Topics -->
+      <div class="milestone">
+        <div class="milestone-dot" style="background:#a060ff"></div>
+        <div class="milestone-card">
+          <div class="milestone-header">
+            <div class="milestone-title" style="color:#a060ff">🔬 Track C — Advanced Topics (Optional)</div>
+            <div class="milestone-week">Weeks 25–29</div>
+          </div>
+          <div class="milestone-desc">Deep-dive into production-grade advanced systems. Five focused modules covering distributed consensus (Raft/Paxos), geo-distribution, ML infrastructure, observability/SRE, and security architecture.</div>
+          <div class="milestone-deliverables">
+            <a href="{{ '/learning/system-design/hld/module-c1-consensus/' | relative_url }}" class="deliverable" style="color:#4080ff;text-decoration:none;">⚡ C1 — Consensus: Raft &amp; Paxos (W25)</a>
+            <a href="{{ '/learning/system-design/hld/module-c2-geo-distribution/' | relative_url }}" class="deliverable" style="color:#00b8c8;text-decoration:none;">⚡ C2 — Geo-Distribution &amp; Multi-Region (W26)</a>
+            <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" class="deliverable" style="color:#a060ff;text-decoration:none;">⚡ C3 — ML Systems Design (W27)</a>
+            <a href="{{ '/learning/system-design/hld/module-c4-observability/' | relative_url }}" class="deliverable" style="color:#00c840;text-decoration:none;">⚡ C4 — Observability &amp; SRE (W28)</a>
+            <a href="{{ '/learning/system-design/hld/module-c5-security/' | relative_url }}" class="deliverable" style="color:#e03040;text-decoration:none;">⚡ C5 — Security Architecture (W29)</a>
+            <div class="deliverable">✅ Track C Complete · FAANG+ Ready</div>
           </div>
         </div>
       </div>

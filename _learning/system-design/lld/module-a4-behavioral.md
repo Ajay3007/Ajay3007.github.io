@@ -7,7 +7,7 @@ permalink: /learning/system-design/lld/module-a4-behavioral/
 ---
 
 <div class="m4-page">
-<header>
+<header class="m4-header">
   <div class="m4-eyebrow">Track A · LLD · Module A4 · Weeks 6–7</div>
   <h1>Behavioral<br><em>Patterns</em></h1>
   <div class="m4-h-count">12 patterns · 2 weeks · BookMyShow mini project</div>
@@ -884,9 +884,9 @@ Deliverable:
 </div><!-- end m4-content -->
 
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
-<div class="m4-bottom-nav">
-  <a href="/learning/system-design/lld/module-a3-structural/" class="m4-nav-footer-btn">← Phase A3: Structural</a>
-  <a href="/learning/system-design/lld/module-a4-notes/" class="m4-nav-footer-btn" style="border-color:var(--p1);color:var(--p1)">📄 Full Notes</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="m4-nav-footer-btn">↑ Roadmap</a>
-  <a href="/learning/system-design/lld/module-a5-concurrency/" class="m4-nav-footer-btn">Phase A5: Concurrency →</a>
+<div class="m4-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border2);padding-top:20px;">
+  <a href="/learning/system-design/lld/module-a3-structural/" class="m4-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">← PREVIOUS: LLD A3</a>
+  <a href="/learning/system-design/lld/module-a4-notes/" class="m4-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--p1);color:var(--p1);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="m4-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a5-concurrency/" class="m4-nav-footer-btn" style="padding:12px 24px;background:var(--p1);color:var(--paper);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A5 →</a>
 </div>

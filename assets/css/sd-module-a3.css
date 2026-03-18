@@ -5,7 +5,7 @@
   --ink:     #111111;
   --paper:   #ffffff;
   --rule:    #222222;
-  --muted:   #888888;
+  --muted:   #6b6460;
   --light:   #e8e4dd;
   --lighter: #f0ede8;
 
@@ -123,12 +123,23 @@
 .m3-meta-item {
   padding: 8px 0;
   border-bottom: 1px solid #333;
-  color: #888;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2px;
+}
+.m3-meta-item span {
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #666;
+}
+.m3-meta-item strong {
+  color: #ddd;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 .m3-meta-item:last-child { border-bottom: none; }
-.m3-meta-item strong { color: #ddd; }
 
 /* NAV */
 .m3-nav {
@@ -470,6 +481,11 @@ pre.m3-code {
   font-size: 13px;
   line-height: 1.6;
 }
+/* Override .site-main li { color: var(--text-color) } in main.css.
+   .m3-page li has same specificity (0,1,1) but loads later so wins. */
+.m3-page li { color: var(--ink); }
+.m3-page .m3-step-item { color: var(--ink); }
+.m3-page .m3-step-item strong { color: var(--ink); font-weight: 700; }
 .m3-step-item:last-child { border-bottom: none; }
 .m3-step-num {
   font-family: 'Inconsolata', monospace;

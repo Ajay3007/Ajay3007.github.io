@@ -7,7 +7,7 @@ permalink: /learning/system-design/lld/module-a3-structural/
 ---
 
 <div class="m3-page m3-bg">
-<header>
+<header class="m3-header">
   <div class="m3-colour-bar">
     <div class="m3-colour-seg" style="background:var(--c1)"></div>
     <div class="m3-colour-seg" style="background:var(--c2)"></div>
@@ -39,12 +39,12 @@ permalink: /learning/system-design/lld/module-a3-structural/
 </header>
 
 <m3-nav class="m3-nav">
-  <div class="m3-m3-nav-tab active" onclick="m3Show('overview',this)">Overview</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('patterns',this)">Pattern Deep Dives</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('distinctions',this)">Key Distinctions</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('splitwise',this)">Splitwise Project</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('tasks',this)">Tasks</div>
-  <div class="m3-m3-nav-tab" onclick="m3Show('checklist',this)">Checklist</div>
+  <div class="m3-nav-tab active" onclick="m3Show('overview',this)">Overview</div>
+  <div class="m3-nav-tab" onclick="m3Show('patterns',this)">Pattern Deep Dives</div>
+  <div class="m3-nav-tab" onclick="m3Show('distinctions',this)">Key Distinctions</div>
+  <div class="m3-nav-tab" onclick="m3Show('splitwise',this)">Splitwise Project</div>
+  <div class="m3-nav-tab" onclick="m3Show('tasks',this)">Tasks</div>
+  <div class="m3-nav-tab" onclick="m3Show('checklist',this)">Checklist</div>
 </m3-nav>
 
 <div class="m3-content">
@@ -733,9 +733,9 @@ Demo scenario:
 </div><!-- end m3-content -->
 
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
-<div class="m3-bottom-nav">
-  <a href="/learning/system-design/lld/module-a2-creational/" class="m3-nav-footer-btn">← Phase A2: Creational</a>
-  <a href="/learning/system-design/lld/module-a3-notes/" class="m3-nav-footer-btn" style="border-color:var(--c1);color:var(--c1)">📄 Full Notes</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="m3-nav-footer-btn">↑ Roadmap</a>
-  <a href="/learning/system-design/lld/module-a4-behavioral/" class="m3-nav-footer-btn">Phase A4: Behavioral →</a>
+<div class="m3-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border2);padding-top:20px;">
+  <a href="/learning/system-design/lld/module-a2-creational/" class="m3-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">← PREVIOUS: LLD A2</a>
+  <a href="/learning/system-design/lld/module-a3-notes/" class="m3-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--c1);color:var(--c1);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="m3-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a4-behavioral/" class="m3-nav-footer-btn" style="padding:12px 24px;background:var(--c1);color:var(--paper);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A4 →</a>
 </div>

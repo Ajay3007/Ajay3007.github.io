@@ -9,14 +9,14 @@ permalink: /learning/system-design/hld/
 Scale systems to millions of users — networking, databases, caching, message queues, distributed systems, reliability, and full case studies.
 
 <div style="display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0 2rem;">
-  <span style="background:rgba(0,212,170,0.1);color:#00d4aa;border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">Track B · Weeks 3–16</span>
-  <span style="background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">14 Modules · Coming Soon</span>
+  <span style="background:rgba(0,212,170,0.1);color:#00d4aa;border:1px solid rgba(0,212,170,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">Track B · Weeks 11–24</span>
+  <span style="background:rgba(16,185,129,0.1);color:#10b981;border:1px solid rgba(16,185,129,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">4 / 14 Modules Complete</span>
   <span style="background:rgba(148,163,184,0.1);color:#94a3b8;border:1px solid rgba(148,163,184,0.3);border-radius:20px;padding:0.3rem 0.85rem;font-size:0.85rem;font-weight:600;">3 Phases</span>
 </div>
 
 ---
 
-## Phase B-I — Foundations of Scale (Weeks 3–7)
+## Phase B-I — Foundations (Weeks 11–15)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
@@ -85,7 +85,7 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 ---
 
-## Phase B-II — Distributed Systems (Weeks 8–12)
+## Phase B-II — System Designs at Scale (Weeks 16–20)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
@@ -115,44 +115,56 @@ Scale systems to millions of users — networking, databases, caching, message q
     </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B8 · Week 10</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B8 · Week 18</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Distributed Systems Concepts</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">CAP theorem, PACELC, consistency models, Paxos & Raft consensus, vector clocks, distributed transactions (2PC, Saga).</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Design YouTube</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Chunked upload, transcoding (temporal parallelism), HLS adaptive streaming, 3-tier CDN, sharded view counter, Elasticsearch search.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b8-youtube/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b8-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B9 · Week 11</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B9 · Week 19</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Scalability Patterns</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Microservices, API gateway, service mesh, rate limiting (token bucket, leaky bucket), circuit breakers, bulkhead pattern.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Design a Rate Limiter</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">5 algorithms (fixed/sliding window, token/leaky bucket), Redis Lua scripts, distributed limiting, HTTP 429 headers, multi-tier architecture.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b9-rate-limiter/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b9-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B10 · Week 12</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B10 · Week 20</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
-    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Reliability & Fault Tolerance</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Availability (nines), SLIs/SLOs/SLAs, health checks, retries with exponential backoff, chaos engineering, disaster recovery.</p>
+    <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Consistent Hashing &amp; Service Discovery</h3>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Hash ring, virtual nodes, Consul, ZooKeeper, client vs server-side discovery, health checks, gossip protocol, Raft consensus.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b10-consistent-hashing/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b10-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
 </div>
 
 ---
 
-## Phase B-III — Advanced Systems (Weeks 13–16)
+## Phase B-III — Advanced & Distributed Topics (Weeks 21–24)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
 
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B11 · Week 13</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B11 · Week 21</span>
       <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Storage Systems</h3>
@@ -161,29 +173,37 @@ Scale systems to millions of users — networking, databases, caching, message q
 
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B12 · Week 14</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B12 · Week 22</span>
       <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Special Topics</h3>
     <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Full-text search, notification systems (push/pull), geospatial systems, unique ID generation (UUID, Snowflake), top-K / trending.</p>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B13 · Week 15</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B13 · Week 23</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">ML Systems Design</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Feature stores, model serving infrastructure, A/B testing at scale, recommendation system design, stream processing for ML pipelines.</p>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Feature stores, model serving infrastructure, A/B testing at scale, recommendation system design, stream processing for ML pipelines.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b13-ml-systems/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b13-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
-  <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
+  <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
-      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B14 · Week 16</span>
-      <span style="background:#94a3b8;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">🔜 Soon</span>
+      <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B14 · Week 24</span>
+      <span style="background:#10b981;color:white;border-radius:12px;padding:0.2rem 0.6rem;font-size:0.72rem;font-weight:700;">✓ Done</span>
     </div>
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Kubernetes & Containers</h3>
-    <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Docker fundamentals, Kubernetes architecture (pods, services, ingress), horizontal pod autoscaling, rolling deployments, Helm.</p>
+    <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Docker fundamentals, Kubernetes architecture (pods, services, ingress), horizontal pod autoscaling, rolling deployments, Helm.</p>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+      <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
+      <a href="{{ '/learning/system-design/hld/module-b14-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+    </div>
   </div>
 
 </div>
@@ -194,9 +214,9 @@ Scale systems to millions of users — networking, databases, caching, message q
 
 | Phase | Modules | Weeks | Topics |
 |-------|---------|-------|--------|
-| **B-I: Foundations** | B1–B5 | 3–7 | Requirements, Networking, Hardware, Caching, Data Stores |
-| **B-II: Distributed** | B6–B10 | 8–12 | DB Scale, Kafka, CAP/Raft, Scalability, Reliability |
-| **B-III: Advanced** | B11–B14 | 13–16 | Storage, Special Topics, ML Systems, Kubernetes |
+| **B-I: Foundations** | B1–B5 | 11–15 | HLD Fundamentals, Databases at Scale, Caching, Message Queues, URL Shortener |
+| **B-II: System Designs** | B6–B10 | 16–20 | Twitter Feed, WhatsApp, YouTube, Rate Limiter, Consistent Hashing |
+| **B-III: Advanced** | B11–B14 | 21–24 | Distributed Transactions, Interview Framework, ML Systems, Kubernetes |
 
 ---
 

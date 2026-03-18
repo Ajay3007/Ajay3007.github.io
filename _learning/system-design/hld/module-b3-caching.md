@@ -690,8 +690,8 @@ function tick(el) {
 </script>
 
 <div class="b3-bottom-nav">
-  <a href="/learning/system-design/hld/module-b2-databases-at-scale/" class="b3-nav-footer-btn">← B2: Databases at Scale</a>
+  <a href="/learning/system-design/hld/module-b2-caching/" class="b3-nav-footer-btn">← B2: Caching</a>
   <a href="/learning/system-design/hld/module-b3-notes/" class="b3-nav-footer-btn">📄 Full Notes</a>
   <a href="/learning/system-design/system-design-roadmap/" class="b3-nav-footer-btn">↑ Roadmap</a>
-  <a href="/learning/system-design/hld/" class="b3-nav-footer-btn">↑ HLD Hub</a>
+  <a href="/learning/system-design/hld/module-b4-message-queues/" class="b3-nav-footer-btn">B4: Message Queues →</a>
 </div>

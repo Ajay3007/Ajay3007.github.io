@@ -433,19 +433,74 @@ permalink: /learning/system-design/lld/module-a1-solid/
 
   <div class="m1-uml-container">
     <div class="m1-uml-title">SEQUENCE DIAGRAM NOTATION</div>
-    <div style="font-family:'Fira Code',monospace;font-size:12px;color:var(--m1-muted);line-height:2;background:var(--m1-surf2);padding:20px;border-radius:8px;">
-<span style="color:var(--m1-text)">Customer     OrderSvc    PaymentSvc    EmailSvc</span>
-   |              |             |              |
-   |──placeOrder()──&gt;|             |              |
-   |              |──validatePayment()──&gt;|       |
-   |              |             |──confirmed──-|
-   |              |&lt;──payOk──-|             |
-   |              |──────────────────────sendEmail()──&gt;|
-   |              |             |              |──sent──-|
-   |&lt;──orderId─────|             |              |
+    <div style="background:#141c2e;padding:20px 16px 16px;border-radius:8px;overflow-x:auto;">
+      <svg viewBox="0 0 660 295" style="width:100%;min-width:500px;font-family:'Fira Code',monospace;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="a1-arr-sync" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#00e5ff"/>
+          </marker>
+          <marker id="a1-arr-ret" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto">
+            <polygon points="0 0, 8 3.5, 0 7" fill="#69ff47"/>
+          </marker>
+        </defs>
 
-<span style="color:var(--m1-s)">→</span>  synchronous call  &nbsp; <span style="color:var(--m1-o)">--&gt;</span> async call
-<span style="color:var(--m1-l)">alt [condition]</span>  &nbsp; = conditional block (failure path)
+        <!-- ── Actor boxes ─────────────────────────────────── -->
+        <!-- Customer x=80 -->
+        <rect x="35" y="8" width="90" height="26" rx="4" fill="#1e2a40" stroke="#263450"/>
+        <text x="80" y="25" text-anchor="middle" fill="#d4deff" font-size="11">Customer</text>
+
+        <!-- OrderSvc x=240 -->
+        <rect x="195" y="8" width="90" height="26" rx="4" fill="#001e2e" stroke="#00e5ff" stroke-width="1.5"/>
+        <text x="240" y="25" text-anchor="middle" fill="#00e5ff" font-size="11">OrderSvc</text>
+
+        <!-- PaymentSvc x=400 -->
+        <rect x="352" y="8" width="96" height="26" rx="4" fill="#1e2a40" stroke="#263450"/>
+        <text x="400" y="25" text-anchor="middle" fill="#d4deff" font-size="11">PaymentSvc</text>
+
+        <!-- EmailSvc x=570 -->
+        <rect x="525" y="8" width="90" height="26" rx="4" fill="#1e2a40" stroke="#263450"/>
+        <text x="570" y="25" text-anchor="middle" fill="#d4deff" font-size="11">EmailSvc</text>
+
+        <!-- ── Lifelines ────────────────────────────────────── -->
+        <line x1="80"  y1="34" x2="80"  y2="260" stroke="#263450" stroke-dasharray="4,3"/>
+        <line x1="240" y1="34" x2="240" y2="260" stroke="#00e5ff" stroke-dasharray="4,3" opacity="0.35"/>
+        <line x1="400" y1="34" x2="400" y2="260" stroke="#263450" stroke-dasharray="4,3"/>
+        <line x1="570" y1="34" x2="570" y2="260" stroke="#263450" stroke-dasharray="4,3"/>
+
+        <!-- ── Messages ──────────────────────────────────────── -->
+        <!-- 1. Customer → OrderSvc : placeOrder(cart) -->
+        <line x1="82" y1="65" x2="233" y2="65" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
+        <text x="157" y="60" text-anchor="middle" fill="#00e5ff" font-size="10">placeOrder(cart)</text>
+
+        <!-- 2. OrderSvc → PaymentSvc : validatePayment(card) -->
+        <line x1="242" y1="98" x2="393" y2="98" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
+        <text x="317" y="93" text-anchor="middle" fill="#00e5ff" font-size="10">validatePayment(card)</text>
+
+        <!-- 3. PaymentSvc → OrderSvc : paymentConfirmed  [return] -->
+        <line x1="398" y1="131" x2="247" y2="131" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
+        <text x="322" y="126" text-anchor="middle" fill="#69ff47" font-size="10">paymentConfirmed</text>
+
+        <!-- 4. OrderSvc → EmailSvc : sendEmail(email) -->
+        <line x1="242" y1="164" x2="563" y2="164" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
+        <text x="403" y="159" text-anchor="middle" fill="#00e5ff" font-size="10">sendEmail(email)</text>
+
+        <!-- 5. EmailSvc → OrderSvc : sent  [return] -->
+        <line x1="568" y1="197" x2="247" y2="197" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
+        <text x="406" y="192" text-anchor="middle" fill="#69ff47" font-size="10">sent</text>
+
+        <!-- 6. OrderSvc → Customer : orderId  [return] -->
+        <line x1="238" y1="230" x2="87" y2="230" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
+        <text x="160" y="225" text-anchor="middle" fill="#69ff47" font-size="10">orderId</text>
+
+        <!-- ── Legend ──────────────────────────────────────────── -->
+        <line x1="36" y1="273" x2="66" y2="273" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
+        <text x="73" y="277" fill="#7888b8" font-size="10">synchronous call</text>
+        <line x1="210" y1="273" x2="240" y2="273" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
+        <text x="247" y="277" fill="#7888b8" font-size="10">return / async</text>
+        <rect x="380" y="265" width="88" height="16" rx="3" fill="none" stroke="rgba(255,184,0,0.4)"/>
+        <text x="424" y="277" text-anchor="middle" fill="#ffb800" font-size="10">alt [condition]</text>
+        <text x="476" y="277" fill="#7888b8" font-size="10">= conditional block</text>
+      </svg>
     </div>
   </div>
 </div>
@@ -735,10 +790,11 @@ Deliverable:
 </div><!-- end .m1-content -->
 
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
-<div class="m1-bottom-nav">
-  <a href="/learning/system-design/foundation/phase0-foundation/" class="m1-nav-footer-btn">← Phase 0: Foundation</a>
-  <a href="/learning/system-design/lld/module-a1-notes/" class="m1-nav-footer-btn">📄 Full Notes</a>
-  <a href="/learning/system-design/system-design-roadmap/" class="m1-nav-footer-btn">↑ Roadmap</a>
+<div class="m1-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--m1-border);padding-top:20px;">
+  <a href="/learning/system-design/foundation/phase0-foundation/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-border);border-radius:4px;color:var(--m1-muted);text-decoration:none;">← PREVIOUS: PHASE 0</a>
+  <a href="/learning/system-design/lld/module-a1-notes/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-s);color:var(--m1-s);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>
+  <a href="/learning/system-design/system-design-roadmap/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-border);border-radius:4px;color:var(--m1-muted);text-decoration:none;">↑ ROADMAP</a>
+  <a href="/learning/system-design/lld/module-a2-creational/" class="m1-nav-footer-btn" style="padding:12px 24px;background:var(--m1-s);color:var(--m1-bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A2 →</a>
 </div>
 
 </div><!-- end .m1-page -->
