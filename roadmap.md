@@ -11,11 +11,11 @@ custom_css: roadmap-hub
   <p>Structured, chapter-by-chapter mastery paths across core engineering domains — from interview prep to systems-level design.</p>
   <div class="hub-hero-meta">
     <div class="hub-meta-item">
-      <span class="hub-meta-val">1</span>
-      <span class="hub-meta-lbl">Live Roadmap</span>
+      <span class="hub-meta-val">4</span>
+      <span class="hub-meta-lbl">Live Roadmaps</span>
     </div>
     <div class="hub-meta-item">
-      <span class="hub-meta-val">5</span>
+      <span class="hub-meta-val">2</span>
       <span class="hub-meta-lbl">In Progress</span>
     </div>
     <div class="hub-meta-item">
@@ -168,30 +168,31 @@ custom_css: roadmap-hub
     </div>
   </div>
 
-  <!-- ── Data Plane & Networking ── SOON ─────────────────────── -->
-  <div class="domain-card coming-soon" style="--card-accent: linear-gradient(90deg,#6366f1,#8b5cf6);">
+  <!-- ── Data Plane & Networking ── LIVE ─────────────────────── -->
+  <div class="domain-card" style="--card-accent: linear-gradient(90deg,#6366f1,#8b5cf6);">
     <div class="dc-icon">🌐</div>
     <div class="dc-header">
       <div class="dc-title">Data Plane &amp; Networking</div>
-      <span class="dc-badge soon">🔜 Soon</span>
+      <span class="dc-badge live">✅ Live</span>
     </div>
-    <div class="dc-desc">DPDK, VPP, kernel bypass, packet processing pipelines, SR-IOV, and extreme performance networking at line-rate.</div>
+    <div class="dc-desc">VPP (Vector Packet Processing) from zero to production — architecture internals, DPDK &amp; memif drivers, plugin dev, control plane, and host stack TCP/session layer.</div>
     <div class="dc-tags">
-      <span class="dc-tag">C</span>
-      <span class="dc-tag">DPDK</span>
       <span class="dc-tag">VPP</span>
+      <span class="dc-tag">DPDK</span>
+      <span class="dc-tag">C</span>
+      <span class="dc-tag">Go</span>
       <span class="dc-tag">Linux</span>
     </div>
     <div class="dc-progress">
       <span class="dc-dot filled"></span>
       <span class="dc-dot filled"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span style="margin-left:0.25rem;">Drafting</span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span style="margin-left:0.25rem;">5 Phases · 10 Modules</span>
     </div>
     <div class="dc-cta">
-      <span class="dc-btn-soon">🔒 Coming Soon</span>
+      <a href="{{ '/learning/data-plane/vpp/' | relative_url }}" class="dc-btn">🌐 Open Roadmap →</a>
     </div>
   </div>
 
