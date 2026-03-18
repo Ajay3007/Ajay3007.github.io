@@ -136,7 +136,7 @@ func main() {
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Interface Operations</h3><span class="tag tag-blue">API PATTERNS</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">// ── List all interfaces ──</span>
+<div class="cb"><pre>{% raw %}<span class="cm">// ── List all interfaces ──</span>
 reqCtx := ch.SendMultiRequest(&interfaces.SwInterfaceDump{
     SwIfIndex: interface_types.InterfaceIndex(^uint32(0)), <span class="cm">// ~0 = all</span>
 })
@@ -193,7 +193,7 @@ _, err = ch.SendRequest(&ip.IPRouteAddDel{
             Preference: 0,
         }},
     },
-}).ReceiveReply(&ip.IPRouteAddDelReply{})</pre></div>
+}).ReceiveReply(&ip.IPRouteAddDelReply{}){% endraw %}</pre></div>
   </div>
 </div>
 </div>
