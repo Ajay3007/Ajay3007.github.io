@@ -1094,9 +1094,9 @@ svm_msg_q_add(app->event_queue, &evt, SVM_Q_NOWAIT);
 
 <!-- MODULE NAV -->
 <div class="mod-nav">
-  <a href="{{ '/learning/data-plane/vpp/' | relative_url }}">← VPP Hub</a>
+  <a href="{{ '/learning/data-plane/vpp/module-p5-controlplane/' | relative_url }}">← Control Plane</a>
   <a href="{{ '/learning/data-plane/vpp/vpp-roadmap/' | relative_url }}">🗺️ Roadmap</a>
-  <a class="nb" href="{{ '/learning/data-plane/vpp/module-p4-plugin-dev/' | relative_url }}">Plugin Dev →</a>
+  <a class="nb" href="{{ '/learning/data-plane/vpp/' | relative_url }}">↑ VPP Hub</a>
 </div>
 
 <script>

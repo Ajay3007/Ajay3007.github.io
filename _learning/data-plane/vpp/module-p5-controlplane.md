@@ -482,14 +482,14 @@ buffers {
   <li>Completed Project 8 (GoVPP agent with Prometheus) and Project 9 (full production topology)</li>
 </ul>
 <div class="ins" style="margin-top:1.2rem;">
-  <p>🎉 <strong>VPP Mastery complete.</strong> You can now build production VPP deployments end-to-end: from DPDK physical interfaces through custom plugins to a fully automated GoVPP control plane with observability. The FD.io ecosystem awaits - explore GTP-U, QUIC, IPSec, and Cilium integration next.</p>
+  <p>🎉 <strong>Phase 5 complete.</strong> You can now build production VPP deployments end-to-end: from DPDK physical interfaces through custom plugins to a fully automated GoVPP control plane with observability. <strong>Bonus:</strong> continue to the Host Stack module to explore VPP's TCP/Session layer, VCL, and application namespaces.</p>
 </div>
 </div>
 
 <div class="mod-nav">
   <a href="{{ '/learning/data-plane/vpp/module-p4-plugin-dev/' | relative_url }}">← Plugin Dev</a>
   <a href="{{ '/learning/data-plane/vpp/vpp-roadmap/' | relative_url }}">🗺️ Roadmap</a>
-  <a class="nb" href="{{ '/learning/data-plane/vpp/' | relative_url }}">↑ VPP Hub</a>
+  <a class="nb" href="{{ '/learning/data-plane/vpp/module-hoststack/' | relative_url }}">🌐 Host Stack (Bonus) →</a>
 </div>
 <script>
 function vt(e,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById(id).classList.add('active');}

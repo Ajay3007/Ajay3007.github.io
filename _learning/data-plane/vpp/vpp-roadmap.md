@@ -199,11 +199,13 @@ permalink: /learning/data-plane/vpp/vpp-roadmap/
         <span class="pt-weeks" style="background:#e2f0e8;color:#0e3a1e">Weeks 19–22+</span>
       </div>
       <div class="pt-desc">
-        Programmatic control of VPP from external processes. GoVPP binary API client with auto-generated bindings. VPP Stats API (shared memory, counters, interface stats). vpp_papi Python bindings. Observability: event logger, perfmon plugin, NUMA-aware tuning. Production deployment patterns. End-to-end capstone integrating all phases.
+        Programmatic control of VPP from external processes. GoVPP binary API client with auto-generated bindings. VPP Stats API (shared memory, counters, interface stats). vpp_papi Python bindings. Observability: event logger, perfmon plugin, NUMA-aware tuning. Production deployment patterns. End-to-end capstone integrating all phases. <strong>Bonus:</strong> VPP Host Stack — TCP/Session layer, VCL, application namespaces, and vcl-ldpreload.
       </div>
       <div class="pt-modules">
         <a class="pt-mod" href="{{ '/learning/data-plane/vpp/module-p5-controlplane/' | relative_url }}"
            style="background:#e2f0e8;color:#0e3a1e;border-color:#8ec8a8">🎛️ Control Plane &amp; GoVPP</a>
+        <a class="pt-mod" href="{{ '/learning/data-plane/vpp/module-hoststack/' | relative_url }}"
+           style="background:#e8f0fa;color:#1a3a6c;border-color:#90acd8">🌐 Host Stack — TCP &amp; Session Layers <span style="font-size:.68rem;opacity:.75;margin-left:.3rem">Bonus</span></a>
       </div>
       <div class="pt-skills">
         <span class="skill-tag">GoVPP</span>
@@ -214,6 +216,10 @@ permalink: /learning/data-plane/vpp/vpp-roadmap/
         <span class="skill-tag">perfmon</span>
         <span class="skill-tag">NUMA tuning</span>
         <span class="skill-tag">cpu pinning</span>
+        <span class="skill-tag">session layer</span>
+        <span class="skill-tag">VCL</span>
+        <span class="skill-tag">vcl-ldpreload</span>
+        <span class="skill-tag">app namespaces</span>
       </div>
       <div>
         <span class="proj-chip" style="background:#e2f0e8;color:#0e3a1e">📦 Project 8: GoVPP Control Plane Agent</span>
