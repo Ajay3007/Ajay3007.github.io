@@ -42,6 +42,93 @@ custom_js: ai-ml-roadmap
 
 <div class="mc">
 
+<!-- ── Metro Map ──────────────────────────────────────────────── -->
+<div class="metro-wrap">
+  <div class="metro-eyebrow">🗺️ Learning Path Overview</div>
+  <div class="metro-map">
+
+    <!-- SVG rails — viewBox 1000×220; main line y=60, branch y=150 -->
+    <svg class="metro-svg" viewBox="0 0 1000 220" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="mm-vg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#a78bfa"/>
+          <stop offset="100%" stop-color="#7c3aed"/>
+        </linearGradient>
+      </defs>
+      <!-- Violet main line -->
+      <line x1="50"  y1="60" x2="950" y2="60"  stroke="url(#mm-vg)" stroke-width="4.5" stroke-linecap="round"/>
+      <!-- Pink branch: P1 diagonal down to P2 -->
+      <line x1="180" y1="60" x2="280" y2="150" stroke="#ec4899" stroke-width="3.5" stroke-linecap="round"/>
+      <!-- Pink horizontal P2 → P3 -->
+      <line x1="280" y1="150" x2="590" y2="150" stroke="#ec4899" stroke-width="3.5"/>
+      <!-- Pink branch: P3 diagonal up to P7 -->
+      <line x1="590" y1="150" x2="690" y2="60"  stroke="#ec4899" stroke-width="3.5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- ── Main line stations (top row) ── -->
+    <a class="ms ms-interchange" href="#" onclick="event.preventDefault();showP('s0',null);" style="left:5%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P0</div>
+      <div class="ms-name">How to Use</div>
+    </a>
+    <a class="ms ms-interchange" href="#" onclick="event.preventDefault();showP('s1',null);" style="left:18%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P1</div>
+      <div class="ms-name">Foundation</div>
+    </a>
+    <a class="ms ms-ai" href="#" onclick="event.preventDefault();showP('s4',null);" style="left:31%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P4</div>
+      <div class="ms-name">LLM APIs</div>
+    </a>
+    <a class="ms ms-ai" href="#" onclick="event.preventDefault();showP('s5',null);" style="left:44%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P5</div>
+      <div class="ms-name">RAG</div>
+    </a>
+    <a class="ms ms-ai" href="#" onclick="event.preventDefault();showP('s6',null);" style="left:57%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P6</div>
+      <div class="ms-name">Agents</div>
+    </a>
+    <a class="ms ms-interchange" href="#" onclick="event.preventDefault();showP('s7',null);" style="left:69%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P7</div>
+      <div class="ms-name">Production</div>
+    </a>
+    <a class="ms ms-ai" href="#" onclick="event.preventDefault();showP('s8',null);" style="left:82%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P8</div>
+      <div class="ms-name">Specialize</div>
+    </a>
+    <a class="ms ms-ai" href="#" onclick="event.preventDefault();showP('s9',null);" style="left:95%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P9</div>
+      <div class="ms-name">Portfolio</div>
+    </a>
+
+    <!-- ── ML branch stations (bottom row) ── -->
+    <a class="ms ms-ml ms-branch" href="#" onclick="event.preventDefault();showP('s2',null);" style="left:28%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P2</div>
+      <div class="ms-name">Stats &amp; EDA</div>
+    </a>
+    <a class="ms ms-ml ms-branch" href="#" onclick="event.preventDefault();showP('s3',null);" style="left:59%">
+      <div class="ms-dot"></div>
+      <div class="ms-badge">P3</div>
+      <div class="ms-name">Classical ML</div>
+    </a>
+
+  </div><!-- .metro-map -->
+
+  <!-- Legend -->
+  <div class="metro-legend">
+    <div class="mleg-item"><div class="mleg-line v"></div> AI / GenAI Engineer path</div>
+    <div class="mleg-item"><div class="mleg-line p"></div> ML / Data Science branch (optional)</div>
+    <div class="mleg-item"><div class="mleg-dot-ic"></div> Interchange — both paths stop here</div>
+  </div>
+</div><!-- .metro-wrap -->
+
 <div class="ps">
   <div class="psh"><span style="font-size:1.3rem">&#x1F9ED;</span><h2>Choose Your Learning Path</h2></div>
   <div class="pt">
