@@ -512,6 +512,7 @@
   font-size: 1.35rem;
   font-weight: 700;
   margin: 0;
+  color: #fff;
 }
 .pt {
   display: flex;
@@ -613,7 +614,7 @@
 }
 .pl.ai { background: linear-gradient(135deg, var(--aiml-1), #7c3aed); }
 .pl.ml { background: linear-gradient(135deg, var(--aiml-2), #9d174d); }
-.pl h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; }
+.pl h3 { font-size: 1rem; font-weight: 600; margin-bottom: 10px; color: #fff; }
 .pl .st {
   font-size: 0.8rem;
   opacity: 0.88;
@@ -692,10 +693,12 @@
   font-size: 1.7rem;
   font-weight: 700;
   margin-bottom: 5px;
+  color: #fff;
 }
 .ph .meta {
   font-size: 0.82rem;
   opacity: 0.8;
+  color: #fff;
 }
 
 /* ── Module cards (new-style .mc2) ───────────────────────────── */
@@ -921,8 +924,8 @@
 .tch.purple { background: linear-gradient(135deg, var(--aiml-2), #9d174d); }
 .tch.green { background: linear-gradient(135deg, #10b981, #065f46); }
 .tch.amber { background: linear-gradient(135deg, var(--aiml-2), #be185d); }
-.tch h3 { font-size: 0.97rem; font-weight: 700; margin-bottom: 3px; }
-.tch .td { font-size: 0.78rem; opacity: 0.85; }
+.tch h3 { font-size: 0.97rem; font-weight: 700; margin-bottom: 3px; color: #fff; }
+.tch .td { font-size: 0.78rem; opacity: 0.85; color: #fff; }
 .tcb {
   background: var(--card-bg);
   padding: 14px 20px;
