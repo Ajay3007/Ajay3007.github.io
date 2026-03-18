@@ -220,7 +220,7 @@ custom_css: roadmap-hub
       <span style="margin-left:0.25rem;">6 Phases · 26 Modules</span>
     </div>
     <div class="dc-cta">
-      <a href="{{ '/learning/networking/' | relative_url }}" class="dc-btn">📡 Open Roadmap →</a>
+      <a href="{{ '/learning/networking-mastery/' | relative_url }}" class="dc-btn">📡 Open Roadmap →</a>
     </div>
   </div>
 
