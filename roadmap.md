@@ -11,7 +11,7 @@ custom_css: roadmap-hub
   <p>Structured, chapter-by-chapter mastery paths across core engineering domains — from interview prep to systems-level design.</p>
   <div class="hub-hero-meta">
     <div class="hub-meta-item">
-      <span class="hub-meta-val">4</span>
+      <span class="hub-meta-val">5</span>
       <span class="hub-meta-lbl">Live Roadmaps</span>
     </div>
     <div class="hub-meta-item">
@@ -168,11 +168,11 @@ custom_css: roadmap-hub
     </div>
   </div>
 
-  <!-- ── Data Plane & Networking ── LIVE ─────────────────────── -->
+  <!-- ── Data Plane ── LIVE ────────────────────────────────────── -->
   <div class="domain-card" style="--card-accent: linear-gradient(90deg,#6366f1,#8b5cf6);">
-    <div class="dc-icon">🌐</div>
+    <div class="dc-icon">⚡</div>
     <div class="dc-header">
-      <div class="dc-title">Data Plane &amp; Networking</div>
+      <div class="dc-title">Data Plane</div>
       <span class="dc-badge live">✅ Live</span>
     </div>
     <div class="dc-desc">VPP (Vector Packet Processing) from zero to production — architecture internals, DPDK &amp; memif drivers, plugin dev, control plane, and host stack TCP/session layer.</div>
@@ -192,7 +192,35 @@ custom_css: roadmap-hub
       <span style="margin-left:0.25rem;">5 Phases · 10 Modules</span>
     </div>
     <div class="dc-cta">
-      <a href="{{ '/learning/data-plane/vpp/' | relative_url }}" class="dc-btn">🌐 Open Roadmap →</a>
+      <a href="{{ '/learning/data-plane/vpp/' | relative_url }}" class="dc-btn">⚡ Open Roadmap →</a>
+    </div>
+  </div>
+
+  <!-- ── Networking Mastery ── LIVE ────────────────────────────── -->
+  <div class="domain-card" style="--card-accent: linear-gradient(90deg,#06b6d4,#0ea5e9);">
+    <div class="dc-icon">📡</div>
+    <div class="dc-header">
+      <div class="dc-title">Networking Mastery</div>
+      <span class="dc-badge live">✅ Live</span>
+    </div>
+    <div class="dc-desc">Zero to NGFW — 26 modules across OSI/TCP-IP, routing (OSPF/BGP), Linux kernel stack, eBPF/XDP, TLS/IPsec, and building a Next-Generation Firewall from scratch.</div>
+    <div class="dc-tags">
+      <span class="dc-tag">TCP/IP</span>
+      <span class="dc-tag">eBPF</span>
+      <span class="dc-tag">TLS</span>
+      <span class="dc-tag">NGFW</span>
+      <span class="dc-tag">C</span>
+    </div>
+    <div class="dc-progress">
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span style="margin-left:0.25rem;">6 Phases · 26 Modules</span>
+    </div>
+    <div class="dc-cta">
+      <a href="{{ '/learning/networking/' | relative_url }}" class="dc-btn">📡 Open Roadmap →</a>
     </div>
   </div>
 
