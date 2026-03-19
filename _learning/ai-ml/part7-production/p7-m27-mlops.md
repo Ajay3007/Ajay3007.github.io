@@ -623,7 +623,7 @@ class IndexSwapper:
 <div class="mod-nav">
   <a href="{{ '/learning/ai-ml/part7-production/p7-m26-prompt-versioning/' | relative_url }}">← P7-M26: Prompt Versioning</a>
   <a href="{{ '/learning/ai-ml/ai-ml-roadmap/' | relative_url }}">🗺️ All Modules</a>
-  <a class="nb" href="{{ '/learning/ai-ml/part8-specialisation/' | relative_url }}">Next: Part 8 — Specialisation →</a>
+  <a class="nb" href="{{ '/learning/ai-ml/ai-ml-roadmap/#s8' | relative_url }}">Next: Part 8 — Specialisation →</a>
 </div>
 
 <script>
