@@ -372,8 +372,8 @@ Think step by step before giving your final answer.
 prompt = <span class="cs">f"""
 {question}
 
-First, reason through this carefully in a <scratchpad> tag.
-Then give your final answer in an <answer> tag.
+First, reason through this carefully in a &lt;scratchpad&gt; tag.
+Then give your final answer in an &lt;answer&gt; tag.
 """</span>
 
 <span class="ck"># Parse out just the answer (not the reasoning)</span>
