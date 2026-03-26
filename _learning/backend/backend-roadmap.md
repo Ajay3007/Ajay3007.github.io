@@ -58,6 +58,7 @@ custom_js: backend-roadmap
       <div class="ch-meta">
         <span class="ch-badge">Prerequisite</span>
         <span class="ch-badge">No Prereqs</span>
+        <a href="{{ '/learning/backend/m01-dns-tcp-tls/' | relative_url }}" class="ch-badge notes-live">📄 M01 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -153,6 +154,7 @@ int main(void) {
       <div class="ch-meta">
         <span class="ch-badge">Foundational</span>
         <span class="ch-badge">Requires Ph0</span>
+        <a href="{{ '/learning/backend/m03-rest/' | relative_url }}" class="ch-badge notes-live">📄 M03 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -258,6 +260,7 @@ void send_json(int fd, int status, const char *body) {
       <div class="ch-meta">
         <span class="ch-badge">Core</span>
         <span class="ch-badge">Requires Ph1</span>
+        <a href="{{ '/learning/backend/m06-sql-indexing/' | relative_url }}" class="ch-badge notes-live">📄 M06 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
