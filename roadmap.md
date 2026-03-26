@@ -11,11 +11,11 @@ custom_css: roadmap-hub
   <p>Structured, chapter-by-chapter mastery paths across core engineering domains — from interview prep to systems-level design.</p>
   <div class="hub-hero-meta">
     <div class="hub-meta-item">
-      <span class="hub-meta-val">5</span>
+      <span class="hub-meta-val">6</span>
       <span class="hub-meta-lbl">Live Roadmaps</span>
     </div>
     <div class="hub-meta-item">
-      <span class="hub-meta-val">2</span>
+      <span class="hub-meta-val">1</span>
       <span class="hub-meta-lbl">In Progress</span>
     </div>
     <div class="hub-meta-item">
@@ -224,30 +224,31 @@ custom_css: roadmap-hub
     </div>
   </div>
 
-  <!-- ── Backend Engineering ── SOON ─────────────────────────── -->
-  <div class="domain-card coming-soon" style="--card-accent: linear-gradient(90deg,#f59e0b,#10b981);">
+  <!-- ── Backend Engineering ── LIVE ─────────────────────────── -->
+  <div class="domain-card" style="--card-accent: linear-gradient(90deg,#f59e0b,#10b981);">
     <div class="dc-icon">⚙️</div>
     <div class="dc-header">
       <div class="dc-title">Backend Engineering</div>
-      <span class="dc-badge soon">🔜 Soon</span>
+      <span class="dc-badge live">✅ Live</span>
     </div>
-    <div class="dc-desc">REST, gRPC, auth, databases, event-driven architecture, microservices, concurrency patterns, and production hardening.</div>
+    <div class="dc-desc">HTTP fundamentals to production-hardened systems — API design, databases, auth, concurrency, event-driven architecture, microservices, and observability. C/C++ code throughout.</div>
     <div class="dc-tags">
-      <span class="dc-tag">APIs</span>
+      <span class="dc-tag">REST</span>
       <span class="dc-tag">gRPC</span>
       <span class="dc-tag">SQL</span>
       <span class="dc-tag">Kafka</span>
+      <span class="dc-tag">C/C++</span>
     </div>
     <div class="dc-progress">
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span class="dc-dot"></span>
-      <span style="margin-left:0.25rem;">Planning</span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span class="dc-dot filled"></span>
+      <span style="margin-left:0.25rem;">8 Phases · 80 Concepts</span>
     </div>
     <div class="dc-cta">
-      <span class="dc-btn-soon">🔒 Coming Soon</span>
+      <a href="{{ '/learning/backend/backend-roadmap/' | relative_url }}" class="dc-btn">⚙️ Open Roadmap →</a>
     </div>
   </div>
 
