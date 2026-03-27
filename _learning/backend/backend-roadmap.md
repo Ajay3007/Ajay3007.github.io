@@ -380,6 +380,7 @@ redisReply *get_user_cached(redisContext *rc, PGconn *pg,
       <div class="ch-meta">
         <span class="ch-badge">Core</span>
         <span class="ch-badge">Requires Ph1</span>
+        <a href="{{ '/learning/backend/m09-auth-jwt/' | relative_url }}" class="ch-badge notes-live">📄 M09 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -477,6 +478,7 @@ int jwt_verify_hs256(const char    *header_payload,
       <div class="ch-meta">
         <span class="ch-badge">Intermediate</span>
         <span class="ch-badge">Requires Ph0, Ph2</span>
+        <a href="{{ '/learning/backend/m11-concurrency/' | relative_url }}" class="ch-badge notes-live">📄 M11 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -589,6 +591,7 @@ void run_event_loop(int listen_fd) {
       <div class="ch-meta">
         <span class="ch-badge">Intermediate</span>
         <span class="ch-badge">Requires Ph2, Ph4</span>
+        <a href="{{ '/learning/backend/m13-messaging/' | relative_url }}" class="ch-badge notes-live">📄 M13 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -700,6 +703,7 @@ retry:
       <div class="ch-meta">
         <span class="ch-badge">Advanced</span>
         <span class="ch-badge">Requires Ph3, Ph5</span>
+        <a href="{{ '/learning/backend/m15-microservices/' | relative_url }}" class="ch-badge notes-live">📄 M15 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -798,6 +802,7 @@ ENTRYPOINT ["./server"]
       <div class="ch-meta">
         <span class="ch-badge">Production</span>
         <span class="ch-badge">Requires Ph6</span>
+        <a href="{{ '/learning/backend/m17-observability/' | relative_url }}" class="ch-badge notes-live">📄 M17 Notes</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
