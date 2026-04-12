@@ -172,15 +172,15 @@ custom_css: roadmap-hub
   <div class="domain-card" style="--card-accent: linear-gradient(90deg,#6366f1,#8b5cf6);">
     <div class="dc-icon">⚡</div>
     <div class="dc-header">
-      <div class="dc-title">Data Plane</div>
+      <div class="dc-title">Data Plane Engineering</div>
       <span class="dc-badge live">✅ Live</span>
     </div>
-    <div class="dc-desc">VPP (Vector Packet Processing) from zero to production — architecture internals, DPDK &amp; memif drivers, plugin dev, control plane, and host stack TCP/session layer.</div>
+    <div class="dc-desc">High-performance packet processing from silicon to software — VPP architecture internals, plugin dev &amp; host stack TCP/session layer, plus DPDK from PMD polling to production multi-process SASE dataplane.</div>
     <div class="dc-tags">
       <span class="dc-tag">VPP</span>
       <span class="dc-tag">DPDK</span>
+      <span class="dc-tag">PMD</span>
       <span class="dc-tag">C</span>
-      <span class="dc-tag">Go</span>
       <span class="dc-tag">Linux</span>
     </div>
     <div class="dc-progress">
@@ -189,10 +189,11 @@ custom_css: roadmap-hub
       <span class="dc-dot filled"></span>
       <span class="dc-dot filled"></span>
       <span class="dc-dot filled"></span>
-      <span style="margin-left:0.25rem;">5 Phases · 10 Modules</span>
+      <span style="margin-left:0.25rem;">VPP: 5 Phases · 10 Modules &nbsp;|&nbsp; DPDK: 3 Phases · 6 Modules</span>
     </div>
-    <div class="dc-cta">
-      <a href="{{ '/learning/data-plane/vpp/' | relative_url }}" class="dc-btn">⚡ Open Roadmap →</a>
+    <div class="dc-cta" style="display:flex;flex-wrap:wrap;gap:.6rem;">
+      <a href="{{ '/learning/data-plane/vpp/' | relative_url }}" class="dc-btn">⚡ VPP Roadmap →</a>
+      <a href="{{ '/learning/data-plane/dpdk/dpdk-roadmap/' | relative_url }}" class="dc-btn" style="background:linear-gradient(135deg,#0a2040,#1a5a7a);border-color:#1a5a7a;">🔧 DPDK Roadmap →</a>
     </div>
   </div>
 
