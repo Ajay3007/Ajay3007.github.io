@@ -962,7 +962,8 @@ for (int i = 1; i < prices.size(); i++) {
       <div class="ch-title">Bonus Topics — Tries, Bit Manipulation, Intervals</div>
       <div class="ch-meta">
         <span class="ch-badge">Advanced</span>
-        <a href="{{ '/learning/dsa/intervals/ch11-bonus-topics/' | relative_url }}" class="ch-badge notes-live">📄 Chapter Notes</a>
+        <a href="{{ '/learning/dsa/intervals/ch11-bonus-topics/' | relative_url }}" class="ch-badge notes-live">📄 Tries &amp; Intervals Notes</a>
+        <a href="{{ '/learning/dsa/bit-manipulation/' | relative_url }}" class="ch-badge notes-live">⚙️ Bit Manipulation Deep-Dive</a>
       </div>
     </div>
     <span class="ch-chevron">▼</span>
@@ -1012,10 +1013,55 @@ public:
     <div class="ch-section-label">11.2 Bit Manipulation</div>
     <div class="dsa-pattern-box">
       <ul>
-        <li>n & (n-1): removes lowest set bit (check power of 2: n&(n-1)==0)</li>
-        <li>n & (-n): isolates lowest set bit</li>
-        <li>XOR: a^a=0, a^0=a — find single non-duplicate element</li>
+        <li><strong>POWER OF TWO:</strong> <code>n &gt; 0 &amp;&amp; (n &amp; (n-1)) == 0</code> — exactly one bit set</li>
+        <li><strong>CLEAR LOWEST SET BIT:</strong> <code>n &amp; (n-1)</code> — use in Kernighan popcount loop O(set bits)</li>
+        <li><strong>ISOLATE LOWEST SET BIT:</strong> <code>n &amp; (-n)</code> — rightmost 1 preserved, rest zero</li>
+        <li><strong>XOR TRICK:</strong> <code>a^a=0, a^0=a</code> — cancel pairs; find unique element in O(n)/O(1)</li>
+        <li><strong>SET / CLEAR / TOGGLE / CHECK:</strong> <code>x|=(1&lt;&lt;n)</code> / <code>x&amp;=~(1&lt;&lt;n)</code> / <code>x^=(1&lt;&lt;n)</code> / <code>(x&gt;&gt;n)&amp;1</code></li>
+        <li><strong>EXTRACT BITFIELD:</strong> <code>(x &gt;&gt; start) &amp; ((1 &lt;&lt; width) - 1)</code> — packet headers, hardware registers</li>
+        <li><strong>BITMASK DP:</strong> state = subset bitmask of N elements; viable when N ≤ 20</li>
       </ul>
+    </div>
+    <div class="ch-complexity">
+      <span class="cplx-badge"><span class="cplx-label">Bit ops</span>O(1)</span>
+      <span class="cplx-badge"><span class="cplx-label">Popcount loop</span>O(set bits)</span>
+      <span class="cplx-badge"><span class="cplx-label">Bitmask DP</span>O(2ⁿ · n)</span>
+    </div>
+    <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
+    <div class="code-block-wrap">
+{% highlight cpp %}
+// Core mask operations
+x |= (1 << n);             // SET bit n
+x &= ~(1 << n);            // CLEAR bit n
+x ^= (1 << n);             // TOGGLE bit n
+int b = (x >> n) & 1;      // CHECK bit n (returns 0 or 1)
+
+// Power of two?
+bool isPow2 = x > 0 && (x & (x-1)) == 0;
+
+// Count set bits — Brian Kernighan O(set bits)
+int cnt = 0;
+while (x) { x &= x-1; cnt++; }  // clears lowest set bit each iteration
+
+// XOR — find single non-duplicate in O(n) / O(1) (LC 136)
+int res = 0;
+for (int n : nums) res ^= n;    // paired elements cancel: x^x=0
+
+// Count bits for 0..n — DP O(n) (LC 338)
+vector<int> dp(n+1);
+for (int i = 1; i <= n; i++) dp[i] = dp[i >> 1] + (i & 1);
+
+// Extract bitfield [start, start+width)
+uint32_t field = (x >> start) & ((1 << width) - 1);
+// Insert pattern: x = (x & ~mask) | (pattern << start)
+//   where mask = ((1 << width) - 1) << start
+{% endhighlight %}
+    </div>
+    <div style="margin:.8rem 0;display:flex;flex-wrap:wrap;gap:.5rem;">
+      <a href="{{ '/learning/dsa/bit-manipulation/' | relative_url }}" style="display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .9rem;background:#f5f3ff;border:1.5px solid #7c3aed;border-radius:7px;font-size:.82rem;font-weight:700;color:#6d28d9;text-decoration:none;">⚙️ Full Deep-Dive (10 tabs)</a>
+      <a href="{{ '/learning/dsa/bit-manipulation/systems-problems/' | relative_url }}" style="display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .9rem;background:#fff7ed;border:1.5px solid #ea580c;border-radius:7px;font-size:.82rem;font-weight:700;color:#c2410c;text-decoration:none;">🔧 Systems Problems</a>
+      <a href="{{ '/learning/dsa/bit-manipulation/debugging/' | relative_url }}" style="display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .9rem;background:#e3f2fd;border:1.5px solid #42a5f5;border-radius:7px;font-size:.82rem;font-weight:700;color:#1565c0;text-decoration:none;">🐛 Debugging Guide</a>
+      <a href="{{ '/learning/dsa/bit-manipulation/bit-manipulation-problems/' | relative_url }}" style="display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .9rem;background:#1a1060;border-radius:7px;font-size:.82rem;font-weight:700;color:#fff;text-decoration:none;">🎯 Practice Problems →</a>
     </div>
     <div class="ch-section-label">Practice Problems</div>
     <table class="ch-problem-table">

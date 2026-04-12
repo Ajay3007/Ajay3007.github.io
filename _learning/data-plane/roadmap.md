@@ -125,6 +125,8 @@ Benchmark performance across approaches.
 
 ## 🔵 PHASE 3 — DPDK Fundamentals (1.5–2 Months)
 
+📄 **[DPDK Mastery Roadmap &rarr;]({{ '/learning/data-plane/dpdk/dpdk-roadmap/' | relative_url }})** — Full 3-phase deep-dive (18 chapters, 6 modules, 7 projects)
+
 **Goal:** Become a real dataplane developer
 
 ### Topics
