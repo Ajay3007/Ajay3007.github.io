@@ -34,7 +34,7 @@ permalink: /learning/data-plane/dpdk/module-p1-memory/
 [data-theme=dark] .ins{background:#0d2010;border-color:#388e3c}
 [data-theme=dark] .warn{background:#1e1800;border-color:#f9a825}
 [data-theme=dark] .note{background:#0d1e2e;border-color:#1976d2}
-.cb{background:#0d1117;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;overflow-x:auto;font-family:monospace;font-size:.82rem;line-height:1.7;color:#e6edf3}
+.cb{background:#0d1117;border-radius:8px;padding:1rem 1.2rem;margin:.8rem 0;overflow-x:auto;font-family:monospace;font-size:.82rem;line-height:1.7;color:#e6edf3;white-space:pre-wrap}
 .cb .cm{color:#8b949e}.cb .ck{color:#ff7b72}.cb .cv{color:#79c0ff}.cb .cs{color:#a5d6ff}.cb .cn{color:#f2cc60}.cb .cf{color:#d2a8ff}.cb .co{color:#ffa657}.cb .cg{color:#3fb950}
 .t-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.8rem 0}
 .t-table th{background:#0a2040;color:#7ab8d8;font-family:monospace;font-size:.75rem;font-weight:700;padding:.5rem .7rem;text-align:left;border-bottom:2px solid #1a4070}
