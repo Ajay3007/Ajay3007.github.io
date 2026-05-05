@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSA Mastery Roadmap (Claude Edition) | ajdevhub</title>
+  <meta name="description" content="Full 4-phase DSA mastery roadmap — from sharpening fundamentals to hard FAANG problems. Click any topic to get the exact Claude prompt." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Colours — matching ajdevhub dark theme */
+      --bg:          #0d1117;
+      --bg2:         #161b22;
+      --bg3:         #21262d;
+      --bg4:         #30363d;
+      --border:      #30363d;
+      --border2:     #21262d;
+      --text:        #e6edf3;
+      --text2:       #8b949e;
+      --text3:       #6e7681;
+      --accent:      #58a6ff;
+      --accent-dim:  #1f3a5f;
+      --green:       #3fb950;
+      --green-dim:   #0f2d1a;
+      --amber:       #d29922;
+      --amber-dim:   #2d1f05;
+      --purple:      #bc8cff;
+      --purple-dim:  #231740;
+      --red:         #f85149;
+      --red-dim:     #2d0f0f;
+      --teal:        #39d353;
+      --mono:        'JetBrains Mono', monospace;
+      --sans:        'Inter', system-ui, sans-serif;
+      --radius:      8px;
+      --radius-lg:   12px;
+      --shadow:      0 1px 3px rgba(0,0,0,0.4);
+      --shadow-lg:   0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,17,23,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: var(--mono);
+      font-size: 15px; font-weight: 600;
+      color: var(--text);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      font-size: 13px; color: var(--text2);
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      padding: 4rem 2rem 2.5rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .breadcrumb {
+      font-size: 12px; color: var(--text3);
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .breadcrumb a { color: var(--text3); }
+    .breadcrumb a:hover { color: var(--text2); text-decoration: none; }
+    .hero h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700; letter-spacing: -0.02em;
+      margin-bottom: .75rem;
+    }
+    .hero-sub {
+      font-size: 15px; color: var(--text2);
+      max-width: 640px; line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .hero-meta {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+      font-size: 13px; color: var(--text3);
+    }
+    .hero-meta span { display: flex; align-items: center; gap: 4px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; }
+
+    /* ── How to use banner ──────────────────────────────── */
+    .howto {
+      max-width: 900px; margin: 0 auto 2rem;
+      padding: 0 2rem;
+    }
+    .howto-card {
+      background: var(--accent-dim);
+      border: 1px solid #2d5a8e;
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex; gap: 1rem; align-items: flex-start;
+    }
+    .howto-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
+    .howto-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
+    .howto-text strong { color: var(--text); }
+
+    /* ── Phase layout ───────────────────────────────────── */
+    main { max-width: 900px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+    .phase-block { margin-bottom: 3rem; }
+
+    .phase-header {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 1.25rem;
+      padding-bottom: .75rem;
+      border-bottom: 1px solid var(--border2);
+    }
+    .phase-badge {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 20px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .ph1 { background: var(--green-dim);  color: var(--green);  border: 1px solid #1a5c2a; }
+    .ph2 { background: var(--amber-dim);  color: var(--amber);  border: 1px solid #5c3d05; }
+    .ph3 { background: var(--purple-dim); color: var(--purple); border: 1px solid #4a2d8a; }
+    .ph4 { background: var(--red-dim);    color: var(--red);    border: 1px solid #5c1f1f; }
+
+    .phase-title-wrap {}
+    .phase-title {
+      font-size: 17px; font-weight: 600;
+      color: var(--text);
+    }
+    .phase-sub {
+      font-size: 12px; color: var(--text3);
+      margin-top: 2px;
+    }
+    .phase-duration {
+      margin-left: auto;
+      font-family: var(--mono);
+      font-size: 11px; color: var(--text3);
+      white-space: nowrap;
+    }
+
+    /* ── Week label ─────────────────────────────────────── */
+    .week-label {
+      font-family: var(--mono);
+      font-size: 11px; color: var(--text3);
+      margin: 1.25rem 0 .5rem;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+
+    /* ── Topic grid ─────────────────────────────────────── */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+      margin-bottom: .5rem;
+    }
+
+    /* ── Topic card ─────────────────────────────────────── */
+    .topic-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s, transform .1s;
+      position: relative;
+      text-align: left;
+      width: 100%;
+    }
+    .topic-card:hover {
+      border-color: var(--accent);
+      background: #161c2a;
+      transform: translateY(-1px);
+    }
+    .topic-card:active { transform: translateY(0); }
+
+    .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 6px; }
+    .card-name {
+      font-size: 13px; font-weight: 500;
+      color: var(--text); line-height: 1.4;
+    }
+    .copy-hint {
+      font-size: 10px; color: var(--text3);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap; flex-shrink: 0;
+      font-family: var(--mono);
+      opacity: 0; transition: opacity .15s;
+    }
+    .topic-card:hover .copy-hint { opacity: 1; }
+    .card-sub {
+      font-size: 11px; color: var(--text3);
+      margin-top: 3px;
+      font-family: var(--mono);
+    }
+
+    /* ── Problem pill row ───────────────────────────────── */
+    .problems-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 10px; padding-top: 10px;
+      border-top: 1px solid var(--border2);
+    }
+    .prob-pill {
+      font-size: 11px; font-weight: 500;
+      padding: 3px 10px; border-radius: 20px;
+      cursor: pointer; transition: opacity .15s, transform .1s;
+      border: none; font-family: var(--sans);
+    }
+    .prob-pill:hover { opacity: .8; transform: translateY(-1px); }
+    .prob-pill:active { transform: translateY(0); }
+    .easy { background: var(--green-dim);  color: var(--green); }
+    .med  { background: var(--amber-dim);  color: var(--amber); }
+    .hard { background: var(--red-dim);    color: var(--red);   }
+
+    /* ── Milestone ──────────────────────────────────────── */
+    .milestone {
+      font-size: 12px; color: var(--text3);
+      font-style: italic;
+      margin-top: 10px;
+      padding: 8px 12px;
+      border-left: 2px solid var(--border);
+      background: var(--bg2);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .milestone strong { color: var(--text2); font-style: normal; }
+
+    /* ── Modal ──────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.75);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%; max-width: 580px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(12px);
+      transition: transform .2s;
+      overflow: hidden;
+    }
+    .modal-overlay.open .modal { transform: translateY(0); }
+
+    .modal-header {
+      padding: 16px 20px 12px;
+      border-bottom: 1px solid var(--border2);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .modal-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+    .modal-title {
+      font-size: 15px; font-weight: 600; color: var(--text);
+      flex: 1;
+    }
+    .modal-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+    .modal-close {
+      background: none; border: none; cursor: pointer;
+      color: var(--text3); font-size: 1.1rem;
+      padding: 2px 6px; border-radius: 4px;
+      transition: color .15s, background .15s;
+      flex-shrink: 0;
+    }
+    .modal-close:hover { color: var(--text); background: var(--bg3); }
+
+    .modal-body { padding: 16px 20px; }
+    .modal-label {
+      font-size: 11px; font-family: var(--mono);
+      color: var(--text3); text-transform: uppercase;
+      letter-spacing: .06em; margin-bottom: 8px;
+    }
+    .prompt-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      font-family: var(--mono);
+      font-size: 12px; line-height: 1.65;
+      color: var(--text2);
+      white-space: pre-wrap; word-break: break-word;
+      max-height: 220px; overflow-y: auto;
+      user-select: all;
+    }
+
+    .modal-footer {
+      padding: 12px 20px 16px;
+      display: flex; gap: 8px;
+    }
+    .btn-copy {
+      flex: 1;
+      background: var(--accent); color: #0d1117;
+      border: none; border-radius: var(--radius);
+      padding: 9px 16px;
+      font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: opacity .15s;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-copy:hover { opacity: .88; }
+    .btn-copy.copied { background: var(--green); }
+    .btn-dismiss {
+      background: var(--bg3); color: var(--text2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 9px 16px;
+      font-size: 13px; cursor: pointer;
+      transition: background .15s;
+    }
+    .btn-dismiss:hover { background: var(--bg4); }
+
+    /* ── Toast ──────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 300;
+      background: var(--green-dim);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      font-size: 13px; color: var(--green);
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(20px); opacity: 0;
+      transition: transform .2s, opacity .2s;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      max-width: 900px; margin: 0 auto;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .footer-col h4 {
+      font-size: 12px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: var(--text3); margin-bottom: .75rem;
+    }
+    .footer-col a {
+      display: block; font-size: 13px;
+      color: var(--text2); margin-bottom: .4rem;
+    }
+    .footer-col a:hover { color: var(--text); text-decoration: none; }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: .5rem;
+      font-size: 12px; color: var(--text3);
+    }
+    .footer-icons { display: flex; gap: .75rem; }
+    .footer-icons a { font-size: 1.1rem; }
+
+    /* ── Scroll top ─────────────────────────────────────── */
+    #scroll-top {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 100;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 50%; width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem;
+      color: var(--text2);
+      opacity: 0; transition: opacity .2s;
+      box-shadow: var(--shadow);
+    }
+    #scroll-top.visible { opacity: 1; }
+    #scroll-top:hover { background: var(--bg4); }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { display: none; }
+      .hero, main, .howto { padding-left: 1rem; padding-right: 1rem; }
+      .topic-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────── -->
+<nav>
+  <a href="https://ajay3007.github.io/" class="nav-brand">
+    <span>$</span> ajdevhub
+  </a>
+  <div class="nav-links">
+    <a href="https://ajay3007.github.io/">Home</a>
+    <a href="https://ajay3007.github.io/learning">Learning</a>
+    <a href="https://ajay3007.github.io/problems">Problems</a>
+    <a href="https://ajay3007.github.io/roadmap" class="active">Roadmap</a>
+    <a href="https://ajay3007.github.io/projects">Projects</a>
+    <a href="https://ajay3007.github.io/blogs">Blogs</a>
+    <a href="https://ajay3007.github.io/about">About</a>
+  </div>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="breadcrumb">
+    <a href="https://ajay3007.github.io/roadmap">🗺️ All Roadmaps</a>
+    <span>›</span>
+    <span>DSA Mastery (Claude Edition)</span>
+  </div>
+  <h1>🧠 DSA Mastery Roadmap</h1>
+  <p class="hero-sub">
+    A 4-phase, week-by-week plan to go from strong fundamentals to FAANG-hard problems.
+    Click any topic card to get the exact Claude prompt — copy it, paste it, go deep.
+    All code examples in C/C++.
+  </p>
+  <div class="hero-meta">
+    <span><span class="dot"></span> 4 Phases</span>
+    <span>⏱ ~20 weeks end-to-end</span>
+    <span>🧩 60+ topic prompts</span>
+    <span>💻 C/C++ throughout</span>
+    <span>🎯 FAANG-targeted</span>
+  </div>
+</div>
+
+<!-- ── How to use ────────────────────────────────────────── -->
+<div class="howto">
+  <div class="howto-card">
+    <span class="howto-icon">💡</span>
+    <p class="howto-text">
+      <strong>How to use this roadmap:</strong> Click any topic card or problem pill to open a modal with the ready-to-use Claude prompt.
+      Hit <strong>Copy Prompt</strong>, paste it into <a href="https://claude.ai" target="_blank">claude.ai</a>, and start the session.
+      Work through phases in order — each one builds on the last.
+      Phase 2 (DP &amp; Recursion) is your highest-leverage starting point if you have a solid Phase 1 base.
+    </p>
+  </div>
+</div>
+
+<!-- ── Main content ──────────────────────────────────────── -->
+<main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PHASE 1 — Sharpen Existing Skills
+  ════════════════════════════════════════════════════════ -->
+  <div class="phase-block" id="phase1">
+    <div class="phase-header">
+      <span class="phase-badge ph1">Phase 1</span>
+      <div class="phase-title-wrap">
+        <div class="phase-title">Sharpen Existing Skills</div>
+        <div class="phase-sub">Raise the floor before raising the ceiling — speed + pattern recognition on known topics</div>
+      </div>
+      <span class="phase-duration">Weeks 1–3</span>
+    </div>
+
+    <!-- Week 1 -->
+    <div class="week-label">Week 1 — Arrays, Strings & Two Pointers</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me the two-pointer pattern in depth with C++ examples. Cover: opposite-ends (palindrome, two-sum on sorted array), same-direction (remove duplicates, fast/slow), and two-array merge. For each variant show the template code in C++, explain when to move which pointer, and give me 2 FAANG-level practice problems with solutions.">
+        <div class="card-top"><span class="card-name">Two Pointers — all variants</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">opposite-ends · same-dir · two-array</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the sliding window pattern in C++ with both dynamic-window and fixed-window-size variants. Show the canonical template for each in C++, explain the shrink condition for dynamic window, and walk me through: Max Consecutive Ones III (LC 1004), Longest Substring Without Repeating Characters (LC 3), and Minimum Window Substring (LC 76). Include full C++ solutions with complexity analysis.">
+        <div class="card-top"><span class="card-name">Sliding Window — dynamic & fixed</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">dynamic shrink · fixed-k · frequency map</div>
+      </button>
+      <button class="topic-card" data-prompt="Give me a deep dive on string manipulation patterns used in FAANG interviews in C++. Cover: character frequency counting with arrays vs unordered_map, anagram detection, palindrome checking, string reversal tricks, and the two-pointer approach on strings. Show C++ code for each. End with 3 medium-hard problems: Group Anagrams (LC 49), Longest Palindromic Substring (LC 5), and Valid Anagram (LC 242).">
+        <div class="card-top"><span class="card-name">String manipulation patterns</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">frequency · anagram · palindrome</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me prefix sum arrays in C++ — what they are, how to build them in O(n), and how they answer range sum queries in O(1). Then show me 2D prefix sums for matrix range queries. Solve: Range Sum Query Immutable (LC 303), Subarray Sum Equals K (LC 560), and Product of Array Except Self (LC 238) using prefix/suffix products. Full C++ solutions with complexity.">
+        <div class="card-top"><span class="card-name">Prefix sums & range queries</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">1D prefix · 2D matrix · suffix product</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Valid Palindrome (LC 125) in C++ using the two-pointer approach. Walk me through the approach, handle edge cases (spaces, punctuation, case), then show the clean C++ solution with time and space complexity.">Valid Palindrome</button>
+      <button class="prob-pill med" data-prompt="Solve 3Sum (LC 15) in C++ step by step. Explain why naive O(n³) is too slow, how sorting + two pointers gives O(n²), handle all duplicate-skipping edge cases, and show the full C++ solution.">3Sum</button>
+      <button class="prob-pill med" data-prompt="Solve Longest Substring Without Repeating Characters (LC 3) in C++ using the dynamic sliding window. Show the unordered_map approach and the array approach, compare them, and give full C++ solution with complexity.">Longest Substring No Repeat</button>
+      <button class="prob-pill hard" data-prompt="Solve Minimum Window Substring (LC 76) in C++ — this is one of the hardest sliding window problems. Walk through the need/have counter technique, the shrink condition, and give a complete annotated C++ solution. Then explain why this pattern generalizes.">Minimum Window Substring</button>
+      <button class="prob-pill hard" data-prompt="Solve Trapping Rain Water (LC 42) in C++ using three approaches: brute force O(n²), prefix/suffix max arrays O(n) space, and the two-pointer O(1) space solution. Show all three in C++ and explain the intuition behind each.">Trapping Rain Water</button>
+    </div>
+    <div class="milestone"><strong>Week 1 milestone:</strong> Any two-pointer or sliding window problem solved in under 15 minutes. You recognize the pattern before writing a line of code.</div>
+
+    <!-- Week 2 -->
+    <div class="week-label">Week 2 — Binary Search & Sorting</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me binary search in C++ from first principles. Show me the three canonical templates: (1) find exact target, (2) find leftmost position (lower_bound), (3) find rightmost position (upper_bound). Explain off-by-one errors, when to use left <= right vs left < right, and show C++ implementations using both the STL lower_bound/upper_bound and manual implementations. Apply each template to a concrete FAANG problem.">
+        <div class="card-top"><span class="card-name">Binary search — 3 templates</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">exact · lower_bound · upper_bound</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me binary search on the answer space in C++: problems where you binary search on a value rather than an index. Walk me through the framework — how to identify what to binary search on, how to write the feasibility check function. Apply to: Koko Eating Bananas (LC 875), Minimum in Rotated Sorted Array (LC 153), and Capacity to Ship Packages (LC 1011). Full C++ solutions.">
+        <div class="card-top"><span class="card-name">Binary search on answer space</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">feasibility check · value-space search</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me merge sort and quick sort in C++ from scratch — implement both, explain their time/space complexities (worst/average/best), explain when each is preferred. Then show me how merge sort logic is used in counting inversions (LC-style problem). Full C++ implementations with inline comments.">
+        <div class="card-top"><span class="card-name">Merge sort & quick sort deep dive</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">implementation · inversions · pivot choice</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me custom comparators for sorting in C++ — when to use std::sort with a lambda, when to use a struct comparator, how to sort by multiple keys. Show examples: sort intervals by start time, sort strings by length then alphabetically, sort custom objects. Apply to: Merge Intervals (LC 56) and Non-overlapping Intervals (LC 435). Full C++ solutions.">
+        <div class="card-top"><span class="card-name">Custom sort & interval problems</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">lambda · multi-key · intervals</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Binary Search (LC 704) in C++ — the purest form of binary search. Show the iterative solution, explain the loop invariant, and discuss why mid = left + (right-left)/2 prevents overflow.">Binary Search LC 704</button>
+      <button class="prob-pill med" data-prompt="Solve Search in Rotated Sorted Array (LC 33) in C++ step by step. Identify which half is sorted, determine which half the target is in, eliminate the other half. Show the full C++ solution with edge cases.">Search Rotated Array</button>
+      <button class="prob-pill med" data-prompt="Solve Find Minimum in Rotated Sorted Array (LC 153) in C++ using binary search. Explain the pivot detection logic and give the full C++ solution.">Find Min Rotated</button>
+      <button class="prob-pill med" data-prompt="Solve Merge Intervals (LC 56) in C++. Sort by start, then merge overlapping intervals. Show the full C++ solution with the comparator and merging logic clearly annotated.">Merge Intervals</button>
+      <button class="prob-pill hard" data-prompt="Solve Median of Two Sorted Arrays (LC 4) in C++. This requires binary search on the partition — walk me through the full derivation, the partition invariant, and the complete C++ solution. Explain why this is O(log(min(m,n))).">Median of Two Sorted Arrays</button>
+    </div>
+    <div class="milestone"><strong>Week 2 milestone:</strong> You can write binary search on answer space without a template. You recognize rotated array and interval problems instantly.</div>
+
+    <!-- Week 3 -->
+    <div class="week-label">Week 3 — Linked Lists, Stacks & Queues</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me the fast and slow pointer technique on linked lists in C++ — detecting cycles (Floyd's algorithm), finding the middle node, and finding the start of a cycle. Show full C++ implementations for each and apply to: Linked List Cycle (LC 141), Linked List Cycle II (LC 142), and Middle of the Linked List (LC 876).">
+        <div class="card-top"><span class="card-name">Fast & slow pointer — linked list</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">Floyd's cycle · middle · cycle start</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me how to reverse a linked list in C++ — iterative approach, recursive approach, and reversing a sublist between positions m and n. Show all three in C++ with full pointer manipulation annotated step by step. Then solve Reverse Nodes in k-Group (LC 25).">
+        <div class="card-top"><span class="card-name">Linked list reversal patterns</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">iterative · recursive · sublist · k-group</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the monotonic stack pattern in C++ in depth. Explain when to use a monotonic increasing vs decreasing stack. Apply to: Next Greater Element I (LC 496), Daily Temperatures (LC 739), and Largest Rectangle in Histogram (LC 84). Show full C++ solutions and explain why the stack maintains the monotonic property at each step.">
+        <div class="card-top"><span class="card-name">Monotonic stack pattern</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">next greater · histogram · temperatures</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me queue-based patterns used in FAANG problems in C++: sliding window maximum using deque (LC 239), BFS level-order traversal with queue, and the two-stack queue simulation (LC 232). Show full C++ implementations for each, including deque usage for O(1) window maximum.">
+        <div class="card-top"><span class="card-name">Queue & deque patterns</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">sliding max · BFS · two-stack queue</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Reverse Linked List (LC 206) in C++ — both iterative and recursive versions. Draw out the pointer reassignment step by step and show clean C++ code for both.">Reverse Linked List</button>
+      <button class="prob-pill med" data-prompt="Solve LRU Cache (LC 146) in C++ — design it with O(1) get and put. Explain why we need both a doubly linked list and an unordered_map. Show the complete C++ class implementation.">LRU Cache</button>
+      <button class="prob-pill med" data-prompt="Solve Daily Temperatures (LC 739) in C++ using a monotonic stack. Walk through the stack contents for the example input step by step, then show the full C++ solution.">Daily Temperatures</button>
+      <button class="prob-pill hard" data-prompt="Solve Largest Rectangle in Histogram (LC 84) in C++ using a monotonic stack. This is one of the trickiest stack problems — walk me through why we pop when we find a shorter bar, how to handle the sentinel value, and show the complete C++ solution.">Largest Rectangle Histogram</button>
+    </div>
+    <div class="milestone"><strong>Week 3 milestone:</strong> You can manipulate linked list pointers without drawing diagrams. You recognize monotonic stack problems by their "next greater/smaller" structure.</div>
+
+  </div><!-- /phase1 -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PHASE 2 — Fix Critical Gaps: Recursion & DP
+  ════════════════════════════════════════════════════════ -->
+  <div class="phase-block" id="phase2">
+    <div class="phase-header">
+      <span class="phase-badge ph2">Phase 2</span>
+      <div class="phase-title-wrap">
+        <div class="phase-title">Fix the Critical Gaps — Recursion & Dynamic Programming</div>
+        <div class="phase-sub">Your highest-leverage phase. Master these and the rest of DSA unlocks.</div>
+      </div>
+      <span class="phase-duration">Weeks 4–9</span>
+    </div>
+
+    <div class="week-label">Week 4 — Recursion: The Mental Model You Must Own</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me recursion from first principles in C++: the 'trust the function' mental model, base case, recursive case. Use factorial, sum of a vector, and power(x,n) as examples. Show the call stack visually for factorial(4) — which frames are pushed, what each holds, how the result assembles on unwind. All code in C++.">
+        <div class="card-top"><span class="card-name">Trust the function — base & recursive case</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">call stack · factorial · sum · power</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me recursion on arrays and strings in C++: reverse a string in-place recursively, check if a string is a palindrome recursively, implement binary search recursively, and implement merge sort recursively. For each one: show the base case, the recursive case, and the full C++ implementation. Explain why the recursive structure matches the problem structure.">
+        <div class="card-top"><span class="card-name">Recursion on arrays & strings</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">reverse · palindrome · binary search · merge sort</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me recursion on trees in C++ — why trees are the best recursion practice. Cover: inorder/preorder/postorder traversal, height of a binary tree, counting nodes, and path sum (LC 112). For each: show the recursive structure, the base case (null node), and the full C++ implementation. End with: why does thinking in 'what do I need from my left child and right child?' make tree recursion easy?">
+        <div class="card-top"><span class="card-name">Recursion on trees</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">traversal · height · path sum</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the recursion tree visualization technique in C++. Draw the full recursion tree for fibonacci(5) — show every call, mark duplicate subproblems with the same color, count total calls. Then explain: what is exponential time complexity in recursion? Why does the tree have 2^n leaves for fibonacci? How does this motivate memoization? All examples in C++.">
+        <div class="card-top"><span class="card-name">Recursion tree & complexity</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">fib tree · duplicate calls · O(2^n)</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Climbing Stairs (LC 70) in C++ step by step using pure recursion first. Derive the recurrence relation ways(n) = ways(n-1) + ways(n-2). Show the recursion tree for n=5. Explain what overlapping subproblems look like. Then show the memoized C++ solution. No DP table yet — just recursion + cache.">Climbing Stairs</button>
+      <button class="prob-pill easy" data-prompt="Solve Power(x, n) — Pow(x,n) (LC 50) in C++ using fast recursive exponentiation. Show why naive recursion is O(n) and the divide-and-conquer trick makes it O(log n). Handle negative n. Show full C++ solution.">Pow(x,n)</button>
+      <button class="prob-pill med" data-prompt="Solve Generate Parentheses (LC 22) in C++ using recursion. Show the decision tree — at each step you can add '(' if open count < n, or ')' if close count < open count. Explain the pruning. Show full C++ recursive solution.">Generate Parentheses</button>
+      <button class="prob-pill med" data-prompt="Solve Letter Combinations of Phone Number (LC 17) in C++ using recursion. Show how the digit-to-letters mapping works, draw the recursion tree for '23', and give the full C++ solution.">Phone Letter Combinations</button>
+    </div>
+    <div class="milestone"><strong>Week 4 milestone:</strong> You can write any recursive function by identifying base case + what you need from the smaller subproblem. You visualize the call stack mentally.</div>
+
+    <div class="week-label">Week 5 — Memoization: Recursion + a Cache</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Explain overlapping subproblems in C++: draw the recursion tree for fibonacci(6), mark every duplicate call, and count total unique vs total calls. Then add top-down memoization using unordered_map in C++. Show the memoized recursion tree — which calls are pruned. Explain how memoization changes O(2^n) to O(n) time and O(n) space.">
+        <div class="card-top"><span class="card-name">Overlapping subproblems & memo</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">recursion tree · unordered_map cache</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the top-down memoization pattern in C++ with a concrete 3-step recipe: (1) check if memo[state] exists and return it, (2) compute the answer recursively, (3) store in memo[state] before returning. Apply this recipe to: fibonacci, climbing stairs, and coin change (LC 322). Show full C++ for each with the unordered_map cache.">
+        <div class="card-top"><span class="card-name">Top-down memoization — the recipe</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">check → compute → store · 3-step pattern</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me how to define DP state in C++. For a given problem, how do I know what my recursive function's parameters should be? Walk me through these questions: what changes between subproblems? what is the minimum info I need to represent a subproblem uniquely? Apply to: Coin Change (LC 322) where state = remaining amount, and Word Break (LC 139) where state = current index. C++ code throughout.">
+        <div class="card-top"><span class="card-name">Defining the DP state</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">what is dp(i)? · state parameters</div>
+      </button>
+      <button class="topic-card" data-prompt="Solve Word Break (LC 139) in C++ using top-down memoization. State: dp(i) = can we break s[i..n-1] into valid words? Show the recurrence: try all word lengths at position i. Show the memoized C++ solution using unordered_map<int, bool>. Analyze time and space complexity.">
+        <div class="card-top"><span class="card-name">Word Break — memo applied</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">boolean DP · string segmentation</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve Coin Change (LC 322) in C++ using top-down memoization. Define state dp(amount) = min coins to make amount. Show the recurrence, handle the base case (amount=0 → 0, amount<0 → infinity). Show full memoized C++ with unordered_map. Then explain why this becomes a bottom-up DP table in Week 6.">Coin Change (memo)</button>
+      <button class="prob-pill med" data-prompt="Solve House Robber (LC 198) in C++ using top-down memoization. State dp(i) = max money from houses i..n-1. Two choices: rob house i (skip i+1) or skip house i. Show the memoized C++ solution. Then describe what the DP table will look like when we convert to bottom-up.">House Robber (memo)</button>
+      <button class="prob-pill med" data-prompt="Solve Decode Ways (LC 91) in C++ using top-down memoization. Walk through all edge cases: '0' alone is invalid, leading zero is invalid, two-digit decode only valid for 10-26. State dp(i) = ways to decode s[i..n-1]. Full memoized C++ solution.">Decode Ways</button>
+      <button class="prob-pill hard" data-prompt="Solve Jump Game II (LC 45) in C++ — find the minimum number of jumps to reach the end. Show both the greedy O(n) solution and the memoized recursion approach. Explain why greedy works here — what property allows it? Full C++ solutions for both.">Jump Game II</button>
+    </div>
+    <div class="milestone"><strong>Week 5 milestone:</strong> You can take any brute-force recursion and add memoization mechanically. You know what 'state' means and can define it for any problem.</div>
+
+    <div class="week-label">Week 6 — Tabulation: Bottom-Up DP</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me how to convert a top-down memoized solution to bottom-up tabulation in C++. Show the mechanical process: (1) reverse the recursion direction, (2) fill from base cases upward, (3) return dp[n]. Apply to climbing stairs and coin change — show both the memo version and the tabulation version side by side in C++. What changes? What stays the same?">
+        <div class="card-top"><span class="card-name">Memo → tabulation conversion</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">reverse direction · fill from base · dp[n]</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me 1D DP tabulation patterns in C++ with House Robber as the main example. Show: initialize dp array, fill left to right with dp[i] = max(dp[i-1], dp[i-2] + nums[i]), return dp[n-1]. Then show the space optimization: reduce to two variables a and b. Walk through the array for [2,7,9,3,1] step by step.">
+        <div class="card-top"><span class="card-name">1D DP tabulation patterns</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">linear fill · prev tracking · O(1) space</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me space optimization in C++ DP: when can I reduce a dp[n] array to just 2 variables? The rule: if dp[i] only depends on dp[i-1] and dp[i-2], use two variables. Show this optimization for: fibonacci, climbing stairs, house robber, and min cost climbing stairs. Show the before and after C++ code for each.">
+        <div class="card-top"><span class="card-name">Space optimization — O(n) → O(1)</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">rolling variables · dependency analysis</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the DP transition derivation process in C++: given a problem, how do I figure out dp[i] = f(dp[i-1], ..., dp[i-k])? Walk me through 3 problems: (1) Max Product Subarray LC 152 — why do we track both max and min? (2) House Robber II LC 213 — how does the circular constraint change things? (3) Min Cost Climbing Stairs LC 746. Full C++ solutions.">
+        <div class="card-top"><span class="card-name">DP transition derivation</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">max+min tracking · circular arrays</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Min Cost Climbing Stairs (LC 746) in C++ with bottom-up DP. Show the table filling step by step for cost=[10,15,20]. Initialize dp[0]=cost[0], dp[1]=cost[1], then dp[i] = cost[i] + min(dp[i-1], dp[i-2]). Answer = min(dp[n-1], dp[n-2]).">Min Cost Climbing Stairs</button>
+      <button class="prob-pill med" data-prompt="Solve House Robber II (LC 213) in C++ — circular array, cannot rob first and last house simultaneously. Key insight: split into two linear subproblems (rob houses 0..n-2 OR 1..n-1) and take the max. Show full C++ solution reusing the linear House Robber 1D DP.">House Robber II</button>
+      <button class="prob-pill med" data-prompt="Solve Maximum Product Subarray (LC 152) in C++ using 1D DP. Explain why you must track both the current max and current min products (negative × negative = positive). Walk through [-2,3,-4] step by step. Show full C++ solution.">Max Product Subarray</button>
+      <button class="prob-pill hard" data-prompt="Solve Longest Increasing Subsequence (LC 300) in C++ — first the O(n²) DP solution with the transition dp[i] = max(dp[j]+1 for all j<i where nums[j]<nums[i]). Then the O(n log n) patience sorting / binary search solution using tails array. Show full C++ for both and explain the binary search in the tails approach.">Longest Increasing Subsequence</button>
+    </div>
+    <div class="milestone"><strong>Week 6 milestone:</strong> You write clean bottom-up DP for any 1D problem. You initialize, fill, space-optimize, and state complexity without hesitation.</div>
+
+    <div class="week-label">Week 7 — 2D DP: Grids and Strings</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me 2D grid DP in C++: Unique Paths (LC 62) and Unique Paths II (LC 63 with obstacles). Show how to initialize the first row and column, fill the table row by row, handle obstacle cells (set to 0). Draw the dp table for a 3×3 grid. Show full C++ solutions for both. Then show the space-optimized 1D rolling array version.">
+        <div class="card-top"><span class="card-name">2D grid DP — paths</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">unique paths · obstacles · rolling array</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Longest Common Subsequence (LCS) in C++ with a full 2D DP table walkthrough. Draw the table for s1='abcde' and s2='ace'. Explain the two cases: if s1[i]==s2[j] then dp[i][j] = dp[i-1][j-1]+1, else dp[i][j] = max(dp[i-1][j], dp[i][j-1]). Show full C++ solution. Then show how to reconstruct the actual LCS string by backtracking through the table.">
+        <div class="card-top"><span class="card-name">Longest Common Subsequence</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">2D table · two cases · reconstruction</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Edit Distance (LC 72) in C++ with a full 2D DP table. Walk through 'horse' → 'ros': show the table cell by cell. Explain the three operations: insert (dp[i][j-1]+1), delete (dp[i-1][j]+1), replace (dp[i-1][j-1] + (s1[i]!=s2[j])). Show full C++ solution. This is one of the most important 2D DP patterns.">
+        <div class="card-top"><span class="card-name">Edit Distance</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">insert · delete · replace · table walk</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me palindrome DP in C++: Longest Palindromic Subsequence (LC 516) and Palindromic Substrings (LC 647). For LPS: show dp[i][j] = longest palindromic subsequence in s[i..j]. For palindromic substrings: show dp[i][j] = true if s[i..j] is a palindrome. Walk through 'babad' for both problems. Show full C++ solutions including the diagonal fill order for the 2D table.">
+        <div class="card-top"><span class="card-name">Palindrome DP</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">LPS · palindromic substrings · diagonal fill</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Unique Paths (LC 62) in C++ with 2D DP. Walk through the table initialization and filling for m=3, n=3. Show the full C++ solution. Then show how to reduce space to O(n) using a single 1D array.">Unique Paths</button>
+      <button class="prob-pill med" data-prompt="Solve Longest Common Subsequence (LC 1143) in C++ with full 2D DP table. Show C++ code, complexity analysis, and then how to reconstruct the actual subsequence by backtracking through the dp table.">LCS</button>
+      <button class="prob-pill med" data-prompt="Solve Coin Change 2 (LC 518) in C++ — count number of ways to make amount using coins (order doesn't matter). State: dp[i][j] = ways to make amount j using first i coin types. Show how the inner loop direction differs from Coin Change 1. Full C++ solution with table visualization.">Coin Change 2</button>
+      <button class="prob-pill hard" data-prompt="Solve Edit Distance (LC 72) in C++ with complete 2D table walkthrough for 'horse' → 'ros'. Show every cell computation. Give full C++ solution. Then show the space-optimized O(n) version using two 1D arrays.">Edit Distance</button>
+      <button class="prob-pill hard" data-prompt="Solve Regular Expression Matching (LC 10) in C++ using 2D DP — matching '.' (any char) and '*' (zero or more). This is one of the hardest 2D DP problems. Walk through the '*' case carefully: dp[i][j] = dp[i][j-2] (use zero occurrences) OR (if chars match) dp[i-1][j]. Show the full C++ solution with annotated table.">Regex Matching</button>
+    </div>
+    <div class="milestone"><strong>Week 7 milestone:</strong> You can set up a 2D DP table, handle initialization, and fill it for any two-sequence problem. You know the diagonal fill trick for interval/palindrome DP.</div>
+
+    <div class="week-label">Week 8 & 9 — Knapsack, Interval DP & Hard Patterns</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me 0/1 Knapsack in C++ from scratch. Two choices per item: take or skip. Show the full 2D DP table for items with weights [1,3,4,5] and values [1,4,5,7] with capacity W=7. Then show the space-optimized 1D version — explain why we iterate backwards in 1D (to avoid using an item twice). Apply to Partition Equal Subset Sum (LC 416). Full C++ code.">
+        <div class="card-top"><span class="card-name">0/1 Knapsack</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">take or skip · 1D reverse iteration</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Unbounded Knapsack in C++ — you can use each item unlimited times. How does the DP change vs 0/1? Key: iterate forward in the 1D array. Apply to: Coin Change (LC 322) and Coin Change 2 (LC 518). Show why the forward vs backward iteration difference between unbounded and 0/1 knapsack makes intuitive sense. Full C++ solutions.">
+        <div class="card-top"><span class="card-name">Unbounded Knapsack</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">unlimited items · forward iteration</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me interval DP in C++ — dp[i][j] = optimal answer for the interval [i,j]. Key: fill by increasing interval length. Apply to Burst Balloons (LC 312): the key insight is thinking about which balloon is popped LAST in the range [i,j]. Show the full table fill order in C++ and the complete solution. Then apply to Matrix Chain Multiplication.">
+        <div class="card-top"><span class="card-name">Interval DP</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">dp[i][j] · length-by-length fill · last operation</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me state machine DP in C++ — problems where each index has multiple states. Apply to Best Time to Buy and Sell Stock with Cooldown (LC 309): states are hold, sold, cooldown. Define transition: hold[i] = max(hold[i-1], cooldown[i-1] - price[i]), sold[i] = hold[i-1] + price[i], cooldown[i] = max(cooldown[i-1], sold[i-1]). Show full C++ solution and generalize the pattern to LC 188 (k transactions).">
+        <div class="card-top"><span class="card-name">State machine DP</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">multiple states · hold/sold/cooldown</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve Partition Equal Subset Sum (LC 416) in C++ using 0/1 knapsack DP. State: dp[j] = can we form sum j using a subset. Show both the 2D and space-optimized 1D approach. Walk through [1,5,11,5] step by step. Explain why this is a knapsack problem — what maps to 'weight' and 'capacity'?">Equal Subset Sum</button>
+      <button class="prob-pill med" data-prompt="Solve Target Sum (LC 494) in C++ — assign +/- to each number to reach target. Show two approaches: (1) memoized recursion with state (index, current_sum), (2) reduction to subset sum knapsack. Show full C++ for both. Which is more efficient?">Target Sum</button>
+      <button class="prob-pill hard" data-prompt="Solve Burst Balloons (LC 312) in C++ using interval DP. The trick: think about which balloon to pop LAST in range [i,j], not first. dp[i][j] = max coins from bursting all balloons in (i,j) exclusive, with i and j as fixed boundary balloons. Walk through the example [3,1,5,8] completely. Full C++ solution with the triple nested loop.">Burst Balloons</button>
+      <button class="prob-pill hard" data-prompt="Solve Best Time to Buy and Sell Stock with Cooldown (LC 309) in C++ using state machine DP. Define three states: hold (have stock), sold (just sold, now in cooldown), rest (no stock, not in cooldown). Write transitions for each state and the full C++ solution. Then extend the pattern to LC 123 (at most 2 transactions).">Stock with Cooldown</button>
+      <button class="prob-pill hard" data-prompt="Solve Cherry Pickup II (LC 1463) in C++ — two robots moving simultaneously from top to bottom of a grid. State: dp[row][col1][col2] where col1 and col2 are the two robots' columns. Show why we can fix the row and only track columns. Show the full 3D DP C++ solution with complexity analysis.">Cherry Pickup II</button>
+    </div>
+    <div class="milestone"><strong>Weeks 8–9 milestone:</strong> You recognize knapsack variants on sight. You can set up interval DP with the correct fill order. You understand multi-state DP transitions.</div>
+
+  </div><!-- /phase2 -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PHASE 3 — Trees & Graphs (The Big Unlock)
+  ════════════════════════════════════════════════════════ -->
+  <div class="phase-block" id="phase3">
+    <div class="phase-header">
+      <span class="phase-badge ph3">Phase 3</span>
+      <div class="phase-title-wrap">
+        <div class="phase-title">Trees & Graphs — The Big Unlock</div>
+        <div class="phase-sub">80% of graph interview questions use just 5 primitives. Master them here.</div>
+      </div>
+      <span class="phase-duration">Weeks 10–14</span>
+    </div>
+
+    <div class="week-label">Week 10 — Binary Trees: Recursion Pays Off</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me all binary tree traversal patterns in C++: recursive inorder/preorder/postorder, iterative inorder using a stack, and level-order BFS using a queue. Show full C++ implementations for all five. When is each used? Which traversal gives sorted output for a BST? Apply to LC 94, LC 144, LC 145, LC 102.">
+        <div class="card-top"><span class="card-name">All tree traversals</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">recursive · iterative stack · BFS level-order</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the 'solve left, solve right, combine' pattern in C++ for binary tree problems. Apply to: height of tree, diameter of binary tree (LC 543), and maximum path sum (LC 124). For each: identify what information you need from left and right children, define the return value, and show the full C++ recursive solution. Why does thinking this way make hard tree problems tractable?">
+        <div class="card-top"><span class="card-name">Left + Right → Combine pattern</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">height · diameter · max path sum</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me BST operations in C++ — search, insert, delete, and validate. For delete: handle 3 cases (no children, one child, two children — use inorder successor). For validate: use range [min, max] constraints recursively rather than just comparing adjacent nodes. Show full C++ implementations. Apply to LC 98 (Validate BST) and LC 450 (Delete Node in BST).">
+        <div class="card-top"><span class="card-name">BST operations & validation</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">search · insert · delete · validate range</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the Lowest Common Ancestor (LCA) pattern in C++ for binary trees and BSTs. For generic binary tree (LC 236): if both nodes are in left subtree, go left; if both in right, go right; else current node is LCA. For BST (LC 235): use BST property to decide direction. Show full C++ for both. Then extend to: find all nodes at distance K from a target node (LC 863).">
+        <div class="card-top"><span class="card-name">Lowest Common Ancestor</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">LCA generic · LCA BST · distance K</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Maximum Depth of Binary Tree (LC 104) in C++ — recursive and iterative (BFS). Then solve Balanced Binary Tree (LC 110) — return height from recursion, return -1 if unbalanced. Full C++ for both.">Max Depth + Balanced</button>
+      <button class="prob-pill med" data-prompt="Solve Binary Tree Level Order Traversal (LC 102) in C++ using BFS with a queue. Show how to detect level boundaries (use queue size at start of each level). Return vector<vector<int>>. Full C++ solution.">Level Order Traversal</button>
+      <button class="prob-pill med" data-prompt="Solve Binary Tree Right Side View (LC 199) in C++. Two approaches: BFS (take last node of each level) and DFS (track depth, add to result when depth == result.size()). Show both C++ solutions.">Right Side View</button>
+      <button class="prob-pill hard" data-prompt="Solve Binary Tree Maximum Path Sum (LC 124) in C++. A path can start and end at any node. At each node: gain from left = max(0, dfs(left)), gain from right = max(0, dfs(right)). Update global max with left+right+node->val. Return node->val + max(left,right) up to parent. Full C++ solution.">Max Path Sum</button>
+      <button class="prob-pill hard" data-prompt="Solve Serialize and Deserialize Binary Tree (LC 297) in C++. Use preorder traversal with null markers. Serialize: recursive preorder writing node values and '#' for null. Deserialize: use a string stream and rebuild the tree using the same preorder structure. Full C++ solution.">Serialize/Deserialize Tree</button>
+    </div>
+    <div class="milestone"><strong>Week 10 milestone:</strong> Every tree problem is a recursion problem. You instinctively think in 'what do I return from left child, what from right, how do I combine at current node'.</div>
+
+    <div class="week-label">Week 11 — Graph Fundamentals: BFS & DFS</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me graph representation in C++ — adjacency list using vector<vector<int>>, adjacency matrix, and edge list. When to use each? Show how to build each from an edge list input. Then implement both iterative BFS and recursive DFS on an adjacency list graph in C++. Include visited tracking with a vector<bool> or unordered_set.">
+        <div class="card-top"><span class="card-name">Graph representation + BFS/DFS</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">adj list · BFS queue · DFS visited</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me cycle detection in graphs in C++ — two separate approaches: (1) Undirected graph: DFS with parent tracking — a cycle exists if we visit an already-visited node that isn't our parent. (2) Directed graph: DFS with a 'currently in stack' set (coloring: white/gray/black). Show full C++ implementations for both. Apply to LC 207 (Course Schedule).">
+        <div class="card-top"><span class="card-name">Cycle detection — undirected & directed</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">parent tracking · 3-color DFS</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me connected components and grid DFS/BFS in C++ — applying graph traversal to 2D grids. The key: treat each cell as a node, neighbors are up/down/left/right. Apply to: Number of Islands (LC 200) and Max Area of Island (LC 695). Show the 4-directional movement pattern in C++ with a dx/dy array. Full solutions for both.">
+        <div class="card-top"><span class="card-name">Connected components & grid DFS</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">2D grid as graph · 4-dir movement</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me multi-source BFS in C++ — starting BFS from multiple sources simultaneously. Apply to: Rotting Oranges (LC 994) and 01 Matrix (LC 542). Show how to initialize the BFS queue with all sources at level 0. Explain why multi-source BFS gives correct minimum distances. Full C++ solutions for both.">
+        <div class="card-top"><span class="card-name">Multi-source BFS</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">multiple sources · min distance · level 0 init</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve Number of Islands (LC 200) in C++ using DFS. Iterate over grid, when you find '1' increment count and DFS-flood all connected '1's by marking them '0'. Show the recursive DFS C++ solution and the iterative stack-based version. Time and space complexity.">Number of Islands</button>
+      <button class="prob-pill med" data-prompt="Solve Course Schedule (LC 207) in C++ — detect if there's a cycle in a directed graph (which would make it impossible). Use topological sort via Kahn's algorithm (BFS with indegree array). Show full C++ solution. Then show the DFS cycle-detection approach as an alternative.">Course Schedule</button>
+      <button class="prob-pill med" data-prompt="Solve Word Ladder (LC 127) in C++ using BFS — find shortest transformation sequence. Key: BFS guarantees shortest path. For each word, try changing each character to a-z and check if result is in wordList. Use unordered_set for O(1) lookup. Full C++ solution.">Word Ladder</button>
+      <button class="prob-pill hard" data-prompt="Solve Pacific Atlantic Water Flow (LC 417) in C++ — find cells from which water can flow to both oceans. Key insight: reverse the problem — BFS/DFS from ocean borders inward. Do two separate BFS passes, take the intersection. Full C++ solution with the reverse-flow insight explained.">Pacific Atlantic Water Flow</button>
+    </div>
+    <div class="milestone"><strong>Week 11 milestone:</strong> You can apply BFS/DFS to any graph or grid problem. You recognize multi-source BFS and cycle detection patterns on sight.</div>
+
+    <div class="week-label">Week 12 — Topological Sort & Union-Find</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me topological sort in C++ — two approaches: (1) Kahn's algorithm: compute indegrees, BFS from nodes with indegree 0, decrement neighbors' indegrees. (2) DFS-based: DFS with finished-time ordering, push to stack after all neighbors visited. Show full C++ for both on the same example graph. When is each preferred? Apply to Course Schedule II (LC 210).">
+        <div class="card-top"><span class="card-name">Topological sort — Kahn's & DFS</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">indegree BFS · DFS finish-time · DAG order</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Union-Find (Disjoint Set Union) in C++ from scratch — implement find with path compression and union by rank. Show how these two optimizations together give near-O(1) amortized operations. Apply to: Number of Connected Components (LC 323) and Redundant Connection (LC 684). Full C++ class implementation with both optimizations.">
+        <div class="card-top"><span class="card-name">Union-Find (DSU)</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">path compression · union by rank</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Kruskal's Minimum Spanning Tree algorithm in C++ using Union-Find. Sort edges by weight, greedily add edges that don't form a cycle (check with Union-Find). Show full C++ implementation. Compare with Prim's algorithm. Apply to: Minimum Cost to Connect All Points (LC 1584).">
+        <div class="card-top"><span class="card-name">Kruskal's MST with Union-Find</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">edge sort · greedy · cycle check</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the alien dictionary / course prerequisite ordering pattern in C++ — problems that reduce to topological sort. Given ordering constraints, build a directed graph and topologically sort it. Apply to Alien Dictionary (LC 269 premium — explain the logic). Also solve Find Eventual Safe States (LC 802) — nodes from which all paths lead to terminal nodes. Full C++ solutions.">
+        <div class="card-top"><span class="card-name">Alien dictionary & safe states</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">constraint graph · topo sort applications</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve Course Schedule II (LC 210) in C++ using topological sort (Kahn's BFS algorithm). Build the adjacency list and indegree array, BFS from 0-indegree nodes, detect cycles by checking if all nodes were processed. Return the topological order. Full C++ solution.">Course Schedule II</button>
+      <button class="prob-pill med" data-prompt="Solve Redundant Connection (LC 684) in C++ using Union-Find. Process edges one by one — the first edge that connects two already-connected nodes is the redundant one (union returns false). Full C++ solution with path-compressed Union-Find.">Redundant Connection</button>
+      <button class="prob-pill hard" data-prompt="Solve Minimum Cost to Connect All Points (LC 1584) in C++ — this is MST on a fully connected graph. Use Prim's algorithm with a min-heap (priority_queue) for O(n² log n) or Kruskal's after generating all edges. Show both approaches in C++ and compare their complexity for this specific problem structure.">Min Cost Connect Points</button>
+    </div>
+    <div class="milestone"><strong>Week 12 milestone:</strong> You recognize when a problem has implicit ordering constraints (→ topo sort) or needs connected component tracking (→ Union-Find). You implement DSU from memory.</div>
+
+    <div class="week-label">Week 13 — Shortest Paths & Backtracking</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me Dijkstra's algorithm in C++ — single-source shortest path for non-negative weighted graphs. Implement using a min-heap (priority_queue with pair<int,int>). Show the lazy deletion technique for the heap. Apply to: Network Delay Time (LC 743) and Cheapest Flights Within K Stops (LC 787). Full C++ implementations with complexity analysis O(E log V).">
+        <div class="card-top"><span class="card-name">Dijkstra's shortest path</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">min-heap · lazy deletion · O(E log V)</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the backtracking template in C++ — the canonical framework: choose → explore → unchoose. Apply it to all four fundamental backtracking problems: (1) Subsets (LC 78), (2) Permutations (LC 46), (3) Combinations (LC 77), (4) N-Queens (LC 51). Show the decision tree for each and the full C++ solution using the same template structure.">
+        <div class="card-top"><span class="card-name">Backtracking template — 4 classics</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">choose · explore · unchoose · decision tree</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me backtracking with pruning in C++ — how to cut branches early to reduce the search space. Apply to: Combination Sum (LC 39 — reuse allowed, prune when remaining < 0), Combination Sum II (LC 40 — skip duplicates), and Sudoku Solver (LC 37 — prune using row/col/box constraints). Show the pruning logic clearly in each C++ solution.">
+        <div class="card-top"><span class="card-name">Backtracking with pruning</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">early termination · duplicate skip · constraint pruning</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the Trie (prefix tree) data structure in C++ — implement TrieNode and Trie class with insert, search, and startsWith methods. Then apply to: Word Search II (LC 212) — use DFS on a grid combined with Trie to find all words. Show the full C++ Trie implementation and the Word Search II solution. Why is Trie better than checking each word separately here?">
+        <div class="card-top"><span class="card-name">Tries & Word Search II</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">TrieNode · insert · search · grid DFS</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve Network Delay Time (LC 743) in C++ using Dijkstra. Build adjacency list, run Dijkstra from source k, return the maximum distance to any node (or -1 if unreachable). Full C++ solution with priority_queue<pair<int,int>, vector<pair<int,int>>, greater<>>.">Network Delay Time</button>
+      <button class="prob-pill med" data-prompt="Solve Combination Sum (LC 39) in C++ using backtracking — candidates can be reused. Show the decision tree for candidates=[2,3,6,7], target=7. Show how sorting and pruning (remaining < 0) eliminates branches. Full C++ backtracking solution.">Combination Sum</button>
+      <button class="prob-pill med" data-prompt="Solve Word Search (LC 79) in C++ using DFS backtracking on a 2D grid. At each cell, try all 4 directions, mark visited by temporarily modifying the cell, restore on backtrack. Full C++ solution with the in-place visited trick.">Word Search</button>
+      <button class="prob-pill hard" data-prompt="Solve N-Queens (LC 51) in C++ using backtracking. Track which columns, diagonals (row-col), and anti-diagonals (row+col) are under attack using 3 boolean arrays/sets. Place queens row by row. Show full C++ solution and explain why the diagonal indexing trick works.">N-Queens</button>
+      <button class="prob-pill hard" data-prompt="Solve Cheapest Flights Within K Stops (LC 787) in C++ — modified Dijkstra or Bellman-Ford with at most K+1 edges. Explain why standard Dijkstra doesn't directly work here (need to allow revisiting nodes with fewer stops). Show the BFS/DP approach with state (node, stops_used). Full C++ solution.">Cheapest Flights K Stops</button>
+    </div>
+    <div class="milestone"><strong>Week 13 milestone:</strong> You implement Dijkstra from memory in under 10 minutes. You apply the backtracking template to any search problem and identify pruning conditions before coding.</div>
+
+    <div class="week-label">Week 14 — Heaps & Advanced Graph</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me heap patterns in C++ using priority_queue. Cover: top-K elements pattern (min-heap of size K), K closest points, the two-heap pattern for finding medians (LC 295 — max-heap for lower half, min-heap for upper half). Show full C++ implementations for all three patterns. When do I use a min-heap vs max-heap in C++ priority_queue syntax?">
+        <div class="card-top"><span class="card-name">Heap patterns — top-K & two-heap</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">min-heap size K · K closest · median finder</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Bellman-Ford algorithm in C++ — shortest paths with negative weights, negative cycle detection. Relax all edges V-1 times; if we can still relax on the Vth pass, there's a negative cycle. Apply to LC 787 (K stops version). Compare with Dijkstra: when must I use Bellman-Ford? Show full C++ implementation.">
+        <div class="card-top"><span class="card-name">Bellman-Ford & negative weights</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">V-1 relaxations · negative cycle detection</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the task scheduler and meeting rooms patterns in C++ using heaps. Solve: Task Scheduler (LC 621) — use a max-heap for task frequencies, simulate CPU cycles. Meeting Rooms II (LC 253) — use a min-heap to track earliest ending meeting, count max simultaneous meetings. Show full C++ solutions for both and explain the heap logic step by step.">
+        <div class="card-top"><span class="card-name">Task scheduler & meeting rooms</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">frequency heap · interval min-heap</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve K Closest Points to Origin (LC 973) in C++ using a max-heap of size K. Insert each point; if heap size > K, pop the farthest. Show full C++ solution using priority_queue with a custom comparator. Also show the nth_element O(n) average approach.">K Closest Points</button>
+      <button class="prob-pill med" data-prompt="Solve Find Median from Data Stream (LC 295) in C++ using two heaps. Max-heap for lower half, min-heap for upper half. On each insert, balance the heaps so their sizes differ by at most 1. Show full C++ solution with the balancing logic.">Find Median Data Stream</button>
+      <button class="prob-pill hard" data-prompt="Solve Swim in Rising Water (LC 778) in C++ — find the path minimizing the maximum value encountered. Two approaches: (1) Dijkstra treating cell values as edge weights, (2) Binary search + BFS/DFS feasibility check. Show both C++ solutions and compare complexities.">Swim in Rising Water</button>
+    </div>
+    <div class="milestone"><strong>Week 14 milestone:</strong> You can identify when a problem needs a heap in under 60 seconds. You use priority_queue confidently with custom comparators. Graph section complete.</div>
+
+  </div><!-- /phase3 -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PHASE 4 — Advanced Topics & Interview Simulation
+  ════════════════════════════════════════════════════════ -->
+  <div class="phase-block" id="phase4">
+    <div class="phase-header">
+      <span class="phase-badge ph4">Phase 4</span>
+      <div class="phase-title-wrap">
+        <div class="phase-title">Advanced Topics & Interview Simulation</div>
+        <div class="phase-sub">What separates good candidates from great ones at senior/FAANG level.</div>
+      </div>
+      <span class="phase-duration">Weeks 15–20</span>
+    </div>
+
+    <div class="week-label">Week 15 & 16 — Bit Manipulation & Segment Trees</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me bit manipulation tricks used in FAANG interviews in C++. Cover: check if bit k is set (n >> k & 1), set/clear/toggle a bit, count set bits (__builtin_popcount), check power of two (n & (n-1) == 0), XOR tricks (find single number, missing number). Then teach bitmask DP: enumerate all 2^n subsets, represent sets as integers. Apply to Subsets (LC 78) using bitmask. Full C++ for everything.">
+        <div class="card-top"><span class="card-name">Bit manipulation — tricks & bitmask DP</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">XOR · popcount · power of 2 · bitmask DP</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Segment Trees in C++ from scratch — build, query (range sum), and update (point update). Show the array-based implementation using 1-indexed nodes where left child = 2i, right child = 2i+1. Then extend to lazy propagation for range updates. Apply to: Range Sum Query Mutable (LC 307). Full C++ implementation with all operations.">
+        <div class="card-top"><span class="card-name">Segment Tree — build, query, update</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">range sum · point update · lazy propagation</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me Binary Indexed Tree (Fenwick Tree) in C++ — a simpler alternative to segment tree for prefix sum queries with point updates. Show how the parent-child relationship using (i & -i) works. Implement update and query in C++. Compare with segment tree: when is BIT preferred? Apply to Count of Smaller Numbers After Self (LC 315).">
+        <div class="card-top"><span class="card-name">Fenwick Tree (BIT)</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">i & -i trick · prefix queries · point update</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me bitmask DP with assignment problems in C++ — dp[mask] = optimal value when 'mask' represents the set of assigned items. Apply to: Minimum XOR Sum of Two Arrays (LC 1879) and Shortest Path Visiting All Nodes (LC 847 — BFS with state as (node, visited_mask)). Show full C++ for both. When does bitmask DP beat regular DP?">
+        <div class="card-top"><span class="card-name">Bitmask DP — assignment problems</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">dp[mask] · visited state · all-pairs</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill easy" data-prompt="Solve Single Number (LC 136) and Single Number II (LC 137) in C++ using bit manipulation. For LC 136: XOR all numbers. For LC 137: use bit counting — for each bit position, sum all bits mod 3, the result is the single number's bit. Full C++ for both.">Single Number I & II</button>
+      <button class="prob-pill med" data-prompt="Solve Counting Bits (LC 338) in C++ using DP + bit manipulation: dp[i] = dp[i >> 1] + (i & 1). Explain why this works. Then solve Number of 1 Bits (LC 191) using the n & (n-1) trick to clear the lowest set bit. Full C++ for both.">Counting Bits</button>
+      <button class="prob-pill med" data-prompt="Solve Range Sum Query Mutable (LC 307) in C++ using a Segment Tree. Implement the SegmentTree class with build, update, and query methods. Show full C++ implementation. Compare with using a BIT for this specific problem.">Range Sum Query Mutable</button>
+      <button class="prob-pill hard" data-prompt="Solve Count of Smaller Numbers After Self (LC 315) in C++ using a Fenwick Tree (BIT). Coordinate-compress the values, then scan right to left: query BIT for count of numbers smaller than current, then update BIT. Full C++ solution with coordinate compression.">Count Smaller After Self</button>
+    </div>
+    <div class="milestone"><strong>Weeks 15–16 milestone:</strong> You use bit tricks instinctively. You implement Segment Trees and BITs from scratch. You recognize bitmask DP when n ≤ 20.</div>
+
+    <div class="week-label">Week 17 & 18 — Hard DP Patterns & Advanced Topics</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Teach me DP on trees in C++ — using DFS to compute optimal values bottom-up. At each node, gather results from children and make a decision. Apply to: House Robber III (LC 337) — at each node, return pair<int,int> (max if not robbed, max if robbed). Also solve Diameter of Binary Tree (LC 543) and Maximum Path Sum (LC 124) using the same tree-DP pattern. Full C++ for all three.">
+        <div class="card-top"><span class="card-name">DP on trees</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">node state from children · rob/skip · path</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the stock trading DP problems in C++ as a unified framework. Solve all 6 LC stock problems in one session: LC 121 (one transaction), LC 122 (unlimited), LC 123 (at most 2), LC 188 (at most k), LC 309 (cooldown), LC 714 (fee). Show how the state machine (hold, empty) generalizes across all of them and how each constraint modifies the transitions. Full C++ for each.">
+        <div class="card-top"><span class="card-name">Stock trading DP — unified framework</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">6 stock problems · hold/empty state · k transactions</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the Longest Increasing Subsequence (LIS) family of problems in C++ and their applications. Solve: LIS O(n log n) with patience sort, Longest Increasing Path in a Matrix (LC 329 — DFS with memoization on directed grid graph), Russian Doll Envelopes (LC 354 — sort by width, LIS on height). Full C++ solutions and explain how LC 354 reduces to LIS.">
+        <div class="card-top"><span class="card-name">LIS family — O(n log n) & variants</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">patience sort · matrix LIP · Russian doll</div>
+      </button>
+      <button class="topic-card" data-prompt="Teach me the hardest string DP patterns in C++ that appear in FAANG interviews. Cover: Distinct Subsequences (LC 115), Interleaving String (LC 97), and Wildcard Matching (LC 44). For each: define the 2D state, write the recurrence, handle the special character cases (*,?), and show the full C++ solution. What pattern connects all three?">
+        <div class="card-top"><span class="card-name">Hard string DP — interleave & wildcard</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">distinct subseq · interleave · wildcard match</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Solve House Robber III (LC 337) — DP on a binary tree — in C++. At each node return pair<int,int>: (max_if_not_robbed, max_if_robbed). Base: null node returns {0,0}. Combine: not_rob = max(left.first, left.second) + max(right.first, right.second). rob = node->val + left.first + right.first. Full C++ solution.">House Robber III</button>
+      <button class="prob-pill med" data-prompt="Solve Best Time to Buy and Sell Stock III (LC 123) in C++ — at most 2 transactions. Use state machine DP with states: buy1, sell1, buy2, sell2. Show full C++ solution and explain why this generalizes to k transactions in LC 188.">Stock III — 2 transactions</button>
+      <button class="prob-pill hard" data-prompt="Solve Russian Doll Envelopes (LC 354) in C++ — nest envelopes by width and height. Key: sort by width ascending, then height DESCENDING (so same-width envelopes aren't nested). Then run LIS on heights using O(n log n) patience sort. Explain why the descending height sort prevents same-width nesting. Full C++ solution.">Russian Doll Envelopes</button>
+      <button class="prob-pill hard" data-prompt="Solve Longest Increasing Path in a Matrix (LC 329) in C++ — DFS with memoization. At each cell, explore 4 neighbors that are strictly greater, memoize the longest path from each cell. Time: O(mn). Show full C++ solution with the memo array.">Longest Increasing Path Matrix</button>
+    </div>
+    <div class="milestone"><strong>Weeks 17–18 milestone:</strong> You solve hard DP problems by identifying the pattern family first. You can explain your solution verbally while coding — critical for actual interviews.</div>
+
+    <div class="week-label">Week 19 & 20 — Mock Interview Simulation</div>
+    <div class="topic-grid">
+      <button class="topic-card" data-prompt="Give me a 45-minute FAANG mock interview session. Pick 2 problems — one medium (from arrays/sliding window/binary search/linked list), one hard (from DP or graphs). For each: give me the problem statement as an interviewer would, wait for me to think aloud and describe my approach, then evaluate: correctness, edge case handling, complexity analysis, code quality, and communication. Act as a strict but fair interviewer. Use C++ for code evaluation.">
+        <div class="card-top"><span class="card-name">45-min mock — Phase 1 & 2 topics</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">arrays · sliding window · DP · interviewer feedback</div>
+      </button>
+      <button class="topic-card" data-prompt="Give me a 45-minute FAANG mock interview focused on graphs and trees. Pick one medium tree problem and one hard graph problem. Evaluate my approach, code (C++), edge case handling, and complexity analysis as an interviewer would. After I solve each problem, give detailed feedback: what I did well, what was suboptimal, what an ideal solution looks like. Be specific.">
+        <div class="card-top"><span class="card-name">45-min mock — Trees & Graphs</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">tree DFS · graph BFS · interviewer debrief</div>
+      </button>
+      <button class="topic-card" data-prompt="Give me a 60-minute FAANG system design + DSA combined mock interview as a senior engineer would face. Start with a medium DSA warm-up (10 min), then a system design question (30 min), then a hard DSA problem (20 min). Evaluate each section separately on: problem decomposition, technical correctness, communication, and time management. Use C++ for DSA code.">
+        <div class="card-top"><span class="card-name">60-min senior mock — DSA + System Design</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">warm-up · system design · hard DSA</div>
+      </button>
+      <button class="topic-card" data-prompt="I want to do a hard DP problem cold — give me one hard DP problem from FAANG companies (that I haven't seen before), give me 35 minutes to solve it, then evaluate my solution in C++. After the evaluation: show me the optimal solution, explain the key insight I might have missed, and tell me which DP pattern family this belongs to so I can generalize it.">
+        <div class="card-top"><span class="card-name">Cold hard DP — blind solve</span><span class="copy-hint">click to copy prompt</span></div>
+        <div class="card-sub">unseen problem · timed · pattern debrief</div>
+      </button>
+    </div>
+    <div class="problems-row">
+      <button class="prob-pill med" data-prompt="Quiz me: ask me 10 rapid-fire complexity questions covering best/worst/average cases for: quicksort, mergesort, heapify, Dijkstra, BFS on a grid, building a heap, hash table operations, and BST operations. After each answer I give, tell me if I'm right and correct any mistakes. Go one question at a time.">Complexity rapid-fire quiz</button>
+      <button class="prob-pill med" data-prompt="Give me 5 pattern identification challenges in C++ — describe a problem in natural language, and I have to identify: the correct algorithm/pattern, the time complexity, and the key data structure. After each one I answer, confirm and explain. Topics: sliding window vs two-pointer, BFS vs DFS, heap vs sort, DP vs greedy, backtracking vs DP.">Pattern ID challenges</button>
+      <button class="prob-pill hard" data-prompt="Give me a full mock whiteboard session for Hard LC problem Trapping Rain Water II (LC 407) — 3D version. I'll think aloud. Evaluate my approach (hint: min-heap BFS from borders). Show the full C++ solution after I attempt it. Debrief: what makes this harder than the 1D version and how does the heap generalize the two-pointer approach?">Trapping Rain Water II (3D)</button>
+      <button class="prob-pill hard" data-prompt="Do a post-session debrief with me. I will paste my C++ solution to a hard problem. You evaluate: (1) correctness — any bugs or edge cases missed? (2) time and space complexity — is my analysis right? (3) code quality — naming, readability, C++ idioms. (4) alternative approaches — is there a simpler or faster solution? Be specific and critical.">Solution debrief — paste your code</button>
+    </div>
+    <div class="milestone"><strong>Weeks 19–20 milestone:</strong> You whiteboard any DSA problem in 45 minutes — define state, write recurrence or algorithm, handle edge cases, code it in C++, and state complexity. You are FAANG-ready.</div>
+
+  </div><!-- /phase4 -->
+
+</main><!-- /main -->
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="https://ajay3007.github.io/about">About Me</a>
+      <a href="https://ajay3007.github.io/projects">Projects</a>
+      <a href="https://ajay3007.github.io/blogs">Blog</a>
+    </div>
+    <div class="footer-col">
+      <h4>Learning</h4>
+      <a href="https://ajay3007.github.io/learning/dsa">DSA &amp; Algorithms</a>
+      <a href="https://ajay3007.github.io/learning/system-design">System Design</a>
+      <a href="https://ajay3007.github.io/learning/networking-mastery">Networking</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="https://github.com/Ajay3007" target="_blank">🐙 GitHub</a>
+      <a href="https://linkedin.com/in/ajay-gupt" target="_blank">💼 LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Ajay Kumar Gupt. All rights reserved.</span>
+    <span>Built with Jekyll • Hosted on GitHub Pages</span>
+    <div class="footer-icons">
+      <a href="https://github.com/Ajay3007" target="_blank" title="GitHub">🐙</a>
+      <a href="https://linkedin.com/in/ajay-gupt" target="_blank" title="LinkedIn">💼</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Scroll to top ──────────────────────────────────────── -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<!-- ── Modal ─────────────────────────────────────────────── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="modal-header">
+      <span class="modal-icon">🤖</span>
+      <div>
+        <div class="modal-title" id="modal-title-text">Claude Prompt</div>
+        <div class="modal-sub" id="modal-sub">Paste this into claude.ai to start this lesson</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-label">Prompt</div>
+      <div class="prompt-box" id="prompt-text"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-copy" id="copy-btn" onclick="copyPrompt()">
+        <span id="copy-icon">📋</span>
+        <span id="copy-text">Copy Prompt</span>
+      </button>
+      <button class="btn-dismiss" onclick="closeModal()">Dismiss</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ─────────────────────────────────────────────── -->
+<div class="toast" id="toast">✓ Prompt copied to clipboard</div>
+
+<!-- ── JS ────────────────────────────────────────────────── -->
+<script>
+  // ── Wire up all topic cards and problem pills ────────────
+  document.querySelectorAll('.topic-card[data-prompt], .prob-pill[data-prompt]').forEach(el => {
+    el.addEventListener('click', () => openModal(el.dataset.prompt, el));
+  });
+
+  // ── Modal ────────────────────────────────────────────────
+  let currentPrompt = '';
+
+  function openModal(prompt, triggerEl) {
+    currentPrompt = prompt;
+    document.getElementById('prompt-text').textContent = prompt;
+
+    // Set title from card name or pill text
+    const name = triggerEl.querySelector('.card-name')?.textContent
+                 || triggerEl.textContent.trim();
+    document.getElementById('modal-title-text').textContent = name;
+
+    // Identify phase context for subtitle
+    const phaseBlock = triggerEl.closest('.phase-block');
+    const phaseTitle = phaseBlock?.querySelector('.phase-title')?.textContent || '';
+    document.getElementById('modal-sub').textContent =
+      phaseTitle ? `Phase: ${phaseTitle}` : 'Paste into claude.ai to start this lesson';
+
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Reset copy button
+    const btn = document.getElementById('copy-btn');
+    btn.classList.remove('copied');
+    document.getElementById('copy-icon').textContent = '📋';
+    document.getElementById('copy-text').textContent = 'Copy Prompt';
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOnOverlay(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+
+  // Escape key closes modal
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // ── Copy ─────────────────────────────────────────────────
+  function copyPrompt() {
+    if (!currentPrompt) return;
+    navigator.clipboard.writeText(currentPrompt).then(() => {
+      const btn = document.getElementById('copy-btn');
+      btn.classList.add('copied');
+      document.getElementById('copy-icon').textContent = '✓';
+      document.getElementById('copy-text').textContent = 'Copied!';
+
+      // Show toast
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+
+      // Reset button after 2s
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        document.getElementById('copy-icon').textContent = '📋';
+        document.getElementById('copy-text').textContent = 'Copy Prompt';
+      }, 2000);
+    }).catch(() => {
+      // Fallback: select text in prompt box
+      const box = document.getElementById('prompt-text');
+      const range = document.createRange();
+      range.selectNodeContents(box);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+    });
+  }
+
+  // ── Scroll to top button ─────────────────────────────────
+  const scrollBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
+</script>
+
+</body>
+</html>
