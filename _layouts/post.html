@@ -2,40 +2,28 @@
 layout: default
 ---
 
-<article class="post post-article">
-
-    <!-- Blog Post Hero Header -->
-    <header class="post-header post-hero-header">
-        <h1 class="post-title post-hero-title">
-            {{ page.title }}
-        </h1>
-        <p class="post-meta">
-            <span class="post-meta-chip">
-                📅 <time datetime="{{ page.date | date_to_xmlschema }}" class="post-meta-time">
-                    {{ page.date | date: "%B %d, %Y" }}
-                </time>
-                {% assign words = content | number_of_words %}
-                {% assign reading_time = words | divided_by: 200 | plus: 1 %}
-                <span class="post-meta-sep">|</span>
-                ⏱ <span class="post-meta-reading-time">{{ reading_time }} min read</span>
-                {% if page.categories %}
-                <span class="post-meta-sep">|</span>
-                🏷️ <span class="post-meta-category">{{ page.categories | join: ", " }}</span>
-                {% endif %}
-            </span>
-        </p>
-    </header>
-
-    <!-- Markdown Content Injection -->
-    <div class="post-content modern-content">
-        {{ content }}
+<article class="c-post">
+  <header class="c-post-header">
+    <div class="c-kicker">
+      // {% if page.categories %}{{ page.categories | join: " · " | upcase }}{% else %}WRITING{% endif %}
     </div>
+    <h1 class="c-post-h1">{{ page.title }}</h1>
+    <div class="c-post-meta">
+      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+      <span class="c-meta-sep">│</span>
+      {% assign words = content | number_of_words %}
+      {% assign reading_time = words | divided_by: 200 | plus: 1 %}
+      <span>{{ reading_time }} min read</span>
+      <span class="c-meta-sep">│</span>
+      <span>~{{ words }} words</span>
+    </div>
+  </header>
 
-    <!-- Article Footer / Navigation Return -->
-    <footer class="post-article-footer">
-        <div class="post-end-label">End of transmission.</div>
-        <a href="{{ '/blogs/' | relative_url }}" class="btn-secondary post-back-btn">
-            <span style="margin-right: 0.5rem;">←</span> Return to Blog Archives
-        </a>
-    </footer>
+  <div class="c-post-body">
+    {{ content }}
+  </div>
+
+  <footer class="c-post-footer">
+    <a href="{{ '/blogs/' | relative_url }}" class="c-btn-ghost">← Back to archive</a>
+  </footer>
 </article>

@@ -1,170 +1,121 @@
 ---
 layout: default
 title: Home
+custom_js: home-hero
 ---
 
-<!-- Hero Section -->
-<section class="hero-section">
-    <h1 class="hero-title">Hi, I'm Ajay 👋</h1>
-    <p class="hero-subtitle">
-        Software Engineer with 4+ years building high-performance systems.<br>
-        Specialising in <span id="hero-typed" class="hero-typed-text"></span><span class="hero-typed-cursor">|</span>
-    </p>
-    <div class="hero-actions">
-        <a href="{{ '/projects' | relative_url }}" class="btn-primary">View Projects</a>
-        <a href="{{ '/about' | relative_url }}" class="btn-secondary">Learn More</a>
+<section class="c-hero">
+  <div class="c-hero-grid">
+    <div class="c-hero-text">
+      <div class="c-eyebrow">
+        <span class="c-dot"></span>
+        ENGINEER · DATA PLANE · NAVI MUMBAI
+      </div>
+      <h1 class="c-hero-title">
+        I make packets<br>
+        move <span class="c-hl">fast</span>, and<br>
+        write about <em>why.</em>
+      </h1>
+      <p class="c-hero-lede">
+        Ajay Kumar Gupt — Software Engineer at Jio Platforms.
+        Five years on DPDK, VPP and Hyperscan, building deep packet
+        inspection for SASE. This site is my notebook in public.
+      </p>
+      <div class="c-hero-cta">
+        <a href="{{ '/projects' | relative_url }}" class="c-btn-primary">Featured projects →</a>
+        <a href="{{ '/about' | relative_url }}" class="c-btn-ghost">About me</a>
+      </div>
     </div>
+
+    <div class="c-hero-viz">
+      <div class="c-viz-head">
+        <span>pipeline · sase.dpi</span>
+        <span><span class="c-dot"></span> synthetic · illustrative</span>
+      </div>
+      <canvas id="packet-pipeline" width="520" height="80" aria-hidden="true"></canvas>
+      <div class="c-viz-stages">
+        <div><div class="c-stage-num">01</div><div class="c-stage-lbl">RX</div></div>
+        <div><div class="c-stage-num">02</div><div class="c-stage-lbl">PARSE</div></div>
+        <div><div class="c-stage-num">03</div><div class="c-stage-lbl">FIB</div></div>
+        <div><div class="c-stage-num">04</div><div class="c-stage-lbl">DPI</div></div>
+        <div><div class="c-stage-num">05</div><div class="c-stage-lbl">TX</div></div>
+      </div>
+      <div class="c-viz-metrics">
+        <div><div class="c-metric-k">THROUGHPUT</div><div class="c-metric-v">8.2 Mpps</div></div>
+        <div><div class="c-metric-k">P99 LATENCY</div><div class="c-metric-v">1.31 μs</div></div>
+        <div><div class="c-metric-k">DPI MATCHES</div><div class="c-metric-v">412 / s</div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- By The Numbers -->
-<section class="modern-section">
-    <h2 class="section-title">By The Numbers</h2>
-    <div class="stats-grid">
-        <div class="stat-card" style="border-top-color: var(--secondary-color);">
-            <div class="stat-number" style="color: var(--secondary-color);">{{ site.posts | size }}</div>
-            <div class="stat-label">Blog Posts</div>
-        </div>
-        <div class="stat-card" style="border-top-color: var(--accent-color);">
-            <div class="stat-number" style="color: var(--accent-color);">{{ site.projects | size }}</div>
-            <div class="stat-label">Projects</div>
-        </div>
-        <div class="stat-card" style="border-top-color: #10b981;">
-            <div class="stat-number" style="color: #10b981;">{{ site.data.problems.problems | size }}</div>
-            <div class="stat-label">DSA Problems</div>
-        </div>
-        <div class="stat-card" style="border-top-color: #9945ff;">
-            <div class="stat-number" style="color: #9945ff;">10+</div>
-            <div class="stat-label">Core Topics</div>
-        </div>
+<section class="c-section">
+  <div class="c-section-head">
+    <div>
+      <div class="c-kicker">// SHIPPED</div>
+      <h2 class="c-section-title">Selected projects.</h2>
     </div>
-</section>
-
-<!-- Featured Projects -->
-<section class="modern-section">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
-        <h2 class="section-title" style="margin-bottom: 0;">Featured Projects</h2>
-        <a href="{{ '/projects' | relative_url }}" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-bottom: 8px;">All Projects →</a>
-    </div>
-    <div class="project-grid">
-        {% for project in site.projects limit: 3 %}
-        <div class="featured-project-card" style="border-top-color: {% cycle '#764ba2', '#667eea', '#00d4ff' %};">
-            <div class="featured-project-title"><a href="{{ project.url | relative_url }}" style="text-decoration: none; color: inherit;">{{ project.title }}</a></div>
-            {% if project.description %}
-            <div class="featured-project-desc">{{ project.description }}</div>
-            {% endif %}
-            {% if project.tags %}
-            <div class="project-tags">
-                {% for tag in project.tags %}
-                <span class="project-tag">{{ tag }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-            <a href="{{ project.url | relative_url }}" class="featured-project-link">Learn more →</a>
-        </div>
-        {% endfor %}
-    </div>
-</section>
-
-<!-- DSA Hub Showcase -->
-<section class="modern-section">
-    <div class="dsa-hub-card">
-        <div class="dsa-hub-content">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.4rem;">
-                <span style="font-size: 1.6rem;">🎯</span>
-                <h2 style="margin: 0; color: white; font-size: 1.35rem; font-weight: 700;">Practice Problems Hub</h2>
-            </div>
-            <p style="margin: 0 0 0.75rem 0; color: rgba(255,255,255,0.85); font-size: 0.9rem;">Curated DSA problems across patterns, structures &amp; difficulty levels.</p>
-            <div class="dsa-stats">
-                <div class="dsa-stat-box">
-                    <div class="val">{{ site.data.problems.problems | size }}</div>
-                    <div class="lbl">Total</div>
-                </div>
-                {% assign solved_count = 0 %}
-                {% for problem in site.data.problems.problems %}
-                    {% if problem.solved == true or problem.solved == "true" or problem.status == "Solved" %}
-                        {% assign solved_count = solved_count | plus: 1 %}
-                    {% endif %}
-                {% endfor %}
-                <div class="dsa-stat-box">
-                    <div class="val" style="color: #4ade80;">{{ solved_count }}</div>
-                    <div class="lbl">Solved</div>
-                </div>
-                {% assign all_topics = "" | split: "," %}
-                {% for problem in site.data.problems.problems %}
-                    {% if problem.topics %}
-                        {% assign all_topics = all_topics | concat: problem.topics %}
-                    {% endif %}
-                {% endfor %}
-                {% assign unique_topics = all_topics | uniq %}
-                <div class="dsa-stat-box">
-                    <div class="val">{{ unique_topics | size }}</div>
-                    <div class="lbl">Topics</div>
-                </div>
-            </div>
-        </div>
-        <a href="{{ '/problems/' | relative_url }}" class="btn-secondary" style="flex-shrink: 0; white-space: nowrap; align-self: center;">
-            🚀 Open Hub
-        </a>
-    </div>
-</section>
-
-<!-- Learning Paths -->
-<section class="modern-section">
-    <h2 class="section-title" style="margin-bottom: 2rem;">Learning Paths</h2>
-    <div class="nav-grid">
-        <a href="{{ '/learning/dsa/' | relative_url }}" class="nav-card" style="border-left-color: #00d4ff;">
-            <div class="nav-card-title">📊 DSA & Algorithms</div>
-            <div class="nav-card-desc">Structures, patterns & practical theory solving.</div>
-        </a>
-        <a href="{{ '/learning/system-design/' | relative_url }}" class="nav-card" style="border-left-color: #ff6b9d;">
-            <div class="nav-card-title">🏗️ System Design</div>
-            <div class="nav-card-desc">High-level architecture, scalability, & tradeoffs.</div>
-        </a>
-        <a href="{{ '/learning/networking/' | relative_url }}" class="nav-card" style="border-left-color: #9945ff;">
-            <div class="nav-card-title">🌐 Networking</div>
-            <div class="nav-card-desc">Protocols, routing, TCP/UDP & practical networks.</div>
-        </a>
-        <a href="{{ '/learning/oop/' | relative_url }}" class="nav-card" style="border-left-color: #f59e0b;">
-            <div class="nav-card-title">🎯 OOP & Patterns</div>
-            <div class="nav-card-desc">Core design principles, SOLID, & design patterns.</div>
-        </a>
-        <a href="{{ '/learning/data-plane/' | relative_url }}" class="nav-card" style="border-left-color: #10b981;">
-            <div class="nav-card-title">⚡ Data Plane</div>
-            <div class="nav-card-desc">DPDK, VPP, & extreme performance optimization.</div>
-        </a>
-        <a href="{{ '/learning/programming-language/' | relative_url }}" class="nav-card" style="border-left-color: #3b82f6;">
-            <div class="nav-card-title">💻 Languages</div>
-            <div class="nav-card-desc">Deep dives into C++, Java, and Python semantics.</div>
-        </a>
-    </div>
-</section>
-
-<!-- Recent Blog Posts -->
-<section class="modern-section">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem;">
-        <h2 class="section-title" style="margin-bottom: 0;">Recent Thoughts</h2>
-        <a href="{{ '/blogs' | relative_url }}" class="btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-bottom: 8px;">All Posts →</a>
-    </div>
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
-        {% for post in site.posts limit: 3 %}
-        <div class="stat-card" style="text-align: left; padding: 1.8rem; border-left: 4px solid #667eea; border-top: none;">
-            <time style="color: #9ca3af; font-size: 0.85rem; display: block; margin-bottom: 0.5rem;">{{ post.date | date: "%B %d, %Y" }}</time>
-            <h3 style="margin: 0 0 0.75rem 0; font-size: 1.25rem;"><a href="{{ post.url | relative_url }}" style="text-decoration: none; color: var(--primary-color);">{{ post.title }}</a></h3>
-            {% if post.excerpt %}
-            <p style="margin: 0; color: var(--light-text); font-size: 0.95rem; line-height: 1.6;">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
-            {% endif %}
-        </div>
-        {% endfor %}
-    </div>
-</section>
-
-<!-- About This Site -->
-<section class="modern-section" style="text-align: center; max-width: 700px; margin: 5rem auto 3rem auto;">
-    <h2 class="section-title">💡 About This Site</h2>
-    <p style="font-size: 1.1rem; color: var(--light-text); line-height: 1.8; margin-bottom: 2rem;">
-        A comprehensive portfolio and learning hub documenting my <strong>4+ years</strong> in high-performance systems, data plane development, and backend infrastructure. Here you'll find technical deep dives, real-world projects, and actionable learning resources.
-    </p>
-    <a href="{{ '/about' | relative_url }}" class="btn-primary" style="background: linear-gradient(90deg, #00d4ff, #ff6b9d);">
-        <span style="margin-right: 0.5rem;">👤</span> Read the Full Story
+    <a href="{{ '/projects' | relative_url }}" class="c-section-action">View all →</a>
+  </div>
+  <div class="c-card-grid c-cols-3">
+    {% for project in site.projects limit: 3 %}
+    <a href="{{ project.url | relative_url }}" class="c-card">
+      <div class="c-card-meta">
+        <span>№ {{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+        <span>{{ project.year | default: "" }}</span>
+      </div>
+      <h3 class="c-card-title"><span class="c-card-slash">~/</span>{{ project.title }}</h3>
+      {% if project.description %}<p class="c-card-desc">{{ project.description }}</p>{% endif %}
+      {% if project.tags %}
+      <div class="c-tag-row">
+        {% for tag in project.tags %}<span class="c-tag">{{ tag }}</span>{% endfor %}
+      </div>
+      {% endif %}
     </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="c-section">
+  <div class="c-section-head">
+    <div>
+      <div class="c-kicker">// LATEST</div>
+      <h2 class="c-section-title">From the journal.</h2>
+    </div>
+    <a href="{{ '/blogs' | relative_url }}" class="c-section-action">Archive →</a>
+  </div>
+  <div class="c-post-list">
+    {% for post in site.posts limit: 5 %}
+    <a href="{{ post.url | relative_url }}" class="c-post-row">
+      <span class="c-post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+      <span class="c-post-title">{{ post.title }}</span>
+      <span class="c-post-cat">{{ post.categories | first | default: "general" }}</span>
+      <span class="c-post-arrow">→</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="c-section">
+  <div class="c-section-head">
+    <div>
+      <div class="c-kicker">// NOTEBOOK</div>
+      <h2 class="c-section-title">Topics I'm learning.</h2>
+    </div>
+    <a href="{{ '/learning' | relative_url }}" class="c-section-action">Browse all →</a>
+  </div>
+  <div class="c-card-grid c-cols-5">
+    {% assign topics = "data-plane,system-design,networking,dsa,4g-5g,operating-systems,oop,programming-language,ai-ml,competitive-programming" | split: "," %}
+    {% assign labels  = "Data Plane,System Design,Networking,DSA & Algorithms,4G / 5G,Operating Systems,OOP & Patterns,Languages,AI / ML,Competitive Prog." | split: "," %}
+    {% assign notes   = "DPDK, VPP, line-rate processing|Architecture, scale, tradeoffs|TCP/IP, routing, protocols|Patterns, structures, proofs|RAN, AS/NAS, user plane|Memory, scheduling, IPC|SOLID, design patterns|C, C++, Java, Python|Foundations, models|Patterns & contests" | split: "|" %}
+    {% for slug in topics %}
+    <a href="{{ '/learning/' | append: slug | relative_url }}" class="c-topic-card">
+      <div class="c-topic-meta">
+        <span>{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+      </div>
+      <div class="c-topic-name">{{ labels[forloop.index0] }}</div>
+      <div class="c-topic-note">{{ notes[forloop.index0] }}</div>
+    </a>
+    {% endfor %}
+  </div>
 </section>

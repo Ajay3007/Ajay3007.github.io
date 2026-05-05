@@ -2,15 +2,31 @@
 layout: default
 ---
 
-<article class="project">
-    <header class="project-header">
-        <h1 class="project-title">{{ page.title }}</h1>
-        {% if page.description %}
-            <p class="project-description">{{ page.description }}</p>
-        {% endif %}
-    </header>
-
-    <div class="project-content">
-        {{ content }}
+<article class="c-post">
+  <header class="c-post-header">
+    <div class="c-kicker">
+      // PROJECT{% if page.year %} · {{ page.year }}{% endif %}
     </div>
+    <h1 class="c-post-h1">{{ page.title }}</h1>
+    {% if page.description %}
+    <p style="font-size: 14px; color: var(--body); margin: 10px 0 0; line-height: 1.6; max-width: 640px;">{{ page.description }}</p>
+    {% endif %}
+    <div class="c-proj-header-links">
+      {% if page.demo %}<a href="{{ page.demo }}" target="_blank" rel="noopener noreferrer" class="c-btn-primary">Live Demo →</a>{% endif %}
+      {% if page.github %}<a href="{{ page.github }}" target="_blank" rel="noopener noreferrer" class="c-btn-ghost">GitHub ↗</a>{% endif %}
+    </div>
+    {% if page.tags %}
+    <div class="c-tag-row" style="margin-top: 14px;">
+      {% for tag in page.tags %}<span class="c-tag">{{ tag }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="c-post-body">
+    {{ content }}
+  </div>
+
+  <footer class="c-post-footer">
+    <a href="{{ '/projects/' | relative_url }}" class="c-btn-ghost">← Back to projects</a>
+  </footer>
 </article>
