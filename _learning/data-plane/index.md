@@ -10,6 +10,7 @@ permalink: /learning/data-plane/
   <a href="{{ '/learning/data-plane/roadmap' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#764ba2;color:white;border-radius:5px;text-decoration:none;">Dataplane Engineer Roadmap (0 → Production Ready) 🚀</a>
   <a href="{{ '/learning/data-plane/vpp/vpp-roadmap/' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#1a7a6e;color:white;border-radius:5px;text-decoration:none;">⚡ VPP Mastery Roadmap</a>
   <a href="{{ '/learning/data-plane/dpdk/dpdk-roadmap/' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#0a2040;color:white;border-radius:5px;text-decoration:none;">⚡ DPDK Mastery Roadmap</a>
+  <a href="{{ '/learning/data-plane/projects/' | relative_url }}" style="display:inline-block;padding:10px 20px;background:#c0392b;color:white;border-radius:5px;text-decoration:none;">🛠 SASE DP — 21 Hands-on C Modules</a>
 </div>
 
 
