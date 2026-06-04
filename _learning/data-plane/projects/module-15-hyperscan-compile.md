@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 15 — Hyperscan: Pattern Compilation"
 permalink: /learning/data-plane/projects/module-15-hyperscan-compile/

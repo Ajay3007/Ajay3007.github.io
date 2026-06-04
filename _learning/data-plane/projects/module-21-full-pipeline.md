@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 21 — Full Pipeline (Annotated Assembly)"
 permalink: /learning/data-plane/projects/module-21-full-pipeline/

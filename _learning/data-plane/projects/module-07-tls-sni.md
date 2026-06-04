@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 07 — TLS SNI Extractor"
 permalink: /learning/data-plane/projects/module-07-tls-sni/

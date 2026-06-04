@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 14 — NUMA-aware Memory Allocation"
 permalink: /learning/data-plane/projects/module-14-numa-alloc/

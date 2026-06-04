@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 18 — DNS Sinkhole"
 permalink: /learning/data-plane/projects/module-18-dns-sinkhole/

@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 04 — Hash Map"
 permalink: /learning/data-plane/projects/module-04-hash-map/

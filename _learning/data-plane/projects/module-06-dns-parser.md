@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 06 — DNS Parser"
 permalink: /learning/data-plane/projects/module-06-dns-parser/

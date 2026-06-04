@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 05 — Packet Header Structs & Parser"
 permalink: /learning/data-plane/projects/module-05-packet-structs/

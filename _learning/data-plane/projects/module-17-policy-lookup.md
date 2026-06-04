@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 17 — Two-tier Policy Lookup"
 permalink: /learning/data-plane/projects/module-17-policy-lookup/

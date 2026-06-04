@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 20 — Kafka Consumer (Policy Sync)"
 permalink: /learning/data-plane/projects/module-20-kafka-consumer/

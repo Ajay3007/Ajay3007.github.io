@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: "Module 12 — rte_hash CRUD"
 permalink: /learning/data-plane/projects/module-12-rte-hash/
