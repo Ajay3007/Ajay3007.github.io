@@ -11,7 +11,7 @@
  * ══════════════════════════════════════════════════════════════════
  *
  *  ┌─────────────────────────────────────────────────────────┐
- *  │                      SASE DP Process                    │
+ *  │                      the DP application Process                    │
  *  │                                                         │
  *  │  lcore 0 (main)   lcore 1 (RX)   lcore 2 (TX)         │
  *  │  ┌──────────┐     ┌──────────┐   ┌──────────┐          │
@@ -70,9 +70,9 @@
 #include "../03-ring-buffer/ring.h"
 
 /* ─── Module 17: policy lookup decision codes ───────────── */
-#define ALLOW_PACKET      10
-#define DROP_PACKET       11
-#define PROCESS_WORKFLOW  12   /* sinkhole */
+#define ALLOW_PACKET      0
+#define DROP_PACKET       1
+#define PROCESS_WORKFLOW  2    /* sinkhole */
 
 /* ─── Module 15: Hyperscan (optional) ───────────────────── */
 #ifdef WITH_HYPERSCAN
@@ -87,7 +87,7 @@
 /* ═══════════════════════════════════════════════════════════
  * SECTION 1: CONSTANTS + CONFIGURATION
  *
- * In production (sase.c): read from config file via Module 01.
+ * In production (app_main.c): read from config file via Module 01.
  * Here: hardcoded for the simulation demo.
  * ═══════════════════════════════════════════════════════════ */
 
@@ -128,12 +128,12 @@ typedef struct {
  * SECTION 3: POLICY STATE
  *
  * In production:
- *   group_struct (cache_operation.h) has:
+ *   group_struct (policy_cache.h) has:
  *     rte_hash *domain_details_table   ← Module 12
  *     hs_database_t *database          ← Module 15
  *     dp_hyperscan_details *hyperscan_details ← Module 15
- *   ip_vs_supi_table                   ← Module 12 (500K entries)
- *   malicious_domain_vs_context_hash   ← Module 12 + Module 20
+ *   ip_vs_subscriber_table                   ← Module 12 (500K entries)
+ *   malicious_domain_table   ← Module 12 + Module 20
  * ═══════════════════════════════════════════════════════════ */
 typedef struct {
     char    domain[256];
@@ -199,11 +199,11 @@ static void pool_free(sim_mbuf_t *m) { (void)m; }
  * SECTION 6: POLICY LOOKUP
  *
  * In production (Module 17):
- *   group_and_url_processing_for_dns(domain, qtype, groups, n)
+ *   url_policy_for_dns(domain, qtype, groups, n)
  *     → check_malicious()          rte_hash_lookup(malicious_table, domain)
  *     → fetch_group_url_details()
  *         Tier 1: rte_hash_lookup_data(domain_details_table, domain, &fd)
- *         Tier 2: hs_scan_dp_process_group(domain, group->database, scratch)
+ *         Tier 2: hs_scan_domain_group(domain, group->database, scratch)
  *     → apply_filter_details(fd, group, port)
  * ═══════════════════════════════════════════════════════════ */
 static int policy_lookup(const char *domain)
@@ -229,10 +229,10 @@ static int policy_lookup(const char *domain)
     pthread_rwlock_unlock(&g_policy_lock);
 
     /*
-     * Tier 2: Hyperscan fallback (Module 16: hs_scan_dp_process_group)
+     * Tier 2: Hyperscan fallback (Module 16: hs_scan_domain_group)
      * In production:
      *   hs_scan(group->database, domain, strlen(domain), 0,
-     *           worker_scratch, onMatchDPGroup, &matchCtx)
+     *           worker_scratch, on_hs_match_group, &matchCtx)
      * Simulation: treat unknown domains as ALLOW (default policy)
      */
     return ALLOW_PACKET;
@@ -242,7 +242,7 @@ static int policy_lookup(const char *domain)
  * SECTION 7: DNS SINKHOLE
  *
  * In production (Module 18):
- *   dns_reuse_request_as_redirect_response_ip4(mbuf, wg_ipv4)
+ *   dns_build_sinkhole_v4(mbuf, wg_ipv4)
  *   → swap ETH/IP/UDP headers in-place
  *   → append DNS answer section (A or AAAA record)
  *   → set TX hardware checksum offload flags on mbuf
@@ -252,12 +252,12 @@ static int policy_lookup(const char *domain)
 static void apply_sinkhole(sim_mbuf_t *m)
 {
     /*
-     * Production code (core_process.h):
+     * Production code (pkt_proc.h):
      *   if (qtype == DNS_TYPE_A)
-     *       dns_reuse_request_as_redirect_response_ip4(
+     *       dns_build_sinkhole_v4(
      *           mbuf, walled_garden_ipv4);
      *   else
-     *       dns_reuse_request_as_redirect_response_ip4(
+     *       dns_build_sinkhole_v4(
      *           mbuf, walled_garden_ipv4);  // AAAA answer injected inside
      *
      *   m->ol_flags |= RTE_MBUF_F_TX_IPV4 | RTE_MBUF_F_TX_IP_CKSUM
@@ -351,8 +351,8 @@ static sim_mbuf_t *generate_synthetic_packet(int seq)
 
         /*
          * Production: TCP payload begins with TLS record (0x16).
-         * hs_scan_dp_process(payload, len, worker_scratch, &matchCtx)
-         * → onMatchDP callback with id=HS_PATTERN_ID_TLS=4
+         * hs_scan_payload(payload, len, worker_scratch, &matchCtx)
+         * → on_hs_match callback with id=HS_PATTERN_ID_TLS=1
          * → read SNI at from+7 / from+9 (Module 07, Module 16)
          */
         m->data[0] = 0x16;  /* TLS Handshake content type */
@@ -430,7 +430,7 @@ static void *rx_lcore_func(void *arg)
 /* ═══════════════════════════════════════════════════════════
  * SECTION 10: WORKER LCORE (THE HOT PATH)
  *
- * This is the core of SASE DP. Every packet flows through here.
+ * This is the core of the DP application. Every packet flows through here.
  * In production: runs on a dedicated physical CPU core pinned by DPDK EAL.
  * ═══════════════════════════════════════════════════════════ */
 static void *worker_lcore_func(void *arg)
@@ -444,7 +444,7 @@ static void *worker_lcore_func(void *arg)
 
     /*
      * Production startup (called before launch, Module 16):
-     *   clone_global_scratch(&worker_info->worker_scratch, lcore_id)
+     *   hs_clone_scratch_for_lcore(&worker_info->worker_scratch, lcore_id)
      *   hs_alloc_scratch(group->database, &worker_info->worker_scratch)
      */
 
@@ -488,20 +488,20 @@ static void *worker_lcore_func(void *arg)
                  *     → question_wire_end = msg.question_wire_end
                  */
 
-                /* ── Subscriber lookup (Module 12: ip_vs_supi_table) ──
+                /* ── Subscriber lookup (Module 12: ip_vs_subscriber_table) ──
                  * Production:
-                 *   rte_hash_lookup_data(ip_vs_supi_table, &src_ip, &sub)
+                 *   rte_hash_lookup_data(ip_vs_subscriber_table, &src_ip, &sub)
                  *   group_id = sub->group_id
                  */
 
                 /* ── Two-tier policy lookup (Module 17) ──
                  * Production:
-                 *   group_and_url_processing_for_dns(
+                 *   url_policy_for_dns(
                  *       domain, qtype, groups, n_groups)
-                 *     → check_malicious_and_bitmask_for_dns()
-                 *     → fetch_group_url_details_for_dns()
+                 *     → check_malicious_domain()
+                 *     → fetch_url_policy_for_domain()
                  *         Tier 1: rte_hash_lookup_data(domain_details_table,...)
-                 *         Tier 2: hs_scan_dp_process_group(domain, db, scratch)
+                 *         Tier 2: hs_scan_domain_group(domain, db, scratch)
                  *     → apply_filter_details(fd, group, port)
                  */
                 decision = policy_lookup(domain);
@@ -509,7 +509,7 @@ static void *worker_lcore_func(void *arg)
                 if (decision == PROCESS_WORKFLOW) {
                     /* ── DNS Sinkhole (Module 18) ──
                      * Production:
-                     *   dns_reuse_request_as_redirect_response_ip4(mbuf, wg_ip)
+                     *   dns_build_sinkhole_v4(mbuf, wg_ip)
                      *     → swap ETH/IP/UDP src↔dst
                      *     → set DNS QR=1, ancount=1
                      *     → rte_pktmbuf_append(mbuf, answer_len)
@@ -528,16 +528,16 @@ static void *worker_lcore_func(void *arg)
 
                 /* ── TLS SNI extraction (Module 07, Module 16) ──
                  * Production:
-                 *   hs_scan_dp_process(payload, len, worker_scratch, &matchCtx)
-                 *     → Hyperscan fires id=HS_PATTERN_ID_TLS=4
-                 *     → onMatchDP:
+                 *   hs_scan_payload(payload, len, worker_scratch, &matchCtx)
+                 *     → Hyperscan fires id=HS_PATTERN_ID_TLS=1
+                 *     → on_hs_match:
                  *         sni_len = read_u16_be(payload + from + 7)
                  *         memcpy(domain, payload + from + 9, sni_len)
                  */
 
                 /* ── TLS policy lookup (Module 17) ──
                  * Production:
-                 *   group_and_url_processing_for_ip(domain, worker_info, ...)
+                 *   url_policy_for_tls(domain, worker_info, ...)
                  */
                 decision = policy_lookup(domain);
 
@@ -643,8 +643,8 @@ static void main_control_loop(void)
 {
     /*
      * Production Kafka consumer init (Module 20):
-     *   rk_consumer = kafka_consumer_init(broker, "sase_dp_consumer")
-     *   rd_kafka_subscribe(rk_consumer, {"sase_policy_updates"})
+     *   rk_consumer = kafka_consumer_init(broker, "dp_consumer")
+     *   rd_kafka_subscribe(rk_consumer, {"policy_updates"})
      */
 
     int ticks = 0;
@@ -676,7 +676,7 @@ static void main_control_loop(void)
              *     atomic_swap(group->domain_details_table ← pending)
              *     rte_rcu_qsbr_synchronize(qsbr) ← wait for workers to quiesce
              *     rte_hash_free(old_table)
-             *     hyperscan_db_compile_for_groups(group)
+             *     hs_db_compile_for_groups(group)
              */
             pthread_rwlock_wrlock(&g_policy_lock);
             if (g_policy_count < MAX_POLICY_ENTRIES) {
@@ -734,7 +734,7 @@ int main(void)
            SIMULATION_PKTS, NUM_WORKERS);
 
     /* ══ Step 1: Config (Module 01) ══
-     * Production: config_load(&cfg, "/etc/sase_dp/sase_dp.conf")
+     * Production: config_load(&cfg, "/etc/dp_app/dp_app.conf")
      * Reads: eal.cores, port.num_rx_queues, kafka.broker,
      *        policy.pattern_file, logging.level, ...
      */
@@ -789,7 +789,7 @@ int main(void)
 
     /* ══ Step 7: Hyperscan compile (Module 15) ══
      * Production:
-     *   parseFile("/etc/sase_dp/patterns.txt", &patterns, &flags, &ids, &n)
+     *   parseFile("/etc/dp_app/patterns.txt", &patterns, &flags, &ids, &n)
      *   create_hyperscan_db(&hs_details, 0, &domainsPatternDB)
      *   → hs_compile_multi(patterns, flags, ids, n, HS_MODE_BLOCK, NULL, &db)
      */
@@ -797,7 +797,7 @@ int main(void)
 
     /* ══ Step 8: Hyperscan scratch (Module 16) ══
      * Production:
-     *   initialize_global_scratch()
+     *   hs_init_global_scratch()
      *     → hs_alloc_scratch(domainsPatternDB, &global_scratch)
      *   Per-lcore scratch cloned in lcore launch, not here.
      */
@@ -815,12 +815,12 @@ int main(void)
 
     /* ══ Step 10: Kafka consumer (Module 20) ══
      * Production:
-     *   rk_consumer = kafka_consumer_init(broker, "sase_dp_consumer")
+     *   rk_consumer = kafka_consumer_init(broker, "dp_consumer")
      *     → conf: auto.offset.reset=earliest, enable.auto.commit=false
      *     → rd_kafka_conf_set_rebalance_cb(conf, rebalance_cb)
      *     → rd_kafka_new(RD_KAFKA_CONSUMER, conf, ...)
      *     → rd_kafka_poll_set_consumer(rk)
-     *   rd_kafka_subscribe(rk, {"sase_policy_updates"})
+     *   rd_kafka_subscribe(rk, {"policy_updates"})
      *   Initial policy sync: consume until first SYNC_COMPLETE message
      */
     printf("[10] Kafka policy consumer initialized (simulation: skipped)\n");
@@ -887,7 +887,7 @@ int main(void)
     for (int w = 0; w < NUM_WORKERS; w++) {
         int id = w + 2;
         /* Production (Module 16):
-         *   clone_global_scratch(&worker_info->worker_scratch, id)
+         *   hs_clone_scratch_for_lcore(&worker_info->worker_scratch, id)
          *   hs_alloc_scratch(group->database, &worker_info->worker_scratch)
          */
         pthread_create(&threads[id], NULL, worker_lcore_func, &g_ctx[id]);

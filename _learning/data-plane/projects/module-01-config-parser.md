@@ -25,7 +25,7 @@ reads from this one parsed structure.
 main()
   │
   ├─► config_load()          ← THIS MODULE
-  │     parse sase_dp.conf
+  │     parse dp_app.conf
   │     populate config_t
   │
   ├─► build eal_argv[]       (Module 11 — EAL Init)
@@ -39,14 +39,14 @@ main()
   ├─► kafka_init()           (Module 25/26)
   │     from config: broker, topic_policy, topic_cdr
   │
-  ├─► initialize_global_scratch()   (Module 19/21)
+  ├─► hs_init_global_scratch()   (Module 19/21)
   │     from config: pattern_file, pattern_file2
   │
   └─► launch worker lcores   (Module 15)
         from config: rx_lcore, tx_lcore, worker_lcores
 ```
 
-In the real SASE DP project this logic lives in `src/bootstrap/sase.c`.
+In the production dataplane project this logic lives in `app_main.c`.
 
 ---
 
@@ -104,7 +104,7 @@ the default. Code never crashes on a missing key; it falls back gracefully.
 This is critical in production where operators may omit optional settings.
 
 ### 4. Inline comments stripped
-`192.168.1.10:9092  # primary broker` is parsed as `192.168.1.10:9092`.
+`broker.example.com:9092  # primary broker` is parsed as `broker.example.com:9092`.
 Without this, the `#` would end up in the Kafka broker string and cause a
 connection failure.
 

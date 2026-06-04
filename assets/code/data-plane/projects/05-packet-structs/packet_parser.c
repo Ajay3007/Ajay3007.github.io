@@ -4,8 +4,8 @@
  * Demonstrates parsing raw packet bytes layer by layer:
  *   Ethernet → IPv4/IPv6 → UDP/TCP → DNS
  *
- * This is exactly what happens at the entry point of the SASE DP
- * packet processing pipeline in core_process.h. Every packet received
+ * This is exactly what happens at the entry point of the DP application
+ * packet processing pipeline in pkt_proc.h. Every packet received
  * via rte_eth_rx_burst() goes through this same sequence of header
  * pointer calculations before any policy decision is made.
  *
@@ -245,8 +245,8 @@ int dns_parse_qname(const uint8_t *wire, int wire_len,
 /* ───────────────────────────────────────────────────────────
  * Layer-by-layer packet parser
  *
- * In the real SASE DP app this is spread across multiple functions
- * in core_process.h. The pointer arithmetic is identical — we just
+ * In the real DP application this is spread across multiple functions
+ * in pkt_proc.h. The pointer arithmetic is identical — we just
  * don't have an rte_mbuf here.
  * ─────────────────────────────────────────────────────────── */
 static void parse_and_print_packet(const char *label,
@@ -362,7 +362,7 @@ static void parse_and_print_packet(const char *label,
 
 /*
  * Sample 1: DNS A query over UDP/IPv4 for "www.example.com"
- * src: 192.168.1.100:12345  dst: 8.8.8.8:53
+ * src: 198.51.100.5:12345  dst: 8.8.8.8:53
  */
 static const uint8_t dns_query_ipv4[] = {
     /* Ethernet */
@@ -373,7 +373,7 @@ static const uint8_t dns_query_ipv4[] = {
     0x45,0x00,0x00,0x3d,                     /* version/IHL, DSCP, total_len=61 */
     0xab,0xcd,0x00,0x00,                     /* id, flags+frag */
     0x40,0x11,0x00,0x00,                     /* TTL=64, proto=UDP, cksum */
-    0xc0,0xa8,0x01,0x64,                     /* src: 192.168.1.100 */
+    0xc6,0x33,0x64,0x05,                     /* src: 198.51.100.5 */
     0x08,0x08,0x08,0x08,                     /* dst: 8.8.8.8 */
     /* UDP */
     0x30,0x39,                               /* src_port: 12345 */
@@ -440,7 +440,7 @@ static const uint8_t tcp_syn_ipv4[] = {
     0x45,0x00,0x00,0x3c,                     /* version/IHL, total_len=60 */
     0x12,0x34,0x40,0x00,                     /* id, DF flag set */
     0x40,0x06,0x00,0x00,                     /* TTL=64, proto=TCP, cksum */
-    0xc0,0xa8,0x01,0x0a,                     /* src: 192.168.1.10 */
+    0xc6,0x33,0x64,0x0a,                     /* src: 198.51.100.10 */
     0x5d,0xb8,0xd8,0x22,                     /* dst: 93.184.216.34 */
     /* TCP: SYN to port 443 */
     0xd4,0x31,                               /* src_port: 54321 */

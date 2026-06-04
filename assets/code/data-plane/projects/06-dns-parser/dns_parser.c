@@ -9,12 +9,12 @@
  *   - Pointer compression (RFC 1035 §4.1.4)
  *   - Name normalisation (lowercase)
  *
- * The flow in the real SASE DP app for a DNS packet:
+ * The flow in the real DP application for a DNS packet:
  *
  *   1. Ethernet/IP/UDP headers parsed (Module 05)
  *   2. UDP dst_port == 53 detected
  *   3. dns_parse_message() called on UDP payload
- *   4. msg.qname + msg.qtype passed to group_and_url_processing_for_dns()
+ *   4. msg.qname + msg.qtype passed to url_policy_for_dns()
  *   5. Hash table lookup: exact domain match → filter_details
  *   6. If no exact match → Hyperscan regex scan (Module 22)
  *   7. Policy decision → ALLOW / DROP / SINKHOLE
@@ -64,7 +64,7 @@ const char *dns_rcode_str(uint16_t rcode)
 /* ───────────────────────────────────────────────────────────
  * dns_normalize_name — lowercase in place
  *
- * In the real SASE DP app, TLD normalisation also strips trailing
+ * In the real DP application, TLD normalisation also strips trailing
  * dots and handles punycode, but those are separate modules.
  * Lowercasing alone covers 99% of the case sensitivity issue.
  * ─────────────────────────────────────────────────────────── */
@@ -323,7 +323,7 @@ void dns_dump(const dns_message_t *msg)
 /* ═══════════════════════════════════════════════════════════
  * Demo
  *
- * Simulates the exact DNS parsing flow in SASE DP:
+ * Simulates the exact DNS parsing flow in the DP application:
  *   packet in → parse headers (Module 05) → parse DNS (this module)
  *   → domain extracted → policy lookup (Module 22)
  * ═══════════════════════════════════════════════════════════ */
@@ -332,7 +332,7 @@ void dns_dump(const dns_message_t *msg)
 
 /*
  * DNS query: A record for "blocked-malware.example.com"
- * This is the kind of query SASE DP would receive for a domain
+ * This is the kind of query the DP application would receive for a domain
  * in its blocked list. UDP payload starts after the UDP header.
  */
 static const uint8_t query_a[] = {
@@ -463,7 +463,7 @@ static void test_query_a(void)
 
     /*
      * In the real app, after this parse:
-     *   group_and_url_processing_for_dns(msg.qname, msg.qtype, ...)
+     *   url_policy_for_dns(msg.qname, msg.qtype, ...)
      *   → rte_hash_lookup_data(group->domain_details_table, msg.qname, &fd)
      *   → if blocked: build sinkhole response (Module 23)
      */
@@ -563,7 +563,7 @@ int main(void)
     printf("  4. qtype  = msg.qtype     DNS_TYPE_A or DNS_TYPE_AAAA\n");
     printf("  5. rte_hash_lookup_data(group->domain_details_table, domain, &fd)\n");
     printf("  6. if hit  → apply filter_details policy\n");
-    printf("  7. if miss → hs_scan_dp_process_group(domain, ...) [Module 22]\n");
+    printf("  7. if miss → hs_scan_domain_group(domain, ...) [Module 22]\n");
     printf("  8. if blocked → build sinkhole response [Module 23]\n");
     printf("     qtype A    → inject A  answer with walled-garden IPv4\n");
     printf("     qtype AAAA → inject AAAA answer with walled-garden IPv6\n");

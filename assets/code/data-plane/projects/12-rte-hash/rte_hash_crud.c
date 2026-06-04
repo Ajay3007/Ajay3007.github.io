@@ -1,23 +1,23 @@
 /**
  * rte_hash_crud.c — Module 12: rte_hash CRUD Operations
  *
- * rte_hash is DPDK's lock-free hash table, used throughout SASE DP for
+ * rte_hash is DPDK's lock-free hash table, used throughout the DP application for
  * every O(1) policy lookup at packet rate. Understanding its API is
  * mandatory before reading any of the policy engine code.
  *
- * Hash tables in the real SASE DP project:
+ * Hash tables in the real DP application project:
  *
  *   domain_details_table  — per-group: domain string → filter_details
  *                           Created per enterprise group.
  *                           Populated during Kafka policy sync.
  *                           Queried for EVERY DNS packet at line rate.
  *
- *   ip_vs_supi_table      — subscriber IPv4 → SUPI (500K entries)
- *   ip4_vs_supi_table     — subscriber IPv4 → SUPI (separate IPv4 table)
- *   connection_host_table — active TCP connections (2M entries)
- *   connection_tls_handshake_table — partial TLS handshakes (2M entries)
- *   url_vs_signature_id   — URL → Hyperscan signature ID
- *   malicious_domain_vs_context — malicious domain → block context
+ *   ip4_vs_subscriber_table — subscriber IPv4 → subscriber ID (separate IPv4 table)
+ *   ip_vs_subscriber_table  — subscriber IPv4 → subscriber ID (500K entries)
+ *   connection_track_table  — active TCP connections (2M entries)
+ *   tls_session_table       — partial TLS handshakes (2M entries)
+ *   domain_sig_table        — URL → Hyperscan signature ID
+ *   malicious_domain_table  — malicious domain → block context
  *   category_vs_bitmask   — category string → bitmask
  *
  * All created with rte_hash_crc (CRC32 hardware instruction) as hash function.
@@ -52,7 +52,7 @@
 #include <rte_malloc.h>
 
 /* ───────────────────────────────────────────────────────────
- * filter_details — mirrors cache_operation.h in SASE DP
+ * filter_details — mirrors policy_cache.h in the DP application
  *
  * Stored as the 'data' pointer in domain_details_table.
  * Retrieved via rte_hash_lookup_data() in the worker hot path.
@@ -107,7 +107,7 @@ static struct rte_hash *create_domain_table(const char *name, int entries)
         /*
          * hash_func: rte_hash_crc uses the x86 CRC32 hardware instruction.
          * Processes 8 bytes per clock — roughly 10× faster than FNV-1a.
-         * This is why all tables in SASE DP use rte_hash_crc.
+         * This is why all tables in the DP application use rte_hash_crc.
          */
         .hash_func  = rte_hash_crc,
 
@@ -122,7 +122,7 @@ static struct rte_hash *create_domain_table(const char *name, int entries)
         /*
          * extra_flag: HASH_EXTRA_FLAGS_RW_CONCURRENCY enables safe
          * concurrent reads and writes without RCU.
-         * SASE DP uses its own RCU QSBR instead (not owned by Ajay).
+         * the DP application uses its own RCU QSBR instead (implemented in the DP core library).
          * For simpler cases, this flag is sufficient.
          */
         /* .extra_flag = RTE_HASH_EXTRA_FLAGS_RW_CONCURRENCY, */
@@ -308,7 +308,7 @@ static void demo_crud(void)
  *   - Total time: ~100 ns (one DRAM fetch) instead of N × 100 ns
  *
  * rte_hash_lookup_bulk_data() implements this automatically.
- * In SASE DP, this is used in fetch_group_url_details_for_dns().
+ * In the DP application, this is used in fetch_group_url_details_for_dns().
  * ─────────────────────────────────────────────────────────── */
 #define LOOKUP_BURST     32
 #define PERF_ITERATIONS  1000000
@@ -484,25 +484,25 @@ static void demo_iterate(void)
 }
 
 /* ───────────────────────────────────────────────────────────
- * Demo 4: integer key — mirrors ip_vs_supi_table
+ * Demo 4: integer key — mirrors ip_vs_subscriber_table
  *
  * Not all rte_hash tables use string keys. The subscriber IP table
  * maps uint32_t (IPv4 address) → subscriber struct.
  * key_len = sizeof(uint32_t) = 4 bytes.
  * ─────────────────────────────────────────────────────────── */
 typedef struct {
-    char supi[32];   /* Subscription Permanent Identifier */
+    char subscriber_id[32];   /* subscriber identifier */
     uint32_t group_id;
 } subscriber_t;
 
 static void demo_integer_key(void)
 {
     printf("══════════════════════════════════════════════\n");
-    printf("Demo 4: integer key — ip_vs_supi_table pattern\n");
+    printf("Demo 4: integer key — ip_vs_subscriber_table pattern\n");
     printf("══════════════════════════════════════════════\n\n");
 
     struct rte_hash_parameters params = {
-        .name      = "ip_vs_supi",
+        .name      = "ip_vs_subscriber",
         .entries   = 524288,       /* 500K subscribers */
         .key_len   = sizeof(uint32_t),
         .hash_func = rte_hash_crc,
@@ -511,11 +511,11 @@ static void demo_integer_key(void)
     struct rte_hash *tbl = rte_hash_create(&params);
     assert(tbl != NULL);
 
-    subscriber_t sub1 = { .supi = "imsi-310260123456789", .group_id = 42 };
-    subscriber_t sub2 = { .supi = "imsi-310260987654321", .group_id = 99 };
+    subscriber_t sub1 = { .subscriber_id = "subscriber-12345678", .group_id = 42 };
+    subscriber_t sub2 = { .subscriber_id = "subscriber-98765432", .group_id = 99 };
 
     /* Key is the subscriber's IP address (network byte order) */
-    uint32_t ip1 = 0xC0A80164;  /* 192.168.1.100 */
+    uint32_t ip1 = 0xC0A80164;  /* 198.51.100.5 */
     uint32_t ip2 = 0x0A000001;  /* 10.0.0.1 */
 
     rte_hash_add_key_data(tbl, &ip1, &sub1);
@@ -525,7 +525,7 @@ static void demo_integer_key(void)
      * In the real app, for every incoming packet:
      *   uint32_t src_ip = ip4->src_ip;  (already network byte order)
      *   subscriber_t *sub;
-     *   if (rte_hash_lookup_data(supi_table, &src_ip, (void **)&sub) >= 0) {
+     *   if (rte_hash_lookup_data(subscriber_table, &src_ip, (void **)&sub) >= 0) {
      *       // found subscriber: get group_id for policy lookup
      *       group = get_group(sub->group_id);
      *   }
@@ -533,8 +533,8 @@ static void demo_integer_key(void)
     subscriber_t *out;
     uint32_t lookup_ip = 0xC0A80164;
     int ret = rte_hash_lookup_data(tbl, &lookup_ip, (void **)&out);
-    printf("Lookup 192.168.1.100 → %s  group=%u\n",
-           ret >= 0 ? out->supi : "NOT FOUND",
+    printf("Lookup 198.51.100.5 → %s  group=%u\n",
+           ret >= 0 ? out->subscriber_id : "NOT FOUND",
            ret >= 0 ? out->group_id : 0);
     assert(ret >= 0);
     assert(out->group_id == 42);
@@ -542,7 +542,7 @@ static void demo_integer_key(void)
     lookup_ip = 0xDEADBEEF;  /* unknown subscriber */
     ret = rte_hash_lookup_data(tbl, &lookup_ip, (void **)&out);
     printf("Lookup 222.173.190.239 → %s\n",
-           ret >= 0 ? out->supi : "NOT FOUND (no group policy)");
+           ret >= 0 ? out->subscriber_id : "NOT FOUND (no group policy)");
     assert(ret == -ENOENT);
 
     printf("\n");

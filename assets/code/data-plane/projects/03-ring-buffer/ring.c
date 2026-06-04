@@ -4,7 +4,7 @@
  * Implements a lock-free Single-Producer Single-Consumer ring buffer —
  * the manual equivalent of DPDK's rte_ring.
  *
- * In SASE DP:
+ * In the DP application:
  *   - RX lcore  → ring → worker lcores  (distribute received packets)
  *   - worker    → ring → TX lcore       (forward processed packets)
  *
@@ -259,7 +259,7 @@ static void *consumer_thread(void *arg)
          * In a real worker lcore, here we'd call:
          *   nb = rte_ring_dequeue_burst(ring, (void**)mbufs, BURST_SIZE, NULL);
          * and then run each mbuf through the policy engine:
-         *   process_hyperscan_dns_for_group(mbufs[i], worker_info, ...)
+         *   process_dns_for_group(mbufs[i], worker_info, ...)
          */
         uint32_t nb = ring_dequeue_burst(s->ring, burst, DEMO_BURST_SIZE);
 

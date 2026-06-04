@@ -1,13 +1,13 @@
 /**
  * kafka_consumer.c — Module 20: Kafka Consumer (Policy Sync)
  *
- * The Kafka consumer receives policy updates from the PM (Provisioning
- * Module) and applies them to the in-memory data plane tables. This is
+ * The Kafka consumer receives policy updates from the Provisioning
+ * Module and applies them to the in-memory data plane tables. This is
  * how enterprise group policies stay current without restarting the DP.
  *
  * Message flow (SYNC_COMPLETE protocol):
  *
- *   PM → DP (via Kafka topic: sase_policy_updates)
+ *   PM → DP (via Kafka topic: policy_updates)
  *
  *   { "type":"BEGIN_SYNC",   "group_id":"enterprise_a" }
  *   { "type":"ADD_DOMAIN",   "group_id":"enterprise_a",
@@ -29,8 +29,8 @@
  *   when it should be blocked. SYNC_COMPLETE prevents this window.
  *
  * RCU QSBR note:
- *   The atomic swap of domain_details_table in the real SASE DP app uses
- *   RCU QSBR (Quiescent State Based Reclamation) — not owned by Ajay.
+ *   The atomic swap of domain_details_table in the real the DP application app uses
+ *   RCU QSBR (Quiescent State Based Reclamation) — implemented in the DP core library.
  *   This module shows the pattern using C11 atomic pointer swap + a brief
  *   sleep to approximate the "wait for readers" step. In production, the
  *   real RCU waits until all worker lcores call rte_rcu_qsbr_quiescent().
@@ -185,7 +185,7 @@ static void dt_free(domain_table_t *t)
 /* ───────────────────────────────────────────────────────────
  * Group policy state
  *
- * In the real SASE DP app, group_struct holds:
+ * In the real the DP application app, group_struct holds:
  *   struct rte_hash *domain_details_table;   ← active table
  *   hs_database_t   *database;               ← active Hyperscan DB
  *
@@ -197,7 +197,7 @@ typedef struct {
     domain_table_t active;         /* currently used by worker lcores */
     domain_table_t pending;        /* built during sync, not yet active */
     int            sync_in_progress;
-    int            default_policy; /* ALLOW=10, DROP=11 */
+    int            default_policy; /* ALLOW=0, DROP=1 */
 } group_policy_t;
 
 #define MAX_GROUPS  32
@@ -225,7 +225,7 @@ static group_policy_t *get_or_create_group(const char *group_id)
     group_policy_t *g = &g_groups[g_group_count++];
     memset(g, 0, sizeof(*g));
     strncpy(g->group_id, group_id, sizeof(g->group_id) - 1);
-    g->default_policy = 10; /* ALLOW by default */
+    g->default_policy = 0; /* ALLOW by default */
     return g;
 }
 
@@ -299,7 +299,7 @@ static policy_msg_t parse_policy_message(const char *json, int json_len)
  *
  * This is the core of the policy sync logic.
  * Mirrors process_entries_in_global_and_dns_table_for_malicious_domain()
- * and related functions in cache_operation.c.
+ * and related functions in policy_cache.c.
  * ─────────────────────────────────────────────────────────── */
 static void apply_policy_message(const policy_msg_t *msg)
 {
@@ -365,7 +365,7 @@ static void apply_policy_message(const policy_msg_t *msg)
         /*
          * Atomically swap pending → active.
          *
-         * Real app (RCU QSBR pattern — not owned by Ajay):
+         * Real app (RCU QSBR pattern — implemented in the DP core library):
          *
          *   1. Build new rte_hash table in pending (steps above)
          *   2. Recompile Hyperscan DB from pending domains
@@ -398,7 +398,7 @@ static void apply_policy_message(const policy_msg_t *msg)
 
         /*
          * In the real app, after the swap:
-         *   hyperscan_db_compile_for_groups(group)
+         *   hs_db_compile_for_groups(group)
          *   ← recompiles group->database from the new domain table
          *   ← worker lcores now use the new Hyperscan DB on next scan
          */
@@ -464,7 +464,7 @@ static void apply_policy_message(const policy_msg_t *msg)
  * Rebalance callback
  *
  * Called when consumer group membership changes (another consumer
- * joins or leaves). SASE DP uses a single consumer (no consumer group
+ * joins or leaves). the DP application uses a single consumer (no consumer group
  * load balancing needed) but the callback must still be registered
  * to handle partition assignment correctly.
  * ─────────────────────────────────────────────────────────── */
@@ -582,7 +582,7 @@ static void kafka_consumer_run(rd_kafka_t *rk, int max_messages)
         /*
          * rd_kafka_consumer_poll():
          *   timeout_ms = 1000: block up to 1 second waiting for a message.
-         *   In SASE DP main lcore loop, use 100ms (same as CDR flush timer).
+         *   In the DP application main lcore loop, use 100ms (same as CDR flush timer).
          *   Returns NULL if no message within timeout.
          */
         rd_kafka_message_t *msg = rd_kafka_consumer_poll(rk, 1000);
@@ -619,7 +619,7 @@ static void kafka_consumer_run(rd_kafka_t *rk, int max_messages)
          * If we crash before the next SYNC_COMPLETE, the uncommitted
          * messages will be re-delivered on restart.
          *
-         * In the real SASE DP app, commit happens only after SYNC_COMPLETE
+         * In the real the DP application app, commit happens only after SYNC_COMPLETE
          * is successfully applied — not after each ADD_DOMAIN.
          * This way, a crash mid-sync replays the entire sync from BEGIN_SYNC.
          */
@@ -780,8 +780,8 @@ int main(int argc, char *argv[])
     }
 
     const char *broker       = (argc > 1) ? argv[1] : "localhost:9092";
-    const char *policy_topic = (argc > 2) ? argv[2] : "sase_policy_updates";
-    const char *group_id     = "sase_dp_consumer";
+    const char *policy_topic = (argc > 2) ? argv[2] : "policy_updates";
+    const char *group_id     = "dp_consumer";
 
     printf("Broker : %s\n", broker);
     printf("Topic  : %s\n", policy_topic);

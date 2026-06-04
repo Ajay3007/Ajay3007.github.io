@@ -7,7 +7,7 @@
 #
 # Build:   make
 # Run:     ./kafka_producer [broker] [topic]
-#          ./kafka_producer localhost:9092 sase_dp_cdr
+#          ./kafka_producer localhost:9092 dp_cdr
 #
 # Test broker (Docker):
 #   docker run -p 9092:9092 apache/kafka:3.7.0

@@ -19,7 +19,7 @@
  *
  *   5. Sets up the service core framework for background tasks.
  *
- * In the real SASE DP project (sase.c), EAL init is the very first
+ * In the real DP project (app_main.c), EAL init is the very first
  * substantial call after config_load(). Everything else — port init,
  * mempool creation, Hyperscan compilation, Kafka init, lcore launch —
  * happens AFTER rte_eal_init() returns.
@@ -49,7 +49,7 @@
 /* ───────────────────────────────────────────────────────────
  * Lcore role assignment
  *
- * In SASE DP each lcore has a fixed role assigned at startup.
+ * In the DP application each lcore has a fixed role assigned at startup.
  * Mixing roles destroys throughput: if the RX lcore stops polling
  * to run policy logic, the NIC RX ring fills and packets are dropped.
  *
@@ -79,7 +79,7 @@ static const char *lcore_role_str(lcore_role_t r) {
 /* ───────────────────────────────────────────────────────────
  * worker_lcore_info — per-lcore state (simplified)
  *
- * In the real project this struct is much larger:
+ * In the real DP project this struct is much larger:
  *   - hs_scratch_t *scratch (Hyperscan, Module 21)
  *   - rte_hash *connection_table (per-lcore connection tracking)
  *   - CDR batch buffer
@@ -131,13 +131,13 @@ static void signal_handler(int signum)
  * Build EAL argument vector from config values
  *
  * rte_eal_init() takes a traditional (argc, argv) pair — the same
- * format as a command-line invocation. In the real app, sase.c builds
+ * format as a command-line invocation. In the real app, app_main.c builds
  * this vector from config values rather than passing them on the shell
  * command line. This gives the application control over EAL options
  * without requiring operators to know DPDK flags.
  *
  * Typical EAL args built here:
- *   ./sase_dp
+ *   ./dp_app
  *     -l 0-7              core list (or -c for hex mask)
  *     --socket-mem 2048   hugepage MB per NUMA socket
  *     -n 4                memory channels (match CPU/board spec)
@@ -172,7 +172,7 @@ static int build_eal_args(const char *cores,
 
     eal_argc = 0;
 
-    eal_add_arg("sase_dp");          /* argv[0]: program name */
+    eal_add_arg("dp_app");           /* argv[0]: program name */
 
     eal_add_arg("-l");               /* lcore list */
     eal_add_arg(cores);
@@ -196,7 +196,7 @@ static int build_eal_args(const char *cores,
      * In production we also add:
      *   --vdev net_pcap0,...  (for virtual NIC in container testing)
      *   --huge-dir /dev/hugepages
-     *   --file-prefix sase_dp  (for multiple DPDK processes on same host)
+     *   --file-prefix dp_app  (for multiple DPDK processes on same host)
      */
 
     printf("[EAL] Built arg vector (%d args):", eal_argc);
@@ -322,7 +322,7 @@ static void print_memory_info(void)
 /* ───────────────────────────────────────────────────────────
  * Worker lcore function — the skeleton of every worker loop
  *
- * In the real app this is the main loop in core_process.h.
+ * In the real app this is the main loop in pkt_proc.h.
  * The actual function is much larger (policy decisions, CDR, sinkholing)
  * but the outer structure is identical to what's shown here.
  *
@@ -397,7 +397,7 @@ int main(int argc, char *argv[])
 
     /* ── Step 1: Build EAL args from config ──
      *
-     * In sase.c these values come from config_load() (Module 01).
+     * In app_main.c these values come from config_load() (Module 01).
      * Here we hardcode them for demonstration.
      *
      * "--" separates EAL args from application args.
@@ -433,7 +433,7 @@ int main(int argc, char *argv[])
 
     /* ── Step 4: Assign roles from config ──
      *
-     * In sase.c:
+     * In app_main.c:
      *   int rx_lcore = config_get_int(&cfg, "worker", "rx_lcore", 1);
      *   int tx_lcore = config_get_int(&cfg, "worker", "tx_lcore", 2);
      */
@@ -470,7 +470,7 @@ int main(int argc, char *argv[])
      * The main lcore does NOT call rte_eal_remote_launch on itself —
      * it runs its own loop after launching workers.
      *
-     * In sase.c, after all workers are launched, the main lcore
+     * In app_main.c, after all workers are launched, the main lcore
      * enters a control loop: printing stats, handling Kafka policy
      * updates, responding to OAM commands.
      */
@@ -567,7 +567,7 @@ int main(int argc, char *argv[])
     printf("  3. build_eal_args() + rte_eal_init() (THIS MODULE)\n");
     printf("  4. rte_pktmbuf_pool_create()         (Module 09)\n");
     printf("  5. port_init()                       (Module 10)\n");
-    printf("  6. initialize_global_scratch()        (Module 11)\n");
+    printf("  6. hs_init_global_scratch()           (Module 11)\n");
     printf("  7. kafka_init()                      (Module 12)\n");
     printf("  8. rte_ring_create() per lcore        (Module 03)\n");
     printf("  9. rte_eal_remote_launch() workers    (THIS MODULE)\n");

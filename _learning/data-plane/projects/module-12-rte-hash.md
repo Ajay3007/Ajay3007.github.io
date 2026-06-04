@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 12 — rte_hash CRUD"
 permalink: /learning/data-plane/projects/module-12-rte-hash/
@@ -11,20 +11,20 @@ permalink: /learning/data-plane/projects/module-12-rte-hash/
 ## What you learn
 
 The complete `rte_hash` API — DPDK's production hash table used for every
-O(1) policy lookup in SASE DP. This module covers create, insert, single
+O(1) policy lookup in the DP application. This module covers create, insert, single
 lookup, bulk lookup, delete, iterate, and integer key tables, with a
 performance comparison showing why bulk lookup is critical at 2M packets/sec.
 
 ---
 
-## Hash tables in the real SASE DP project
+## Hash tables in the real DP application project
 
 | Table | Key type | Value type | Used in |
 |---|---|---|---|
 | `domain_details_table` | domain string (256B) | `filter_details*` | DNS/TLS policy hot path |
-| `ip_vs_supi_table` | `uint32_t` IPv4 | subscriber struct | subscriber resolution |
-| `connection_host_table` | connection tuple | connection state | TCP tracking |
-| `malicious_domain_vs_context` | domain string | block context | malicious lookup |
+| `ip4_vs_subscriber_table` | `uint32_t` IPv4 | subscriber struct | subscriber resolution |
+| `connection_track_table` | connection tuple | connection state | TCP tracking |
+| `malicious_domain_table` | domain string | block context | malicious lookup |
 
 All created with `rte_hash_crc` (CRC32 hardware instruction) and
 `socket_id = rte_socket_id()` for NUMA-local allocation.
@@ -43,9 +43,9 @@ Worker lcore — DNS packet arrives:
   │
   ├─► rte_hash_lookup_data(domain_details_table, domain, &fd)
   │     HIT  → apply fd policy (ALLOW/DROP/SINKHOLE)
-  │     MISS → hs_scan_dp_process_group()   (Module 16)
+  │     MISS → hs_scan_domain_group()   (Module 16)
   │
-  └─► if SINKHOLE → dns_reuse_request_as_redirect_response_ip4()  (Module 18)
+  └─► if SINKHOLE → dns_build_sinkhole_v4()  (Module 18)
 
 Kafka policy revoke (main lcore):
   rte_hash_del_key(group->domain_details_table, domain)
@@ -145,7 +145,7 @@ A hash table on socket 0 queried from a lcore on socket 1:
 /* Option A: DPDK built-in RW concurrency (simpler): */
 params.extra_flag = RTE_HASH_EXTRA_FLAGS_RW_CONCURRENCY;
 
-/* Option B: RCU QSBR (what SASE DP uses): */
+/* Option B: RCU QSBR (what the DP application uses): */
 /* Reader calls rte_rcu_qsbr_quiescent() in its loop */
 /* Writer calls rte_rcu_qsbr_synchronize() before freeing old data */
 ```

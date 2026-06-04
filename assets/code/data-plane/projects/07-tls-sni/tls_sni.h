@@ -1,16 +1,16 @@
 /**
  * tls_sni.h — Module 07: TLS SNI Extractor
  *
- * For HTTPS traffic, SASE DP cannot decrypt the payload. However, the
+ * For HTTPS traffic, the DP application cannot decrypt the payload. However, the
  * TLS ClientHello — sent in plaintext at the start of every TLS connection —
  * contains the Server Name Indication (SNI) extension. The SNI tells the
  * server which hostname the client wants, and it is the only L7 signal
  * available for policy enforcement on HTTPS.
  *
- * In the real SASE DP project:
- *   1. Hyperscan scans the TCP payload with HS_PATTERN_ID_TLS = 4
+ * In the real the DP application project:
+ *   1. Hyperscan scans the TCP payload with HS_PATTERN_ID_TLS = 1
  *      (a pattern that matches the TLS SNI extension header bytes)
- *   2. The onMatchDP callback fires with a 'from' offset pointing to the
+ *   2. The on_hs_match callback fires with a 'from' offset pointing to the
  *      start of the server_name extension (type 0x0000)
  *   3. The callback reads the SNI name length at from+7 and copies
  *      the name starting at from+9
@@ -18,7 +18,7 @@
  * This module implements:
  *   a) A full TLS ClientHello walker (no Hyperscan, pure C)
  *   b) The Hyperscan-style extractor (given 'from', extract SNI)
- *      — mirrors exactly what onMatchDP does in dp_scan.c
+ *      — mirrors exactly what on_hs_match does in domain_scan.c
  *
  * TLS 1.2 and TLS 1.3 both carry the SNI in the ClientHello extensions
  * before encryption begins, so this technique works for both.
@@ -32,7 +32,7 @@
 
 /* ───────────────────────────────────────────────────────────
  * TLS Content Types
- * Defined as an enum in core_process.h in the real project.
+ * Defined as an enum in pkt_proc.h in the real project.
  * ─────────────────────────────────────────────────────────── */
 typedef enum {
     TLS_CONTENT_CHANGE_CIPHER = 0x14,
@@ -119,7 +119,7 @@ typedef struct {
  * Returns 0 if a valid ClientHello was found (SNI may still be absent
  * if the client didn't send one). Returns -1 if not a ClientHello.
  *
- * In the real app this is called from core_process.h after detecting
+ * In the real app this is called from pkt_proc.h after detecting
  * that the TCP packet's payload begins with a TLS Handshake record.
  * The Hyperscan approach (below) is faster but requires a prior scan.
  */
@@ -129,8 +129,8 @@ int tls_extract_sni(const uint8_t *payload, int payload_len,
 /**
  * tls_extract_sni_from_match — extract SNI given a Hyperscan match offset.
  *
- * In the real SASE DP project, Hyperscan fires onMatchDP with:
- *   id   = HS_PATTERN_ID_TLS (4)
+ * In the real the DP application project, Hyperscan fires on_hs_match with:
+ *   id   = HS_PATTERN_ID_TLS (1)
  *   from = byte offset of the server_name extension type (0x00 0x00)
  *
  * The SNI layout starting at 'from':
@@ -141,7 +141,7 @@ int tls_extract_sni(const uint8_t *payload, int payload_len,
  *   from+7  from+8 : SERVER NAME LENGTH   ← read_u16_be(payload + from + 7)
  *   from+9  ...    : SERVER NAME BYTES    ← payload + from + 9
  *
- * This function mirrors the exact logic in dp_scan.c onMatchDP.
+ * This function mirrors the exact logic in domain_scan.c on_hs_match.
  */
 int tls_extract_sni_from_match(const uint8_t *payload, int payload_len,
                                 int from,

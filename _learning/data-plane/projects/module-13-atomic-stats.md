@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 13 — Atomic Counters + Per-lcore Stats"
 permalink: /learning/data-plane/projects/module-13-atomic-stats/
@@ -11,29 +11,29 @@ permalink: /learning/data-plane/projects/module-13-atomic-stats/
 ## What you learn
 
 How to implement lock-free per-lcore statistics in C using `_Atomic` /
-`stdatomic.h` — the exact pattern used for every counter in SASE DP.
+`stdatomic.h` — the exact pattern used for every counter in the DP application.
 Includes a measured demo of false sharing (why cache-line alignment matters),
 atomic vs mutex performance (why atomics are mandatory in the hot path),
 memory ordering choices, and a live rate calculation from concurrent workers.
 
 ---
 
-## Atomic variables in the real SASE DP project
+## Atomic variables in the real DP application project
 
-From `dp_scan.h`:
+From `domain_scan.h`:
 
 ```c
-extern atomic_ullong TOTAL_HS_DB_COMPILED;
-extern atomic_ullong TOTAL_SCRATCH_ALLOCATED;
-extern atomic_ulong  matchCount;
-extern atomic_ulong  count_hs_dns_received;
-extern atomic_ulong  count_hs_dns_processed;
+extern atomic_ullong hs_db_compile_count;
+extern atomic_ullong hs_scratch_alloc_count;
+extern atomic_ulong  match_count;
+extern atomic_ulong  dns_rx_count;
+extern atomic_ulong  dns_proc_count;
 ```
 
-From `cache_operation.c`:
+From `policy_cache.c`:
 
 ```c
-atomic_ulong TOTAL_MALICIOUS_DOMAIN_FROM_IDPS;
+atomic_ulong malicious_domain_count;
 ```
 
 ---
@@ -120,7 +120,7 @@ atomic_fetch_add_explicit(&stats->pkt_rx, 1, memory_order_relaxed);
 /* Cost: ~3–5 ns (just the atomic instruction, no cache miss) */
 
 /* Global (cross-lcore): ALL lcores write — contention */
-atomic_fetch_add_explicit(&count_hs_dns_received, 1, memory_order_relaxed);
+atomic_fetch_add_explicit(&dns_rx_count, 1, memory_order_relaxed);
 /* Cost: ~10–20 ns (CAS loop if contended, cache line bounces between cores) */
 ```
 
@@ -162,14 +162,14 @@ array might start at an unaligned address — breaking the false-sharing protect
 
 DPDK has its own atomic types (`rte_atomic64_t`, `rte_atomic32_t`) which
 predate C11 atomics. Modern DPDK (>= 21.x) recommends using C11 `_Atomic`
-directly — which is what SASE DP uses.
+directly — which is what the DP application uses.
 
 ```c
 /* Old DPDK style (deprecated): */
 rte_atomic64_t counter;
 rte_atomic64_add(&counter, 1);
 
-/* Modern C11 (SASE DP / this module): */
+/* Modern C11 (the DP application / this module): */
 atomic_ulong counter;
 atomic_fetch_add_explicit(&counter, 1, memory_order_relaxed);
 ```

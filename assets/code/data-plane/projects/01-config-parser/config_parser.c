@@ -1,7 +1,7 @@
 /**
  * config_parser.c — Module 01: Config Parser
  *
- * In a real dataplane application (like SASE DP), the very first thing
+ * In a real dataplane application (like the DP application), the very first thing
  * that runs at startup is config parsing — before DPDK EAL init, before
  * any memory pools, before any threads start.
  *
@@ -13,7 +13,7 @@
  *   - Log level, log file path
  *   - Worker core assignments (which lcore does RX, which does TX, etc.)
  *
- * In the real SASE DP project this logic lives in sase.c. Parsed values
+ * In the real DP project this logic lives in app_main.c. Parsed values
  * are used to build the argv[] array passed to rte_eal_init() and to
  * populate global config structs used by all subsystems.
  *
@@ -104,7 +104,7 @@ static char *trim(char *s)
  * strip_inline_comment — truncate the string at the first '#' or ';'
  * that is not inside double quotes.
  *
- * Example: "192.168.1.10:9092  # primary broker" → "192.168.1.10:9092  "
+ * Example: "broker.example.com:9092  # primary broker" → "broker.example.com:9092  "
  * The trailing space is removed by a subsequent trim() call.
  */
 static void strip_inline_comment(char *s)
@@ -132,10 +132,10 @@ static void strip_inline_comment(char *s)
  * config_load — parse an INI config file into a config_t.
  *
  * Call this first, before any other subsystem initializes.
- * In the real SASE DP app:
+ * In the real DP application:
  *
  *   config_t app_cfg;
- *   if (config_load(&app_cfg, "/etc/sase_dp/sase_dp.conf") != 0)
+ *   if (config_load(&app_cfg, "/etc/dp_app/dp_app.conf") != 0)
  *       rte_exit(EXIT_FAILURE, "Config load failed\n");
  *
  * Returns 0 on success, -1 on error (file not found, parse error, overflow).
@@ -339,7 +339,7 @@ void config_dump(const config_t *cfg)
  * Demo main()
  *
  * Shows how the real application reads config at startup.
- * In sase.c, these parsed values are used to:
+ * In app_main.c, these parsed values are used to:
  *   1. Build the eal_argv[] array for rte_eal_init()
  *   2. Configure NIC ports (rte_eth_dev_configure)
  *   3. Set up Kafka producer/consumer (rd_kafka_conf_set)
@@ -404,13 +404,13 @@ int main(int argc, char *argv[])
     printf("  topic_cdr     = %s\n",
            config_get_string(&cfg, "kafka", "topic_cdr", "dp_cdr"));
     printf("  group_id      = %s\n",
-           config_get_string(&cfg, "kafka", "group_id", "sase_dp"));
+           config_get_string(&cfg, "kafka", "group_id", "dp_consumer"));
 
     /* ── Policy / Hyperscan ── */
     printf("\n[POLICY]\n");
     printf("  pattern_file  = %s\n",
            config_get_string(&cfg, "policy", "pattern_file",
-                             "/etc/sase_dp/patterns.txt"));
+                             "/etc/dp_app/patterns.txt"));
     printf("  max_groups    = %d\n",
            config_get_int(&cfg, "policy", "max_groups", 1000));
     printf("  enable_hs     = %s\n",
@@ -423,7 +423,7 @@ int main(int argc, char *argv[])
            config_get_string(&cfg, "logging", "level", "INFO"));
     printf("  file          = %s\n",
            config_get_string(&cfg, "logging", "file",
-                             "/var/log/sase_dp/sase_dp.log"));
+                             "/var/log/dp_app/dp_app.log"));
 
     /* ── Missing key falls back gracefully ── */
     printf("\n[MISSING KEY DEMO]\n");

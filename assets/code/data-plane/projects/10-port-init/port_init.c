@@ -9,7 +9,7 @@
  *   - The descriptor ring depth per queue
  *   - Which mempool to pull packet buffers from (for RX)
  *
- * In the real SASE DP project, port initialization in sase.c does:
+ * In the real the DP application project, port initialization in app_main.c does:
  *   - One port, 4 RX queues (one per worker lcore), 1 TX queue
  *   - RSS configured to hash on IP + UDP + TCP (so DNS traffic spreads
  *     evenly across worker lcores by src IP)
@@ -39,7 +39,7 @@
  * Port configuration constants
  *
  * RX_DESC and TX_DESC must be powers of 2.
- * In SASE DP:  RX_DESC=1024, TX_DESC=1024
+ * In the DP application:  RX_DESC=1024, TX_DESC=1024
  * A larger ring reduces drops under burst but uses more memory.
  * ─────────────────────────────────────────────────────────── */
 #define NUM_RX_QUEUES   4       /* one per worker lcore (from config) */
@@ -85,7 +85,7 @@ static struct rte_eth_conf port_conf = {
         .rss_conf = {
             /*
              * RSS hash key: NULL = use the NIC's default (40-byte Toeplitz key).
-             * In SASE DP the default key is fine — we want DNS (UDP) and
+             * In the DP application the default key is fine — we want DNS (UDP) and
              * HTTPS (TCP) traffic distributed by src IP across workers.
              *
              * rss_hf: which packet types to hash.
@@ -182,7 +182,7 @@ static void print_port_info(uint16_t port_id)
  * This takes 0–3 seconds. We poll rather than blocking so we can
  * timeout and print a useful error message.
  *
- * In the real SASE DP app, a timeout here means the fibre/cable is
+ * In the real the DP application app, a timeout here means the fibre/cable is
  * disconnected or the switch port is down — a hard startup failure.
  * ─────────────────────────────────────────────────────────── */
 static int check_port_link_status(uint16_t port_id)
@@ -221,7 +221,7 @@ static int check_port_link_status(uint16_t port_id)
 /* ───────────────────────────────────────────────────────────
  * port_init — the main initialization function
  *
- * This is what sase.c calls once per port after EAL init.
+ * This is what app_main.c calls once per port after EAL init.
  * Returns 0 on success, -1 on any failure.
  *
  * @port_id   : NIC port index (0-based)
@@ -366,7 +366,7 @@ int port_init(uint16_t port_id, struct rte_mempool *mbuf_pool)
      * that intercepts traffic between clients and the internet.
      *
      * Without promiscuous mode, the NIC silently drops packets destined
-     * for other MACs — subscribers' DNS queries would never reach SASE DP.
+     * for other MACs — subscribers' DNS queries would never reach the DP application.
      */
     ret = rte_eth_promiscuous_enable(port_id);
     if (ret < 0)
@@ -408,7 +408,7 @@ static void print_port_stats(uint16_t port_id)
      *   - Worker lcores too slow (ring between RX and workers is full)
      *   - Insufficient NIC RX descriptors (increase RX_DESC)
      *
-     * In SASE DP, imissed is the first stat checked when investigating
+     * In the DP application, imissed is the first stat checked when investigating
      * packet loss complaints.
      */
 }

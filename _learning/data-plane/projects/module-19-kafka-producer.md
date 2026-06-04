@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 19 — Kafka Producer (CDR Export)"
 permalink: /learning/data-plane/projects/module-19-kafka-producer/
@@ -11,7 +11,7 @@ permalink: /learning/data-plane/projects/module-19-kafka-producer/
 ## What you learn
 
 How to implement a Kafka producer in C using `librdkafka` for CDR
-(Charging Data Record) export — the pattern used in SASE DP to publish
+(Charging Data Record) export — the pattern used in the DP application to publish
 every policy decision to a Kafka topic for downstream billing, analytics,
 and SIEM systems.
 
@@ -20,22 +20,22 @@ timer-based flush, back-pressure handling, and graceful shutdown with flush.
 
 ---
 
-## Kafka in the SASE DP architecture
+## Kafka in the DP application architecture
 
 ```text
-SASE DP (this module: producer)
+the DP application (this module: producer)
   │
   │  rd_kafka_produce() CDRs → Kafka broker
-  │  Topic: sase_dp_cdr
+  │  Topic: dp_cdr
   │
   ├── Consumer: Billing microservice (charges subscribers)
   ├── Consumer: Analytics (traffic patterns, blocked categories)
   └── Consumer: SIEM (security incidents from sinkhole events)
 
-SASE DP (Module 20: consumer)
+the DP application (Module 20: consumer)
   │
   │  rd_kafka_consumer_poll() ← Kafka broker
-  │  Topic: sase_policy_updates  (from PM Provisioning Module)
+  │  Topic: policy_updates  (from the Provisioning Module)
   │
   └── Update domain_details_table, recompile Hyperscan DB
 ```
@@ -54,7 +54,7 @@ docker run -d -p 9092:9092 --name kafka apache/kafka:3.7.0
 
 # Build and run
 make
-./kafka_producer localhost:9092 sase_dp_cdr
+./kafka_producer localhost:9092 dp_cdr
 ```
 
 ---
@@ -133,7 +133,7 @@ RD_KAFKA_MSG_F_COPY:  librdkafka copies payload — you can reuse buffer immedia
 RD_KAFKA_MSG_F_FREE:  librdkafka frees payload via free() after delivery
 ```
 
-In SASE DP, `MSG_F_COPY` is used because the JSON buffer is stack-allocated
+In the DP application, `MSG_F_COPY` is used because the JSON buffer is stack-allocated
 and reused for each CDR.
 
 ### 6. Back-pressure: `QUEUE_FULL`
@@ -145,7 +145,7 @@ if (err == -1 && rd_kafka_last_error() == RD_KAFKA_RESP_ERR__QUEUE_FULL) {
 }
 ```
 
-In SASE DP, CDR loss is acceptable (< 0.01% target). If the queue stays
+In the DP application, CDR loss is acceptable (< 0.01% target). If the queue stays
 full, CDRs are dropped rather than blocking the packet processing pipeline.
 
 ### 7. Graceful shutdown
@@ -168,7 +168,7 @@ rd_kafka_destroy(producer);
 {
   "ts": 1717430400123,
   "ip": "192.168.1.42",
-  "supi": "imsi-310260000000042",
+  "subscriber_id": "subscriber-42",
   "domain": "malware.ru",
   "qtype": 1,
   "action": "sinkhole",
@@ -181,7 +181,7 @@ rd_kafka_destroy(producer);
 
 ## Kafka config reference
 
-| Property | SASE DP value | Effect |
+| Property | the DP application value | Effect |
 |---|---|---|
 | `bootstrap.servers` | from config | Broker address(es) |
 | `acks` | `"1"` | Leader ACK only (speed over durability) |

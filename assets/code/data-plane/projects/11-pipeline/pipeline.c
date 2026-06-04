@@ -2,7 +2,7 @@
  * pipeline.c — Module 11: Multi-lcore RX/TX Pipeline
  *
  * This module wires together Modules 08–10 into the actual packet
- * processing skeleton — the structure that runs at line rate in SASE DP.
+ * processing skeleton — the structure that runs at line rate in the DP application.
  *
  * Pipeline topology:
  *
@@ -32,11 +32,11 @@
  *                                                      │
  *                                                  NIC port 0
  *
- * In the real SASE DP project:
- *   - This structure is in core_process.h / sase.c
+ * In the real DP project:
+ *   - This structure is in pkt_proc.h / app_main.c
  *   - The rx_ring equivalent uses rte_distributor for worker dispatch
- *   - Worker function is process_hyperscan_dns_for_group() + related
- *   - Sinkhole is dns_reuse_request_as_redirect_response_ip4/ip6()
+ *   - Worker function is process_dns_for_group() + related
+ *   - Sinkhole is dns_build_sinkhole_v4/v6()
  *
  * REFERENCE CODE: requires DPDK installed.
  */
@@ -76,11 +76,11 @@
 
 /* ───────────────────────────────────────────────────────────
  * Policy decision codes
- * Mirrors ALLOW_PACKET / DROP_PACKET / PROCESS_WORKFLOW in cache_operation.h
+ * Mirrors ALLOW_PACKET / DROP_PACKET / PROCESS_WORKFLOW in policy_cache.h
  * ─────────────────────────────────────────────────────────── */
-#define DECISION_ALLOW    10
-#define DECISION_DROP     11
-#define DECISION_SINKHOLE 12
+#define DECISION_ALLOW    0
+#define DECISION_DROP     1
+#define DECISION_SINKHOLE 2
 
 /* ───────────────────────────────────────────────────────────
  * Per-lcore context
@@ -127,12 +127,12 @@ static volatile int g_quit = 0;
  * policy_stub — placeholder for the real policy engine
  *
  * In the real app, this is replaced by:
- *   process_hyperscan_dns_for_group()  — for DNS packets
- *   group_and_url_processing_for_ip()  — for TLS/IP packets
+ *   process_dns_for_group()  — for DNS packets
+ *   url_policy_for_tls()  — for TLS/IP packets
  *
  * Those functions:
  *   1. rte_hash_lookup_data(domain_details_table, domain, &fd) — Module 16
- *   2. hs_scan_dp_process_group(domain, ...) if hash miss         — Module 22
+ *   2. hs_scan_domain_group(domain, ...) if hash miss         — Module 22
  *   3. Return ALLOW / DROP / SINKHOLE based on filter_details
  * ─────────────────────────────────────────────────────────── */
 static inline int policy_stub(struct rte_mbuf *mbuf,
@@ -171,7 +171,7 @@ static inline int parse_and_decide(struct rte_mbuf *mbuf,
      * Guard: reject multi-segment mbufs.
      * Jumbo frames (>2176 bytes) arrive as chained mbufs.
      * At MTU=1500 this is rare, but must be handled.
-     * SASE DP drops them rather than paying linearise cost.
+     * The DP application drops them rather than paying linearise cost.
      */
     if (unlikely(mbuf->nb_segs > 1))
         return DECISION_DROP;
@@ -187,7 +187,7 @@ static inline int parse_and_decide(struct rte_mbuf *mbuf,
     /*
      * VLAN handling: if ether_type == 0x8100, the real VLAN tag follows.
      * Skip it to get to the inner EtherType.
-     * SASE DP enterprise variant handles 802.1Q-tagged traffic.
+     * The DP application enterprise variant handles 802.1Q-tagged traffic.
      */
     struct rte_vlan_hdr *vlan = NULL;
     if (ether_type == RTE_ETHER_TYPE_VLAN) {
@@ -239,7 +239,7 @@ static inline int parse_and_decide(struct rte_mbuf *mbuf,
              * Real app calls:
              *   parse_dns_ipv4_request_packet_over_udp(mbuf, worker_info, ...)
              * which extracts qname into worker_info->domain and calls
-             * group_and_url_processing_for_dns().
+             * url_policy_for_dns().
              *
              * Here: stub domain extraction from raw DNS question.
              * dns_parse_message() from Module 06 would go here.
@@ -273,9 +273,9 @@ static inline int parse_and_decide(struct rte_mbuf *mbuf,
 
             /*
              * Real app:
-             *   hs_scan_dp_process(tcp_payload, payload_len, worker_info, &matchCtx)
-             * Hyperscan matches HS_PATTERN_ID_TLS=4 → onMatchDP extracts SNI.
-             * tls_extract_sni_from_match() from Module 07 is what onMatchDP calls.
+             *   hs_scan_payload(tcp_payload, payload_len, worker_info, &matchCtx)
+             * Hyperscan matches HS_PATTERN_ID_TLS=1 → on_hs_match extracts SNI.
+             * tls_extract_sni_from_match() from Module 07 is what on_hs_match calls.
              *
              * Here: stub — SNI extraction from Module 07 would plug in here.
              */
@@ -334,9 +334,9 @@ static int rx_lcore_func(void *arg)
          * and this RX lcore is not needed.
          *
          * Round-robin keeps flows from the same src IP on different workers
-         * (no per-flow stickiness). For SASE DP this is acceptable since
+         * (no per-flow stickiness). For the DP application this is acceptable since
          * each DNS query is stateless from the policy perspective.
-         * TLS SNI extraction uses the connection_tls_handshake_table to
+         * TLS SNI extraction uses the tls_session_table to
          * maintain per-connection state across packets.
          */
         for (uint16_t i = 0; i < nb_rx; i++) {
@@ -362,7 +362,7 @@ static int rx_lcore_func(void *arg)
 /* ───────────────────────────────────────────────────────────
  * worker_lcore_func — parse + policy + forward/drop
  *
- * The core of SASE DP. This lcore:
+ * The core of the DP application. This lcore:
  *   1. Dequeues packets from its rx_ring
  *   2. Parses Ethernet / IP / UDP-TCP headers
  *   3. For DNS: parses query, looks up policy
@@ -412,7 +412,7 @@ static int worker_lcore_func(void *arg)
             case DECISION_SINKHOLE:
                 /*
                  * Real app calls:
-                 *   dns_reuse_request_as_redirect_response_ip4(mbuf, walled_garden_ip)
+                 *   dns_build_sinkhole_v4(mbuf, walled_garden_ip)
                  * which rewrites the packet in-place (Module 23).
                  * For now: just forward unmodified as a stub.
                  */

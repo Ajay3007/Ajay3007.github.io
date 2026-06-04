@@ -14,7 +14,7 @@
  *   "allocation" is just popping a pointer off a lock-free ring — ~10 ns.
  *   "Free" is pushing it back — ~10 ns. No syscalls, no locks in the fast path.
  *
- * IN THE REAL SASE DP PROJECT:
+ * IN THE REAL DP APPLICATION PROJECT:
  *   - One pool per NUMA socket (socket-local memory avoids cross-NUMA latency)
  *   - Pool created once in port_init() before rte_eth_rx_queue_setup()
  *   - NIC DMA engine writes received packets directly into pool mbufs
@@ -54,7 +54,7 @@
  * Rule of thumb: n >= (nb_rx_desc * nb_rx_queues * nb_ports) * 2
  * For our demo: 255 is plenty.
  *
- * In SASE DP production config:
+ * In DP production config:
  *   n = 65535  (2^16 - 1)
  *   This supports 4 ports × 4 queues × 1024 descriptors = 16384 mbufs
  *   "in flight", with 49151 spares in the pool.
@@ -196,7 +196,7 @@ static void demo_alloc_inspect_free(struct rte_mempool *pool)
 /* ───────────────────────────────────────────────────────────
  * Demo 2: in-place packet modification (DNS sinkhole preview)
  *
- * In Module 23, dns_reuse_request_as_redirect_response_ip4() does this:
+ * In Module 23, dns_build_sinkhole_v4() does this:
  *   1. rte_pktmbuf_mtod() to get a pointer to the packet bytes
  *   2. Swap src/dst MAC, IP, ports in-place
  *   3. Set the DNS QR bit
@@ -230,7 +230,7 @@ static void demo_inplace_modify(struct rte_mempool *pool)
 
     ip4->version_ihl = 0x45;
     ip4->proto       = IP_PROTO_UDP;
-    ip4->src_ip      = htonl(0xC0A80164);  /* 192.168.1.100 */
+    ip4->src_ip      = htonl(0xC6336405);  /* 198.51.100.5 */
     ip4->dst_ip      = htonl(0x08080808);  /* 8.8.8.8 */
     ip4->total_len   = htons(28);
 
@@ -360,7 +360,7 @@ static void demo_burst_alloc(struct rte_mempool *pool)
  * or adding a VLAN tag), use rte_pktmbuf_prepend() to extend data
  * into the pre-reserved headroom without any copy.
  *
- * In SASE DP this isn't used directly, but the headroom is important
+ * In the DP application this isn't used directly, but the headroom is important
  * for the DNS sinkhole: the answer section is appended (rte_pktmbuf_append),
  * and the IP/UDP length fields are adjusted to match.
  * ─────────────────────────────────────────────────────────── */
@@ -404,7 +404,7 @@ static void demo_headroom(struct rte_mempool *pool)
  * For packets larger than data_room (2176 bytes), DPDK chains multiple
  * mbufs. nb_segs > 1, and m->next points to the next segment.
  *
- * In SASE DP, jumbo frames are uncommon (MTU is 1500), but the code
+ * In the DP application, jumbo frames are uncommon (MTU is 1500), but the code
  * must guard against nb_segs > 1 (linearise or handle the chain) to
  * avoid parsing only the first segment and missing the DNS payload.
  * ─────────────────────────────────────────────────────────── */
@@ -442,7 +442,7 @@ static void demo_mbuf_chain(struct rte_mempool *pool)
      *   }
      *   eth = rte_pktmbuf_mtod(m, eth_hdr_t *);
      *
-     * SASE DP drops multi-segment packets (rare at 1500 MTU) rather than
+     * The DP application drops multi-segment packets (rare at 1500 MTU) rather than
      * paying the linearise copy cost on every packet.
      */
     printf("  real app: if (m->nb_segs > 1) → drop or linearise\n");
@@ -481,7 +481,7 @@ int main(void)
 
     /* ── Create the mempool ──
      *
-     * In the real app (port_init in sase.c):
+     * In the real app (port_init in app_main.c):
      *
      *   mbuf_pool = rte_pktmbuf_pool_create(
      *       "mbuf_pool_s0",           // name (unique per socket)

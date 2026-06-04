@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 09 — Mempool + mbuf"
 permalink: /learning/data-plane/projects/module-09-mempool-mbuf/
@@ -147,7 +147,7 @@ Software checksum would cost ~50 ns per packet — HW offload costs ~0.
 nb_rx = rte_eth_rx_burst(port, queue, mbufs, BURST_SIZE);
 for (int i = 0; i < nb_rx; i++) {
     if (unlikely(mbufs[i]->nb_segs > 1)) {
-        /* Jumbo frame — SASE DP drops it rather than paying linearise cost */
+        /* Jumbo frame — the DP application drops it rather than paying linearise cost */
         rte_pktmbuf_free(mbufs[i]);
         continue;
     }
@@ -164,7 +164,7 @@ for (int i = 0; i < nb_rx; i++) {
 | Dev/test (VM) | 4095 (2^12-1) | Small hugepage allocation |
 | Single port, 4 queues | 16383 (2^14-1) | 4×1024 descriptors + 3× headroom |
 | 4 ports, 4 queues each | 65535 (2^16-1) | 16×1024 + 3× headroom |
-| SASE DP production | 65535 | Used in sase.c |
+| the DP application production | 65535 | Used in app_main.c |
 
 ---
 

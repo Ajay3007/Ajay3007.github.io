@@ -10,7 +10,7 @@ permalink: /learning/data-plane/projects/module-02-logger/
 
 How to write a thread-safe, level-filtered logger in C that outputs
 timestamped lines to both console and file — the pattern used throughout
-the real SASE DP codebase.
+the DP codebase.
 
 In a multi-lcore DPDK application, multiple CPU cores log concurrently.
 Without a thread-safe logger you get interleaved, unreadable output.
@@ -28,7 +28,7 @@ main()
   │
   ├─► logger_init(level, file)  ← THIS MODULE
   │     reads level from config: "DEBUG" / "INFO" / "WARN" / "ERROR"
-  │     opens log file from config: /var/log/sase_dp/sase_dp.log
+  │     opens log file from config: /var/log/dp_app/dp_app.log
   │
   ├─► LOG_INFO("EAL initializing...")
   ├─► rte_eal_init()            (Module 11)
@@ -37,7 +37,7 @@ main()
   ├─► port_init()               (Module 13)
   │
   ├─► LOG_INFO("Hyperscan compiling...")
-  ├─► initialize_global_scratch()   (Module 19-21)
+  ├─► hs_init_global_scratch()  (Module 19-21)
   │
   └─► LOG_INFO("Startup complete, packet processing active")
 ```
@@ -66,7 +66,7 @@ make
 Expected output (with ANSI colours in terminal):
 
 ```
-[2024-06-02 14:32:01.123] [INFO ] [logger.c:180] === SASE DP starting ===
+[2024-06-02 14:32:01.123] [INFO ] [logger.c:180] === DP Application starting ===
 [2024-06-02 14:32:01.124] [INFO ] [logger.c:181] Logger initialized: level=DEBUG
 [2024-06-02 14:32:01.124] [DEBUG] [logger.c:184] Config: eal.cores=0-7, socket_mem=2048
 ...

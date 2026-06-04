@@ -8,7 +8,7 @@
  *   - Power-of-2 capacity    (same as rte_hash)
  *   - Arbitrary-length keys  (same as rte_hash)
  *
- * The demo at the bottom mirrors the real SASE DP policy lookup:
+ * The demo at the bottom mirrors the real DP application policy lookup:
  *   domain string → filter_details (whitelist / blacklist / port mask)
  *
  * This is exactly what domain_details_table does in every group_struct —
@@ -263,17 +263,17 @@ void hashmap_dump_stats(const hashmap_t *map, const char *name)
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Demo — mirrors the domain_details_table in SASE DP
+ * Demo — mirrors the domain_details_table in the DP application
  *
  * In the real app:
  *   - group_struct has a rte_hash *domain_details_table
  *   - Populated by add_domain_to_group() during Kafka policy sync
- *   - Queried by process_hyperscan_dns_for_group() for every DNS packet
+ *   - Queried by process_dns_for_group() for every DNS packet
  *
  * Here we simulate the same flow with our hashmap_t.
  * ═══════════════════════════════════════════════════════════ */
 
-/* Mirrors filter_details in cache_operation.h */
+/* Mirrors filter_details in policy_cache.h */
 typedef struct {
     int      is_whitelisted;    /* 1 = allow regardless of category     */
     int      is_blacklisted;    /* 1 = block always                     */
@@ -465,7 +465,7 @@ int main(void)
 
     printf("\nAll tests passed.\n");
 
-    printf("\n--- How this maps to rte_hash in SASE DP ---\n");
+    printf("\n--- How this maps to rte_hash in the DP application ---\n");
     printf("  hashmap_create(cap)              →  rte_hash_create(&params)\n");
     printf("  hashmap_add_key_data(m,k,l,d)    →  rte_hash_add_key_data(h,k,d)\n");
     printf("  hashmap_lookup_data(m,k,l,&d)    →  rte_hash_lookup_data(h,k,&d)\n");

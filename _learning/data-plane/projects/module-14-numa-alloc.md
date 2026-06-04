@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 14 — NUMA-aware Memory Allocation"
 permalink: /learning/data-plane/projects/module-14-numa-alloc/
@@ -34,7 +34,7 @@ At 2M DNS lookups/sec with domain_details_table on wrong socket:
   by memory bus latency alone
 ```
 
-This is why every hash table, pool, and database in SASE DP specifies
+This is why every hash table, pool, and database in the DP application specifies
 `socket_id = rte_socket_id()` or `rte_eth_dev_socket_id(port_id)`.
 
 ---
@@ -63,7 +63,7 @@ hugepage memory (pre-allocated, pinned, physically contiguous)
        └─ rte_zmalloc_socket()  → explicit socket, zero-initialised (use this)
 ```
 
-### 2. Which API for each SASE DP object
+### 2. Which API for each the DP application object
 
 | Object | API | Socket |
 |---|---|---|
@@ -93,7 +93,7 @@ pool = rte_pktmbuf_pool_create("pool", n, cache, 0,
                                 nic_sock);               /* ← matches NIC */
 ```
 
-### 4. Hyperscan NUMA allocation in SASE DP
+### 4. Hyperscan NUMA allocation in the DP application
 
 ```c
 /* Custom allocator wrappers — redirect Hyperscan's internal malloc to DPDK */

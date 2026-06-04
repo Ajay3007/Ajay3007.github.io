@@ -4,7 +4,7 @@
  * A complete DNS message parser covering query and response parsing,
  * DNS over UDP, and DNS over TCP.
  *
- * In the real SASE DP project (core_process.h), four functions handle
+ * In the real DP project (pkt_proc.h), four functions handle
  * DNS parsing depending on transport and IP version:
  *
  *   parse_dns_ipv4_request_packet_over_udp()
@@ -13,7 +13,7 @@
  *   parse_dns_ipv6_request_packet_over_tcp()
  *
  * Each of these extracts the query domain name and type (A or AAAA),
- * then calls group_and_url_processing_for_dns() which runs the
+ * then calls url_policy_for_dns() which runs the
  * hash table lookup + Hyperscan policy scan.
  *
  * The qtype (A vs AAAA) matters for the DNS sinkhole response (Module 23):

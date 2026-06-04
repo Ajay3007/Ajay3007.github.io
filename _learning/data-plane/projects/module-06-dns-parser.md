@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 06 — DNS Parser"
 permalink: /learning/data-plane/projects/module-06-dns-parser/
@@ -33,7 +33,7 @@ UDP payload (or TCP payload after stripping 2-byte length prefix)
   │
   ├─► rte_hash_lookup_data(domain_details_table, msg.qname, &fd)
   │     hit  → apply filter_details (Module 17)
-  │     miss → hs_scan_dp_process_group(msg.qname, ...) (Module 17)
+  │     miss → hs_scan_domain_group(msg.qname, ...) (Module 17)
   │
   └─► if blocked:
         qtype A    → inject A    answer (walled-garden IPv4)  (Module 18)
@@ -147,10 +147,10 @@ The query type drives what kind of fake DNS answer to inject:
 
 ```text
 Client sends:  www.blocked.com  A    query
-SASE DP injects: A answer with 10.0.0.1 (walled-garden IPv4)
+the DP application injects: A answer with 10.0.0.1 (walled-garden IPv4)
 
 Client sends:  www.blocked.com  AAAA query
-SASE DP injects: AAAA answer with fd00::1 (walled-garden IPv6)
+the DP application injects: AAAA answer with fd00::1 (walled-garden IPv6)
 ```
 
 ### 5. Name normalisation
@@ -182,7 +182,7 @@ to write the injected answer section in the in-place mbuf rewrite:
 | A | 1 | 4-byte IPv4 | Most queries, sinkhole target |
 | AAAA | 28 | 16-byte IPv6 | IPv6 queries, sinkhole target |
 | CNAME | 5 | label-encoded name | CDN aliases — follow the chain |
-| MX | 15 | priority + name | Email — not filtered in SASE DP |
+| MX | 15 | priority + name | Email — not filtered in the DP application |
 | NS | 2 | label-encoded name | Nameserver delegation |
 
 ---

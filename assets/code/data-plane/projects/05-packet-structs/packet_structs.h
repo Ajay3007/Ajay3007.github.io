@@ -1,7 +1,7 @@
 /**
  * packet_structs.h — Module 05: Network Packet Header Structures
  *
- * Every packet that enters the SASE DP pipeline is parsed by overlaying
+ * Every packet that enters the the DP application pipeline is parsed by overlaying
  * these structs onto raw packet bytes. In DPDK, the equivalent structs live
  * in rte_ether.h, rte_ip.h, rte_tcp.h, rte_udp.h. This module defines
  * the same structs without any DPDK dependency so you can compile and run
@@ -15,7 +15,7 @@
  * a port 53 check that tests (udp->dst_port == 53) instead of
  * (ntohs(udp->dst_port) == 53) silently passes for port 13568 (0x3500).
  *
- * In the real project, core_process.h includes rte_ether.h / rte_ip.h
+ * In the real project, pkt_proc.h includes rte_ether.h / rte_ip.h
  * for these structs, plus a custom dns_hdr struct defined inline.
  */
 
@@ -190,7 +190,7 @@ typedef struct {
 /* ───────────────────────────────────────────────────────────
  * DNS header — 12 bytes
  *
- * Defined directly in core_process.h in the real SASE DP project.
+ * Defined directly in pkt_proc.h in the real the DP application project.
  * Used for both DNS query parsing and DNS sinkhole response building
  * (Module 23).
  * ─────────────────────────────────────────────────────────── */
@@ -209,7 +209,7 @@ typedef struct {
  * Packet bytes are NOT guaranteed to be naturally aligned. For example,
  * a uint16_t field inside the DNS payload might start at an odd address.
  * On x86 a misaligned read works silently, but on ARM it triggers a fault.
- * DPDK uses these helpers throughout. In core_process.h read_u16_be is
+ * DPDK uses these helpers throughout. In pkt_proc.h read_u16_be is
  * defined for TLS SNI extraction (Module 07).
  * ─────────────────────────────────────────────────────────── */
 static inline uint16_t read_u16_be(const uint8_t *p)

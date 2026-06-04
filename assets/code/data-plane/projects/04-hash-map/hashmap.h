@@ -2,13 +2,13 @@
  * hashmap.h — Module 04: Hash Map (open addressing, linear probing)
  *
  * A hash map is the core data structure for all O(1) policy lookups in
- * a dataplane application. In SASE DP, rte_hash tables are used for:
+ * a dataplane application. In the DP application, rte_hash tables are used for:
  *
- *   domain_details_table  — domain string → filter_details (whitelist/blacklist)
- *   ip_vs_supi_table      — subscriber IP → SUPI mapping (500K entries)
- *   connection_host_table — active TCP connection state  (2M entries)
- *   url_vs_signature_id   — URL → Hyperscan signature ID
- *   malicious_domain_vs_context — malicious domain → block context
+ *   domain_details_table    — domain string → filter_details (whitelist/blacklist)
+ *   ip_vs_subscriber_table  — subscriber IP → subscriber ID mapping (500K entries)
+ *   connection_track_table  — active TCP connection state  (2M entries)
+ *   domain_sig_table        — domain → Hyperscan signature ID
+ *   malicious_domain_table  — malicious domain → block context
  *
  * All of these use rte_hash, which is DPDK's production hash table backed
  * by cuckoo hashing and a CRC32 hardware hash function.

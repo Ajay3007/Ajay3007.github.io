@@ -1,7 +1,7 @@
 /**
  * policy_lookup.c — Module 17: Two-tier Policy Lookup
  *
- * The policy engine is the core of SASE DP. For every DNS query, it must
+ * The policy engine is the core of the DP application. For every DNS query, it must
  * decide: ALLOW / DROP / SINKHOLE — in under 1 microsecond.
  *
  * Two-tier design:
@@ -23,10 +23,10 @@
  *   - Hyperscan is ~3–5 µs: if every query needed it, 2M/sec × 5 µs = 10 sec/sec (impossible!)
  *   - The two-tier approach means Hyperscan only runs for the ~10–20% miss cases
  *
- * In the real SASE DP project (cache_operation.c):
- *   group_and_url_processing_for_dns()  → entry point per DNS packet
- *   fetch_group_url_details_for_dns()   → per-group exact match + HS fallback
- *   check_malicious_and_bitmask_for_dns() → malicious domain table check
+ * In the real the DP application project (policy_cache.c):
+ *   url_policy_for_dns()  → entry point per DNS packet
+ *   fetch_url_policy_for_domain()   → per-group exact match + HS fallback
+ *   check_malicious_domain() → malicious domain table check
  *
  * This module is compilable with Hyperscan only (no DPDK).
  * For the rte_hash equivalents, see Module 12.
@@ -44,14 +44,14 @@
 #include <hs.h>
 
 /* ───────────────────────────────────────────────────────────
- * Policy decision codes — mirrors cache_operation.h exactly
+ * Policy decision codes — mirrors policy_cache.h exactly
  * ─────────────────────────────────────────────────────────── */
-#define ALLOW_PACKET      10   /* forward packet unchanged       */
-#define DROP_PACKET       11   /* drop: blacklist / category     */
-#define PROCESS_WORKFLOW  12   /* sinkhole (DNS) / RST (TCP/TLS) */
+#define ALLOW_PACKET      0    /* forward packet unchanged       */
+#define DROP_PACKET       1    /* drop: blacklist / category     */
+#define PROCESS_WORKFLOW  2    /* sinkhole (DNS) / RST (TCP/TLS) */
 
 /* ───────────────────────────────────────────────────────────
- * filter_details — mirrors cache_operation.h exactly
+ * filter_details — mirrors policy_cache.h exactly
  *
  * Stored as the data pointer in domain_details_table.
  * Retrieved via hash lookup or set in Hyperscan callback.
@@ -123,7 +123,7 @@ static void hm_free(hashmap_t *m)
 }
 
 /* ───────────────────────────────────────────────────────────
- * group_struct — simplified version of group_struct in cache_operation.h
+ * group_struct — simplified version of group_struct in policy_cache.h
  *
  * In the real app:
  *   struct group_struct {
@@ -145,7 +145,7 @@ typedef struct {
 } group_t;
 
 /* ───────────────────────────────────────────────────────────
- * malicious_context_struct — mirrors cache_operation.h
+ * malicious_context_struct — mirrors policy_cache.h
  * ─────────────────────────────────────────────────────────── */
 typedef struct {
     char     domain[256];
@@ -183,7 +183,7 @@ static int onMatchGroup(unsigned int id,
  * This is the core policy logic. Called after BOTH hash lookup
  * and Hyperscan scan — both paths feed the same decision function.
  *
- * Mirrors the decision logic in fetch_group_url_details_for_dns()
+ * Mirrors the decision logic in fetch_url_policy_for_domain()
  * and process_hyperscan_dns_for_group() in the real project.
  * ─────────────────────────────────────────────────────────── */
 static int apply_filter_details(const filter_details_t *fd,
@@ -232,7 +232,7 @@ static int apply_filter_details(const filter_details_t *fd,
 /* ───────────────────────────────────────────────────────────
  * check_malicious — check domain against malicious threat feed
  *
- * Mirrors check_malicious_and_bitmask_for_dns() in cache_operation.c.
+ * Mirrors check_malicious_domain() in policy_cache.c.
  * This check runs BEFORE the group policy check.
  * If the domain is in the malicious table, it's blocked regardless
  * of group policy.
@@ -250,9 +250,9 @@ static int check_malicious(const char *domain,
 }
 
 /* ───────────────────────────────────────────────────────────
- * fetch_group_url_details_for_dns — per-group two-tier lookup
+ * fetch_url_policy_for_domain — per-group two-tier lookup
  *
- * Mirrors the real SASE DP function exactly:
+ * Mirrors the real the DP application function exactly:
  *
  *   1. Tier 1: hash table exact match
  *      rte_hash_lookup_data(group->domain_details_table, domain, &fd)
@@ -262,11 +262,11 @@ static int check_malicious(const char *domain,
  *
  * Returns ALLOW_PACKET, DROP_PACKET, or PROCESS_WORKFLOW.
  * ─────────────────────────────────────────────────────────── */
-static int fetch_group_url_details_for_dns(const char *domain,
+static int fetch_url_policy_for_domain(const char *domain,
                                             group_t *group,
                                             uint16_t port)
 {
-    printf("  [fetch_group_url_details_for_dns]\n");
+    printf("  [fetch_url_policy_for_domain]\n");
     printf("    group=%s  domain=%s\n", group->group_id, domain);
 
     /* ── Tier 1: exact match ── */
@@ -322,9 +322,9 @@ static int fetch_group_url_details_for_dns(const char *domain,
 }
 
 /* ───────────────────────────────────────────────────────────
- * group_and_url_processing_for_dns — main entry point
+ * url_policy_for_dns — main entry point
  *
- * Mirrors the real SASE DP function.
+ * Mirrors the real the DP application function.
  *
  * Called for EVERY DNS query after domain extraction.
  * Steps:
@@ -333,13 +333,13 @@ static int fetch_group_url_details_for_dns(const char *domain,
  *   3. If any group blocks: DROP or SINKHOLE
  *   4. If all groups allow: ALLOW
  * ─────────────────────────────────────────────────────────── */
-static int group_and_url_processing_for_dns(const char *domain,
+static int url_policy_for_dns(const char *domain,
                                              int qtype,  /* DNS_TYPE_A=1 or AAAA=28 */
                                              group_t **groups,
                                              int n_groups,
                                              uint16_t port)
 {
-    printf("\n[group_and_url_processing_for_dns]\n");
+    printf("\n[url_policy_for_dns]\n");
     printf("  domain=%s  qtype=%s  groups=%d\n",
            domain, qtype == 1 ? "A" : "AAAA", n_groups);
 
@@ -356,7 +356,7 @@ static int group_and_url_processing_for_dns(const char *domain,
     int final_decision = ALLOW_PACKET;
 
     for (int g = 0; g < n_groups; g++) {
-        int decision = fetch_group_url_details_for_dns(domain,
+        int decision = fetch_url_policy_for_domain(domain,
                                                         groups[g], port);
         printf("  Group [%s] decision: %s\n",
                groups[g]->group_id,
@@ -544,7 +544,7 @@ static void demo_policy_scenarios(void)
         printf("Test %zu: %s\n  Scenario: %s\n",
                i+1, tests[i].domain, tests[i].description);
 
-        int result = group_and_url_processing_for_dns(
+        int result = url_policy_for_dns(
             tests[i].domain, tests[i].qtype,
             tests[i].groups, tests[i].n_groups, 0);
 
@@ -658,26 +658,23 @@ int main(void)
 
     printf("=== All demos complete ===\n\n");
 
-    printf("Decision code reference (cache_operation.h):\n");
-    printf("  ALLOW_PACKET      = %d  → forward DNS response unchanged\n",
-           ALLOW_PACKET);
-    printf("  DROP_PACKET       = %d  → silently drop\n",
-           DROP_PACKET);
-    printf("  PROCESS_WORKFLOW  = %d  → sinkhole (DNS) / RST inject (TLS)\n\n",
-           PROCESS_WORKFLOW);
+    printf("Decision code reference (policy_cache.h):\n");
+    printf("  ALLOW_PACKET (0)    → forward DNS response unchanged\n");
+    printf("  DROP_PACKET (1)     → silently drop\n");
+    printf("  PROCESS_WORKFLOW (2)→ sinkhole (DNS) / RST inject (TLS)\n\n");
 
     printf("Real app call chain per DNS packet:\n");
     printf("  dns_parse_message() → domain\n");
-    printf("  rte_hash_lookup(supi_table, src_ip) → subscriber + group_ids\n");
-    printf("  group_and_url_processing_for_dns(domain, qtype, groups, n)\n");
-    printf("    → check_malicious_and_bitmask_for_dns()\n");
-    printf("    → fetch_group_url_details_for_dns() × n_groups\n");
+    printf("  rte_hash_lookup(subscriber_table, src_ip) → subscriber + group_ids\n");
+    printf("  url_policy_for_dns(domain, qtype, groups, n)\n");
+    printf("    → check_malicious_domain()\n");
+    printf("    → fetch_url_policy_for_domain() × n_groups\n");
     printf("         → rte_hash_lookup(domain_details_table)  [Tier 1]\n");
     printf("         → hs_scan_dp_process_group()             [Tier 2]\n");
     printf("         → apply_filter_details()\n");
     printf("    → ALLOW / DROP / PROCESS_WORKFLOW\n");
     printf("  if PROCESS_WORKFLOW:\n");
-    printf("    dns_reuse_request_as_redirect_response_ip4()   (Module 23)\n");
+    printf("    dns_build_sinkhole_v4()   (Module 23)\n");
 
     return 0;
 }

@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 11 — Multi-lcore RX/TX Pipeline"
 permalink: /learning/data-plane/projects/module-11-pipeline/
@@ -12,7 +12,7 @@ permalink: /learning/data-plane/projects/module-11-pipeline/
 
 How to wire together EAL (Module 08), mempool (Module 09), and port init
 (Module 10) into a complete multi-lcore packet processing pipeline — the
-skeleton of SASE DP at runtime.
+skeleton of the DP application at runtime.
 
 This is the structural blueprint: RX lcore polls the NIC, distributes
 packets to worker lcores via `rte_ring`, workers parse + apply policy,

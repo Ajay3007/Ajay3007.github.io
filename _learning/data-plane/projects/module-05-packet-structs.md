@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 05 — Packet Header Structs & Parser"
 permalink: /learning/data-plane/projects/module-05-packet-structs/
@@ -11,7 +11,7 @@ permalink: /learning/data-plane/projects/module-05-packet-structs/
 How to define network packet header structs in C and parse raw bytes into
 them — layer by layer: Ethernet → IPv4/IPv6 → UDP/TCP → DNS.
 
-This is the entry point of every packet in the SASE DP pipeline. Before
+This is the entry point of every packet in the DP application pipeline. Before
 any policy decision can be made, the packet headers must be parsed to
 extract the source/destination IP, protocol, port, and ultimately the
 domain name (DNS) or SNI (TLS).
@@ -77,7 +77,7 @@ Packet: DNS A query (UDP/IPv4) — www.example.com  (75 bytes)
   src_mac    : 00:11:22:33:44:55
   ether_type : 0x0800  (IPv4)
 [IPv4]
-  src_ip     : 192.168.1.100
+  src_ip     : 198.51.100.5
   dst_ip     : 8.8.8.8
   protocol   : 17  (UDP)
 [UDP]
@@ -172,7 +172,7 @@ static inline uint16_t read_u16_be(const uint8_t *p) {
 }
 ```
 
-Used in `core_process.h` for TLS SNI length extraction — identical pattern.
+Used in `pkt_proc.h` for TLS SNI length extraction — identical pattern.
 
 ### 6. DNS qname wire format
 
@@ -189,7 +189,7 @@ DNS does NOT use null-terminated strings. It uses length-prefixed labels:
 ## rte_pktmbuf header access (what you'll see in real code)
 
 ```c
-/* In the real SASE DP app (core_process.h): */
+/* In the real DP application app (pkt_proc.h): */
 struct rte_mbuf  *mbuf = mbufs[i];
 struct rte_ether_hdr *eth;
 struct rte_ipv4_hdr  *ip4;

@@ -2,7 +2,7 @@
  * ring.h — Module 03: Ring Buffer (SPSC, lock-free)
  *
  * A ring buffer (circular queue) is the primary inter-lcore communication
- * mechanism in a DPDK application. In SASE DP it is used to hand packets
+ * mechanism in a DPDK application. In the DP application it is used to hand packets
  * from the RX lcore to worker lcores, and from worker lcores to the TX lcore.
  *
  * DPDK's rte_ring is a production-grade MPMC (Multi-Producer Multi-Consumer)

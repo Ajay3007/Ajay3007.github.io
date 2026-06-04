@@ -13,8 +13,8 @@
  *   With 4 worker lcores: 720 ms/sec wasted on NUMA penalty alone.
  *
  * Rule: ALWAYS allocate memory on the same socket as the lcore(s) that
- * will access it. In SASE DP this applies to:
- *   - rte_hash tables (domain_details_table, ip_vs_supi_table, ...)
+ * will access it. In the DP application this applies to:
+ *   - rte_hash tables (domain_details_table, ip_vs_subscriber_table, ...)
  *   - rte_mempool (mbuf pool — must match NIC port's socket)
  *   - Hyperscan database (compiled on the socket of scanning lcores)
  *   - Per-lcore Hyperscan scratch (on each lcore's socket)
@@ -201,7 +201,7 @@ static void demo_rte_malloc(void)
 
     /* ── rte_malloc_socket: explicit socket ──
      *
-     * Used throughout SASE DP for all per-group and per-lcore allocations.
+     * Used throughout the DP application for all per-group and per-lcore allocations.
      * The "type" string is a tag for rte_malloc_stats() diagnostics.
      * alignment=0 → use RTE_CACHE_LINE_SIZE (64 bytes).
      */
@@ -267,7 +267,7 @@ static void demo_rte_malloc(void)
  * rte_eal_cleanup(). Unlike rte_malloc, memzones can be looked up by
  * name from any part of the code — or from a secondary DPDK process.
  *
- * In SASE DP, memzones are not heavily used (single-process app), but
+ * In the DP application, memzones are not heavily used (single-process app), but
  * they are useful for sharing state between the main process and a
  * monitoring secondary process.
  * ─────────────────────────────────────────────────────────── */
@@ -290,7 +290,7 @@ static void demo_memzone(void)
      *   - Persistent counters that survive module reload
      */
     const struct rte_memzone *mz = rte_memzone_reserve(
-        "sase_dp_global_config",   /* unique name */
+        "dp_app_global_config",   /* unique name */
         4096,                       /* bytes needed */
         socket,                     /* NUMA socket */
         0                           /* flags (0 = default) */
@@ -302,7 +302,7 @@ static void demo_memzone(void)
         return;
     }
 
-    printf("  Reserved memzone 'sase_dp_global_config':\n");
+    printf("  Reserved memzone 'dp_app_global_config':\n");
     printf("    addr      = %p\n", mz->addr);
     printf("    iova      = 0x%016" PRIx64 " (physical/IOVA for DMA)\n",
            mz->iova);
@@ -312,10 +312,10 @@ static void demo_memzone(void)
 
     /* Write some data into the memzone */
     snprintf((char *)mz->addr, 64,
-             "SASE DP v2.0 config - socket %d", socket);
+             "DP App config - socket %d", socket);
 
     /* Look up the memzone by name from another part of the code */
-    const struct rte_memzone *mz2 = rte_memzone_lookup("sase_dp_global_config");
+    const struct rte_memzone *mz2 = rte_memzone_lookup("dp_app_global_config");
     assert(mz2 != NULL);
     assert(mz2->addr == mz->addr);
     printf("  Lookup by name: mz2->addr = %p → \"%s\"\n\n",
@@ -354,7 +354,7 @@ static void demo_socket_queries(void)
      * rte_eth_rx_queue_setup() already uses rte_eth_dev_socket_id()
      * internally — but rte_pktmbuf_pool_create() does not.
      *
-     * In SASE DP:
+     * In the DP application:
      *   int nic_socket = rte_eth_dev_socket_id(port_id);
      *   pool = rte_pktmbuf_pool_create("pool", n, cache, 0,
      *                                   RTE_MBUF_DEFAULT_BUF_SIZE,
@@ -451,10 +451,10 @@ static void demo_numa_miss_cost(void)
 }
 
 /* ───────────────────────────────────────────────────────────
- * demo_hyperscan_alloc — the real SASE DP allocation pattern
+ * demo_hyperscan_alloc — the real the DP application allocation pattern
  *
  * Hyperscan (Module 19-22) allocates databases and scratch spaces
- * internally via malloc(). To make them NUMA-local, SASE DP uses
+ * internally via malloc(). To make them NUMA-local, the DP application uses
  * Hyperscan's custom allocator API to redirect allocations to
  * rte_malloc_socket().
  * ─────────────────────────────────────────────────────────── */
@@ -466,7 +466,7 @@ static void demo_hyperscan_alloc_pattern(void)
 
     int socket = (int)rte_socket_id();
 
-    printf("  In the real SASE DP app (hyperscan_db_compile_for_groups):\n\n");
+    printf("  In the real the DP application app (hs_db_compile_for_groups):\n\n");
     printf("  /* Redirect Hyperscan allocations to NUMA-local hugepages */\n");
     printf("  hs_set_allocator(\n");
     printf("      rte_malloc_hs,          /* custom alloc wrapper */\n");

@@ -13,13 +13,13 @@
  *     uses fixed offsets (+7 for length, +9 for name) to extract the SNI
  *     without walking the full handshake. Faster, used in the real app.
  *
- * In the real SASE DP pipeline:
+ * In the real DP application pipeline:
  *   - TCP packet with dst_port=443 arrives
- *   - Packet stored in connection_tls_handshake_table (across fragmented pkts)
- *   - When enough bytes arrive, hs_scan_dp_process() runs
- *   - Hyperscan matches HS_PATTERN_ID_TLS=4 at the SNI extension offset
- *   - onMatchDP extracts SNI via approach (B)
- *   - SNI passed to group_and_url_processing_for_ip() for policy decision
+ *   - Packet stored in tls_session_table (across fragmented pkts)
+ *   - When enough bytes arrive, hs_scan_payload() runs
+ *   - Hyperscan matches HS_PATTERN_ID_TLS=1 at the SNI extension offset
+ *   - on_hs_match extracts SNI via approach (B)
+ *   - SNI passed to url_policy_for_tls() for policy decision
  */
 
 #include "tls_sni.h"
@@ -49,9 +49,9 @@ const char *tls_get_version_str(uint16_t version)
 }
 
 /* ───────────────────────────────────────────────────────────
- * tls_extract_sni_from_match — approach (B), mirrors dp_scan.c
+ * tls_extract_sni_from_match — approach (B), reimplements from domain_scan.c
  *
- * This is the exact logic from onMatchDP in the real project.
+ * This is the exact logic from on_hs_match in the real project.
  * 'from' is the byte offset of the SNI extension type field (0x00 0x00)
  * within the TCP payload.
  *
@@ -338,7 +338,7 @@ static const uint8_t sample_client_hello[] = {
 /*
  * TLS ClientHello for a C2 domain: "malicious.c2-server.io"
  * Simulates traffic a compromised host might generate —
- * SASE DP would block this after extracting the SNI.
+ * the DP application would block this after extracting the SNI.
  */
 static const uint8_t sample_c2_hello[] = {
     0x16, 0x03, 0x01,
@@ -411,8 +411,8 @@ static void test_hyperscan_style(void)
 
     /*
      * Hyperscan matches the SNI extension type 0x00 0x00 at offset 54.
-     * The onMatchDP callback receives:
-     *   id   = HS_PATTERN_ID_TLS = 4
+     * The on_hs_match callback receives:
+     *   id   = HS_PATTERN_ID_TLS = 1
      *   from = 54
      * and calls tls_extract_sni_from_match(payload, len, from=54, ...)
      */
@@ -452,7 +452,7 @@ static void test_c2_domain(void)
     printf("  SNI extracted   : \"%s\"\n", result.hostname);
     printf("  TLS version     : %s\n", tls_get_version_str(result.tls_version));
     printf("  → policy lookup for \"%s\"\n", result.hostname);
-    printf("  → found in malicious_domain_vs_context_hash_table → BLOCK\n");
+    printf("  → found in malicious_domain_table → BLOCK\n");
     printf("  PASS\n");
 }
 
@@ -502,14 +502,14 @@ int main(void)
 
     printf("\nAll tests passed.\n");
 
-    printf("\n--- TLS SNI → policy flow in SASE DP ---\n");
+    printf("\n--- TLS SNI → policy flow in the DP application ---\n");
     printf("  1. TCP dst_port == 443 detected\n");
-    printf("  2. TCP payload stored in connection_tls_handshake_table\n");
-    printf("  3. hs_scan_dp_process(payload, len, ...) called\n");
-    printf("  4. Hyperscan matches HS_PATTERN_ID_TLS=4 at SNI ext offset\n");
-    printf("  5. onMatchDP: sni_len = read_u16_be(payload + from + 7)\n");
+    printf("  2. TCP payload stored in tls_session_table\n");
+    printf("  3. hs_scan_payload(payload, len, ...) called\n");
+    printf("  4. Hyperscan matches HS_PATTERN_ID_TLS=1 at SNI ext offset\n");
+    printf("  5. on_hs_match: sni_len = read_u16_be(payload + from + 7)\n");
     printf("  6.            memcpy(domain, payload + from + 9, sni_len)\n");
-    printf("  7. group_and_url_processing_for_ip(domain, worker_info, ...)\n");
+    printf("  7. url_policy_for_tls(domain, worker_info, ...)\n");
     printf("  8. Hash table exact match OR Hyperscan regex fallback\n");
     printf("  9. DROP → TCP RST injection; ALLOW → forward packet\n");
 

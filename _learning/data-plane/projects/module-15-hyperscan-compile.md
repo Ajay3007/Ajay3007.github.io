@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 15 — Hyperscan: Pattern Compilation"
 permalink: /learning/data-plane/projects/module-15-hyperscan-compile/
@@ -12,13 +12,13 @@ permalink: /learning/data-plane/projects/module-15-hyperscan-compile/
 
 How to compile Hyperscan pattern databases — both regex (`hs_compile_multi`)
 and literal (`hs_compile_lit_multi`) — including the exact `parseFlags()`,
-`parseFile()`, and `create_hyperscan_db()` implementations from `dp_scan.c`
-in SASE DP. Also covers DB info query, serialization for persistence, and
+`parseFile()`, and `hs_create_db()` implementations from `domain_scan.c`
+in the DP application. Also covers DB info query, serialization for persistence, and
 compile error handling.
 
 ---
 
-## Hyperscan's role in SASE DP
+## Hyperscan's role in the DP application
 
 ```text
 Two databases, two purposes:
@@ -27,7 +27,7 @@ Two databases, two purposes:
    Compiled once at startup from patterns.txt + patterns2.txt.
    Patterns match the structure of TLS ClientHello (SNI extension header),
    HTTP Host headers, and IP addresses in URLs.
-   IDs: TLS=4, HTTP_IPV4=5, HTTP_DOMAIN=6, HTTP_IPV6=7
+   IDs: TLS=1, HTTP_IPV4=2, HTTP_DOMAIN=3, HTTP_IPV6=4
 
 2. group->database (per-group, literal):
    Compiled once per enterprise group when policy syncs from Kafka.
@@ -68,7 +68,7 @@ make
 
 | File | Purpose |
 |---|---|
-| `hs_compile.c` | `parseFlags`, `parseFile`, `create_hyperscan_db`, 6 demos |
+| `hs_compile.c` | `parseFlags`, `parseFile`, `hs_create_db`, 6 demos |
 | `sample_patterns.txt` | Example patterns.txt in the real format (ID:/pattern/flags) |
 | `Makefile` | Links with `-lhs` (pkg-config aware) |
 
@@ -118,21 +118,21 @@ Without `SINGLEMATCH`: Hyperscan fires a match callback for **every**
 position in the data where the pattern matches.
 
 With `SINGLEMATCH`: Hyperscan fires exactly **once** per scan per pattern.
-Since SASE DP only needs to know IF a pattern matched, `SINGLEMATCH`
+Since the DP application only needs to know IF a pattern matched, `SINGLEMATCH`
 eliminates redundant callbacks and is always used.
 
 ### 3. Pattern IDs — the callback dispatch mechanism
 
 ```c
-/* In the onMatchDP callback (dp_scan.c): */
-int onMatchDP(unsigned int id, unsigned long long from,
+/* In the on_hs_match callback (domain_scan.c): */
+int on_hs_match(unsigned int id, unsigned long long from,
               unsigned long long to, unsigned int flags, void *ctx)
 {
     switch (id) {
     case HS_PATTERN_ID_TLS:         /* 4 */
         /* read SNI at from+7 / from+9 (Module 07 pattern) */
         break;
-    case HS_PATTERN_ID_HTTP_DOMAIN: /* 6 */
+    case HS_PATTERN_ID_HTTP_DOMAIN: /* 3 */
         /* extract Host: header domain */
         break;
     }
@@ -184,7 +184,7 @@ if (r != HS_SUCCESS) {
 }
 ```
 
-### 7. `HS_MODE_BLOCK` — always use this in SASE DP
+### 7. `HS_MODE_BLOCK` — always use this in the DP application
 
 ```text
 HS_MODE_BLOCK:    Scan a complete buffer at once.
@@ -194,7 +194,7 @@ HS_MODE_STREAM:   Data arrives in chunks (e.g., TCP stream reassembly).
                   Would be needed if scanning fragmented DNS over TCP.
 
 HS_MODE_VECTORED: Scan multiple non-contiguous buffers in one call.
-                  Not used in SASE DP.
+                  Not used in the DP application.
 ```
 
 ---

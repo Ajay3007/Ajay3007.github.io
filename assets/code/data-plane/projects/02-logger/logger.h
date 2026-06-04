@@ -1,7 +1,7 @@
 /**
  * logger.h — Module 02: Logger
  *
- * In the real SASE DP project, logger.h is included by every .c file.
+ * In the real DP project, logger.h is included by every .c file.
  * It is the second thing initialized at startup — right after config parsing
  * and before any DPDK, Kafka, or Hyperscan subsystem starts.
  *

@@ -12,7 +12,7 @@ How to implement a lock-free Single-Producer Single-Consumer (SPSC) ring
 buffer in C — the manual equivalent of DPDK's `rte_ring`.
 
 A ring buffer is the primary inter-lcore communication channel in a DPDK
-application. In SASE DP:
+application. In the DP application:
 
 - **RX lcore** enqueues received `rte_mbuf*` pointers into a ring
 - **Worker lcores** dequeue from the ring and run policy decisions
@@ -41,7 +41,7 @@ RX lcore
   │  rte_ring_dequeue_burst(rx_ring, mbufs, BURST_SIZE)
   ▼
 Worker lcore
-  │  process_hyperscan_dns_for_group()
+  │  process_dns_for_group()
   │  policy decision → DROP / ALLOW / SINKHOLE
   │  rte_ring_enqueue_burst(tx_ring, fwd_mbufs, nb_fwd)
   │

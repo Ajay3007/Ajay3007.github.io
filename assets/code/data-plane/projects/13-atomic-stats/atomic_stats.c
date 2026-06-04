@@ -9,17 +9,17 @@
  *
  * Solution: C11 atomic types (_Atomic) with per-lcore structs.
  *
- * In the real SASE DP project (dp_scan.h):
+ * In the real DP application project (domain_scan.h):
  *
- *   extern atomic_ullong TOTAL_HS_DB_COMPILED;
- *   extern atomic_ullong TOTAL_SCRATCH_ALLOCATED;
- *   extern atomic_ulong  matchCount;
- *   extern atomic_ulong  count_hs_dns_received;
- *   extern atomic_ulong  count_hs_dns_processed;
+ *   extern atomic_ullong hs_db_compile_count;
+ *   extern atomic_ullong hs_scratch_alloc_count;
+ *   extern atomic_ulong  match_count;
+ *   extern atomic_ulong  dns_rx_count;
+ *   extern atomic_ulong  dns_proc_count;
  *
- * In cache_operation.c:
+ * In policy_cache.c:
  *
- *   atomic_ulong TOTAL_MALICIOUS_DOMAIN_FROM_IDPS;
+ *   atomic_ulong malicious_domain_count;
  *
  * These are globals incremented by any lcore. Per-lcore stats in the worker
  * context (pkt_rx, pkt_tx, pkt_drop) use the same pattern but are only
@@ -78,8 +78,8 @@ typedef struct {
     atomic_ulong policy_block;
     atomic_ulong policy_sinkhole;
 
-    /* ── Hyperscan counters (mirrors dp_scan.h globals per-lcore) ── */
-    atomic_ulong hs_scans;       /* total hs_scan_dp_process() calls       */
+    /* ── Hyperscan counters (mirrors domain_scan.h globals per-lcore) ── */
+    atomic_ulong hs_scans;       /* total hs_scan_payload() calls          */
     atomic_ulong hs_matches;     /* total Hyperscan pattern matches        */
 
     /* ── byte counters ── */
@@ -101,16 +101,16 @@ typedef struct {
 /* ───────────────────────────────────────────────────────────
  * Global stats — incremented from any lcore
  *
- * These mirror the globals in dp_scan.h / cache_operation.c.
+ * These mirror the globals in domain_scan.h / policy_cache.c.
  * Unlike per-lcore stats, these have contention between all lcores.
  * Keep the number of globals small and increment them only on
  * infrequent events (DB compilation, scratch allocation, etc.)
  * ─────────────────────────────────────────────────────────── */
-atomic_ullong TOTAL_HS_DB_COMPILED;      /* incremented when a Hyperscan DB is compiled */
-atomic_ullong TOTAL_SCRATCH_ALLOCATED;   /* incremented per scratch alloc per lcore     */
-atomic_ulong  count_hs_dns_received;     /* DNS packets that entered Hyperscan scan     */
-atomic_ulong  count_hs_dns_processed;    /* DNS packets where Hyperscan returned result */
-atomic_ulong  TOTAL_MALICIOUS_DOMAIN_FROM_IDPS; /* domains loaded from threat feed      */
+atomic_ullong hs_db_compile_count;      /* incremented when a Hyperscan DB is compiled */
+atomic_ullong hs_scratch_alloc_count;   /* incremented per scratch alloc per lcore     */
+atomic_ulong  dns_rx_count;     /* DNS packets that entered Hyperscan scan     */
+atomic_ulong  dns_proc_count;    /* DNS packets where Hyperscan returned result */
+atomic_ulong  malicious_domain_count; /* domains loaded from threat feed      */
 
 /* ───────────────────────────────────────────────────────────
  * Aggregated stats snapshot (plain, non-atomic, point-in-time)
@@ -207,14 +207,14 @@ static void stats_print_totals(const stats_snapshot_t *s)
            s->hs_scans, s->hs_matches);
     printf("  bytes_rx    : %lu  bytes_tx: %lu\n",
            s->bytes_rx, s->bytes_tx);
-    printf("  TOTAL_HS_DB_COMPILED    : %llu\n",
-           atomic_load(&TOTAL_HS_DB_COMPILED));
-    printf("  TOTAL_SCRATCH_ALLOCATED : %llu\n",
-           atomic_load(&TOTAL_SCRATCH_ALLOCATED));
-    printf("  count_hs_dns_received   : %lu\n",
-           atomic_load(&count_hs_dns_received));
-    printf("  MALICIOUS_DOMAINS       : %lu\n",
-           atomic_load(&TOTAL_MALICIOUS_DOMAIN_FROM_IDPS));
+    printf("  hs_db_compile_count    : %llu\n",
+           atomic_load(&hs_db_compile_count));
+    printf("  hs_scratch_alloc_count : %llu\n",
+           atomic_load(&hs_scratch_alloc_count));
+    printf("  dns_rx_count   : %lu\n",
+           atomic_load(&dns_rx_count));
+    printf("  malicious_domain_count  : %lu\n",
+           atomic_load(&malicious_domain_count));
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -279,7 +279,7 @@ static void *worker_thread(void *arg)
                 atomic_fetch_add_explicit(&stats->hs_scans, 1, memory_order_relaxed);
 
                 /* Also increment global counter (all workers write this) */
-                atomic_fetch_add_explicit(&count_hs_dns_received, 1,
+                atomic_fetch_add_explicit(&dns_rx_count, 1,
                                           memory_order_relaxed);
 
                 /* Simulate 5% block rate */
@@ -306,7 +306,7 @@ static void *worker_thread(void *arg)
                                               memory_order_relaxed);
                 }
 
-                atomic_fetch_add_explicit(&count_hs_dns_processed, 1,
+                atomic_fetch_add_explicit(&dns_proc_count, 1,
                                           memory_order_relaxed);
             } else if (r < 9) {
                 atomic_fetch_add_explicit(&stats->pkt_tls, 1,
@@ -361,7 +361,7 @@ static void demo_memory_ordering(void)
      *   Consumer: loads flag with ACQUIRE, then reads data.
      * Guarantees consumer sees all writes before the RELEASE store.
      *
-     * In SASE DP this pattern is used in the ring buffer (Module 03)
+     * In the DP application this pattern is used in the ring buffer (Module 03)
      * and when signalling workers to stop:
      *   lcore_info->running = 0;  // needs RELEASE semantics
      */
@@ -498,12 +498,12 @@ static void demo_live_stats(void)
 
     /* Simulate startup: Hyperscan DB compiled and scratch allocated */
     for (int i = 0; i < NUM_WORKERS; i++) {
-        atomic_fetch_add(&TOTAL_SCRATCH_ALLOCATED, 1);
+        atomic_fetch_add(&hs_scratch_alloc_count, 1);
     }
-    atomic_fetch_add(&TOTAL_HS_DB_COMPILED, 1);   /* one global DB compiled */
+    atomic_fetch_add(&hs_db_compile_count, 1);   /* one global DB compiled */
 
     /* Load malicious domains from threat feed */
-    atomic_store(&TOTAL_MALICIOUS_DOMAIN_FROM_IDPS, 48729);
+    atomic_store(&malicious_domain_count, 48729);
 
     /* Launch worker threads */
     pthread_t       threads[NUM_WORKERS];

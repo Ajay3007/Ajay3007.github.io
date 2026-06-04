@@ -1,4 +1,4 @@
-# SASE DP — Global Hyperscan pattern file
+# Global Hyperscan pattern file
 # Format: ID:/regex_pattern/flags
 #
 # Flags:
@@ -8,21 +8,21 @@
 #   H = HS_FLAG_SINGLEMATCH  (stop after first match — performance)
 #   8 = HS_FLAG_UTF8         (UTF-8 mode)
 #
-# Pattern IDs match the hs_pattern_id enum in dp_scan.h:
-#   4 = TLS ClientHello SNI extension
-#   5 = IPv4 address in HTTP URL
-#   6 = HTTP Host header domain
-#   7 = IPv6 address in HTTP URL
+# Pattern IDs match the hs_pattern_id enum in domain_scan.h:
+#   1 = TLS ClientHello SNI extension
+#   2 = IPv4 address in HTTP URL
+#   3 = HTTP Host header domain
+#   4 = IPv6 address in HTTP URL
 
 # TLS ClientHello: SNI extension type bytes (0x0000) in server_name extension
-# When this fires, onMatchDP reads SNI hostname at from+7 / from+9
-4:/\x00\x00\x00\x00\x00/H
+# When this fires, on_hs_match reads SNI hostname at from+7 / from+9
+1:/\x00\x00\x00\x00\x00/H
 
 # HTTP IPv4 in URL: matches "1.2.3.4" style addresses
-5:/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/iH
+2:/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/iH
 
 # HTTP Host header: matches the hostname in "Host: example.com"
-6:/Host: [a-zA-Z0-9._-]+/iH
+3:/Host: [a-zA-Z0-9._-]+/iH
 
 # HTTP IPv6 in URL: matches "[2001:db8::1]" style bracketed IPv6
-7:/\[([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}\]/iH
+4:/\[([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}\]/iH

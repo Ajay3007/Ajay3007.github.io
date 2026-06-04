@@ -1,7 +1,7 @@
 /**
  * dns_sinkhole.c — Module 18: DNS Sinkhole (In-place Packet Rewrite)
  *
- * When group_and_url_processing_for_dns() returns PROCESS_WORKFLOW (Module 17),
+ * When url_policy_for_dns() returns PROCESS_WORKFLOW (Module 17),
  * the DNS query must be turned into a sinkhole response in-place — without
  * allocating a new packet buffer.
  *
@@ -21,11 +21,11 @@
  *   At 200K blocked DNS/sec that's 42 ms/sec of extra overhead.
  *   In-place rewrite: just pointer arithmetic and a few memcpy/memset calls.
  *
- * In the real SASE DP project (core_process.h):
- *   dns_reuse_request_as_redirect_response_ip4()    — UDP/IPv4
- *   dns_reuse_request_as_redirect_response_ip6()    — UDP/IPv6
- *   dns_reuse_request_as_redirect_response_ip4_tcp()— TCP/IPv4
- *   dns_reuse_request_as_redirect_response_ip6_tcp()— TCP/IPv6
+ * In the real the DP application project (pkt_proc.h):
+ *   dns_build_sinkhole_v4()    — UDP/IPv4
+ *   dns_build_sinkhole_v6()    — UDP/IPv6
+ *   dns_build_sinkhole_v4_tcp()— TCP/IPv4
+ *   dns_build_sinkhole_v6_tcp()— TCP/IPv6
  *
  * This module is PURE C — runs without DPDK or Hyperscan.
  * Build: make
@@ -48,7 +48,7 @@
  * the client to these IPs. The walled garden server at these IPs
  * serves an HTTP "blocked" page for web traffic.
  *
- * In SASE DP, these are configured values read from config at startup.
+ * In the DP application, these are configured values read from config at startup.
  * ─────────────────────────────────────────────────────────── */
 #define WALLED_GARDEN_IPV4   0x0A010101   /* 10.1.1.1 */
 #define WALLED_GARDEN_IPV6   {0xfd,0x00,0x00,0x00,0x00,0x00,0x00,0x00,\
@@ -129,7 +129,7 @@ static int build_dns_answer(uint8_t *buf, uint16_t qtype,
 /* ───────────────────────────────────────────────────────────
  * dns_sinkhole_udp_ipv4 — in-place rewrite for UDP/IPv4
  *
- * Mirrors dns_reuse_request_as_redirect_response_ip4() in core_process.h.
+ * Mirrors dns_build_sinkhole_v4() in pkt_proc.h.
  *
  * @pkt         : raw packet buffer (Ethernet + IPv4 + UDP + DNS)
  * @pkt_len     : current packet length
@@ -223,7 +223,7 @@ int dns_sinkhole_udp_ipv4(uint8_t *pkt, int pkt_len, int buf_capacity,
      *           Receivers must accept this per RFC 768.
      * Option B: set TX_UDP_CKSUM offload flag (DPDK handles it in HW).
      *
-     * SASE DP uses Option B (hardware offload) for efficiency.
+     * the DP application uses Option B (hardware offload) for efficiency.
      * Here (pure C, no NIC) we use Option A.
      */
     udp->checksum = 0;
@@ -246,7 +246,7 @@ int dns_sinkhole_udp_ipv4(uint8_t *pkt, int pkt_len, int buf_capacity,
 /* ───────────────────────────────────────────────────────────
  * dns_sinkhole_udp_ipv6 — in-place rewrite for UDP/IPv6
  *
- * Mirrors dns_reuse_request_as_redirect_response_ip6() in core_process.h.
+ * Mirrors dns_build_sinkhole_v6() in pkt_proc.h.
  * IPv6 header layout is different: fixed 40 bytes, payload_len field
  * instead of total_len.
  * ─────────────────────────────────────────────────────────── */
@@ -309,7 +309,7 @@ int dns_sinkhole_udp_ipv6(uint8_t *pkt, int pkt_len, int buf_capacity,
 /* ───────────────────────────────────────────────────────────
  * dns_sinkhole_tcp_ipv4 — in-place rewrite for TCP/IPv4 DNS
  *
- * Mirrors dns_reuse_request_as_redirect_response_ip4_tcp() in core_process.h.
+ * Mirrors dns_build_sinkhole_v4_tcp() in pkt_proc.h.
  *
  * DNS over TCP has a 2-byte length prefix before the DNS message.
  * The rewrite must update this length field too.
@@ -356,8 +356,8 @@ int dns_sinkhole_tcp_ipv4(uint8_t *pkt, int pkt_len, int buf_capacity,
 
     /*
      * For TCP, we must also swap seq/ack numbers and set ACK flag.
-     * In the real SASE DP app, this is handled by maintaining TCP state
-     * (connection_host_table). Here we do a minimal swap for demo purposes.
+     * In the real the DP application app, this is handled by maintaining TCP state
+     * (connection_track_table). Here we do a minimal swap for demo purposes.
      */
     uint32_t tmp_seq = tcp->seq_num;
     tcp->seq_num = tcp->ack_num;
@@ -489,11 +489,11 @@ static void test_udp_ipv4_a(void)
     printf("══════════════════════════════════════════════\n\n");
 
     /*
-     * Original query: client 192.168.1.100:54321 → 8.8.8.8:53
+     * Original query: client 198.51.100.5:54321 → 8.8.8.8:53
      * DNS: A query for "blocked.example.com"
      *
      * After sinkhole:
-     *   8.8.8.8:53 → 192.168.1.100:54321
+     *   8.8.8.8:53 → 198.51.100.5:54321
      *   DNS response: A record pointing to 10.1.1.1
      */
     static uint8_t pkt[MAX_PKT_BUF] = {
@@ -501,12 +501,12 @@ static void test_udp_ipv4_a(void)
         0x00,0x01,0x02,0x03,0x04,0x05,    /* dst MAC */
         0xAA,0xBB,0xCC,0xDD,0xEE,0xFF,    /* src MAC */
         0x08,0x00,                          /* IPv4 */
-        /* IPv4: src=192.168.1.100, dst=8.8.8.8 */
+        /* IPv4: src=198.51.100.5, dst=8.8.8.8 */
         0x45,0x00,
         0x00,0x4f,                          /* total_len = 79 */
         0x00,0x01,0x00,0x00,
         0x40,0x11,0x00,0x00,               /* TTL=64, UDP */
-        0xC0,0xA8,0x01,0x64,               /* src: 192.168.1.100 */
+        0xC0,0xA8,0x01,0x64,               /* src: 198.51.100.5 */
         0x08,0x08,0x08,0x08,               /* dst: 8.8.8.8 */
         /* UDP: src=54321, dst=53 */
         0xD4,0x31, 0x00,0x35,
@@ -526,7 +526,7 @@ static void test_udp_ipv4_a(void)
     /* question_end: DNS_HDR_LEN(12) + qname(21) + qtype+qclass(4) = 37 */
     int question_end = 37;
 
-    printf("  Before: src=192.168.1.100:54321 → dst=8.8.8.8:53\n");
+    printf("  Before: src=198.51.100.5:54321 → dst=8.8.8.8:53\n");
     printf("  pkt_len=%d  question_end=%d\n\n", pkt_len, question_end);
 
     int new_len = dns_sinkhole_udp_ipv4(pkt, pkt_len, MAX_PKT_BUF,

@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 18 — DNS Sinkhole"
 permalink: /learning/data-plane/projects/module-18-dns-sinkhole/
@@ -11,7 +11,7 @@ permalink: /learning/data-plane/projects/module-18-dns-sinkhole/
 ## What you learn
 
 How to rewrite a DNS query packet into a sinkhole response **in-place** —
-the exact technique used in SASE DP to redirect blocked DNS queries to a
+the exact technique used in the DP application to redirect blocked DNS queries to a
 walled-garden IP without allocating a new packet buffer.
 
 Covers all four variants:
@@ -25,11 +25,11 @@ Covers all four variants:
 
 ```text
 Client sends DNS A query:
-  ETH[client→gateway]  IPv4[192.168.1.100→8.8.8.8]  UDP[54321→53]
+  ETH[client→gateway]  IPv4[198.51.100.5→8.8.8.8]  UDP[54321→53]
   DNS: QUERY blocked.example.com A
 
-SASE DP rewrites the mbuf in-place:
-  ETH[gateway→client]  IPv4[8.8.8.8→192.168.1.100]  UDP[53→54321]
+the DP application rewrites the mbuf in-place:
+  ETH[gateway→client]  IPv4[8.8.8.8→198.51.100.5]  UDP[53→54321]
   DNS: RESPONSE  ancount=1
        ANSWER: blocked.example.com A 60 10.1.1.1  ← walled garden
 ```
@@ -45,11 +45,11 @@ DNS query got a response — just not the IP they expected.
 Worker lcore:
   │
   ├─► dns_parse_message()         → domain, qtype, question_wire_end
-  ├─► group_and_url_processing_for_dns()  → PROCESS_WORKFLOW
+  ├─► url_policy_for_dns()  → PROCESS_WORKFLOW
   │
   └─► if PROCESS_WORKFLOW:
         if qtype == A:
-          dns_reuse_request_as_redirect_response_ip4(mbuf, wg_ipv4)
+          dns_build_sinkhole_v4(mbuf, wg_ipv4)
         │
         ├─ Swap ETH/IP/UDP headers
         ├─ Set DNS QR=1, ancount=1
@@ -74,9 +74,9 @@ Expected output:
 Walled garden IPv4: 10.1.1.1
 
 Test 1: Sinkhole UDP/IPv4 A query
-  Before: src=192.168.1.100:54321 → dst=8.8.8.8:53
+  Before: src=198.51.100.5:54321 → dst=8.8.8.8:53
   After:
-    src=8.8.8.8:53 → dst=192.168.1.100:54321
+    src=8.8.8.8:53 → dst=198.51.100.5:54321
     QR=1  RA=1  RCODE=0
     Answer RR: type=1 (A)  ttl=60
     RDATA (A): 10.1.1.1
@@ -168,7 +168,7 @@ m->ol_flags   |= RTE_MBUF_F_TX_IPV4 | RTE_MBUF_F_TX_IP_CKSUM
 
 Without this (or correct software checksum), the client's network stack
 discards the response as a bad checksum. This was one of the trickiest
-bugs to diagnose in the real SASE DP sinkhole implementation.
+bugs to diagnose in the real DP application sinkhole implementation.
 
 ---
 

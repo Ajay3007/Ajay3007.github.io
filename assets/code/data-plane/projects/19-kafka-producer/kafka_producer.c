@@ -1,8 +1,8 @@
 /**
  * kafka_producer.c — Module 19: Kafka Producer (CDR Export)
  *
- * Every policy decision in SASE DP generates a Charging Data Record (CDR):
- *   - Which subscriber (IP, SUPI) made a DNS query
+ * Every policy decision in the DP application generates a Charging Data Record (CDR):
+ *   - Which subscriber (IP, subscriber ID) made a DNS query
  *   - To which domain (with category and group)
  *   - What the policy decision was (ALLOW / DROP / SINKHOLE)
  *   - When (millisecond timestamp)
@@ -10,7 +10,7 @@
  * CDRs are published to a Kafka topic by each worker lcore.
  * Downstream microservices (billing, analytics, SIEM) consume the topic.
  *
- * In the real SASE DP project:
+ * In the real the DP application project:
  *   - One Kafka producer instance per application (shared, thread-safe)
  *   - Worker lcores batch CDRs locally (e.g., 1000 records)
  *   - On batch full or timeout: rd_kafka_produce() for each record
@@ -46,23 +46,23 @@
 #include <librdkafka/rdkafka.h>
 
 /* ───────────────────────────────────────────────────────────
- * Policy decision codes — mirrors cache_operation.h
+ * Policy decision codes — mirrors policy_cache.h
  * ─────────────────────────────────────────────────────────── */
-#define ALLOW_PACKET      10
-#define DROP_PACKET       11
-#define PROCESS_WORKFLOW  12
+#define ALLOW_PACKET      0
+#define DROP_PACKET       1
+#define PROCESS_WORKFLOW  2
 
 /* ───────────────────────────────────────────────────────────
  * CDR record — one entry per policy decision
  *
- * In the real SASE DP project, cdr fields are populated at the
+ * In the real the DP application project, cdr fields are populated at the
  * point of policy decision in process_hyperscan_dns_for_group()
  * or fetch_group_url_details_for_dns(), then queued for batch export.
  * ─────────────────────────────────────────────────────────── */
 typedef struct {
     uint64_t timestamp_ms;        /* Unix time in milliseconds           */
     uint32_t subscriber_ip;       /* subscriber IPv4, host byte order    */
-    char     supi[32];            /* Subscription Permanent Identifier   */
+    char     subscriber_id[32];   /* subscriber identifier               */
     char     domain[256];         /* queried domain name                 */
     uint16_t qtype;               /* DNS_TYPE_A=1 or DNS_TYPE_AAAA=28    */
     int      action;              /* ALLOW_PACKET / DROP / SINKHOLE      */
@@ -73,7 +73,7 @@ typedef struct {
 /* ───────────────────────────────────────────────────────────
  * CDR batch — per-worker accumulator before Kafka publish
  *
- * In SASE DP, each worker lcore accumulates CDRs locally to avoid
+ * In the DP application, each worker lcore accumulates CDRs locally to avoid
  * calling rd_kafka_produce() on every packet (syscall overhead).
  * When the batch fills or the flush timer fires, all pending CDRs
  * are submitted to the Kafka queue in one burst.
@@ -126,7 +126,7 @@ static int cdr_to_json(const cdr_record_t *rec, char *buf, int buf_len)
         "{"
         "\"ts\":%"PRIu64","
         "\"ip\":\"%u.%u.%u.%u\","
-        "\"supi\":\"%s\","
+        "\"subscriber_id\":\"%s\","
         "\"domain\":\"%s\","
         "\"qtype\":%u,"
         "\"action\":\"%s\","
@@ -138,7 +138,7 @@ static int cdr_to_json(const cdr_record_t *rec, char *buf, int buf_len)
         (rec->subscriber_ip >> 16) & 0xFF,
         (rec->subscriber_ip >>  8) & 0xFF,
          rec->subscriber_ip        & 0xFF,
-        rec->supi,
+        rec->subscriber_id,
         rec->domain,
         rec->qtype,
         action_str,
@@ -156,12 +156,12 @@ static int cdr_to_json(const cdr_record_t *rec, char *buf, int buf_len)
  * "rd_kafka_produce returned 0" only means the message entered
  * the local queue — it doesn't mean the broker received it.
  *
- * In the real SASE DP app, delivery failures trigger a LOG_WARN
+ * In the real the DP application app, delivery failures trigger a LOG_WARN
  * and a counter increment. CDRs are considered best-effort —
  * re-transmission is not implemented (acceptable for CDR loss < 0.01%).
  *
  * The callback runs in the rd_kafka_poll() thread context —
- * which in SASE DP is the main lcore's control loop.
+ * which in the DP application is the main lcore's control loop.
  * DO NOT call heavy work here; just update counters and log.
  * ─────────────────────────────────────────────────────────── */
 static void delivery_report_cb(rd_kafka_t *rk,
@@ -190,7 +190,7 @@ static void delivery_report_cb(rd_kafka_t *rk,
 /* ───────────────────────────────────────────────────────────
  * kafka_producer_init — create producer with full config
  *
- * Mirrors the Kafka init in SASE DP sase.c:
+ * Mirrors the Kafka init in the DP application app_main.c:
  *
  *   const char *broker = config_get_string(&cfg, "kafka", "broker", "...");
  *   kafka_producer_init(broker, topic_cdr);
@@ -201,7 +201,7 @@ static void delivery_report_cb(rd_kafka_t *rk,
  *   acks               : "all" = wait for all replicas (durability)
  *                        "1"   = wait for leader only (faster, less durable)
  *                        "0"   = fire-and-forget (fastest, data loss risk)
- *                        SASE DP uses "1" for CDR — acceptable small loss
+ *                        the DP application uses "1" for CDR — acceptable small loss
  *   retries            : retry on transient network errors
  *   retry.backoff.ms   : wait between retries
  *   batch.size         : max bytes to batch before sending (throughput)
@@ -285,7 +285,7 @@ int kafka_producer_init(const char *broker, const char *topic_name)
  * kafka_produce_cdr — publish one CDR record
  *
  * Called from cdr_flush_batch() with each buffered CDR.
- * Mirrors the rd_kafka_produce() call in the real SASE DP app.
+ * Mirrors the rd_kafka_produce() call in the real the DP application app.
  *
  * The subscriber IP is used as the message KEY.
  * Kafka partitions messages by key hash — all CDRs for the same
@@ -318,7 +318,7 @@ static int kafka_produce_cdr(const cdr_record_t *rec)
              * too slow to consume. Back-pressure: call poll() to trigger
              * delivery callbacks and free queue space, then retry.
              *
-             * In SASE DP, the CDR batch is simply dropped if the queue
+             * In the DP application, the CDR batch is simply dropped if the queue
              * stays full (CDR loss is acceptable; packet processing is not).
              */
             fprintf(stderr, "[Kafka] Queue full — retrying after poll\n");
@@ -341,7 +341,7 @@ static int kafka_produce_cdr(const cdr_record_t *rec)
      * rd_kafka_poll(rk, 0) — non-blocking poll.
      * Triggers delivery callbacks for any messages that have been
      * acknowledged since last poll. Must be called regularly.
-     * In SASE DP main lcore control loop: rd_kafka_poll(producer, 0).
+     * In the DP application main lcore control loop: rd_kafka_poll(producer, 0).
      * Passing 0 means "return immediately, process any pending callbacks".
      */
     rd_kafka_poll(g_producer, 0);
@@ -351,7 +351,7 @@ static int kafka_produce_cdr(const cdr_record_t *rec)
 /* ───────────────────────────────────────────────────────────
  * cdr_batch_add — add a record to the per-worker batch
  *
- * In the real SASE DP worker lcore:
+ * In the real the DP application worker lcore:
  *   cdr_batch_add(&worker_info->cdr_batch, &rec);
  * called at every policy decision point in the hot path.
  * ─────────────────────────────────────────────────────────── */
@@ -431,7 +431,7 @@ void kafka_producer_shutdown(void)
 static void sig_handler(int sig) { (void)sig; g_shutdown = 1; }
 
 /* ═══════════════════════════════════════════════════════════
- * Demo: simulate SASE DP CDR export flow
+ * Demo: simulate the DP application CDR export flow
  *
  * Generates 500 simulated CDR records across 3 workers,
  * exports them to Kafka in batches, then does a timer-based flush.
@@ -455,8 +455,8 @@ static cdr_record_t make_test_cdr(int seq)
     int idx = seq % 9;
 
     rec.timestamp_ms    = get_timestamp_ms();
-    rec.subscriber_ip   = 0xC0A80100 + (seq % 100);  /* 192.168.1.X */
-    snprintf(rec.supi, sizeof(rec.supi), "imsi-310260%09d", seq % 1000000000);
+    rec.subscriber_ip   = 0xC0A80100 + (seq % 100);  /* 198.51.100.X */
+    snprintf(rec.subscriber_id, sizeof(rec.subscriber_id), "subscriber-%09d", seq % 1000000000);
     strncpy(rec.domain, domains[idx], sizeof(rec.domain) - 1);
     rec.qtype           = (seq % 3 == 0) ? 28 : 1;  /* mix A and AAAA */
     rec.action          = actions[idx];
@@ -469,7 +469,7 @@ static cdr_record_t make_test_cdr(int seq)
 int main(int argc, char *argv[])
 {
     const char *broker     = (argc > 1) ? argv[1] : "localhost:9092";
-    const char *topic_name = (argc > 2) ? argv[2] : "sase_dp_cdr";
+    const char *topic_name = (argc > 2) ? argv[2] : "dp_cdr";
 
     signal(SIGINT,  sig_handler);
     signal(SIGTERM, sig_handler);
@@ -512,7 +512,7 @@ int main(int argc, char *argv[])
         /*
          * Main lcore control loop: every ~100ms, poll for delivery
          * callbacks and flush timed-out batches.
-         * In SASE DP this is the main lcore's while(running) loop.
+         * In the DP application this is the main lcore's while(running) loop.
          */
         if (i % 100 == 0) {
             rd_kafka_poll(g_producer, 0);   /* process delivery callbacks */

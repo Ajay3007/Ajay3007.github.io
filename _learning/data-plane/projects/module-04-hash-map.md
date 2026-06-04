@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 04 — Hash Map"
 permalink: /learning/data-plane/projects/module-04-hash-map/
@@ -11,7 +11,7 @@ permalink: /learning/data-plane/projects/module-04-hash-map/
 How to implement an open-addressing hash map in C with arbitrary-length
 keys — the manual equivalent of DPDK's `rte_hash`.
 
-In SASE DP, `rte_hash` tables are the backbone of every O(1) policy
+In the DP application, `rte_hash` tables are the backbone of every O(1) policy
 decision at packet rate. Understanding this module makes every
 `rte_hash_add_key_data()` / `rte_hash_lookup_data()` call in the real
 codebase immediately clear.
@@ -29,7 +29,7 @@ Kafka consumer receives policy update
   │
 Worker lcore receives DNS packet
   │
-  ├─► process_hyperscan_dns_for_group()
+  ├─► process_dns_for_group()
   │       hashmap_lookup_str(group->domain_details_table, domain, &fd)
   │       rte_hash_lookup_data(...)    ← real app
   │
@@ -37,7 +37,7 @@ Worker lcore receives DNS packet
   │   ret < 0   → no exact match → fall through to Hyperscan regex scan
 ```
 
-Every `group_struct` in SASE DP has its own `domain_details_table` —
+Every `group_struct` in the DP application has its own `domain_details_table` —
 one `rte_hash` per enterprise group, sized to that group's domain count.
 
 ---
@@ -194,7 +194,7 @@ rte_hash_del_key(tbl, domain);
 
 **Module 05 — Packet Structs**: Define Ethernet, IPv4, IPv6, UDP, TCP header
 structs in C and parse raw bytes into them — the same structs used in
-`core_process.h` for every packet that enters the pipeline.
+`pkt_proc.h` for every packet that enters the pipeline.
 
 ---
 

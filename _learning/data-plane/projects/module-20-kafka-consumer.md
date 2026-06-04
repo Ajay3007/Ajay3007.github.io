@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 20 — Kafka Consumer (Policy Sync)"
 permalink: /learning/data-plane/projects/module-20-kafka-consumer/
@@ -10,7 +10,7 @@ permalink: /learning/data-plane/projects/module-20-kafka-consumer/
 
 ## What you learn
 
-How the SASE DP Kafka consumer receives policy updates from the PM
+How the DP application Kafka consumer receives policy updates from the PM
 (Provisioning Module) and applies them to the in-memory domain tables —
 the SYNC_COMPLETE atomic swap protocol, manual offset commit, partition
 rebalance callbacks, and the RCU QSBR write-side pattern.
@@ -26,7 +26,7 @@ make
 ./kafka_consumer --demo
 
 # With a real Kafka broker:
-./kafka_consumer localhost:9092 sase_policy_updates
+./kafka_consumer localhost:9092 policy_updates
 ```
 
 Standalone output:
@@ -77,7 +77,7 @@ WITH SYNC_COMPLETE (buffered apply):
 ## Where this fits in the real application
 
 ```text
-SASE DP main lcore control loop:
+the DP application main lcore control loop:
   while (running) {
       rd_kafka_poll(cdr_producer, 0);         ← Module 19
 
@@ -137,10 +137,10 @@ entire sync unit is re-applied atomically.
 ### 3. Atomic swap + RCU QSBR (the real write-side pattern)
 
 ```c
-/* What happens at SYNC_COMPLETE in the real SASE DP app: */
+/* What happens at SYNC_COMPLETE in the real DP application app: */
 
 /* Step 1: build pending Hyperscan DB from pending domain table */
-hyperscan_db_compile_for_groups(group);
+hs_db_compile_for_groups(group);
 
 /* Step 2: atomic pointer swap */
 rte_atomic64_set(

@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 08 — DPDK EAL Initialization"
 permalink: /learning/data-plane/projects/module-08-dpdk-eal-init/
@@ -63,7 +63,7 @@ main()
   │
   ├─► rte_pktmbuf_pool_create()   (Module 09)
   ├─► port_init()                 (Module 10)
-  ├─► initialize_global_scratch() (Module 15/16)
+  ├─► hs_init_global_scratch() (Module 15/16)
   ├─► kafka_init()                (Module 19/20)
   ├─► rte_ring_create()           (Module 03 concept)
   │
@@ -114,10 +114,10 @@ sudo ./eal_init
 ### 1. EAL arg vector — built by the app, not the shell
 
 ```c
-/* Instead of running: ./sase_dp -l 0-7 --socket-mem 2048 */
+/* Instead of running: ./dp_app -l 0-7 --socket-mem 2048 */
 /* The app builds argv[] programmatically from config: */
 
-eal_add_arg("sase_dp");
+eal_add_arg("dp_app");
 eal_add_arg("-l");
 eal_add_arg(config_get_string(&cfg, "eal", "cores", "0-3"));
 eal_add_arg("--socket-mem");

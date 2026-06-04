@@ -1,16 +1,16 @@
 /**
  * hs_scan.c — Module 16: Hyperscan Scratch Management + Scanning
  *
- * This module implements the complete scan pipeline from dp_scan.c:
+ * This module implements the complete scan pipeline from domain_scan.c:
  *
- *   create_db_scratch()         → allocate scratch for a database
- *   clone_global_scratch()      → clone per-lcore scratch from global
- *   hs_scan_dp_process()        → scan packet payload, extract TLS SNI / HTTP domain
- *   hs_scan_dp_process_group()  → scan domain string against per-group policy DB
- *   onMatchDP                   → callback for global DB (TLS=4, HTTP=5,6,7)
- *   onMatchDPGroup              → callback for group DB (domain extraction)
+ *   hs_alloc_db_scratch()         → allocate scratch for a database
+ *   hs_clone_scratch_for_lcore()      → clone per-lcore scratch from global
+ *   hs_scan_payload()        → scan packet payload, extract TLS SNI / HTTP domain
+ *   hs_scan_domain_group()  → scan domain string against per-group policy DB
+ *   on_hs_match                   → callback for global DB (TLS=1, HTTP=2,3,4)
+ *   on_hs_match_group              → callback for group DB (domain extraction)
  *
- * These are exact reimplementations of the functions in dp_scan.c.
+ * These are exact reimplementations of the functions in domain_scan.c.
  *
  * Why scratch matters:
  *   hs_scan() is NOT thread-safe with respect to the scratch space.
@@ -20,8 +20,8 @@
  *   HS_SCRATCH_IN_USE (-9).
  *
  *   Solution: one scratch per lcore (cloned from global_scratch).
- *   In SASE DP, each worker lcore gets its own scratch via
- *   clone_global_scratch() during startup, stored in worker_lcore_info.
+ *   In the DP application, each worker lcore gets its own scratch via
+ *   hs_clone_scratch_for_lcore() during startup, stored in worker_lcore_info.
  *
  * Requires: Hyperscan (libhs) installed.
  */
@@ -36,17 +36,17 @@
 #include <hs.h>
 
 /* ───────────────────────────────────────────────────────────
- * Pattern ID enum — mirrors dp_scan.h
+ * Pattern ID enum — mirrors domain_scan.h
  * ─────────────────────────────────────────────────────────── */
 typedef enum {
-    HS_PATTERN_ID_TLS         = 4,
-    HS_PATTERN_ID_HTTP_IPV4   = 5,
-    HS_PATTERN_ID_HTTP_DOMAIN = 6,
-    HS_PATTERN_ID_HTTP_IPV6   = 7,
+    HS_PATTERN_ID_TLS         = 1,
+    HS_PATTERN_ID_HTTP_IPV4   = 2,
+    HS_PATTERN_ID_HTTP_DOMAIN = 3,
+    HS_PATTERN_ID_HTTP_IPV6   = 4,
 } hs_pattern_id_t;
 
 /* ───────────────────────────────────────────────────────────
- * Match context structs — mirrors dp_scan.h exactly
+ * Match context structs — mirrors domain_scan.h exactly
  *
  * These are passed as the 'ctx' pointer to hs_scan().
  * The onMatch callback fills them in.
@@ -76,14 +76,14 @@ struct dp_match_context_group {
 } __attribute__((aligned(64)));
 
 /* ───────────────────────────────────────────────────────────
- * Global state — mirrors globals in dp_scan.c
+ * Global state — mirrors globals in domain_scan.c
  * ─────────────────────────────────────────────────────────── */
 static hs_database_t *domainsPatternDB   = NULL;  /* global threat DB */
 static hs_scratch_t  *global_scratch     = NULL;  /* global scratch   */
 
 /* ───────────────────────────────────────────────────────────
  * read_u16_be — unaligned big-endian 16-bit read
- * Mirrors the helper used throughout core_process.h and dp_scan.c.
+ * Mirrors the helper used throughout pkt_proc.h and domain_scan.c.
  * ─────────────────────────────────────────────────────────── */
 static inline uint16_t read_u16_be(const uint8_t *p)
 {
@@ -91,25 +91,25 @@ static inline uint16_t read_u16_be(const uint8_t *p)
 }
 
 /* ───────────────────────────────────────────────────────────
- * onMatchDP — callback for global threat DB scans
+ * on_hs_match — callback for global threat DB scans
  *
  * Called by Hyperscan for EVERY match found in the payload.
  * Returns 0 to continue scanning, non-zero to stop after first match.
  *
- * This is the exact logic from dp_scan.c onMatchDP:
+ * This is the exact logic from domain_scan.c on_hs_match:
  *
- *  id=4 (TLS): SNI extension type 0x0000 matched.
+ *  id=1 (TLS): SNI extension type 0x0000 matched.
  *              Read SNI name length at from+7, copy name from from+9.
  *
- *  id=5 (HTTP_IPV4): IPv4 address in URL matched.
+ *  id=2 (HTTP_IPV4): IPv4 address in URL matched.
  *              Copy the matched bytes (from..to) as the domain.
  *
- *  id=6 (HTTP_DOMAIN): "Host: domain" matched.
+ *  id=3 (HTTP_DOMAIN): "Host: domain" matched.
  *              Extract the domain part (after "Host: ").
  *
- *  id=7 (HTTP_IPV6): IPv6 in URL — extract bracketed address.
+ *  id=4 (HTTP_IPV6): IPv6 in URL — extract bracketed address.
  * ─────────────────────────────────────────────────────────── */
-static int onMatchDP(unsigned int id,
+static int on_hs_match(unsigned int id,
                       unsigned long long from,
                       unsigned long long to,
                       unsigned int flags,
@@ -127,7 +127,7 @@ static int onMatchDP(unsigned int id,
 
     switch (id) {
 
-    case HS_PATTERN_ID_TLS: /* 4 */
+    case HS_PATTERN_ID_TLS: /* 1 */
         /*
          * Hyperscan matched the TLS SNI extension type bytes (0x0000...).
          * The SNI extension layout starting at 'from':
@@ -139,7 +139,7 @@ static int onMatchDP(unsigned int id,
          *   from+7, from+8 : SERVER NAME LENGTH  ← read_u16_be here
          *   from+9 ...     : SERVER NAME BYTES   ← copy from here
          *
-         * This is exactly the code in dp_scan.c onMatchDP case 4.
+         * This is exactly the code in domain_scan.c on_hs_match case 1.
          * See also Module 07 (tls_extract_sni_from_match) for the
          * full explanation of this layout.
          */
@@ -155,8 +155,8 @@ static int onMatchDP(unsigned int id,
         }
         break;
 
-    case HS_PATTERN_ID_HTTP_IPV4: /* 5 */
-    case HS_PATTERN_ID_HTTP_IPV6: /* 7 */
+    case HS_PATTERN_ID_HTTP_IPV4: /* 2 */
+    case HS_PATTERN_ID_HTTP_IPV6: /* 4 */
         /*
          * IPv4/IPv6 address matched in URL.
          * Copy the matched bytes (from..to range in payload).
@@ -174,7 +174,7 @@ static int onMatchDP(unsigned int id,
         }
         break;
 
-    case HS_PATTERN_ID_HTTP_DOMAIN: /* 6 */
+    case HS_PATTERN_ID_HTTP_DOMAIN: /* 3 */
         /*
          * "Host: example.com" matched.
          * Skip "Host: " prefix (6 bytes) to get the bare domain.
@@ -199,21 +199,21 @@ static int onMatchDP(unsigned int id,
      * Return 0: continue scanning (find all matching patterns).
      * Return non-zero (e.g. 1): HS_SCAN_TERMINATED — stop now.
      *
-     * In SASE DP, HS_FLAG_SINGLEMATCH is set on all patterns so
-     * Hyperscan calls onMatchDP at most once per pattern per scan.
+     * In the DP application, HS_FLAG_SINGLEMATCH is set on all patterns so
+     * Hyperscan calls on_hs_match at most once per pattern per scan.
      * We still return 0 to allow other patterns (different IDs) to fire.
      */
     return 0;
 }
 
 /* ───────────────────────────────────────────────────────────
- * onMatchDPGroup — callback for per-group domain DB scans
+ * on_hs_match_group — callback for per-group domain DB scans
  *
- * Simpler than onMatchDP: just captures the matched domain string.
+ * Simpler than on_hs_match: just captures the matched domain string.
  * The ID is the domain's policy ID assigned during compilation.
- * The real app uses matchCtx->id / 10 as the signature ID.
+ * The real app uses matchCtx->id as the signature ID.
  * ─────────────────────────────────────────────────────────── */
-static int onMatchDPGroup(unsigned int id,
+static int on_hs_match_group(unsigned int id,
                            unsigned long long from,
                            unsigned long long to,
                            unsigned int flags,
@@ -241,7 +241,7 @@ static int onMatchDPGroup(unsigned int id,
 }
 
 /* ───────────────────────────────────────────────────────────
- * create_db_scratch — mirrors dp_scan.c create_db_scratch()
+ * hs_alloc_db_scratch — reimplements from domain_scan.c hs_alloc_db_scratch()
  *
  * Allocates scratch space for a given database.
  * Scratch is a temporary working buffer Hyperscan uses during hs_scan().
@@ -257,11 +257,11 @@ static int onMatchDPGroup(unsigned int id,
  * scratch if db requires more space than what scratch currently has.
  * Pass &existing_scratch to reuse, or pass a pointer to NULL to create new.
  * ─────────────────────────────────────────────────────────── */
-int create_db_scratch(const hs_database_t *db, hs_scratch_t **scratch)
+int hs_alloc_db_scratch(const hs_database_t *db, hs_scratch_t **scratch)
 {
     hs_error_t err = hs_alloc_scratch(db, scratch);
     if (err != HS_SUCCESS) {
-        fprintf(stderr, "[create_db_scratch] hs_alloc_scratch failed: err=%d\n",
+        fprintf(stderr, "[hs_alloc_db_scratch] hs_alloc_scratch failed: err=%d\n",
                 err);
         return -1;
     }
@@ -274,7 +274,7 @@ int create_db_scratch(const hs_database_t *db, hs_scratch_t **scratch)
 }
 
 /* ───────────────────────────────────────────────────────────
- * clone_global_scratch — mirrors dp_scan.c clone_global_scratch()
+ * hs_clone_scratch_for_lcore — reimplements from domain_scan.c hs_clone_scratch_for_lcore()
  *
  * Called once per worker lcore during startup.
  * Creates a per-lcore copy of global_scratch that can be used
@@ -284,18 +284,18 @@ int create_db_scratch(const hs_database_t *db, hs_scratch_t **scratch)
  * because cloning copies the already-sized scratch without recalculating
  * the required size for each database.
  * ─────────────────────────────────────────────────────────── */
-int clone_global_scratch(hs_scratch_t **dest, int worker_lcore)
+int hs_clone_scratch_for_lcore(hs_scratch_t **dest, int worker_lcore)
 {
     if (!global_scratch) {
-        fprintf(stderr, "[clone_global_scratch] global_scratch is NULL — "
-                "call initialize_global_scratch() first\n");
+        fprintf(stderr, "[hs_clone_scratch_for_lcore] global_scratch is NULL — "
+                "call hs_init_global_scratch() first\n");
         return -1;
     }
 
     hs_error_t err = hs_clone_scratch(global_scratch, dest);
     if (err != HS_SUCCESS) {
         fprintf(stderr,
-                "[clone_global_scratch] hs_clone_scratch failed for lcore %d: "
+                "[hs_clone_scratch_for_lcore] hs_clone_scratch failed for lcore %d: "
                 "err=%d\n", worker_lcore, err);
         return -1;
     }
@@ -305,19 +305,19 @@ int clone_global_scratch(hs_scratch_t **dest, int worker_lcore)
 }
 
 /* ───────────────────────────────────────────────────────────
- * hs_scan_dp_process — scan packet payload with global threat DB
+ * hs_scan_payload — scan packet payload with global threat DB
  *
- * Mirrors dp_scan.c hs_scan_dp_process() exactly.
+ * Reimplements from domain_scan.c hs_scan_payload().
  *
  * Scans payload against domainsPatternDB looking for:
- *   - TLS ClientHello SNI extension (id=4)
- *   - HTTP Host header domain (id=6)
- *   - IP address in URL (id=5,7)
+ *   - TLS ClientHello SNI extension (id=1)
+ *   - HTTP Host header domain (id=3)
+ *   - IP address in URL (id=2,4)
  *
- * Returns the matched pattern ID (4,5,6,7) on match, 0 on no match,
+ * Returns the matched pattern ID (1,2,3,4) on match, 0 on no match,
  * -1 on error. The extracted domain is in matchCtx->extractedDomain.
  * ─────────────────────────────────────────────────────────── */
-int hs_scan_dp_process(const uint8_t *payload, uint16_t payload_len,
+int hs_scan_payload(const uint8_t *payload, uint16_t payload_len,
                         hs_scratch_t *worker_scratch,
                         struct dp_match_context *matchCtx)
 {
@@ -338,7 +338,7 @@ int hs_scan_dp_process(const uint8_t *payload, uint16_t payload_len,
         payload_len,
         0,           /* flags: unused in BLOCK mode, always pass 0 */
         scratch,
-        onMatchDP,   /* callback fired for each match */
+        on_hs_match,   /* callback fired for each match */
         matchCtx     /* passed as 'ctx' to callback */
     );
 
@@ -355,9 +355,9 @@ int hs_scan_dp_process(const uint8_t *payload, uint16_t payload_len,
 }
 
 /* ───────────────────────────────────────────────────────────
- * hs_scan_dp_process_group — scan domain string against group policy DB
+ * hs_scan_domain_group — scan domain string against group policy DB
  *
- * Mirrors dp_scan.c hs_scan_dp_process_group().
+ * Reimplements from domain_scan.c hs_scan_domain_group().
  *
  * This is called when:
  *   1. rte_hash exact match misses for this domain (Module 12)
@@ -366,10 +366,9 @@ int hs_scan_dp_process(const uint8_t *payload, uint16_t payload_len,
  * The domain string is scanned against the per-group literal database.
  * If a match fires, matchCtx->id is set to the matched domain's ID.
  *
- * Returns matchCtx->id / 10 (the signature ID) on match, -1 on error.
- * The /10 is the real SASE DP convention for deriving sig_id from pattern_id.
+ * Returns matchCtx->id (the signature ID) on match, -1 on error.
  * ─────────────────────────────────────────────────────────── */
-int hs_scan_dp_process_group(const char *domain,
+int hs_scan_domain_group(const char *domain,
                                hs_database_t *group_db,
                                hs_scratch_t *worker_scratch,
                                struct dp_match_context_group *matchCtx)
@@ -392,7 +391,7 @@ int hs_scan_dp_process_group(const char *domain,
         (unsigned int)strlen(domain),
         0,
         scratch,
-        onMatchDPGroup,
+        on_hs_match_group,
         matchCtx
     );
 
@@ -400,22 +399,22 @@ int hs_scan_dp_process_group(const char *domain,
         return -1;
 
     /* Return sig_id / 10 convention from the real app */
-    return matchCtx->onMatch_count > 0 ? (int)(matchCtx->id / 10) : 0;
+    return matchCtx->onMatch_count > 0 ? (int)(matchCtx->id) : 0;
 }
 
 /* ───────────────────────────────────────────────────────────
- * initialize_global_scratch — mirrors dp_scan.c exactly
+ * hs_init_global_scratch — reimplements from domain_scan.c
  *
  * Called once at startup AFTER compiling domainsPatternDB.
  * This scratch is then cloned for each worker lcore.
  * ─────────────────────────────────────────────────────────── */
-static int initialize_global_scratch(void)
+static int hs_init_global_scratch(void)
 {
     if (!domainsPatternDB) {
         fprintf(stderr, "[init_scratch] domainsPatternDB is NULL\n");
         return -1;
     }
-    return create_db_scratch(domainsPatternDB, &global_scratch);
+    return hs_alloc_db_scratch(domainsPatternDB, &global_scratch);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -424,16 +423,16 @@ static int initialize_global_scratch(void)
 static hs_database_t *compile_global_db(void)
 {
     const char *patterns[] = {
-        "\x00\x00\x00\x00\x00",             /* id=4: TLS SNI ext */
-        "Host: [a-zA-Z0-9._-]+",            /* id=6: HTTP Host   */
-        "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", /* id=5: IPv4 */
+        "\x00\x00\x00\x00\x00",             /* id=1: TLS SNI ext */
+        "Host: [a-zA-Z0-9._-]+",            /* id=3: HTTP Host   */
+        "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}", /* id=2: IPv4 */
     };
     unsigned flags[] = {
         HS_FLAG_SINGLEMATCH,
         HS_FLAG_CASELESS | HS_FLAG_SINGLEMATCH,
         HS_FLAG_SINGLEMATCH,
     };
-    unsigned ids[] = {4, 6, 5};
+    unsigned ids[] = {1, 3, 2};
 
     hs_compile_error_t *err = NULL;
     hs_database_t      *db  = NULL;
@@ -459,7 +458,7 @@ static hs_database_t *compile_group_db(const char **domains, size_t n,
     for (size_t i = 0; i < n; i++) {
         pats[i]  = (char *)domains[i];
         flags[i] = HS_FLAG_CASELESS | HS_FLAG_SINGLEMATCH;
-        ids[i]   = (unsigned)(i + 1) * 10;  /* SASE DP uses id*10 convention */
+        ids[i]   = (unsigned)(i + 1);
         lens[i]  = strlen(domains[i]);
         ids_out[i] = ids[i];
     }
@@ -481,12 +480,12 @@ static hs_database_t *compile_group_db(const char **domains, size_t n,
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Demo 1: TLS SNI extraction (hs_scan_dp_process, id=4)
+ * Demo 1: TLS SNI extraction (hs_scan_payload, id=4)
  * ═══════════════════════════════════════════════════════════ */
 static void demo_tls_sni_scan(hs_scratch_t *scratch)
 {
     printf("══════════════════════════════════════════════\n");
-    printf("Demo 1: TLS SNI extraction (hs_scan_dp_process, id=4)\n");
+    printf("Demo 1: TLS SNI extraction (hs_scan_payload, id=4)\n");
     printf("══════════════════════════════════════════════\n\n");
 
     /*
@@ -540,14 +539,14 @@ static void demo_tls_sni_scan(hs_scratch_t *scratch)
     };
 
     struct dp_match_context matchCtx;
-    int matched_id = hs_scan_dp_process(tls_clienthello,
+    int matched_id = hs_scan_payload(tls_clienthello,
                                          sizeof(tls_clienthello),
                                          scratch, &matchCtx);
 
     printf("  Scanned %zu-byte TLS ClientHello payload\n",
            sizeof(tls_clienthello));
     printf("  matched_id          = %d (%s)\n", matched_id,
-           matched_id == HS_PATTERN_ID_TLS ? "HS_PATTERN_ID_TLS=4" : "?");
+           matched_id == HS_PATTERN_ID_TLS ? "HS_PATTERN_ID_TLS=1" : "?");
     printf("  from                = %llu  (SNI ext type offset)\n", matchCtx.from);
     printf("  extractedDomain     = \"%s\"\n", matchCtx.extractedDomain);
     printf("  extractedDomainLength = %u\n\n",
@@ -574,7 +573,7 @@ static void demo_http_host_scan(hs_scratch_t *scratch)
         "Accept: */*\r\n\r\n";
 
     struct dp_match_context matchCtx;
-    int matched_id = hs_scan_dp_process(
+    int matched_id = hs_scan_payload(
         (const uint8_t *)http_request,
         (uint16_t)strlen(http_request),
         scratch, &matchCtx);
@@ -582,14 +581,14 @@ static void demo_http_host_scan(hs_scratch_t *scratch)
     printf("  HTTP payload (first 60 bytes): \"%.60s...\"\n", http_request);
     printf("  matched_id      = %d (%s)\n", matched_id,
            matched_id == HS_PATTERN_ID_HTTP_DOMAIN
-               ? "HS_PATTERN_ID_HTTP_DOMAIN=6" : "?");
+               ? "HS_PATTERN_ID_HTTP_DOMAIN=3" : "?");
     printf("  extractedDomain = \"%s\"\n\n", matchCtx.extractedDomain);
     assert(matched_id == HS_PATTERN_ID_HTTP_DOMAIN);
     printf("  PASS\n\n");
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Demo 3: Per-group domain scan (hs_scan_dp_process_group)
+ * Demo 3: Per-group domain scan (hs_scan_domain_group)
  *
  * This is the Hyperscan fallback after rte_hash miss (Module 12).
  * Scans the extracted domain name against the per-group literal DB.
@@ -597,7 +596,7 @@ static void demo_http_host_scan(hs_scratch_t *scratch)
 static void demo_group_domain_scan(void)
 {
     printf("══════════════════════════════════════════════\n");
-    printf("Demo 3: Per-group domain scan (hs_scan_dp_process_group)\n");
+    printf("Demo 3: Per-group domain scan (hs_scan_domain_group)\n");
     printf("══════════════════════════════════════════════\n\n");
 
     /* Simulate group policy: these domains are blocked for this group */
@@ -634,7 +633,7 @@ static void demo_group_domain_scan(void)
 
     for (int i = 0; i < 4; i++) {
         struct dp_match_context_group matchCtx;
-        int ret = hs_scan_dp_process_group(test_domains[i], group_db,
+        int ret = hs_scan_domain_group(test_domains[i], group_db,
                                             group_scratch, &matchCtx);
         int hit = (matchCtx.onMatch_count > 0);
 
@@ -680,7 +679,7 @@ static void *scan_thread_func(void *arg)
 
     for (int i = 0; i < 1000; i++) {
         struct dp_match_context ctx;
-        int ret = hs_scan_dp_process((const uint8_t *)payload,
+        int ret = hs_scan_payload((const uint8_t *)payload,
                                       (uint16_t)strlen(payload),
                                       ta->scratch, &ctx);
         if (ret < 0)
@@ -706,7 +705,7 @@ static void demo_scratch_thread_safety(void)
         args[i].scratch    = NULL;
         args[i].scan_count = 0;
         args[i].errors     = 0;
-        clone_global_scratch(&args[i].scratch, i);
+        hs_clone_scratch_for_lcore(&args[i].scratch, i);
     }
 
     /* Launch all threads simultaneously — each uses its own scratch */
@@ -732,7 +731,7 @@ static void demo_scratch_thread_safety(void)
 
     printf("  If we had used a single shared scratch:\n");
     printf("    hs_scan() would return HS_SCRATCH_IN_USE (-9) on concurrent access\n");
-    printf("    Solution: clone_global_scratch() for each worker lcore\n\n");
+    printf("    Solution: hs_clone_scratch_for_lcore() for each worker lcore\n\n");
 }
 
 /* ─── main ──────────────────────────────────────────────── */
@@ -741,12 +740,12 @@ int main(void)
     printf("=== Module 16: Hyperscan Scratch + Scan ===\n\n");
     printf("Hyperscan version: %s\n\n", hs_version());
 
-    /* Compile global DB + initialize scratch (mirrors initialize_global_scratch) */
+    /* Compile global DB + initialize scratch (mirrors hs_init_global_scratch) */
     printf("[Init] Compiling global threat DB...\n");
     domainsPatternDB = compile_global_db();
     assert(domainsPatternDB != NULL);
     printf("[Init] Allocating global_scratch...\n");
-    assert(initialize_global_scratch() == 0);
+    assert(hs_init_global_scratch() == 0);
 
     size_t scratch_sz;
     hs_scratch_size(global_scratch, &scratch_sz);

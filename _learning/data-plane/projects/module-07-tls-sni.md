@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 07 — TLS SNI Extractor"
 permalink: /learning/data-plane/projects/module-07-tls-sni/
@@ -14,7 +14,7 @@ the only domain-name signal available for policy enforcement on HTTPS traffic.
 Two approaches are implemented:
 1. **Full ClientHello walker** — walks every field, robust for standalone use
 2. **Hyperscan-match extractor** — uses fixed offsets from a Hyperscan match,
-   mirrors exactly what `onMatchDP` does in `dp_scan.c`
+   mirrors exactly what `on_hs_match` does in `domain_scan.c`
 
 ---
 
@@ -27,14 +27,14 @@ encryption begins, and it contains the SNI extension with the target hostname.
 ```text
 Client → Server:  TLS ClientHello (PLAINTEXT)
                   includes extensions:
-                    server_name: "www.blocked-site.com"   ← SASE DP reads this
+                    server_name: "www.blocked-site.com"   ← the DP application reads this
                     supported_versions: TLS 1.3
                     ...
 Client ← Server:  TLS ServerHello (PLAINTEXT headers, encrypted body from here)
 Client → Server:  [Encrypted Application Data]
 ```
 
-SASE DP extracts the SNI and runs the same policy lookup as for DNS.
+the DP application extracts the SNI and runs the same policy lookup as for DNS.
 If blocked → TCP RST injected to terminate the connection.
 
 ---
@@ -44,22 +44,22 @@ If blocked → TCP RST injected to terminate the connection.
 ```text
 TCP packet, dst_port = 443
   │
-  ├─► TCP payload stored in connection_tls_handshake_table
+  ├─► TCP payload stored in tls_session_table
   │   (state machine waits for ClientHello across possibly fragmented pkts)
   │
-  ├─► hs_scan_dp_process(payload, len, worker_info, &matchCtx)
-  │     Hyperscan scans for HS_PATTERN_ID_TLS = 4
+  ├─► hs_scan_payload(payload, len, worker_info, &matchCtx)
+  │     Hyperscan scans for HS_PATTERN_ID_TLS = 1
   │     Pattern matches the SNI extension type bytes (0x00 0x00)
   │     at some offset 'from' within the payload
   │
-  ├─► onMatchDP callback fires: id=4, from=<SNI_ext_offset>
+  ├─► on_hs_match callback fires: id=1, from=<SNI_ext_offset>
   │
-  │   /* Exact code from dp_scan.c: */
+  │   /* Exact code from domain_scan.c: */
   │   uint16_t sni_len = read_u16_be(payload + from + 7);
   │   memcpy(matchCtx->extractedDomain, payload + from + 9, sni_len);
   │   matchCtx->extractedDomainLength = sni_len;
   │
-  └─► group_and_url_processing_for_ip(sni, worker_info, ...)
+  └─► url_policy_for_tls(sni, worker_info, ...)
         → hash table lookup + Hyperscan fallback (Module 17)
         → DROP → TCP RST injection
         → ALLOW → forward
@@ -106,7 +106,7 @@ Expected output:
 
 --- Test 3: C2 domain extraction ---
   SNI extracted   : "malicious.c2-server.io"
-  → policy lookup → found in malicious_domain_vs_context_hash_table → BLOCK
+  → policy lookup → found in malicious_domain_table → BLOCK
   PASS
 
 --- Test 4: non-Handshake record rejected ---
@@ -151,7 +151,7 @@ The TLS Handshake header type field (1 byte) is followed by a 24-bit length,
 not a 32-bit one. Treating it as 4 bytes reads the type into the high byte
 of the length — silently producing a wrong length value.
 
-### 3. Hyperscan match offsets (the real dp_scan.c logic)
+### 3. Hyperscan match offsets (the real domain_scan.c logic)
 
 ```text
 SNI extension layout (starting at Hyperscan 'from'):
@@ -180,13 +180,13 @@ the hostname is empty. The real app falls back to IP-based policy.
 
 ## TLS struct mapping to DPDK / real app
 
-| This module | Real SASE DP |
+| This module | real DP application |
 |---|---|
-| `tls_record_hdr_t` | Inline struct in `core_process.h` |
-| `TLS_CONTENT_HANDSHAKE = 0x16` | `tls_content_type` enum in `core_process.h` |
-| `from+7` name_len | `read_u16_be(payload + from + 7)` in `dp_scan.c` `onMatchDP` |
-| `from+9` name bytes | `payload + from + 9` in `dp_scan.c` `onMatchDP` |
-| `HS_PATTERN_ID_TLS = 4` | Defined in `dp_scan.h` |
+| `tls_record_hdr_t` | Inline struct in `pkt_proc.h` |
+| `TLS_CONTENT_HANDSHAKE = 0x16` | `tls_content_type` enum in `pkt_proc.h` |
+| `from+7` name_len | `read_u16_be(payload + from + 7)` in `domain_scan.c` `on_hs_match` |
+| `from+9` name bytes | `payload + from + 9` in `domain_scan.c` `on_hs_match` |
+| `HS_PATTERN_ID_TLS = 1` | Defined in `domain_scan.h` |
 
 ---
 

@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 10 — NIC Port Initialization"
 permalink: /learning/data-plane/projects/module-10-port-init/
@@ -82,7 +82,7 @@ All packets → queue 0 → RX lcore → ring → single worker lcore
 
 With RSS (4 RX queues, one per worker lcore):
 ```text
-DNS from 192.168.1.x → hash=0xA3 % 4 = 3 → queue 3 → worker lcore 6
+DNS from 198.51.100.x → hash=0xA3 % 4 = 3 → queue 3 → worker lcore 6
 DNS from 10.0.0.x    → hash=0x51 % 4 = 1 → queue 1 → worker lcore 4
 ```
 
@@ -114,7 +114,7 @@ rte_eth_dev_adjust_nb_rx_tx_desc(port, &nb_rxd, &nb_txd);
 
 ### 5. Promiscuous mode — why it's necessary
 
-SASE DP sits inline between clients and the internet — packets are addressed
+the DP application sits inline between clients and the internet — packets are addressed
 to the router, not to the appliance. Promiscuous mode makes the NIC accept
 everything regardless of dst MAC.
 
@@ -142,7 +142,7 @@ if (stats.imissed > 0)
 ```
 
 `imissed` increments when a packet arrives but there's no free mbuf or no
-free descriptor. In SASE DP, `imissed` was the first indicator when the
+free descriptor. In the DP application, `imissed` was the first indicator when the
 product went live at 50 Gbps and revealed that one lcore was occasionally
 taking too long in the Hyperscan path.
 

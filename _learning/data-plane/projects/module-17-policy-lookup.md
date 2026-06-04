@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 17 — Two-tier Policy Lookup"
 permalink: /learning/data-plane/projects/module-17-policy-lookup/
@@ -12,7 +12,7 @@ permalink: /learning/data-plane/projects/module-17-policy-lookup/
 
 The complete policy decision engine: how `rte_hash` exact match (Tier 1)
 and Hyperscan fallback (Tier 2) combine into the single function called
-for every DNS packet in SASE DP. Includes `filter_details` application,
+for every DNS packet in the DP application. Includes `filter_details` application,
 malicious domain pre-check, multi-group evaluation, and a performance
 benchmark showing why the two-tier design is essential at 2M packets/sec.
 
@@ -43,23 +43,23 @@ Worker lcore receives DNS packet
   │
   ├─► dns_parse_message()      → domain = "blocked.example.com"
   │
-  ├─► rte_hash_lookup(supi_table, src_ip) → subscriber_t *sub
+  ├─► rte_hash_lookup(subscriber_table, src_ip) → subscriber_t *sub
   │     sub->group_id → which enterprise group
   │
-  └─► group_and_url_processing_for_dns(domain, qtype, groups, n)
+  └─► url_policy_for_dns(domain, qtype, groups, n)
         │
-        ├─► check_malicious_and_bitmask_for_dns(domain)
-        │     rte_hash_lookup(malicious_domain_vs_context, domain)
+        ├─► check_malicious_domain(domain)
+        │     rte_hash_lookup(malicious_domain_table, domain)
         │     HIT → PROCESS_WORKFLOW (sinkhole) immediately
         │     MISS ↓
         │
-        └─► fetch_group_url_details_for_dns(domain, group)
+        └─► fetch_url_policy_for_domain(domain, group)
               │
               ├─── Tier 1: rte_hash_lookup_data(domain_details_table, domain, &fd)
               │      HIT  → apply_filter_details(fd, group, port)
               │      MISS ↓
               │
-              └─── Tier 2: hs_scan_dp_process_group(domain, group->database, scratch)
+              └─── Tier 2: hs_scan_domain_group(domain, group->database, scratch)
                      HIT  → apply_filter_details(synthesised_fd, group, port)
                      MISS → group->default_policy
 ```
@@ -118,7 +118,7 @@ A blacklisted domain is always blocked even if the group's default is ALLOW.
 ```c
 /* Subscriber belongs to groups A and B */
 for (int g = 0; g < n_groups; g++) {
-    int d = fetch_group_url_details_for_dns(domain, groups[g], port);
+    int d = fetch_url_policy_for_domain(domain, groups[g], port);
     if (d != ALLOW_PACKET)
         final_decision = d;   /* most restrictive wins */
 }
@@ -133,7 +133,7 @@ if (check_malicious(domain, &ctx)) {
 }
 ```
 
-The malicious table (`malicious_domain_vs_context_hash_table`) is populated
+The malicious table (`malicious_domain_table`) is populated
 from threat intelligence feeds (URLHaus, IDPS feeds) via Kafka. It runs
 **before** group policy and cannot be overridden by a whitelist.
 
@@ -147,14 +147,14 @@ from threat intelligence feeds (URLHaus, IDPS feeds) via Kafka. It runs
 | `category_bitmask` | `0x00000004` | Entertainment category |
 | `is_port_based` | 1 | Also check `port_mask` for this domain |
 
-### 5. PROCESS_WORKFLOW (12) vs DROP_PACKET (11)
+### 5. PROCESS_WORKFLOW (2) vs DROP_PACKET (1)
 
 ```text
-PROCESS_WORKFLOW (12): For DNS → build sinkhole response (Module 18)
+PROCESS_WORKFLOW (2): For DNS → build sinkhole response (Module 18)
                         For TLS → inject TCP RST
                         The packet is "processed" before dropping
 
-DROP_PACKET (11):       Silently discard the packet
+DROP_PACKET (1):       Silently discard the packet
                         Used for category-blocked domains where
                         silent drop is preferred over sinkhole
 ```
@@ -167,7 +167,7 @@ for malware/phishing where you don't want to tip off the attacker.
 
 ## Next module
 
-**Module 18 — DNS Sinkhole**: When `group_and_url_processing_for_dns()`
+**Module 18 — DNS Sinkhole**: When `url_policy_for_dns()`
 returns `PROCESS_WORKFLOW`, the DNS query packet is rewritten in-place into
 a sinkhole response.
 

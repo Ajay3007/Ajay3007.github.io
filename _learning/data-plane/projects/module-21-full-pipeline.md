@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: "Module 21 — Full Pipeline (Annotated Assembly)"
 permalink: /learning/data-plane/projects/module-21-full-pipeline/
@@ -50,7 +50,7 @@ Simulating 1000 packets across 2 workers
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
-│                     SASE DP Process                             │
+│                     the DP application Process                             │
 │                                                                  │
 │  ┌─────────────────────────────────────────────────────────┐    │
 │  │  lcore 0: MAIN CONTROL LOOP                             │    │
@@ -105,8 +105,8 @@ Step  What                          Module  Why order matters
  4    rte_pktmbuf_pool_create()      09     NIC needs pool for RX descriptors
  5    port_init()                    10     Needs pool from step 4
  6    NUMA alloc: hash tables        12/14  Must know socket from step 3
- 7    create_hyperscan_db()          15     Patterns loaded, DB compiled
- 8    initialize_global_scratch()    16     Needs DB from step 7
+ 7    hs_create_db()          15     Patterns loaded, DB compiled
+ 8    hs_init_global_scratch()    16     Needs DB from step 7
  9    kafka_producer_init()          19     CDR topic ready before workers
 10    kafka_consumer_init()          20     Read initial policy before workers
 11    Seed policy tables             12/20  Workers need policies from day 1
@@ -162,8 +162,8 @@ Module 21 (Full Pipeline)
   ├── Module 03  ring_create()
   ├── Module 12  rte_hash CRUD (domain_details_table)
   │
-  ├── Module 15  create_hyperscan_db()
-  ├── Module 16  initialize_global_scratch()
+  ├── Module 15  hs_create_db()
+  ├── Module 16  hs_init_global_scratch()
   │
   ├── Module 19  kafka_producer_init()
   ├── Module 20  kafka_consumer_init()
@@ -173,9 +173,9 @@ Module 21 (Full Pipeline)
        ├── Module 06  dns_parse_message()
        ├── Module 07  tls_extract_sni_from_match()
        ├── Module 13  atomic counter increments
-       ├── Module 16  hs_scan_dp_process()
-       ├── Module 17  group_and_url_processing_for_dns()
-       ├── Module 18  dns_reuse_request_as_redirect_response_ip4/6()
+       ├── Module 16  hs_scan_payload()
+       ├── Module 17  url_policy_for_dns()
+       ├── Module 18  dns_build_sinkhole_v4/6()
        └── Module 19  cdr_batch_add()
 ```
 

@@ -133,13 +133,13 @@ static void get_timestamp(char *buf, size_t len)
 /**
  * logger_init — open the log file and set the filter level.
  *
- * In the real app, called in sase.c immediately after config_load():
+ * In the real app, called in app_main.c immediately after config_load():
  *
  *   logger_init(
  *       config_get_string(&cfg, "logging", "level",    "INFO"),
  *       config_get_string(&cfg, "logging", "file",     NULL)
  *   );
- *   LOG_INFO("SASE DP starting up...");
+ *   LOG_INFO("the DP application starting up...");
  */
 int logger_init(const char *level_str, const char *log_file_path)
 {
@@ -273,18 +273,18 @@ void log_write(log_level_t level, const char *file, int line,
  * Simulates the startup log sequence of a real dataplane app:
  *   config → logger → EAL → ports → mempools → workers → kafka
  *
- * Compare this to the startup prints you see when running sase_dp.
+ * Compare this to the startup prints you see when running dp_app.
  * ─────────────────────────────────────────────────────────── */
 int main(void)
 {
     /* Step 1: init logger — in the real app level + file come from config */
     logger_init("DEBUG", NULL);   /* NULL = console only for this demo */
 
-    LOG_INFO("=== SASE DP starting ===");
+    LOG_INFO("=== the DP application starting ===");
     LOG_INFO("Logger initialized: level=DEBUG, output=console");
 
     /* Step 2: config (Module 01) */
-    LOG_INFO("Loading config file: /etc/sase_dp/sase_dp.conf");
+    LOG_INFO("Loading config file: /etc/dp_app/dp_app.conf");
     LOG_DEBUG("Config: eal.cores=0-7, eal.socket_mem=2048");
     LOG_DEBUG("Config: port.num_rx_queues=4, port.rx_desc=1024");
     LOG_INFO("Config loaded: 23 entries");
@@ -307,8 +307,8 @@ int main(void)
 
     /* Step 6: Hyperscan (Module 19-21) */
     LOG_INFO("Compiling Hyperscan pattern DB...");
-    LOG_DEBUG("Loading pattern file: /etc/sase_dp/patterns.txt");
-    LOG_DEBUG("Loading pattern file: /etc/sase_dp/patterns2.txt");
+    LOG_DEBUG("Loading pattern file: /etc/dp_app/patterns.txt");
+    LOG_DEBUG("Loading pattern file: /etc/dp_app/patterns2.txt");
     LOG_INFO("Hyperscan DB compiled: 128 patterns, scratch allocated");
 
     /* Step 7: worker lcores (Module 15) */
@@ -317,9 +317,9 @@ int main(void)
     LOG_DEBUG("lcore 3: worker started, scratch cloned from global");
 
     /* Step 8: Kafka (Module 25-26) */
-    LOG_INFO("Connecting to Kafka broker: 192.168.1.10:9092");
+    LOG_INFO("Connecting to Kafka broker: broker.example.com:9092");
     LOG_WARN("Kafka: initial connection attempt timed out, retrying (1/3)");
-    LOG_INFO("Kafka: connected. Subscribed to topic: sase_policy_updates");
+    LOG_INFO("Kafka: connected. Subscribed to topic: policy_updates");
 
     /* Typical warn/error scenarios */
     LOG_WARN("Port 0: RX descriptor ring 80%% full on queue 2 — "

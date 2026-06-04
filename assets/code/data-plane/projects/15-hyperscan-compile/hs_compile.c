@@ -1,15 +1,15 @@
 /**
  * hs_compile.c — Module 15: Hyperscan Pattern Compilation
  *
- * Hyperscan is Intel's high-performance regex library. In SASE DP it is
+ * Hyperscan is Intel's high-performance regex library. In the DP application it is
  * used for two distinct purposes:
  *
  *   1. Global threat database (domainsPatternDB):
  *      Regex patterns loaded from patterns.txt / patterns2.txt.
  *      These match TLS SNI extensions, HTTP Host headers, and IP addresses
  *      in URLs. Compiled once at startup with hs_compile_multi().
- *      Pattern IDs defined in dp_scan.h:
- *        HS_PATTERN_ID_TLS=4, HTTP_IPV4=5, HTTP_DOMAIN=6, HTTP_IPV6=7
+ *      Pattern IDs defined in domain_scan.h:
+ *        HS_PATTERN_ID_TLS=1, HTTP_IPV4=2, HTTP_DOMAIN=3, HTTP_IPV6=4
  *
  *   2. Per-group domain policy database:
  *      Literal domain patterns for each enterprise group.
@@ -20,11 +20,11 @@
  * This module implements:
  *   - parseFlags()             → maps 'i','s','m','H','8','W' to HS_FLAG_*
  *   - parseFile()              → reads ID:/pattern/flags format (patterns.txt)
- *   - create_hyperscan_db()    → wraps hs_compile_multi/hs_compile_lit_multi
+ *   - hs_create_db()    → wraps hs_compile_multi/hs_compile_lit_multi
  *   - hs_error_to_string()     → human-readable error codes
  *   - DB info and serialization
  *
- * These are exact reimplementations of the functions in dp_scan.c.
+ * These are exact reimplementations of the functions in domain_scan.c.
  *
  * Requires: Hyperscan (libhs) installed.
  *   RedHat/Rocky:  dnf install hyperscan hyperscan-devel
@@ -42,7 +42,7 @@
 #include <hs.h>   /* Hyperscan main header */
 
 /* ───────────────────────────────────────────────────────────
- * Pattern ID enum — mirrors dp_scan.h exactly
+ * Pattern ID enum — mirrors domain_scan.h exactly
  *
  * These IDs are assigned to each pattern during compilation.
  * When Hyperscan fires a match, the onMatch callback receives
@@ -50,18 +50,18 @@
  * to determine what to extract (SNI bytes, Host header, etc.)
  * ─────────────────────────────────────────────────────────── */
 typedef enum {
-    HS_PATTERN_ID_TLS         = 4,  /* TLS SNI extension type 0x00 0x00 */
-    HS_PATTERN_ID_HTTP_IPV4   = 5,  /* IPv4 address in URL              */
-    HS_PATTERN_ID_HTTP_DOMAIN = 6,  /* HTTP Host: header domain         */
-    HS_PATTERN_ID_HTTP_IPV6   = 7,  /* IPv6 address in URL              */
+    HS_PATTERN_ID_TLS         = 1,  /* TLS SNI extension type 0x00 0x00 */
+    HS_PATTERN_ID_HTTP_IPV4   = 2,  /* IPv4 address in URL              */
+    HS_PATTERN_ID_HTTP_DOMAIN = 3,  /* HTTP Host: header domain         */
+    HS_PATTERN_ID_HTTP_IPV6   = 4,  /* IPv6 address in URL              */
 } hs_pattern_id_t;
 
 /* ───────────────────────────────────────────────────────────
- * dp_hyperscan_details — mirrors dp_scan.h
+ * dp_hyperscan_details — mirrors domain_scan.h
  *
  * Holds the raw pattern data before compilation.
  * Populated by parseFile() or by add_domain_to_group().
- * Passed to create_hyperscan_db().
+ * Passed to hs_create_db().
  * ─────────────────────────────────────────────────────────── */
 #define MAX_PATTERNS_PER_DB  200
 #define MAX_URL_LEN          256
@@ -75,7 +75,7 @@ struct dp_hyperscan_details {
 };
 
 /* ───────────────────────────────────────────────────────────
- * hs_error_to_string — mirrors dp_scan.c exactly
+ * hs_error_to_string — reimplements from domain_scan.c
  *
  * Hyperscan returns typed error codes, not strings. This function
  * converts them for log messages.
@@ -99,7 +99,7 @@ const char *hs_error_to_string(hs_error_t err)
 }
 
 /* ───────────────────────────────────────────────────────────
- * parseFlags — mirrors dp_scan.c exactly
+ * parseFlags — reimplements from domain_scan.c
  *
  * Maps a flags string like "i", "is", "8" to HS_FLAG_* bitmask.
  * Used when reading patterns.txt where each line is:
@@ -135,7 +135,7 @@ unsigned parseFlags(const char *flagsStr)
 }
 
 /* ───────────────────────────────────────────────────────────
- * parseFile — mirrors dp_scan.c exactly
+ * parseFile — reimplements from domain_scan.c
  *
  * Reads Hyperscan patterns from a file in the format:
  *
@@ -223,7 +223,7 @@ void parseFile(const char *filename,
 }
 
 /* ───────────────────────────────────────────────────────────
- * create_hyperscan_db — mirrors dp_scan.c exactly
+ * hs_create_db — reimplements from domain_scan.c
  *
  * Compiles patterns into an hs_database_t.
  * @compile_mode_lit = 1 (HS_COMPILE_MULTI_FLAG): use hs_compile_lit_multi
@@ -232,11 +232,11 @@ void parseFile(const char *filename,
  *                     (for regex patterns like the TLS/HTTP patterns)
  *
  * Returns 0 on success, -1 on error.
- * Increments TOTAL_HS_DB_COMPILED (in the real app).
+ * Increments hs_db_compile_count (in the real app).
  * ─────────────────────────────────────────────────────────── */
 #define HS_COMPILE_MULTI_FLAG  1
 
-int create_hyperscan_db(struct dp_hyperscan_details *hs_details,
+int hs_create_db(struct dp_hyperscan_details *hs_details,
                          int compile_mode_lit,
                          hs_database_t **database)
 {
@@ -244,7 +244,7 @@ int create_hyperscan_db(struct dp_hyperscan_details *hs_details,
     hs_error_t          err;
 
     if (hs_details->num_pattern == 0) {
-        fprintf(stderr, "[create_hyperscan_db] No patterns to compile\n");
+        fprintf(stderr, "[hs_create_db] No patterns to compile\n");
         return -1;
     }
 
@@ -294,12 +294,12 @@ int create_hyperscan_db(struct dp_hyperscan_details *hs_details,
     if (err != HS_SUCCESS) {
         if (compile_error) {
             fprintf(stderr,
-                    "[create_hyperscan_db] Compile error (pattern %d): %s\n",
+                    "[hs_create_db] Compile error (pattern %d): %s\n",
                     compile_error->expression,
                     compile_error->message);
             hs_free_compile_error(compile_error);
         } else {
-            fprintf(stderr, "[create_hyperscan_db] Error: %s\n",
+            fprintf(stderr, "[hs_create_db] Error: %s\n",
                     hs_error_to_string(err));
         }
         return -1;
@@ -330,7 +330,7 @@ static void print_db_info(const hs_database_t *db, const char *label)
 /* ═══════════════════════════════════════════════════════════
  * Demo 1: Global threat DB (hs_compile_multi with regex)
  *
- * Mirrors initialize_global_scratch() in dp_scan.c.
+ * Mirrors hs_init_global_scratch() in domain_scan.c.
  * Patterns match TLS ClientHello SNI extension, HTTP Host headers,
  * and IP addresses in URLs.
  * ═══════════════════════════════════════════════════════════ */
@@ -343,7 +343,7 @@ static void demo_global_threat_db(void)
     struct dp_hyperscan_details hs = {0};
 
     /*
-     * These patterns mirror what SASE DP loads from patterns.txt.
+     * These patterns mirror what the DP application loads from patterns.txt.
      * In production the patterns are tuned for:
      *   - Maximum coverage (catch all TLS/HTTP variants)
      *   - Minimal false positives
@@ -352,28 +352,28 @@ static void demo_global_threat_db(void)
 
     /* Pattern 4: TLS ClientHello SNI extension type (0x0000) prefix
      * Matches the server_name extension type bytes in a TLS ClientHello.
-     * When this fires, onMatchDP reads SNI name at from+7 / from+9. */
+     * When this fires, on_hs_match reads SNI name at from+7 / from+9. */
     hs.patterns[0] = "\x00\x00\x00\x00\x00";  /* simplified: 5 null bytes */
     hs.flags[0]    = HS_FLAG_SINGLEMATCH;
-    hs.ids[0]      = HS_PATTERN_ID_TLS;        /* 4 */
+    hs.ids[0]      = HS_PATTERN_ID_TLS;        /* 1 */
 
     /* Pattern 5: IPv4 address in URL
      * e.g. "http://1.2.3.4/path" — policy checks the raw IP directly */
     hs.patterns[1] = "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}";
     hs.flags[1]    = HS_FLAG_CASELESS | HS_FLAG_SINGLEMATCH;
-    hs.ids[1]      = HS_PATTERN_ID_HTTP_IPV4;  /* 5 */
+    hs.ids[1]      = HS_PATTERN_ID_HTTP_IPV4;  /* 2 */
 
     /* Pattern 6: HTTP Host header domain
      * e.g. "Host: www.example.com\r\n" */
     hs.patterns[2] = "Host: [a-zA-Z0-9._-]+";
     hs.flags[2]    = HS_FLAG_CASELESS | HS_FLAG_SINGLEMATCH;
-    hs.ids[2]      = HS_PATTERN_ID_HTTP_DOMAIN; /* 6 */
+    hs.ids[2]      = HS_PATTERN_ID_HTTP_DOMAIN; /* 3 */
 
     /* Pattern 7: IPv6 address in URL
      * e.g. "http://[2001:db8::1]/path" */
     hs.patterns[3] = "\\[([0-9a-fA-F]{0,4}:){2,7}[0-9a-fA-F]{0,4}\\]";
     hs.flags[3]    = HS_FLAG_CASELESS | HS_FLAG_SINGLEMATCH;
-    hs.ids[3]      = HS_PATTERN_ID_HTTP_IPV6;  /* 7 */
+    hs.ids[3]      = HS_PATTERN_ID_HTTP_IPV6;  /* 4 */
 
     hs.num_pattern = 4;
 
@@ -386,7 +386,7 @@ static void demo_global_threat_db(void)
     printf("\n");
 
     hs_database_t *db = NULL;
-    int ret = create_hyperscan_db(&hs, 0 /* regex mode */, &db);
+    int ret = hs_create_db(&hs, 0 /* regex mode */, &db);
 
     if (ret == 0) {
         printf("  Compilation SUCCESS\n");
@@ -400,7 +400,7 @@ static void demo_global_threat_db(void)
 /* ═══════════════════════════════════════════════════════════
  * Demo 2: Per-group domain DB (hs_compile_lit_multi with literals)
  *
- * Mirrors hyperscan_db_compile_for_groups() / create_hyperscan_db()
+ * Mirrors hyperscan_db_compile_for_groups() / hs_create_db()
  * called with compile_mode_lit = HS_COMPILE_MULTI_FLAG.
  *
  * Domain literals from the enterprise policy:
@@ -445,7 +445,7 @@ static void demo_per_group_domain_db(void)
     printf("\n");
 
     hs_database_t *db = NULL;
-    int ret = create_hyperscan_db(&hs, HS_COMPILE_MULTI_FLAG /* literal */, &db);
+    int ret = hs_create_db(&hs, HS_COMPILE_MULTI_FLAG /* literal */, &db);
 
     if (ret == 0) {
         printf("  Compilation SUCCESS\n");
@@ -466,7 +466,7 @@ static void demo_per_group_domain_db(void)
 }
 
 /* ═══════════════════════════════════════════════════════════
- * Demo 3: parseFlags + parseFile (mirrors dp_scan.c exactly)
+ * Demo 3: parseFlags + parseFile (reimplements from domain_scan.c)
  * ═══════════════════════════════════════════════════════════ */
 static void demo_parse_flags(void)
 {
@@ -501,7 +501,7 @@ static void demo_parse_file(void)
 
     /* Write a sample patterns.txt for the demo */
     const char *sample_patterns_txt =
-        "# SASE DP global Hyperscan patterns\n"
+        "# Global Hyperscan patterns\n"
         "# Format: ID:/pattern/flags\n"
         "4:/\\x00\\x00\\x00\\x00\\x00/H\n"
         "5:/[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}/iH\n"
@@ -538,7 +538,7 @@ static void demo_parse_file(void)
         hs.num_pattern = (unsigned)count;
 
         hs_database_t *db = NULL;
-        if (create_hyperscan_db(&hs, 0, &db) == 0) {
+        if (hs_create_db(&hs, 0, &db) == 0) {
             printf("  DB compiled from file  ✓\n");
             print_db_info(db, "from_file");
             hs_free_database(db);
@@ -595,11 +595,11 @@ static void demo_serialization(void)
 
     /* Write to a temp file (simulates disk persistence) */
     fp: {
-        FILE *f = fopen("/tmp/sase_dp_db.bin", "wb");
+        FILE *f = fopen("/tmp/dp_app_hs_db.bin", "wb");
         if (f) {
             fwrite(serial_buf, 1, serial_sz, f);
             fclose(f);
-            printf("  Written to         : /tmp/sase_dp_db.bin\n");
+            printf("  Written to         : /tmp/dp_app_hs_db.bin\n");
         }
     }
 
@@ -697,7 +697,7 @@ int main(void)
     printf("  hs_deserialize_database(buf,sz,&db)→ reload from disk\n");
     printf("\n");
     printf("Mode choices:\n");
-    printf("  HS_MODE_BLOCK    → whole buffer scanned at once (SASE DP uses this)\n");
+    printf("  HS_MODE_BLOCK    → whole buffer scanned at once (the DP application uses this)\n");
     printf("  HS_MODE_STREAM   → streaming: data arrives in chunks\n");
     printf("  HS_MODE_VECTORED → multiple non-contiguous buffers in one call\n");
     return 0;
