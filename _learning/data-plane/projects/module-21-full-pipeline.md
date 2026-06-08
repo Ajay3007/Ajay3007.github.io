@@ -213,5 +213,5 @@ Module 21 (Full Pipeline)
 
 | File | Download |
 |---|---|
-| `full_pipeline.c` | [full_pipeline.c]({{ '/assets/code/data-plane/projects/21-full-pipeline/full_pipeline.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/21-full-pipeline/Makefile' | relative_url }}) |
+| `full_pipeline.c` | [full_pipeline.c](https://github.com/Ajay3007/dataplane-learning/blob/main/21-full-pipeline/full_pipeline.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/21-full-pipeline/Makefile){:target="_blank" rel="noopener noreferrer"} |

@@ -204,6 +204,6 @@ and launch the first lcore function. (Reference code — requires DPDK.)
 
 | File | Download |
 |---|---|
-| `tls_sni.h` | [tls_sni.h]({{ '/assets/code/data-plane/projects/07-tls-sni/tls_sni.h' | relative_url }}) |
-| `tls_sni.c` | [tls_sni.c]({{ '/assets/code/data-plane/projects/07-tls-sni/tls_sni.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/07-tls-sni/Makefile' | relative_url }}) |
+| `tls_sni.h` | [tls_sni.h](https://github.com/Ajay3007/dataplane-learning/blob/main/07-tls-sni/tls_sni.h){:target="_blank" rel="noopener noreferrer"} |
+| `tls_sni.c` | [tls_sni.c](https://github.com/Ajay3007/dataplane-learning/blob/main/07-tls-sni/tls_sni.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/07-tls-sni/Makefile){:target="_blank" rel="noopener noreferrer"} |

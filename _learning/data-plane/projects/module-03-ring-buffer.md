@@ -197,6 +197,6 @@ the manual equivalent of DPDK's `rte_hash`.
 
 | File | Download |
 |---|---|
-| `ring.h` | [ring.h]({{ '/assets/code/data-plane/projects/03-ring-buffer/ring.h' | relative_url }}) |
-| `ring.c` | [ring.c]({{ '/assets/code/data-plane/projects/03-ring-buffer/ring.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/03-ring-buffer/Makefile' | relative_url }}) |
+| `ring.h` | [ring.h](https://github.com/Ajay3007/dataplane-learning/blob/main/03-ring-buffer/ring.h){:target="_blank" rel="noopener noreferrer"} |
+| `ring.c` | [ring.c](https://github.com/Ajay3007/dataplane-learning/blob/main/03-ring-buffer/ring.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/03-ring-buffer/Makefile){:target="_blank" rel="noopener noreferrer"} |

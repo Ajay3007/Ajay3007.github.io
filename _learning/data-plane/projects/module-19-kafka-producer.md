@@ -203,5 +203,5 @@ data plane.
 
 | File | Download |
 |---|---|
-| `kafka_producer.c` | [kafka_producer.c]({{ '/assets/code/data-plane/projects/19-kafka-producer/kafka_producer.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/19-kafka-producer/Makefile' | relative_url }}) |
+| `kafka_producer.c` | [kafka_producer.c](https://github.com/Ajay3007/dataplane-learning/blob/main/19-kafka-producer/kafka_producer.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/19-kafka-producer/Makefile){:target="_blank" rel="noopener noreferrer"} |

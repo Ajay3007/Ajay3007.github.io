@@ -146,5 +146,5 @@ understand the difference between regex and literal.
 
 | File | Download |
 |---|---|
-| `numa_alloc.c` | [numa_alloc.c]({{ '/assets/code/data-plane/projects/14-numa-alloc/numa_alloc.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/14-numa-alloc/Makefile' | relative_url }}) |
+| `numa_alloc.c` | [numa_alloc.c](https://github.com/Ajay3007/dataplane-learning/blob/main/14-numa-alloc/numa_alloc.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/14-numa-alloc/Makefile){:target="_blank" rel="noopener noreferrer"} |

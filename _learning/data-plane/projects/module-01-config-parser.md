@@ -148,6 +148,6 @@ engine) uses it to report startup progress and errors.
 
 | File | Download |
 |---|---|
-| `config_parser.c` | [config_parser.c]({{ '/assets/code/data-plane/projects/01-config-parser/config_parser.c' | relative_url }}) |
-| `sample.conf` | [sample.conf]({{ '/assets/code/data-plane/projects/01-config-parser/sample.conf' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/01-config-parser/Makefile' | relative_url }}) |
+| `config_parser.c` | [config_parser.c](https://github.com/Ajay3007/dataplane-learning/blob/main/01-config-parser/config_parser.c){:target="_blank" rel="noopener noreferrer"} |
+| `sample.conf` | [sample.conf](https://github.com/Ajay3007/dataplane-learning/blob/main/01-config-parser/sample.conf){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/01-config-parser/Makefile){:target="_blank" rel="noopener noreferrer"} |

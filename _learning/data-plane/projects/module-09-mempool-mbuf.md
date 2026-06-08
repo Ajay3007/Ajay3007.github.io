@@ -179,5 +179,5 @@ descriptor rings, link speed, promiscuous mode, and RSS.
 
 | File | Download |
 |---|---|
-| `mempool_mbuf.c` | [mempool_mbuf.c]({{ '/assets/code/data-plane/projects/09-mempool-mbuf/mempool_mbuf.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/09-mempool-mbuf/Makefile' | relative_url }}) |
+| `mempool_mbuf.c` | [mempool_mbuf.c](https://github.com/Ajay3007/dataplane-learning/blob/main/09-mempool-mbuf/mempool_mbuf.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/09-mempool-mbuf/Makefile){:target="_blank" rel="noopener noreferrer"} |

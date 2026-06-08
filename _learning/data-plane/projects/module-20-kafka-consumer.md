@@ -222,5 +222,5 @@ file showing how all 20 modules connect into a complete dataplane application.
 
 | File | Download |
 |---|---|
-| `kafka_consumer.c` | [kafka_consumer.c]({{ '/assets/code/data-plane/projects/20-kafka-consumer/kafka_consumer.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/20-kafka-consumer/Makefile' | relative_url }}) |
+| `kafka_consumer.c` | [kafka_consumer.c](https://github.com/Ajay3007/dataplane-learning/blob/main/20-kafka-consumer/kafka_consumer.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/20-kafka-consumer/Makefile){:target="_blank" rel="noopener noreferrer"} |

@@ -213,5 +213,5 @@ and learn why mempools exist.
 
 | File | Download |
 |---|---|
-| `eal_init.c` | [eal_init.c]({{ '/assets/code/data-plane/projects/08-dpdk-eal-init/eal_init.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/08-dpdk-eal-init/Makefile' | relative_url }}) |
+| `eal_init.c` | [eal_init.c](https://github.com/Ajay3007/dataplane-learning/blob/main/08-dpdk-eal-init/eal_init.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/08-dpdk-eal-init/Makefile){:target="_blank" rel="noopener noreferrer"} |

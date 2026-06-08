@@ -199,6 +199,6 @@ name for HTTPS connections.
 
 | File | Download |
 |---|---|
-| `dns_parser.h` | [dns_parser.h]({{ '/assets/code/data-plane/projects/06-dns-parser/dns_parser.h' | relative_url }}) |
-| `dns_parser.c` | [dns_parser.c]({{ '/assets/code/data-plane/projects/06-dns-parser/dns_parser.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/06-dns-parser/Makefile' | relative_url }}) |
+| `dns_parser.h` | [dns_parser.h](https://github.com/Ajay3007/dataplane-learning/blob/main/06-dns-parser/dns_parser.h){:target="_blank" rel="noopener noreferrer"} |
+| `dns_parser.c` | [dns_parser.c](https://github.com/Ajay3007/dataplane-learning/blob/main/06-dns-parser/dns_parser.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/06-dns-parser/Makefile){:target="_blank" rel="noopener noreferrer"} |

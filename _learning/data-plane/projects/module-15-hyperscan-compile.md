@@ -211,6 +211,6 @@ call `hs_scan()` with the `onMatch` callback.
 
 | File | Download |
 |---|---|
-| `hs_compile.c` | [hs_compile.c]({{ '/assets/code/data-plane/projects/15-hyperscan-compile/hs_compile.c' | relative_url }}) |
-| `sample_patterns.txt` | [sample_patterns.txt]({{ '/assets/code/data-plane/projects/15-hyperscan-compile/sample_patterns.txt' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/15-hyperscan-compile/Makefile' | relative_url }}) |
+| `hs_compile.c` | [hs_compile.c](https://github.com/Ajay3007/dataplane-learning/blob/main/15-hyperscan-compile/hs_compile.c){:target="_blank" rel="noopener noreferrer"} |
+| `sample_patterns.txt` | [sample_patterns.txt](https://github.com/Ajay3007/dataplane-learning/blob/main/15-hyperscan-compile/sample_patterns.txt){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/15-hyperscan-compile/Makefile){:target="_blank" rel="noopener noreferrer"} |

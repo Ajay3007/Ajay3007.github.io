@@ -202,6 +202,6 @@ structs in C and parse raw bytes into them — the same structs used in
 
 | File | Download |
 |---|---|
-| `hashmap.h` | [hashmap.h]({{ '/assets/code/data-plane/projects/04-hash-map/hashmap.h' | relative_url }}) |
-| `hashmap.c` | [hashmap.c]({{ '/assets/code/data-plane/projects/04-hash-map/hashmap.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/04-hash-map/Makefile' | relative_url }}) |
+| `hashmap.h` | [hashmap.h](https://github.com/Ajay3007/dataplane-learning/blob/main/04-hash-map/hashmap.h){:target="_blank" rel="noopener noreferrer"} |
+| `hashmap.c` | [hashmap.c](https://github.com/Ajay3007/dataplane-learning/blob/main/04-hash-map/hashmap.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/04-hash-map/Makefile){:target="_blank" rel="noopener noreferrer"} |

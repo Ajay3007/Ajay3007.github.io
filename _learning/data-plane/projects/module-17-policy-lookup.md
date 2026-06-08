@@ -177,5 +177,5 @@ a sinkhole response.
 
 | File | Download |
 |---|---|
-| `policy_lookup.c` | [policy_lookup.c]({{ '/assets/code/data-plane/projects/17-policy-lookup/policy_lookup.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/17-policy-lookup/Makefile' | relative_url }}) |
+| `policy_lookup.c` | [policy_lookup.c](https://github.com/Ajay3007/dataplane-learning/blob/main/17-policy-lookup/policy_lookup.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/17-policy-lookup/Makefile){:target="_blank" rel="noopener noreferrer"} |

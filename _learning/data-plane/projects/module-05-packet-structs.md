@@ -225,6 +225,6 @@ wire format.
 
 | File | Download |
 |---|---|
-| `packet_structs.h` | [packet_structs.h]({{ '/assets/code/data-plane/projects/05-packet-structs/packet_structs.h' | relative_url }}) |
-| `packet_parser.c` | [packet_parser.c]({{ '/assets/code/data-plane/projects/05-packet-structs/packet_parser.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/05-packet-structs/Makefile' | relative_url }}) |
+| `packet_structs.h` | [packet_structs.h](https://github.com/Ajay3007/dataplane-learning/blob/main/05-packet-structs/packet_structs.h){:target="_blank" rel="noopener noreferrer"} |
+| `packet_parser.c` | [packet_parser.c](https://github.com/Ajay3007/dataplane-learning/blob/main/05-packet-structs/packet_parser.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/05-packet-structs/Makefile){:target="_blank" rel="noopener noreferrer"} |

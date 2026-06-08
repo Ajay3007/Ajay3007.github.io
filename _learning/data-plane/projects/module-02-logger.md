@@ -151,6 +151,6 @@ the manual equivalent of DPDK's `rte_ring`. Understanding it first makes
 
 | File | Download |
 |---|---|
-| `logger.h` | [logger.h]({{ '/assets/code/data-plane/projects/02-logger/logger.h' | relative_url }}) |
-| `logger.c` | [logger.c]({{ '/assets/code/data-plane/projects/02-logger/logger.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/02-logger/Makefile' | relative_url }}) |
+| `logger.h` | [logger.h](https://github.com/Ajay3007/dataplane-learning/blob/main/02-logger/logger.h){:target="_blank" rel="noopener noreferrer"} |
+| `logger.c` | [logger.c](https://github.com/Ajay3007/dataplane-learning/blob/main/02-logger/logger.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/02-logger/Makefile){:target="_blank" rel="noopener noreferrer"} |

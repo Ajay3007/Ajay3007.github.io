@@ -222,5 +222,5 @@ hot path called for every DNS packet in the DP application.
 
 | File | Download |
 |---|---|
-| `hs_scan.c` | [hs_scan.c]({{ '/assets/code/data-plane/projects/16-hyperscan-scan/hs_scan.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/16-hyperscan-scan/Makefile' | relative_url }}) |
+| `hs_scan.c` | [hs_scan.c](https://github.com/Ajay3007/dataplane-learning/blob/main/16-hyperscan-scan/hs_scan.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/16-hyperscan-scan/Makefile){:target="_blank" rel="noopener noreferrer"} |

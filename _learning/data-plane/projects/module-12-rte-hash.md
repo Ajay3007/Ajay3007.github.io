@@ -204,5 +204,5 @@ performance counters.
 
 | File | Download |
 |---|---|
-| `rte_hash_crud.c` | [rte_hash_crud.c]({{ '/assets/code/data-plane/projects/12-rte-hash/rte_hash_crud.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/12-rte-hash/Makefile' | relative_url }}) |
+| `rte_hash_crud.c` | [rte_hash_crud.c](https://github.com/Ajay3007/dataplane-learning/blob/main/12-rte-hash/rte_hash_crud.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/12-rte-hash/Makefile){:target="_blank" rel="noopener noreferrer"} |

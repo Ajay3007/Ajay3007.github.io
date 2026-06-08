@@ -188,5 +188,5 @@ correct NUMA socket for NIC queues, hash tables, and Hyperscan databases.
 
 | File | Download |
 |---|---|
-| `atomic_stats.c` | [atomic_stats.c]({{ '/assets/code/data-plane/projects/13-atomic-stats/atomic_stats.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/13-atomic-stats/Makefile' | relative_url }}) |
+| `atomic_stats.c` | [atomic_stats.c](https://github.com/Ajay3007/dataplane-learning/blob/main/13-atomic-stats/atomic_stats.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/13-atomic-stats/Makefile){:target="_blank" rel="noopener noreferrer"} |

@@ -202,5 +202,5 @@ generates a Charging Data Record that is exported to Kafka.
 
 | File | Download |
 |---|---|
-| `dns_sinkhole.c` | [dns_sinkhole.c]({{ '/assets/code/data-plane/projects/18-dns-sinkhole/dns_sinkhole.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/18-dns-sinkhole/Makefile' | relative_url }}) |
+| `dns_sinkhole.c` | [dns_sinkhole.c](https://github.com/Ajay3007/dataplane-learning/blob/main/18-dns-sinkhole/dns_sinkhole.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/18-dns-sinkhole/Makefile){:target="_blank" rel="noopener noreferrer"} |

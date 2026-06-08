@@ -162,5 +162,5 @@ operations — the exact API used for `domain_details_table` in each
 
 | File | Download |
 |---|---|
-| `pipeline.c` | [pipeline.c]({{ '/assets/code/data-plane/projects/11-pipeline/pipeline.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/11-pipeline/Makefile' | relative_url }}) |
+| `pipeline.c` | [pipeline.c](https://github.com/Ajay3007/dataplane-learning/blob/main/11-pipeline/pipeline.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/11-pipeline/Makefile){:target="_blank" rel="noopener noreferrer"} |

@@ -171,5 +171,5 @@ Modules 08–10 into a complete multi-lcore packet processing pipeline skeleton.
 
 | File | Download |
 |---|---|
-| `port_init.c` | [port_init.c]({{ '/assets/code/data-plane/projects/10-port-init/port_init.c' | relative_url }}) |
-| `Makefile` | [Makefile]({{ '/assets/code/data-plane/projects/10-port-init/Makefile' | relative_url }}) |
+| `port_init.c` | [port_init.c](https://github.com/Ajay3007/dataplane-learning/blob/main/10-port-init/port_init.c){:target="_blank" rel="noopener noreferrer"} |
+| `Makefile` | [Makefile](https://github.com/Ajay3007/dataplane-learning/blob/main/10-port-init/Makefile){:target="_blank" rel="noopener noreferrer"} |
