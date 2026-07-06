@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:04,300
+Merge Sorted Array — LeetCode 88
+
+2
+00:00:04,300 --> 00:00:05,600
+Merge nums2 into nums1, in place
+
+3
+00:00:05,600 --> 00:00:08,300
+Naive idea: fill from the front
+
+4
+00:00:08,300 --> 00:00:10,150
+But that overwrites the unread 1
+
+5
+00:00:10,150 --> 00:00:13,200
+So fill from the back instead
+
+6
+00:00:13,200 --> 00:00:14,620
+Compare nums1[i] and nums2[j]
+
+7
+00:00:14,620 --> 00:00:17,100
+6 > 3 — place 6 in the last slot
+
+8
+00:00:17,100 --> 00:00:20,400
+5 > 3 — place 5
+
+9
+00:00:20,400 --> 00:00:23,700
+3 > 2 — place 3, taken from nums1
+
+10
+00:00:23,700 --> 00:00:27,000
+2 = 2 — ≤ picks nums2
+
+11
+00:00:27,000 --> 00:00:29,700
+j < 0, loop ends — 1 and 2 already sorted
+
+12
+00:00:29,700 --> 00:00:33,400
+Sorted in place · O(m + n) time, O(1) space
