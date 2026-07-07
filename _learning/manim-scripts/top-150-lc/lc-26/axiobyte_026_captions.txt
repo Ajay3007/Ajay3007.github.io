@@ -1,0 +1,88 @@
+================================================================
+AxioByte — Episode 3 · Remove Duplicates from Sorted Array (LeetCode 26)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc26_video.py LC26
+  -> media/videos/lc26_video/1920p60/LC26.mp4
+
+Cover (single still image):
+  manim -s -qh cover26_9x16.py Cover26
+  -> media/images/cover26_9x16/Cover26_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_026_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Remove Duplicates from Sorted Array — LeetCode 26 — in O(1) space 👇
+
+The key nobody says out loud: the array is SORTED. 🧠 That means every duplicate sits right next to its twin — so you never search, you just compare each value to the last unique one you kept.
+
+Two pointers on one array:
+• s → the last unique value
+• f → scans ahead
+
+If nums[f] equals nums[s], it's a duplicate → skip it. If it's different, it's a new unique → move s forward and copy it there.
+
+At the end, the first s + 1 slots hold every unique value, in order. One pass, no extra memory.
+
+→ O(n) time, O(1) space ✅
+
+#3 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem should I break down next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Remove Duplicates from Sorted Array (LeetCode 26) in O(1) space 👇
+
+Because it's SORTED, duplicates are always adjacent. Two pointers: s = last unique, f = scanner. Same value → skip. Different → advance s and copy it. First s+1 slots = the answer. One pass, zero extra memory ✅
+
+#3 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Remove Duplicates from Sorted Array — LeetCode 26 (O(1) Space)
+
+-- Description --
+Remove Duplicates from Sorted Array (LeetCode 26) solved in O(1) space with two pointers — and the whole trick is that the array is sorted.
+
+Because the array is sorted, duplicates are always adjacent, so you only ever compare each element to the last unique value you kept. Keep a slow pointer s on the last unique and a fast pointer f scanning ahead: if nums[f] matches nums[s] it's a duplicate and you skip it; if it differs, it's a new unique, so you advance s and copy it there. When you're done, the first s + 1 elements are all the unique values in order — one pass, no extra memory.
+
+⏱️ O(n) time · O(1) space
+
+This is #3 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+remove duplicates from sorted array, leetcode 26, remove duplicates leetcode, two pointers, sorted array duplicates, remove duplicates o(1) space, leetcode top interview 150, coding interview questions, dsa arrays, two pointer technique, leetcode 26 solution, slow fast pointer
+
+-- Pinned comment --
+The secret is one word: SORTED 😯 — duplicates are always next to each other, so you just compare each value to the last unique one. s = last unique, f = scanner. Different → advance s and copy. O(n) time, O(1) space ✅
+
+#3 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

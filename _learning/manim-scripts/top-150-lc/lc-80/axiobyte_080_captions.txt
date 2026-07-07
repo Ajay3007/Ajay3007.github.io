@@ -1,0 +1,86 @@
+================================================================
+AxioByte — Episode 4 · Remove Duplicates from Sorted Array II (LeetCode 80)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc80_video.py LC80
+  -> media/videos/lc80_video/1920p60/LC80.mp4
+
+Cover (single still image):
+  manim -s -qh cover80_9x16.py Cover80
+  -> media/images/cover80_9x16/Cover80_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_080_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Remove Duplicates from Sorted Array II — LeetCode 80 — each value at most twice, O(1) space 👇
+
+Part I let each value appear once. Now it's twice. The elegant trick: because the array is SORTED, just look TWO slots back. 🧠
+
+Keep a write pointer s and scan with f. To decide if nums[f] earns a spot, compare it to nums[s−2] — the value two positions back in your result:
+• if they're equal → slots s−1 and s−2 already hold two copies, so this would be a 3rd → skip
+• if they differ → keep it (advance s, copy it)
+
+The s < 2 check just waves the first two elements through. That's it — at most two of everything, one pass, no extra memory.
+
+→ O(n) time, O(1) space ✅
+
+#4 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Remove Duplicates from Sorted Array II (LeetCode 80) — at most twice, O(1) space 👇
+
+The sequel to #26. Since it's SORTED, just look two slots back: keep nums[f] unless it equals nums[s−2] (that'd be a 3rd copy). The s<2 check lets the first two through. At most two of each, one pass, zero extra memory ✅
+
+#4 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Remove Duplicates from Sorted Array II — LeetCode 80
+
+-- Description --
+Remove Duplicates from Sorted Array II (LeetCode 80) — keep each value at most twice, in O(1) space. The follow-up to LeetCode 26, and the trick is to look two slots back.
+
+Keep a write pointer s and scan the array with a fast pointer f. Because the array is sorted, you can decide whether to keep nums[f] by comparing it to nums[s-2] — the value two positions back in the result. If they're equal, slots s-1 and s-2 already hold two copies of that value, so keeping this one would make a third → skip it. If they differ, keep it: write it at s and advance. The s < 2 guard lets the first two elements through automatically. When the loop ends, the first s elements hold the answer — one pass, no extra memory.
+
+⏱️ O(n) time · O(1) space
+
+This is #4 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+remove duplicates from sorted array ii, leetcode 80, remove duplicates ii, at most twice, two pointers, nums[s-2], leetcode top interview 150, coding interview questions, dsa arrays, two pointer technique, leetcode 80 solution, remove duplicates o(1) space
+
+-- Pinned comment --
+The whole trick: look TWO slots back 😯 — keep nums[f] unless it equals nums[s−2] (that'd be a 3rd copy). The s<2 check lets the first two through. At most twice, O(n) time, O(1) space ✅
+
+#4 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================
