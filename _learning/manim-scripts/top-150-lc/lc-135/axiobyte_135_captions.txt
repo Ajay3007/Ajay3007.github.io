@@ -1,0 +1,107 @@
+================================================================
+AxioByte — Episode 15 · Candy (LeetCode 135)  [greedy · two-pass]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc135_video.py LC135
+  -> media/videos/lc135_video/1920p60/LC135.mp4
+
+Cover (single still image):
+  manim -s -qh cover135_9x16.py Cover135
+  -> media/images/cover135_9x16/Cover135_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_135_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+Two-pass greedy. The key insight: a single scan can only respect ONE
+neighbor. So the left→right pass enforces "higher than my LEFT neighbor
+⇒ more candy" (fixing up-slopes), and the right→left pass enforces the
+same against the RIGHT neighbor (fixing down-slopes). Taking the max at
+each index guarantees BOTH constraints hold at once — that's why the
+peak in [2,3,4,3,2,1] jumps to 4 (max of its left-count 3 and its
+right-count 4). This is O(n) time, O(n) space. An O(1)-space variant
+exists (count consecutive up/down runs and add triangular numbers) —
+same answer, trickier to read; the two-pass version is the interview
+default.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Candy — LeetCode 135 — the classic two-pass greedy 👇
+
+Kids stand in a row, each with a rating. Hand out the FEWEST candies where (1) everyone gets at least 1, and (2) anyone with a higher rating than a neighbor gets more candy than that neighbor. Both neighbors. That "both" is the whole trap. 🍬
+
+One scan can only look one way — so do two.
+• Left → right: if r[i] > r[i-1], candy[i] = candy[i-1] + 1  (fixes every up-slope)
+• Right → left: if r[i] > r[i+1], candy[i] = max(candy[i], candy[i+1] + 1)  (fixes every down-slope)
+
+The max is the magic: it keeps whichever pass demanded more, so both rules hold at the same time.
+
+For ratings = [2,3,4,3,2,1]:
+left pass → [1,2,3,1,1,1]
+right pass → [1,2,4,3,2,1]   ← the peak jumps to 4 because its right-hand drop is longer than its left-hand climb
+sum = 13 candies ✅
+
+→ O(n) time, O(n) space.
+
+#15 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Candy (LeetCode 135) in two passes 👇
+
+You must beat BOTH neighbors, and one scan only sees one side. So sweep left→right (fix up-slopes), then right→left (fix down-slopes), and take the max at each child. ratings=[2,3,4,3,2,1] → candies [1,2,4,3,2,1] → 13. The peak hits 4 because its right drop is longer than its left climb ✅
+
+#15 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Candy — LeetCode 135 (Two-Pass Greedy)
+
+-- Description --
+Candy (LeetCode 135) solved with the classic two-pass greedy.
+
+Children stand in a row, each with a rating. Distribute the minimum number of candies so that every child gets at least one, and any child with a higher rating than an adjacent neighbor gets strictly more candy than that neighbor. The subtlety is "adjacent neighbor" means BOTH sides, and a single left-to-right scan can only enforce one side.
+
+The fix is two greedy passes. Left to right: whenever ratings[i] > ratings[i-1], set candy[i] = candy[i-1] + 1 — this makes every increasing run correct with respect to the left neighbor. Right to left: whenever ratings[i] > ratings[i+1], set candy[i] = max(candy[i], candy[i+1] + 1) — this fixes every decreasing run with respect to the right neighbor. Taking the max is what lets both constraints hold simultaneously: a peak ends up with the larger of "how far it climbed" and "how far it must descend."
+
+Example: ratings = [2,3,4,3,2,1]. After the left pass the candies are [1,2,3,1,1,1]. After the right pass they become [1,2,4,3,2,1] — the peak at index 2 is bumped from 3 to 4 because its descending run on the right (needs 4) is longer than its ascending run on the left (needs 3). Summing gives 13, the minimum.
+
+⏱️ O(n) time · O(n) space (an O(1)-space run-counting variant exists and gives the same answer)
+
+This is #15 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+candy, leetcode 135, candy leetcode, two pass greedy, leetcode candy, greedy algorithm, ratings candy problem, leetcode hard, leetcode top interview 150, coding interview questions, dsa greedy, leetcode 135 solution, left to right right to left
+
+-- Pinned comment --
+The trap is the word "neighbor" — it means BOTH sides, and one scan only sees one. So sweep left→right for up-slopes, right→left for down-slopes, and take the max at each child 😯. ratings=[2,3,4,3,2,1] → [1,2,4,3,2,1] → 13. The peak becomes 4 because its right drop is longer than its left climb. O(n) time, O(n) space ✅
+
+#15 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================
