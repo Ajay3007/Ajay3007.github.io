@@ -1,0 +1,98 @@
+================================================================
+AxioByte — Episode 9 · Jump Game (LeetCode 55)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc55_video.py LC55
+  -> media/videos/lc55_video/1920p60/LC55.mp4
+
+Cover (single still image):
+  manim -s -qh cover55_9x16.py Cover55
+  -> media/images/cover55_9x16/Cover55_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_055_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+Video uses the "farthest reachable index" (maxReach) formulation for
+clarity. It is equivalent to the "remaining reach" (maxReach - i)
+version — same greedy, same O(n)/O(1).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Jump Game — LeetCode 55 — greedy, O(1) space 👇
+
+nums[i] tells you the max you can jump from index i. Can you get from the start to the last index?
+
+The trick: don't simulate jumps. Just track ONE number — the farthest index you can currently reach. 🧠
+
+Walk left to right. At each index i:
+• if i is already beyond your reach → you're stuck, return false
+• otherwise extend the reach: maxReach = max(maxReach, i + nums[i])
+• if the reach hits the last index → return true
+
+For [3,2,1,0,4]: your reach stalls at index 3 (the 0 is a dead end), so index 4 is unreachable → false. Change that 0 to a 1 and you'd make it ✅
+
+→ O(n) time, O(1) space
+
+#9 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Jump Game (LeetCode 55) in O(1) space 👇
+
+Don't simulate jumps — track ONE number: the farthest index you can reach. Extend it at each step (i + nums[i]); if you ever stand beyond it, you're stuck. [3,2,1,0,4] → reach stalls at 3, index 4 unreachable → false. Greedy ✅
+
+#9 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Jump Game — LeetCode 55 (Greedy, O(1) Space)
+
+-- Description --
+Jump Game (LeetCode 55) solved with a greedy one-pass in O(1) space.
+
+nums[i] is the maximum jump length from index i, and you start at index 0. Instead of simulating every possible jump, track a single number: the farthest index you can currently reach. Walk left to right — if the current index is already beyond your reach, you can never get here, so return false. Otherwise extend the reach with maxReach = max(maxReach, i + nums[i]). The moment the reach covers the last index, return true.
+
+Example: [3,2,1,0,4] → the reach stalls at index 3 because the 0 there is a dead end and nothing before it reaches farther, so index 4 is unreachable → false. (Change that 0 to a 1 and it becomes true.)
+
+Note: this is the standard "farthest index" formulation. A common alternative tracks the remaining reach (maxReach - i) instead — same algorithm, same O(n) time and O(1) space.
+
+⏱️ O(n) time · O(1) space
+
+This is #9 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+jump game, leetcode 55, jump game leetcode, greedy algorithm, maxreach, farthest reachable index, jump game o(1), can you reach the end, leetcode top interview 150, coding interview questions, dsa arrays, leetcode 55 solution
+
+-- Pinned comment --
+The trick: track ONE number — the farthest index you can reach 😯 — and extend it each step. If you ever stand beyond it, you're stuck. [3,2,1,0,4] → reach stalls at 3, so index 4 is unreachable → false (make the 0 a 1 and it's true). O(n) time, O(1) space ✅
+
+#9 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

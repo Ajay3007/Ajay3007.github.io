@@ -1,0 +1,97 @@
+================================================================
+AxioByte — Episode 11 · H-Index (LeetCode 274)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc274_video.py LC274
+  -> media/videos/lc274_video/1920p60/LC274.mp4
+
+Cover (single still image):
+  manim -s -qh cover274_9x16.py Cover274
+  -> media/images/cover274_9x16/Cover274_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_274_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+Video features the sort-descending solution (O(n log n)) because it
+is the most intuitive. Mention the O(n) counting-sort method for
+follow-up: bucket papers by citation count (papers with > n citations
+go in bucket n), then scan buckets from the top accumulating the count;
+the first k where the running count >= k is the h-index.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+H-Index — LeetCode 274 — the intuition that makes it click 👇
+
+The definition trips everyone up: your h-index is h if you have h papers each cited at least h times (and it's the biggest such h).
+
+Here's the intuition. Sort your papers by citations, most-cited first. Now at rank i, you already have i papers that are at least this cited. So if the paper at rank i STILL has ≥ i citations, you've got i papers with ≥ i citations → h is at least i. Keep going until it breaks.
+
+Picture the sorted bars and a "citations = rank" line: your h-index is exactly where the bars cross that line. 📉📈
+
+For [3,0,6,1,5] → sorted [6,5,3,1,0]:
+rank 1: 6≥1 ✓ · rank 2: 5≥2 ✓ · rank 3: 3≥3 ✓ · rank 4: 1≥4 ✗
+→ h = 3 (three papers with ≥3 citations) ✅
+
+→ O(n log n) with sorting (O(n) with counting sort)
+
+#11 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #algorithms #axiobyte
+
+-- Short variant --
+H-Index (LeetCode 274) — the intuition 👇
+
+Sort papers most-cited first. At rank i you already have i papers this cited, so if paper i has ≥ i citations, h ≥ i. Your h-index is where the bars cross the "citations = rank" line. [3,0,6,1,5]→[6,5,3,1,0]: 6≥1, 5≥2, 3≥3 ✓, 1≥4 ✗ → h=3 ✅
+
+#11 of the Top Interview 150. 📌 Save · 🔁 share. Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+H-Index — LeetCode 274 (The Intuition, Visualized)
+
+-- Description --
+H-Index (LeetCode 274), explained with the intuition that makes it click.
+
+The definition is the confusing part: your h-index is h if you have h papers each cited at least h times, and it's the largest such h. The clean way to see it: sort your papers by citations, most-cited first. At rank i you already have i papers that are at least this cited, so if the paper at rank i still has at least i citations, then you have i papers with at least i citations — meaning the h-index is at least i. Walk down until that stops being true, and the last rank where it held is your answer.
+
+Visually, plot the sorted citations as descending bars and draw the line "citations = rank." The h-index is exactly where the bars cross that line — the largest h x h square that fits under the bars.
+
+Example: [3,0,6,1,5] -> sorted [6,5,3,1,0]. Rank 1: 6>=1, rank 2: 5>=2, rank 3: 3>=3, rank 4: 1>=4 fails -> h = 3.
+
+⏱️ O(n log n) time with sorting, O(1) space. You can also do it in O(n) time with counting sort: bucket the papers by citation count, then scan from the top accumulating counts.
+
+This is #11 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Algorithms #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+h-index, leetcode 274, h index leetcode, h-index explained, h index intuition, citations rank, sort descending, leetcode top interview 150, coding interview questions, dsa sorting, counting sort h-index, leetcode 274 solution, hindex
+
+-- Pinned comment --
+The intuition: sort papers most-cited first 😯 — at rank i you already have i papers this cited, so if paper i has ≥ i citations, h ≥ i. Your h-index is where the bars cross the "citations = rank" line. [3,0,6,1,5]→[6,5,3,1,0] → 6≥1, 5≥2, 3≥3, 1≥4✗ → h=3. O(n log n), or O(n) with counting sort ✅
+
+#11 of the Top Interview 150. Which problem next? Drop the number 👇
+================================================================

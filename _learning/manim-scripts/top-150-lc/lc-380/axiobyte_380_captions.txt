@@ -1,0 +1,91 @@
+================================================================
+AxioByte — Episode 12 · Insert Delete GetRandom O(1) (LeetCode 380)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc380_video.py LC380
+  -> media/videos/lc380_video/1920p60/LC380.mp4
+
+Cover (single still image):
+  manim -s -qh cover380_9x16.py Cover380
+  -> media/images/cover380_9x16/Cover380_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_380_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Insert Delete GetRandom in O(1) — LeetCode 380 — a classic design problem 👇
+
+Build a set (RandomizedSet) where insert, remove, AND getRandom are all O(1) average. The clever part is combining TWO structures. 🧠
+
+• getRandom must be uniform → keep the elements in an ARRAY, pick a random index → O(1)
+• insert/remove must find a value fast → a HASH MAP from value → its index in the array
+
+Insert is easy (append + record the index). getRandom is easy (v[random index]).
+
+Remove is the trick. Deleting from the middle of an array is O(n) because of shifting. So instead: look up the value's index, SWAP it with the LAST element, update the last element's index in the map, then pop_back. Order doesn't matter in a set, so this is a totally valid O(1) delete. ✅
+
+array + hash map + swap-with-last = all O(1)
+
+#12 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #datastructures #axiobyte
+
+-- Short variant --
+Insert Delete GetRandom O(1) (LeetCode 380) 👇
+
+Combine two structures: an ARRAY (getRandom = v[random index], O(1)) + a HASH MAP value→index (O(1) lookup). The remove trick: swap the target with the LAST element, update its index, pop_back — order doesn't matter in a set, so it's O(1) ✅
+
+#12 of the Top Interview 150. 📌 Save · 🔁 share. Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Insert Delete GetRandom O(1) — LeetCode 380 (Array + HashMap)
+
+-- Description --
+Insert Delete GetRandom O(1) (LeetCode 380) — designing RandomizedSet so that insert, remove, and getRandom are all O(1) average.
+
+The whole problem is about combining two data structures so each one covers the other's weakness. getRandom has to return a uniformly random element, which means the elements need to live in an array so you can pick a random index in O(1). But an array alone can't find a value quickly, so we add a hash map from each value to its index in the array, giving O(1) lookups for insert and remove.
+
+Insert appends to the array and records the new index in the map. getRandom just returns the element at a random index.
+
+Remove is the interesting one. Deleting from the middle of an array is O(n) because everything after the gap has to shift. The trick: look up the value's index, swap it with the LAST element of the array, update that moved element's index in the map, and then pop_back. Since a set has no order, moving the last element into the gap is perfectly fine — and it makes deletion O(1).
+
+Example: v = [1,2,3], map = {1:0, 2:1, 3:2}. remove(2): 2 is at index 1, swap in the last element 3 -> v = [1,3], set map[3] = 1, pop the last slot, erase 2 -> map = {1:0, 3:1}.
+
+⏱️ O(1) average for insert, remove, and getRandom · O(n) space
+
+This is #12 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #DataStructures #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+insert delete getrandom o(1), leetcode 380, randomizedset, randomized set, o(1) insert delete getrandom, array hashmap design, swap with last, leetcode design problem, leetcode top interview 150, coding interview questions, dsa design, leetcode 380 solution, getrandom o(1)
+
+-- Pinned comment --
+The trick is combining two structures 😯 — an ARRAY for O(1) getRandom (random index) + a HASH MAP value→index for O(1) lookup. To remove in O(1): swap the target with the LAST element, fix its index, pop_back. Order doesn't matter in a set! [1,2,3] remove(2) → swap 3 in → [1,3] ✅
+
+#12 of the Top Interview 150. Which problem next? Drop the number 👇
+================================================================

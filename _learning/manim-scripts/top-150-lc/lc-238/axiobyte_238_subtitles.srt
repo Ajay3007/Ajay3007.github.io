@@ -1,0 +1,39 @@
+1
+00:00:00,000 --> 00:00:01,750
+Product of Array Except Self — LeetCode 238
+
+2
+00:00:01,750 --> 00:00:06,950
+Problem: return an array where answer[i] is the product of ALL other elements — in O(n) time, and with no division (division would break on zeros anyway).
+
+3
+00:00:06,950 --> 00:00:11,450
+Intuition: answer[i] is everything before i times everything after i. For index 2: before is 1×2 = 2, after is 4×5×6 = 120.
+
+4
+00:00:11,450 --> 00:00:14,650
+So answer[2] = 2 × 120 = 240. The plan: prefix products, then suffix products.
+
+5
+00:00:14,650 --> 00:00:19,400
+Two sweeps, in place. Pass 1 left-to-right fills each ans[i] with the product before it; Pass 2 right-to-left multiplies by the product after it — O(1) extra space.
+
+6
+00:00:19,400 --> 00:00:29,490
+Pass 1, left to right: a running prefix product P. Each ans[i] gets P — the product of everything before it — then P is multiplied by nums[i]. ans becomes [1, 1, 2, 6, 24, 120].
+
+7
+00:00:29,490 --> 00:00:36,470
+Pass 2, right to left: a running suffix product R. Each ans[i] is multiplied by R — everything after it — then R is multiplied by nums[i].
+
+8
+00:00:36,470 --> 00:00:38,810
+answer = [720, 360, 240, 180, 144, 120] — the product of everything except self.
+
+9
+00:00:38,810 --> 00:00:42,900
+Before times after, done in two sweeps with no division. Time O(n), extra space O(1).
+
+10
+00:00:42,900 --> 00:00:48,400
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

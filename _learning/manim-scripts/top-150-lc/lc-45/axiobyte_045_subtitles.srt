@@ -1,0 +1,67 @@
+1
+00:00:00,000 --> 00:00:01,750
+Jump Game II — LeetCode 45
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: nums[i] is the max jump from i, and the end is always reachable — return the fewest jumps to get there.
+
+3
+00:00:04,600 --> 00:00:06,400
+Example: nums = [2, 3, 1, 1, 4]
+
+4
+00:00:06,400 --> 00:00:10,100
+Jump 0 → 1 → 4 — that's 2 jumps
+
+5
+00:00:10,100 --> 00:00:14,650
+Hint: think in levels, like ripples — one jump reaches a range of indices, two jumps reach everything that range can
+
+6
+00:00:14,650 --> 00:00:19,550
+Approach: greedy — farthest is how far the next jump can go, curEnd is the boundary of the current jump; reaching the boundary forces a jump
+
+7
+00:00:19,550 --> 00:00:24,350
+Start: farthest and curEnd both at 0
+
+8
+00:00:24,350 --> 00:00:26,680
+i = 0: farthest = 0 + 2 = 2
+
+9
+00:00:26,680 --> 00:00:29,270
+i equals curEnd → take a jump; curEnd advances to 2
+
+10
+00:00:29,270 --> 00:00:31,060
+i = 1: farthest = max(2, 1 + 3) = 4
+
+11
+00:00:31,060 --> 00:00:32,750
+i is not at the boundary yet, keep going
+
+12
+00:00:32,750 --> 00:00:33,990
+i = 2: farthest stays 4
+
+13
+00:00:33,990 --> 00:00:36,240
+i equals curEnd again → second jump; curEnd advances to 4, the end
+
+14
+00:00:36,240 --> 00:00:38,320
+i = 3: not at the boundary, no jump
+
+15
+00:00:38,320 --> 00:00:40,670
+curEnd reached the end → 2 jumps
+
+16
+00:00:40,670 --> 00:00:44,760
+Each level is one jump, so the fewest is 2. Time O(n), space O(1)
+
+17
+00:00:44,760 --> 00:00:49,900
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

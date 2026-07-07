@@ -1,0 +1,88 @@
+================================================================
+AxioByte — Episode 8 · Best Time to Buy and Sell Stock II (LeetCode 122)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc122_video.py LC122
+  -> media/videos/lc122_video/1920p60/LC122.mp4
+
+Cover (single still image):
+  manim -s -qh cover122_9x16.py Cover122
+  -> media/images/cover122_9x16/Cover122_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_122_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Best Time to Buy and Sell Stock II — LeetCode 122 — greedy, O(1) space 👇
+
+Now you can trade as many times as you want (one share at a time). Same prices as the last one, but the answer jumps from 5 → 7. 🧠
+
+The trick: every bit of profit comes from a price going UP. And the profit over any rising stretch is just the sum of its daily increases. So you don't need to find the perfect buy/sell days — just add every step up:
+
+if prices[i] > prices[i-1], add the difference.
+
+For [7,1,5,3,6,4]: +4 (1→5) and +3 (3→6) = 7 ✅
+
+→ O(n) time, O(1) space
+
+#8 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Best Time to Buy and Sell Stock II (LeetCode 122) in O(1) space 👇
+
+Now trade as often as you like. Profit only comes from upticks, so just grab every one: if prices[i] > prices[i-1], add the difference. [7,1,5,3,6,4] → +4 +3 = 7 ✅ (vs 5 with one trade)
+
+#8 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Best Time to Buy and Sell Stock II — LeetCode 122 (Greedy)
+
+-- Description --
+Best Time to Buy and Sell Stock II (LeetCode 122) solved with a greedy one-pass in O(1) space.
+
+Now you can complete as many transactions as you like, holding at most one share at a time. The key insight is that every bit of profit comes from the price going up, and the profit over any rising stretch equals the sum of its consecutive daily increases. So instead of hunting for the best buy and sell days, you simply add every positive step: whenever prices[i] > prices[i-1], add the difference to your total. That captures buying at every valley and selling at every peak automatically.
+
+Example: [7,1,5,3,6,4] → +4 (1 to 5) and +3 (3 to 6) = 7. (With only one transaction allowed, the same prices give 5.)
+
+⏱️ O(n) time · O(1) space
+
+This is #8 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+best time to buy and sell stock ii, leetcode 122, buy and sell stock ii, leetcode 122 solution, greedy algorithm, stock problem greedy, sum of upticks, leetcode top interview 150, coding interview questions, dsa arrays, maximum profit multiple transactions, buy sell stock 2
+
+-- Pinned comment --
+The trick: profit only comes from upticks 😯 — so grab every one. If prices[i] > prices[i-1], add the difference. [7,1,5,3,6,4] → +4 +3 = 7 (vs 5 with a single trade). Greedy, O(n) time, O(1) space ✅
+
+#8 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

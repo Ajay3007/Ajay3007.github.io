@@ -1,0 +1,104 @@
+================================================================
+AxioByte — Episode 13 · Product of Array Except Self (LeetCode 238)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc238_video.py LC238
+  -> media/videos/lc238_video/1920p60/LC238.mp4
+
+Cover (single still image):
+  manim -s -qh cover238_9x16.py Cover238
+  -> media/images/cover238_9x16/Cover238_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_238_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+Example steps up to a 6-element array [1,2,3,4,5,6].
+prefix pass -> [1,1,2,6,24,120];  suffix pass -> [720,360,240,180,144,120].
+The second pass reuses the output array with one running variable -> O(1) extra space.
+No division, so zeros are handled naturally (a good follow-up talking point).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Product of Array Except Self — LeetCode 238 — no division allowed 👇
+
+Return an array where answer[i] = the product of every element EXCEPT nums[i]. In O(n) time, and you can't use division (which would blow up on zeros anyway). 🚫➗
+
+The intuition that cracks it:
+answer[i] = (everything BEFORE i) × (everything AFTER i)
+
+So you don't need the whole product — just the running product on each side. Two sweeps:
+
+→ Pass 1 (left to right): fill ans[i] with the prefix product (everything before i)
+← Pass 2 (right to left): multiply ans[i] by the suffix product (everything after i)
+
+For [1,2,3,4,5,6]:
+prefix pass → [1, 1, 2, 6, 24, 120]
+suffix pass → [720, 360, 240, 180, 144, 120] ✅
+
+And the second pass reuses the answer array with a single running variable → O(1) extra space. No division needed, so zeros just work. 🎯
+
+#13 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #algorithms #axiobyte
+
+-- Short variant --
+Product of Array Except Self (LeetCode 238) — no division 👇
+
+Key idea: answer[i] = (everything BEFORE i) × (everything AFTER i). Two sweeps: → prefix products, then ← suffix products, reusing the output array. [1,2,3,4,5,6] → prefix [1,1,2,6,24,120] → suffix → [720,360,240,180,144,120] ✅ O(n) time, O(1) space, zeros just work.
+
+#13 of the Top Interview 150. 📌 Save · 🔁 share. Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Product of Array Except Self — LeetCode 238 (Prefix × Suffix, No Division)
+
+-- Description --
+Product of Array Except Self (LeetCode 238) — return an array where answer[i] is the product of every element except nums[i], in O(n) time and with no division.
+
+The trick is to realize you don't need the total product at all. For any index, the answer is simply everything before it multiplied by everything after it. That splits the work into two running products — a prefix product from the left and a suffix product from the right.
+
+Pass 1 goes left to right and fills each ans[i] with the product of everything before i (the running prefix). Pass 2 goes right to left and multiplies each ans[i] by the product of everything after i (the running suffix). Because the second pass reuses the output array and only needs one running variable, the extra space is O(1).
+
+Example with [1,2,3,4,5,6]:
+prefix pass -> [1, 1, 2, 6, 24, 120]
+suffix pass -> [720, 360, 240, 180, 144, 120]
+
+Avoiding division isn't just a constraint for fun — division would fail whenever the array contains a zero. The prefix/suffix approach handles zeros naturally.
+
+⏱️ O(n) time · O(1) extra space (the output array doesn't count)
+
+This is #13 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Algorithms #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+product of array except self, leetcode 238, prefix suffix product, prefix product, suffix product, no division array product, leetcode 238 solution, two pass array, o(1) space, leetcode top interview 150, coding interview questions, dsa arrays, product except self
+
+-- Pinned comment --
+The idea: answer[i] = (everything BEFORE i) × (everything AFTER i) 😯 — so you just need a running prefix product (left→right) then a running suffix product (right→left), reusing the output array. [1,2,3,4,5,6] → [720,360,240,180,144,120]. No division, so zeros just work. O(n) time, O(1) space ✅
+
+#13 of the Top Interview 150. Which problem next? Drop the number 👇
+================================================================

@@ -1,0 +1,66 @@
+================================================================
+AxioByte — LONG-FORM (16:9, YouTube) · Jump Game II
+Recursion -> Memoization deep-dive  (EXPANDED / v2)
+Runtime: ~1:45 (104.5s) at 1080p30
+Supersedes the earlier ~53s cut.
+================================================================
+
+── WHAT'S IN IT (5 chapters) ──────────────────────────────────
+1. Intuition — 1 jump + best finish from where you land (optimal substructure)
+2. The recurrence + the code explained line by line
+3. DFS trace — the tree built in real call order, values returning
+4. Memoization — a memo table filling in, cache hits pruning subtrees, O(n^2)
+5. Recap + CTA (ties to the greedy short)
+
+── HOW IT WAS BUILT / RE-RENDER ───────────────────────────────
+Activate env:  source ~/manim-env/bin/activate
+
+Rendered as 5 scenes, then concatenated:
+  manim -qh --fps 30 lc45_deepdive_longform.py Seg1
+  manim -qh --fps 30 lc45_deepdive_longform.py Seg2
+  manim -qh --fps 30 lc45_deepdive_longform.py Seg3
+  manim -qh --fps 30 lc45_deepdive_longform.py Seg4
+  manim -qh --fps 30 lc45_deepdive_longform.py Seg5
+  (outputs in media/videos/lc45_deepdive_longform/1080p30/)
+
+Concatenate (make a list.txt with 5 "file '...SegN.mp4'" lines, then):
+  ffmpeg -f concat -safe 0 -i list.txt -c:v libx264 -preset medium -crf 18 -pix_fmt yuv420p -r 30 out.mp4
+
+Thumbnail: reuse axiobyte_045_deepdive_thumbnail_16x9.png (still fits this cut).
+
+================================================================
+YOUTUBE (long-form)
+================================================================
+-- Title --
+Jump Game II: From Recursion to Memoization | LeetCode 45 (Visual DP)
+
+-- Description --
+Jump Game II (LeetCode 45), built up from first principles — the intuition, a plain recursion, why it blows up, and how memoization fixes it.
+
+We start with the key idea: standing on a square, the fewest jumps to the end is one jump now, plus the fewest jumps to finish from wherever you land. Because the best finish from a square depends only on the square (optimal substructure), we get a clean recurrence: minJump(i) = 0 at the last index, otherwise 1 + the minimum of minJump(j) over every reachable j.
+
+Then we trace the recursion as a tree for nums = [2,3,1,4], in real call order, watching values return up to the answer of 2 — and we see the problem: the same subproblems, minJump(2) and minJump(3), get recomputed again and again, so plain recursion is exponential.
+
+The fix is memoization: keep a memo array, store each answer the first time, and on any repeat just read it back — which prunes whole subtrees. Each of the n indices is then solved once, giving O(n^2) time (n subproblems x up to n work each) and O(n) space.
+
+A greedy "jump levels" pass then gets this all the way to O(n) time and O(1) space — that's the companion short.
+
+Chapters:
+0:00 The problem
+0:11 The key idea
+0:22 The recurrence & code
+0:38 Tracing the recursion
+1:08 Memoization
+1:34 Recap
+
+Full series playlist: [paste your playlist link]
+Subscribe to @axiobyte — animating all 150 LeetCode Top Interview problems from first principles.
+
+#LeetCode #DynamicProgramming #Memoization #Recursion #CodingInterview #DSA
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+jump game ii, leetcode 45, recursion to memoization, memoization tutorial, top down dp, dynamic programming, recursion tree, overlapping subproblems, optimal substructure, minjump, dp explained visually, leetcode top interview 150, coding interview dp, o(n^2) dp, jump game 2
+
+-- Pinned comment --
+The whole idea: minJump(i) = 1 + min(minJump(reachable)), with 0 at the end. Plain recursion recomputes minJump(2) and minJump(3) over and over -> exponential. Memoize (store each answer once, read it back on repeats) -> each index solved once -> O(n^2). The greedy jump-levels trick then -> O(n) (see the short). Which problem next? Comment below.
+================================================================

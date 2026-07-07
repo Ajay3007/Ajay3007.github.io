@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:01,750
+H-Index — LeetCode 274
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: h-index = h means you have h papers each cited at least h times — and it's the largest such h.
+
+3
+00:00:04,600 --> 00:00:08,300
+Example: citations = [3, 0, 6, 1, 5] — what's the h-index?
+
+4
+00:00:08,300 --> 00:00:13,450
+Intuition: sort papers by citations, highest first. At rank i you already have i papers this cited, so if paper i still has at least i citations, the h-index is at least i.
+
+5
+00:00:13,450 --> 00:00:18,250
+Approach: sort descending, walk down, and count the papers whose citations are at least their rank — that count is the h-index.
+
+6
+00:00:18,250 --> 00:00:23,100
+Sorted, most-cited first: [6, 5, 3, 1, 0]. A paper counts if its bar reaches the "citations = rank" line.
+
+7
+00:00:23,100 --> 00:00:24,790
+Rank 1: 6 ≥ 1 — yes
+
+8
+00:00:24,790 --> 00:00:26,480
+Rank 2: 5 ≥ 2 — yes
+
+9
+00:00:26,480 --> 00:00:28,170
+Rank 3: 3 ≥ 3 — yes
+
+10
+00:00:28,170 --> 00:00:30,660
+Rank 4: 1 ≥ 4? no → stop
+
+11
+00:00:30,660 --> 00:00:33,500
+3 papers, each cited at least 3 times → h = 3
+
+12
+00:00:33,500 --> 00:00:37,940
+Sort, then find where citations meet rank. Time O(n log n), space O(1)
+
+13
+00:00:37,940 --> 00:00:43,600
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

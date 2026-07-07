@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:01,750
+Best Time to Buy and Sell Stock II — LeetCode 122
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: same prices, but now you can buy and sell as many times as you like — holding at most one share at a time.
+
+3
+00:00:04,600 --> 00:00:06,900
+Example: prices = [7, 1, 5, 3, 6, 4]
+
+4
+00:00:06,900 --> 00:00:09,800
+Buy 1 sell 5 (+4), buy 3 sell 6 (+3) → 7
+
+5
+00:00:09,800 --> 00:00:14,450
+Hint: all profit comes from rising runs, and a rise's profit is just the sum of its daily gains — so grab every step up
+
+6
+00:00:14,450 --> 00:00:19,350
+Approach: greedy — walk day by day, and whenever prices[i] > prices[i-1], add the difference to the profit
+
+7
+00:00:19,350 --> 00:00:23,850
+Start: maxProfit = 0; compare each day to the one before
+
+8
+00:00:23,850 --> 00:00:26,340
+Day 1: 1 > 7? no → skip
+
+9
+00:00:26,340 --> 00:00:29,330
+Day 2: 5 > 1 → bank +4, maxProfit = 4
+
+10
+00:00:29,330 --> 00:00:31,820
+Day 3: 3 > 5? no → skip
+
+11
+00:00:31,820 --> 00:00:34,810
+Day 4: 6 > 3 → bank +3, maxProfit = 7
+
+12
+00:00:34,810 --> 00:00:37,340
+Day 5: 4 > 6? no → skip
+
+13
+00:00:37,340 --> 00:00:39,740
+Total profit = 4 + 3 = 7
+
+14
+00:00:39,740 --> 00:00:44,330
+Grab every rise → 7, versus 5 with a single trade. Time O(n), space O(1)
+
+15
+00:00:44,330 --> 00:00:49,500
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

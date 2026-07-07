@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:01,750
+Jump Game — LeetCode 55
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: nums[i] is the max jump length from index i. Starting at index 0, can you reach the last index?
+
+3
+00:00:04,600 --> 00:00:07,600
+Example: nums = [3, 2, 1, 0, 4] — from index 0 you can jump up to 3
+
+4
+00:00:07,600 --> 00:00:10,300
+Index 4 is the goal — can we get there?
+
+5
+00:00:10,300 --> 00:00:14,950
+Hint: forget how to jump — just track the farthest index you can reach; if you ever stand beyond it, you're stuck
+
+6
+00:00:14,950 --> 00:00:19,850
+Approach: greedy — keep maxReach; at each i, maxReach = max(maxReach, i + nums[i]); i > maxReach means false, reaching the end means true
+
+7
+00:00:19,850 --> 00:00:24,700
+Start: maxReach = 0, only index 0 is reachable
+
+8
+00:00:24,700 --> 00:00:27,440
+i = 0 is within reach; jump 3 → reach extends to index 3
+
+9
+00:00:27,440 --> 00:00:29,580
+i = 1: 1 + 2 = 3, no farther
+
+10
+00:00:29,580 --> 00:00:31,720
+i = 2: 2 + 1 = 3, no farther
+
+11
+00:00:31,720 --> 00:00:34,010
+i = 3: 3 + 0 = 3 — the zero is a dead stop
+
+12
+00:00:34,010 --> 00:00:36,900
+i = 4 is beyond the reach of 3 → stuck, return false
+
+13
+00:00:36,900 --> 00:00:39,840
+The 0 at index 3 is the wall — the reach stalls at 3
+
+14
+00:00:39,840 --> 00:00:43,390
+Make it a 1 and you'd reach the end. Time O(n), space O(1)
+
+15
+00:00:43,390 --> 00:00:48,500
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

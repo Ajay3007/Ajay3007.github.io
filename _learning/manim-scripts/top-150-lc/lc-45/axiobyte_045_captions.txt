@@ -1,0 +1,100 @@
+================================================================
+AxioByte — Episode 10 · Jump Game II (LeetCode 45)  [greedy Short]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc45_video.py LC45
+  -> media/videos/lc45_video/1920p60/LC45.mp4
+
+Cover (single still image):
+  manim -s -qh cover45_9x16.py Cover45
+  -> media/images/cover45_9x16/Cover45_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_045_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+This is the short greedy (O(n)) explainer. A separate long-form
+recursion -> memoization deep-dive (from the user's DP solution)
+ships as its own video/scripts.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Jump Game II — LeetCode 45 — fewest jumps, greedy O(n) 👇
+
+You can always reach the end — the question is the MINIMUM number of jumps. Brute force (try every jump + memoize) works but is O(n²). There's a clean O(n) greedy. 🧠
+
+Think in levels, like BFS ripples:
+• farthest = how far the NEXT jump could reach
+• curEnd = the boundary of your CURRENT jump
+
+Scan left to right, always extending farthest. The moment i hits curEnd, you've used up this jump's range → take another jump and push curEnd out to farthest.
+
+For [2,3,1,1,4]: 0 → 1 → 4 = 2 jumps ✅
+
+→ O(n) time, O(1) space
+
+(Full recursion → memoization → greedy deep-dive coming to the channel.)
+
+#10 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Jump Game II (LeetCode 45) — fewest jumps in O(n) 👇
+
+Think in levels: farthest = how far the next jump reaches, curEnd = this jump's boundary. Scan and extend farthest; when i hits curEnd, spend a jump and push the boundary out. [2,3,1,1,4] → 0→1→4 = 2 ✅
+
+#10 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Jump Game II — LeetCode 45 (Greedy, O(n))
+
+-- Description --
+Jump Game II (LeetCode 45) solved with a greedy one-pass in O(n) time and O(1) space.
+
+You're guaranteed to be able to reach the last index — the question is the minimum number of jumps. The greedy idea is to treat the array like BFS layers: farthest tracks how far the next jump could reach, and curEnd marks the boundary of the current jump's range. Scan left to right, always extending farthest with i + nums[i]. Each time i reaches curEnd, you've exhausted the current jump's reach, so you take another jump and push curEnd out to farthest. The number of times you do this is the answer.
+
+Example: [2,3,1,1,4] → 0 → 1 → 4 = 2 jumps.
+
+A brute-force recursion with memoization also works but runs in O(n²). A full recursion → memoization → greedy deep-dive is coming to the channel.
+
+⏱️ O(n) time · O(1) space
+
+This is #10 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+jump game ii, leetcode 45, jump game 2, jump game ii greedy, minimum jumps, bfs levels array, farthest curEnd, leetcode top interview 150, coding interview questions, dsa greedy, leetcode 45 solution, minimum jumps to reach end
+
+-- Pinned comment --
+The trick: think in levels 😯 — farthest = how far the next jump reaches, curEnd = this jump's boundary. When i hits curEnd, spend a jump and push the boundary out. [2,3,1,1,4] → 0→1→4 = 2. Greedy, O(n) time, O(1) space ✅
+Full recursion → memoization → greedy deep-dive coming soon.
+
+#10 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================
