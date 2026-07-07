@@ -1,0 +1,97 @@
+================================================================
+AxioByte — Episode 14 · Gas Station (LeetCode 134)  [greedy]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc134_video.py LC134
+  -> media/videos/lc134_video/1920p60/LC134.mp4
+
+Cover (single still image):
+  manim -s -qh cover134_9x16.py Cover134
+  -> media/images/cover134_9x16/Cover134_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_134_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+The video reduces gas[] and cost[] to a single net[i] = gas[i] - cost[i]
+row, since the greedy only cares about the running fuel balance. The two
+key facts: (1) if total net < 0 the trip is impossible; (2) if the tank
+goes negative at i, every start in [old_start .. i] fails, so the next
+candidate is i+1. A single left-to-right pass settles the unique answer.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Gas Station — LeetCode 134 — greedy, O(1) space 👇
+
+You're on a circular road of gas stations. gas[i] is the fuel you pick up at station i; cost[i] is the fuel it takes to reach the next one. Find a start you can loop all the way around from — or return -1.
+
+Two ideas crack it 🧠
+1) Feasibility: if total gas < total cost, no start works → -1.
+2) The jump: walk left to right tracking a running tank. The moment the tank goes negative at station i, NO start from your current one up to i could have made it — so reset start to i+1 and tank to 0.
+
+For gas = [1,2,3,4,5], cost = [3,4,5,1,2] the net per station is [-2,-2,-2,3,3]. The tank keeps dying through 0,1,2 (start slides to 3), then stays positive at 3 and 4. Total ends at 0 ≥ 0, so the answer is index 3 ✅
+
+→ O(n) time, O(1) space — one pass, two counters.
+
+#14 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Gas Station (LeetCode 134) in O(1) space 👇
+
+Don't test every start. Walk once with a running tank; when it goes negative at i, no earlier start works, so jump start to i+1. If total gas ≥ total cost, the surviving start is the answer. gas=[1,2,3,4,5], cost=[3,4,5,1,2] → start = 3 ✅
+
+#14 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Gas Station — LeetCode 134 (Greedy, O(1) Space)
+
+-- Description --
+Gas Station (LeetCode 134) solved with a greedy one-pass in O(1) space.
+
+You're driving a circular route of gas stations. gas[i] is the fuel available at station i, and cost[i] is the fuel needed to drive from i to i+1. Return an index you can start at and complete the whole loop, or -1 if that's impossible (the answer is guaranteed unique when it exists).
+
+Two observations do all the work. First, feasibility: if the total gas is less than the total cost, no starting point can work, so return -1. Second, the greedy jump: walk left to right keeping a running tank of gas minus cost since your current candidate start. The instant the tank goes negative at station i, every start from your current candidate up to i is disqualified — you couldn't have survived to i from any of them — so the next candidate must be i+1, and you reset the tank to 0.
+
+Example: gas = [1,2,3,4,5], cost = [3,4,5,1,2] → net per station is [-2,-2,-2,3,3]. The tank dips negative at 0, 1, and 2, sliding the start to 3; from 3 onward the tank stays positive and the total finishes at 0. Since total ≥ 0, the answer is index 3.
+
+⏱️ O(n) time · O(1) space
+
+This is #14 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+gas station, leetcode 134, gas station leetcode, greedy algorithm, gas station o(1), circular tour, leetcode top interview 150, coding interview questions, dsa arrays, leetcode 134 solution, total gas total cost, tank reset greedy
+
+-- Pinned comment --
+The trick: one left-to-right pass with a running tank. When it goes negative at i, no start from your current candidate up to i could survive — so jump start to i+1 and reset the tank 😯. If total gas ≥ total cost, the surviving start is the answer. gas=[1,2,3,4,5], cost=[3,4,5,1,2] → start = 3. O(n) time, O(1) space ✅
+
+#14 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

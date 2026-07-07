@@ -1,0 +1,63 @@
+1
+00:00:00,000 --> 00:00:01,800
+Gas Station — LeetCode 134
+
+2
+00:00:01,800 --> 00:00:05,200
+Problem: gas[i] is the fuel at station i, cost[i] is the fuel to drive to i+1. The road is a loop.
+
+3
+00:00:05,200 --> 00:00:08,600
+Example: gas = [1,2,3,4,5], cost = [3,4,5,1,2]. Which start lets you drive the full circle?
+
+4
+00:00:08,600 --> 00:00:11,000
+Return the starting index, or -1 if it's impossible.
+
+5
+00:00:11,000 --> 00:00:15,000
+Hint: first check feasibility — if total gas is less than total cost, it's impossible, return -1.
+
+6
+00:00:15,000 --> 00:00:20,000
+Hint: if the tank runs dry at station i, no start before i can work — so jump the start to i+1.
+
+7
+00:00:20,000 --> 00:00:25,200
+Approach: greedy one pass. Track total = sum of gas-cost, tank = fuel since the current start, and start.
+
+8
+00:00:25,200 --> 00:00:28,000
+Start: total, tank, and start all begin at 0.
+
+9
+00:00:28,000 --> 00:00:31,000
+i = 0: net is -2, tank drops to -2, below zero, so start jumps to 1.
+
+10
+00:00:31,000 --> 00:00:34,000
+i = 1: net is -2, tank drops to -2 again, start jumps to 2.
+
+11
+00:00:34,000 --> 00:00:37,000
+i = 2: net is -2, tank drops to -2 once more, start jumps to 3.
+
+12
+00:00:37,000 --> 00:00:40,000
+i = 3: net is +3, tank rises to 3 — finally staying positive.
+
+13
+00:00:40,000 --> 00:00:43,000
+i = 4: net is +3, tank rises to 6, and total finishes at 0.
+
+14
+00:00:43,000 --> 00:00:47,200
+total is 0, at least zero, so a valid start exists — the answer is index 3.
+
+15
+00:00:47,200 --> 00:00:51,000
+From start 3 the tank never dips below zero all the way round. Time O(n), space O(1).
+
+16
+00:00:51,000 --> 00:00:55,500
+AxioByte — the Top Interview 150, visualized. Follow for all 150.
