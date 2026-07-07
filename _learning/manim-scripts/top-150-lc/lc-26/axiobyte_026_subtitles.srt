@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:01,750
+Remove Duplicates from Sorted Array — LeetCode 26
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: nums is sorted; remove duplicates in place so each value appears once, and return k.
+
+3
+00:00:04,600 --> 00:00:07,850
+Example: nums = [1, 1, 2, 2, 3] — the red 1 and 2 are duplicates
+
+4
+00:00:07,850 --> 00:00:11,900
+Result: k = 3, nums = [1, 2, 3, …]; the rest is ignored
+
+5
+00:00:11,900 --> 00:00:16,600
+Hint: the array is sorted, so duplicates are always adjacent — compare each value to the last unique one
+
+6
+00:00:16,600 --> 00:00:21,350
+Approach: two pointers — f scans, s marks the last unique; when they differ, it's a new unique
+
+7
+00:00:21,350 --> 00:00:25,450
+Start: s = 0 (last unique), f scans from index 1
+
+8
+00:00:25,450 --> 00:00:27,980
+f = 1: compare nums[1] with nums[s]
+
+9
+00:00:27,980 --> 00:00:30,570
+1 = 1 → duplicate, skip
+
+10
+00:00:30,570 --> 00:00:32,560
+f = 2: compare nums[2] with nums[s]
+
+11
+00:00:32,560 --> 00:00:36,800
+2 ≠ 1 → new unique: advance s, copy it
+
+12
+00:00:36,800 --> 00:00:38,790
+f = 3: compare nums[3] with nums[s]
+
+13
+00:00:38,790 --> 00:00:41,380
+2 = 2 → duplicate, skip
+
+14
+00:00:41,380 --> 00:00:43,370
+f = 4: compare nums[4] with nums[s]
+
+15
+00:00:43,370 --> 00:00:47,610
+3 ≠ 2 → new unique: advance s, copy it
+
+16
+00:00:47,610 --> 00:00:51,450
+Loop ends → k = s + 1 = 3
+
+17
+00:00:51,450 --> 00:00:55,000
+The first k = 3 elements are the unique values. Time O(n), space O(1)
+
+18
+00:00:55,000 --> 00:01:00,100
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

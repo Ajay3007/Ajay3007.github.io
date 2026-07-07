@@ -1,0 +1,90 @@
+================================================================
+AxioByte — Episode 7 · Best Time to Buy and Sell Stock (LeetCode 121)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc121_video.py LC121
+  -> media/videos/lc121_video/1920p60/LC121.mp4
+
+Cover (single still image):
+  manim -s -qh cover121_9x16.py Cover121
+  -> media/images/cover121_9x16/Cover121_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_121_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Best Time to Buy and Sell Stock — LeetCode 121 — one pass, O(1) space 👇
+
+You have to buy before you sell. So the whole trick is: as you walk through the days, just remember the lowest price you've seen so far — that's the best day you could have bought. 🧠
+
+Keep two values:
+• minPrice — the cheapest day so far
+• maxProfit — the best (today's price − minPrice) you've found
+
+Each day: if today is a new low, update minPrice. Otherwise, check if selling today beats your best profit. That's it — one pass, no extra memory.
+
+For [7,1,5,3,6,4]: buy at 1, sell at 6 → profit 5 ✅
+
+→ O(n) time, O(1) space
+
+#7 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #arrays #axiobyte
+
+-- Short variant --
+Best Time to Buy and Sell Stock (LeetCode 121) in O(1) space 👇
+
+You must buy before you sell, so just track the lowest price so far. Each day: new low → update minPrice; else → maxProfit = max(maxProfit, price − minPrice). [7,1,5,3,6,4] → buy 1, sell 6, profit 5 ✅ One pass.
+
+#7 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Best Time to Buy and Sell Stock — LeetCode 121 (One Pass)
+
+-- Description --
+Best Time to Buy and Sell Stock (LeetCode 121) solved in one pass with O(1) space.
+
+The key constraint is that you must buy before you sell. So as you scan the prices left to right, you keep track of the lowest price seen so far — the best day you could have bought — and the best profit found so far. On each day, if the price is a new minimum you update minPrice; otherwise you check whether selling today (price − minPrice) beats your running maxProfit. One pass through the array, no extra memory.
+
+Example: [7,1,5,3,6,4] → buy at 1, sell at 6 → max profit = 5.
+
+⏱️ O(n) time · O(1) space
+
+This is #7 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Arrays #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+best time to buy and sell stock, leetcode 121, buy and sell stock, leetcode 121 solution, one pass, minprice maxprofit, stock problem leetcode, leetcode top interview 150, coding interview questions, dsa arrays, maximum profit stock, buy sell stock o(1)
+
+-- Pinned comment --
+The trick: you must buy BEFORE you sell 😯 — so just track the lowest price so far. Each day: new low → update minPrice; else → check if selling today beats your best. [7,1,5,3,6,4] → buy 1, sell 6, profit 5. O(n) time, O(1) space ✅
+
+#7 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

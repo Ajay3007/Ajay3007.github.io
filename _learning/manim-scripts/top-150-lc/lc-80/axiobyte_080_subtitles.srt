@@ -1,0 +1,71 @@
+1
+00:00:00,000 --> 00:00:01,750
+Remove Duplicates from Sorted Array II — LeetCode 80
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: nums is sorted; keep each value at most twice, in place, and return k, the new length.
+
+3
+00:00:04,600 --> 00:00:07,850
+Example: nums = [1, 1, 1, 2, 2] — the third 1 is one copy too many
+
+4
+00:00:07,850 --> 00:00:11,900
+Result: k = 4, nums = [1, 1, 2, 2, …]; each value appears at most twice
+
+5
+00:00:11,900 --> 00:00:16,700
+Hint: since it's sorted, check the value two slots back — if it matches, you'd be making a third copy
+
+6
+00:00:16,700 --> 00:00:22,000
+Approach: two pointers — f scans, s is the write position; keep nums[f] unless it equals nums[s−2]
+
+7
+00:00:22,000 --> 00:00:26,100
+Start: s = write position; each value may be kept at most twice
+
+8
+00:00:26,100 --> 00:00:29,930
+f = 0: s < 2, so always keep it
+
+9
+00:00:29,930 --> 00:00:33,220
+f = 1: s < 2, so always keep it
+
+10
+00:00:33,220 --> 00:00:35,110
+f = 2: compare nums[f] with nums[s−2]
+
+11
+00:00:35,110 --> 00:00:37,750
+1 = 1 → that would be a 3rd copy, skip
+
+12
+00:00:37,750 --> 00:00:39,640
+f = 3: compare nums[f] with nums[s−2]
+
+13
+00:00:39,640 --> 00:00:43,130
+2 ≠ 1 → keep it: advance s and copy
+
+14
+00:00:43,130 --> 00:00:45,020
+f = 4: compare nums[f] with nums[s−2]
+
+15
+00:00:45,020 --> 00:00:48,510
+2 ≠ 1 → keep it: advance s and copy
+
+16
+00:00:48,510 --> 00:00:52,350
+Loop ends → k = s = 4
+
+17
+00:00:52,350 --> 00:00:55,900
+The first k = 4 elements are the answer — each value at most twice. Time O(n), space O(1)
+
+18
+00:00:55,900 --> 00:01:01,000
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

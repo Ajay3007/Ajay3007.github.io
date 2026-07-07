@@ -1,0 +1,67 @@
+1
+00:00:00,000 --> 00:00:01,750
+Majority Element — LeetCode 169
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: return the value that appears more than n/2 times — the majority element, which is guaranteed to exist.
+
+3
+00:00:04,600 --> 00:00:07,700
+Example: in [2, 2, 1, 1, 2], 2 appears 3 times and 1 appears twice
+
+4
+00:00:07,700 --> 00:00:10,200
+3 > 5/2, so the majority element is 2
+
+5
+00:00:10,200 --> 00:00:15,000
+Hint: a hash map costs O(n) space; instead, pair up different values and cancel them — the majority is more than half, so it always survives
+
+6
+00:00:15,000 --> 00:00:20,100
+Approach: Boyer-Moore voting — keep a candidate and a count; match → +1, mismatch → −1; when count hits 0, pick a new candidate
+
+7
+00:00:20,100 --> 00:00:24,650
+Start: no candidate yet, count = 0
+
+8
+00:00:24,650 --> 00:00:26,930
+count = 0 → nums[0] = 2 becomes the candidate
+
+9
+00:00:26,930 --> 00:00:29,140
+2 matches the candidate → count + 1 = 1
+
+10
+00:00:29,140 --> 00:00:32,100
+nums[1] = 2 matches → count + 1 = 2
+
+11
+00:00:32,100 --> 00:00:35,600
+nums[2] = 1 differs → count − 1 = 1
+
+12
+00:00:35,600 --> 00:00:39,100
+nums[3] = 1 differs → count − 1 = 0
+
+13
+00:00:39,100 --> 00:00:43,050
+count = 0 → nums[4] = 2 becomes the candidate, count + 1 = 1
+
+14
+00:00:43,050 --> 00:00:45,990
+Candidate = 2 → the majority element
+
+15
+00:00:45,990 --> 00:00:48,830
+2 appears 3 of 5 — the majority
+
+16
+00:00:48,830 --> 00:00:51,580
+Time O(n), space O(1)
+
+17
+00:00:51,580 --> 00:00:56,700
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

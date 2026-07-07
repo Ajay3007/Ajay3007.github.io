@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:01,750
+Rotate Array — LeetCode 189
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: rotate the array to the right by k steps, in place — the last k values wrap around to the front.
+
+3
+00:00:04,600 --> 00:00:07,850
+Example: nums = [1, 2, 3, 4, 5], k = 2
+
+4
+00:00:07,850 --> 00:00:11,900
+Result: [4, 5, 1, 2, 3] — rotated right by 2
+
+5
+00:00:11,900 --> 00:00:16,550
+Hint: rotating right by k moves the last k values to the front — three reversals do exactly that, in place
+
+6
+00:00:16,550 --> 00:00:21,450
+Approach: reverse the whole array, then the first k, then the rest (with k %= n first)
+
+7
+00:00:21,450 --> 00:00:25,350
+k %= n handles the case where k is larger than n
+
+8
+00:00:25,350 --> 00:00:30,190
+Step 1: reverse the whole array → [5, 4, 3, 2, 1]
+
+9
+00:00:30,190 --> 00:00:34,270
+Step 2: reverse the first k = 2 → [4, 5, 3, 2, 1]
+
+10
+00:00:34,270 --> 00:00:37,910
+Step 3: reverse the rest → [4, 5, 1, 2, 3]
+
+11
+00:00:37,910 --> 00:00:41,040
+Done — rotated right by 2
+
+12
+00:00:41,040 --> 00:00:44,590
+[4, 5, 1, 2, 3], rotated in place. Time O(n), space O(1)
+
+13
+00:00:44,590 --> 00:00:49,700
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

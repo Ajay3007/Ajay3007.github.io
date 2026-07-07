@@ -1,0 +1,87 @@
+================================================================
+AxioByte — Episode 5 · Majority Element (LeetCode 169)
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc169_video.py LC169
+  -> media/videos/lc169_video/1920p60/LC169.mp4
+
+Cover (single still image):
+  manim -s -qh cover169_9x16.py Cover169
+  -> media/images/cover169_9x16/Cover169_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_169_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Majority Element — LeetCode 169 — found in O(1) space, no hash map 👇
+
+The majority element appears more than half the time. The obvious move is a hash map that counts everyone — but that's O(n) space. There's something better: Boyer-Moore Voting. 🧠
+
+Hold one candidate and a count. Walk the array:
+• same as candidate → count + 1
+• different → count − 1
+• count hits 0 → the next element becomes the new candidate
+
+Think of it as opposing votes cancelling out. Since the majority appears more than half the time, it can never be fully cancelled — so whoever is left standing at the end is the answer.
+
+→ O(n) time, O(1) space ✅
+
+#5 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #algorithms #axiobyte
+
+-- Short variant --
+Majority Element (LeetCode 169) in O(1) space 👇
+
+Skip the hash map. Boyer-Moore voting: hold a candidate + count. Same → +1, different → −1, count 0 → new candidate. Opposing votes cancel, and the majority (> half) can't be wiped out — so it's the last one standing ✅
+
+#5 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Majority Element — LeetCode 169 (Boyer-Moore, O(1) Space)
+
+-- Description --
+Majority Element (LeetCode 169) solved in O(1) space with the Boyer-Moore Voting Algorithm — no hash map needed.
+
+The majority element appears more than n/2 times. Counting with a hash map works but uses O(n) space. Boyer-Moore does it in O(1): keep a single candidate and a count. As you scan, add 1 when the current value matches the candidate and subtract 1 when it doesn't; whenever the count hits 0, the next value becomes the new candidate. It is like opposing votes cancelling out — and because the majority element appears more than half the time, it can never be fully cancelled, so it is the value left as the candidate at the end.
+
+⏱️ O(n) time · O(1) space
+
+This is #5 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Algorithms #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+majority element, leetcode 169, majority element leetcode, boyer moore voting, boyer-moore algorithm, majority element o(1) space, voting algorithm, leetcode top interview 150, coding interview questions, dsa arrays, majority vote algorithm, leetcode 169 solution
+
+-- Pinned comment --
+Skip the hash map 😯 — Boyer-Moore voting: hold a candidate + count. Match → +1, mismatch → −1, count 0 → new candidate. Opposing votes cancel, and the majority (> half) can never be wiped out. O(n) time, O(1) space ✅
+
+#5 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

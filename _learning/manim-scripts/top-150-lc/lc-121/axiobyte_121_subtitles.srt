@@ -1,0 +1,63 @@
+1
+00:00:00,000 --> 00:00:01,750
+Best Time to Buy and Sell Stock — LeetCode 121
+
+2
+00:00:01,750 --> 00:00:04,600
+Problem: prices[i] is the stock price on day i. Buy once and sell later to maximise your profit.
+
+3
+00:00:04,600 --> 00:00:07,100
+Example: prices = [7, 1, 5, 3, 6, 4]
+
+4
+00:00:07,100 --> 00:00:10,000
+Buy at 1, sell at 6 → max profit = 6 − 1 = 5
+
+5
+00:00:10,000 --> 00:00:14,650
+Hint: you must buy before you sell — so as you scan, remember the lowest price so far, the best day to have bought
+
+6
+00:00:14,650 --> 00:00:19,550
+Approach: one pass, two trackers — minPrice (lowest so far) and maxProfit (best price − minPrice)
+
+7
+00:00:19,550 --> 00:00:24,100
+Start: minPrice = infinity, maxProfit = 0
+
+8
+00:00:24,100 --> 00:00:28,500
+Day 0: price 7 is below minPrice, so minPrice = 7
+
+9
+00:00:28,500 --> 00:00:32,410
+Day 1: price 1 is a new low → buy at 1, minPrice = 1
+
+10
+00:00:32,410 --> 00:00:36,320
+Day 2: price 5 → profit 5 − 1 = 4, better than 0 → maxProfit = 4
+
+11
+00:00:36,320 --> 00:00:39,500
+Day 3: price 3 → profit 2, not better, keep 4
+
+12
+00:00:39,500 --> 00:00:43,410
+Day 4: price 6 → profit 6 − 1 = 5, a new best → maxProfit = 5
+
+13
+00:00:43,410 --> 00:00:46,590
+Day 5: price 4 → profit 3, not better, keep 5
+
+14
+00:00:46,590 --> 00:00:48,990
+maxProfit = 5 — buy at 1, sell at 6
+
+15
+00:00:48,990 --> 00:00:53,580
+Buy low at 1, sell high at 6 → profit 5. Time O(n), space O(1)
+
+16
+00:00:53,580 --> 00:00:58,700
+AxioByte — the Top Interview 150, visualized. Follow for all 150.
