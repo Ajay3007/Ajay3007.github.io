@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:01,900
+Longest Common Prefix — LeetCode 14
+
+2
+00:00:01,900 --> 00:00:05,400
+Problem: given a list of strings, find the longest prefix they all share.
+
+3
+00:00:05,400 --> 00:00:09,400
+Example: flower, flow, flight all start with "fl", so the answer is "fl".
+
+4
+00:00:09,400 --> 00:00:13,600
+Key idea: stack the words and read straight down the columns.
+
+5
+00:00:13,600 --> 00:00:18,600
+If every word has the same character in a column, it's part of the prefix — keep going.
+
+6
+00:00:18,600 --> 00:00:22,600
+The first column where they disagree is exactly where the prefix ends.
+
+7
+00:00:22,600 --> 00:00:25,600
+Take column 0 of the first word — that's 'f'. Every word has 'f'. Keep it.
+
+8
+00:00:25,600 --> 00:00:28,600
+Column 1 is 'l', and all three match. Prefix is now "fl".
+
+9
+00:00:28,600 --> 00:00:33,000
+Column 2: flower and flow have 'o', but flight has 'i'. A mismatch — stop.
+
+10
+00:00:33,000 --> 00:00:36,500
+The prefix is everything before that column: "fl".
+
+11
+00:00:36,500 --> 00:00:41,500
+Bonus, cleaner code: only the lexicographic smallest and largest strings matter — compare just those two.
+
+12
+00:00:41,500 --> 00:00:46,000
+Vertical scan is O(S) over the total characters, O(1) extra space.
+
+13
+00:00:46,000 --> 00:00:50,500
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

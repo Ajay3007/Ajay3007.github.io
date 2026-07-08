@@ -1,0 +1,109 @@
+================================================================
+AxioByte — Episode 20 · Longest Common Prefix (LeetCode 14)  [string · vertical scan]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc14_video.py LC14
+  -> media/videos/lc14_video/1920p60/LC14.mp4
+
+Cover (single still image):
+  manim -s -qh cover14_9x16.py Cover14
+  -> media/images/cover14_9x16/Cover14_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_014_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2) ─────────────────────────────────────────
+Teaching code = vertical scanning: for each column j, take c = strs[0][j]
+and check every other string; the moment one ends or differs, return
+strs[0].substr(0, j). O(S) time (S = total characters), O(1) space.
+Elegant flourish card = the minmax insight: the common prefix of the whole
+set equals the common prefix of just the lexicographically smallest and
+largest strings, so compare only those two. Example
+["flower","flow","flight"] -> "fl" (min "flight", max "flower").
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Longest Common Prefix — LeetCode 14 — read DOWN, not across 👇
+
+Given a bunch of strings, find the longest starting chunk they all share.
+
+The clean mental model: stack the words and scan column by column. 🧱
+• every word has the same char in this column? it's part of the prefix — keep going
+• the first column where they disagree (or a word runs out) is exactly where the prefix ends
+
+flower / flow / flight
+col 0 → all 'f' ✓
+col 1 → all 'l' ✓
+col 2 → 'o', 'o', but 'i' ✗ → stop
+= "fl" ✅
+
+O(S) time over the total characters, O(1) extra space — no string copies until the answer.
+
+Bonus (cleaner code): you only ever need the lexicographically smallest and largest strings — their common prefix is everyone's. minmax_element, then compare those two.
+
+#20 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #strings #axiobyte
+
+-- Short variant --
+Longest Common Prefix (LeetCode 14) 👇
+
+Stack the words, scan down the columns. All match? keep the char. First column that disagrees ends the prefix. flower/flow/flight → col2 has 'i' not 'o' → "fl" ✅ O(S) time, O(1) space. Bonus: only the min and max strings matter.
+
+#20 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Longest Common Prefix — LeetCode 14 (Vertical Scan + minmax Trick)
+
+-- Description --
+Longest Common Prefix (LeetCode 14) solved by scanning down the columns.
+
+Given a list of strings, return the longest prefix common to all of them. The clearest way to see it: stack the words and read straight down the columns. If every string has the same character at column j, that character belongs to the common prefix; the first column where any string differs (or runs out of characters) is exactly where the prefix ends.
+
+Vertical scanning: for each column j, take c = strs[0][j] and compare it against the same column in every other word. As soon as a word has ended (j == s.size()) or shows a different character, return strs[0].substr(0, j). If you get through every column, the whole first string is the prefix.
+
+Example: flower, flow, flight. Column 0 is 'f' for all, column 1 is 'l' for all, but at column 2 flower and flow have 'o' while flight has 'i' — a mismatch — so the answer is "fl".
+
+This runs in O(S) time where S is the total number of characters across the input, using O(1) extra space (no copies until the final substring).
+
+Bonus, cleaner code (shown as a flourish): the common prefix of the entire set is the same as the common prefix of just the lexicographically smallest and largest strings — everything else sits between them. So take minmax_element and compare only those two: int i = 0; while (i < lo->size() && (*lo)[i] == (*hi)[i]) i++; return lo->substr(0, i).
+
+⏱️ O(S) time · O(1) space
+
+This is #20 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Strings #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+longest common prefix, leetcode 14, longest common prefix leetcode, vertical scanning, common prefix, leetcode easy, string prefix, minmax_element, leetcode top interview 150, coding interview questions, leetcode 14 solution, flower flow flight
+
+-- Pinned comment --
+Read DOWN, not across: stack the words and scan column by column. All match → keep the char; first column that disagrees ends the prefix 😯. flower/flow/flight → col 2 has 'i' not 'o' → "fl". O(S) time, O(1) space. Bonus: only the lexicographic min & max strings matter ✅
+
+#20 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

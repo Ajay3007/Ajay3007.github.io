@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:01,800
+Length of Last Word — LeetCode 58
+
+2
+00:00:01,800 --> 00:00:05,200
+Problem: given a string of words separated by spaces, return the length of the last word.
+
+3
+00:00:05,200 --> 00:00:09,400
+Example: s = "a moon" with trailing spaces. The last word is "moon", so the answer is 4.
+
+4
+00:00:09,400 --> 00:00:12,600
+Note the trailing spaces don't count toward the word.
+
+5
+00:00:12,600 --> 00:00:16,600
+Key idea: why scan the whole string forward? The last word is at the END.
+
+6
+00:00:16,600 --> 00:00:21,600
+So walk backwards — skip the trailing spaces first, then count letters until the next space.
+
+7
+00:00:21,600 --> 00:00:26,000
+Start i at the last index with len = 0. While s[i] is a space, decrement i.
+
+8
+00:00:26,000 --> 00:00:29,000
+Two trailing spaces get skipped, and now i lands on the letter n.
+
+9
+00:00:29,000 --> 00:00:33,500
+Now while s[i] is a letter, count it and step left: n, o, o, m — len reaches 4.
+
+10
+00:00:33,500 --> 00:00:37,500
+The next character is the space before the word, so we stop. len = 4.
+
+11
+00:00:37,500 --> 00:00:42,500
+Bonus, cleaner code: find the last non-space, then the last space before it — one expression.
+
+12
+00:00:42,500 --> 00:00:46,500
+Either way we only ever touch the last word. Time O(n), space O(1).
+
+13
+00:00:46,500 --> 00:00:51,000
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

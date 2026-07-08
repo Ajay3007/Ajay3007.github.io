@@ -1,0 +1,106 @@
+================================================================
+AxioByte — Episode 19 · Length of Last Word (LeetCode 58)  [string · reverse scan]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc58_video.py LC58
+  -> media/videos/lc58_video/1920p60/LC58.mp4
+
+Cover (single still image):
+  manim -s -qh cover58_9x16.py Cover58
+  -> media/images/cover58_9x16/Cover58_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_058_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2) ─────────────────────────────────────────
+Teaching code is the backward two-while scan (skip trailing spaces, then
+count the word) — O(n) time, O(1) space, no split/allocation. The elegant
+flourish card shows the STL one-liner: end = find_last_not_of(' ');
+return end - find_last_of(' ', end). It relies on find_last_of returning
+npos when the word starts at index 0 — the unsigned wrap makes
+end - npos == end + 1, the correct length. Safe here because the problem
+guarantees at least one word. Example s = "a moon  " -> 4.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Length of Last Word — LeetCode 58 — scan the RIGHT end 👇
+
+The instinct is to split the string on spaces and grab the last piece. But that allocates a whole array of words just to read one number. There's a cleaner move.
+
+The last word lives at the END of the string — so walk backwards. 🔁
+1) skip any trailing spaces (i--)
+2) then count letters until you hit a space (len++, i--)
+3) that count IS the answer
+
+s = "a moon  " → skip the 2 trailing spaces, then count n, o, o, m → len = 4 ✅
+
+You never touch anything but the last word: O(n) time, O(1) space, no extra arrays.
+
+Pro one-liner (C++): end = s.find_last_not_of(' '); return end - s.find_last_of(' ', end); — the STL walks back for you.
+
+#19 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #strings #axiobyte
+
+-- Short variant --
+Length of Last Word (LeetCode 58) 👇
+
+Don't split the string — walk backwards. Skip trailing spaces, then count letters until a space. "a moon  " → 4. O(n) time, O(1) space, no extra arrays ✅ Pro one-liner: end = find_last_not_of(' '); return end - find_last_of(' ', end).
+
+#19 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Length of Last Word — LeetCode 58 (Reverse Scan, O(1) Space)
+
+-- Description --
+Length of Last Word (LeetCode 58) solved with a single backward scan.
+
+Given a string of words separated by spaces, return the length of the last word. The tempting approach is to split on spaces and take the last token, but that allocates an array of words just to compute one integer. Since the last word is at the end of the string, it's cleaner to scan from the right.
+
+Start an index i at the last character with a counter len = 0. First, while s[i] is a space, decrement i — this skips any trailing spaces. Then, while i is still in range and s[i] is not a space, increment len and decrement i — this counts the characters of the last word until you reach the space in front of it (or the start of the string). Return len.
+
+Example: s = "a moon  ". The two trailing spaces are skipped, then n, o, o, m are counted for a length of 4.
+
+This touches only the last word, so it's O(n) time in the worst case and O(1) extra space — no splitting, no extra arrays.
+
+Elegant alternative (shown as a flourish): int end = s.find_last_not_of(' '); return end - s.find_last_of(' ', end); — the STL scans backward for you. This leans on find_last_of returning npos when the word begins at index 0, where the unsigned subtraction end - npos evaluates to end + 1, exactly the length. It's safe here because the problem guarantees at least one word.
+
+⏱️ O(n) time · O(1) space
+
+This is #19 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Strings #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+length of last word, leetcode 58, length of last word leetcode, reverse scan, backward scan, leetcode easy, string problem, find_last_not_of, o(1) space, leetcode top interview 150, coding interview questions, leetcode 58 solution
+
+-- Pinned comment --
+Don't split the string — the last word is at the END, so walk backwards 😯. Skip trailing spaces, then count letters until a space. "a moon  " → 4. O(n) time, O(1) space, no extra arrays. Pro one-liner: end = find_last_not_of(' '); return end - find_last_of(' ', end) ✅
+
+#19 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

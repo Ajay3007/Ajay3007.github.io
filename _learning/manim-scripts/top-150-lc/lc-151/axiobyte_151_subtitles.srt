@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:02,000
+Reverse Words in a String — LeetCode 151
+
+2
+00:00:02,000 --> 00:00:05,600
+Problem: reverse the order of the words in a string, trimming any extra spaces.
+
+3
+00:00:05,600 --> 00:00:10,000
+Input "  the sky is  blue " with messy spaces becomes "blue is sky the".
+
+4
+00:00:10,000 --> 00:00:13,000
+Three clean steps: tokenize, reverse, join.
+
+5
+00:00:13,000 --> 00:00:18,000
+Step one: pull out the words. A string stream's >> skips every run of whitespace for you.
+
+6
+00:00:18,000 --> 00:00:22,000
+So the leading, trailing, and double spaces just disappear — you get four clean word tiles.
+
+7
+00:00:22,000 --> 00:00:26,000
+Step two: reverse the list. The end words swap inward: the with blue, sky with is.
+
+8
+00:00:26,000 --> 00:00:30,000
+Now the order reads blue, is, sky, the.
+
+9
+00:00:30,000 --> 00:00:34,000
+Step three: glue them back together with a single space between each.
+
+10
+00:00:34,000 --> 00:00:37,500
+The result is "blue is sky the".
+
+11
+00:00:37,500 --> 00:00:42,500
+Bonus, cleaner code: read each word and prepend it — the order flips itself, no vector or reverse.
+
+12
+00:00:42,500 --> 00:00:47,000
+Time O(n); an in-place double reverse gets you O(1) space.
+
+13
+00:00:47,000 --> 00:00:51,500
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

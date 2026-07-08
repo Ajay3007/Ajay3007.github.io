@@ -1,0 +1,104 @@
+================================================================
+AxioByte — Episode 21 · Reverse Words in a String (LeetCode 151)  [string]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc151_video.py LC151
+  -> media/videos/lc151_video/1920p60/LC151.mp4
+
+Cover (single still image):
+  manim -s -qh cover151_9x16.py Cover151
+  -> media/images/cover151_9x16/Cover151_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_151_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2) ─────────────────────────────────────────
+Teaching code = tokenize with stringstream (>> auto-skips all whitespace,
+so leading / trailing / repeated spaces are handled for free), reverse the
+vector, join with single spaces. O(n) time, O(n) space. Elegant flourish
+card = read each word and PREPEND it, so the order flips itself with no
+vector and no reverse call. Caption also notes the O(1)-space in-place
+double reverse (reverse the whole string, then reverse each word).
+Example "  the sky is  blue " -> "blue is sky the".
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Reverse Words in a String — LeetCode 151 — three clean steps 👇
+
+Reverse the ORDER of the words (not the letters), and trim the mess: leading, trailing, and repeated spaces all collapse to one.
+
+Think of it as tiles 🧱
+1) tokenize → pull out the words. In C++, stringstream's >> skips EVERY run of whitespace automatically, so all the extra spaces vanish for free.
+2) reverse → flip the list (the end words swap inward).
+3) join → glue them back with a single space.
+
+"  the sky is  blue "  →  [the][sky][is][blue]  →  [blue][is][sky][the]  →  "blue is sky the" ✅
+
+Bonus (cleaner code): read each word and PREPEND it to the result — res = word + " " + res. The order flips itself, no vector and no reverse call.
+
+→ O(n) time, O(n) space (O(1) if you reverse in place: flip the whole string, then flip each word back)
+
+#21 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #strings #axiobyte
+
+-- Short variant --
+Reverse Words in a String (LeetCode 151) 👇
+
+Tokenize → reverse → join. C++ stringstream >> skips all the extra spaces for you. "  the sky is  blue " → "blue is sky the" ✅ Bonus: read each word and prepend it (res = w + " " + res) — order flips itself, no reverse call. O(n) time; O(1) in place.
+
+#21 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Reverse Words in a String — LeetCode 151 (Tokenize, Reverse, Join)
+
+-- Description --
+Reverse Words in a String (LeetCode 151), broken into three clean steps.
+
+Given a string, reverse the order of its words and normalize the spacing: strip leading and trailing spaces and collapse any run of spaces between words down to one.
+
+The three steps: (1) tokenize — extract the words; (2) reverse — flip the list of words; (3) join — concatenate them with a single space. In C++ the tokenizing step is especially clean because reading from a stringstream with the >> operator automatically skips every stretch of whitespace, so the leading, trailing, and doubled spaces are handled for free — you never write special-case code for them.
+
+Example: "  the sky is  blue " tokenizes to [the, sky, is, blue], reverses to [blue, is, sky, the], and joins to "blue is sky the".
+
+Bonus, cleaner code (shown as a flourish): instead of storing a vector and calling reverse, read each word and prepend it to the running result — res = word + (res.empty() ? "" : " ") + res. Reading left to right while prepending produces the reversed order directly, with no container and no reverse call.
+
+⏱️ O(n) time · O(n) space. You can reach O(1) extra space with the in-place double reverse: reverse the entire string, then reverse each individual word back (compacting the spaces in the same pass).
+
+This is #21 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Strings #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+reverse words in a string, leetcode 151, reverse words leetcode, stringstream, tokenize reverse join, string manipulation, leetcode medium, in place reverse, two pointer reverse, leetcode top interview 150, coding interview questions, leetcode 151 solution
+
+-- Pinned comment --
+Three steps: tokenize → reverse → join 😯. In C++, stringstream >> skips every run of whitespace, so the messy spaces vanish for free. "  the sky is  blue " → "blue is sky the". Bonus: read each word and prepend it (res = w + " " + res) — order flips itself, no reverse call. O(n) time; O(1) in place ✅
+
+#21 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

@@ -48,7 +48,7 @@ num hits zero: the result reads MMXXIV.
 
 13
 00:00:44,500 --> 00:00:49,500
-The version pros write: index each decimal digit straight into a lookup — no loop at all.
+Bonus, cleaner code: index each decimal digit straight into a lookup — no loop at all.
 
 14
 00:00:49,500 --> 00:00:53,500

@@ -18,8 +18,10 @@ config.background_color=BG
 FN="DejaVu Sans"; MN="DejaVu Sans Mono"
 
 WM_Y=5.05; HDR_Y=4.3; CAP_Y=3.55
-RES_Y=2.3; MID_Y=0.9; CODE_Y=-2.95
+ARR_Y=1.95; LEN_Y=0.45; CODE_Y=-2.7
 READ=0.8; READ_L=1.4
+
+S="a moon  "   # last word = "moon" -> 4
 
 def _char_colors(s):
     col=[None]*len(s)
@@ -59,34 +61,25 @@ def pill(text,tc,bg,st,s=0.4,h=0.56):
     box=RoundedRectangle(width=t.width+0.45,height=h,corner_radius=h/2,stroke_color=st,stroke_width=2.4,fill_color=bg,fill_opacity=1.0)
     t.move_to(box.get_center()); return VGroup(box,t)
 
-def rcell(v,size=0.6,stroke=BORDER,fill=SURFACE,tcolor=WHITE):
-    r=RoundedRectangle(width=size,height=size,corner_radius=0.1,stroke_color=stroke,
-                       stroke_width=2.8,fill_color=fill,fill_opacity=1.0).set_z_index(1)
-    t=Text(str(v),font=FN,weight=BOLD,color=tcolor).scale(0.6*size).move_to(r.get_center()).set_z_index(5)
+def cell(ch,size=0.66):
+    space=(ch==" ")
+    r=RoundedRectangle(width=size,height=size,corner_radius=0.1,stroke_color=BORDER,
+                       stroke_width=3.0,fill_color=SURFACE,fill_opacity=1.0).set_z_index(1)
+    disp="·" if space else ch
+    t=Text(disp,font=FN,weight=BOLD,color=(GRAY if space else WHITE)).scale(0.6*size).move_to(r.get_center()).set_z_index(5)
     return VGroup(r,t)
 
 def statbox(label,val,color):
     lab=Text(label,font=MN,color=GRAY).scale(0.36)
     v=Text(str(val),font=MN,weight=BOLD,color=color).scale(0.62)
     col=VGroup(lab,v).arrange(DOWN,buff=0.1)
-    box=RoundedRectangle(width=max(col.width+0.8,2.0),height=col.height+0.6,corner_radius=0.14,
+    box=RoundedRectangle(width=max(col.width+0.8,1.9),height=col.height+0.6,corner_radius=0.14,
                          stroke_color=color,stroke_width=2.6,fill_color=SURFACE,fill_opacity=1.0)
     col.move_to(box.get_center())
     return VGroup(box,col),v
 
-TABLE=[(1000,"M"),(900,"CM"),(500,"D"),(400,"CD"),(100,"C"),(90,"XC"),
-       (50,"L"),(40,"XL"),(10,"X"),(9,"IX"),(5,"V"),(4,"IV"),(1,"I")]
 
-def to_roman(n):
-    out=""
-    for val,sym in TABLE:
-        while n>=val: out+=sym; n-=val
-    return out
-
-NUM0=2024
-
-
-class LC12(Scene):
+class LC58(Scene):
     def construct(self):
         self.persistent()
         self.problem_scene()
@@ -101,8 +94,8 @@ class LC12(Scene):
         axio=Text("Axio",font=FN,weight=BOLD,color=CYAN).scale(0.4)
         byte=Text("Byte",font=FN,weight=BOLD,color=AMBER).scale(0.4)
         self.wm=VGroup(axio,byte).arrange(RIGHT,buff=0.02).move_to(UP*WM_Y)
-        badge=pill("# 12",CYAN,SURFACE,CYAN,s=0.4)
-        title=Text("Integer to Roman",font=FN,weight=BOLD,color=WHITE).scale(0.6)
+        badge=pill("# 58",CYAN,SURFACE,CYAN,s=0.4)
+        title=Text("Length of Last Word",font=FN,weight=BOLD,color=WHITE).scale(0.6)
         self.hdr=VGroup(badge,title).arrange(RIGHT,buff=0.3)
         if self.hdr.width>6.7: self.hdr.scale(6.7/self.hdr.width)
         self.hdr.move_to(UP*HDR_Y)
@@ -119,7 +112,7 @@ class LC12(Scene):
         self.play(FadeOut(self.cap,shift=UP*0.08),run_time=0.22)
         self.play(FadeIn(new,shift=UP*0.08),run_time=0.32); self.cap=new
 
-    # ---------- v2 code panel with syntax highlighting + active-line bar ----------
+    # ---------- v2 code panel: syntax highlighting + active-line bar ----------
     def build_code(self,raw,scale=0.34,cy=CODE_Y,maxw=6.5):
         lines=[colorize(s,scale) for _,s in raw]
         block=VGroup(*lines).arrange(DOWN,aligned_edge=LEFT,buff=0.13)
@@ -142,60 +135,56 @@ class LC12(Scene):
             return [self.hlbar.animate.set_fill(CYAN,opacity=0.15)]
         return [self.hlbar.animate.move_to(target)]
 
-    def legend_table(self):
-        rows=[VGroup() for _ in range(2)]
-        for k,(val,sym) in enumerate(TABLE):
-            t=Text("%d = %s" % (val,sym),font=MN,weight=BOLD,color=WHITE).scale(0.32)
-            b=RoundedRectangle(width=t.width+0.3,height=0.48,corner_radius=0.09,stroke_color=BORDER,stroke_width=2.0,fill_color=SURFACE,fill_opacity=1.0)
-            t.move_to(b.get_center()); rows[0 if k<7 else 1].add(VGroup(b,t))
-        c1=rows[0].arrange(RIGHT,buff=0.12); c2=rows[1].arrange(RIGHT,buff=0.12)
-        table=VGroup(c1,c2).arrange(DOWN,buff=0.16,aligned_edge=LEFT)
-        if table.width>6.9: table.scale_to_fit_width(6.9)
-        return table
-
     def problem_scene(self):
         lbl=pill("The problem",CYAN,SURFACE,CYAN).move_to(UP*CAP_Y)
         self.play(FadeIn(lbl,shift=UP*0.1),run_time=0.5)
-        t1=Text("Convert an integer (1–3999) to a Roman numeral.",font=FN,color=WHITE).scale(0.44)
-        if t1.width>6.9: t1.scale_to_fit_width(6.9)
-        t1.move_to(UP*2.7)
-        self.play(FadeIn(t1),run_time=0.5)
-        table=self.legend_table().move_to(UP*1.2)
-        self.play(FadeIn(table,shift=UP*0.1),run_time=0.8)
-        self.wait(READ_L)
-        t2=Text("The 13 building blocks — including the subtractive pairs.",font=FN,color=GRAY).scale(0.38).move_to(UP*-0.5)
-        t3=Text("e.g. 2024  →  MMXXIV",font=MN,weight=BOLD,color=MINT).scale(0.46).move_to(UP*-1.3)
-        for t in (t2,t3):
+        t1=Text("A string of words separated by spaces.",font=FN,color=WHITE).scale(0.44)
+        t2=Text("Return the length of the LAST word.",font=FN,color=GRAY).scale(0.42)
+        for t in (t1,t2):
             if t.width>6.9: t.scale_to_fit_width(6.9)
-        self.play(FadeIn(t2,shift=UP*0.1),run_time=0.45)
-        self.play(FadeIn(t3,shift=UP*0.1),run_time=0.5)
+        t1.move_to(UP*2.6); t2.next_to(t1,DOWN,buff=0.2)
+        self.play(FadeIn(t1),run_time=0.5); self.play(FadeIn(t2),run_time=0.45)
+        self.wait(0.5)
+        demo=VGroup(*[cell(ch) for ch in S]).arrange(RIGHT,buff=0.12).move_to(UP*0.7)
+        slab=Text("s",font=MN,weight=BOLD,color=WHITE).scale(0.4).next_to(demo,LEFT,buff=0.2)
+        self.play(FadeIn(slab),LaggedStart(*[FadeIn(c,shift=UP*0.1) for c in demo],lag_ratio=0.08),run_time=1.0)
+        self.wait(0.4)
+        br=Brace(VGroup(demo[2],demo[5]),DOWN,color=MINT)
+        blab=Text('last word = "moon"  →  4',font=MN,weight=BOLD,color=MINT).scale(0.4).next_to(br,DOWN,buff=0.12)
+        if blab.width>6.7: blab.scale_to_fit_width(6.7)
+        self.play(FadeIn(br,shift=UP*0.1),FadeIn(blab),
+                  *[demo[k][0].animate.set_stroke(MINT,4.0) for k in (2,3,4,5)],run_time=0.7)
+        note=Text("(the two trailing spaces don't count)",font=FN,color=GRAY).scale(0.36).next_to(blab,DOWN,buff=0.22)
+        self.play(FadeIn(note),run_time=0.4)
         self.wait(READ_L+0.3)
-        self.play(FadeOut(VGroup(lbl,t1,table,t2,t3)),run_time=0.5)
+        self.play(FadeOut(VGroup(lbl,t1,t2,demo,slab,br,blab,note)),run_time=0.5)
 
     def hint_scene(self):
         lbl=pill("The key idea",AMBER,SURFACE,AMBER).move_to(UP*CAP_Y)
-        h1=Text("It's just making change with coins.",font=FN,weight=BOLD,color=WHITE).scale(0.48)
-        h2=Text("Line the 13 values up, biggest first.",font=FN,color=WHITE).scale(0.44)
-        h3=Text("Repeatedly take the biggest one that fits,",font=FN,color=MINT).scale(0.44)
-        h4=Text("subtract it, and append its symbol.",font=FN,color=CYAN).scale(0.44)
-        for h in (h1,h2,h3,h4):
+        h1=Text("Why scan the whole string forward?",font=FN,weight=BOLD,color=WHITE).scale(0.46)
+        h2=Text("The last word is at the END.",font=FN,color=WHITE).scale(0.46)
+        h3=Text("So walk BACKWARDS:",font=FN,color=MINT).scale(0.46)
+        h4=Text("skip the trailing spaces first,",font=FN,color=AMBER).scale(0.44)
+        h5=Text("then count letters until the next space.",font=FN,color=CYAN).scale(0.44)
+        for h in (h1,h2,h3,h4,h5):
             if h.width>6.8: h.scale_to_fit_width(6.8)
-        h1.move_to(UP*2.0); h2.next_to(h1,DOWN,buff=0.34)
-        h3.next_to(h2,DOWN,buff=0.3); h4.next_to(h3,DOWN,buff=0.22)
+        h1.move_to(UP*2.1); h2.next_to(h1,DOWN,buff=0.3)
+        h3.next_to(h2,DOWN,buff=0.3); h4.next_to(h3,DOWN,buff=0.24); h5.next_to(h4,DOWN,buff=0.2)
         self.play(FadeIn(lbl,shift=UP*0.1),run_time=0.5)
-        self.play(FadeIn(h1,shift=UP*0.1),run_time=0.5); self.wait(0.2)
-        self.play(FadeIn(h2,shift=UP*0.1),run_time=0.45)
-        self.play(FadeIn(h3,shift=UP*0.1),run_time=0.45); self.play(FadeIn(h4,shift=UP*0.1),run_time=0.45)
+        self.play(FadeIn(h1,shift=UP*0.1),run_time=0.5); self.play(FadeIn(h2,shift=UP*0.1),run_time=0.4); self.wait(0.2)
+        self.play(FadeIn(h3,shift=UP*0.1),run_time=0.42)
+        self.play(FadeIn(h4,shift=UP*0.1),run_time=0.42); self.play(FadeIn(h5,shift=UP*0.1),run_time=0.42)
         self.wait(READ_L+0.4)
-        self.play(FadeOut(VGroup(lbl,h1,h2,h3,h4)),run_time=0.5)
+        self.play(FadeOut(VGroup(lbl,h1,h2,h3,h4,h5)),run_time=0.5)
 
     def approach_scene(self):
         lbl=pill("Approach",MINT,SURFACE,MINT).move_to(UP*CAP_Y)
-        a0=Text("Greedy — biggest coin first",font=FN,weight=BOLD,color=WHITE).scale(0.52).move_to(UP*2.3)
-        a1=Text("table sorted big → small (M … I)",font=MN,color=WHITE).scale(0.4).move_to(UP*1.4)
-        a2=Text("for each (value, symbol):",font=MN,color=CYAN).scale(0.4).move_to(UP*0.7)
-        a3=Text("while num ≥ value:  append symbol, num -= value",font=MN,color=MINT).scale(0.36).move_to(UP*0.0)
-        a4=Text("sorted order ⇒ the first that fits is the biggest",font=FN,color=AMBER).scale(0.38).move_to(UP*-0.8)
+        a0=Text("One backward scan, O(1) space",font=FN,weight=BOLD,color=WHITE).scale(0.5).move_to(UP*2.3)
+        if a0.width>6.9: a0.scale_to_fit_width(6.9)
+        a1=Text("start i at the last index, len = 0",font=MN,color=WHITE).scale(0.4).move_to(UP*1.4)
+        a2=Text("while s[i] is a space  →  i--   (skip)",font=MN,color=AMBER).scale(0.38).move_to(UP*0.7)
+        a3=Text("while s[i] is a letter →  len++, i--  (count)",font=MN,color=MINT).scale(0.36).move_to(UP*0.0)
+        a4=Text("stop at the space before the word",font=FN,color=GRAY).scale(0.38).move_to(UP*-0.75)
         for g in (a1,a2,a3,a4):
             if g.width>6.9: g.scale_to_fit_width(6.9)
         self.play(FadeIn(lbl,shift=UP*0.1),run_time=0.5)
@@ -203,94 +192,96 @@ class LC12(Scene):
         self.play(FadeIn(a1,shift=UP*0.1),run_time=0.4)
         self.play(FadeIn(a2,shift=UP*0.1),run_time=0.42); self.wait(0.2)
         self.play(FadeIn(a3,shift=UP*0.1),run_time=0.42)
-        self.play(FadeIn(a4,shift=UP*0.1),run_time=0.42)
+        self.play(FadeIn(a4,shift=UP*0.1),run_time=0.4)
         self.wait(READ_L+0.4)
         self.play(FadeOut(VGroup(lbl,a0,a1,a2,a3,a4)),run_time=0.5)
 
     def walkthrough(self):
-        final=to_roman(NUM0); L=len(final)
-        cw=0.6; step=0.72; W=L*cw+(L-1)*(step-cw)
-        x0=-W/2+cw/2
-        xs=[x0+i*step for i in range(L)]
-        reslab=Text("result",font=MN,weight=BOLD,color=WHITE).scale(0.34)
-        reslab.move_to([xs[0]-0.55,RES_Y,0])
-        self.play(FadeIn(reslab),run_time=0.3)
+        n=len(S)
+        self.cells=[cell(ch) for ch in S]
+        row=VGroup(*self.cells).arrange(RIGHT,buff=0.12).move_to(UP*ARR_Y)
+        slab=Text("s",font=MN,weight=BOLD,color=WHITE).scale(0.4).next_to(row,LEFT,buff=0.2)
+        idx=VGroup(*[Text(str(i),font=MN,color=GRAY).scale(0.3).next_to(self.cells[i],DOWN,buff=0.16) for i in range(n)])
 
-        raw=[(0,'vector<pair<int,string>> t = {{1000,"M"}, ..., {1,"I"}};'),
-             (0,'string res;'),
-             (0,'for (auto [val, sym] : t)'),
-             (1,'while (num >= val) { res += sym; num -= val; }'),
-             (0,'return res;')]
+        raw=[(0,"int i = s.size() - 1, len = 0;"),
+             (0,"while (i >= 0 && s[i] == ' ') i--;"),
+             (0,"while (i >= 0 && s[i] != ' ') { len++; i--; }"),
+             (0,"return len;")]
         panel,code,hlbar=self.build_code(raw)
         self._act=[]
-        self.play(FadeIn(panel),run_time=0.35)
-        self.add(hlbar)
-        self.play(LaggedStart(*[FadeIn(l,shift=RIGHT*0.06) for l in code],lag_ratio=0.07),run_time=0.9)
 
-        self.ng,self.nv=statbox("num",NUM0,AMBER)
-        step_chip=pill("coin  →  symbol",CYAN,CYAN_BG,CYAN,s=0.4,h=0.6)
-        mid=VGroup(self.ng,step_chip).arrange(RIGHT,buff=0.6).move_to(UP*MID_Y)
-        self.step_chip=step_chip
-        self.play(FadeIn(mid,shift=UP*0.1),*self.hl(0),run_time=0.5)
-        self.set_cap("num = %d, result empty" % NUM0); self.wait(READ*0.7)
+        self.play(FadeIn(slab),LaggedStart(*[FadeIn(c,shift=UP*0.1) for c in self.cells],lag_ratio=0.08),run_time=1.0)
+        self.play(FadeIn(idx),run_time=0.4)
+        self.play(FadeIn(panel),run_time=0.35); self.add(hlbar)
+        self.play(LaggedStart(*[FadeIn(l,shift=RIGHT*0.06) for l in code],lag_ratio=0.07),run_time=0.85)
 
-        def set_num(val,color=AMBER):
-            new=Text(str(val),font=MN,weight=BOLD,color=color).scale(0.62).move_to(self.nv)
-            return Transform(self.nv,new)
-        def set_step(txt,color=CYAN):
-            new=pill(txt,color,CYAN_BG,color,s=0.4,h=0.6).move_to(self.step_chip)
-            return Transform(self.step_chip,new)
+        self.lg,self.lv=statbox("len",0,MINT)
+        self.lg.move_to(UP*LEN_Y)
+        self.play(FadeIn(self.lg,shift=UP*0.1),*self.hl(0),run_time=0.5)
 
-        placed=0; num=NUM0
+        def set_len(val):
+            new=Text(str(val),font=MN,weight=BOLD,color=MINT).scale(0.62).move_to(self.lv)
+            return Transform(self.lv,new)
+
+        i=n-1
+        self.pi=pointer("i",CYAN,up=True).next_to(self.cells[i],UP,buff=0.12)
+        self.play(FadeIn(self.pi,shift=DOWN*0.15),run_time=0.45)
+        self.set_cap("start at the end · len = 0"); self.wait(READ*0.7)
+
+        # phase 1: skip trailing spaces
+        self.set_cap("s[i] is a space → skip it",color=AMBER)
+        self.play(*self.hl(1),run_time=0.35)
+        while i>=0 and S[i]==" ":
+            self.play(self.pi.animate.next_to(self.cells[i],UP,buff=0.12),run_time=0.3)
+            self.play(self.cells[i].animate.set_opacity(0.3),
+                      self.cells[i][0].animate.set_stroke(GRAY,2.4),run_time=0.3)
+            i-=1
+        self.play(self.pi.animate.next_to(self.cells[i],UP,buff=0.12),run_time=0.3)
+
+        # phase 2: count the word
+        self.set_cap("now a letter → count back until a space",color=MINT)
         self.play(*self.hl(2),run_time=0.35)
-        for val,sym in TABLE:
-            if num<val: continue
-            while num>=val:
-                num-=val
-                self.set_cap("%d ≥ %d  →  take %s" % (num+val,val,sym),color=MINT,scale=0.44)
-                new_cells=[]
-                for ch in sym:
-                    c=rcell(ch,cw,stroke=(AMBER if len(sym)==2 else MINT),
-                            fill=(AMBER_BG if len(sym)==2 else MINT_BG),
-                            tcolor=(AMBER if len(sym)==2 else MINT)).move_to([xs[placed],RES_Y,0])
-                    new_cells.append(c); placed+=1
-                self.play(*self.hl(3),set_step("%d  →  %s" % (val,sym),
-                          color=(AMBER if len(sym)==2 else MINT)),run_time=0.4)
-                self.play(*[FadeIn(c,shift=DOWN*0.25) for c in new_cells],set_num(num),run_time=0.45)
-        self.set_cap("num hits 0 — every unit is placed",color=MINT); self.wait(READ)
-        self.play(*self.hl(4),run_time=0.4)
-        self.final_roman=final
-        self.wait(0.2)
+        length=0
+        while i>=0 and S[i]!=" ":
+            length+=1
+            self.play(self.cells[i][0].animate.set_stroke(MINT,4.6).set_fill(MINT_BG,1.0),run_time=0.3)
+            self.play(set_len(length),run_time=0.3)
+            if i-1>=0:
+                self.play(self.pi.animate.next_to(self.cells[i-1],UP,buff=0.12),run_time=0.28)
+            i-=1
+        self.length_final=length
+        self.set_cap("hit the space before “moon” → stop. len = %d" % length,color=MINT)
+        if i>=0:
+            self.play(self.cells[i][0].animate.set_stroke(AMBER,4.0),run_time=0.35)
+        self.play(*self.hl(3),FadeOut(self.pi),run_time=0.4)
+        self.wait(READ_L)
 
     def elegant_card(self):
         self.play(FadeOut(self.hlbar),*[FadeOut(c) for c in self.code],FadeOut(self.panel),run_time=0.45)
-        tag=pill("Bonus: cleaner code  ✨",AMBER,AMBER_BG,AMBER,s=0.42,h=0.62).move_to(UP*MID_Y+UP*0.2)
-        self.play(FadeOut(self.ng),FadeOut(self.step_chip),FadeIn(tag,scale=1.05),run_time=0.5)
-        raw=[(0,'string th[]={"","M","MM","MMM"};'),
-             (0,'string hu[]={"","C", ..., "CM"};   // hundreds'),
-             (0,'string te[]={"","X", ..., "XC"};   // tens'),
-             (0,'string on[]={"","I", ..., "IX"};   // ones'),
-             (0,'return th[n/1000]+hu[n/100%10]+te[n/10%10]+on[n%10];')]
-        panel,code,_=self.build_code(raw,scale=0.32,cy=-2.3,maxw=6.7)
+        tag=pill("Bonus: cleaner code  ✨",AMBER,AMBER_BG,AMBER,s=0.42,h=0.62).move_to(UP*LEN_Y+UP*0.15)
+        self.play(FadeOut(self.lg),FadeIn(tag,scale=1.05),run_time=0.5)
+        raw=[(0,"int end = s.find_last_not_of(' ');"),
+             (0,"return end - s.find_last_of(' ', end);")]
+        panel,code,_=self.build_code(raw,scale=0.34,cy=-1.9,maxw=6.7)
         self.play(FadeIn(panel),run_time=0.35)
-        self.play(LaggedStart(*[FadeIn(l,shift=RIGHT*0.06) for l in code],lag_ratio=0.07),run_time=0.9)
-        note=Text("map each decimal digit straight to its numerals — O(1)",font=FN,color=GRAY).scale(0.36).move_to(UP*-4.4)
+        self.play(LaggedStart(*[FadeIn(l,shift=RIGHT*0.06) for l in code],lag_ratio=0.08),run_time=0.8)
+        note=Text("find the last non-space, then the space before it",font=FN,color=GRAY).scale(0.36).move_to(UP*-3.4)
         if note.width>6.9: note.scale_to_fit_width(6.9)
         self.play(FadeIn(note,shift=UP*0.1),run_time=0.45)
-        self.set_cap("no loop at all — pure lookup",color=AMBER)
-        self.wait(READ_L+0.3)
+        self.set_cap("one expression, no loop",color=AMBER)
+        self.wait(READ_L+0.2)
         self.elegant=VGroup(tag,panel,*code,note)
 
     def outro(self):
-        ans=pill("2024  =  %s" % self.final_roman,MINT,MINT_BG,MINT,s=0.5,h=0.72).move_to(UP*MID_Y)
+        ans=pill("length  =  %d" % self.length_final,MINT,MINT_BG,MINT,s=0.5,h=0.72).move_to(UP*LEN_Y)
         self.play(FadeOut(self.elegant),FadeIn(ans,scale=1.05),run_time=0.55)
-        self.set_cap("greedy is O(1) too — the table has a fixed 13 rows",color=MINT)
+        self.set_cap("scan from the back — touch only the last word",color=MINT)
         self.wait(READ_L)
-        comp=VGroup(Text("Time  O(1)",font=MN,weight=BOLD,color=CYAN).scale(0.5),
+        comp=VGroup(Text("Time  O(n)",font=MN,weight=BOLD,color=CYAN).scale(0.5),
                     Text("Space  O(1)",font=MN,weight=BOLD,color=AMBER).scale(0.5)).arrange(RIGHT,buff=0.55)
         cbox=RoundedRectangle(corner_radius=0.16,stroke_color=BORDER,stroke_width=2.4,fill_color="#0F1420",fill_opacity=1.0,width=comp.width+0.7,height=comp.height+0.5)
         comp.move_to(cbox.get_center())
-        badge=VGroup(cbox,comp).move_to(UP*-1.4)
+        badge=VGroup(cbox,comp).move_to(UP*-1.6)
         self.play(FadeIn(badge,shift=UP*0.15),run_time=0.5); self.wait(READ_L)
 
     def end_slide(self):
@@ -298,7 +289,7 @@ class LC12(Scene):
         axio=Text("Axio",font=FN,weight=BOLD,color=CYAN).scale(0.8)
         byte=Text("Byte",font=FN,weight=BOLD,color=AMBER).scale(0.8)
         wm=VGroup(axio,byte).arrange(RIGHT,buff=0.03).move_to(UP*3.4)
-        part=pill("18 / 150",MINT,SURFACE,MINT,s=0.44,h=0.62).move_to(UP*2.15)
+        part=pill("19 / 150",MINT,SURFACE,MINT,s=0.44,h=0.62).move_to(UP*2.15)
         head=Text("LeetCode Top Interview 150",font=FN,weight=BOLD,color=WHITE).scale(0.58)
         if head.width>6.6: head.scale_to_fit_width(6.6)
         head.move_to(UP*1.2)
