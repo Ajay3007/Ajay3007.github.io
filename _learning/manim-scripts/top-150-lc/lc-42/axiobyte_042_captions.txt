@@ -1,0 +1,107 @@
+================================================================
+AxioByte — Episode 16 · Trapping Rain Water (LeetCode 42)  [two pointers]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc42_video.py LC42
+  -> media/videos/lc42_video/1920p60/LC42.mp4
+
+Cover (single still image):
+  manim -s -qh cover42_9x16.py Cover42
+  -> media/images/cover42_9x16/Cover42_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_042_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+This episode is intentionally "intuition → optimise". The bar-chart +
+water overlay establishes the invariant: the water sitting on top of bar
+i is min(leftMax[i], rightMax[i]) - height[i]. Step 1 makes that literal
+by precomputing leftMax[] and rightMax[] (O(n) space). Step 2 removes the
+arrays with two pointers: whichever wall (h[l] or h[r]) is SHORTER is the
+one that currently bounds the water, so we can commit that side's water
+using only its running max and advance that pointer — O(1) space. Both
+land on 6 for height = [2,1,0,3,0,1,2]. A monotonic-stack solution also
+exists (O(n) time, O(n) space) but the two-pointer is the tightest.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Trapping Rain Water — LeetCode 42 — from intuition to O(1) 👇
+
+Every number is a wall's height. After rain, how much water sits trapped between the walls?
+
+The whole problem collapses to ONE line: the water resting on top of bar i is min(leftMax, rightMax) − height[i]. In plain words — a bar can only hold water up to its SHORTER surrounding wall. 💧
+
+Two ways to use that:
+
+1) The literal version — precompute two arrays: leftMax[i] (tallest wall up to i) and rightMax[i] (tallest wall from i on). Fill each column to the lower cap and sum. Clean, but O(n) extra space.
+
+2) The tight version — two pointers at the ends. Always move the side whose wall is shorter, because that shorter wall is exactly what caps the water there — so you can bank that column's water on the spot and step inward. No arrays, O(1) space.
+
+For height = [2,1,0,3,0,1,2] both give 6 units ✅
+
+→ O(n) time, O(1) space (two-pointer)
+
+#16 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Trapping Rain Water (LeetCode 42) in O(1) space 👇
+
+Key line: water on bar i = min(leftMax, rightMax) − height[i]. A bar only holds up to its shorter wall. Two pointers from the ends, always move the shorter-wall side (it's the binding cap), bank its water, step in. height=[2,1,0,3,0,1,2] → 6 units, no arrays ✅
+
+#16 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Trapping Rain Water — LeetCode 42 (Intuition → Two Pointers, O(1))
+
+-- Description --
+Trapping Rain Water (LeetCode 42), built from the ground up: first the intuition on a bar chart, then the optimal two-pointer solution.
+
+Each array value is the height of a vertical wall. After rain, water collects in the dips between taller walls, and we want the total trapped volume. The single insight that unlocks everything: the water resting on top of bar i equals min(leftMax[i], rightMax[i]) − height[i]. A bar can only hold water up to the SHORTER of the tallest walls on its two sides.
+
+Approach 1 (intuitive, O(n) space): precompute leftMax[] by sweeping left to right and rightMax[] by sweeping right to left. Then each column contributes min(leftMax[i], rightMax[i]) − height[i]. For height = [2,1,0,3,0,1,2] this sums to 6. It's correct and easy to see, but it stores two full arrays.
+
+Approach 2 (optimal, O(1) space): two pointers at the two ends. Compare the walls at l and r and move the pointer on the SHORTER side. Why it works: if h[l] < h[r], then l's water is capped by leftMax alone — the taller right side can't be the limiting wall — so you can add leftMax − h[l] immediately and advance l (and symmetrically on the right). The pointers march inward, accumulating the same total of 6 with only a couple of counters.
+
+⏱️ O(n) time · O(1) space (two-pointer). A monotonic-stack approach is O(n) time and O(n) space.
+
+Example walk (two-pointer) on [2,1,0,3,0,1,2]: the right pointer collects the right-hand pool, the left pointer collects the left-hand pool, and they meet at the peak (3) — total 6.
+
+This is #16 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+trapping rain water, leetcode 42, trapping rain water leetcode, two pointers, leftmax rightmax, rain water trapped, leetcode hard, water trapping problem, leetcode top interview 150, coding interview questions, dsa two pointers, leetcode 42 solution, o(1) space
+
+-- Pinned comment --
+The one line that cracks it: water on bar i = min(leftMax, rightMax) − height[i] — a bar only holds up to its SHORTER wall 😯. Two pointers from the ends, always move the shorter-wall side (that's the binding cap), bank its water, step in. [2,1,0,3,0,1,2] → 6, no arrays. O(n) time, O(1) space ✅
+
+#16 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

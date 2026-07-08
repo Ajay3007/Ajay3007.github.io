@@ -1,0 +1,55 @@
+1
+00:00:00,000 --> 00:00:01,900
+Trapping Rain Water — LeetCode 42
+
+2
+00:00:01,900 --> 00:00:05,400
+Problem: each number is the height of a wall. After it rains, how much water is trapped between them?
+
+3
+00:00:05,400 --> 00:00:09,400
+Example: height = [2,1,0,3,0,1,2]. Water settles into the dips — six units in total.
+
+4
+00:00:09,400 --> 00:00:12,600
+But why six? Here's the one idea the whole problem rests on.
+
+5
+00:00:12,600 --> 00:00:17,600
+Water above a bar is capped by its shorter wall — the smaller of the tallest walls on each side.
+
+6
+00:00:17,600 --> 00:00:22,000
+Take index 2: its left wall is 2, its right wall is 3. min(2,3) minus its own height 0 = 2 units.
+
+7
+00:00:22,000 --> 00:00:26,600
+So we need two numbers per bar: leftMax and rightMax. water[i] = min(leftMax, rightMax) - height.
+
+8
+00:00:26,600 --> 00:00:31,000
+Step one: sweep left to right for leftMax, then right to left for rightMax.
+
+9
+00:00:31,000 --> 00:00:35,500
+Fill each column up to the lower of the two caps, add it up — six units. Correct, but it cost two arrays.
+
+10
+00:00:35,500 --> 00:00:40,500
+Step two: drop the arrays. Two pointers start at the ends and always move the side with the shorter wall.
+
+11
+00:00:40,500 --> 00:00:45,500
+That shorter wall is guaranteed to be the binding cap, so we can bank its water immediately.
+
+12
+00:00:45,500 --> 00:00:49,500
+The pointers march inward, water adds up to the same six — using just two counters.
+
+13
+00:00:49,500 --> 00:00:53,500
+Same answer, no arrays. Time O(n), space O(1).
+
+14
+00:00:53,500 --> 00:00:58,000
+AxioByte — the Top Interview 150, visualized. Follow for all 150.
