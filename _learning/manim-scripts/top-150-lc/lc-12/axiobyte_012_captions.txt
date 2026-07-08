@@ -1,0 +1,106 @@
+================================================================
+AxioByte — Episode 18 · Integer to Roman (LeetCode 12)  [greedy]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc12_video.py LC12
+  -> media/videos/lc12_video/1920p60/LC12.mp4
+
+Cover (single still image):
+  manim -s -qh cover12_9x16.py Cover12
+  -> media/images/cover12_9x16/Cover12_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_012_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2 debuts here) ─────────────────────────────
+First episode with the upgraded code panel: syntax highlighting +
+a translucent active-line bar (instead of recolouring the line), and
+an "elegant version" flourish card after the walkthrough. The teaching
+code is the greedy coin-change loop (step-highlightable); the flourish
+card shows the O(1) digit-lookup one-liner. Example 2024 = MMXXIV is
+chosen to show the WHILE loop repeating a coin (MM, XX) plus one
+subtractive pair (IV). Both greedy and the lookup are O(1) because the
+value table is a fixed size (13 rows).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Integer to Roman — LeetCode 12 — it's just making change 👇
+
+You've got 13 "coins": the seven symbols (I, V, X, L, C, D, M) plus the six subtractive pairs (IV, IX, XL, XC, CD, CM). Turning a number into Roman is exactly the cashier's move — pay with the biggest coin that fits, over and over. 🪙
+
+Sort the 13 values biggest → smallest. Then for each value: WHILE num ≥ value, append its symbol and subtract it. The "while" (not "if") is what lets a coin repeat.
+
+2024 →
+• 2024 ≥ 1000 → M (num 1024) → 1024 ≥ 1000 → M again (num 24)  ← the double M
+• 24 ≥ 10 → X (num 14) → 14 ≥ 10 → X again (num 4)
+• 4 ≥ 4 → IV (num 0)
+= MMXXIV ✅
+
+Pro move: skip the loop entirely and index each decimal digit straight into a lookup table (thousands/hundreds/tens/ones) — pure O(1).
+
+→ O(1) time, O(1) space (the table is a fixed 13 rows)
+
+#18 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Integer to Roman (LeetCode 12) = making change 👇
+
+13 coins (I…M plus IV, IX, XL, XC, CD, CM), sorted biggest first. While num ≥ value: append the symbol, subtract. The while lets a coin repeat. 2024 → M M X X IV = MMXXIV ✅ Pro version: index each digit into a lookup, no loop, O(1).
+
+#18 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Integer to Roman — LeetCode 12 (Greedy + the O(1) Lookup Trick)
+
+-- Description --
+Integer to Roman (LeetCode 12), built as a making-change problem, plus the elegant digit-lookup version.
+
+There are 13 building blocks: the seven Roman symbols (I=1, V=5, X=10, L=50, C=100, D=500, M=1000) and the six subtractive pairs (IV=4, IX=9, XL=40, XC=90, CD=400, CM=900). Converting a number is exactly like paying with coins: line the 13 values up from largest to smallest, then repeatedly take the biggest value that still fits, append its symbol, and subtract it from the number.
+
+The greedy loop: for each (value, symbol) in the sorted table, WHILE num ≥ value, append symbol and do num -= value. Using while rather than if is what allows a symbol to repeat, e.g. MM or XXX.
+
+Worked example, 2024: take M (→1024), take M again (→24), then X (→14), X again (→4), then the subtractive pair IV (→0). The result is MMXXIV.
+
+Elegant alternative (shown as a flourish): because a number 1–3999 has at most four decimal digits, you can precompute four small lookup arrays — thousands, hundreds, tens, ones — and just concatenate th[n/1000] + hu[n/100%10] + te[n/10%10] + on[n%10]. No loop at all.
+
+⏱️ O(1) time · O(1) space — the value table is a fixed size, so the work doesn't grow with the input.
+
+This is #18 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+integer to roman, leetcode 12, integer to roman leetcode, roman numerals, greedy algorithm, making change, leetcode medium, roman numeral conversion, digit lookup, leetcode top interview 150, coding interview questions, leetcode 12 solution, MMXXIV
+
+-- Pinned comment --
+Think of it as making change: 13 coins (I…M plus IV, IX, XL, XC, CD, CM), sorted biggest first, take the biggest that fits — repeatedly 😯. The while loop is what lets a coin repeat (MM, XX). 2024 → MMXXIV. Pro move: index each decimal digit into a lookup table, no loop, O(1) ✅
+
+#18 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

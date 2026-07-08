@@ -1,0 +1,59 @@
+1
+00:00:00,000 --> 00:00:01,900
+Integer to Roman — LeetCode 12
+
+2
+00:00:01,900 --> 00:00:05,400
+Problem: convert an integer from 1 to 3999 into a Roman numeral.
+
+3
+00:00:05,400 --> 00:00:10,000
+There are 13 building blocks — the seven symbols plus the six subtractive pairs like CM and IV.
+
+4
+00:00:10,000 --> 00:00:13,600
+The key idea: it's just making change with coins.
+
+5
+00:00:13,600 --> 00:00:18,600
+Line the 13 values up biggest first, then keep taking the biggest one that fits.
+
+6
+00:00:18,600 --> 00:00:23,600
+For each value in that sorted table: while num is at least value, append its symbol and subtract it.
+
+7
+00:00:23,600 --> 00:00:26,400
+Let's build 2024. num = 2024, result empty.
+
+8
+00:00:26,400 --> 00:00:30,000
+2024 ≥ 1000, take M — num = 1024. Still ≥ 1000, take M again — num = 24.
+
+9
+00:00:30,000 --> 00:00:33,500
+The while loop lets the same coin repeat — that's the double M.
+
+10
+00:00:33,500 --> 00:00:37,500
+24 skips down to 10: take X — num = 14. Again — take X — num = 4.
+
+11
+00:00:37,500 --> 00:00:41,500
+4 matches the subtractive pair IV exactly — take it, num = 0.
+
+12
+00:00:41,500 --> 00:00:44,500
+num hits zero: the result reads MMXXIV.
+
+13
+00:00:44,500 --> 00:00:49,500
+The version pros write: index each decimal digit straight into a lookup — no loop at all.
+
+14
+00:00:49,500 --> 00:00:53,500
+Either way it's O(1): the table has a fixed 13 rows. Time O(1), space O(1).
+
+15
+00:00:53,500 --> 00:00:58,000
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

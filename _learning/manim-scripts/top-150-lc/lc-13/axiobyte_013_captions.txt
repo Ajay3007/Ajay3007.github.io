@@ -1,0 +1,102 @@
+================================================================
+AxioByte — Episode 17 · Roman to Integer (LeetCode 13)  [string · one pass]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc13_video.py LC13
+  -> media/videos/lc13_video/1920p60/LC13.mp4
+
+Cover (single still image):
+  manim -s -qh cover13_9x16.py Cover13
+  -> media/images/cover13_9x16/Cover13_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_013_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE ───────────────────────────────────────────────────────
+The whole problem is one comparison. Roman numerals are additive except
+for six "subtractive" pairs (IV, IX, XL, XC, CD, CM). Instead of special-
+casing those pairs, notice the general rule that generates them: a symbol
+is subtracted exactly when the symbol to its right is larger. So a single
+left-to-right pass works — add v[i], but subtract it when v[i] < v[i+1].
+The last symbol never has a right neighbor, so it's always added. O(n)
+time, O(1) space. Example MCMXCIV = 1994 exercises all three of CM, XC, IV.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Roman to Integer — LeetCode 13 — one comparison is all it takes 👇
+
+Roman numerals are almost pure addition: I=1, V=5, X=10, L=50, C=100, D=500, M=1000. The only twist is the six subtractive pairs — IV=4, IX=9, XL=40, XC=90, CD=400, CM=900.
+
+You don't need to memorize those pairs as special cases. There's one rule that generates all of them: a symbol is SUBTRACTED exactly when the symbol right after it is larger. 🧠
+
+So scan left to right:
+• if v[i] < v[i+1]  →  total -= v[i]   (it's a discount, like the C in CM)
+• otherwise         →  total += v[i]
+• the last symbol has no neighbor, so it's always added
+
+MCMXCIV → +1000 (M) −100 (CM) +1000 (M) −10 (XC) +100 (C) −1 (IV) +5 (V) = 1994 ✅
+
+→ O(n) time, O(1) space
+
+#17 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #strings #axiobyte
+
+-- Short variant --
+Roman to Integer (LeetCode 13) in one pass 👇
+
+Forget memorizing IV, IX, XL, XC, CD, CM. One rule makes them all: subtract a symbol when the NEXT one is bigger, otherwise add it. MCMXCIV → +1000 −100 +1000 −10 +100 −1 +5 = 1994 ✅ O(n) time, O(1) space.
+
+#17 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Roman to Integer — LeetCode 13 (One-Pass, O(1) Space)
+
+-- Description --
+Roman to Integer (LeetCode 13) solved with a single left-to-right pass.
+
+Roman numerals map to values — I=1, V=5, X=10, L=50, C=100, D=500, M=1000 — and are read as a sum, with one exception: six subtractive pairs (IV=4, IX=9, XL=40, XC=90, CD=400, CM=900). The elegant realization is that you don't have to special-case those pairs. They all follow from a single rule: a symbol is subtracted precisely when the symbol immediately to its right is larger than it.
+
+So walk the string once. For each symbol, add its value to the total — unless its right neighbor is larger, in which case subtract it instead. The final symbol has no right neighbor, so it is always added.
+
+Example: MCMXCIV. M(1000) is added; C(100) sits before M(1000) so it is subtracted, giving the CM = 900; M(1000) is added; X(10) before C(100) is subtracted, the XC = 90; C(100) is added; I(1) before V(5) is subtracted, the IV = 4; and V(5), the last symbol, is added. Total: 1000 − 100 + 1000 − 10 + 100 − 1 + 5 = 1994.
+
+⏱️ O(n) time · O(1) space
+
+This is #17 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Strings #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+roman to integer, leetcode 13, roman to integer leetcode, roman numerals, subtractive notation, leetcode easy, roman numeral conversion, one pass, leetcode top interview 150, coding interview questions, dsa strings, leetcode 13 solution, MCMXCIV
+
+-- Pinned comment --
+You don't need to memorize IV, IX, XL, XC, CD, CM 😯 — they all come from one rule: subtract a symbol when the NEXT one is larger, otherwise add it. MCMXCIV → +1000 −100 +1000 −10 +100 −1 +5 = 1994. O(n) time, O(1) space ✅
+
+#17 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

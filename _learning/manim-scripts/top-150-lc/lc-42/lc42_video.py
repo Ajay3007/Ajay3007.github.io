@@ -129,6 +129,7 @@ class LC42(Scene):
         self.play(FadeIn(hlbl),LaggedStart(*[GrowFromEdge(b,DOWN) for b in self.bars],lag_ratio=0.08),run_time=1.1)
         self.play(FadeIn(self.hvals),FadeIn(self.idx),run_time=0.5)
         self.hlbl=hlbl
+        self.chart=VGroup(self.ground,self.bars,self.hvals,self.idx,self.hlbl)
         self.wait(0.5)
         # pour water to the final trapped levels
         levels=self.trap_levels()
@@ -175,7 +176,8 @@ class LC42(Scene):
 
     def approach_scene(self):
         lbl=pill("Approach",MINT,SURFACE,MINT).move_to(UP*CAP_Y)
-        self.play(FadeIn(lbl,shift=UP*0.1),run_time=0.5)
+        # clear the chart so the (text-only) approach has a clean screen
+        self.play(FadeOut(self.chart),FadeIn(lbl,shift=UP*0.1),run_time=0.5)
         a0=Text("So we need two numbers per bar:",font=FN,weight=BOLD,color=WHITE).scale(0.46).move_to(UP*2.55)
         a1=Text("leftMax[i]  = tallest wall at or left of i",font=MN,color=AMBER).scale(0.36).move_to(UP*1.9)
         a2=Text("rightMax[i] = tallest wall at or right of i",font=MN,color=CYAN).scale(0.36).move_to(UP*1.4)
@@ -203,6 +205,8 @@ class LC42(Scene):
         return panel,list(code)
 
     def prefix_walk(self):
+        # bring the chart back for the walkthrough
+        self.play(FadeIn(self.chart),run_time=0.5)
         seg=pill("Step 1  ·  build the arrays",AMBER,AMBER_BG,AMBER,s=0.4).move_to(UP*2.5)
         self.play(FadeIn(seg,shift=UP*0.1),run_time=0.5)
         raw=[(0,"L[0]=h[0];  for i=1..n-1"),

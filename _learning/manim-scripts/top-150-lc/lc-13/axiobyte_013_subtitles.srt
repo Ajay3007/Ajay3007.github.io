@@ -1,0 +1,67 @@
+1
+00:00:00,000 --> 00:00:01,800
+Roman to Integer — LeetCode 13
+
+2
+00:00:01,800 --> 00:00:05,200
+Problem: convert a Roman numeral to its integer value.
+
+3
+00:00:05,200 --> 00:00:09,600
+The symbols: I is 1, V is 5, X is 10, L is 50, C is 100, D is 500, M is 1000.
+
+4
+00:00:09,600 --> 00:00:13,600
+Usually you just add them up — but a smaller symbol before a bigger one means subtract.
+
+5
+00:00:13,600 --> 00:00:17,600
+That's the six pairs: IV=4, IX=9, XL=40, XC=90, CD=400, CM=900.
+
+6
+00:00:17,600 --> 00:00:22,400
+The trick: scan left to right. Add each value, unless the NEXT symbol is bigger — then subtract this one.
+
+7
+00:00:22,400 --> 00:00:26,400
+So: if v[i] < v[i+1], total -= v[i]; otherwise total += v[i].
+
+8
+00:00:26,400 --> 00:00:29,000
+Let's convert MCMXCIV. total starts at 0.
+
+9
+00:00:29,000 --> 00:00:32,000
+M = 1000, next is smaller, so add it. total = 1000.
+
+10
+00:00:32,000 --> 00:00:35,500
+C before M — 100 before 1000 — subtract 100. total = 900. That's the CM.
+
+11
+00:00:35,500 --> 00:00:38,000
+M = 1000, add it. total = 1900.
+
+12
+00:00:38,000 --> 00:00:41,500
+X before C — subtract 10. total = 1890. That's the XC.
+
+13
+00:00:41,500 --> 00:00:44,000
+C = 100, add it. total = 1990.
+
+14
+00:00:44,000 --> 00:00:47,500
+I before V — subtract 1. total = 1989. That's the IV.
+
+15
+00:00:47,500 --> 00:00:50,500
+V = 5, the last symbol, add it. total = 1994.
+
+16
+00:00:50,500 --> 00:00:54,000
+Three subtractions: CM, XC, IV. Time O(n), space O(1).
+
+17
+00:00:54,000 --> 00:00:58,500
+AxioByte — the Top Interview 150, visualized. Follow for all 150.
