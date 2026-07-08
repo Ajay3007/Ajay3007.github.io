@@ -1,0 +1,110 @@
+================================================================
+AxioByte — Episode 24 · Text Justification (LeetCode 68)  [greedy · closes Array/String]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc68_video.py LC68
+  -> media/videos/lc68_video/1920p60/LC68.mp4
+
+Cover (single still image):
+  manim -s -qh cover68_9x16.py Cover68
+  -> media/images/cover68_9x16/Cover68_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_068_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2) ─────────────────────────────────────────
+The hardest problem in the Array/String section, and the LAST one — the
+end slide announces the section is complete and Two Pointers is next.
+Three ideas: (1) greedily pack words while chars + minimum gaps <=
+maxWidth; (2) distribute slack = maxWidth - totalChars across the gaps,
+with the first (slack % gaps) gaps getting one extra space (left-heavy);
+(3) the last line (and any single-word line) is left-justified with single
+spaces and right padding. No "Bonus: cleaner code" card — this greedy IS
+the clean solution, there's no slicker one-liner. Example
+["This","is","an","example","of","text","justification"], maxWidth=16 ->
+"This    is    an" / "example  of text" / "justification   ".
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Text Justification — LeetCode 68 — the spacing puzzle 👇
+
+Pack words into lines of EXACTLY maxWidth characters, with both edges flush — like a newspaper column. It looks intimidating; it's really just three rules. 🧠
+
+1) Greedily pack as many words as fit (word chars + the minimum one-space gaps ≤ maxWidth).
+2) Spread the leftover spaces evenly across the gaps. If they don't divide evenly, the LEFT-hand gaps take the extra spaces.
+3) The last line (or any single-word line) is left-justified: single spaces, then pad the right.
+
+words = ["This","is","an","example","of","text","justification"], maxWidth = 16:
+• "This    is    an"  → slack 8 over 2 gaps = 4 + 4
+• "example  of text"  → slack 3 over 2 gaps = 2 + 1 (left gap extra)
+• "justification   "  → last line, pad right
+
+Every line is exactly 16 ✅
+
+→ O(N) time over the total characters, O(1) extra space.
+
+#24 of my LeetCode Top Interview 150 series — and that's the whole Array/String section done! Two Pointers is next. Follow @axiobyte so you don't miss it.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #greedy #axiobyte
+
+-- Short variant --
+Text Justification (LeetCode 68) 👇
+
+Three rules: greedily pack words; spread leftover spaces evenly with LEFT gaps taking the extras; last line is left-justified + right-padded. maxWidth 16 → "This    is    an" / "example  of text" / "justification   ". Every line exactly 16 ✅ O(N) time, O(1) space.
+
+#24 of the Top Interview 150 — Array/String section complete!
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Text Justification — LeetCode 68 (Greedy Packing + Even Spacing)
+
+-- Description --
+Text Justification (LeetCode 68), the trickiest string problem in the set — broken into three simple rules.
+
+The task: given a list of words and a maxWidth, format the text so each line is exactly maxWidth characters and fully justified (flush on both the left and right edges), except the last line.
+
+Rule 1 — greedy packing: keep adding words to the current line while the word characters plus the minimum single-space gaps still fit within maxWidth. Rule 2 — space distribution: the leftover space on a line is slack = maxWidth − (total word characters). Spread it across the gaps between words; each gap gets slack / gaps spaces, and the first (slack % gaps) gaps get one extra — so the left-hand gaps are (at most one space) wider. Rule 3 — the last line, and any line with a single word, is left-justified: one space between words and the remaining width padded on the right.
+
+Example with maxWidth = 16 and words ["This","is","an","example","of","text","justification"]:
+• "This    is    an" — slack 8 across 2 gaps → 4 and 4 (even)
+• "example  of text" — slack 3 across 2 gaps → 2 then 1 (left gap gets the extra)
+• "justification   " — the last line, left-justified and right-padded
+
+⏱️ O(N) time where N is the total number of characters, and O(1) extra space beyond the output.
+
+This is #24 of the LeetCode Top Interview 150 — and it completes the entire Array/String section. Two Pointers is up next.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Greedy #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+text justification, leetcode 68, text justification leetcode, full justify, greedy packing, space distribution, leetcode hard, newspaper justification, leetcode top interview 150, coding interview questions, leetcode 68 solution, maxWidth
+
+-- Pinned comment --
+Three rules 😯: (1) greedily pack words that fit; (2) spread leftover spaces evenly — LEFT gaps take the extras; (3) last line = left-justified + right-padded. maxWidth 16 → "This    is    an" / "example  of text" / "justification   ". Every line exactly 16, O(N) time, O(1) space ✅
+
+#24 of the Top Interview 150 — Array/String section complete!
+Which problem next? Drop the number 👇
+================================================================

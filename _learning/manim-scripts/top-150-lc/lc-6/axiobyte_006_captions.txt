@@ -1,0 +1,104 @@
+================================================================
+AxioByte — Episode 22 · Zigzag Conversion (LeetCode 6)  [string · simulation]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc6_video.py LC6
+  -> media/videos/lc6_video/1920p60/LC6.mp4
+
+Cover (single still image):
+  manim -s -qh cover6_9x16.py Cover6
+  -> media/images/cover6_9x16/Cover6_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_006_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2) ─────────────────────────────────────────
+Teaching code = row-bucket simulation: one string per row, append each char
+to rows[cur], flip direction at row 0 and row numRows-1, then concatenate.
+O(n) time, O(n) space. NO "Bonus: cleaner code" card — the bucket approach
+IS the clean solution; the only alternative (direct index-jump math per row)
+is trickier, not cleaner, so per policy it's mentioned in prose only (it
+saves the row buffers -> O(1) extra space). Example "PAYPALISHIRING", 3
+rows -> "PAHNAPLSIIGYIR". Rows are colour-coded (row0 cyan, row1 mint,
+row2 amber) so the read-out clearly shows each row's contribution.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Zigzag Conversion — LeetCode 6 — stop overthinking the geometry 👇
+
+Write the string in a zigzag over N rows, then read it back row by row. The naive instinct is to compute (row, col) coordinates for every character. Don't. 🧠
+
+Keep ONE text bucket per row. Walk the string once, dropping each char into the current row, and bounce the direction: go down until the bottom row, flip, go up until the top row, flip again. Then concatenate the rows top to bottom.
+
+"PAYPALISHIRING" over 3 rows:
+row 0 → PAHN
+row 1 → APLSIIG
+row 2 → YIR
+answer → "PAHNAPLSIIGYIR" ✅
+
+The bounce is the whole trick: cur += down, and down flips sign whenever cur hits row 0 or the last row.
+
+→ O(n) time, O(n) space for the buckets (O(1) extra if you skip the buffers and jump directly to each row's indices with a fixed 2·numRows−2 stride).
+
+#22 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #strings #axiobyte
+
+-- Short variant --
+Zigzag Conversion (LeetCode 6) 👇
+
+Don't compute coordinates. Keep one bucket per row, drop each char into the current row, and bounce direction at the top and bottom. Concatenate the rows. "PAYPALISHIRING"/3 → "PAHNAPLSIIGYIR" ✅ O(n) time; O(1) extra if you index each row directly.
+
+#22 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Zigzag Conversion — LeetCode 6 (Row-Bucket Simulation)
+
+-- Description --
+Zigzag Conversion (LeetCode 6) solved without computing a single coordinate.
+
+The task: write a string in a zigzag pattern across numRows rows, then read it back line by line. It's tempting to work out the (row, column) of every character, but there's a much simpler model.
+
+Keep one string bucket per row. Walk the input once and append each character to the current row's bucket. Track a direction: start at row 0 moving down, and flip the direction whenever you reach row 0 or the last row. That bounce is what traces the zigzag. When you're done, concatenate the buckets from the top row to the bottom.
+
+Example: "PAYPALISHIRING" with 3 rows. Row 0 collects P, A, H, N; row 1 collects A, P, L, S, I, I, G; row 2 collects Y, I, R. Joined, that's "PAHNAPLSIIGYIR".
+
+⏱️ O(n) time · O(n) space for the row buckets. You can drop to O(1) extra space by reading each row directly with index arithmetic: characters in row r appear at a fixed stride of 2·numRows−2, with an extra diagonal character for the middle rows.
+
+This is #22 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Strings #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+zigzag conversion, leetcode 6, zigzag conversion leetcode, string simulation, row bucket, bounce direction, leetcode medium, PAYPALISHIRING, leetcode top interview 150, coding interview questions, leetcode 6 solution, numRows zigzag
+
+-- Pinned comment --
+Don't compute coordinates 😯 — keep one bucket per row, drop each char into the current row, and bounce direction at the top and bottom rows. Then glue the rows top to bottom. "PAYPALISHIRING"/3 → "PAHNAPLSIIGYIR". O(n) time, O(n) space (O(1) extra with direct index math) ✅
+
+#22 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

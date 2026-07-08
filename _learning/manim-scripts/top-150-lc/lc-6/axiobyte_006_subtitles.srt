@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:01,900
+Zigzag Conversion — LeetCode 6
+
+2
+00:00:01,900 --> 00:00:05,600
+Problem: write the string in a zigzag across numRows rows, then read it back row by row.
+
+3
+00:00:05,600 --> 00:00:10,000
+Example: "PAYPALISHIRING" over 3 rows reads out as "PAHNAPLSIIGYIR".
+
+4
+00:00:10,000 --> 00:00:13,600
+Key idea: don't compute any coordinates. Keep one text bucket per row.
+
+5
+00:00:13,600 --> 00:00:18,600
+Drop each character into the current row, and bounce the direction at the top and bottom rows.
+
+6
+00:00:18,600 --> 00:00:22,600
+cur starts at row 0 going down; it flips up at the last row and back down at row 0.
+
+7
+00:00:22,600 --> 00:00:26,600
+Watch it fill: P down to row 0, A, Y to the bottom — then bounce up for P.
+
+8
+00:00:26,600 --> 00:00:31,000
+Keep going, zigzagging, and every character lands in exactly one row.
+
+9
+00:00:31,000 --> 00:00:35,500
+Now read it back: row 0 gives PAHN, row 1 gives APLSIIG, row 2 gives YIR.
+
+10
+00:00:35,500 --> 00:00:39,000
+Glue the rows top to bottom: "PAHNAPLSIIGYIR".
+
+11
+00:00:39,000 --> 00:00:43,500
+Time O(n), space O(n) for the row buckets — O(1) extra if you index each row directly.
+
+12
+00:00:43,500 --> 00:00:48,000
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

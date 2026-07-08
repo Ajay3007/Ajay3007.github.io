@@ -93,7 +93,6 @@ class LC12(Scene):
         self.hint_scene()
         self.approach_scene()
         self.walkthrough()
-        self.elegant_card()
         self.outro()
         self.end_slide()
 
@@ -262,28 +261,12 @@ class LC12(Scene):
         self.final_roman=final
         self.wait(0.2)
 
-    def elegant_card(self):
-        self.play(FadeOut(self.hlbar),*[FadeOut(c) for c in self.code],FadeOut(self.panel),run_time=0.45)
-        tag=pill("Bonus: cleaner code  ✨",AMBER,AMBER_BG,AMBER,s=0.42,h=0.62).move_to(UP*MID_Y+UP*0.2)
-        self.play(FadeOut(self.ng),FadeOut(self.step_chip),FadeIn(tag,scale=1.05),run_time=0.5)
-        raw=[(0,'string th[]={"","M","MM","MMM"};'),
-             (0,'string hu[]={"","C", ..., "CM"};   // hundreds'),
-             (0,'string te[]={"","X", ..., "XC"};   // tens'),
-             (0,'string on[]={"","I", ..., "IX"};   // ones'),
-             (0,'return th[n/1000]+hu[n/100%10]+te[n/10%10]+on[n%10];')]
-        panel,code,_=self.build_code(raw,scale=0.32,cy=-2.3,maxw=6.7)
-        self.play(FadeIn(panel),run_time=0.35)
-        self.play(LaggedStart(*[FadeIn(l,shift=RIGHT*0.06) for l in code],lag_ratio=0.07),run_time=0.9)
-        note=Text("map each decimal digit straight to its numerals — O(1)",font=FN,color=GRAY).scale(0.36).move_to(UP*-4.4)
-        if note.width>6.9: note.scale_to_fit_width(6.9)
-        self.play(FadeIn(note,shift=UP*0.1),run_time=0.45)
-        self.set_cap("no loop at all — pure lookup",color=AMBER)
-        self.wait(READ_L+0.3)
-        self.elegant=VGroup(tag,panel,*code,note)
-
     def outro(self):
+        # clear the walkthrough UI (code panel, highlight bar, live chips)
+        self.play(FadeOut(self.hlbar),*[FadeOut(c) for c in self.code],FadeOut(self.panel),
+                  FadeOut(self.ng),FadeOut(self.step_chip),run_time=0.5)
         ans=pill("2024  =  %s" % self.final_roman,MINT,MINT_BG,MINT,s=0.5,h=0.72).move_to(UP*MID_Y)
-        self.play(FadeOut(self.elegant),FadeIn(ans,scale=1.05),run_time=0.55)
+        self.play(FadeIn(ans,scale=1.05),run_time=0.5)
         self.set_cap("greedy is O(1) too — the table has a fixed 13 rows",color=MINT)
         self.wait(READ_L)
         comp=VGroup(Text("Time  O(1)",font=MN,weight=BOLD,color=CYAN).scale(0.5),

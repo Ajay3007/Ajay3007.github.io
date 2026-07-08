@@ -23,13 +23,14 @@ Instagram does NOT accept .srt (burned-in captions cover it).
 
 ── NOTE (template v2 debuts here) ─────────────────────────────
 First episode with the upgraded code panel: syntax highlighting +
-a translucent active-line bar (instead of recolouring the line), and
-an "elegant version" flourish card after the walkthrough. The teaching
-code is the greedy coin-change loop (step-highlightable); the flourish
-card shows the O(1) digit-lookup one-liner. Example 2024 = MMXXIV is
-chosen to show the WHILE loop repeating a coin (MM, XX) plus one
-subtractive pair (IV). Both greedy and the lookup are O(1) because the
-value table is a fixed size (13 rows).
+a translucent active-line bar (instead of recolouring the line).
+Teaching code is the greedy coin-change loop (step-highlightable).
+NO "Bonus: cleaner code" flourish card here — Integer to Roman has no
+genuinely cleaner CODE alternative (the digit-lookup is just as many
+string tables), so the card was dropped; the lookup idea is described in
+prose in the caption below instead. Example 2024 = MMXXIV is chosen to
+show the WHILE loop repeating a coin (MM, XX) plus one subtractive pair
+(IV). Greedy is O(1) because the value table is a fixed size (13 rows).
 
 ================================================================
 INSTAGRAM

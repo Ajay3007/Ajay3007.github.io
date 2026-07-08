@@ -1,0 +1,103 @@
+================================================================
+AxioByte — Episode 23 · Find the First Occurrence in a String (LeetCode 28)  [string]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc28_video.py LC28
+  -> media/videos/lc28_video/1920p60/LC28.mp4
+
+Cover (single still image):
+  manim -s -qh cover28_9x16.py Cover28
+  -> media/images/cover28_9x16/Cover28_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_028_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v2) ─────────────────────────────────────────
+Teaching code = brute-force sliding window: for each start i, match
+needle[k] against haystack[i+k]; all m matched -> return i, else shift.
+O(n·m) worst case, O(1) space. Bonus card = the STL one-liner
+haystack.find(needle) (npos -> -1) — a genuine cleaner CODE alternative,
+so it keeps a card (unlike #12/#6). KMP (O(n+m)) is mentioned in prose as
+the optimal. Example haystack "abcabd", needle "abd" -> 3, chosen so i=0
+is a PARTIAL match (a,b ok, c != d) before the clean match at i=3.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Find the First Occurrence — LeetCode 28 (aka strStr) 👇
+
+Return the first index where the needle appears inside the haystack, or -1.
+
+The bread-and-butter approach: slide the needle across the haystack one position at a time. At each start i, compare left to right — needle[k] vs haystack[i+k]. Match the whole needle → that's your index. Hit a mismatch → shift over by one and try again.
+
+haystack "abcabd", needle "abd":
+i=0 → a✓ b✓ … c✗d  (so close!)
+i=1 → b✗a
+i=2 → c✗a
+i=3 → a✓ b✓ d✓  → found, index 3 ✅
+
+Bonus (cleaner code): the standard library already does this — haystack.find(needle), and npos means "not found."
+
+→ brute force O(n·m), O(1) space. KMP gets it to O(n+m) by never re-checking characters it already matched.
+
+#23 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #strings #axiobyte
+
+-- Short variant --
+Find First Occurrence (LeetCode 28) 👇
+
+Slide the needle across the haystack; compare left to right; match all → return i, mismatch → shift. "abcabd"/"abd" → i=0 nearly works (c≠d), matches at i=3 ✅ Brute force O(n·m); KMP O(n+m). Bonus: just haystack.find(needle).
+
+#23 of the Top Interview 150. 📌 Save · 🔁 send to a friend prepping interviews.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Find the First Occurrence in a String — LeetCode 28 (Sliding Window / strStr)
+
+-- Description --
+Find the Index of the First Occurrence in a String (LeetCode 28), the classic strStr problem.
+
+Return the index of the first time needle appears inside haystack, or -1 if it doesn't. The straightforward approach is a sliding window: try every possible start i from 0 up to n − m, and at each start compare the needle against the haystack character by character. If all m characters match, i is the answer. On the first mismatch, abandon this start, shift the window over by one, and try again.
+
+Worked example: haystack "abcabd", needle "abd". At i = 0 the first two characters match (a, b) but then c ≠ d, so it fails after a partial match. i = 1 and i = 2 mismatch immediately. At i = 3 all three characters match (a, b, d), so the first occurrence is index 3.
+
+⏱️ Brute force is O(n·m) in the worst case with O(1) extra space. The KMP algorithm improves this to O(n + m) by precomputing how far to jump on a mismatch, so it never re-checks characters it already matched.
+
+Bonus, cleaner code (shown as a flourish): the standard library already implements this — size_t p = haystack.find(needle); return p == string::npos ? -1 : (int)p;
+
+This is #23 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #Strings #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+find first occurrence, leetcode 28, strstr, implement strstr, sliding window string, needle haystack, string matching, KMP, leetcode easy, leetcode top interview 150, coding interview questions, leetcode 28 solution
+
+-- Pinned comment --
+Slide the needle across the haystack, compare left to right; match all → return i, mismatch → shift by one 😯. "abcabd"/"abd": i=0 nearly works (a,b match, c≠d), matches at i=3. Brute force O(n·m), O(1) space; KMP O(n+m). Bonus: just haystack.find(needle) ✅
+
+#23 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

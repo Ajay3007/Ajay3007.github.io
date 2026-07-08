@@ -47,13 +47,9 @@ The while loop lets the same coin repeat — that's the double M.
 num hits zero: the result reads MMXXIV.
 
 13
-00:00:44,500 --> 00:00:49,500
-Bonus, cleaner code: index each decimal digit straight into a lookup — no loop at all.
+00:00:44,500 --> 00:00:48,500
+It's O(1): the value table has a fixed 13 rows. Time O(1), space O(1).
 
 14
-00:00:49,500 --> 00:00:53,500
-Either way it's O(1): the table has a fixed 13 rows. Time O(1), space O(1).
-
-15
-00:00:53,500 --> 00:00:58,000
+00:00:48,500 --> 00:00:53,000
 AxioByte — the Top Interview 150, visualized. Follow for all 150.

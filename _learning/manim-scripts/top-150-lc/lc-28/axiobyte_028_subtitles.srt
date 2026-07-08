@@ -1,0 +1,47 @@
+1
+00:00:00,000 --> 00:00:02,000
+Find the First Occurrence — LeetCode 28
+
+2
+00:00:02,000 --> 00:00:05,800
+Problem: return the first index where the needle appears in the haystack, or -1 if it never does.
+
+3
+00:00:05,800 --> 00:00:09,800
+Example: haystack "abcabd", needle "abd". Where does "abd" first line up?
+
+4
+00:00:09,800 --> 00:00:13,600
+Key idea: slide the needle across the haystack and compare, one start at a time.
+
+5
+00:00:13,600 --> 00:00:18,000
+All characters match means that's the answer; any mismatch means shift over by one and retry.
+
+6
+00:00:18,000 --> 00:00:22,500
+Start i = 0: a matches a, b matches b — but then c is not d. Mismatch, slide.
+
+7
+00:00:22,500 --> 00:00:26,000
+i = 1: b versus a, mismatch right away. i = 2: c versus a, mismatch.
+
+8
+00:00:26,000 --> 00:00:30,500
+i = 3: a matches a, b matches b, d matches d — the whole needle matches.
+
+9
+00:00:30,500 --> 00:00:34,000
+So the first occurrence is at index 3.
+
+10
+00:00:34,000 --> 00:00:38,500
+Bonus, cleaner code: string::find does the whole scan — npos means not found.
+
+11
+00:00:38,500 --> 00:00:43,500
+Brute force is O(n·m); KMP does it in O(n+m). Space is O(1).
+
+12
+00:00:43,500 --> 00:00:48,000
+AxioByte — the Top Interview 150, visualized. Follow for all 150.

@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:02,000
+Text Justification — LeetCode 68
+
+2
+00:00:02,000 --> 00:00:06,200
+Problem: pack words into lines of exactly maxWidth characters, both edges flush.
+
+3
+00:00:06,200 --> 00:00:10,000
+With maxWidth 16, these seven words become three fully-justified lines.
+
+4
+00:00:10,000 --> 00:00:13,600
+Three rules do it all.
+
+5
+00:00:13,600 --> 00:00:18,000
+One: greedily pack as many words as fit. Two: spread the leftover spaces evenly.
+
+6
+00:00:18,000 --> 00:00:22,500
+When they don't divide evenly, the left-hand gaps take the extras. Three: the last line is left-justified.
+
+7
+00:00:22,500 --> 00:00:27,000
+Line one packs This, is, an — that's 10 with single spaces; adding example would be 18, too big.
+
+8
+00:00:27,000 --> 00:00:31,500
+Slack is 16 minus 8 letters = 8 spaces, over 2 gaps = 4 and 4. Even.
+
+9
+00:00:31,500 --> 00:00:36,500
+Line two packs example, of, text. Slack 3 over 2 gaps = 2 then 1 — the left gap gets the extra.
+
+10
+00:00:36,500 --> 00:00:41,000
+Line three is just justification — the last line, so single spaces and pad the right.
+
+11
+00:00:41,000 --> 00:00:45,000
+Every line lands on exactly 16 characters, fully justified.
+
+12
+00:00:45,000 --> 00:00:49,500
+Time O(N) over the total characters, O(1) extra space.
+
+13
+00:00:49,500 --> 00:00:54,000
+That completes the Array and String section. AxioByte — follow for all 150.
