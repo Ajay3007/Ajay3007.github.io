@@ -1,0 +1,104 @@
+================================================================
+AxioByte — Episode 25 · Valid Palindrome (LeetCode 125)  [two pointers · v3 theme]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc125_video.py LC125
+  -> media/videos/lc125_video/1920p60/LC125.mp4
+
+Cover (single still image):
+  manim -s -qh cover125_9x16.py Cover125
+  -> media/images/cover125_9x16/Cover125_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_125_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (first TEMPLATE v3 episode) ───────────────────────────
+Opens the Two Pointers section, and debuts theme v3: neon glow on the
+l/r pointers, a glow "trail" on matched cells, and the code panel with
+line numbers + a glowing cyan left-edge accent on the active line (plus
+v3 palette: MINT #4DE6A0, BG #090C13). Teaching code = two pointers that
+skip non-alphanumeric chars and compare lowercased; O(n) time, O(1) space.
+Bonus card = filter-to-alnum-lower then compare with reverse (concise but
+O(n) space). Example "race a car" -> false: matches r,a,c, then r skips a
+space and 'e' != 'a' -> false. (Spec: THEME_V3.md.)
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Valid Palindrome — LeetCode 125 — the two-pointer starter 👇
+
+Is the string a palindrome if you keep only letters/digits and ignore case? "A man, a plan, a canal: Panama" → true. "race a car" → false.
+
+The move: one pointer at each end, walking inward. 👉👈
+• skip anything that isn't a letter or digit
+• compare the two characters, lowercased
+• mismatch → false, immediately
+• pointers meet in the middle → true
+
+"race a car": r=r ✓, a=a ✓, c=c ✓ … then the right pointer hops over a space and lands on 'a', so we compare 'e' vs 'a' → they differ → false. No need to check the rest.
+
+→ O(n) time, O(1) space — nothing allocated, you just walk the ends toward the center.
+
+Bonus (cleaner code): strip to alphanumeric-lowercase, then compare the string to its reverse — shorter, but O(n) space.
+
+#25 of my LeetCode Top Interview 150 series — Two Pointers section begins! Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Valid Palindrome (LeetCode 125) 👇
+
+One pointer each end, walk inward: skip non-alphanumeric, compare lowercased, mismatch → false, meet → true. "race a car": r,a,c match, then 'e' vs 'a' → false. O(n) time, O(1) space ✅ Bonus: filter to clean chars and compare with the reverse.
+
+#25 of the Top Interview 150 — Two Pointers begins!
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Valid Palindrome — LeetCode 125 (Two Pointers, O(1) Space)
+
+-- Description --
+Valid Palindrome (LeetCode 125) — the classic two-pointer warm-up, and the first episode of the Two Pointers section.
+
+Decide whether a string is a palindrome when you consider only alphanumeric characters and ignore letter case. Rather than build a cleaned-up copy, walk the original string from both ends: put one pointer l at the start and another r at the end. Skip any character that isn't a letter or digit, compare the lowercased characters at l and r, and if they ever differ the answer is false. If the pointers cross, every pair matched and it's a palindrome.
+
+Example "race a car": r/r, a/a, c/c all match and the pointers step inward. Then the right pointer is on a space, which isn't alphanumeric, so it moves left onto 'a'. Comparing 'e' with 'a' fails — the string is not a palindrome, and we stop immediately without scanning the rest.
+
+⏱️ O(n) time, O(1) extra space — the two-pointer walk allocates nothing.
+
+Bonus, cleaner code (shown as a flourish): build a filtered string of just the lowercase alphanumeric characters, then check it equals its own reverse — more concise, at the cost of O(n) space.
+
+This is #25 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles, and this begins the Two Pointers section.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+valid palindrome, leetcode 125, valid palindrome leetcode, two pointers, palindrome check, isalnum, ignore case palindrome, leetcode easy, leetcode top interview 150, coding interview questions, leetcode 125 solution, two pointer technique
+
+-- Pinned comment --
+One pointer at each end, walk inward 😯: skip non-alphanumeric, compare lowercased, mismatch → false, meet in the middle → true. "race a car": r,a,c match, then 'e' vs 'a' → false. O(n) time, O(1) space. Bonus: filter to clean chars and compare with the reverse ✅
+
+#25 of the Top Interview 150 — Two Pointers section begins!
+Which problem next? Drop the number 👇
+================================================================

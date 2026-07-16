@@ -1,6 +1,6 @@
 # AxioByte — LeetCode Top Interview 150 · Series Tracker
 
-Progress: **24 / 150** complete · **Array / String section done ✅** · next section: **Two Pointers**.
+Progress: **25 / 150** complete · Array/String ✅ · now in **Two Pointers** (theme v3 from here on).
 
 - Episodes are produced in list order, so **Ep # = sequence #** (e.g. Ep 22 = Zigzag Conversion).
 - Each done episode has 4 files in `top-150-lc/lc-<num>/`: `lc<num>_video.py`, `cover<num>_9x16.py`, `axiobyte_<3d>_captions.txt`, `axiobyte_<3d>_subtitles.srt`.
@@ -43,8 +43,8 @@ Progress: **24 / 150** complete · **Array / String section done ✅** · next s
 
 | Ep | LC # | Problem | Difficulty | Status |
 |----|------|---------|------------|--------|
-| 25 | 125 | Valid Palindrome | Easy | ▶️ |
-| 26 | 392 | Is Subsequence | Easy | ⬜ |
+| 25 | 125 | Valid Palindrome | Easy | ✅ |
+| 26 | 392 | Is Subsequence | Easy | ▶️ |
 | 27 | 167 | Two Sum II - Input Array Is Sorted | Medium | ⬜ |
 | 28 | 11  | Container With Most Water | Medium | ⬜ |
 | 29 | 15  | 3Sum | Medium | ⬜ |
