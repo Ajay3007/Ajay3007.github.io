@@ -132,9 +132,13 @@ class LC125(Scene):
         content.move_to(panel.get_center()); block.set_z_index(2); nums.set_z_index(2)
         hlbar=RoundedRectangle(width=panelw-0.16,height=lines[0].height+0.14,corner_radius=0.06,stroke_width=0,fill_color=CYAN,fill_opacity=0.0).set_z_index(1)
         accent=RoundedRectangle(width=0.07,height=lines[0].height+0.16,corner_radius=0.03,stroke_width=0,fill_color=CYAN,fill_opacity=0.0).set_z_index(3)
-        self.panel=panel; self.code=lines; self.hlbar=hlbar; self.accent=accent
+        self.panel=panel; self.code=lines; self.hlbar=hlbar; self.accent=accent; self.content=content
         self._pcx=panel.get_center()[0]; self._plx=panel.get_left()[0]+0.13; self._barvis=False
         return panel,content,hlbar,accent
+
+    def clear_code(self):
+        # fade the whole code panel incl. line-number gutter + active-line bar/accent
+        return [FadeOut(self.panel),FadeOut(self.content),FadeOut(self.hlbar),FadeOut(self.accent)]
 
     def hl(self,i):
         y=self.code[i].get_center()[1]
@@ -204,8 +208,8 @@ class LC125(Scene):
         n=len(S)
         self.cells=[cell(ch) for ch in S]
         for c,cellobj in enumerate(self.cells): cellobj.move_to([self.col_x(c),ARR_Y,0])
-        slab=Text("s",font=MN,weight=BOLD,color=WHITE).scale(0.36).move_to([self.col_x(0)-0.7,ARR_Y,0])
-        self.play(FadeIn(slab),LaggedStart(*[FadeIn(c,shift=UP*0.1) for c in self.cells],lag_ratio=0.06),run_time=1.0)
+        self.slab=Text("s",font=MN,weight=BOLD,color=WHITE).scale(0.36).move_to([self.col_x(0)-0.7,ARR_Y,0])
+        self.play(FadeIn(self.slab),LaggedStart(*[FadeIn(c,shift=UP*0.1) for c in self.cells],lag_ratio=0.06),run_time=1.0)
 
         raw=[(0,"int l = 0, r = s.size() - 1;"),
              (0,"while (l < r) {"),
@@ -260,15 +264,18 @@ class LC125(Scene):
         self.wait(READ_L)
 
     def elegant_card(self):
-        self.play(FadeOut(self.hlbar),FadeOut(self.accent),*[FadeOut(c) for c in self.code],FadeOut(self.panel),run_time=0.45)
-        tag=pill("Bonus: cleaner code  ✨",AMBER,AMBER_BG,AMBER,s=0.42,h=0.62,glowing=True).move_to(UP*RES_Y+UP*0.15)
+        # clear the ENTIRE walkthrough: code panel+gutter, cells, pointers, glow trail
+        self.play(*self.clear_code(),
+                  FadeOut(VGroup(*self.cells)),FadeOut(self.slab),FadeOut(self.pl),FadeOut(self.pr),
+                  *[FadeOut(g) for g in self.glows],run_time=0.5)
+        tag=pill("Bonus: cleaner code  ✨",AMBER,AMBER_BG,AMBER,s=0.42,h=0.62,glowing=True).move_to(UP*1.5)
         self.play(FadeIn(tag,scale=1.05),run_time=0.5)
         raw=[(0,'string t;'),
              (0,'for (char c : s) if (isalnum(c)) t += tolower(c);'),
              (0,'return equal(t.begin(), t.end(), t.rbegin());')]
-        panel,content,hlbar,accent=self.build_code(raw,scale=0.32,cy=-2.0,maxw=6.6)
+        panel,content,hlbar,accent=self.build_code(raw,scale=0.32,cy=-0.2,maxw=6.5)
         self.play(FadeIn(panel),FadeIn(content),run_time=0.6)
-        note=Text("filter to clean chars, compare with its reverse",font=FN,color=GRAY).scale(0.34).move_to(UP*-3.35)
+        note=Text("filter to clean chars, compare with its reverse",font=FN,color=GRAY).scale(0.34).move_to(UP*-1.75)
         if note.width>6.9: note.scale_to_fit_width(6.9)
         self.play(FadeIn(note,shift=UP*0.1),run_time=0.45)
         self.set_cap("concise — but O(n) space instead of O(1)",color=AMBER)
