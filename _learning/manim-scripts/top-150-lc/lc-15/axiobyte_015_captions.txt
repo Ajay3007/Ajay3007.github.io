@@ -1,0 +1,104 @@
+================================================================
+AxioByte — Episode 29 · 3Sum (LeetCode 15)  [two pointers · closes the section · v3]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc15_video.py LC15
+  -> media/videos/lc15_video/1920p60/LC15.mp4
+
+Cover (single still image):
+  manim -s -qh cover15_9x16.py Cover15
+  -> media/images/cover15_9x16/Cover15_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_015_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v3 · closes Two Pointers) ───────────────────
+The section's capstone. Sort, then for each i run a two-pointer (l=i+1,
+r=n-1) hunting for -nums[i]; s<0 -> l++, s>0 -> r--, s==0 -> record + skip
+duplicate values (of i, l, r) to keep triplets unique. O(n^2) time, O(1)
+extra. Panel shows only the two-pointer CORE (sort + outer loop + dup-i are
+conveyed by the animation + captions to keep the panel short). NO Bonus
+card. Example [-1,0,1,2,-1,-4] -> sorted [-4,-1,-1,0,1,2] -> {-1,-1,2},
+{-1,0,1}; the i=2 (-1) duplicate-skip is animated in red. End slide marks
+the Two Pointers section complete; Ep 30 (#209) opens Sliding Window.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+3Sum — LeetCode 15 — the two-pointer boss level 👇
+
+Find every UNIQUE triplet that sums to 0. The brute force is O(n³); here's the O(n²) way everyone expects in interviews.
+
+The unlock is SORTING. Once sorted:
+• fix one number nums[i]
+• the rest is Two Sum — two pointers (l, r) hunting for -nums[i]
+• sum < 0 → l++ (need bigger), sum > 0 → r-- (need smaller), sum == 0 → record it
+• skip repeated values of i, l and r so you never emit the same triplet twice
+
+nums = [-1,0,1,2,-1,-4] → sorted [-4,-1,-1,0,1,2]:
+fix -4 → nothing reaches it
+fix -1 → (-1,2) and (0,1) both work → {-1,-1,2}, {-1,0,1}
+the second -1 is a repeat → skip (no duplicates)
+fix 0 → smallest pair already overshoots → done ✅
+
+→ O(n²) time, O(1) extra space.
+
+#29 of my LeetCode Top Interview 150 series — that's the Two Pointers section done! Sliding Window next. Follow @axiobyte.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+3Sum (LeetCode 15) 👇
+
+Sort, then fix one number and Two-Sum the rest with two pointers: s<0 → l++, s>0 → r--, s==0 → record. Skip repeated values → unique triplets. [-1,0,1,2,-1,-4] → {-1,-1,2}, {-1,0,1}. O(n²) time, O(1) space ✅
+
+#29 of the Top Interview 150 — Two Pointers complete!
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+3Sum — LeetCode 15 (Sort + Two Pointers, O(n²))
+
+-- Description --
+3Sum (LeetCode 15) solved with sorting plus the two-pointer technique — the capstone of the Two Pointers section.
+
+Find all unique triplets that sum to zero. Sorting the array first is the key: it lets you fix one element nums[i] and reduce the rest of the problem to Two Sum on a sorted array. Put l just after i and r at the end; look at s = nums[i] + nums[l] + nums[r]. If s is negative, move l right for a bigger value; if positive, move r left for a smaller one; if zero, record the triplet. To keep triplets unique, skip over repeated values of i (the fixed element) and of l and r after a match.
+
+Example: nums = [-1,0,1,2,-1,-4] sorts to [-4,-1,-1,0,1,2]. Fixing -4, no two later numbers sum to 4. Fixing the first -1, the pointers find (-1, 2) and then (0, 1), giving {-1,-1,2} and {-1,0,1}. The second -1 is a duplicate of the value we just fixed, so we skip it to avoid repeating triplets. Fixing 0, even the smallest available pair overshoots, so we stop. Result: {-1,-1,2} and {-1,0,1}.
+
+⏱️ O(n²) time (an O(n) two-pointer sweep for each of the n fixed elements), plus O(n log n) to sort, and O(1) extra space.
+
+This is #29 of the LeetCode Top Interview 150 — and it completes the Two Pointers section. Sliding Window is next.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+3sum, leetcode 15, 3sum leetcode, three sum, two pointers, sort and two pointer, unique triplets, skip duplicates, leetcode medium, leetcode top interview 150, coding interview questions, leetcode 15 solution
+
+-- Pinned comment --
+Sort first 😯 — then fix one number and Two-Sum the rest with two pointers: s<0 → l++, s>0 → r--, s==0 → record. Skip repeated values of i/l/r so triplets stay unique. [-1,0,1,2,-1,-4] → {-1,-1,2}, {-1,0,1}. O(n²) time, O(1) space ✅
+
+#29 of the Top Interview 150 — Two Pointers section complete!
+Which problem next? Drop the number 👇
+================================================================

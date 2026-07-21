@@ -1,0 +1,113 @@
+================================================================
+AxioByte — Episode 26 · Is Subsequence (LeetCode 392)  [two pointers · v3]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc392_video.py LC392
+  -> media/videos/lc392_video/1920p60/LC392.mp4
+
+Cover (single still image):
+  manim -s -qh cover392_9x16.py Cover392
+  -> media/images/cover392_9x16/Cover392_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_392_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v3) ─────────────────────────────────────────
+Two-pointer greedy: i walks s, j scans t; on s[i]==t[j] advance i (the s
+cell locks in with a mint glow); return i == s.size(). O(n) time (n=|t|),
+O(1) space. Bonus card = the tighter range-for version (one counter,
+single sweep). Uses clear_code() + full walkthrough clear before the Bonus
+card (v3 gutter-overlap fix from #125). Example s="abc", t="ahbgdc" -> true
+(a@0, b@2, c@5). Follow-up worth a mention: for MANY s queries against a
+fixed t, preprocess t (index lists per char + binary search, or DP next-
+pos table) — noted in prose, not animated.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Is Subsequence — LeetCode 392 — greedy two pointers 👇
+
+Is s a subsequence of t? That means: keep t's order, delete some of its letters, and end up with s.
+
+The move: one pointer on each string. 👉
+• scan t left→right with j
+• whenever t[j] is the character s currently needs, tick it off and advance i
+• always keep moving j
+• if i ticks off ALL of s → true
+
+s = "abc", t = "ahbgdc":
+need 'a' → t[0]='a' ✓  (i→b)
+'h' ≠ 'b' skip … 'b' ✓  (i→c)
+'g','d' skip … 'c' ✓  → s fully matched → true ✅
+
+Greedy works because taking the earliest possible match never hurts later ones.
+
+→ O(n) time over t, O(1) space.
+
+Bonus (cleaner code): one counter and a single range-for over t — same idea, tighter loop. (And if you have MANY s to test against one fixed t, preprocess t once and binary-search each character.)
+
+#26 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Is Subsequence (LeetCode 392) 👇
+
+One pointer each: scan t with j, and when t[j] is what s needs, advance i. Cleared all of s → true. s="abc", t="ahbgdc" → a✓ b✓ c✓ → true ✅ O(n) time, O(1) space. Bonus: a single range-for with one counter.
+
+#26 of the Top Interview 150.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Is Subsequence — LeetCode 392 (Two Pointers, O(1) Space)
+
+-- Description --
+Is Subsequence (LeetCode 392) solved with a greedy two-pointer scan.
+
+s is a subsequence of t if you can delete zero or more characters from t, without reordering, and get s. Use one pointer i on s and another j on t. Sweep t from left to right; each time t[j] equals the character s currently needs (s[i]), advance i. Always advance j. If i reaches the end of s, every character of s was found in order, so s is a subsequence.
+
+Example: s = "abc", t = "ahbgdc". i needs 'a' and t[0] is 'a' — match, i moves to 'b'. 'h' is not 'b', skip; 'b' matches, i moves to 'c'. 'g' and 'd' are skipped; 'c' matches, and i has now cleared all of s. Answer: true.
+
+Why greedy is safe: matching the earliest available character in t can never make a later character harder to find, so there's no need to try other alignments.
+
+⏱️ O(n) time where n is the length of t, O(1) extra space.
+
+Bonus, cleaner code (shown as a flourish): a single counter and one range-based for loop over t — int i = 0; for (char c : t) if (i < s.size() && c == s[i]) i++; return i == s.size();
+
+Follow-up: if you must answer many different s against the same t, preprocess t once — for example store, for each character, the sorted list of its positions and binary-search the next position — so each query is faster than a full scan.
+
+This is #26 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+is subsequence, leetcode 392, is subsequence leetcode, two pointers, subsequence check, greedy matching, leetcode easy, string subsequence, leetcode top interview 150, coding interview questions, leetcode 392 solution, two pointer technique
+
+-- Pinned comment --
+One pointer on each string: scan t with j, and whenever t[j] is the char s needs, tick it off and advance i 😯. Cleared all of s → true. s="abc", t="ahbgdc": a✓ b✓ c✓ → true. O(n) time, O(1) space ✅ Bonus: a single range-for with one counter.
+
+#26 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

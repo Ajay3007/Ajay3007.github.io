@@ -1,0 +1,108 @@
+================================================================
+AxioByte — Episode 27 · Two Sum II - Input Array Is Sorted (LeetCode 167)  [two pointers · v3]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc167_video.py LC167
+  -> media/videos/lc167_video/1920p60/LC167.mp4
+
+Cover (single still image):
+  manim -s -qh cover167_9x16.py Cover167
+  -> media/images/cover167_9x16/Cover167_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_167_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v3) ─────────────────────────────────────────
+The canonical converging two-pointer on a SORTED array. l/r from both
+ends; sum = a[l]+a[r]; sum<target -> l++ (need bigger), sum>target -> r--
+(need smaller), sum==target -> return {l+1, r+1} (1-based). O(n) time,
+O(1) space. NO Bonus card — the two-pointer is the optimal clean solution
+and there's no slicker one-liner (a hash map would be O(n) space, binary
+search O(n log n)); outro clears the walkthrough via clear_code(). Example
+[1,3,4,5,7,11], target 9 -> [3,4], picked so it alternates r--/l++ before
+matching. IMPORTANT: indices are 1-based per the problem statement.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Two Sum II — LeetCode 167 — the sorted-array trick 👇
+
+Given a SORTED array, find the two numbers that add to target and return their (1-based) indices.
+
+You could hash every number… but sorted hands you something better: a pointer at each end. 👉👈
+• sum too small? the left number is the bottleneck → move l right for a bigger value
+• sum too big? → move r left for a smaller value
+• sum == target → done
+
+[1,3,4,5,7,11], target 9:
+1+11=12 > 9 → r--
+1+7=8 < 9 → l++
+3+7=10 > 9 → r--
+3+5=8 < 9 → l++
+4+5=9 ✓ → indices [3, 4]
+
+Each step throws away a whole set of pairs that can't possibly work — that's why one pass suffices.
+
+→ O(n) time, O(1) space. No hash map, no extra memory.
+
+#27 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Two Sum II (LeetCode 167) 👇
+
+Sorted array → pointer at each end. Sum too small → l++; too big → r--; equal → done. [1,3,4,5,7,11], t=9 → 4+5=9 → [3,4] (1-based). Each move discards impossible pairs, so one pass works. O(n) time, O(1) space ✅
+
+#27 of the Top Interview 150.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Two Sum II (Sorted) — LeetCode 167 (Two Pointers, O(1) Space)
+
+-- Description --
+Two Sum II - Input Array Is Sorted (LeetCode 167) solved with converging two pointers.
+
+The array is sorted, and exactly one pair sums to the target; return their 1-based indices. Put one pointer l at the first element and another r at the last, and look at sum = numbers[l] + numbers[r]. If the sum is less than the target, the only way to increase it is to move l right to a larger value. If the sum is greater than the target, move r left to a smaller value. If the sum equals the target, return {l+1, r+1}.
+
+Example: [1,3,4,5,7,11], target 9. 1+11=12 (>9, r--), 1+7=8 (<9, l++), 3+7=10 (>9, r--), 3+5=8 (<9, l++), 4+5=9 — match, so the answer is indices 3 and 4 (one-based).
+
+Why it works: because the array is sorted, every move eliminates an entire group of pairs that cannot reach the target, so a single linear pass is enough — no need for the hash map you'd use on an unsorted Two Sum.
+
+⏱️ O(n) time, O(1) extra space.
+
+This is #27 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+two sum ii, leetcode 167, two sum sorted, two pointers, converging pointers, sorted array two sum, leetcode medium, two sum input array is sorted, leetcode top interview 150, coding interview questions, leetcode 167 solution, one based indices
+
+-- Pinned comment --
+Sorted array is the gift: pointer at each end 😯. Sum too small → move l right (need bigger); too big → move r left; equal → done. [1,3,4,5,7,11], t=9 → 4+5=9 → [3,4] (1-based). Each move discards impossible pairs, so one pass, O(n) time, O(1) space ✅
+
+#27 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================

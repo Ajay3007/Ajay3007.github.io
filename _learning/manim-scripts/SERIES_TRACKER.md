@@ -1,6 +1,6 @@
 # AxioByte — LeetCode Top Interview 150 · Series Tracker
 
-Progress: **25 / 150** complete · Array/String ✅ · now in **Two Pointers** (theme v3 from here on).
+Progress: **29 / 150** complete · Array/String ✅ · Two Pointers ✅ · next section: **Sliding Window** (theme v3).
 
 - Episodes are produced in list order, so **Ep # = sequence #** (e.g. Ep 22 = Zigzag Conversion).
 - Each done episode has 4 files in `top-150-lc/lc-<num>/`: `lc<num>_video.py`, `cover<num>_9x16.py`, `axiobyte_<3d>_captions.txt`, `axiobyte_<3d>_subtitles.srt`.
@@ -44,16 +44,16 @@ Progress: **25 / 150** complete · Array/String ✅ · now in **Two Pointers** (
 | Ep | LC # | Problem | Difficulty | Status |
 |----|------|---------|------------|--------|
 | 25 | 125 | Valid Palindrome | Easy | ✅ |
-| 26 | 392 | Is Subsequence | Easy | ▶️ |
-| 27 | 167 | Two Sum II - Input Array Is Sorted | Medium | ⬜ |
-| 28 | 11  | Container With Most Water | Medium | ⬜ |
-| 29 | 15  | 3Sum | Medium | ⬜ |
+| 26 | 392 | Is Subsequence | Easy | ✅ |
+| 27 | 167 | Two Sum II - Input Array Is Sorted | Medium | ✅ |
+| 28 | 11  | Container With Most Water | Medium | ✅ |
+| 29 | 15  | 3Sum | Medium | ✅ |
 
 ## 3 · Sliding Window  (4)
 
 | Ep | LC # | Problem | Difficulty | Status |
 |----|------|---------|------------|--------|
-| 30 | 209 | Minimum Size Subarray Sum | Medium | ⬜ |
+| 30 | 209 | Minimum Size Subarray Sum | Medium | ▶️ |
 | 31 | 3   | Longest Substring Without Repeating Characters | Medium | ⬜ |
 | 32 | 30  | Substring with Concatenation of All Words | Hard | ⬜ |
 | 33 | 76  | Minimum Window Substring | Hard | ⬜ |

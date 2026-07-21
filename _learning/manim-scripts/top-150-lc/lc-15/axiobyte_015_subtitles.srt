@@ -1,0 +1,51 @@
+1
+00:00:00,000 --> 00:00:01,700
+3Sum — LeetCode 15
+
+2
+00:00:01,700 --> 00:00:06,000
+Problem: find every unique triplet that sums to zero — no duplicate triplets.
+
+3
+00:00:06,000 --> 00:00:10,200
+Example nums = [-1,0,1,2,-1,-4]. The answers are {-1,-1,2} and {-1,0,1}.
+
+4
+00:00:10,200 --> 00:00:13,500
+Key idea: sort first — it unlocks everything.
+
+5
+00:00:13,500 --> 00:00:18,000
+Fix one number, then it's just Two Sum on the rest: two pointers chasing minus that number.
+
+6
+00:00:18,000 --> 00:00:22,000
+And skip repeated values so the triplets stay unique.
+
+7
+00:00:22,000 --> 00:00:25,500
+Sorted, it's [-4,-1,-1,0,1,2]. Fix -4 first: no two later numbers reach 4.
+
+8
+00:00:25,500 --> 00:00:30,000
+Fix -1: we need two summing to 1. -1 and 2 gives 0 — first triplet, {-1,-1,2}.
+
+9
+00:00:30,000 --> 00:00:34,500
+Then 0 and 1 also sum to 1 with the -1 — second triplet, {-1,0,1}.
+
+10
+00:00:34,500 --> 00:00:38,500
+The next -1 is a repeat of the one we just used, so we skip it — no duplicate triplets.
+
+11
+00:00:38,500 --> 00:00:42,000
+Fixing 0, the smallest pair already overshoots, so we're done.
+
+12
+00:00:42,000 --> 00:00:46,500
+Two triplets. Sorting plus a two-pointer sweep per element: O(n²) time, O(1) space.
+
+13
+00:00:46,500 --> 00:00:51,000
+That wraps the Two Pointers section. AxioByte — follow for all 150.

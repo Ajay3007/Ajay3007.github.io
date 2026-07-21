@@ -1,0 +1,106 @@
+================================================================
+AxioByte — Episode 28 · Container With Most Water (LeetCode 11)  [two pointers · v3 bar chart]
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 lc11_video.py LC11
+  -> media/videos/lc11_video/1920p60/LC11.mp4
+
+Cover (single still image):
+  manim -s -qh cover11_9x16.py Cover11
+  -> media/images/cover11_9x16/Cover11_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+
+── SUBTITLES ──────────────────────────────────────────────────
+YouTube Studio -> Subtitles -> Add -> Upload file -> "With timing"
+  file: axiobyte_011_subtitles.srt
+Instagram does NOT accept .srt (burned-in captions cover it).
+
+── NOTE (template v3 · bar chart) ─────────────────────────────
+Bar-chart episode (like #42). Two pointers l/r from the ends; area =
+min(h[l],h[r]) * (r-l); track best; MOVE THE SHORTER LINE inward (moving
+the taller one can only shrink area). Water rectangle is redrawn each step
+between l and r at the shorter height. O(n) time, O(1) space. NO Bonus
+card — two-pointer is the optimal clean solution (brute force is O(n^2)),
+so outro clears via clear_code(). Canonical example [1,8,6,2,5,4,8,3,7]
+-> 49 at lines index1(8) & index8(7): min(8,7)*7=49. Best found on step 2;
+later steps are paced faster since none beats 49. Correctness intuition:
+the shorter line bounds the area, so discarding it loses nothing.
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Container With Most Water — LeetCode 11 — greedy two pointers 👇
+
+Each bar is a vertical line. Choose two lines so the water trapped between them (with the flat ground) is maximised. Area = min(the two heights) × the distance between them.
+
+Brute force checks all pairs — O(n²). The two-pointer trick is O(n):
+• start as WIDE as possible: one line at each end
+• the water is capped by the SHORTER line
+• moving the taller line keeps the same cap but loses width → never better
+• so always move the shorter line inward — the only move that could help
+
+[1,8,6,2,5,4,8,3,7]:
+min(1,7)×8 = 8 → left is shortest, move l
+min(8,7)×7 = 49 ← the winner
+…every remaining pair is narrower and can't beat 49
+
+→ max area = 49, at lines 1 and 8. O(n) time, O(1) space ✅
+
+#28 of my LeetCode Top Interview 150 series — animating all 150 from first principles. Follow @axiobyte so you don't miss one.
+
+Which problem next? Drop the number 👇
+📌 Save this for interview prep · 🔁 send it to someone grinding LeetCode
+
+-- Hashtags (max 5, paste at end) --
+#leetcode #codinginterview #dsa #twopointers #axiobyte
+
+-- Short variant --
+Container With Most Water (LeetCode 11) 👇
+
+Area = min(two heights) × width. Start wide (a line at each end); water is capped by the shorter line, so always move the shorter one inward. [1,8,6,2,5,4,8,3,7] → min(8,7)×7 = 49 at lines 1 & 8. O(n) time, O(1) space ✅
+
+#28 of the Top Interview 150.
+Next problem? Comment the number 👇
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Container With Most Water — LeetCode 11 (Two Pointers, O(n))
+
+-- Description --
+Container With Most Water (LeetCode 11) solved with the greedy two-pointer technique.
+
+Each array value is the height of a vertical line. Pick two lines so that, together with the x-axis, they hold the most water. The amount of water for a pair is min(height[l], height[r]) × (r − l): the shorter line sets the water level, and the horizontal distance sets the width.
+
+Checking every pair is O(n²). Instead, start with the widest possible container — one pointer at each end — and repeatedly move the pointer at the SHORTER line inward. Why: the water level is limited by the shorter line, so moving the taller line inward keeps the same (or lower) height while strictly reducing the width — it can never increase the area. Moving the shorter line is the only move with a chance to improve, and it discards nothing better.
+
+Example [1,8,6,2,5,4,8,3,7]: the widest pair gives min(1,7)×8 = 8; moving the short left line in, min(8,7)×7 = 49 — and no later, narrower pair beats it. Maximum area 49, between the lines at index 1 (height 8) and index 8 (height 7).
+
+⏱️ O(n) time, O(1) extra space.
+
+This is #28 of the LeetCode Top Interview 150 — I'm animating all 150 from first principles.
+
+▶️ Full series playlist: [paste your playlist link]
+🔔 Subscribe to @axiobyte so you don't miss the next one.
+
+Which problem should I animate next? Comment the number 👇
+
+#LeetCode #CodingInterview #DSA #TwoPointers #Shorts
+
+-- Hidden tags (Studio -> Show more -> Tags) --
+container with most water, leetcode 11, container with most water leetcode, two pointers, max area, min height times width, leetcode medium, greedy two pointer, leetcode top interview 150, coding interview questions, leetcode 11 solution, water container
+
+-- Pinned comment --
+Water is capped by the SHORTER line 😯 — so start wide and always move the shorter line inward (moving the taller one only loses width). [1,8,6,2,5,4,8,3,7] → min(8,7)×7 = 49 at lines 1 & 8. O(n) time, O(1) space ✅
+
+#28 of the Top Interview 150 — animating all 150.
+Which problem next? Drop the number 👇
+================================================================
