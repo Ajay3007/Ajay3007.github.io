@@ -61,10 +61,13 @@ class CoverSys01(Scene):
         slash.add_to_back(glow(slash,RED,layers=4,spread=1.0,max_op=0.22))
         self.add(slash)
         krn.set_opacity(0.4)
-        # bypass arrow NIC -> app
-        by=CurvedArrow(nic.get_left()+LEFT*0.05,app.get_left()+LEFT*0.05,angle=PI*0.7,color=WATER,stroke_width=5,tip_length=0.24).set_z_index(6)
-        self.add(by)
-        self.add(Text("DPDK bypass",font=MN,weight=BOLD,color=WATER).scale(0.34).next_to(by,LEFT,buff=0.1))
+        # bypass lane NIC -> down the left -> into app
+        lane_x=-2.6
+        p0=nic.get_left(); p1=[lane_x,nic.get_center()[1],0]; p2=[lane_x,app.get_center()[1],0]; p3=app.get_left()
+        seg1=Line(p0,p1,color=WATER,stroke_width=5); seg2=Line(p1,p2,color=WATER,stroke_width=5)
+        seg3=Arrow(p2,p3,buff=0,color=WATER,stroke_width=5,max_tip_length_to_length_ratio=0.4)
+        self.add(VGroup(seg1,seg2,seg3).set_z_index(6))
+        self.add(Text("DPDK\nbypass",font=MN,weight=BOLD,color=WATER).scale(0.32).move_to([-3.3,(nic.get_center()[1]+app.get_center()[1])/2,0]))
 
         comp=VGroup(pill("0.5 Mpps",RED,RED_BG,RED,s=0.42,h=0.62,glowing=True),
                     Text("→",font=FN,weight=BOLD,color=WHITE).scale(0.7),

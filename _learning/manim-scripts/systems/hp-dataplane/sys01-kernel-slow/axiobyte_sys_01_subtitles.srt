@@ -3,61 +3,121 @@
 Why the kernel is slow for packets — AxioByte Systems
 
 2
-00:00:03,000 --> 00:00:08,000
-A 10-gigabit link can fire nearly 15 million packets every second. Can the kernel handle each one?
+00:00:03,000 --> 00:00:07,000
+Start with the number nobody mentions. A 10-gigabit link, smallest 64-byte packets…
 
 3
-00:00:08,000 --> 00:00:11,500
-Follow one packet up the normal path, through the kernel.
+00:00:07,000 --> 00:00:11,000
+…is 14.88 million packets per second.
 
 4
-00:00:11,500 --> 00:00:16,000
-First, the NIC raises an interrupt. The CPU drops what it's doing to service it.
+00:00:11,000 --> 00:00:16,000
+Divide that into a 3-gigahertz core and you get about 201 CPU cycles — roughly 67 nanoseconds — per packet.
 
 5
-00:00:16,000 --> 00:00:21,000
-Then the packet is copied into a kernel buffer, and the whole TCP/IP stack runs on it.
+00:00:16,000 --> 00:00:20,000
+That's your entire time budget for one packet.
 
 6
-00:00:21,000 --> 00:00:25,500
-Then a context switch hands control from the kernel to your app in user space.
+00:00:20,000 --> 00:00:25,000
+Now here's the problem: a single last-level cache miss costs around 95 nanoseconds.
 
 7
-00:00:25,500 --> 00:00:29,500
-And it's copied a second time, into your buffer. Watch the latency meter climb.
+00:00:25,000 --> 00:00:29,000
+One cache miss and the whole budget is already gone.
 
 8
-00:00:29,500 --> 00:00:34,000
-Every single packet pays that tax — so the kernel tops out around half a million packets a second.
+00:00:29,000 --> 00:00:33,000
+So watch where the kernel spends that budget on the normal path.
 
 9
-00:00:34,000 --> 00:00:38,000
-DPDK's answer: bypass the kernel entirely.
+00:00:33,000 --> 00:00:37,500
+The NIC DMAs the packet into a kernel buffer — an sk_buff — a couple-hundred-byte allocation per packet.
 
 10
-00:00:38,000 --> 00:00:43,500
-The NIC writes packets straight into your process's memory — hugepage-backed user-space mempool.
+00:00:37,500 --> 00:00:43,000
+Then an interrupt fires. The CPU saves and restores state; at 15 million a second, that becomes livelock.
 
 11
-00:00:43,500 --> 00:00:48,500
-A poll-mode driver busy-polls the card. No interrupts, no copies, no syscalls.
+00:00:43,000 --> 00:00:47,500
+The TCP/IP stack runs, the sk_buff is freed, and your caches get trashed.
 
 12
-00:00:48,500 --> 00:00:53,000
-Instead of blocking on recv, you just poll a burst of packets. The latency stays flat.
+00:00:47,500 --> 00:00:52,000
+Then a context switch and a second copy, into user space, when you call recv.
 
 13
-00:00:53,000 --> 00:00:58,000
-The trade-off: a whole core spins at 100%, and you give up the kernel's stack — you build what you need.
+00:00:52,000 --> 00:00:57,000
+That's roughly 1800 cycles against a 200-cycle budget — about nine times over, on every packet.
 
 14
-00:00:58,000 --> 00:01:02,500
-But it takes you from half a million to tens of millions of packets per second, per core.
+00:00:57,000 --> 00:01:02,000
+Even Linux concedes: under load, NAPI switches the kernel to polling. Polling wins.
 
 15
-00:01:02,500 --> 00:01:06,000
-Skip the kernel, reach line rate.
+00:01:02,000 --> 00:01:06,500
+DPDK takes that idea all the way — and deletes each cost. Here's the map.
 
 16
-00:01:06,000 --> 00:01:10,500
+00:01:06,500 --> 00:01:10,500
+A poll-mode driver: no interrupts, no livelock.
+
+17
+00:01:10,500 --> 00:01:14,000
+Hugepages: far fewer TLB misses.
+
+18
+00:01:14,000 --> 00:01:19,000
+An mbuf mempool: buffers are pre-allocated with per-core caches — no per-packet allocation.
+
+19
+00:01:19,000 --> 00:01:23,000
+Zero-copy: the packet is a pointer, and you process it in place.
+
+20
+00:01:23,000 --> 00:01:27,500
+A burst of 32: per-packet overhead divided by thirty-two.
+
+21
+00:01:27,500 --> 00:01:31,500
+And prefetch: hide memory latency behind the work you're already doing.
+
+22
+00:01:31,500 --> 00:01:35,500
+Here's the receive loop for real — and notice there's no syscall.
+
+23
+00:01:35,500 --> 00:01:40,500
+rte_eth_rx_burst grabs up to 32 packets in a single poll of the NIC.
+
+24
+00:01:40,500 --> 00:01:44,500
+You prefetch the next packet while you work on the current one.
+
+25
+00:01:44,500 --> 00:01:48,500
+And you process in place — the mbuf is just a pointer. No copies.
+
+26
+00:01:48,500 --> 00:01:53,500
+The payoff: from about half a million packets a second to fifteen to thirty million, per core.
+
+27
+00:01:53,500 --> 00:01:59,000
+The price: a whole core pinned at 100% polling, and no kernel stack — you rebuild what you need.
+
+28
+00:01:59,000 --> 00:02:04,500
+So use it for routers, firewalls, load balancers, NFV — and skip it for a normal web app, where the kernel is fine.
+
+29
+00:02:04,500 --> 00:02:09,500
+Recap: you get one cache miss of budget per packet; the kernel spends nine times that; DPDK removes each cost.
+
+30
+00:02:09,500 --> 00:02:14,000
+Half a million becomes tens of millions per core.
+
+31
+00:02:14,000 --> 00:02:19,000
 AxioByte Systems — high-performance systems from first principles. Follow for the series.

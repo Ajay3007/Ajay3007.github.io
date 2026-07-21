@@ -15,21 +15,28 @@ Cover (single still image):
   -> media/images/cover_sys01_9x16/CoverSys01_ManimCE_v0.20.1.png
 
 Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
-Target length ~85s. Channel: @axiobyte.systems (separate from @axiobyte).
+Target length ~3 min (DEEP-DIVE). Channel: @axiobyte.systems (separate from @axiobyte).
+For IG: use the full reel (≤3 min) or a trimmed ~90s cut ending after Act 3.
 
 ── SUBTITLES ──────────────────────────────────────────────────
   file: axiobyte_sys_01_subtitles.srt  (upload with timing in YouTube Studio)
 
-── NOTE (pilot — builds the systems toolkit) ──────────────────
-First AxioByte SYSTEMS episode; establishes the diagram toolkit: node()
-(labelled boxes + glow), pdot() (animated packet), a latency meter, and
-animated flows, on the v3 palette. Structure: hook (10G = ~15 Mpps) →
-slow path up the kernel (IRQ → sk_buff copy + TCP/IP → context switch →
-2nd copy, meter climbs, ~0.5 Mpps) → fast path (kernel crossed out, NIC
-DMAs into a user-space hugepage mempool, poll-mode driver, zero-copy,
-meter flat, ~15 Mpps) → trade-off (a core at 100%, no kernel stack) →
-payoff. Grounded in data-plane/dpdk/module-p1-foundation +
-networking/m17-dpdk. NEXT: #2 zero-copy (mbuf/mempool).
+── NOTE (DEEP-DIVE ~3 min; toolkit episode) ───────────────────
+Rebuilt as a 5-act deep dive (user asked for more depth). Acts:
+① the budget — 10GbE/64B = 14.88 Mpps → ~201 cyc (~67 ns)/pkt vs a ~95 ns
+   cache miss (one miss blows the budget).
+② the kernel path COSTED — DMA/sk_buff alloc, interrupt+livelock, TCP/IP +
+   sk_buff free (cache pollution), context switch + 2nd copy on recv; a
+   running "cycles used" counter hits ~1800 vs 200 (~9×); NAPI aside.
+③ what makes it fast — checklist mapping each DPDK mechanism to the cost it
+   removes (poll-mode, hugepages, mbuf/mempool, zero-copy, burst-32,
+   prefetch) + a real rte_eth_rx_burst receive loop (code panel).
+④ numbers + when NOT to (core at 100%, rebuild the stack; routers/firewalls
+   vs a normal web app).
+⑤ recap.
+Toolkit: glow, node(), pdot(), timebar(), build_code()/hl(), pill, colorize,
+set_seg/set_cap/clear_body. Grounded in dpdk/module-p1-foundation & -memory,
+projects/module-09-mempool-mbuf, networking/m17-dpdk. NEXT: #2 zero-copy.
 
 ================================================================
 INSTAGRAM

@@ -2,8 +2,9 @@ from manim import *
 import re
 
 # ================================================================
-# AxioByte Systems — v3 palette + systems diagram toolkit
-# Ep 1 · Why the kernel is slow for packets
+# AxioByte Systems — Ep 1 (DEEP DIVE ~3 min)
+# Why the kernel is slow for packets
+# v3 palette + systems diagram toolkit
 # ================================================================
 BG="#090C13"; SURFACE="#141B27"; SURF2="#0F1420"; BORDER="#26344A"
 CYAN="#34D8E8"; AMBER="#F0A431"; WHITE="#EAF0F6"; GRAY="#65728A"
@@ -11,8 +12,8 @@ MINT="#4DE6A0"; RED="#FF5C55"; VIOLET="#B79CF0"; WATER="#4AA8FF"
 CYAN_BG="#10303A"; AMBER_BG="#33240F"; MINT_BG="#0F2A20"; RED_BG="#331617"; WATER_BG="#12314F"
 
 CODEFG="#C7D0DA"; KW_C=CYAN; NUM_C=AMBER; OP_C="#F78CA0"; STR_C=MINT; COM_C=GRAY
-KEYWORDS=set("int for while if else return void struct const char".split())
-TYPES=set("uint16_t size_t".split())
+KEYWORDS=set("int for while if else return void struct const char uint16_t uint32_t size_t".split())
+TYPES=set("rte_mbuf".split())
 
 config.pixel_width=1080
 config.pixel_height=1920
@@ -21,10 +22,7 @@ config.frame_width=7.875
 config.background_color=BG
 FN="DejaVu Sans"; MN="DejaVu Sans Mono"
 
-WM_Y=6.15; BADGE_Y=5.2; TITLE_Y=4.4
-SEG_Y=3.45; CAP_Y=2.75
-NODE_X=-0.55; NIC_Y=-2.05; KRN_Y=-0.15; APP_Y=1.75
-MET_X=2.95; MET_BOT=-2.55; MET_H=4.35; MET_W=0.5
+WM_Y=6.35; SEG_Y=5.2; CAP_Y=4.35
 READ=0.8; READ_L=1.4
 
 def glow(shape,color=None,layers=6,spread=0.34,max_op=0.16):
@@ -52,7 +50,7 @@ def _char_colors(s):
         for k in range(ci,len(s)): col[k]=COM_C
     return col
 
-def colorize(s,scale=0.34):
+def colorize(s,scale=0.32):
     col=_char_colors(s); t2c={}; i=0
     while i<len(s):
         if col[i] is None: i+=1; continue
@@ -71,50 +69,58 @@ def pill(text,tc,bg,st,s=0.4,h=0.56,glowing=False):
 def node(title,sub=None,w=2.9,h=0.95,color=CYAN,glowing=True):
     box=RoundedRectangle(width=w,height=h,corner_radius=0.14,stroke_color=color,stroke_width=3.0,
                          fill_color=SURF2,fill_opacity=1.0).set_z_index(2)
-    t=Text(title,font=FN,weight=BOLD,color=WHITE).scale(0.48)
+    t=Text(title,font=FN,weight=BOLD,color=WHITE).scale(0.46)
     if sub:
-        s=Text(sub,font=MN,color=GRAY).scale(0.3)
-        inner=VGroup(t,s).arrange(DOWN,buff=0.1)
-    else:
-        inner=t
+        s=Text(sub,font=MN,color=GRAY).scale(0.3); inner=VGroup(t,s).arrange(DOWN,buff=0.1)
+    else: inner=t
     if inner.width>w-0.3: inner.scale_to_fit_width(w-0.3)
     inner.move_to(box.get_center()).set_z_index(5)
     g=VGroup(box,inner)
     if glowing: g.add_to_back(glow(box,color,layers=5,spread=0.2,max_op=0.1))
     g.box=box; return g
 
-def pdot(color=WATER):
-    sq=RoundedRectangle(width=0.32,height=0.32,corner_radius=0.07,stroke_color=color,stroke_width=2.0,
+def pdot(color=WATER,r=0.16):
+    sq=RoundedRectangle(width=2*r,height=2*r,corner_radius=0.06,stroke_color=color,stroke_width=2.0,
                         fill_color=color,fill_opacity=0.9).set_z_index(7)
-    g=VGroup(sq); g.add_to_back(glow(sq,color,layers=5,spread=0.9,max_op=0.3))
-    return g
+    g=VGroup(sq); g.add_to_back(glow(sq,color,layers=5,spread=0.9,max_op=0.3)); return g
+
+def timebar(ns,color,unit=0.052,h=0.42):
+    w=max(0.2,ns*unit)
+    b=RoundedRectangle(width=w,height=h,corner_radius=0.08,stroke_width=0,fill_color=color,fill_opacity=0.9).set_z_index(3)
+    b.add_to_back(glow(b,color,layers=4,spread=0.2,max_op=0.1)); return b,w
 
 
 class Sys01(Scene):
     def construct(self):
         self.persistent()
-        self.hook()
-        self.slow_path()
-        self.fast_path()
-        self.payoff()
+        self.act1_budget()
+        self.act2_kernel()
+        self.act3_dpdk_ideas()
+        self.act3_code()
+        self.act4_numbers()
+        self.recap()
         self.end_slide()
 
     def persistent(self):
-        axio=Text("Axio",font=FN,weight=BOLD,color=CYAN).scale(0.42)
-        byte=Text("Byte",font=FN,weight=BOLD,color=AMBER).scale(0.42)
+        axio=Text("Axio",font=FN,weight=BOLD,color=CYAN).scale(0.36)
+        byte=Text("Byte",font=FN,weight=BOLD,color=AMBER).scale(0.36)
         row=VGroup(axio,byte).arrange(RIGHT,buff=0.02)
-        sysx=Text("SYSTEMS",font=MN,weight=BOLD,color=GRAY).scale(0.28).next_to(row,DOWN,buff=0.05)
+        sysx=Text("SYSTEMS",font=MN,weight=BOLD,color=GRAY).scale(0.26).next_to(row,RIGHT,buff=0.12)
         self.wm=VGroup(row,sysx).move_to(UP*WM_Y)
-        self.badge=pill("High-Perf Data Plane · #1",CYAN,SURFACE,CYAN,s=0.34).move_to(UP*BADGE_Y)
-        self.title=Text("Why the kernel is slow for packets",font=FN,weight=BOLD,color=WHITE).scale(0.54)
-        if self.title.width>7.1: self.title.scale_to_fit_width(7.1)
-        self.title.move_to(UP*TITLE_Y)
-        self.play(FadeIn(self.wm,shift=DOWN*0.15),run_time=0.6)
-        self.play(FadeIn(self.badge,shift=UP*0.1),run_time=0.4)
-        self.play(Write(self.title),run_time=0.9)
-        self.wait(0.3); self.cap=None; self.seg=None
+        self.play(FadeIn(self.wm,shift=DOWN*0.1),run_time=0.5)
+        self.seg=None; self.cap=None
 
-    def set_cap(self,txt,color=WHITE,scale=0.44,rt=0.45):
+    def set_seg(self,text,color,bg):
+        nl=pill(text,color,bg,color,s=0.36,glowing=True).move_to(UP*SEG_Y)
+        if self.seg is None:
+            self.seg=nl; return [FadeIn(nl,shift=UP*0.1)]
+        old=self.seg; self.seg=nl; return [FadeOut(old,shift=UP*0.08),FadeIn(nl,shift=DOWN*0.08)]
+
+    def clear_cap(self):
+        if self.cap is not None:
+            self.play(FadeOut(self.cap),run_time=0.2); self.cap=None
+
+    def set_cap(self,txt,color=WHITE,scale=0.44,rt=0.4):
         new=Text(txt,font=FN,color=color).scale(scale)
         if new.width>7.1: new.scale_to_fit_width(7.1)
         new.move_to(UP*CAP_Y)
@@ -123,134 +129,212 @@ class Sys01(Scene):
         self.play(FadeOut(self.cap,shift=UP*0.08),run_time=0.2)
         self.play(FadeIn(new,shift=UP*0.08),run_time=0.3); self.cap=new
 
-    def set_seg(self,text,color,bg):
-        nl=pill(text,color,bg,color,s=0.36,glowing=True).move_to(UP*SEG_Y)
-        if self.seg is None:
-            self.seg=nl; return [FadeIn(nl,shift=UP*0.1)]
-        old=self.seg; self.seg=nl; return [Transform(old,nl)]
+    def clear_body(self,keep=()):
+        drop=[m for m in self.mobjects if m not in (self.wm,self.seg,self.cap) and m not in keep]
+        if drop: self.play(*[FadeOut(m) for m in drop],run_time=0.5)
 
-    # ---------- latency meter (right side) ----------
-    def build_meter(self):
-        out=RoundedRectangle(width=MET_W,height=MET_H,corner_radius=0.1,stroke_color=BORDER,stroke_width=2.4,
-                             fill_color=SURF2,fill_opacity=1.0).move_to([MET_X,MET_BOT+MET_H/2,0]).set_z_index(1)
-        lab=Text("latency",font=MN,weight=BOLD,color=GRAY).scale(0.3).next_to(out,DOWN,buff=0.12)
-        self.met_out=out; self.met_lab=lab; self.met_fill=None
-        return VGroup(out,lab)
+    # ---------- v3 code panel ----------
+    def build_code(self,raw,scale=0.3,cy=-3.4,maxw=6.4):
+        lines=[colorize(s,scale) for _,s in raw]
+        block=VGroup(*lines).arrange(DOWN,aligned_edge=LEFT,buff=0.12)
+        for ln,(ind,_) in zip(lines,raw): ln.shift(RIGHT*ind*0.30)
+        if block.width>maxw: block.scale(maxw/block.width)
+        gut=0.5
+        nums=VGroup(*[Text(str(k+1),font=MN,color=GRAY).scale(0.9*scale).move_to([block.get_left()[0]-gut,lines[k].get_center()[1],0]) for k in range(len(lines))])
+        content=VGroup(nums,block)
+        pw=content.width+0.7; ph=content.height+0.5
+        panel=RoundedRectangle(corner_radius=0.16,stroke_color=BORDER,stroke_width=2.4,fill_color=SURF2,fill_opacity=1.0,width=pw,height=ph).move_to(UP*cy).set_z_index(0)
+        content.move_to(panel.get_center()); block.set_z_index(2); nums.set_z_index(2)
+        hlbar=RoundedRectangle(width=pw-0.16,height=lines[0].height+0.13,corner_radius=0.06,stroke_width=0,fill_color=CYAN,fill_opacity=0.0).set_z_index(1)
+        acc=RoundedRectangle(width=0.07,height=lines[0].height+0.15,corner_radius=0.03,stroke_width=0,fill_color=CYAN,fill_opacity=0.0).set_z_index(3)
+        self.panel=panel; self.code=lines; self.hlbar=hlbar; self.acc=acc; self.content=content
+        self._pcx=panel.get_center()[0]; self._plx=panel.get_left()[0]+0.13; self._bv=False
+        return panel,content,hlbar,acc
 
-    def set_meter(self,frac,color):
-        frac=max(0.03,min(1.0,frac)); hh=frac*(MET_H-0.14)
-        nf=RoundedRectangle(width=MET_W-0.14,height=hh,corner_radius=0.07,stroke_width=0,fill_color=color,fill_opacity=0.9)
-        nf.move_to([MET_X,MET_BOT+0.07+hh/2,0]).set_z_index(2)
-        nf.add_to_back(glow(nf,color,layers=4,spread=0.22,max_op=0.12))
-        if self.met_fill is None:
-            self.met_fill=nf; return [FadeIn(nf)]
-        old=self.met_fill; self.met_fill=nf; return [FadeOut(old),FadeIn(nf)]
+    def hl(self,i):
+        y=self.code[i].get_center()[1]
+        if not self._bv:
+            self.hlbar.move_to([self._pcx,y,0]); self.acc.move_to([self._plx,y,0]); self._bv=True
+            return [self.hlbar.animate.set_fill(CYAN,opacity=0.12),self.acc.animate.set_fill(CYAN,opacity=1.0)]
+        return [self.hlbar.animate.move_to([self._pcx,y,0]),self.acc.animate.move_to([self._plx,y,0])]
 
-    def build_stack(self):
-        self.nic=node("NIC","off the wire",color=CYAN).move_to([NODE_X,NIC_Y,0])
-        self.krn=node("Kernel stack","IRQ · copy · TCP/IP",w=3.3,h=1.1,color=AMBER).move_to([NODE_X,KRN_Y,0])
-        self.app=node("Your app","recv()",color=MINT).move_to([NODE_X,APP_Y,0])
+    # ============================================================
+    # ACT 1 — the budget
+    # ============================================================
+    def act1_budget(self):
+        self.play(*self.set_seg("① the budget nobody mentions",CYAN,CYAN_BG),run_time=0.45)
+        self.set_cap("10 GbE, smallest (64-byte) packets…",color=WATER)
+        big=Text("14.88 Mpps",font=MN,weight=BOLD,color=WATER).scale(1.05).move_to(UP*3.1)
+        self.play(FadeIn(big,scale=1.1),run_time=0.7)
+        l2=Text("÷ a 3.0 GHz core",font=MN,color=GRAY).scale(0.5).move_to(UP*2.0)
+        self.play(FadeIn(l2,shift=UP*0.1),run_time=0.5)
+        eq=Text("≈ 201 cycles  (~67 ns)  per packet",font=MN,weight=BOLD,color=AMBER).scale(0.54).move_to(UP*1.15)
+        if eq.width>7.1: eq.scale_to_fit_width(7.1)
+        self.play(Write(eq),run_time=0.8); self.wait(0.4)
+        self.set_cap("that's your ENTIRE time budget per packet",color=AMBER)
+
+        # budget vs a cache miss — bars anchored left
+        bx=-2.6
+        bud,bw=timebar(67,MINT); bud.move_to([bx+bw/2,0.0,0])
+        budl=Text("budget  67 ns",font=MN,weight=BOLD,color=MINT).scale(0.34).next_to(bud,RIGHT,buff=0.2)
+        miss,mw=timebar(95,RED); miss.move_to([bx+mw/2,-1.0,0])
+        missl=Text("1 cache miss  ~95 ns",font=MN,weight=BOLD,color=RED).scale(0.34).next_to(miss,RIGHT,buff=0.2)
+        line=DashedLine([bx+bw,0.6,0],[bx+bw,-1.6,0],color=MINT,stroke_width=3)
+        self.play(GrowFromEdge(bud,LEFT),FadeIn(budl),run_time=0.6)
+        self.play(Create(line),run_time=0.3)
+        self.play(GrowFromEdge(miss,LEFT),FadeIn(missl),run_time=0.7)
+        self.wait(0.3)
+        pun=pill("one cache miss and the budget is already gone",RED,RED_BG,RED,s=0.4,h=0.62,glowing=True).move_to(UP*-2.5)
+        if pun.width>7.2: pun.scale_to_fit_width(7.2)
+        self.play(FadeIn(pun,scale=1.05),run_time=0.6); self.wait(READ_L)
+        self.clear_body()
+
+    # ============================================================
+    # ACT 2 — the kernel path, costed
+    # ============================================================
+    def build_stack(self,nic_y,krn_y,app_y,x=-0.55):
+        self.nic=node("NIC","DMA + rx ring",color=CYAN).move_to([x,nic_y,0])
+        self.krn=node("Kernel stack","IRQ · sk_buff · TCP/IP",w=3.3,h=1.05,color=AMBER).move_to([x,krn_y,0])
+        self.app=node("Your app","recv()",color=MINT).move_to([x,app_y,0])
         self.a1=Arrow(self.nic.get_top(),self.krn.get_bottom(),buff=0.08,color=GRAY,stroke_width=4,max_tip_length_to_length_ratio=0.3).set_z_index(1)
         self.a2=Arrow(self.krn.get_top(),self.app.get_bottom(),buff=0.08,color=GRAY,stroke_width=4,max_tip_length_to_length_ratio=0.3).set_z_index(1)
-        self.wire=Line([NODE_X,NIC_Y-1.9,0],self.nic.get_bottom()+DOWN*0.02,color=WATER,stroke_width=4).set_z_index(0)
-        self.wlabel=Text("10 GbE  ·  ~14.8 Mpps",font=MN,color=WATER).scale(0.32).next_to(self.wire,DOWN,buff=0.1)
 
-    def hook(self):
-        self.build_stack()
-        self.play(Create(self.wire),FadeIn(self.wlabel),run_time=0.6)
-        self.play(FadeIn(self.nic,shift=UP*0.1),run_time=0.5)
-        dots=VGroup(*[pdot(WATER).move_to([NODE_X,NIC_Y-1.9-0.42*i,0]) for i in range(4)])
-        self.set_cap("a 10-gig link fires ~15 million packets a second",color=WATER)
-        self.play(LaggedStart(*[d.animate.move_to(self.nic.get_center()) for d in dots],lag_ratio=0.12),run_time=1.0)
-        self.play(FadeOut(dots),run_time=0.2)
-        self.set_cap("can the kernel keep up with each one?")
-        self.wait(READ)
+    def act2_kernel(self):
+        self.play(*self.set_seg("② where the kernel spends your budget",AMBER,AMBER_BG),run_time=0.45)
+        self.build_stack(-2.15,-0.15,1.75)
+        self.play(FadeIn(self.nic),FadeIn(self.krn),FadeIn(self.app),GrowArrow(self.a1),GrowArrow(self.a2),run_time=0.9)
+        budchip=pill("budget  ~200 cyc",MINT,MINT_BG,MINT,s=0.36,h=0.54).move_to([-1.7,3.55,0])
+        self.used=pill("used  0",GRAY,SURFACE,GRAY,s=0.36,h=0.54).move_to([1.7,3.55,0])
+        self.play(FadeIn(budchip),FadeIn(self.used),run_time=0.5)
+        self.tot=0
+        d=pdot(WATER).move_to([-0.55,-3.3,0])
+        self.play(FadeIn(d),d.animate.move_to(self.nic.get_center()),run_time=0.6)
 
-    def slow_path(self):
-        self.play(*self.set_seg("The slow path — through the kernel",AMBER,AMBER_BG),run_time=0.45)
-        self.play(FadeIn(self.krn,shift=UP*0.1),FadeIn(self.app,shift=UP*0.1),
-                  GrowArrow(self.a1),GrowArrow(self.a2),run_time=0.8)
-        meter=self.build_meter()
-        self.play(FadeIn(meter),*self.set_meter(0.05,MINT),run_time=0.5)
+        def add_cost(cyc,txt,color=RED,flash_at=None):
+            self.tot+=cyc
+            over=self.tot>200
+            nu=pill("used  ~%d"%self.tot,(RED if over else AMBER),(RED_BG if over else AMBER_BG),(RED if over else AMBER),s=0.36,h=0.54).move_to([1.7,3.55,0])
+            self.set_cap(txt,color=color)
+            anims=[Transform(self.used,nu)]
+            if flash_at is not None: anims.append(Flash(flash_at,color=color,line_length=0.2,num_lines=12,flash_radius=0.6))
+            self.play(*anims,run_time=0.6)
 
-        d=pdot(WATER).move_to([NODE_X,NIC_Y-1.4,0])
-        self.play(FadeIn(d),d.animate.move_to(self.nic.get_center()),run_time=0.5)
-
-        # tax 1 — interrupt
-        self.set_cap("① the NIC fires an interrupt — the CPU drops everything",color=RED)
-        self.play(Flash(self.nic.get_center(),color=RED,line_length=0.22,num_lines=12,flash_radius=0.7),
-                  *self.set_meter(0.24,AMBER),run_time=0.7)
-        # tax 2 — copy + stack
-        self.play(d.animate.move_to(self.krn.get_center()),self.krn.box.animate.set_stroke(AMBER,4.8),run_time=0.6)
-        self.set_cap("② copy into a kernel buffer, then run the whole TCP/IP stack",color=RED)
-        self.play(*self.set_meter(0.55,AMBER),run_time=0.6)
-        # tax 3 — context switch
-        self.set_cap("③ context switch: kernel → your app",color=RED)
-        self.play(Flash(self.a2.get_center(),color=RED,line_length=0.18,num_lines=10,flash_radius=0.5),
-                  d.animate.move_to(self.app.get_center()),*self.set_meter(0.78,AMBER),run_time=0.75)
-        # tax 4 — copy again
-        self.set_cap("④ copy AGAIN into your buffer, on recv()",color=RED)
-        self.play(self.app.box.animate.set_stroke(MINT,4.8),*self.set_meter(0.96,RED),run_time=0.7)
-        self.slow_dot=d
-        self.tput=pill("throughput  ~ 0.5 Mpps",RED,RED_BG,RED,s=0.4,h=0.6,glowing=True).move_to([NODE_X,NIC_Y-1.4,0])
-        self.play(FadeOut(self.wlabel),FadeOut(self.wire),FadeIn(self.tput,shift=UP*0.1),run_time=0.5)
-        self.set_cap("every packet pays this tax — the kernel tops out",color=RED)
-        self.wait(READ_L)
-
-    def fast_path(self):
-        self.play(*self.set_seg("The fast path — bypass the kernel (DPDK)",MINT,MINT_BG),
-                  FadeOut(self.slow_dot),run_time=0.5)
-        slash=Line(self.krn.box.get_corner(DL),self.krn.box.get_corner(UR),color=RED,stroke_width=6).set_z_index(9)
-        slash.add_to_back(glow(slash,RED,layers=4,spread=1.0,max_op=0.22))
-        self.play(self.krn.animate.set_opacity(0.28),FadeOut(self.a1),FadeOut(self.a2),Create(slash),run_time=0.7)
-        self.krn_slash=slash
-        direct=CurvedArrow(self.nic.get_left()+LEFT*0.05,self.app.get_left()+LEFT*0.05,angle=PI*0.75,
-                           color=WATER,stroke_width=5,tip_length=0.22).set_z_index(6)
-        dlab=Text("DMA to\nuser space",font=MN,weight=BOLD,color=WATER).scale(0.3).move_to([-3.05,0.55,0])
-        self.play(Create(direct),FadeIn(dlab),run_time=0.8)
-        self.direct=direct; self.dlab=dlab
-        self.set_cap("the NIC writes straight into your memory — poll-mode, zero-copy",color=WATER)
-        d=pdot(WATER).move_to(self.nic.get_center())
-        self.play(FadeIn(d),run_time=0.2)
-        self.play(d.animate.move_to(self.app.get_center()),*self.set_meter(0.18,MINT),run_time=0.8)
-        self.fast_dot=d
-        nt=pill("throughput  ~ 15 Mpps / core",MINT,MINT_BG,MINT,s=0.4,h=0.6,glowing=True).move_to([NODE_X,NIC_Y-1.4,0])
-        self.play(Transform(self.tput,nt),run_time=0.5)
+        add_cost(300,"DMA lands the packet in a kernel sk_buff (~200-byte alloc)",flash_at=self.nic.get_center())
+        self.play(d.animate.move_to(self.krn.get_center()),self.krn.box.animate.set_stroke(AMBER,4.6),run_time=0.5)
+        add_cost(500,"interrupt fires — save/restore state; at 15 Mpps it becomes livelock",flash_at=self.krn.get_center())
+        add_cost(400,"run the TCP/IP stack + free the sk_buff → cache pollution")
+        self.play(d.animate.move_to(self.app.get_center()),run_time=0.5)
+        add_cost(600,"context switch + copy AGAIN into user space on recv()",flash_at=self.app.get_center())
         self.wait(0.3)
-        c1=colorize("recv(fd, buf, len, 0);            // syscall + copy",0.3).move_to([0,NIC_Y-2.35,0])
-        c2=colorize("rte_eth_rx_burst(port, q, m, 32); // just poll, 0-copy",0.3).next_to(c1,DOWN,buff=0.16,aligned_edge=LEFT)
-        cg=VGroup(c1,c2)
-        if cg.width>7.3: cg.scale_to_fit_width(7.3)
-        cg.move_to([0,NIC_Y-2.6,0])
-        self.play(FadeIn(c1,shift=UP*0.08),run_time=0.45)
-        self.play(FadeIn(c2,shift=UP*0.08),run_time=0.45)
+        self.set_cap("~1800 cycles for a 200-cycle budget — ~9× over, every packet",color=RED)
+        napi=pill("even Linux gives up: NAPI switches to POLLING under load",VIOLET,SURF2,VIOLET,s=0.34,h=0.56).move_to([-0.55,-3.35,0])
+        if napi.width>7.2: napi.scale_to_fit_width(7.2)
+        self.play(FadeOut(d),FadeIn(napi,shift=UP*0.1),run_time=0.6)
         self.wait(READ_L)
+        self.clear_body()
 
-    def payoff(self):
-        self.play(*[FadeOut(m) for m in self.mobjects],run_time=0.6)
-        self.cap=None; self.seg=None
-        title=pill("the trade-off",AMBER,AMBER_BG,AMBER,s=0.42,glowing=True).move_to(UP*2.7)
-        self.play(FadeIn(title,shift=UP*0.1),run_time=0.4)
-        t1=Text("a whole core spins at 100% — polling, never sleeping",font=FN,color=WHITE).scale(0.42)
-        t2=Text("and you give up the kernel's stack — you build what you need",font=FN,color=GRAY).scale(0.38)
-        for t in (t1,t2):
-            if t.width>7.1: t.scale_to_fit_width(7.1)
-        t1.move_to(UP*1.5); t2.next_to(t1,DOWN,buff=0.28)
-        self.play(FadeIn(t1,shift=UP*0.1),run_time=0.5); self.play(FadeIn(t2,shift=UP*0.1),run_time=0.5)
+    # ============================================================
+    # ACT 3a — what makes it fast (ideas)
+    # ============================================================
+    def act3_dpdk_ideas(self):
+        self.play(*self.set_seg("③ what actually makes it fast",MINT,MINT_BG),run_time=0.45)
+        self.set_cap("DPDK deletes each cost — here's the map",color=MINT)
+        rows=[("poll-mode driver","no interrupts, no livelock"),
+              ("hugepages (2M/1G)","far fewer TLB misses"),
+              ("mbuf + mempool","buffers pre-allocated, per-core cache — no per-packet alloc"),
+              ("zero-copy","the packet is a pointer; process it in place"),
+              ("burst of 32","per-packet overhead ÷ 32"),
+              ("prefetch next mbuf","hide memory latency behind work")]
+        items=VGroup()
+        for mech,why in rows:
+            chk=Text("✓",font=FN,weight=BOLD,color=MINT).scale(0.5)
+            m=Text(mech,font=MN,weight=BOLD,color=WHITE).scale(0.4)
+            w=Text("→ "+why,font=FN,color=GRAY).scale(0.36)
+            rowg=VGroup(chk,m,w).arrange(RIGHT,buff=0.22)
+            if rowg.width>7.2: rowg.scale_to_fit_width(7.2)
+            items.add(rowg)
+        items.arrange(DOWN,aligned_edge=LEFT,buff=0.34).move_to(UP*0.6)
+        for r in items:
+            self.play(FadeIn(r,shift=RIGHT*0.12),run_time=0.4)
         self.wait(READ_L)
+        note=pill("each line removes a cost from Act 2",MINT,MINT_BG,MINT,s=0.38,h=0.6,glowing=True).move_to(UP*-3.0)
+        self.play(FadeIn(note,scale=1.05),run_time=0.5); self.wait(READ)
+        self.clear_body()
+
+    # ============================================================
+    # ACT 3b — the code
+    # ============================================================
+    def act3_code(self):
+        self.play(*self.set_seg("③ the receive loop, for real",MINT,MINT_BG),run_time=0.4)
+        self.set_cap("no syscalls — you just poll a burst and read in place",color=MINT)
+        raw=[(0,'struct rte_mbuf *bufs[32];'),
+             (0,'uint16_t n = rte_eth_rx_burst(port, q, bufs, 32);'),
+             (0,'for (uint16_t i = 0; i < n; i++) {'),
+             (1,'rte_prefetch0(next_mbuf(bufs, i));   // hide latency'),
+             (1,'process(bufs[i]);   // packet = pointer, zero copy'),
+             (0,'}')]
+        panel,content,hlbar,acc=self.build_code(raw,scale=0.32,cy=0.4,maxw=6.6)
+        self.play(FadeIn(panel),FadeIn(content),run_time=0.6); self.add(hlbar,acc)
+        self.play(*self.hl(1),run_time=0.4); self.wait(0.3)
+        self.set_cap("rx_burst: grab up to 32 packets, one poll — no interrupt",color=CYAN)
+        self.wait(0.6)
+        self.play(*self.hl(3),run_time=0.4)
+        self.set_cap("prefetch the next while you work on this one",color=VIOLET)
+        self.wait(0.6)
+        self.play(*self.hl(4),run_time=0.4)
+        self.set_cap("process in place — the mbuf is just a pointer",color=MINT)
+        self.wait(READ_L)
+        self.clear_body()
+
+    # ============================================================
+    # ACT 4 — numbers + when NOT to
+    # ============================================================
+    def act4_numbers(self):
+        self.clear_cap()
+        self.play(*self.set_seg("④ the payoff — and the price",AMBER,AMBER_BG),run_time=0.45)
         comp=VGroup(pill("kernel  ~0.5 Mpps",RED,RED_BG,RED,s=0.42,h=0.64,glowing=True),
                     Text("→",font=FN,weight=BOLD,color=WHITE).scale(0.7),
-                    pill("DPDK  ~15 Mpps",MINT,MINT_BG,MINT,s=0.42,h=0.64,glowing=True)).arrange(RIGHT,buff=0.3).move_to(UP*-0.35)
+                    pill("DPDK  ~15–30 Mpps / core",MINT,MINT_BG,MINT,s=0.42,h=0.64,glowing=True)).arrange(RIGHT,buff=0.28).move_to(UP*3.0)
         if comp.width>7.3: comp.scale_to_fit_width(7.3)
         self.play(FadeIn(comp,scale=1.05),run_time=0.6)
-        take=Text("skip the kernel → reach line rate",font=FN,weight=BOLD,color=CYAN).scale(0.5).move_to(UP*-1.9)
-        if take.width>7.1: take.scale_to_fit_width(7.1)
-        self.play(Write(take),run_time=0.7)
-        self.wait(READ_L+0.4)
-        self.play(FadeOut(VGroup(title,t1,t2,comp,take)),run_time=0.5)
+        price=Text("the price:",font=FN,weight=BOLD,color=AMBER).scale(0.5).move_to(UP*1.7)
+        p1=Text("• a whole core pinned at 100%, polling forever",font=FN,color=WHITE).scale(0.4)
+        p2=Text("• no kernel stack — you rebuild TCP/ARP/… yourself",font=FN,color=WHITE).scale(0.4)
+        for p in (p1,p2):
+            if p.width>7.1: p.scale_to_fit_width(7.1)
+        p1.move_to(UP*0.9); p2.next_to(p1,DOWN,buff=0.28)
+        self.play(FadeIn(price,shift=UP*0.1),run_time=0.4)
+        self.play(FadeIn(p1,shift=RIGHT*0.1),run_time=0.45); self.play(FadeIn(p2,shift=RIGHT*0.1),run_time=0.45)
+        self.wait(READ)
+        use=Text("use it:  routers · firewalls · load-balancers · NFV",font=FN,weight=BOLD,color=MINT).scale(0.42).move_to(UP*-1.1)
+        dont=Text("skip it:  a normal web app — the kernel is fine there",font=FN,weight=BOLD,color=GRAY).scale(0.4).move_to(UP*-1.9)
+        for t in (use,dont):
+            if t.width>7.2: t.scale_to_fit_width(7.2)
+        self.play(FadeIn(use,shift=UP*0.1),run_time=0.5)
+        self.play(FadeIn(dont,shift=UP*0.1),run_time=0.5)
+        self.wait(READ_L)
+        self.clear_body()
+
+    # ============================================================
+    # RECAP
+    # ============================================================
+    def recap(self):
+        self.clear_cap()
+        self.play(*self.set_seg("recap",CYAN,CYAN_BG),run_time=0.4)
+        r1=Text("① you get ~67 ns — one cache miss — per packet",font=FN,color=WHITE).scale(0.42)
+        r2=Text("② the kernel spends ~9× that on IRQ, copies, syscalls",font=FN,color=WHITE).scale(0.42)
+        r3=Text("③ DPDK removes each cost: poll, hugepages, mbuf, burst",font=FN,color=WHITE).scale(0.42)
+        r4=Text("→ ~0.5 Mpps becomes tens of Mpps per core",font=FN,weight=BOLD,color=MINT).scale(0.44)
+        for r in (r1,r2,r3,r4):
+            if r.width>7.2: r.scale_to_fit_width(7.2)
+        g=VGroup(r1,r2,r3,r4).arrange(DOWN,aligned_edge=LEFT,buff=0.4).move_to(UP*0.6)
+        for r in g[:3]: self.play(FadeIn(r,shift=RIGHT*0.1),run_time=0.45)
+        self.play(Write(g[3]),run_time=0.7)
+        self.wait(READ_L+0.3)
+        self.play(*[FadeOut(m) for m in self.mobjects],run_time=0.5)
+        self.seg=None; self.cap=None
 
     def end_slide(self):
-        self.play(*[FadeOut(m) for m in self.mobjects],run_time=0.5)
         axio=Text("Axio",font=FN,weight=BOLD,color=CYAN).scale(0.8)
         byte=Text("Byte",font=FN,weight=BOLD,color=AMBER).scale(0.8)
         row=VGroup(axio,byte).arrange(RIGHT,buff=0.03)
