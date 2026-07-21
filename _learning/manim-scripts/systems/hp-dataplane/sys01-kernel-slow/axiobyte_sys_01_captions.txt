@@ -1,0 +1,111 @@
+================================================================
+AxioByte Systems — HP Data Plane #1 · Why the kernel is slow for packets
+================================================================
+
+── RENDER COMMANDS ────────────────────────────────────────────
+Activate the env first:
+  source ~/manim-env/bin/activate
+
+Video:
+  manim -qh --fps 60 sys01_video.py Sys01
+  -> media/videos/sys01_video/1920p60/Sys01.mp4
+
+Cover (single still image):
+  manim -s -qh cover_sys01_9x16.py CoverSys01
+  -> media/images/cover_sys01_9x16/CoverSys01_ManimCE_v0.20.1.png
+
+Tips: add -p to auto-open when done; use -ql for a fast draft, -qh for the final.
+Target length ~85s. Channel: @axiobyte.systems (separate from @axiobyte).
+
+── SUBTITLES ──────────────────────────────────────────────────
+  file: axiobyte_sys_01_subtitles.srt  (upload with timing in YouTube Studio)
+
+── NOTE (pilot — builds the systems toolkit) ──────────────────
+First AxioByte SYSTEMS episode; establishes the diagram toolkit: node()
+(labelled boxes + glow), pdot() (animated packet), a latency meter, and
+animated flows, on the v3 palette. Structure: hook (10G = ~15 Mpps) →
+slow path up the kernel (IRQ → sk_buff copy + TCP/IP → context switch →
+2nd copy, meter climbs, ~0.5 Mpps) → fast path (kernel crossed out, NIC
+DMAs into a user-space hugepage mempool, poll-mode driver, zero-copy,
+meter flat, ~15 Mpps) → trade-off (a core at 100%, no kernel stack) →
+payoff. Grounded in data-plane/dpdk/module-p1-foundation +
+networking/m17-dpdk. NEXT: #2 zero-copy (mbuf/mempool).
+
+================================================================
+INSTAGRAM
+================================================================
+-- Caption --
+Why the kernel is slow for packets 👇 (and how DPDK hits line rate)
+
+A 10 GbE link can deliver ~14.8 MILLION packets per second. Send each one through the Linux kernel and you'll never keep up. Here's the tax every packet pays on the normal path:
+
+1) 🔔 Interrupt — the NIC fires an IRQ; the CPU stops what it's doing to service it
+2) 📋 Copy — the packet is copied into a kernel sk_buff, and the whole TCP/IP stack runs
+3) 🔁 Context switch — control flips from kernel to your app in user space
+4) 📋 Copy AGAIN — into your buffer, on recv()
+
+Per-packet interrupts + copies + syscalls = the kernel tops out around ~0.5 Mpps.
+
+DPDK's move: bypass the kernel completely. 🚀
+• the NIC DMAs packets straight into your process's memory (hugepage-backed mempool)
+• a poll-mode driver busy-polls the card — no interrupts
+• the packet is a pointer you read in place — zero copy, no syscalls
+
+Result: ~0.5 Mpps → ~15 Mpps PER CORE.
+
+The catch: a whole core spins at 100% polling, and you lose the kernel's networking stack — you rebuild what you need in user space. For routers, firewalls, and load balancers at line rate, that's the trade you make.
+
+Skip the kernel → reach line rate.
+
+#1 of the High-Performance Data Plane series. Follow @axiobyte.systems — networking & systems from first principles.
+
+Next: zero-copy — a packet is just a pointer.
+📌 Save for later · 🔁 send to a backend/systems friend
+
+-- Hashtags (max 5) --
+#dpdk #systemsprogramming #networking #linux #axiobyte
+
+================================================================
+YOUTUBE
+================================================================
+-- Title --
+Why the Kernel Is Slow for Packets (and How DPDK Bypasses It)
+
+-- Description --
+The Linux kernel is a general-purpose networking stack — and that generality is exactly why it can't keep up with a 10/40/100 GbE link. This first episode of the High-Performance Data Plane series follows a single packet up the normal kernel path and shows where the time goes, then contrasts it with DPDK's kernel-bypass approach.
+
+The kernel path, per packet:
+1. Interrupt (IRQ): the NIC signals the CPU, which stops its current work to run the interrupt handler.
+2. Copy + stack: the packet lands in a kernel buffer (sk_buff) and the TCP/IP stack processes it.
+3. Context switch: control moves from kernel space to your application in user space.
+4. Second copy: recv() copies the data again into your buffer.
+
+Multiply interrupts, copies, and syscalls by ~15 million packets per second and the kernel saturates around half a million packets per second.
+
+DPDK's kernel bypass:
+- The NIC DMAs packets directly into a hugepage-backed mempool in user space.
+- A poll-mode driver (PMD) busy-polls the NIC rings instead of taking interrupts.
+- Your code reads the packet in place — it's just a pointer (mbuf). No copies, no syscalls, no context switches.
+
+That takes throughput from ~0.5 Mpps to tens of Mpps per core. The trade-offs: a CPU core spins at 100% polling, and you give up the kernel's networking stack, so you implement what you need yourself. That's the deal that powers software routers, firewalls, and load balancers at line rate.
+
+⏱️ ~0.5 Mpps (kernel) → ~15 Mpps/core (DPDK)
+
+#1 in the High-Performance Data Plane series on AxioByte Systems — networking and systems engineering explained from first principles.
+
+▶️ Series playlist: [paste link]
+🔔 Subscribe to @axiobyte.systems.
+
+Next episode: Zero-copy — a packet is just a pointer (mbuf & mempool).
+
+#DPDK #SystemsProgramming #Networking #Linux #Shorts
+
+-- Hidden tags --
+dpdk, kernel bypass, why kernel slow packets, poll mode driver, zero copy networking, sk_buff, packet processing, high performance networking, user space networking, mempool, line rate, 10gbe, network interrupt, context switch, axiobyte systems
+
+-- Pinned comment --
+The kernel tax per packet: interrupt → copy into sk_buff + TCP/IP stack → context switch → copy again on recv() 😯. Times ~15M packets/sec, it saturates near 0.5 Mpps. DPDK bypasses all of it — NIC DMAs into a user-space mempool, a poll-mode driver busy-polls, and the packet is a pointer you read in place. ~0.5 → ~15 Mpps/core. The cost: a core at 100% and no kernel stack. ✅
+
+#1 of the High-Performance Data Plane series — follow @axiobyte.systems.
+Next: zero-copy, a packet is just a pointer.
+================================================================

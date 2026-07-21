@@ -1,0 +1,63 @@
+1
+00:00:00,000 --> 00:00:03,000
+Why the kernel is slow for packets — AxioByte Systems
+
+2
+00:00:03,000 --> 00:00:08,000
+A 10-gigabit link can fire nearly 15 million packets every second. Can the kernel handle each one?
+
+3
+00:00:08,000 --> 00:00:11,500
+Follow one packet up the normal path, through the kernel.
+
+4
+00:00:11,500 --> 00:00:16,000
+First, the NIC raises an interrupt. The CPU drops what it's doing to service it.
+
+5
+00:00:16,000 --> 00:00:21,000
+Then the packet is copied into a kernel buffer, and the whole TCP/IP stack runs on it.
+
+6
+00:00:21,000 --> 00:00:25,500
+Then a context switch hands control from the kernel to your app in user space.
+
+7
+00:00:25,500 --> 00:00:29,500
+And it's copied a second time, into your buffer. Watch the latency meter climb.
+
+8
+00:00:29,500 --> 00:00:34,000
+Every single packet pays that tax — so the kernel tops out around half a million packets a second.
+
+9
+00:00:34,000 --> 00:00:38,000
+DPDK's answer: bypass the kernel entirely.
+
+10
+00:00:38,000 --> 00:00:43,500
+The NIC writes packets straight into your process's memory — hugepage-backed user-space mempool.
+
+11
+00:00:43,500 --> 00:00:48,500
+A poll-mode driver busy-polls the card. No interrupts, no copies, no syscalls.
+
+12
+00:00:48,500 --> 00:00:53,000
+Instead of blocking on recv, you just poll a burst of packets. The latency stays flat.
+
+13
+00:00:53,000 --> 00:00:58,000
+The trade-off: a whole core spins at 100%, and you give up the kernel's stack — you build what you need.
+
+14
+00:00:58,000 --> 00:01:02,500
+But it takes you from half a million to tens of millions of packets per second, per core.
+
+15
+00:01:02,500 --> 00:01:06,000
+Skip the kernel, reach line rate.
+
+16
+00:01:06,000 --> 00:01:10,500
+AxioByte Systems — high-performance systems from first principles. Follow for the series.
