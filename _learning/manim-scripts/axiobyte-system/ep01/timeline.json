@@ -1,0 +1,3858 @@
+{
+  "meta": {
+    "audio_file": "voiceover.mpeg",
+    "engine": "whisperx",
+    "model": "large-v3",
+    "language": "en",
+    "duration": 135.628
+  },
+  "words": [
+    {
+      "word": "Have",
+      "start": 0.031,
+      "end": 0.251,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.741,
+      "sentence_index": 0,
+      "loudness_db": -29.6
+    },
+    {
+      "word": "you",
+      "start": 0.291,
+      "end": 0.371,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.98,
+      "sentence_index": 0,
+      "loudness_db": -12.8
+    },
+    {
+      "word": "ever",
+      "start": 0.391,
+      "end": 0.532,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.886,
+      "sentence_index": 0,
+      "loudness_db": -14.4
+    },
+    {
+      "word": "wondered",
+      "start": 0.572,
+      "end": 0.952,
+      "duration": 0.38,
+      "importance": "low",
+      "confidence": 0.859,
+      "sentence_index": 0,
+      "loudness_db": -14.5
+    },
+    {
+      "word": "why",
+      "start": 0.992,
+      "end": 1.132,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.93,
+      "sentence_index": 0,
+      "loudness_db": -13.7
+    },
+    {
+      "word": "modern",
+      "start": 1.212,
+      "end": 1.513,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.934,
+      "sentence_index": 0,
+      "loudness_db": -15.7
+    },
+    {
+      "word": "servers",
+      "start": 1.553,
+      "end": 1.893,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.808,
+      "sentence_index": 0,
+      "loudness_db": -18.3
+    },
+    {
+      "word": "can",
+      "start": 1.913,
+      "end": 2.053,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.974,
+      "sentence_index": 0,
+      "loudness_db": -16.6
+    },
+    {
+      "word": "have",
+      "start": 2.093,
+      "end": 2.233,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.94,
+      "sentence_index": 0,
+      "loudness_db": -15.3
+    },
+    {
+      "word": "a",
+      "start": 2.294,
+      "end": 2.314,
+      "duration": 0.02,
+      "importance": "low",
+      "confidence": 0.897,
+      "sentence_index": 0,
+      "loudness_db": -19.7
+    },
+    {
+      "word": "100",
+      "start": 2.334,
+      "end": 2.774,
+      "duration": 0.44,
+      "importance": "high",
+      "confidence": 0.736,
+      "sentence_index": 0,
+      "loudness_db": -16.2
+    },
+    {
+      "word": "gigabit",
+      "start": 2.834,
+      "end": 3.174,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.721,
+      "sentence_index": 0,
+      "loudness_db": -20.5
+    },
+    {
+      "word": "network",
+      "start": 3.215,
+      "end": 3.535,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.771,
+      "sentence_index": 0,
+      "loudness_db": -23.8
+    },
+    {
+      "word": "card,",
+      "start": 3.555,
+      "end": 3.795,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.852,
+      "sentence_index": 0,
+      "loudness_db": -33.2
+    },
+    {
+      "word": "but",
+      "start": 4.075,
+      "end": 4.196,
+      "duration": 0.121,
+      "importance": "low",
+      "confidence": 0.913,
+      "sentence_index": 0,
+      "loudness_db": -17.9
+    },
+    {
+      "word": "still",
+      "start": 4.256,
+      "end": 4.476,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.822,
+      "sentence_index": 0,
+      "loudness_db": -20.2
+    },
+    {
+      "word": "struggle",
+      "start": 4.536,
+      "end": 4.856,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.833,
+      "sentence_index": 0,
+      "loudness_db": -17.8
+    },
+    {
+      "word": "to",
+      "start": 4.876,
+      "end": 4.956,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.782,
+      "sentence_index": 0,
+      "loudness_db": -18.3
+    },
+    {
+      "word": "process",
+      "start": 4.997,
+      "end": 5.357,
+      "duration": 0.36,
+      "importance": "low",
+      "confidence": 0.879,
+      "sentence_index": 0,
+      "loudness_db": -19.5
+    },
+    {
+      "word": "every",
+      "start": 5.377,
+      "end": 5.797,
+      "duration": 0.42,
+      "importance": "low",
+      "confidence": 0.89,
+      "sentence_index": 0,
+      "loudness_db": -21.4
+    },
+    {
+      "word": "packet",
+      "start": 5.837,
+      "end": 6.138,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.967,
+      "sentence_index": 0,
+      "loudness_db": -19.4
+    },
+    {
+      "word": "at",
+      "start": 6.198,
+      "end": 6.258,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.986,
+      "sentence_index": 0,
+      "loudness_db": -27.3
+    },
+    {
+      "word": "line",
+      "start": 6.298,
+      "end": 6.498,
+      "duration": 0.2,
+      "importance": "low",
+      "confidence": 0.448,
+      "sentence_index": 0,
+      "loudness_db": -19.1
+    },
+    {
+      "word": "rate?",
+      "start": 6.518,
+      "end": 6.718,
+      "duration": 0.2,
+      "importance": "low",
+      "confidence": 0.801,
+      "sentence_index": 0,
+      "loudness_db": -35.3
+    },
+    {
+      "word": "The",
+      "start": 7.459,
+      "end": 7.559,
+      "duration": 0.1,
+      "importance": "medium",
+      "confidence": 0.748,
+      "sentence_index": 1,
+      "loudness_db": -14.8
+    },
+    {
+      "word": "answer",
+      "start": 7.659,
+      "end": 7.9,
+      "duration": 0.241,
+      "importance": "low",
+      "confidence": 0.776,
+      "sentence_index": 1,
+      "loudness_db": -15.4
+    },
+    {
+      "word": "isn't",
+      "start": 7.98,
+      "end": 8.14,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.913,
+      "sentence_index": 1,
+      "loudness_db": -14.1
+    },
+    {
+      "word": "that",
+      "start": 8.16,
+      "end": 8.28,
+      "duration": 0.12,
+      "importance": "low",
+      "confidence": 0.823,
+      "sentence_index": 1,
+      "loudness_db": -14.4
+    },
+    {
+      "word": "Linux",
+      "start": 8.34,
+      "end": 8.621,
+      "duration": 0.281,
+      "importance": "low",
+      "confidence": 0.798,
+      "sentence_index": 1,
+      "loudness_db": -19.0
+    },
+    {
+      "word": "is",
+      "start": 8.681,
+      "end": 8.741,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.745,
+      "sentence_index": 1,
+      "loudness_db": -26.3
+    },
+    {
+      "word": "slow.",
+      "start": 8.761,
+      "end": 9.041,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.93,
+      "sentence_index": 1,
+      "loudness_db": -26.3
+    },
+    {
+      "word": "It's",
+      "start": 9.602,
+      "end": 9.702,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.919,
+      "sentence_index": 2,
+      "loudness_db": -35.1
+    },
+    {
+      "word": "that",
+      "start": 9.742,
+      "end": 9.902,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.924,
+      "sentence_index": 2,
+      "loudness_db": -13.6
+    },
+    {
+      "word": "the",
+      "start": 9.922,
+      "end": 10.002,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.667,
+      "sentence_index": 2,
+      "loudness_db": -23.7
+    },
+    {
+      "word": "traditional",
+      "start": 10.042,
+      "end": 10.483,
+      "duration": 0.441,
+      "importance": "low",
+      "confidence": 0.925,
+      "sentence_index": 2,
+      "loudness_db": -17.7
+    },
+    {
+      "word": "networking",
+      "start": 10.543,
+      "end": 10.963,
+      "duration": 0.42,
+      "importance": "low",
+      "confidence": 0.898,
+      "sentence_index": 2,
+      "loudness_db": -19.0
+    },
+    {
+      "word": "path",
+      "start": 11.003,
+      "end": 11.263,
+      "duration": 0.26,
+      "importance": "low",
+      "confidence": 0.816,
+      "sentence_index": 2,
+      "loudness_db": -22.6
+    },
+    {
+      "word": "does",
+      "start": 11.384,
+      "end": 11.544,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.624,
+      "sentence_index": 2,
+      "loudness_db": -14.7
+    },
+    {
+      "word": "a",
+      "start": 11.604,
+      "end": 11.624,
+      "duration": 0.02,
+      "importance": "low",
+      "confidence": 0.999,
+      "sentence_index": 2,
+      "loudness_db": -14.8
+    },
+    {
+      "word": "lot",
+      "start": 11.684,
+      "end": 11.904,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.983,
+      "sentence_index": 2,
+      "loudness_db": -18.3
+    },
+    {
+      "word": "of",
+      "start": 11.984,
+      "end": 12.024,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 1.0,
+      "sentence_index": 2,
+      "loudness_db": -22.1
+    },
+    {
+      "word": "work",
+      "start": 12.104,
+      "end": 12.325,
+      "duration": 0.221,
+      "importance": "low",
+      "confidence": 0.836,
+      "sentence_index": 2,
+      "loudness_db": -20.8
+    },
+    {
+      "word": "for",
+      "start": 12.405,
+      "end": 12.525,
+      "duration": 0.12,
+      "importance": "low",
+      "confidence": 0.944,
+      "sentence_index": 2,
+      "loudness_db": -16.5
+    },
+    {
+      "word": "every",
+      "start": 12.565,
+      "end": 13.045,
+      "duration": 0.48,
+      "importance": "medium",
+      "confidence": 0.836,
+      "sentence_index": 2,
+      "loudness_db": -20.9
+    },
+    {
+      "word": "single",
+      "start": 13.126,
+      "end": 13.426,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.813,
+      "sentence_index": 2,
+      "loudness_db": -19.5
+    },
+    {
+      "word": "packet.",
+      "start": 13.466,
+      "end": 13.806,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.952,
+      "sentence_index": 2,
+      "loudness_db": -35.4
+    },
+    {
+      "word": "Let's",
+      "start": 14.567,
+      "end": 14.727,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.733,
+      "sentence_index": 3,
+      "loudness_db": -22.8
+    },
+    {
+      "word": "see",
+      "start": 14.747,
+      "end": 14.827,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.978,
+      "sentence_index": 3,
+      "loudness_db": -14.5
+    },
+    {
+      "word": "what",
+      "start": 14.867,
+      "end": 14.968,
+      "duration": 0.101,
+      "importance": "low",
+      "confidence": 0.841,
+      "sentence_index": 3,
+      "loudness_db": -13.4
+    },
+    {
+      "word": "actually",
+      "start": 15.028,
+      "end": 15.328,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.852,
+      "sentence_index": 3,
+      "loudness_db": -21.1
+    },
+    {
+      "word": "happens.",
+      "start": 15.368,
+      "end": 15.668,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.834,
+      "sentence_index": 3,
+      "loudness_db": -30.9
+    },
+    {
+      "word": "A",
+      "start": 16.469,
+      "end": 16.489,
+      "duration": 0.02,
+      "importance": "low",
+      "confidence": 0.718,
+      "sentence_index": 4,
+      "loudness_db": -29.0
+    },
+    {
+      "word": "packet",
+      "start": 16.549,
+      "end": 16.85,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.965,
+      "sentence_index": 4,
+      "loudness_db": -17.6
+    },
+    {
+      "word": "arrives",
+      "start": 16.87,
+      "end": 17.11,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.712,
+      "sentence_index": 4,
+      "loudness_db": -15.7
+    },
+    {
+      "word": "at",
+      "start": 17.15,
+      "end": 17.19,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 0.698,
+      "sentence_index": 4,
+      "loudness_db": -23.6
+    },
+    {
+      "word": "the",
+      "start": 17.23,
+      "end": 17.29,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.998,
+      "sentence_index": 4,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "network",
+      "start": 17.33,
+      "end": 17.651,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.818,
+      "sentence_index": 4,
+      "loudness_db": -25.9
+    },
+    {
+      "word": "card.",
+      "start": 17.671,
+      "end": 17.911,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.875,
+      "sentence_index": 4,
+      "loudness_db": -37.6
+    },
+    {
+      "word": "Instead",
+      "start": 18.492,
+      "end": 18.772,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.908,
+      "sentence_index": 5,
+      "loudness_db": -17.6
+    },
+    {
+      "word": "of",
+      "start": 18.812,
+      "end": 18.872,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.879,
+      "sentence_index": 5,
+      "loudness_db": -28.0
+    },
+    {
+      "word": "your",
+      "start": 18.912,
+      "end": 19.012,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.903,
+      "sentence_index": 5,
+      "loudness_db": -12.9
+    },
+    {
+      "word": "application",
+      "start": 19.032,
+      "end": 19.513,
+      "duration": 0.481,
+      "importance": "low",
+      "confidence": 0.899,
+      "sentence_index": 5,
+      "loudness_db": -20.3
+    },
+    {
+      "word": "receiving",
+      "start": 19.553,
+      "end": 19.913,
+      "duration": 0.36,
+      "importance": "low",
+      "confidence": 0.876,
+      "sentence_index": 5,
+      "loudness_db": -18.2
+    },
+    {
+      "word": "it",
+      "start": 19.973,
+      "end": 20.013,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 0.964,
+      "sentence_index": 5,
+      "loudness_db": -21.3
+    },
+    {
+      "word": "immediately,",
+      "start": 20.093,
+      "end": 20.614,
+      "duration": 0.521,
+      "importance": "low",
+      "confidence": 0.915,
+      "sentence_index": 5,
+      "loudness_db": -20.5
+    },
+    {
+      "word": "the",
+      "start": 21.154,
+      "end": 21.255,
+      "duration": 0.101,
+      "importance": "low",
+      "confidence": 0.838,
+      "sentence_index": 5,
+      "loudness_db": -12.3
+    },
+    {
+      "word": "network",
+      "start": 21.295,
+      "end": 21.655,
+      "duration": 0.36,
+      "importance": "low",
+      "confidence": 0.803,
+      "sentence_index": 5,
+      "loudness_db": -20.5
+    },
+    {
+      "word": "card",
+      "start": 21.675,
+      "end": 21.895,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.918,
+      "sentence_index": 5,
+      "loudness_db": -22.4
+    },
+    {
+      "word": "first",
+      "start": 21.955,
+      "end": 22.196,
+      "duration": 0.241,
+      "importance": "low",
+      "confidence": 0.839,
+      "sentence_index": 5,
+      "loudness_db": -19.1
+    },
+    {
+      "word": "raises",
+      "start": 22.256,
+      "end": 22.576,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.872,
+      "sentence_index": 5,
+      "loudness_db": -15.9
+    },
+    {
+      "word": "an",
+      "start": 22.596,
+      "end": 22.816,
+      "duration": 0.22,
+      "importance": "medium",
+      "confidence": 0.652,
+      "sentence_index": 5,
+      "loudness_db": -20.0
+    },
+    {
+      "word": "interrupt",
+      "start": 22.876,
+      "end": 23.277,
+      "duration": 0.401,
+      "importance": "low",
+      "confidence": 0.973,
+      "sentence_index": 5,
+      "loudness_db": -23.4
+    },
+    {
+      "word": "to",
+      "start": 23.297,
+      "end": 23.397,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.797,
+      "sentence_index": 5,
+      "loudness_db": -23.8
+    },
+    {
+      "word": "tell",
+      "start": 23.437,
+      "end": 23.577,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.94,
+      "sentence_index": 5,
+      "loudness_db": -13.2
+    },
+    {
+      "word": "the",
+      "start": 23.617,
+      "end": 23.697,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.902,
+      "sentence_index": 5,
+      "loudness_db": -24.6
+    },
+    {
+      "word": "CPU,",
+      "start": 23.737,
+      "end": 24.138,
+      "duration": 0.401,
+      "importance": "high",
+      "confidence": 0.834,
+      "sentence_index": 5,
+      "loudness_db": -23.5
+    },
+    {
+      "word": "a",
+      "start": 24.758,
+      "end": 24.799,
+      "duration": 0.041,
+      "importance": "low",
+      "confidence": 0.999,
+      "sentence_index": 5,
+      "loudness_db": -29.3
+    },
+    {
+      "word": "packet",
+      "start": 24.839,
+      "end": 25.099,
+      "duration": 0.26,
+      "importance": "low",
+      "confidence": 0.957,
+      "sentence_index": 5,
+      "loudness_db": -15.3
+    },
+    {
+      "word": "has",
+      "start": 25.139,
+      "end": 25.219,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.973,
+      "sentence_index": 5,
+      "loudness_db": -14.8
+    },
+    {
+      "word": "arrived.",
+      "start": 25.259,
+      "end": 26.14,
+      "duration": 0.881,
+      "importance": "low",
+      "confidence": 0.819,
+      "sentence_index": 5,
+      "loudness_db": -51.8
+    },
+    {
+      "word": "The",
+      "start": 26.14,
+      "end": 26.34,
+      "duration": 0.2,
+      "importance": "low",
+      "confidence": 0.828,
+      "sentence_index": 6,
+      "loudness_db": -36.0
+    },
+    {
+      "word": "CPU",
+      "start": 26.38,
+      "end": 26.781,
+      "duration": 0.401,
+      "importance": "medium",
+      "confidence": 0.729,
+      "sentence_index": 6,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "stops",
+      "start": 26.821,
+      "end": 27.081,
+      "duration": 0.26,
+      "importance": "low",
+      "confidence": 0.988,
+      "sentence_index": 6,
+      "loudness_db": -23.1
+    },
+    {
+      "word": "whatever",
+      "start": 27.181,
+      "end": 27.522,
+      "duration": 0.341,
+      "importance": "low",
+      "confidence": 0.849,
+      "sentence_index": 6,
+      "loudness_db": -13.9
+    },
+    {
+      "word": "it",
+      "start": 27.582,
+      "end": 27.622,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 0.961,
+      "sentence_index": 6,
+      "loudness_db": -22.5
+    },
+    {
+      "word": "was",
+      "start": 27.682,
+      "end": 27.782,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.712,
+      "sentence_index": 6,
+      "loudness_db": -18.6
+    },
+    {
+      "word": "doing,",
+      "start": 27.822,
+      "end": 28.042,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.785,
+      "sentence_index": 6,
+      "loudness_db": -21.7
+    },
+    {
+      "word": "switches",
+      "start": 28.303,
+      "end": 28.643,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.941,
+      "sentence_index": 6,
+      "loudness_db": -17.1
+    },
+    {
+      "word": "into",
+      "start": 28.683,
+      "end": 28.843,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.868,
+      "sentence_index": 6,
+      "loudness_db": -16.8
+    },
+    {
+      "word": "kernel",
+      "start": 28.883,
+      "end": 29.184,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.545,
+      "sentence_index": 6,
+      "loudness_db": -13.9
+    },
+    {
+      "word": "mode,",
+      "start": 29.204,
+      "end": 29.444,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.796,
+      "sentence_index": 6,
+      "loudness_db": -26.1
+    },
+    {
+      "word": "and",
+      "start": 29.584,
+      "end": 29.664,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.833,
+      "sentence_index": 6,
+      "loudness_db": -15.7
+    },
+    {
+      "word": "starts",
+      "start": 29.724,
+      "end": 30.025,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.903,
+      "sentence_index": 6,
+      "loudness_db": -21.2
+    },
+    {
+      "word": "running",
+      "start": 30.085,
+      "end": 30.305,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.761,
+      "sentence_index": 6,
+      "loudness_db": -15.1
+    },
+    {
+      "word": "the",
+      "start": 30.345,
+      "end": 30.405,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.993,
+      "sentence_index": 6,
+      "loudness_db": -16.0
+    },
+    {
+      "word": "network",
+      "start": 30.465,
+      "end": 30.805,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.966,
+      "sentence_index": 6,
+      "loudness_db": -23.2
+    },
+    {
+      "word": "driver.",
+      "start": 30.846,
+      "end": 31.166,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.786,
+      "sentence_index": 6,
+      "loudness_db": -28.8
+    },
+    {
+      "word": "That",
+      "start": 32.027,
+      "end": 32.267,
+      "duration": 0.24,
+      "importance": "medium",
+      "confidence": 0.864,
+      "sentence_index": 7,
+      "loudness_db": -17.2
+    },
+    {
+      "word": "interruption",
+      "start": 32.367,
+      "end": 32.808,
+      "duration": 0.441,
+      "importance": "low",
+      "confidence": 0.919,
+      "sentence_index": 7,
+      "loudness_db": -18.2
+    },
+    {
+      "word": "alone",
+      "start": 32.868,
+      "end": 33.168,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.925,
+      "sentence_index": 7,
+      "loudness_db": -15.3
+    },
+    {
+      "word": "has",
+      "start": 33.228,
+      "end": 33.368,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.89,
+      "sentence_index": 7,
+      "loudness_db": -19.3
+    },
+    {
+      "word": "a",
+      "start": 33.429,
+      "end": 33.449,
+      "duration": 0.02,
+      "importance": "low",
+      "confidence": 0.978,
+      "sentence_index": 7,
+      "loudness_db": -28.1
+    },
+    {
+      "word": "cost.",
+      "start": 33.489,
+      "end": 33.789,
+      "duration": 0.3,
+      "importance": "medium",
+      "confidence": 0.957,
+      "sentence_index": 7,
+      "loudness_db": -30.5
+    },
+    {
+      "word": "Next,",
+      "start": 34.69,
+      "end": 34.93,
+      "duration": 0.24,
+      "importance": "medium",
+      "confidence": 0.807,
+      "sentence_index": 8,
+      "loudness_db": -25.2
+    },
+    {
+      "word": "the",
+      "start": 35.171,
+      "end": 35.271,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.849,
+      "sentence_index": 8,
+      "loudness_db": -21.3
+    },
+    {
+      "word": "packet",
+      "start": 35.311,
+      "end": 35.611,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.948,
+      "sentence_index": 8,
+      "loudness_db": -20.7
+    },
+    {
+      "word": "travels",
+      "start": 35.651,
+      "end": 35.931,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.862,
+      "sentence_index": 8,
+      "loudness_db": -16.2
+    },
+    {
+      "word": "through",
+      "start": 35.972,
+      "end": 36.152,
+      "duration": 0.18,
+      "importance": "low",
+      "confidence": 0.858,
+      "sentence_index": 8,
+      "loudness_db": -15.5
+    },
+    {
+      "word": "multiple",
+      "start": 36.212,
+      "end": 36.652,
+      "duration": 0.44,
+      "importance": "low",
+      "confidence": 0.822,
+      "sentence_index": 8,
+      "loudness_db": -18.3
+    },
+    {
+      "word": "layers",
+      "start": 36.692,
+      "end": 36.933,
+      "duration": 0.241,
+      "importance": "low",
+      "confidence": 0.861,
+      "sentence_index": 8,
+      "loudness_db": -14.5
+    },
+    {
+      "word": "of",
+      "start": 36.973,
+      "end": 37.033,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.925,
+      "sentence_index": 8,
+      "loudness_db": -20.5
+    },
+    {
+      "word": "the",
+      "start": 37.053,
+      "end": 37.133,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.833,
+      "sentence_index": 8,
+      "loudness_db": -14.9
+    },
+    {
+      "word": "Linux",
+      "start": 37.173,
+      "end": 37.453,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.716,
+      "sentence_index": 8,
+      "loudness_db": -21.4
+    },
+    {
+      "word": "networking",
+      "start": 37.513,
+      "end": 37.954,
+      "duration": 0.441,
+      "importance": "low",
+      "confidence": 0.858,
+      "sentence_index": 8,
+      "loudness_db": -23.1
+    },
+    {
+      "word": "stack.",
+      "start": 37.994,
+      "end": 38.294,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.899,
+      "sentence_index": 8,
+      "loudness_db": -34.5
+    },
+    {
+      "word": "During",
+      "start": 39.075,
+      "end": 39.315,
+      "duration": 0.24,
+      "importance": "medium",
+      "confidence": 0.511,
+      "sentence_index": 9,
+      "loudness_db": -12.7
+    },
+    {
+      "word": "this",
+      "start": 39.355,
+      "end": 39.516,
+      "duration": 0.161,
+      "importance": "low",
+      "confidence": 0.856,
+      "sentence_index": 9,
+      "loudness_db": -14.1
+    },
+    {
+      "word": "journey,",
+      "start": 39.556,
+      "end": 39.856,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.715,
+      "sentence_index": 9,
+      "loudness_db": -17.9
+    },
+    {
+      "word": "the",
+      "start": 40.036,
+      "end": 40.136,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.794,
+      "sentence_index": 9,
+      "loudness_db": -22.0
+    },
+    {
+      "word": "packet",
+      "start": 40.176,
+      "end": 40.477,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.956,
+      "sentence_index": 9,
+      "loudness_db": -18.3
+    },
+    {
+      "word": "is",
+      "start": 40.537,
+      "end": 40.617,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.534,
+      "sentence_index": 9,
+      "loudness_db": -20.9
+    },
+    {
+      "word": "wrapped",
+      "start": 40.677,
+      "end": 40.937,
+      "duration": 0.26,
+      "importance": "low",
+      "confidence": 0.886,
+      "sentence_index": 9,
+      "loudness_db": -21.5
+    },
+    {
+      "word": "in",
+      "start": 40.977,
+      "end": 41.057,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.826,
+      "sentence_index": 9,
+      "loudness_db": -16.7
+    },
+    {
+      "word": "kernel",
+      "start": 41.118,
+      "end": 41.438,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.668,
+      "sentence_index": 9,
+      "loudness_db": -15.1
+    },
+    {
+      "word": "data",
+      "start": 41.458,
+      "end": 41.698,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.742,
+      "sentence_index": 9,
+      "loudness_db": -18.7
+    },
+    {
+      "word": "structures,",
+      "start": 41.718,
+      "end": 42.179,
+      "duration": 0.461,
+      "importance": "low",
+      "confidence": 0.78,
+      "sentence_index": 9,
+      "loudness_db": -26.9
+    },
+    {
+      "word": "inspected,",
+      "start": 42.439,
+      "end": 43.0,
+      "duration": 0.561,
+      "importance": "medium",
+      "confidence": 0.942,
+      "sentence_index": 9,
+      "loudness_db": -25.2
+    },
+    {
+      "word": "and",
+      "start": 43.5,
+      "end": 43.58,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.988,
+      "sentence_index": 9,
+      "loudness_db": -17.7
+    },
+    {
+      "word": "often",
+      "start": 43.681,
+      "end": 43.901,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.907,
+      "sentence_index": 9,
+      "loudness_db": -18.6
+    },
+    {
+      "word": "copied",
+      "start": 43.981,
+      "end": 44.321,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.939,
+      "sentence_index": 9,
+      "loudness_db": -17.4
+    },
+    {
+      "word": "into",
+      "start": 44.361,
+      "end": 44.542,
+      "duration": 0.181,
+      "importance": "low",
+      "confidence": 0.824,
+      "sentence_index": 9,
+      "loudness_db": -17.8
+    },
+    {
+      "word": "different",
+      "start": 44.602,
+      "end": 44.942,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.923,
+      "sentence_index": 9,
+      "loudness_db": -19.2
+    },
+    {
+      "word": "memory",
+      "start": 44.982,
+      "end": 45.282,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.859,
+      "sentence_index": 9,
+      "loudness_db": -15.2
+    },
+    {
+      "word": "buffers",
+      "start": 45.322,
+      "end": 45.703,
+      "duration": 0.381,
+      "importance": "low",
+      "confidence": 0.92,
+      "sentence_index": 9,
+      "loudness_db": -25.7
+    },
+    {
+      "word": "before",
+      "start": 45.803,
+      "end": 46.063,
+      "duration": 0.26,
+      "importance": "low",
+      "confidence": 0.901,
+      "sentence_index": 9,
+      "loudness_db": -16.9
+    },
+    {
+      "word": "it",
+      "start": 46.123,
+      "end": 46.163,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 0.983,
+      "sentence_index": 9,
+      "loudness_db": -39.8
+    },
+    {
+      "word": "finally",
+      "start": 46.244,
+      "end": 46.644,
+      "duration": 0.4,
+      "importance": "low",
+      "confidence": 0.718,
+      "sentence_index": 9,
+      "loudness_db": -16.1
+    },
+    {
+      "word": "reaches",
+      "start": 46.724,
+      "end": 47.004,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.949,
+      "sentence_index": 9,
+      "loudness_db": -21.1
+    },
+    {
+      "word": "your",
+      "start": 47.044,
+      "end": 47.145,
+      "duration": 0.101,
+      "importance": "low",
+      "confidence": 0.826,
+      "sentence_index": 9,
+      "loudness_db": -18.5
+    },
+    {
+      "word": "application.",
+      "start": 47.185,
+      "end": 47.705,
+      "duration": 0.52,
+      "importance": "low",
+      "confidence": 0.838,
+      "sentence_index": 9,
+      "loudness_db": -28.0
+    },
+    {
+      "word": "And",
+      "start": 48.466,
+      "end": 48.546,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.923,
+      "sentence_index": 10,
+      "loudness_db": -13.7
+    },
+    {
+      "word": "that's",
+      "start": 48.586,
+      "end": 48.847,
+      "duration": 0.261,
+      "importance": "low",
+      "confidence": 0.75,
+      "sentence_index": 10,
+      "loudness_db": -23.6
+    },
+    {
+      "word": "another",
+      "start": 48.967,
+      "end": 49.287,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.831,
+      "sentence_index": 10,
+      "loudness_db": -16.6
+    },
+    {
+      "word": "source",
+      "start": 49.347,
+      "end": 49.567,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.929,
+      "sentence_index": 10,
+      "loudness_db": -18.5
+    },
+    {
+      "word": "of",
+      "start": 49.607,
+      "end": 49.668,
+      "duration": 0.061,
+      "importance": "low",
+      "confidence": 0.997,
+      "sentence_index": 10,
+      "loudness_db": -28.9
+    },
+    {
+      "word": "overhead",
+      "start": 49.768,
+      "end": 50.108,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.912,
+      "sentence_index": 10,
+      "loudness_db": -24.6
+    },
+    {
+      "word": "–",
+      "start": 50.128,
+      "end": 50.489,
+      "duration": 0.361,
+      "importance": "high",
+      "confidence": 0.924,
+      "sentence_index": 10,
+      "loudness_db": -53.5
+    },
+    {
+      "word": "memory",
+      "start": 50.509,
+      "end": 50.809,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.924,
+      "sentence_index": 10,
+      "loudness_db": -14.7
+    },
+    {
+      "word": "copies.",
+      "start": 50.849,
+      "end": 51.79,
+      "duration": 0.941,
+      "importance": "low",
+      "confidence": 0.923,
+      "sentence_index": 10,
+      "loudness_db": -49.8
+    },
+    {
+      "word": "Copying",
+      "start": 51.79,
+      "end": 52.211,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.883,
+      "sentence_index": 11,
+      "loudness_db": -21.8
+    },
+    {
+      "word": "thousands",
+      "start": 52.291,
+      "end": 52.812,
+      "duration": 0.521,
+      "importance": "low",
+      "confidence": 0.81,
+      "sentence_index": 11,
+      "loudness_db": -19.1
+    },
+    {
+      "word": "or",
+      "start": 53.032,
+      "end": 53.093,
+      "duration": 0.061,
+      "importance": "low",
+      "confidence": 0.974,
+      "sentence_index": 11,
+      "loudness_db": -13.3
+    },
+    {
+      "word": "even",
+      "start": 53.173,
+      "end": 53.313,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.987,
+      "sentence_index": 11,
+      "loudness_db": -12.8
+    },
+    {
+      "word": "millions",
+      "start": 53.353,
+      "end": 53.814,
+      "duration": 0.461,
+      "importance": "low",
+      "confidence": 0.802,
+      "sentence_index": 11,
+      "loudness_db": -13.7
+    },
+    {
+      "word": "of",
+      "start": 53.854,
+      "end": 53.914,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.968,
+      "sentence_index": 11,
+      "loudness_db": -20.9
+    },
+    {
+      "word": "packets",
+      "start": 53.974,
+      "end": 54.315,
+      "duration": 0.341,
+      "importance": "low",
+      "confidence": 0.996,
+      "sentence_index": 11,
+      "loudness_db": -21.7
+    },
+    {
+      "word": "every",
+      "start": 54.535,
+      "end": 54.736,
+      "duration": 0.201,
+      "importance": "low",
+      "confidence": 0.79,
+      "sentence_index": 11,
+      "loudness_db": -16.0
+    },
+    {
+      "word": "second",
+      "start": 54.796,
+      "end": 55.117,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.71,
+      "sentence_index": 11,
+      "loudness_db": -22.4
+    },
+    {
+      "word": "consumes",
+      "start": 55.257,
+      "end": 55.678,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.939,
+      "sentence_index": 11,
+      "loudness_db": -14.6
+    },
+    {
+      "word": "valuable",
+      "start": 55.718,
+      "end": 56.219,
+      "duration": 0.501,
+      "importance": "low",
+      "confidence": 0.891,
+      "sentence_index": 11,
+      "loudness_db": -16.8
+    },
+    {
+      "word": "CPU",
+      "start": 56.259,
+      "end": 56.66,
+      "duration": 0.401,
+      "importance": "medium",
+      "confidence": 0.748,
+      "sentence_index": 11,
+      "loudness_db": -19.9
+    },
+    {
+      "word": "cycles",
+      "start": 56.68,
+      "end": 57.08,
+      "duration": 0.4,
+      "importance": "low",
+      "confidence": 0.776,
+      "sentence_index": 11,
+      "loudness_db": -22.0
+    },
+    {
+      "word": "and",
+      "start": 57.281,
+      "end": 57.361,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.86,
+      "sentence_index": 11,
+      "loudness_db": -15.7
+    },
+    {
+      "word": "memory",
+      "start": 57.441,
+      "end": 57.742,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.958,
+      "sentence_index": 11,
+      "loudness_db": -16.8
+    },
+    {
+      "word": "bandwidth.",
+      "start": 57.802,
+      "end": 58.223,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.89,
+      "sentence_index": 11,
+      "loudness_db": -31.1
+    },
+    {
+      "word": "Finally,",
+      "start": 59.024,
+      "end": 59.445,
+      "duration": 0.421,
+      "importance": "medium",
+      "confidence": 0.918,
+      "sentence_index": 12,
+      "loudness_db": -16.9
+    },
+    {
+      "word": "your",
+      "start": 59.685,
+      "end": 59.826,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.973,
+      "sentence_index": 12,
+      "loudness_db": -12.7
+    },
+    {
+      "word": "application",
+      "start": 59.886,
+      "end": 60.347,
+      "duration": 0.461,
+      "importance": "low",
+      "confidence": 0.946,
+      "sentence_index": 12,
+      "loudness_db": -19.4
+    },
+    {
+      "word": "has",
+      "start": 60.387,
+      "end": 60.527,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.931,
+      "sentence_index": 12,
+      "loudness_db": -23.4
+    },
+    {
+      "word": "to",
+      "start": 60.567,
+      "end": 60.667,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.931,
+      "sentence_index": 12,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "wake",
+      "start": 60.727,
+      "end": 60.968,
+      "duration": 0.241,
+      "importance": "low",
+      "confidence": 0.948,
+      "sentence_index": 12,
+      "loudness_db": -19.0
+    },
+    {
+      "word": "up",
+      "start": 61.048,
+      "end": 61.108,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.998,
+      "sentence_index": 12,
+      "loudness_db": -37.5
+    },
+    {
+      "word": "to",
+      "start": 61.168,
+      "end": 61.248,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.998,
+      "sentence_index": 12,
+      "loudness_db": -20.9
+    },
+    {
+      "word": "process",
+      "start": 61.289,
+      "end": 61.629,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.776,
+      "sentence_index": 12,
+      "loudness_db": -20.4
+    },
+    {
+      "word": "the",
+      "start": 61.669,
+      "end": 61.729,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.992,
+      "sentence_index": 12,
+      "loudness_db": -24.0
+    },
+    {
+      "word": "packet.",
+      "start": 61.769,
+      "end": 62.09,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.994,
+      "sentence_index": 12,
+      "loudness_db": -35.0
+    },
+    {
+      "word": "That",
+      "start": 62.731,
+      "end": 62.872,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.808,
+      "sentence_index": 13,
+      "loudness_db": -19.2
+    },
+    {
+      "word": "means",
+      "start": 62.932,
+      "end": 63.132,
+      "duration": 0.2,
+      "importance": "low",
+      "confidence": 0.862,
+      "sentence_index": 13,
+      "loudness_db": -15.5
+    },
+    {
+      "word": "another",
+      "start": 63.152,
+      "end": 63.473,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.889,
+      "sentence_index": 13,
+      "loudness_db": -15.9
+    },
+    {
+      "word": "context",
+      "start": 63.533,
+      "end": 63.914,
+      "duration": 0.381,
+      "importance": "low",
+      "confidence": 0.962,
+      "sentence_index": 13,
+      "loudness_db": -22.2
+    },
+    {
+      "word": "switch,",
+      "start": 63.954,
+      "end": 64.174,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.888,
+      "sentence_index": 13,
+      "loudness_db": -31.6
+    },
+    {
+      "word": "from",
+      "start": 64.495,
+      "end": 64.635,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.835,
+      "sentence_index": 13,
+      "loudness_db": -14.9
+    },
+    {
+      "word": "the",
+      "start": 64.655,
+      "end": 64.735,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.833,
+      "sentence_index": 13,
+      "loudness_db": -20.8
+    },
+    {
+      "word": "kernel",
+      "start": 64.775,
+      "end": 65.096,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.724,
+      "sentence_index": 13,
+      "loudness_db": -16.8
+    },
+    {
+      "word": "back",
+      "start": 65.296,
+      "end": 65.477,
+      "duration": 0.181,
+      "importance": "low",
+      "confidence": 0.726,
+      "sentence_index": 13,
+      "loudness_db": -24.5
+    },
+    {
+      "word": "to",
+      "start": 65.517,
+      "end": 65.597,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.828,
+      "sentence_index": 13,
+      "loudness_db": -17.4
+    },
+    {
+      "word": "user",
+      "start": 65.717,
+      "end": 65.938,
+      "duration": 0.221,
+      "importance": "low",
+      "confidence": 0.802,
+      "sentence_index": 13,
+      "loudness_db": -23.7
+    },
+    {
+      "word": "space.",
+      "start": 65.958,
+      "end": 66.238,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.973,
+      "sentence_index": 13,
+      "loudness_db": -31.9
+    },
+    {
+      "word": "Context",
+      "start": 66.879,
+      "end": 67.32,
+      "duration": 0.441,
+      "importance": "medium",
+      "confidence": 0.974,
+      "sentence_index": 14,
+      "loudness_db": -19.0
+    },
+    {
+      "word": "switches",
+      "start": 67.36,
+      "end": 67.681,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.717,
+      "sentence_index": 14,
+      "loudness_db": -18.9
+    },
+    {
+      "word": "save",
+      "start": 67.781,
+      "end": 68.042,
+      "duration": 0.261,
+      "importance": "medium",
+      "confidence": 0.9,
+      "sentence_index": 14,
+      "loudness_db": -13.0
+    },
+    {
+      "word": "and",
+      "start": 68.102,
+      "end": 68.182,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.857,
+      "sentence_index": 14,
+      "loudness_db": -17.2
+    },
+    {
+      "word": "restore",
+      "start": 68.242,
+      "end": 68.643,
+      "duration": 0.401,
+      "importance": "low",
+      "confidence": 0.726,
+      "sentence_index": 14,
+      "loudness_db": -22.2
+    },
+    {
+      "word": "CPU",
+      "start": 68.663,
+      "end": 69.064,
+      "duration": 0.401,
+      "importance": "medium",
+      "confidence": 0.772,
+      "sentence_index": 14,
+      "loudness_db": -20.9
+    },
+    {
+      "word": "state,",
+      "start": 69.084,
+      "end": 69.364,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.874,
+      "sentence_index": 14,
+      "loudness_db": -30.3
+    },
+    {
+      "word": "flush",
+      "start": 69.645,
+      "end": 69.905,
+      "duration": 0.26,
+      "importance": "low",
+      "confidence": 0.883,
+      "sentence_index": 14,
+      "loudness_db": -19.5
+    },
+    {
+      "word": "caches,",
+      "start": 69.945,
+      "end": 70.386,
+      "duration": 0.441,
+      "importance": "low",
+      "confidence": 0.918,
+      "sentence_index": 14,
+      "loudness_db": -21.5
+    },
+    {
+      "word": "and",
+      "start": 70.627,
+      "end": 70.707,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.914,
+      "sentence_index": 14,
+      "loudness_db": -21.7
+    },
+    {
+      "word": "add",
+      "start": 70.867,
+      "end": 71.028,
+      "duration": 0.161,
+      "importance": "low",
+      "confidence": 0.985,
+      "sentence_index": 14,
+      "loudness_db": -17.9
+    },
+    {
+      "word": "more",
+      "start": 71.088,
+      "end": 71.288,
+      "duration": 0.2,
+      "importance": "low",
+      "confidence": 0.934,
+      "sentence_index": 14,
+      "loudness_db": -17.6
+    },
+    {
+      "word": "latency.",
+      "start": 71.328,
+      "end": 72.31,
+      "duration": 0.982,
+      "importance": "low",
+      "confidence": 0.91,
+      "sentence_index": 14,
+      "loudness_db": -47.3
+    },
+    {
+      "word": "Now",
+      "start": 72.31,
+      "end": 72.751,
+      "duration": 0.441,
+      "importance": "medium",
+      "confidence": 0.781,
+      "sentence_index": 15,
+      "loudness_db": -30.7
+    },
+    {
+      "word": "imagine",
+      "start": 72.811,
+      "end": 73.132,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.783,
+      "sentence_index": 15,
+      "loudness_db": -14.2
+    },
+    {
+      "word": "this",
+      "start": 73.152,
+      "end": 73.312,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.781,
+      "sentence_index": 15,
+      "loudness_db": -16.9
+    },
+    {
+      "word": "happening",
+      "start": 73.372,
+      "end": 73.713,
+      "duration": 0.341,
+      "importance": "low",
+      "confidence": 0.905,
+      "sentence_index": 15,
+      "loudness_db": -17.0
+    },
+    {
+      "word": "not",
+      "start": 73.753,
+      "end": 73.933,
+      "duration": 0.18,
+      "importance": "low",
+      "confidence": 0.9,
+      "sentence_index": 15,
+      "loudness_db": -17.5
+    },
+    {
+      "word": "once,",
+      "start": 73.953,
+      "end": 74.354,
+      "duration": 0.401,
+      "importance": "medium",
+      "confidence": 0.889,
+      "sentence_index": 15,
+      "loudness_db": -19.2
+    },
+    {
+      "word": "but",
+      "start": 74.654,
+      "end": 74.775,
+      "duration": 0.121,
+      "importance": "low",
+      "confidence": 0.944,
+      "sentence_index": 15,
+      "loudness_db": -15.7
+    },
+    {
+      "word": "millions",
+      "start": 74.935,
+      "end": 75.356,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.778,
+      "sentence_index": 15,
+      "loudness_db": -13.1
+    },
+    {
+      "word": "of",
+      "start": 75.416,
+      "end": 75.476,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.998,
+      "sentence_index": 15,
+      "loudness_db": -24.5
+    },
+    {
+      "word": "times",
+      "start": 75.556,
+      "end": 75.857,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.833,
+      "sentence_index": 15,
+      "loudness_db": -17.6
+    },
+    {
+      "word": "every",
+      "start": 76.097,
+      "end": 76.317,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.895,
+      "sentence_index": 15,
+      "loudness_db": -19.5
+    },
+    {
+      "word": "second.",
+      "start": 76.398,
+      "end": 77.6,
+      "duration": 1.202,
+      "importance": "medium",
+      "confidence": 0.886,
+      "sentence_index": 15,
+      "loudness_db": -46.9
+    },
+    {
+      "word": "Interrupts,",
+      "start": 77.62,
+      "end": 78.061,
+      "duration": 0.441,
+      "importance": "low",
+      "confidence": 0.859,
+      "sentence_index": 16,
+      "loudness_db": -22.3
+    },
+    {
+      "word": "memory",
+      "start": 78.401,
+      "end": 78.702,
+      "duration": 0.301,
+      "importance": "medium",
+      "confidence": 0.93,
+      "sentence_index": 16,
+      "loudness_db": -12.8
+    },
+    {
+      "word": "copies,",
+      "start": 78.762,
+      "end": 79.163,
+      "duration": 0.401,
+      "importance": "low",
+      "confidence": 0.909,
+      "sentence_index": 16,
+      "loudness_db": -26.6
+    },
+    {
+      "word": "context",
+      "start": 79.383,
+      "end": 79.824,
+      "duration": 0.441,
+      "importance": "low",
+      "confidence": 0.919,
+      "sentence_index": 16,
+      "loudness_db": -18.5
+    },
+    {
+      "word": "switches.",
+      "start": 79.844,
+      "end": 80.205,
+      "duration": 0.361,
+      "importance": "low",
+      "confidence": 0.887,
+      "sentence_index": 16,
+      "loudness_db": -27.3
+    },
+    {
+      "word": "Individually,",
+      "start": 80.966,
+      "end": 81.527,
+      "duration": 0.561,
+      "importance": "medium",
+      "confidence": 0.898,
+      "sentence_index": 17,
+      "loudness_db": -14.2
+    },
+    {
+      "word": "they",
+      "start": 81.567,
+      "end": 81.708,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.844,
+      "sentence_index": 17,
+      "loudness_db": -13.7
+    },
+    {
+      "word": "seem",
+      "start": 81.748,
+      "end": 81.988,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.738,
+      "sentence_index": 17,
+      "loudness_db": -19.2
+    },
+    {
+      "word": "small.",
+      "start": 82.048,
+      "end": 82.349,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.997,
+      "sentence_index": 17,
+      "loudness_db": -28.3
+    },
+    {
+      "word": "Together,",
+      "start": 82.81,
+      "end": 83.17,
+      "duration": 0.36,
+      "importance": "low",
+      "confidence": 0.995,
+      "sentence_index": 18,
+      "loudness_db": -15.9
+    },
+    {
+      "word": "they",
+      "start": 83.21,
+      "end": 83.551,
+      "duration": 0.341,
+      "importance": "low",
+      "confidence": 0.714,
+      "sentence_index": 18,
+      "loudness_db": -35.3
+    },
+    {
+      "word": "become",
+      "start": 83.571,
+      "end": 83.791,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.84,
+      "sentence_index": 18,
+      "loudness_db": -16.3
+    },
+    {
+      "word": "the",
+      "start": 83.811,
+      "end": 83.932,
+      "duration": 0.121,
+      "importance": "low",
+      "confidence": 0.681,
+      "sentence_index": 18,
+      "loudness_db": -21.0
+    },
+    {
+      "word": "biggest",
+      "start": 84.012,
+      "end": 84.372,
+      "duration": 0.36,
+      "importance": "low",
+      "confidence": 0.794,
+      "sentence_index": 18,
+      "loudness_db": -18.8
+    },
+    {
+      "word": "bottleneck",
+      "start": 84.473,
+      "end": 84.934,
+      "duration": 0.461,
+      "importance": "low",
+      "confidence": 0.779,
+      "sentence_index": 18,
+      "loudness_db": -18.3
+    },
+    {
+      "word": "in",
+      "start": 84.994,
+      "end": 85.054,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.9,
+      "sentence_index": 18,
+      "loudness_db": -22.3
+    },
+    {
+      "word": "high-performance",
+      "start": 85.114,
+      "end": 85.775,
+      "duration": 0.661,
+      "importance": "low",
+      "confidence": 0.879,
+      "sentence_index": 18,
+      "loudness_db": -21.4
+    },
+    {
+      "word": "networking.",
+      "start": 85.835,
+      "end": 86.336,
+      "duration": 0.501,
+      "importance": "low",
+      "confidence": 0.929,
+      "sentence_index": 18,
+      "loudness_db": -32.3
+    },
+    {
+      "word": "This",
+      "start": 87.057,
+      "end": 87.198,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.874,
+      "sentence_index": 19,
+      "loudness_db": -16.9
+    },
+    {
+      "word": "is",
+      "start": 87.258,
+      "end": 87.318,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.997,
+      "sentence_index": 19,
+      "loudness_db": -17.7
+    },
+    {
+      "word": "where",
+      "start": 87.358,
+      "end": 87.518,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.926,
+      "sentence_index": 19,
+      "loudness_db": -13.3
+    },
+    {
+      "word": "DPDK",
+      "start": 87.558,
+      "end": 88.079,
+      "duration": 0.521,
+      "importance": "medium",
+      "confidence": 0.738,
+      "sentence_index": 19,
+      "loudness_db": -18.8
+    },
+    {
+      "word": "changes",
+      "start": 88.119,
+      "end": 88.46,
+      "duration": 0.341,
+      "importance": "low",
+      "confidence": 0.81,
+      "sentence_index": 19,
+      "loudness_db": -16.5
+    },
+    {
+      "word": "everything.",
+      "start": 88.5,
+      "end": 89.522,
+      "duration": 1.022,
+      "importance": "low",
+      "confidence": 0.891,
+      "sentence_index": 19,
+      "loudness_db": -43.4
+    },
+    {
+      "word": "Instead",
+      "start": 89.522,
+      "end": 89.943,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.89,
+      "sentence_index": 20,
+      "loudness_db": -25.4
+    },
+    {
+      "word": "of",
+      "start": 89.983,
+      "end": 90.043,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.903,
+      "sentence_index": 20,
+      "loudness_db": -17.5
+    },
+    {
+      "word": "waiting",
+      "start": 90.083,
+      "end": 90.364,
+      "duration": 0.281,
+      "importance": "low",
+      "confidence": 0.718,
+      "sentence_index": 20,
+      "loudness_db": -15.1
+    },
+    {
+      "word": "for",
+      "start": 90.404,
+      "end": 90.504,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.884,
+      "sentence_index": 20,
+      "loudness_db": -14.0
+    },
+    {
+      "word": "interrupts,",
+      "start": 90.584,
+      "end": 90.985,
+      "duration": 0.401,
+      "importance": "low",
+      "confidence": 0.871,
+      "sentence_index": 20,
+      "loudness_db": -24.4
+    },
+    {
+      "word": "DPDK",
+      "start": 91.265,
+      "end": 91.826,
+      "duration": 0.561,
+      "importance": "high",
+      "confidence": 0.707,
+      "sentence_index": 20,
+      "loudness_db": -19.7
+    },
+    {
+      "word": "continuously",
+      "start": 91.886,
+      "end": 92.548,
+      "duration": 0.662,
+      "importance": "low",
+      "confidence": 0.805,
+      "sentence_index": 20,
+      "loudness_db": -15.4
+    },
+    {
+      "word": "polls",
+      "start": 92.628,
+      "end": 92.928,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.759,
+      "sentence_index": 20,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "the",
+      "start": 92.969,
+      "end": 93.049,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.832,
+      "sentence_index": 20,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "network",
+      "start": 93.089,
+      "end": 93.449,
+      "duration": 0.36,
+      "importance": "low",
+      "confidence": 0.934,
+      "sentence_index": 20,
+      "loudness_db": -24.1
+    },
+    {
+      "word": "card.",
+      "start": 93.469,
+      "end": 93.69,
+      "duration": 0.221,
+      "importance": "low",
+      "confidence": 0.853,
+      "sentence_index": 20,
+      "loudness_db": -33.7
+    },
+    {
+      "word": "It",
+      "start": 94.351,
+      "end": 94.431,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.705,
+      "sentence_index": 21,
+      "loudness_db": -27.5
+    },
+    {
+      "word": "maps",
+      "start": 94.491,
+      "end": 94.752,
+      "duration": 0.261,
+      "importance": "low",
+      "confidence": 0.822,
+      "sentence_index": 21,
+      "loudness_db": -20.7
+    },
+    {
+      "word": "packet",
+      "start": 94.852,
+      "end": 95.153,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.994,
+      "sentence_index": 21,
+      "loudness_db": -19.3
+    },
+    {
+      "word": "buffers",
+      "start": 95.193,
+      "end": 95.533,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.919,
+      "sentence_index": 21,
+      "loudness_db": -17.6
+    },
+    {
+      "word": "directly",
+      "start": 95.593,
+      "end": 95.954,
+      "duration": 0.361,
+      "importance": "low",
+      "confidence": 0.888,
+      "sentence_index": 21,
+      "loudness_db": -17.4
+    },
+    {
+      "word": "into",
+      "start": 95.994,
+      "end": 96.155,
+      "duration": 0.161,
+      "importance": "low",
+      "confidence": 0.913,
+      "sentence_index": 21,
+      "loudness_db": -15.6
+    },
+    {
+      "word": "user",
+      "start": 96.275,
+      "end": 96.515,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.783,
+      "sentence_index": 21,
+      "loudness_db": -18.2
+    },
+    {
+      "word": "space",
+      "start": 96.535,
+      "end": 96.796,
+      "duration": 0.261,
+      "importance": "low",
+      "confidence": 0.9,
+      "sentence_index": 21,
+      "loudness_db": -23.6
+    },
+    {
+      "word": "memory",
+      "start": 96.836,
+      "end": 97.156,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.922,
+      "sentence_index": 21,
+      "loudness_db": -21.4
+    },
+    {
+      "word": "using",
+      "start": 97.397,
+      "end": 97.597,
+      "duration": 0.2,
+      "importance": "low",
+      "confidence": 0.918,
+      "sentence_index": 21,
+      "loudness_db": -14.8
+    },
+    {
+      "word": "huge",
+      "start": 97.677,
+      "end": 97.998,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.881,
+      "sentence_index": 21,
+      "loudness_db": -20.0
+    },
+    {
+      "word": "pages,",
+      "start": 98.038,
+      "end": 98.359,
+      "duration": 0.321,
+      "importance": "medium",
+      "confidence": 0.943,
+      "sentence_index": 21,
+      "loudness_db": -26.2
+    },
+    {
+      "word": "allowing",
+      "start": 99.02,
+      "end": 99.34,
+      "duration": 0.32,
+      "importance": "medium",
+      "confidence": 0.784,
+      "sentence_index": 21,
+      "loudness_db": -12.6
+    },
+    {
+      "word": "the",
+      "start": 99.381,
+      "end": 99.461,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.536,
+      "sentence_index": 21,
+      "loudness_db": -14.2
+    },
+    {
+      "word": "application",
+      "start": 99.541,
+      "end": 100.022,
+      "duration": 0.481,
+      "importance": "low",
+      "confidence": 0.885,
+      "sentence_index": 21,
+      "loudness_db": -19.4
+    },
+    {
+      "word": "to",
+      "start": 100.062,
+      "end": 100.142,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.994,
+      "sentence_index": 21,
+      "loudness_db": -14.5
+    },
+    {
+      "word": "access",
+      "start": 100.242,
+      "end": 100.543,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.688,
+      "sentence_index": 21,
+      "loudness_db": -24.4
+    },
+    {
+      "word": "packets",
+      "start": 100.603,
+      "end": 100.984,
+      "duration": 0.381,
+      "importance": "low",
+      "confidence": 0.918,
+      "sentence_index": 21,
+      "loudness_db": -25.0
+    },
+    {
+      "word": "without",
+      "start": 101.124,
+      "end": 101.444,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.879,
+      "sentence_index": 21,
+      "loudness_db": -15.5
+    },
+    {
+      "word": "the",
+      "start": 101.464,
+      "end": 101.585,
+      "duration": 0.121,
+      "importance": "low",
+      "confidence": 0.696,
+      "sentence_index": 21,
+      "loudness_db": -20.6
+    },
+    {
+      "word": "traditional",
+      "start": 101.625,
+      "end": 102.086,
+      "duration": 0.461,
+      "importance": "low",
+      "confidence": 0.792,
+      "sentence_index": 21,
+      "loudness_db": -20.5
+    },
+    {
+      "word": "kernel",
+      "start": 102.206,
+      "end": 102.446,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.593,
+      "sentence_index": 21,
+      "loudness_db": -14.5
+    },
+    {
+      "word": "networking",
+      "start": 102.506,
+      "end": 102.987,
+      "duration": 0.481,
+      "importance": "low",
+      "confidence": 0.861,
+      "sentence_index": 21,
+      "loudness_db": -23.2
+    },
+    {
+      "word": "stack.",
+      "start": 103.007,
+      "end": 103.288,
+      "duration": 0.281,
+      "importance": "low",
+      "confidence": 0.839,
+      "sentence_index": 21,
+      "loudness_db": -35.9
+    },
+    {
+      "word": "The",
+      "start": 103.849,
+      "end": 103.929,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.922,
+      "sentence_index": 22,
+      "loudness_db": -15.3
+    },
+    {
+      "word": "result?",
+      "start": 103.969,
+      "end": 104.29,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.914,
+      "sentence_index": 22,
+      "loudness_db": -28.0
+    },
+    {
+      "word": "No",
+      "start": 104.971,
+      "end": 105.171,
+      "duration": 0.2,
+      "importance": "high",
+      "confidence": 0.889,
+      "sentence_index": 23,
+      "loudness_db": -12.5
+    },
+    {
+      "word": "per-packet",
+      "start": 105.232,
+      "end": 105.773,
+      "duration": 0.541,
+      "importance": "low",
+      "confidence": 0.938,
+      "sentence_index": 23,
+      "loudness_db": -18.2
+    },
+    {
+      "word": "interrupts,",
+      "start": 105.813,
+      "end": 106.193,
+      "duration": 0.38,
+      "importance": "low",
+      "confidence": 0.837,
+      "sentence_index": 23,
+      "loudness_db": -27.7
+    },
+    {
+      "word": "no",
+      "start": 106.574,
+      "end": 106.774,
+      "duration": 0.2,
+      "importance": "high",
+      "confidence": 0.905,
+      "sentence_index": 23,
+      "loudness_db": -12.6
+    },
+    {
+      "word": "unnecessary",
+      "start": 106.895,
+      "end": 107.396,
+      "duration": 0.501,
+      "importance": "low",
+      "confidence": 0.963,
+      "sentence_index": 23,
+      "loudness_db": -17.2
+    },
+    {
+      "word": "memory",
+      "start": 107.456,
+      "end": 107.736,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.939,
+      "sentence_index": 23,
+      "loudness_db": -17.9
+    },
+    {
+      "word": "copies,",
+      "start": 107.776,
+      "end": 108.137,
+      "duration": 0.361,
+      "importance": "low",
+      "confidence": 0.978,
+      "sentence_index": 23,
+      "loudness_db": -24.9
+    },
+    {
+      "word": "almost",
+      "start": 108.638,
+      "end": 108.979,
+      "duration": 0.341,
+      "importance": "medium",
+      "confidence": 0.95,
+      "sentence_index": 23,
+      "loudness_db": -17.9
+    },
+    {
+      "word": "no",
+      "start": 109.139,
+      "end": 109.339,
+      "duration": 0.2,
+      "importance": "medium",
+      "confidence": 0.917,
+      "sentence_index": 23,
+      "loudness_db": -17.2
+    },
+    {
+      "word": "context",
+      "start": 109.419,
+      "end": 109.84,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.92,
+      "sentence_index": 23,
+      "loudness_db": -22.6
+    },
+    {
+      "word": "switches.",
+      "start": 109.86,
+      "end": 110.802,
+      "duration": 0.942,
+      "importance": "low",
+      "confidence": 0.862,
+      "sentence_index": 23,
+      "loudness_db": -50.6
+    },
+    {
+      "word": "The",
+      "start": 110.802,
+      "end": 110.982,
+      "duration": 0.18,
+      "importance": "low",
+      "confidence": 0.945,
+      "sentence_index": 24,
+      "loudness_db": -34.6
+    },
+    {
+      "word": "CPU",
+      "start": 111.023,
+      "end": 111.443,
+      "duration": 0.42,
+      "importance": "high",
+      "confidence": 0.844,
+      "sentence_index": 24,
+      "loudness_db": -16.5
+    },
+    {
+      "word": "spends",
+      "start": 111.463,
+      "end": 111.744,
+      "duration": 0.281,
+      "importance": "low",
+      "confidence": 0.842,
+      "sentence_index": 24,
+      "loudness_db": -18.7
+    },
+    {
+      "word": "its",
+      "start": 111.784,
+      "end": 111.904,
+      "duration": 0.12,
+      "importance": "low",
+      "confidence": 0.821,
+      "sentence_index": 24,
+      "loudness_db": -29.4
+    },
+    {
+      "word": "time",
+      "start": 111.965,
+      "end": 112.185,
+      "duration": 0.22,
+      "importance": "low",
+      "confidence": 0.958,
+      "sentence_index": 24,
+      "loudness_db": -16.9
+    },
+    {
+      "word": "processing",
+      "start": 112.245,
+      "end": 112.726,
+      "duration": 0.481,
+      "importance": "low",
+      "confidence": 0.842,
+      "sentence_index": 24,
+      "loudness_db": -19.5
+    },
+    {
+      "word": "packets",
+      "start": 112.786,
+      "end": 113.167,
+      "duration": 0.381,
+      "importance": "low",
+      "confidence": 0.919,
+      "sentence_index": 24,
+      "loudness_db": -25.0
+    },
+    {
+      "word": "instead",
+      "start": 113.388,
+      "end": 113.668,
+      "duration": 0.28,
+      "importance": "low",
+      "confidence": 0.758,
+      "sentence_index": 24,
+      "loudness_db": -16.8
+    },
+    {
+      "word": "of",
+      "start": 113.708,
+      "end": 113.748,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 0.876,
+      "sentence_index": 24,
+      "loudness_db": -25.5
+    },
+    {
+      "word": "managing",
+      "start": 113.828,
+      "end": 114.209,
+      "duration": 0.381,
+      "importance": "low",
+      "confidence": 0.896,
+      "sentence_index": 24,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "operating",
+      "start": 114.249,
+      "end": 114.73,
+      "duration": 0.481,
+      "importance": "low",
+      "confidence": 0.855,
+      "sentence_index": 24,
+      "loudness_db": -18.7
+    },
+    {
+      "word": "system",
+      "start": 114.77,
+      "end": 115.071,
+      "duration": 0.301,
+      "importance": "low",
+      "confidence": 0.774,
+      "sentence_index": 24,
+      "loudness_db": -21.8
+    },
+    {
+      "word": "overhead.",
+      "start": 115.171,
+      "end": 115.532,
+      "duration": 0.361,
+      "importance": "low",
+      "confidence": 0.838,
+      "sentence_index": 24,
+      "loudness_db": -27.9
+    },
+    {
+      "word": "That's",
+      "start": 116.354,
+      "end": 116.594,
+      "duration": 0.24,
+      "importance": "low",
+      "confidence": 0.87,
+      "sentence_index": 25,
+      "loudness_db": -21.1
+    },
+    {
+      "word": "why",
+      "start": 116.634,
+      "end": 116.775,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.97,
+      "sentence_index": 25,
+      "loudness_db": -14.4
+    },
+    {
+      "word": "technologies",
+      "start": 116.835,
+      "end": 117.436,
+      "duration": 0.601,
+      "importance": "low",
+      "confidence": 0.8,
+      "sentence_index": 25,
+      "loudness_db": -17.5
+    },
+    {
+      "word": "like",
+      "start": 117.496,
+      "end": 117.637,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.912,
+      "sentence_index": 25,
+      "loudness_db": -20.9
+    },
+    {
+      "word": "DPDK",
+      "start": 117.697,
+      "end": 118.318,
+      "duration": 0.621,
+      "importance": "high",
+      "confidence": 0.815,
+      "sentence_index": 25,
+      "loudness_db": -21.2
+    },
+    {
+      "word": "power",
+      "start": 118.458,
+      "end": 118.739,
+      "duration": 0.281,
+      "importance": "low",
+      "confidence": 0.949,
+      "sentence_index": 25,
+      "loudness_db": -15.0
+    },
+    {
+      "word": "high-performance",
+      "start": 118.819,
+      "end": 119.501,
+      "duration": 0.682,
+      "importance": "low",
+      "confidence": 0.892,
+      "sentence_index": 25,
+      "loudness_db": -19.8
+    },
+    {
+      "word": "firewalls,",
+      "start": 119.561,
+      "end": 120.102,
+      "duration": 0.541,
+      "importance": "low",
+      "confidence": 0.912,
+      "sentence_index": 25,
+      "loudness_db": -21.8
+    },
+    {
+      "word": "load",
+      "start": 120.402,
+      "end": 120.623,
+      "duration": 0.221,
+      "importance": "low",
+      "confidence": 0.708,
+      "sentence_index": 25,
+      "loudness_db": -13.6
+    },
+    {
+      "word": "balancers,",
+      "start": 120.663,
+      "end": 121.184,
+      "duration": 0.521,
+      "importance": "low",
+      "confidence": 0.834,
+      "sentence_index": 25,
+      "loudness_db": -23.6
+    },
+    {
+      "word": "telecom",
+      "start": 121.645,
+      "end": 122.046,
+      "duration": 0.401,
+      "importance": "medium",
+      "confidence": 0.83,
+      "sentence_index": 25,
+      "loudness_db": -15.1
+    },
+    {
+      "word": "systems,",
+      "start": 122.086,
+      "end": 122.487,
+      "duration": 0.401,
+      "importance": "low",
+      "confidence": 0.85,
+      "sentence_index": 25,
+      "loudness_db": -23.2
+    },
+    {
+      "word": "and",
+      "start": 122.727,
+      "end": 122.828,
+      "duration": 0.101,
+      "importance": "low",
+      "confidence": 0.672,
+      "sentence_index": 25,
+      "loudness_db": -14.9
+    },
+    {
+      "word": "modern",
+      "start": 122.908,
+      "end": 123.329,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.883,
+      "sentence_index": 25,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "cloud",
+      "start": 123.389,
+      "end": 123.71,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.903,
+      "sentence_index": 25,
+      "loudness_db": -19.2
+    },
+    {
+      "word": "networking.",
+      "start": 123.73,
+      "end": 124.231,
+      "duration": 0.501,
+      "importance": "low",
+      "confidence": 0.891,
+      "sentence_index": 25,
+      "loudness_db": -29.3
+    },
+    {
+      "word": "Where",
+      "start": 124.872,
+      "end": 125.032,
+      "duration": 0.16,
+      "importance": "low",
+      "confidence": 0.929,
+      "sentence_index": 26,
+      "loudness_db": -18.2
+    },
+    {
+      "word": "processing",
+      "start": 125.052,
+      "end": 125.513,
+      "duration": 0.461,
+      "importance": "low",
+      "confidence": 0.754,
+      "sentence_index": 26,
+      "loudness_db": -16.5
+    },
+    {
+      "word": "millions",
+      "start": 125.614,
+      "end": 125.994,
+      "duration": 0.38,
+      "importance": "low",
+      "confidence": 0.792,
+      "sentence_index": 26,
+      "loudness_db": -13.9
+    },
+    {
+      "word": "of",
+      "start": 126.055,
+      "end": 126.095,
+      "duration": 0.04,
+      "importance": "low",
+      "confidence": 1.0,
+      "sentence_index": 26,
+      "loudness_db": -49.0
+    },
+    {
+      "word": "packets",
+      "start": 126.155,
+      "end": 126.495,
+      "duration": 0.34,
+      "importance": "low",
+      "confidence": 0.9,
+      "sentence_index": 26,
+      "loudness_db": -23.4
+    },
+    {
+      "word": "per",
+      "start": 126.536,
+      "end": 126.676,
+      "duration": 0.14,
+      "importance": "low",
+      "confidence": 0.965,
+      "sentence_index": 26,
+      "loudness_db": -19.2
+    },
+    {
+      "word": "second",
+      "start": 126.736,
+      "end": 127.077,
+      "duration": 0.341,
+      "importance": "low",
+      "confidence": 0.919,
+      "sentence_index": 26,
+      "loudness_db": -21.7
+    },
+    {
+      "word": "isn't",
+      "start": 127.297,
+      "end": 127.478,
+      "duration": 0.181,
+      "importance": "low",
+      "confidence": 0.949,
+      "sentence_index": 26,
+      "loudness_db": -13.1
+    },
+    {
+      "word": "just",
+      "start": 127.518,
+      "end": 127.698,
+      "duration": 0.18,
+      "importance": "low",
+      "confidence": 0.813,
+      "sentence_index": 26,
+      "loudness_db": -22.9
+    },
+    {
+      "word": "an",
+      "start": 127.758,
+      "end": 127.818,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.712,
+      "sentence_index": 26,
+      "loudness_db": -16.1
+    },
+    {
+      "word": "optimization,",
+      "start": 127.878,
+      "end": 128.56,
+      "duration": 0.682,
+      "importance": "low",
+      "confidence": 0.848,
+      "sentence_index": 26,
+      "loudness_db": -21.5
+    },
+    {
+      "word": "it's",
+      "start": 128.941,
+      "end": 129.041,
+      "duration": 0.1,
+      "importance": "low",
+      "confidence": 0.868,
+      "sentence_index": 26,
+      "loudness_db": -25.7
+    },
+    {
+      "word": "a",
+      "start": 129.061,
+      "end": 129.081,
+      "duration": 0.02,
+      "importance": "low",
+      "confidence": 0.973,
+      "sentence_index": 26
+    },
+    {
+      "word": "requirement.",
+      "start": 129.181,
+      "end": 130.704,
+      "duration": 1.523,
+      "importance": "low",
+      "confidence": 0.819,
+      "sentence_index": 26,
+      "loudness_db": -39.9
+    },
+    {
+      "word": "Once",
+      "start": 130.724,
+      "end": 130.865,
+      "duration": 0.141,
+      "importance": "low",
+      "confidence": 0.83,
+      "sentence_index": 27,
+      "loudness_db": -18.6
+    },
+    {
+      "word": "you",
+      "start": 130.905,
+      "end": 131.025,
+      "duration": 0.12,
+      "importance": "low",
+      "confidence": 0.947,
+      "sentence_index": 27,
+      "loudness_db": -13.8
+    },
+    {
+      "word": "understand",
+      "start": 131.065,
+      "end": 131.486,
+      "duration": 0.421,
+      "importance": "low",
+      "confidence": 0.726,
+      "sentence_index": 27,
+      "loudness_db": -18.2
+    },
+    {
+      "word": "where",
+      "start": 131.586,
+      "end": 131.767,
+      "duration": 0.181,
+      "importance": "low",
+      "confidence": 0.961,
+      "sentence_index": 27,
+      "loudness_db": -14.2
+    },
+    {
+      "word": "the",
+      "start": 131.807,
+      "end": 131.867,
+      "duration": 0.06,
+      "importance": "low",
+      "confidence": 0.944,
+      "sentence_index": 27,
+      "loudness_db": -21.3
+    },
+    {
+      "word": "time",
+      "start": 131.927,
+      "end": 132.107,
+      "duration": 0.18,
+      "importance": "low",
+      "confidence": 0.96,
+      "sentence_index": 27,
+      "loudness_db": -15.8
+    },
+    {
+      "word": "is",
+      "start": 132.148,
+      "end": 132.228,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.756,
+      "sentence_index": 27,
+      "loudness_db": -16.4
+    },
+    {
+      "word": "actually",
+      "start": 132.288,
+      "end": 132.609,
+      "duration": 0.321,
+      "importance": "low",
+      "confidence": 0.835,
+      "sentence_index": 27,
+      "loudness_db": -23.3
+    },
+    {
+      "word": "spent,",
+      "start": 132.669,
+      "end": 132.989,
+      "duration": 0.32,
+      "importance": "low",
+      "confidence": 0.943,
+      "sentence_index": 27,
+      "loudness_db": -23.0
+    },
+    {
+      "word": "the",
+      "start": 133.33,
+      "end": 133.41,
+      "duration": 0.08,
+      "importance": "low",
+      "confidence": 0.986,
+      "sentence_index": 27,
+      "loudness_db": -23.1
+    },
+    {
+      "word": "performance",
+      "start": 133.45,
+      "end": 133.951,
+      "duration": 0.501,
+      "importance": "low",
+      "confidence": 0.939,
+      "sentence_index": 27,
+      "loudness_db": -18.5
+    },
+    {
+      "word": "difference",
+      "start": 134.032,
+      "end": 134.412,
+      "duration": 0.38,
+      "importance": "low",
+      "confidence": 0.868,
+      "sentence_index": 27,
+      "loudness_db": -24.2
+    },
+    {
+      "word": "becomes",
+      "start": 134.493,
+      "end": 134.793,
+      "duration": 0.3,
+      "importance": "low",
+      "confidence": 0.904,
+      "sentence_index": 27,
+      "loudness_db": -22.7
+    },
+    {
+      "word": "obvious.",
+      "start": 134.813,
+      "end": 135.675,
+      "duration": 0.862,
+      "importance": "low",
+      "confidence": 0.846,
+      "sentence_index": 27,
+      "loudness_db": -38.0
+    }
+  ],
+  "sentences": [
+    {
+      "text": "Have you ever wondered why modern servers can have a 100 gigabit network card, but still struggle to process every packet at line rate?",
+      "start": 0.031,
+      "end": 6.718,
+      "duration": 6.687,
+      "word_count": 24
+    },
+    {
+      "text": "The answer isn't that Linux is slow.",
+      "start": 7.459,
+      "end": 9.041,
+      "duration": 1.582,
+      "word_count": 7
+    },
+    {
+      "text": "It's that the traditional networking path does a lot of work for every single packet.",
+      "start": 9.602,
+      "end": 13.806,
+      "duration": 4.204,
+      "word_count": 15
+    },
+    {
+      "text": "Let's see what actually happens.",
+      "start": 14.567,
+      "end": 15.668,
+      "duration": 1.101,
+      "word_count": 5
+    },
+    {
+      "text": "A packet arrives at the network card.",
+      "start": 16.469,
+      "end": 17.911,
+      "duration": 1.442,
+      "word_count": 7
+    },
+    {
+      "text": "Instead of your application receiving it immediately, the network card first raises an interrupt to tell the CPU, a packet has arrived.",
+      "start": 18.492,
+      "end": 26.14,
+      "duration": 7.648,
+      "word_count": 22
+    },
+    {
+      "text": "The CPU stops whatever it was doing, switches into kernel mode, and starts running the network driver.",
+      "start": 26.14,
+      "end": 31.166,
+      "duration": 5.026,
+      "word_count": 17
+    },
+    {
+      "text": "That interruption alone has a cost.",
+      "start": 32.027,
+      "end": 33.789,
+      "duration": 1.762,
+      "word_count": 6
+    },
+    {
+      "text": "Next, the packet travels through multiple layers of the Linux networking stack.",
+      "start": 34.69,
+      "end": 38.294,
+      "duration": 3.604,
+      "word_count": 12
+    },
+    {
+      "text": "During this journey, the packet is wrapped in kernel data structures, inspected, and often copied into different memory buffers before it finally reaches your application.",
+      "start": 39.075,
+      "end": 47.705,
+      "duration": 8.63,
+      "word_count": 25
+    },
+    {
+      "text": "And that's another source of overhead – memory copies.",
+      "start": 48.466,
+      "end": 51.79,
+      "duration": 3.324,
+      "word_count": 9
+    },
+    {
+      "text": "Copying thousands or even millions of packets every second consumes valuable CPU cycles and memory bandwidth.",
+      "start": 51.79,
+      "end": 58.223,
+      "duration": 6.433,
+      "word_count": 16
+    },
+    {
+      "text": "Finally, your application has to wake up to process the packet.",
+      "start": 59.024,
+      "end": 62.09,
+      "duration": 3.066,
+      "word_count": 11
+    },
+    {
+      "text": "That means another context switch, from the kernel back to user space.",
+      "start": 62.731,
+      "end": 66.238,
+      "duration": 3.507,
+      "word_count": 12
+    },
+    {
+      "text": "Context switches save and restore CPU state, flush caches, and add more latency.",
+      "start": 66.879,
+      "end": 72.31,
+      "duration": 5.431,
+      "word_count": 13
+    },
+    {
+      "text": "Now imagine this happening not once, but millions of times every second.",
+      "start": 72.31,
+      "end": 77.6,
+      "duration": 5.29,
+      "word_count": 12
+    },
+    {
+      "text": "Interrupts, memory copies, context switches.",
+      "start": 77.62,
+      "end": 80.205,
+      "duration": 2.585,
+      "word_count": 5
+    },
+    {
+      "text": "Individually, they seem small.",
+      "start": 80.966,
+      "end": 82.349,
+      "duration": 1.383,
+      "word_count": 4
+    },
+    {
+      "text": "Together, they become the biggest bottleneck in high-performance networking.",
+      "start": 82.81,
+      "end": 86.336,
+      "duration": 3.526,
+      "word_count": 9
+    },
+    {
+      "text": "This is where DPDK changes everything.",
+      "start": 87.057,
+      "end": 89.522,
+      "duration": 2.465,
+      "word_count": 6
+    },
+    {
+      "text": "Instead of waiting for interrupts, DPDK continuously polls the network card.",
+      "start": 89.522,
+      "end": 93.69,
+      "duration": 4.168,
+      "word_count": 11
+    },
+    {
+      "text": "It maps packet buffers directly into user space memory using huge pages, allowing the application to access packets without the traditional kernel networking stack.",
+      "start": 94.351,
+      "end": 103.288,
+      "duration": 8.937,
+      "word_count": 24
+    },
+    {
+      "text": "The result?",
+      "start": 103.849,
+      "end": 104.29,
+      "duration": 0.441,
+      "word_count": 2
+    },
+    {
+      "text": "No per-packet interrupts, no unnecessary memory copies, almost no context switches.",
+      "start": 104.971,
+      "end": 110.802,
+      "duration": 5.831,
+      "word_count": 11
+    },
+    {
+      "text": "The CPU spends its time processing packets instead of managing operating system overhead.",
+      "start": 110.802,
+      "end": 115.532,
+      "duration": 4.73,
+      "word_count": 13
+    },
+    {
+      "text": "That's why technologies like DPDK power high-performance firewalls, load balancers, telecom systems, and modern cloud networking.",
+      "start": 116.354,
+      "end": 124.231,
+      "duration": 7.877,
+      "word_count": 16
+    },
+    {
+      "text": "Where processing millions of packets per second isn't just an optimization, it's a requirement.",
+      "start": 124.872,
+      "end": 130.704,
+      "duration": 5.832,
+      "word_count": 14
+    },
+    {
+      "text": "Once you understand where the time is actually spent, the performance difference becomes obvious.",
+      "start": 130.724,
+      "end": 135.675,
+      "duration": 4.951,
+      "word_count": 14
+    }
+  ],
+  "pauses": [
+    {
+      "start": 3.795,
+      "end": 4.075,
+      "duration": 0.28,
+      "kind": "short"
+    },
+    {
+      "start": 6.718,
+      "end": 7.459,
+      "duration": 0.741,
+      "kind": "long"
+    },
+    {
+      "start": 9.041,
+      "end": 9.602,
+      "duration": 0.561,
+      "kind": "short"
+    },
+    {
+      "start": 13.806,
+      "end": 14.567,
+      "duration": 0.761,
+      "kind": "long"
+    },
+    {
+      "start": 15.668,
+      "end": 16.469,
+      "duration": 0.801,
+      "kind": "long"
+    },
+    {
+      "start": 17.911,
+      "end": 18.492,
+      "duration": 0.581,
+      "kind": "short"
+    },
+    {
+      "start": 20.614,
+      "end": 21.154,
+      "duration": 0.54,
+      "kind": "short"
+    },
+    {
+      "start": 24.138,
+      "end": 24.758,
+      "duration": 0.62,
+      "kind": "long"
+    },
+    {
+      "start": 28.042,
+      "end": 28.303,
+      "duration": 0.261,
+      "kind": "short"
+    },
+    {
+      "start": 31.166,
+      "end": 32.027,
+      "duration": 0.861,
+      "kind": "long"
+    },
+    {
+      "start": 33.789,
+      "end": 34.69,
+      "duration": 0.901,
+      "kind": "long"
+    },
+    {
+      "start": 38.294,
+      "end": 39.075,
+      "duration": 0.781,
+      "kind": "long"
+    },
+    {
+      "start": 42.179,
+      "end": 42.439,
+      "duration": 0.26,
+      "kind": "short"
+    },
+    {
+      "start": 43.0,
+      "end": 43.5,
+      "duration": 0.5,
+      "kind": "short"
+    },
+    {
+      "start": 47.705,
+      "end": 48.466,
+      "duration": 0.761,
+      "kind": "long"
+    },
+    {
+      "start": 58.223,
+      "end": 59.024,
+      "duration": 0.801,
+      "kind": "long"
+    },
+    {
+      "start": 62.09,
+      "end": 62.731,
+      "duration": 0.641,
+      "kind": "long"
+    },
+    {
+      "start": 64.174,
+      "end": 64.495,
+      "duration": 0.321,
+      "kind": "short"
+    },
+    {
+      "start": 66.238,
+      "end": 66.879,
+      "duration": 0.641,
+      "kind": "long"
+    },
+    {
+      "start": 69.364,
+      "end": 69.645,
+      "duration": 0.281,
+      "kind": "short"
+    },
+    {
+      "start": 74.354,
+      "end": 74.654,
+      "duration": 0.3,
+      "kind": "short"
+    },
+    {
+      "start": 78.061,
+      "end": 78.401,
+      "duration": 0.34,
+      "kind": "short"
+    },
+    {
+      "start": 80.205,
+      "end": 80.966,
+      "duration": 0.761,
+      "kind": "long"
+    },
+    {
+      "start": 82.349,
+      "end": 82.81,
+      "duration": 0.461,
+      "kind": "short"
+    },
+    {
+      "start": 86.336,
+      "end": 87.057,
+      "duration": 0.721,
+      "kind": "long"
+    },
+    {
+      "start": 90.985,
+      "end": 91.265,
+      "duration": 0.28,
+      "kind": "short"
+    },
+    {
+      "start": 93.69,
+      "end": 94.351,
+      "duration": 0.661,
+      "kind": "long"
+    },
+    {
+      "start": 98.359,
+      "end": 99.02,
+      "duration": 0.661,
+      "kind": "long"
+    },
+    {
+      "start": 103.288,
+      "end": 103.849,
+      "duration": 0.561,
+      "kind": "short"
+    },
+    {
+      "start": 104.29,
+      "end": 104.971,
+      "duration": 0.681,
+      "kind": "long"
+    },
+    {
+      "start": 106.193,
+      "end": 106.574,
+      "duration": 0.381,
+      "kind": "short"
+    },
+    {
+      "start": 108.137,
+      "end": 108.638,
+      "duration": 0.501,
+      "kind": "short"
+    },
+    {
+      "start": 115.532,
+      "end": 116.354,
+      "duration": 0.822,
+      "kind": "long"
+    },
+    {
+      "start": 120.102,
+      "end": 120.402,
+      "duration": 0.3,
+      "kind": "short"
+    },
+    {
+      "start": 121.184,
+      "end": 121.645,
+      "duration": 0.461,
+      "kind": "short"
+    },
+    {
+      "start": 124.231,
+      "end": 124.872,
+      "duration": 0.641,
+      "kind": "long"
+    },
+    {
+      "start": 128.56,
+      "end": 128.941,
+      "duration": 0.381,
+      "kind": "short"
+    },
+    {
+      "start": 132.989,
+      "end": 133.33,
+      "duration": 0.341,
+      "kind": "short"
+    }
+  ]
+}

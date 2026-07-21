@@ -1,0 +1,271 @@
+{
+  "total_duration": 135.628,
+  "language": "en",
+  "word_count": 342,
+  "sentence_count": 28,
+  "words_per_minute": 151.3,
+  "articulation_wpm": 179.2,
+  "pauses": {
+    "count": 38,
+    "short": 20,
+    "long": 18,
+    "total_time": 21.15,
+    "average_duration": 0.557,
+    "longest": 0.901
+  },
+  "fast_speech_regions": [
+    {
+      "start": 0.0,
+      "end": 7.0,
+      "words_per_minute": 204.0,
+      "kind": "fast"
+    },
+    {
+      "start": 4.0,
+      "end": 10.0,
+      "words_per_minute": 198.0,
+      "kind": "fast"
+    },
+    {
+      "start": 7.0,
+      "end": 13.0,
+      "words_per_minute": 204.0,
+      "kind": "fast"
+    },
+    {
+      "start": 23.0,
+      "end": 28.0,
+      "words_per_minute": 192.0,
+      "kind": "fast"
+    },
+    {
+      "start": 26.0,
+      "end": 31.0,
+      "words_per_minute": 192.0,
+      "kind": "fast"
+    },
+    {
+      "start": 37.0,
+      "end": 42.0,
+      "words_per_minute": 192.0,
+      "kind": "fast"
+    },
+    {
+      "start": 60.0,
+      "end": 66.0,
+      "words_per_minute": 198.0,
+      "kind": "fast"
+    }
+  ],
+  "slow_speech_regions": [
+    {
+      "start": 55.0,
+      "end": 60.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 75.0,
+      "end": 83.0,
+      "words_per_minute": 99.0,
+      "kind": "slow"
+    },
+    {
+      "start": 102.0,
+      "end": 107.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 104.0,
+      "end": 109.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 115.0,
+      "end": 120.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 117.0,
+      "end": 123.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 120.0,
+      "end": 126.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    }
+  ],
+  "emphasized_words": [
+    {
+      "word": "100",
+      "start": 2.334,
+      "importance": "high"
+    },
+    {
+      "word": "The",
+      "start": 7.459,
+      "importance": "medium"
+    },
+    {
+      "word": "every",
+      "start": 12.565,
+      "importance": "medium"
+    },
+    {
+      "word": "an",
+      "start": 22.596,
+      "importance": "medium"
+    },
+    {
+      "word": "CPU,",
+      "start": 23.737,
+      "importance": "high"
+    },
+    {
+      "word": "CPU",
+      "start": 26.38,
+      "importance": "medium"
+    },
+    {
+      "word": "That",
+      "start": 32.027,
+      "importance": "medium"
+    },
+    {
+      "word": "cost.",
+      "start": 33.489,
+      "importance": "medium"
+    },
+    {
+      "word": "Next,",
+      "start": 34.69,
+      "importance": "medium"
+    },
+    {
+      "word": "During",
+      "start": 39.075,
+      "importance": "medium"
+    },
+    {
+      "word": "inspected,",
+      "start": 42.439,
+      "importance": "medium"
+    },
+    {
+      "word": "–",
+      "start": 50.128,
+      "importance": "high"
+    },
+    {
+      "word": "CPU",
+      "start": 56.259,
+      "importance": "medium"
+    },
+    {
+      "word": "Finally,",
+      "start": 59.024,
+      "importance": "medium"
+    },
+    {
+      "word": "Context",
+      "start": 66.879,
+      "importance": "medium"
+    },
+    {
+      "word": "save",
+      "start": 67.781,
+      "importance": "medium"
+    },
+    {
+      "word": "CPU",
+      "start": 68.663,
+      "importance": "medium"
+    },
+    {
+      "word": "Now",
+      "start": 72.31,
+      "importance": "medium"
+    },
+    {
+      "word": "once,",
+      "start": 73.953,
+      "importance": "medium"
+    },
+    {
+      "word": "second.",
+      "start": 76.398,
+      "importance": "medium"
+    },
+    {
+      "word": "memory",
+      "start": 78.401,
+      "importance": "medium"
+    },
+    {
+      "word": "Individually,",
+      "start": 80.966,
+      "importance": "medium"
+    },
+    {
+      "word": "DPDK",
+      "start": 87.558,
+      "importance": "medium"
+    },
+    {
+      "word": "DPDK",
+      "start": 91.265,
+      "importance": "high"
+    },
+    {
+      "word": "pages,",
+      "start": 98.038,
+      "importance": "medium"
+    },
+    {
+      "word": "allowing",
+      "start": 99.02,
+      "importance": "medium"
+    },
+    {
+      "word": "No",
+      "start": 104.971,
+      "importance": "high"
+    },
+    {
+      "word": "no",
+      "start": 106.574,
+      "importance": "high"
+    },
+    {
+      "word": "almost",
+      "start": 108.638,
+      "importance": "medium"
+    },
+    {
+      "word": "no",
+      "start": 109.139,
+      "importance": "medium"
+    },
+    {
+      "word": "CPU",
+      "start": 111.023,
+      "importance": "high"
+    },
+    {
+      "word": "DPDK",
+      "start": 117.697,
+      "importance": "high"
+    },
+    {
+      "word": "telecom",
+      "start": 121.645,
+      "importance": "medium"
+    }
+  ]
+}

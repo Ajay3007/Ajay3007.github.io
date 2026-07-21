@@ -1,0 +1,111 @@
+1
+00:00:00,031 --> 00:00:06,718
+Have you ever wondered why modern servers can have a 100 gigabit network card, but still struggle to process every packet at line rate?
+
+2
+00:00:07,459 --> 00:00:09,041
+The answer isn't that Linux is slow.
+
+3
+00:00:09,602 --> 00:00:13,806
+It's that the traditional networking path does a lot of work for every single packet.
+
+4
+00:00:14,567 --> 00:00:15,668
+Let's see what actually happens.
+
+5
+00:00:16,469 --> 00:00:17,911
+A packet arrives at the network card.
+
+6
+00:00:18,492 --> 00:00:26,140
+Instead of your application receiving it immediately, the network card first raises an interrupt to tell the CPU, a packet has arrived.
+
+7
+00:00:26,140 --> 00:00:31,166
+The CPU stops whatever it was doing, switches into kernel mode, and starts running the network driver.
+
+8
+00:00:32,027 --> 00:00:33,789
+That interruption alone has a cost.
+
+9
+00:00:34,690 --> 00:00:38,294
+Next, the packet travels through multiple layers of the Linux networking stack.
+
+10
+00:00:39,075 --> 00:00:47,705
+During this journey, the packet is wrapped in kernel data structures, inspected, and often copied into different memory buffers before it finally reaches your application.
+
+11
+00:00:48,466 --> 00:00:51,790
+And that's another source of overhead – memory copies.
+
+12
+00:00:51,790 --> 00:00:58,223
+Copying thousands or even millions of packets every second consumes valuable CPU cycles and memory bandwidth.
+
+13
+00:00:59,024 --> 00:01:02,090
+Finally, your application has to wake up to process the packet.
+
+14
+00:01:02,731 --> 00:01:06,238
+That means another context switch, from the kernel back to user space.
+
+15
+00:01:06,879 --> 00:01:12,310
+Context switches save and restore CPU state, flush caches, and add more latency.
+
+16
+00:01:12,310 --> 00:01:17,600
+Now imagine this happening not once, but millions of times every second.
+
+17
+00:01:17,620 --> 00:01:20,205
+Interrupts, memory copies, context switches.
+
+18
+00:01:20,966 --> 00:01:22,349
+Individually, they seem small.
+
+19
+00:01:22,810 --> 00:01:26,336
+Together, they become the biggest bottleneck in high-performance networking.
+
+20
+00:01:27,057 --> 00:01:29,522
+This is where DPDK changes everything.
+
+21
+00:01:29,522 --> 00:01:33,690
+Instead of waiting for interrupts, DPDK continuously polls the network card.
+
+22
+00:01:34,351 --> 00:01:43,288
+It maps packet buffers directly into user space memory using huge pages, allowing the application to access packets without the traditional kernel networking stack.
+
+23
+00:01:43,849 --> 00:01:44,290
+The result?
+
+24
+00:01:44,971 --> 00:01:50,802
+No per-packet interrupts, no unnecessary memory copies, almost no context switches.
+
+25
+00:01:50,802 --> 00:01:55,532
+The CPU spends its time processing packets instead of managing operating system overhead.
+
+26
+00:01:56,354 --> 00:02:04,231
+That's why technologies like DPDK power high-performance firewalls, load balancers, telecom systems, and modern cloud networking.
+
+27
+00:02:04,872 --> 00:02:10,704
+Where processing millions of packets per second isn't just an optimization, it's a requirement.
+
+28
+00:02:10,724 --> 00:02:15,675
+Once you understand where the time is actually spent, the performance difference becomes obvious.
