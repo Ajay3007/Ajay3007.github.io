@@ -120,10 +120,23 @@ class Sys01(Scene):
         if self.cap is not None:
             self.play(FadeOut(self.cap),run_time=0.2); self.cap=None
 
-    def set_cap(self,txt,color=WHITE,scale=0.44,rt=0.4):
-        new=Text(txt,font=FN,color=color).scale(scale)
-        if new.width>7.1: new.scale_to_fit_width(7.1)
-        new.move_to(UP*CAP_Y)
+    def _capcard(self,txt,color,scale):
+        t=Text(txt,font=FN,color=WHITE).scale(scale)
+        if t.width>6.35: t.scale_to_fit_width(6.35)
+        bg=RoundedRectangle(width=t.width+0.75,height=t.height+0.42,corner_radius=0.16,
+                            stroke_color=BORDER,stroke_width=1.8,fill_color=SURF2,fill_opacity=0.96).set_z_index(8)
+        acc=RoundedRectangle(width=0.1,height=t.height+0.24,corner_radius=0.05,stroke_width=0,
+                             fill_color=color,fill_opacity=1.0).set_z_index(10)
+        t.set_z_index(10)
+        card=VGroup(bg,acc,t)
+        acc.next_to(bg.get_left(),RIGHT,buff=0.16)
+        t.next_to(acc,RIGHT,buff=0.18)
+        card.move_to(UP*CAP_Y)
+        acc.add_to_back(glow(acc,color,layers=3,spread=0.9,max_op=0.28))
+        return card
+
+    def set_cap(self,txt,color=WHITE,scale=0.42,rt=0.4):
+        new=self._capcard(txt,color,scale)
         if self.cap is None:
             self.cap=new; self.play(FadeIn(new,shift=UP*0.1),run_time=rt); return
         self.play(FadeOut(self.cap,shift=UP*0.08),run_time=0.2)
@@ -173,16 +186,20 @@ class Sys01(Scene):
         self.play(Write(eq),run_time=0.8); self.wait(0.4)
         self.set_cap("that's your ENTIRE time budget per packet",color=AMBER)
 
-        # budget vs a cache miss — bars anchored left
+        # budget vs a cache miss — bars anchored left, labels ABOVE (always on-screen)
         bx=-2.6
         bud,bw=timebar(67,MINT); bud.move_to([bx+bw/2,0.0,0])
-        budl=Text("budget  67 ns",font=MN,weight=BOLD,color=MINT).scale(0.34).next_to(bud,RIGHT,buff=0.2)
-        miss,mw=timebar(95,RED); miss.move_to([bx+mw/2,-1.0,0])
-        missl=Text("1 cache miss  ~95 ns",font=MN,weight=BOLD,color=RED).scale(0.34).next_to(miss,RIGHT,buff=0.2)
-        line=DashedLine([bx+bw,0.6,0],[bx+bw,-1.6,0],color=MINT,stroke_width=3)
-        self.play(GrowFromEdge(bud,LEFT),FadeIn(budl),run_time=0.6)
+        budl=Text("budget  ·  67 ns",font=MN,weight=BOLD,color=MINT).scale(0.34)
+        budl.next_to(bud,UP,buff=0.12,aligned_edge=LEFT)
+        miss,mw=timebar(95,RED); miss.move_to([bx+mw/2,-1.2,0])
+        missl=Text("1 cache miss  ·  ~95 ns",font=MN,weight=BOLD,color=RED).scale(0.34)
+        missl.next_to(miss,UP,buff=0.12,aligned_edge=LEFT)
+        line=DashedLine([bx+bw,0.5,0],[bx+bw,-1.62,0],color=MINT,stroke_width=3)
+        over=Text("over!",font=MN,weight=BOLD,color=RED).scale(0.32).next_to(miss,RIGHT,buff=0.18)
+        self.play(FadeIn(budl,shift=UP*0.05),GrowFromEdge(bud,LEFT),run_time=0.6)
         self.play(Create(line),run_time=0.3)
-        self.play(GrowFromEdge(miss,LEFT),FadeIn(missl),run_time=0.7)
+        self.play(FadeIn(missl,shift=UP*0.05),GrowFromEdge(miss,LEFT),run_time=0.7)
+        self.play(FadeIn(over),run_time=0.3)
         self.wait(0.3)
         pun=pill("one cache miss and the budget is already gone",RED,RED_BG,RED,s=0.4,h=0.62,glowing=True).move_to(UP*-2.5)
         if pun.width>7.2: pun.scale_to_fit_width(7.2)
@@ -203,8 +220,8 @@ class Sys01(Scene):
         self.play(*self.set_seg("② where the kernel spends your budget",AMBER,AMBER_BG),run_time=0.45)
         self.build_stack(-2.15,-0.15,1.75)
         self.play(FadeIn(self.nic),FadeIn(self.krn),FadeIn(self.app),GrowArrow(self.a1),GrowArrow(self.a2),run_time=0.9)
-        budchip=pill("budget  ~200 cyc",MINT,MINT_BG,MINT,s=0.36,h=0.54).move_to([-1.7,3.55,0])
-        self.used=pill("used  0",GRAY,SURFACE,GRAY,s=0.36,h=0.54).move_to([1.7,3.55,0])
+        budchip=pill("budget  ~200 cyc",MINT,MINT_BG,MINT,s=0.36,h=0.54).move_to([-1.7,3.25,0])
+        self.used=pill("used  0",GRAY,SURFACE,GRAY,s=0.36,h=0.54).move_to([1.7,3.25,0])
         self.play(FadeIn(budchip),FadeIn(self.used),run_time=0.5)
         self.tot=0
         d=pdot(WATER).move_to([-0.55,-3.3,0])
@@ -213,7 +230,7 @@ class Sys01(Scene):
         def add_cost(cyc,txt,color=RED,flash_at=None):
             self.tot+=cyc
             over=self.tot>200
-            nu=pill("used  ~%d"%self.tot,(RED if over else AMBER),(RED_BG if over else AMBER_BG),(RED if over else AMBER),s=0.36,h=0.54).move_to([1.7,3.55,0])
+            nu=pill("used  ~%d"%self.tot,(RED if over else AMBER),(RED_BG if over else AMBER_BG),(RED if over else AMBER),s=0.36,h=0.54).move_to([1.7,3.25,0])
             self.set_cap(txt,color=color)
             anims=[Transform(self.used,nu)]
             if flash_at is not None: anims.append(Flash(flash_at,color=color,line_length=0.2,num_lines=12,flash_radius=0.6))
@@ -227,7 +244,7 @@ class Sys01(Scene):
         add_cost(600,"context switch + copy AGAIN into user space on recv()",flash_at=self.app.get_center())
         self.wait(0.3)
         self.set_cap("~1800 cycles for a 200-cycle budget — ~9× over, every packet",color=RED)
-        napi=pill("even Linux gives up: NAPI switches to POLLING under load",VIOLET,SURF2,VIOLET,s=0.34,h=0.56).move_to([-0.55,-3.35,0])
+        napi=pill("even Linux gives up: NAPI switches to POLLING under load",VIOLET,SURF2,VIOLET,s=0.34,h=0.56).move_to([0,-3.4,0])
         if napi.width>7.2: napi.scale_to_fit_width(7.2)
         self.play(FadeOut(d),FadeIn(napi,shift=UP*0.1),run_time=0.6)
         self.wait(READ_L)
