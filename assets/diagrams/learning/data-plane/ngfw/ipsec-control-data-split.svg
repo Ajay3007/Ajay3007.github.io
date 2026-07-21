@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 620" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1140" height="620" fill="#ffffff"/>
+  <text x="570" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#1a1f36">IPsec: Negotiate Once (control), Encrypt Always (data)</text>
+  <text x="570" y="55" text-anchor="middle" font-size="12.5" fill="#64748b">The IKE daemon negotiates keys rarely; VPP encrypts every packet. A bridge plugin installs the keys into the data plane.</text>
+
+  <!-- plane divider -->
+  <line x1="30" y1="356" x2="1110" y2="356" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="7 5"/>
+  <text x="44" y="80" font-size="12" font-weight="700" fill="#c2410c">CONTROL PLANE — occasional negotiation</text>
+  <text x="44" y="380" font-size="12" font-weight="700" fill="#0f766e">DATA PLANE — per-packet encryption</text>
+
+  <!-- VICI clients -->
+  <rect x="40" y="92" width="300" height="248" rx="10" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="190" y="114" text-anchor="middle" font-size="12.5" font-weight="700" fill="#9a3412">VICI clients (automation)</text>
+  <g font-size="10.5">
+    <rect x="58" y="128" width="264" height="58" rx="7" fill="#ffffff" stroke="#fed7aa"/>
+    <text x="70" y="148" font-weight="700" fill="#c2410c">create_ipsec.py</text>
+    <text x="70" y="165" fill="#475569">load_conn (proposals, TS, reqid)</text>
+    <text x="70" y="179" fill="#475569">load_shared (PSK) · initiate</text>
+    <rect x="58" y="194" width="264" height="52" rx="7" fill="#ffffff" stroke="#fed7aa"/>
+    <text x="70" y="214" font-weight="700" fill="#c2410c">swanctl_bridge.py</text>
+    <text x="70" y="231" fill="#475569">list-sas · rekey · terminate · stats</text>
+    <rect x="58" y="254" width="264" height="56" rx="7" fill="#ffffff" stroke="#fed7aa"/>
+    <text x="70" y="274" font-weight="700" fill="#c2410c">VPP CLI  →  popen python3</text>
+    <text x="70" y="291" fill="#475569">ngfw_swanctl initiate | rekey | ...</text>
+    <text x="70" y="304" fill="#94a3b8" font-style="italic">operator drives IKE from vppctl</text>
+  </g>
+
+  <!-- charon -->
+  <rect x="410" y="120" width="290" height="120" rx="10" fill="#ffedd5" stroke="#fb923c" stroke-width="2"/>
+  <text x="555" y="150" text-anchor="middle" font-size="14" font-weight="700" fill="#9a3412">StrongSwan charon</text>
+  <text x="555" y="172" text-anchor="middle" font-size="11.5" fill="#c2410c">the IKE daemon</text>
+  <text x="555" y="194" text-anchor="middle" font-size="10.5" fill="#7c2d12">IKEv2 handshake: authenticate peer,</text>
+  <text x="555" y="210" text-anchor="middle" font-size="10.5" fill="#7c2d12">agree ciphers, derive ESP keys → SAs</text>
+
+  <!-- remote peer -->
+  <rect x="800" y="150" width="300" height="330" rx="10" fill="#f1f5f9" stroke="#cbd5e1"/>
+  <text x="950" y="176" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">Remote VPN peer</text>
+  <text x="950" y="196" text-anchor="middle" font-size="10.5" fill="#64748b">the other end of the tunnel</text>
+  <line x1="820" y1="212" x2="1080" y2="212" stroke="#e2e8f0"/>
+  <text x="950" y="300" text-anchor="middle" font-size="11" fill="#475569">IKE control messages ↕</text>
+  <text x="950" y="360" text-anchor="middle" font-size="11" fill="#475569">encrypted ESP packets ↕</text>
+
+  <!-- VICI arrow -->
+  <line x1="340" y1="200" x2="408" y2="180" stroke="#c2410c" stroke-width="2" marker-end="url(#ic)"/>
+  <text x="374" y="176" text-anchor="middle" font-size="9" fill="#c2410c">VICI socket</text>
+  <text x="374" y="205" text-anchor="middle" font-size="8.5" fill="#c2410c">/var/run/charon.vici</text>
+
+  <!-- IKE to peer -->
+  <line x1="700" y1="170" x2="798" y2="230" stroke="#c2410c" stroke-width="2" marker-start="url(#ic)" marker-end="url(#ic)"/>
+  <text x="748" y="184" text-anchor="middle" font-size="9" fill="#c2410c">IKE (UDP 500/4500)</text>
+
+  <!-- VPP data plane -->
+  <rect x="410" y="392" width="290" height="150" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+  <text x="555" y="418" text-anchor="middle" font-size="14" font-weight="700" fill="#0f766e">VPP data plane</text>
+  <rect x="428" y="430" width="254" height="42" rx="7" fill="#ffffff" stroke="#5eead4"/>
+  <text x="555" y="456" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f766e">esp-encrypt / esp-decrypt</text>
+  <rect x="428" y="480" width="254" height="46" rx="7" fill="#ffffff" stroke="#5eead4"/>
+  <text x="555" y="500" text-anchor="middle" font-size="10.5" fill="#475569">SA table (keys + SPIs) indexed by</text>
+  <text x="555" y="515" text-anchor="middle" font-size="10.5" fill="#475569">out_sa_index · bound to tunnel interface</text>
+
+  <!-- kernel-vpp bridge arrow -->
+  <line x1="555" y1="240" x2="555" y2="390" stroke="#be123c" stroke-width="2.5" marker-end="url(#ir)"/>
+  <rect x="590" y="278" width="270" height="74" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+  <text x="725" y="298" text-anchor="middle" font-size="11" font-weight="700" fill="#be123c">kernel-vpp plugin (the bridge)</text>
+  <text x="725" y="316" text-anchor="middle" font-size="10" fill="#475569">replaces StrongSwan's Linux-kernel backend</text>
+  <text x="725" y="331" text-anchor="middle" font-size="10" fill="#475569">installs each SA into VPP, auto-binds to</text>
+  <text x="725" y="346" text-anchor="middle" font-size="10" fill="#475569">the tunnel iface, refreshes it on rekey</text>
+
+  <!-- data path -->
+  <line x1="408" y1="466" x2="360" y2="466" stroke="#0f766e" stroke-width="2" marker-start="url(#it)"/>
+  <text x="300" y="452" font-size="10" font-weight="700" fill="#0f766e">inside packet</text>
+  <text x="300" y="468" font-size="9.5" fill="#64748b">(cleartext) →</text>
+  <line x1="700" y1="452" x2="798" y2="392" stroke="#0f766e" stroke-width="2" marker-end="url(#it)"/>
+  <text x="754" y="430" text-anchor="middle" font-size="9" fill="#0f766e">ESP →</text>
+
+  <defs>
+    <marker id="ic" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#c2410c"/></marker>
+    <marker id="ir" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#be123c"/></marker>
+    <marker id="it" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#0f766e"/></marker>
+  </defs>
+</svg>

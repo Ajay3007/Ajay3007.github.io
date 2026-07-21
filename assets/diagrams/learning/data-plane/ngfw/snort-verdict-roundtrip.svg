@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="960" height="720" fill="#ffffff"/>
+  <text x="480" y="34" text-anchor="middle" font-size="21" font-weight="700" fill="#1a1f36">How a Verdict Gets Back to VPP</text>
+  <text x="480" y="57" text-anchor="middle" font-size="12.5" fill="#64748b">Patched Snort writes results to thread-local storage; the DAQ copies them into the shared descriptor.</text>
+
+  <!-- side legend -->
+  <g font-size="11" font-weight="700">
+    <rect x="40" y="76" width="16" height="16" rx="3" fill="#0f766e"/><text x="64" y="89" fill="#0f766e">VPP</text>
+    <rect x="140" y="76" width="16" height="16" rx="3" fill="#be123c"/><text x="164" y="89" fill="#be123c">Snort process</text>
+    <rect x="300" y="76" width="16" height="16" rx="3" fill="#f59e0b"/><text x="324" y="89" fill="#b45309">shared descriptor</text>
+  </g>
+
+  <!-- steps -->
+  <g font-size="12.5">
+    <!-- 1 VPP -->
+    <rect x="40" y="104" width="880" height="56" rx="8" fill="#f0fdfa" stroke="#5eead4"/>
+    <rect x="40" y="104" width="8" height="56" rx="4" fill="#0f766e"/>
+    <text x="66" y="128" font-size="12.5" font-weight="700" fill="#0f766e">1 · VPP enqueues the packet</text>
+    <text x="66" y="146" font-size="10.5" fill="#64748b">writes a descriptor (offset into buffer pool) onto the enqueue ring, bumps the head index</text>
+    <!-- 2 Snort -->
+    <rect x="40" y="172" width="880" height="56" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+    <rect x="40" y="172" width="8" height="56" rx="4" fill="#be123c"/>
+    <text x="66" y="196" font-size="12.5" font-weight="700" fill="#be123c">2 · Snort DAQ dequeues it</text>
+    <text x="66" y="214" font-size="10.5" fill="#64748b">the VPP DAQ module reads the descriptor, resolves the offset, presents the packet to Snort</text>
+    <!-- 3 Snort -->
+    <rect x="40" y="240" width="880" height="70" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+    <rect x="40" y="240" width="8" height="70" rx="4" fill="#be123c"/>
+    <text x="66" y="264" font-size="12.5" font-weight="700" fill="#be123c">3 · Snort evaluates rules — on a match, fpLogEvent() fires</text>
+    <text x="66" y="283" font-size="10.5" fill="#64748b">writes to THREAD-LOCAL storage (not a log file):</text>
+    <text x="66" y="300" font-size="10.5" font-family="Consolas, monospace" fill="#9f1239">snort_sid_entries[] (SID + verdict) · snort_sid_count · snort_detected_appid</text>
+    <!-- 4 Snort -->
+    <rect x="40" y="322" width="880" height="56" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+    <rect x="40" y="322" width="8" height="56" rx="4" fill="#be123c"/>
+    <text x="66" y="346" font-size="12.5" font-weight="700" fill="#be123c">4 · AppID event (optional)</text>
+    <text x="66" y="364" font-size="10.5" fill="#64748b">AppIdVppHandler catches the DataBus event and updates the thread-local AppID</text>
+    <!-- 5 DAQ->desc -->
+    <rect x="40" y="390" width="880" height="86" rx="8" fill="#fffbeb" stroke="#fbbf24" stroke-width="2"/>
+    <rect x="40" y="390" width="8" height="86" rx="4" fill="#f59e0b"/>
+    <text x="66" y="414" font-size="12.5" font-weight="700" fill="#b45309">5 · daq_vpp_msg_finalize() — the hand-off  ★</text>
+    <text x="66" y="433" font-size="10.5" fill="#64748b">reads the thread-local SID/verdict/AppID and COPIES them into the descriptor's metadata union</text>
+    <text x="66" y="451" font-size="10.5" fill="#64748b">(verdict + appid + sid_entries[10]) — then resets Snort's thread-local counters for the next packet</text>
+    <text x="66" y="469" font-size="10" fill="#b45309" font-style="italic">this is the boundary where Snort's world becomes VPP's world</text>
+    <!-- 6 signal -->
+    <rect x="40" y="488" width="880" height="56" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+    <rect x="40" y="488" width="8" height="56" rx="4" fill="#be123c"/>
+    <text x="66" y="512" font-size="12.5" font-weight="700" fill="#be123c">6 · Snort signals VPP</text>
+    <text x="66" y="530" font-size="10.5" fill="#64748b">atomically bumps the dequeue-ring head, then wakes VPP via the deq_fd eventfd (or VPP polls)</text>
+    <!-- 7 VPP -->
+    <rect x="40" y="556" width="880" height="70" rx="8" fill="#f0fdfa" stroke="#5eead4"/>
+    <rect x="40" y="556" width="8" height="70" rx="4" fill="#0f766e"/>
+    <text x="66" y="580" font-size="12.5" font-weight="700" fill="#0f766e">7 · VPP dequeue node reads the verdict</text>
+    <text x="66" y="599" font-size="10.5" fill="#64748b">PASS → packet continues the feature arc (on to ngfw-post-snort)</text>
+    <text x="66" y="616" font-size="10.5" fill="#64748b">BLOCK → routed to error-drop; VPP also tallies verdict / SID / AppID counters</text>
+  </g>
+
+  <!-- connectors -->
+  <g stroke="#94a3b8" stroke-width="2">
+    <line x1="480" y1="160" x2="480" y2="172"/>
+    <line x1="480" y1="228" x2="480" y2="240"/>
+    <line x1="480" y1="310" x2="480" y2="322"/>
+    <line x1="480" y1="378" x2="480" y2="390"/>
+    <line x1="480" y1="476" x2="480" y2="488"/>
+    <line x1="480" y1="544" x2="480" y2="556"/>
+  </g>
+
+  <text x="480" y="662" text-anchor="middle" font-size="11" fill="#94a3b8" font-style="italic">No log parsing, no sockets on the hot path — just a shared-memory descriptor and one eventfd wake.</text>
+  <text x="480" y="684" text-anchor="middle" font-size="10.5" fill="#94a3b8">If Snort dies mid-flight, the instance's on-disconnect policy (drop | pass) decides what VPP does with new packets.</text>
+</svg>

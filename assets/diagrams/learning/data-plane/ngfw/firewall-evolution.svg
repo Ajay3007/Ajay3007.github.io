@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 460" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1040" height="460" fill="#ffffff"/>
+  <text x="520" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1f36">The Evolution of Firewalls</text>
+  <text x="520" y="62" text-anchor="middle" font-size="13" fill="#64748b">Each generation adds more context and inspects deeper into the packet</text>
+
+  <!-- Generation 1 -->
+  <g>
+    <rect x="20" y="90" width="235" height="300" rx="10" fill="#f8fafc" stroke="#e2e8f0"/>
+    <rect x="20" y="90" width="235" height="52" rx="10" fill="#475569"/>
+    <rect x="20" y="120" width="235" height="22" fill="#475569"/>
+    <text x="137" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="#cbd5e1">GENERATION 1</text>
+    <text x="137" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">Packet Filter</text>
+    <text x="137" y="170" text-anchor="middle" font-size="12" font-weight="600" fill="#475569">Layer 3 / 4 · Stateless</text>
+    <text x="40" y="200" font-size="12.5" fill="#334155">• Allow/deny on IP,</text>
+    <text x="52" y="218" font-size="12.5" fill="#334155">port, protocol</text>
+    <text x="40" y="242" font-size="12.5" fill="#334155">• Static ACL rules</text>
+    <text x="40" y="266" font-size="12.5" fill="#334155">• No memory of past</text>
+    <text x="52" y="284" font-size="12.5" fill="#334155">packets</text>
+    <text x="40" y="332" font-size="11.5" fill="#94a3b8" font-style="italic">Fast, but blind to</text>
+    <text x="40" y="349" font-size="11.5" fill="#94a3b8" font-style="italic">connection context.</text>
+  </g>
+
+  <!-- Generation 2 -->
+  <g>
+    <rect x="275" y="90" width="235" height="300" rx="10" fill="#f0f9ff" stroke="#e2e8f0"/>
+    <rect x="275" y="90" width="235" height="52" rx="10" fill="#0284c7"/>
+    <rect x="275" y="120" width="235" height="22" fill="#0284c7"/>
+    <text x="392" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="#bae6fd">GENERATION 2</text>
+    <text x="392" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">Stateful Firewall</text>
+    <text x="392" y="170" text-anchor="middle" font-size="12" font-weight="600" fill="#0284c7">Layer 3 / 4 · Stateful</text>
+    <text x="295" y="200" font-size="12.5" fill="#334155">• Tracks connection</text>
+    <text x="307" y="218" font-size="12.5" fill="#334155">state (a flow table)</text>
+    <text x="295" y="242" font-size="12.5" fill="#334155">• Return traffic auto-</text>
+    <text x="307" y="260" font-size="12.5" fill="#334155">allowed if part of a</text>
+    <text x="307" y="278" font-size="12.5" fill="#334155">known session</text>
+    <text x="295" y="332" font-size="11.5" fill="#94a3b8" font-style="italic">Understands sessions,</text>
+    <text x="295" y="349" font-size="11.5" fill="#94a3b8" font-style="italic">not what's inside them.</text>
+  </g>
+
+  <!-- Generation 3 -->
+  <g>
+    <rect x="530" y="90" width="235" height="300" rx="10" fill="#faf5ff" stroke="#e2e8f0"/>
+    <rect x="530" y="90" width="235" height="52" rx="10" fill="#7c3aed"/>
+    <rect x="530" y="120" width="235" height="22" fill="#7c3aed"/>
+    <text x="647" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="#ddd6fe">GENERATION 3</text>
+    <text x="647" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">Application / Proxy</text>
+    <text x="647" y="170" text-anchor="middle" font-size="12" font-weight="600" fill="#7c3aed">Layer 7 · Per-protocol</text>
+    <text x="550" y="200" font-size="12.5" fill="#334155">• Proxies specific</text>
+    <text x="562" y="218" font-size="12.5" fill="#334155">apps (HTTP, FTP)</text>
+    <text x="550" y="242" font-size="12.5" fill="#334155">• Reads application</text>
+    <text x="562" y="260" font-size="12.5" fill="#334155">payload</text>
+    <text x="550" y="284" font-size="12.5" fill="#334155">• Heavy, per-protocol</text>
+    <text x="550" y="332" font-size="11.5" fill="#94a3b8" font-style="italic">Deep, but narrow and</text>
+    <text x="550" y="349" font-size="11.5" fill="#94a3b8" font-style="italic">slow to scale.</text>
+  </g>
+
+  <!-- Generation 4 (NGFW) -->
+  <g>
+    <rect x="785" y="90" width="235" height="300" rx="10" fill="#ecfdf5" stroke="#00d4ff" stroke-width="2"/>
+    <rect x="785" y="90" width="235" height="52" rx="10" fill="#0f766e"/>
+    <rect x="785" y="120" width="235" height="22" fill="#0f766e"/>
+    <text x="902" y="115" text-anchor="middle" font-size="12" font-weight="700" fill="#99f6e4">GENERATION 4 · TODAY</text>
+    <text x="902" y="135" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">Next-Gen Firewall</text>
+    <text x="902" y="170" text-anchor="middle" font-size="12" font-weight="600" fill="#0f766e">All layers · Full context</text>
+    <text x="805" y="198" font-size="12.5" fill="#334155">• Everything above, plus:</text>
+    <text x="805" y="220" font-size="12.5" fill="#334155">• Deep packet inspection</text>
+    <text x="805" y="240" font-size="12.5" fill="#334155">• App-ID + IPS/IDS</text>
+    <text x="805" y="260" font-size="12.5" fill="#334155">• TLS inspection</text>
+    <text x="805" y="280" font-size="12.5" fill="#334155">• VPN, NAT, threat intel</text>
+    <text x="805" y="332" font-size="11.5" fill="#0f766e" font-style="italic">One engine that sees</text>
+    <text x="805" y="349" font-size="11.5" fill="#0f766e" font-style="italic">context AND content.</text>
+  </g>
+
+  <!-- progression arrow -->
+  <line x1="30" y1="428" x2="1000" y2="428" stroke="#cbd5e1" stroke-width="2"/>
+  <polygon points="1000,428 990,423 990,433" fill="#cbd5e1"/>
+  <text x="520" y="448" text-anchor="middle" font-size="12" font-weight="600" fill="#94a3b8">more context  ·  deeper inspection  ·  more capabilities in one box</text>
+</svg>

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 560" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1120" height="560" fill="#ffffff"/>
+  <text x="560" y="34" text-anchor="middle" font-size="21" font-weight="700" fill="#1a1f36">Steering Tag → Pipeline Path</text>
+  <text x="560" y="57" text-anchor="middle" font-size="12.5" fill="#64748b">The ACL rule's tag decides which nodes the packet visits. One classification, six outcomes.</text>
+
+  <!-- root -->
+  <rect x="30" y="240" width="150" height="72" rx="10" fill="#0f766e"/>
+  <text x="105" y="270" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">ACL match</text>
+  <text x="105" y="290" text-anchor="middle" font-size="10.5" fill="#99f6e4">→ steering tag</text>
+
+  <!-- rows -->
+  <g font-size="11" font-weight="700">
+    <!-- helper: each row has a tag chip then path chips -->
+    <!-- Row 1: NONE -->
+    <rect x="220" y="86" width="180" height="40" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="310" y="111" text-anchor="middle" fill="#334155">NONE</text>
+    <rect x="430" y="86" width="120" height="40" rx="7" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="490" y="111" text-anchor="middle" fill="#1e40af" font-size="10.5">ip4-lookup</text>
+    <text x="600" y="111" text-anchor="middle" fill="#64748b" font-size="10" font-weight="400">→ forward (default pass)</text>
+
+    <!-- Row 2: NAT_PASS -->
+    <rect x="220" y="150" width="180" height="40" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="310" y="175" text-anchor="middle" fill="#334155">NAT_PASS</text>
+    <rect x="430" y="150" width="90" height="40" rx="7" fill="#ffffff" stroke="#5eead4"/>
+    <text x="475" y="175" text-anchor="middle" fill="#0f766e" font-size="10.5">nat44</text>
+    <rect x="548" y="150" width="120" height="40" rx="7" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="608" y="175" text-anchor="middle" fill="#1e40af" font-size="10.5">ip4-lookup</text>
+    <text x="740" y="175" text-anchor="middle" fill="#64748b" font-size="10" font-weight="400">→ NAT then forward</text>
+
+    <!-- Row 3: SNORT_NAT -->
+    <rect x="220" y="214" width="180" height="40" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="310" y="239" text-anchor="middle" fill="#334155">SNORT_NAT</text>
+    <rect x="430" y="214" width="110" height="40" rx="7" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="485" y="239" text-anchor="middle" fill="#be123c" font-size="10.5">snort</text>
+    <rect x="558" y="214" width="90" height="40" rx="7" fill="#ffffff" stroke="#5eead4"/>
+    <text x="603" y="239" text-anchor="middle" fill="#0f766e" font-size="10.5">nat44</text>
+    <rect x="666" y="214" width="120" height="40" rx="7" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="726" y="239" text-anchor="middle" fill="#1e40af" font-size="10.5">ip4-lookup</text>
+    <text x="858" y="239" text-anchor="middle" fill="#64748b" font-size="10" font-weight="400">→ inspect, NAT, forward</text>
+
+    <!-- Row 4: SNORT_NAT_IPSEC -->
+    <rect x="220" y="278" width="180" height="40" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="310" y="303" text-anchor="middle" fill="#334155" font-size="10">SNORT_NAT_IPSEC</text>
+    <rect x="430" y="278" width="110" height="40" rx="7" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="485" y="303" text-anchor="middle" fill="#be123c" font-size="10.5">snort</text>
+    <rect x="558" y="278" width="90" height="40" rx="7" fill="#ffffff" stroke="#5eead4"/>
+    <text x="603" y="303" text-anchor="middle" fill="#0f766e" font-size="10.5">nat44</text>
+    <rect x="666" y="278" width="130" height="40" rx="7" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="731" y="303" text-anchor="middle" fill="#9a3412" font-size="10">esp4-encrypt</text>
+    <text x="880" y="303" text-anchor="middle" fill="#64748b" font-size="10" font-weight="400">→ inspect, NAT, VPN</text>
+
+    <!-- Row 5: NAT_IPSEC -->
+    <rect x="220" y="342" width="180" height="40" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="310" y="367" text-anchor="middle" fill="#334155">NAT_IPSEC</text>
+    <rect x="430" y="342" width="90" height="40" rx="7" fill="#ffffff" stroke="#5eead4"/>
+    <text x="475" y="367" text-anchor="middle" fill="#0f766e" font-size="10.5">nat44</text>
+    <rect x="548" y="342" width="130" height="40" rx="7" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="613" y="367" text-anchor="middle" fill="#9a3412" font-size="10">esp4-encrypt</text>
+    <text x="770" y="367" text-anchor="middle" fill="#64748b" font-size="10" font-weight="400">→ NAT, VPN (no inspection)</text>
+
+    <!-- Row 6: DROP -->
+    <rect x="220" y="406" width="180" height="40" rx="7" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="310" y="431" text-anchor="middle" fill="#b91c1c">DROP</text>
+    <rect x="430" y="406" width="120" height="40" rx="7" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="490" y="431" text-anchor="middle" fill="#b91c1c" font-size="10.5">error-drop</text>
+    <text x="600" y="431" text-anchor="middle" fill="#64748b" font-size="10" font-weight="400">→ packet discarded</text>
+  </g>
+
+  <!-- connectors from root to each tag -->
+  <g stroke="#0f766e" stroke-width="1.6" fill="none">
+    <path d="M180 276 C 200 106, 200 106, 218 106" marker-end="url(#td)"/>
+    <path d="M180 276 C 200 170, 200 170, 218 170" marker-end="url(#td)"/>
+    <path d="M180 276 C 200 234, 200 234, 218 234" marker-end="url(#td)"/>
+    <path d="M180 276 C 200 298, 200 298, 218 298" marker-end="url(#td)"/>
+    <path d="M180 276 C 200 362, 200 362, 218 362" marker-end="url(#td)"/>
+    <path d="M180 276 C 200 426, 200 426, 218 426" marker-end="url(#td)"/>
+  </g>
+
+  <text x="560" y="486" text-anchor="middle" font-size="11.5" fill="#334155">Inside ngfw-decision, each tag maps to an action; a note in opaque2 carries the "after Snort" part (NAT / IPsec / pass).</text>
+  <text x="560" y="508" text-anchor="middle" font-size="11" fill="#64748b" font-style="italic">The same six paths exist for IPv6 via the mirror -ip6 nodes and nat66.</text>
+  <text x="560" y="532" text-anchor="middle" font-size="10.5" fill="#94a3b8">(Return traffic is matched by NAT/IPsec session state and decrypted / reverse-translated on the way back in.)</text>
+
+  <defs>
+    <marker id="td" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#0f766e"/></marker>
+  </defs>
+</svg>

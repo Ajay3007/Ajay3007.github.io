@@ -1,0 +1,26 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/ipsec-control-data-split.svg
+' Re-render with: plantuml -tsvg ipsec-control-data-split.puml
+title IPsec: Negotiate Once (control), Encrypt Always (data)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+package "CONTROL PLANE — occasional negotiation" {
+  rectangle "VICI clients (automation)\ncreate_ipsec.py (load_conn / PSK / initiate)\nswanctl_bridge.py (list / rekey / terminate)\nVPP CLI -> popen python3 (ngfw_swanctl ...)" as CLIENTS #fff7ed
+  rectangle "StrongSwan charon\nthe IKE daemon\nIKEv2: authenticate peer, agree ciphers,\nderive ESP keys -> SAs" as CHARON #ffedd5
+  rectangle "Remote VPN peer" as PEER #f1f5f9
+}
+
+package "DATA PLANE — per-packet encryption" {
+  rectangle "kernel-vpp plugin (the bridge)\nreplaces StrongSwan's Linux-kernel backend\ninstalls each SA into VPP, auto-binds to\nthe tunnel iface, refreshes on rekey" as BRIDGE #fff1f2
+  rectangle "VPP data plane\nesp-encrypt / esp-decrypt\nSA table (keys + SPIs) indexed by out_sa_index\nbound to tunnel interface" as VPP #f0fdfa
+}
+
+CLIENTS -> CHARON : VICI socket\n/var/run/charon.vici
+CHARON <-> PEER : IKE (UDP 500/4500)
+CHARON --> BRIDGE
+BRIDGE --> VPP : install SA
+VPP -> PEER : encrypted ESP packets
+@enduml

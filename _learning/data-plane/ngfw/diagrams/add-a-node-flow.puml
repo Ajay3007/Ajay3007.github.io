@@ -1,0 +1,29 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/add-a-node-flow.svg
+' Re-render with: plantuml -tsvg add-a-node-flow.puml
+title Adding a Feature Node — the Contribution Loop
+
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+:1 · Write the node function  [my_feature.c]\ndual/single loop; decide() returns a next-node index; #f0fdfa
+:2 · Register the node + next-node table  [my_feature.c]\nVLIB_REGISTER_NODE with next_nodes[], error strings, trace format; #f0fdfa
+:3 · Register on the feature arc  [my_feature.c]\nVNET_FEATURE_INIT with runs_after / runs_before; #f0fdfa
+:4 · Coordinate via opaque2 (only if a later node needs it)  [shared .h]\nwrite a note + cookie before; read & consume it downstream; #fffbeb
+:5 · Add the source to the build  [CMakeLists.txt]\nlist my_feature.c under SOURCES in add_vpp_plugin(...); #eff6ff
+:6 · Enable it per interface  [*.template]\nadd a "set interface feature ..." line to startup config; #eff6ff
+:7 · Build, reload, and VERIFY  [vppctl]\nmake build-release -> restart VPP -> show trace / show node counters; #f5f3ff
+stop
+
+note right
+Steps 1-3 mirror the real ngfw-decision node.
+Step 4 is the opaque2 pattern. Steps 5-7 build & prove it.
+
+Golden rule: never merge a data-plane change you
+haven't watched pass a real packet in `show trace`.
+
+Gotchas: opaque2 field offsets · per-worker counter
+aggregation · message CRCs after .api changes.
+end note
+@enduml

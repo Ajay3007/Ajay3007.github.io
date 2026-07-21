@@ -1,0 +1,19 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/vpp-client-interfaces.svg
+' Re-render with: plantuml -tsvg vpp-client-interfaces.puml
+title Two Ways to Talk to VPP\n(reads vs commands use different client interfaces)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment left
+
+rectangle "STATS SEGMENT — the READ path\n== get counters cheaply, continuously ==\n----\nWhat: a shared-memory region VPP publishes counters into;\nreaders map it and read directly (no request, no hot-path impact).\n----\nThe catch: each worker thread has its OWN copy of a counter,\nso a total = sum across workers:\n  for w in workers: total += counter[w][rule]\n----\nCounter kinds: simple/scalar (one number) · combined (packets AND bytes)\n----\nJNI: connectStats · listCounters · getSimpleCounter · dumpCombinedCounter" as READ #f0fdfa
+
+rectangle "BINARY API — the COMMAND path\n== tell VPP to DO something ==\n----\nWhat: a request/reply message socket; messages matched by a\nCRC-versioned name. Used here to CLEAR counters (an action).\n----\nclearAllCounters round trip:\n 1. vac_connect() to the API socket\n 2. resolve msg id by CRC (ngfw_counter_clear, from Module 03)\n 3. vac_write() the request (with a context id)\n 4. VPP handler clears counters, sends a reply\n 5. reply arrives on a callback thread (match on context id)\n 6. caller waiting on a condition var (5s timeout) wakes, returns\n----\nWhy the ceremony: replies are async on another thread; the context id\n+ condition variable turn it into a simple blocking call for Java." as CMD #fff1f2
+
+READ -[hidden]right- CMD
+
+legend bottom
+Rule of thumb: reads -> stats segment (cheap, passive) · actions -> binary API (request/reply).
+endlegend
+@enduml

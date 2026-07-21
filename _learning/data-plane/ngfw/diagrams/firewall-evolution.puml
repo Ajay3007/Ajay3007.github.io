@@ -1,0 +1,22 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/firewall-evolution.svg
+' Re-render with: plantuml -tsvg firewall-evolution.puml
+title The Evolution of Firewalls\n(each generation adds more context and inspects deeper)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 12
+skinparam defaultTextAlignment center
+
+rectangle "GENERATION 1\n== Packet Filter ==\nLayer 3 / 4 · Stateless\n----\n- Allow/deny on IP, port, protocol\n- Static ACL rules\n- No memory of past packets\n//Fast, but blind to context//" as G1 #f8fafc
+rectangle "GENERATION 2\n== Stateful Firewall ==\nLayer 3 / 4 · Stateful\n----\n- Tracks connection state (flow table)\n- Return traffic auto-allowed for known sessions\n//Knows sessions, not their contents//" as G2 #f0f9ff
+rectangle "GENERATION 3\n== Application / Proxy ==\nLayer 7 · Per-protocol\n----\n- Proxies specific apps (HTTP, FTP)\n- Reads application payload\n//Deep, but narrow and slow to scale//" as G3 #faf5ff
+rectangle "GENERATION 4 · TODAY\n== Next-Gen Firewall ==\nAll layers · Full context\n----\n- Everything above, plus:\n- Deep packet inspection\n- App-ID + IPS/IDS\n- TLS inspection\n- VPN, NAT, threat intel\n//Sees context AND content//" as G4 #ecfdf5
+
+G1 -right-> G2
+G2 -right-> G3
+G3 -right-> G4
+
+legend bottom
+more context  ·  deeper inspection  ·  more capabilities in one box
+endlegend
+@enduml

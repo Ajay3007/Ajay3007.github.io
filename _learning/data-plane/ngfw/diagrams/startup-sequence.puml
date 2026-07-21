@@ -1,0 +1,24 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/startup-sequence.svg
+' Re-render with: plantuml -tsvg startup-sequence.puml
+title Startup Sequence\n(orchestrator brings the planes up in dependency order)
+
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+:1. Render config from templates\n(envsubst fills env-file values into startup + interface config);
+:2. Launch VPP (data plane)\nbinds NICs via DPDK, starts worker threads on pinned cores;
+:3. Apply interface config\nVLAN sub-ifaces, IPs, feature arcs, NAT enable — the pipeline;
+:4. Start Snort IPS instances\nN processes pinned to cores; each attaches to VPP via the DAQ;
+:5. Start IKE daemon (control)\nStrongSwan charon, ready to negotiate VPN tunnels;
+:6. Start management bridge\nJava process attaches to VPP stats/API; serves counters northbound;
+:7. Seed management ACL rules\nbaseline permit rules so the box is reachable for management;
+stop
+
+note right
+Data plane first, then the engines
+that plug into it, then control,
+then management.
+end note
+@enduml

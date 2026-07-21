@@ -1,0 +1,25 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/ipsec-tunnel-bringup.svg
+' Re-render with: plantuml -tsvg ipsec-tunnel-bringup.puml
+title Bringing a Tunnel Up\n(control plane sets it up; data plane runs it)
+
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+:1 · Load the connection (control)\ncreate_ipsec.py -> VICI: load_conn (IKE/ESP proposals, TS, reqid) + load_shared (PSK); #fff7ed
+:2 · Initiate the child SA (control)\ninitiate({child}) tells charon to bring this tunnel up now; #fff7ed
+:3 · IKEv2 handshake with the peer\ncharon <-> peer over UDP 500/4500: IKE_SA_INIT (DH) + IKE_AUTH (mutual PSK auth); #f1f5f9
+:4 · Child SA established\nboth ends share ESP keys + SPIs (one SA per direction); #f1f5f9
+:5 · kernel-vpp installs the SA into VPP (bridge) (star)\nprograms the SA into VPP's SA table and AUTO-BINDS it to the tunnel interface (via reqid); #fff1f2
+:6 · Data plane ready — encrypt at line rate\npackets steered to IPsec (out_sa_index from ngfw-decision) hit esp-encrypt -> leave as ESP; #f0fdfa
+:7 · Rekey (keys are short-lived)\ncharon renegotiates before expiry; kernel-vpp refreshes + re-binds the SA, no manual step; #fff1f2
+stop
+
+note right
+Steps 1-4 = control plane, step 5 = the bridge,
+steps 6-7 = data plane doing the work.
+Inbound mirrors this: ESP arrives -> esp-decrypt
+uses the inbound SA -> normal processing.
+end note
+@enduml

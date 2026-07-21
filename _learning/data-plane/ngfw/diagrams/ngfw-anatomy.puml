@@ -1,0 +1,42 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/ngfw-anatomy.svg
+' Re-render with: plantuml -tsvg ngfw-anatomy.puml
+title Anatomy of a Next-Generation Firewall\n(three planes; the data plane runs on every packet)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 10
+skinparam defaultTextAlignment center
+
+rectangle "MANAGEMENT PLANE  —  \"how operators run the box\"" as MGMT #eef2ff {
+  rectangle "Config &\nPolicy" as M1 #ffffff
+  rectangle "Stats &\nAlarms" as M2 #ffffff
+  rectangle "Logging" as M3 #ffffff
+  rectangle "Dashboards /\nNMS" as M4 #ffffff
+}
+
+rectangle "CONTROL PLANE  —  \"sets up & tears down sessions\"" as CTRL #fff7ed {
+  rectangle "IKE / VPN\nnegotiation" as C1 #ffffff
+  rectangle "Routing /\ninterface state" as C2 #ffffff
+  rectangle "Programs the\ndata plane" as C3 #ffffff
+}
+
+rectangle "DATA PLANE  —  \"moves & inspects the traffic\" (line rate)" as DATA #f0fdfa {
+  rectangle "INGRESS\nNIC / port" as D0 #0f766e
+  rectangle "Parse &\nClassify" as D1 #ffffff
+  rectangle "Policy /\nACL match" as D2 #ffffff
+  rectangle "Stateful\ntracking" as D3 #ffffff
+  rectangle "DPI / IPS\nApp-ID\n(next-gen part)" as D4 #fffbeb
+  rectangle "NAT" as D5 #ffffff
+  rectangle "VPN /\nIPsec" as D6 #ffffff
+  rectangle "EGRESS\nforward" as D7 #0f766e
+}
+
+MGMT -down-> CTRL
+CTRL ..> DATA : pushes rules / keys / routes down
+D0 -right-> D1 -right-> D2 -right-> D3 -right-> D4 -right-> D5 -right-> D6 -right-> D7
+
+legend bottom
+Allowed-but-flagged packets are steered through DPI/IPS, then NAT, optional VPN, egress.
+Line-rate inspection is why NGFWs run on user-space data planes (DPDK / VPP) with pinned cores.
+endlegend
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/build-deploy-pipeline.svg
+' Re-render with: plantuml -tsvg build-deploy-pipeline.puml
+title Build & Deploy Pipeline\n(each component builds on its own track; the orchestrator wires them at runtime)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+rectangle "VPP C plugins\nsrc/plugins/*" as S1 #f0fdfa
+rectangle "add_vpp_plugin(...)\nmake build-release" as B1 #ffffff
+rectangle "vpp + plugin *.so" as A1 #ecfdf5
+
+rectangle "Management bridge\nJava + JNI C" as S2 #f5f3ff
+rectangle "javac -h -> gcc -shared -fPIC\n-lvppapiclient -lvppinfra" as B2 #ffffff
+rectangle "bridge.jar +\nlibvpp_nms_bridge.so" as A2 #faf5ff
+
+rectangle "Snort (patched)\nextras/snort3 + VPP DAQ" as S3 #fff1f2
+rectangle "build Snort + build DAQ" as B3 #ffffff
+rectangle "snort bin + daq_vpp.so" as A3 #fff1f2
+
+rectangle "StrongSwan\nextras kernel-vpp plugin" as S4 #fff7ed
+rectangle "build StrongSwan + plugin" as B4 #ffffff
+rectangle "charon + kernel-vpp.so" as A4 #fff7ed
+
+rectangle "Scripts + config\npython + *.template + env" as S5 #f1f5f9
+rectangle "no build — copied as-is\ntemplated at startup (envsubst)" as B5 #ffffff
+rectangle "*.py + rendered config" as A5 #f1f5f9
+
+rectangle "run_ngfw.sh (orchestrator)\n1 envsubst · 2 VPP · 3 Snort\n4 charon · 5 bridge · 6 ACL seed" as RUN #eef2ff
+
+S1 -> B1 -> A1
+S2 -> B2 -> A2
+S3 -> B3 -> A3
+S4 -> B4 -> A4
+S5 -> B5 -> A5
+A1 --> RUN
+A2 --> RUN
+A3 --> RUN
+A4 --> RUN
+A5 --> RUN
+@enduml

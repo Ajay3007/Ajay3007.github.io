@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 700" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1080" height="700" fill="#ffffff"/>
+  <text x="540" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#1a1f36">Management Plane — from VPP Counters to Dashboards</text>
+  <text x="540" y="55" text-anchor="middle" font-size="12.5" fill="#64748b">A Java bridge reads the data plane over JNI and serves it northbound. It only reads shared memory — never in the packet path.</text>
+
+  <!-- Northbound outputs (top) -->
+  <text x="540" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#4338ca">NORTHBOUND — what operators &amp; systems see</text>
+  <g font-size="11">
+    <rect x="120" y="98" width="260" height="60" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+    <text x="250" y="122" text-anchor="middle" font-weight="700" fill="#3730a3">Management system (NMS/OSS)</text>
+    <text x="250" y="142" text-anchor="middle" font-size="10" fill="#6366f1">counter queries over an XML/HTTP API</text>
+    <rect x="410" y="98" width="260" height="60" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+    <text x="540" y="122" text-anchor="middle" font-weight="700" fill="#3730a3">Alarms</text>
+    <text x="540" y="142" text-anchor="middle" font-size="10" fill="#6366f1">faults &amp; threshold breaches (CPU, memory)</text>
+    <rect x="700" y="98" width="260" height="60" rx="8" fill="#eef2ff" stroke="#c7d2fe"/>
+    <text x="830" y="122" text-anchor="middle" font-weight="700" fill="#3730a3">Analytics / event store</text>
+    <text x="830" y="142" text-anchor="middle" font-size="10" fill="#6366f1">history, search, dashboards</text>
+  </g>
+
+  <!-- Java bridge -->
+  <rect x="80" y="210" width="920" height="150" rx="10" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="2"/>
+  <text x="540" y="234" text-anchor="middle" font-size="13.5" font-weight="700" fill="#6d28d9">Management Bridge (Java process)</text>
+  <g font-size="10.5">
+    <rect x="100" y="248" width="240" height="96" rx="8" fill="#ffffff" stroke="#c4b5fd"/>
+    <text x="220" y="268" text-anchor="middle" font-weight="700" fill="#6d28d9">Stats client + per-feature reporters</text>
+    <text x="220" y="288" text-anchor="middle" font-size="9.5" fill="#475569">ACL · NAT · IPsec · ngfw-decision · Snort</text>
+    <text x="220" y="306" text-anchor="middle" font-size="9.5" fill="#475569">read counters, build records,</text>
+    <text x="220" y="322" text-anchor="middle" font-size="9.5" fill="#475569">answer northbound queries</text>
+    <rect x="360" y="248" width="240" height="96" rx="8" fill="#ffffff" stroke="#c4b5fd"/>
+    <text x="480" y="268" text-anchor="middle" font-weight="700" fill="#6d28d9">Alarm listeners</text>
+    <text x="480" y="288" text-anchor="middle" font-size="9.5" fill="#475569">CPU usage · memory overflow</text>
+    <text x="480" y="306" text-anchor="middle" font-size="9.5" fill="#475569">conditional-counter thresholds</text>
+    <text x="480" y="322" text-anchor="middle" font-size="9.5" fill="#475569">raise alarm on breach</text>
+    <rect x="620" y="248" width="240" height="96" rx="8" fill="#ffffff" stroke="#c4b5fd"/>
+    <text x="740" y="268" text-anchor="middle" font-weight="700" fill="#6d28d9">Counter reset / purge</text>
+    <text x="740" y="288" text-anchor="middle" font-size="9.5" fill="#475569">issue clear commands,</text>
+    <text x="740" y="306" text-anchor="middle" font-size="9.5" fill="#475569">rotate &amp; archive old data</text>
+    <rect x="880" y="248" width="100" height="96" rx="8" fill="#ffffff" stroke="#c4b5fd"/>
+    <text x="930" y="290" text-anchor="middle" font-weight="700" fill="#6d28d9">Logger</text>
+    <text x="930" y="308" text-anchor="middle" font-size="9.5" fill="#475569">rolling files</text>
+  </g>
+
+  <!-- JNI -->
+  <rect x="80" y="410" width="920" height="86" rx="10" fill="#faf5ff" stroke="#a78bfa"/>
+  <text x="540" y="434" text-anchor="middle" font-size="13" font-weight="700" fill="#7c3aed">JNI native library  (libvpp_nms_bridge.so)  — the C ↔ Java shim</text>
+  <g font-size="10" fill="#5b21b6">
+    <rect x="100" y="448" width="150" height="34" rx="6" fill="#ffffff" stroke="#a78bfa"/><text x="175" y="470" text-anchor="middle">connectStats</text>
+    <rect x="262" y="448" width="150" height="34" rx="6" fill="#ffffff" stroke="#a78bfa"/><text x="337" y="470" text-anchor="middle">listCounters</text>
+    <rect x="424" y="448" width="160" height="34" rx="6" fill="#ffffff" stroke="#a78bfa"/><text x="504" y="470" text-anchor="middle">getSimpleCounter</text>
+    <rect x="596" y="448" width="180" height="34" rx="6" fill="#ffffff" stroke="#a78bfa"/><text x="686" y="470" text-anchor="middle">dumpCombinedCounter</text>
+    <rect x="788" y="448" width="180" height="34" rx="6" fill="#fee2e2" stroke="#fca5a5"/><text x="878" y="470" text-anchor="middle" fill="#b91c1c">clearAllCounters</text>
+  </g>
+
+  <!-- VPP -->
+  <rect x="80" y="546" width="920" height="94" rx="10" fill="#f0fdfa" stroke="#0f766e" stroke-width="2"/>
+  <text x="540" y="570" text-anchor="middle" font-size="13" font-weight="700" fill="#0f766e">VPP data plane — two client interfaces it exposes</text>
+  <rect x="120" y="582" width="480" height="44" rx="7" fill="#ffffff" stroke="#5eead4"/>
+  <text x="360" y="600" text-anchor="middle" font-size="11" font-weight="700" fill="#0f766e">Stats segment (shared memory)</text>
+  <text x="360" y="616" text-anchor="middle" font-size="9.5" fill="#475569">read-only counters: packets, bytes, verdicts, per-rule hits</text>
+  <rect x="620" y="582" width="340" height="44" rx="7" fill="#fff1f2" stroke="#fda4af"/>
+  <text x="790" y="600" text-anchor="middle" font-size="11" font-weight="700" fill="#be123c">Binary API socket</text>
+  <text x="790" y="616" text-anchor="middle" font-size="9.5" fill="#475569">commands: e.g. clear counters (request/reply)</text>
+
+  <!-- arrows up (read path) -->
+  <line x1="360" y1="582" x2="360" y2="496" stroke="#0f766e" stroke-width="2.5" marker-end="url(#mu)"/>
+  <text x="378" y="524" font-size="9.5" fill="#0f766e">read counters ↑</text>
+  <line x1="300" y1="410" x2="300" y2="360" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#mv)"/>
+  <line x1="360" y1="210" x2="360" y2="160" stroke="#6d28d9" stroke-width="2.5" marker-end="url(#mw)"/>
+  <text x="380" y="188" font-size="9.5" fill="#6d28d9">serve / alarm ↑</text>
+
+  <!-- arrow down (command path) -->
+  <line x1="820" y1="496" x2="820" y2="580" stroke="#be123c" stroke-width="2.5" marker-end="url(#mr)"/>
+  <text x="840" y="536" font-size="9.5" fill="#be123c">clear ↓</text>
+  <line x1="820" y1="344" x2="820" y2="408" stroke="#be123c" stroke-width="2.5" marker-end="url(#mr)"/>
+
+  <defs>
+    <marker id="mu" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#0f766e"/></marker>
+    <marker id="mv" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#7c3aed"/></marker>
+    <marker id="mw" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#6d28d9"/></marker>
+    <marker id="mr" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#be123c"/></marker>
+  </defs>
+</svg>

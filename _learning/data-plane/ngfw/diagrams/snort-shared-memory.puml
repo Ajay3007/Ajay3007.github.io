@@ -1,0 +1,31 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/snort-shared-memory.svg
+' Re-render with: plantuml -tsvg snort-shared-memory.puml
+title VPP <-> Snort over Shared Memory\n(per-thread queue pair; packet bytes stay in a shared buffer pool)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+rectangle "VPP worker thread\n(snort-ip4-input node)\n[enqueue: write descriptor]\n[dequeue: read verdict]" as VPP #f0fdfa
+
+package "SHARED MEMORY (mmap'd by both)" {
+  rectangle "Buffer pool — the actual packet bytes\n[pkt0][pkt1][pkt2]...  (referenced by offset, never copied)" as POOL #eef2ff
+  rectangle "Enqueue ring ->\nVPP writes packet descriptors (head/tail)" as ENQ #f0fdfa
+  rectangle "Descriptor (one slot)\n{ offset -> buffer pool, length, pool_id }\nmetadata union: in -> flags/flow_id/ingress\nmetadata union: out -> verdict + appid + sid_entries[10]" as DESC #fffbeb
+  rectangle "<- Dequeue ring\nSnort writes the verdict back (head/tail)" as DEQ #fff1f2
+}
+
+rectangle "Snort instance\n(separate process + VPP DAQ)\n[read descriptor -> follow offset]\n[inspect vs rules]\n[write verdict: PASS/BLOCK + SID/AppID]" as SNORT #fff1f2
+
+VPP -right-> ENQ : packets
+ENQ -right-> SNORT : read
+SNORT -down-> DEQ : write verdict
+DEQ -left-> VPP : read verdict
+DESC ..> POOL : offset (zero copy)
+
+legend bottom
+Rings are lock-free SPSC; head/tail indices are the only cross-process sync.
+Signal: poll the ring, or wake via deq_fd eventfd (interrupt mode).
+endlegend
+@enduml

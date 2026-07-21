@@ -1,0 +1,46 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/feature-arc-pipeline.svg
+' Re-render with: plantuml -tsvg feature-arc-pipeline.puml
+title VPP Packet Graph & the ip4-unicast Feature Arc\n(custom firewall nodes plug into the ordered arc)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+rectangle "dpdk-input\n(input node: polls NIC)" as N0 #f1f5f9
+rectangle "ip4-input\n(parse + validate)" as N1 #f1f5f9
+
+package "ip4-unicast feature arc (ordered, per-interface)" {
+  rectangle "acl-plugin\nclassify -> steering tag" as N2 #ffffff
+  rectangle "**ngfw-decision**\npolicy -> action\n(CUSTOM)" as N3 #ecfdf5
+  rectangle "snort-ip4-input\nhand to IPS" as N4 #fff1f2
+  rectangle "**ngfw-post-snort**\nact on verdict\n(CUSTOM)" as N5 #ecfdf5
+  rectangle "nat44 / nat66\ntranslate addresses" as N6 #ffffff
+}
+
+rectangle "ip4-lookup\nroute (FIB)" as N7 #f1f5f9
+rectangle "interface-output\nto NIC tx" as N8 #f1f5f9
+
+N0 -> N1 -> N2 -> N3 -> N4 -> N5 -> N6 -> N7 -> N8
+
+note bottom of N3
+ngfw-decision exits:
+- continue arc -> snort (inspect)
+- pass -> ip4-lookup
+- encrypt -> esp4-encrypt
+- drop -> error-drop
+writes a note to opaque2 if inspecting
+end note
+
+note bottom of N5
+ngfw-post-snort exits (reads cookie 0xAB):
+- pass -> ip4-lookup
+- NAT -> nat
+- encrypt -> esp4-encrypt
+no cookie? just continue the arc
+end note
+
+legend top
+ngfw-decision registers runs_before snort · ngfw-post-snort registers runs_after snort
+endlegend
+@enduml

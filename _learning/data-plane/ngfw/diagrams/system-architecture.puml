@@ -1,0 +1,39 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/system-architecture.svg
+' Re-render with: plantuml -tsvg system-architecture.puml
+title NGFW Platform — System Architecture\n(VPP data plane is the hub; every engine plugs into it)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 10
+skinparam defaultTextAlignment center
+
+rectangle "MANAGEMENT PLANE\nManagement Bridge (Java)\n[Northbound API] [Alarms + Stats] [Log/Analytics]" as MGMT #eef2ff
+
+package "CONTROL PLANE" {
+  rectangle "IKE Daemon\nStrongSwan charon\nnegotiates VPN keys" as CHARON #fff7ed
+  rectangle "Control Scripts\nPython / VICI\nload connections & SAs" as SCRIPTS #fff7ed
+}
+
+package "DATA PLANE — VPP (user-space forwarding)" {
+  rectangle "ngfw_decision\npolicy & steering" as P_DEC #f0fdfa
+  rectangle "acl\nrule match -> tag" as P_ACL #f0fdfa
+  rectangle "nat44 / nat66" as P_NAT #f0fdfa
+  rectangle "snort-plugin\n+ VPP DAQ" as P_SNORT #fff1f2
+  rectangle "linux-cp" as P_LCP #f0fdfa
+  rectangle "dpdk / ipsec" as P_DPDK #f0fdfa
+  rectangle "Feature-arc pipeline:\nngfw-decision -> snort -> ngfw-post-snort -> nat/esp-encrypt -> ip-lookup" as PIPE #0f766e
+  rectangle "Control sockets: CLI · binary API · stats segment" as SOCK #ffffff
+}
+
+rectangle "IPS ENGINE\nSnort IPS x N (user-space processes)\n[snort0][snort1][snort2][snort3]\nload VPP DAQ · verdict + SID back" as SNORT #fff1f2
+
+rectangle "Physical NICs — DPDK-bound (poll-mode)\nVLAN sub-interfaces (in / VPN-out / internet-out)" as NIC #f1f5f9
+
+MGMT --> SOCK : JNI bridge\n(stats + binary API sockets)
+CHARON <--> SCRIPTS : VICI socket
+CHARON --> P_DEC : program IPsec SAs (kernel-vpp)
+SCRIPTS --> SOCK : VPP CLI
+PIPE -right-> SNORT : packets (shared memory + DAQ socket)
+SNORT -left-> PIPE : verdict
+NIC <--> P_DPDK : DPDK poll-mode
+@enduml

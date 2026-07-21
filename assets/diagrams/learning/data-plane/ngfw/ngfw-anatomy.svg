@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 620" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1060" height="620" fill="#ffffff"/>
+  <text x="530" y="36" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1f36">Anatomy of a Next-Generation Firewall</text>
+  <text x="530" y="60" text-anchor="middle" font-size="13" fill="#64748b">Three planes: management decides policy, control sets up sessions, the data plane moves and inspects every packet</text>
+
+  <!-- MANAGEMENT PLANE -->
+  <rect x="30" y="80" width="1000" height="96" rx="10" fill="#eef2ff" stroke="#c7d2fe"/>
+  <text x="52" y="108" font-size="14" font-weight="700" fill="#4338ca">MANAGEMENT PLANE</text>
+  <text x="52" y="126" font-size="11.5" fill="#6366f1">"How operators run the box"</text>
+  <g font-size="12" fill="#3730a3">
+    <rect x="250" y="96" width="150" height="64" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="325" y="124" text-anchor="middle">Config &amp; Policy</text>
+    <text x="325" y="142" text-anchor="middle" font-size="10.5" fill="#6366f1">rules, objects</text>
+    <rect x="420" y="96" width="150" height="64" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="495" y="124" text-anchor="middle">Stats &amp; Alarms</text>
+    <text x="495" y="142" text-anchor="middle" font-size="10.5" fill="#6366f1">counters, health</text>
+    <rect x="590" y="96" width="150" height="64" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="665" y="124" text-anchor="middle">Logging</text>
+    <text x="665" y="142" text-anchor="middle" font-size="10.5" fill="#6366f1">events, telemetry</text>
+    <rect x="760" y="96" width="150" height="64" rx="8" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="835" y="124" text-anchor="middle">Dashboards / NMS</text>
+    <text x="835" y="142" text-anchor="middle" font-size="10.5" fill="#6366f1">northbound API</text>
+  </g>
+
+  <!-- CONTROL PLANE -->
+  <rect x="30" y="192" width="1000" height="96" rx="10" fill="#fff7ed" stroke="#fed7aa"/>
+  <text x="52" y="220" font-size="14" font-weight="700" fill="#c2410c">CONTROL PLANE</text>
+  <text x="52" y="238" font-size="11.5" fill="#ea580c">"Sets up and tears down sessions"</text>
+  <g font-size="12" fill="#9a3412">
+    <rect x="250" y="208" width="180" height="64" rx="8" fill="#ffffff" stroke="#fed7aa"/>
+    <text x="340" y="236" text-anchor="middle">IKE / VPN negotiation</text>
+    <text x="340" y="254" text-anchor="middle" font-size="10.5" fill="#ea580c">builds IPsec keys &amp; SAs</text>
+    <rect x="450" y="208" width="180" height="64" rx="8" fill="#ffffff" stroke="#fed7aa"/>
+    <text x="540" y="236" text-anchor="middle">Routing / interface state</text>
+    <text x="540" y="254" text-anchor="middle" font-size="10.5" fill="#ea580c">FIB, ARP, neighbors</text>
+    <rect x="650" y="208" width="260" height="64" rx="8" fill="#ffffff" stroke="#fed7aa"/>
+    <text x="780" y="236" text-anchor="middle">Programs the data plane</text>
+    <text x="780" y="254" text-anchor="middle" font-size="10.5" fill="#ea580c">pushes rules / keys / routes down ↓</text>
+  </g>
+
+  <!-- DATA PLANE -->
+  <rect x="30" y="304" width="1000" height="252" rx="10" fill="#f0fdfa" stroke="#99f6e4"/>
+  <text x="52" y="332" font-size="14" font-weight="700" fill="#0f766e">DATA PLANE  (the fast path — runs on every packet, at line rate)</text>
+  <text x="52" y="350" font-size="11.5" fill="#0d9488">"Moves and inspects the actual traffic"</text>
+
+  <!-- pipeline -->
+  <g font-size="11.5">
+    <!-- ingress -->
+    <rect x="46" y="372" width="96" height="150" rx="8" fill="#0f766e"/>
+    <text x="94" y="440" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">INGRESS</text>
+    <text x="94" y="458" text-anchor="middle" font-size="10" fill="#99f6e4">NIC / port</text>
+
+    <!-- stages -->
+    <g>
+      <rect x="158" y="372" width="120" height="150" rx="8" fill="#ffffff" stroke="#5eead4"/>
+      <text x="218" y="400" text-anchor="middle" font-weight="700" fill="#0f766e">Parse &amp;</text>
+      <text x="218" y="416" text-anchor="middle" font-weight="700" fill="#0f766e">Classify</text>
+      <text x="218" y="446" text-anchor="middle" font-size="10.5" fill="#475569">headers,</text>
+      <text x="218" y="461" text-anchor="middle" font-size="10.5" fill="#475569">5-tuple,</text>
+      <text x="218" y="476" text-anchor="middle" font-size="10.5" fill="#475569">L2–L4</text>
+
+      <rect x="290" y="372" width="120" height="150" rx="8" fill="#ffffff" stroke="#5eead4"/>
+      <text x="350" y="400" text-anchor="middle" font-weight="700" fill="#0f766e">Policy /</text>
+      <text x="350" y="416" text-anchor="middle" font-weight="700" fill="#0f766e">ACL match</text>
+      <text x="350" y="446" text-anchor="middle" font-size="10.5" fill="#475569">allow / deny</text>
+      <text x="350" y="461" text-anchor="middle" font-size="10.5" fill="#475569">/ inspect</text>
+      <text x="350" y="476" text-anchor="middle" font-size="10.5" fill="#475569">decision</text>
+
+      <rect x="422" y="372" width="120" height="150" rx="8" fill="#ffffff" stroke="#5eead4"/>
+      <text x="482" y="400" text-anchor="middle" font-weight="700" fill="#0f766e">Stateful</text>
+      <text x="482" y="416" text-anchor="middle" font-weight="700" fill="#0f766e">tracking</text>
+      <text x="482" y="446" text-anchor="middle" font-size="10.5" fill="#475569">flow /</text>
+      <text x="482" y="461" text-anchor="middle" font-size="10.5" fill="#475569">session</text>
+      <text x="482" y="476" text-anchor="middle" font-size="10.5" fill="#475569">table</text>
+
+      <rect x="554" y="372" width="120" height="150" rx="8" fill="#fffbeb" stroke="#fbbf24" stroke-width="2"/>
+      <text x="614" y="400" text-anchor="middle" font-weight="700" fill="#b45309">DPI / IPS</text>
+      <text x="614" y="416" text-anchor="middle" font-weight="700" fill="#b45309">App-ID</text>
+      <text x="614" y="446" text-anchor="middle" font-size="10.5" fill="#475569">signatures,</text>
+      <text x="614" y="461" text-anchor="middle" font-size="10.5" fill="#475569">threats,</text>
+      <text x="614" y="476" text-anchor="middle" font-size="10.5" fill="#475569">payload</text>
+      <text x="614" y="500" text-anchor="middle" font-size="9.5" fill="#b45309" font-style="italic">the "next-gen" part</text>
+
+      <rect x="686" y="372" width="110" height="150" rx="8" fill="#ffffff" stroke="#5eead4"/>
+      <text x="741" y="440" text-anchor="middle" font-weight="700" fill="#0f766e">NAT</text>
+      <text x="741" y="461" text-anchor="middle" font-size="10.5" fill="#475569">translate</text>
+      <text x="741" y="476" text-anchor="middle" font-size="10.5" fill="#475569">addresses</text>
+
+      <rect x="808" y="372" width="110" height="150" rx="8" fill="#ffffff" stroke="#5eead4"/>
+      <text x="863" y="432" text-anchor="middle" font-weight="700" fill="#0f766e">VPN /</text>
+      <text x="863" y="448" text-anchor="middle" font-weight="700" fill="#0f766e">IPsec</text>
+      <text x="863" y="472" text-anchor="middle" font-size="10.5" fill="#475569">encrypt</text>
+    </g>
+
+    <!-- egress -->
+    <rect x="934" y="372" width="80" height="150" rx="8" fill="#0f766e"/>
+    <text x="974" y="440" text-anchor="middle" font-size="12" font-weight="700" fill="#ffffff">EGRESS</text>
+    <text x="974" y="458" text-anchor="middle" font-size="10" fill="#99f6e4">forward</text>
+  </g>
+
+  <!-- flow arrows between stages -->
+  <g stroke="#0d9488" stroke-width="2" fill="none">
+    <line x1="142" y1="447" x2="156" y2="447"/><polygon points="158,447 150,443 150,451" fill="#0d9488" stroke="none"/>
+    <line x1="278" y1="447" x2="288" y2="447"/><polygon points="290,447 282,443 282,451" fill="#0d9488" stroke="none"/>
+    <line x1="410" y1="447" x2="420" y2="447"/><polygon points="422,447 414,443 414,451" fill="#0d9488" stroke="none"/>
+    <line x1="542" y1="447" x2="552" y2="447"/><polygon points="554,447 546,443 546,451" fill="#0d9488" stroke="none"/>
+    <line x1="674" y1="447" x2="684" y2="447"/><polygon points="686,447 678,443 678,451" fill="#0d9488" stroke="none"/>
+    <line x1="796" y1="447" x2="806" y2="447"/><polygon points="808,447 800,443 800,451" fill="#0d9488" stroke="none"/>
+    <line x1="918" y1="447" x2="932" y2="447"/><polygon points="934,447 926,443 926,451" fill="#0d9488" stroke="none"/>
+  </g>
+
+  <!-- vertical arrow control->data -->
+  <line x1="780" y1="272" x2="780" y2="302" stroke="#c2410c" stroke-width="2" stroke-dasharray="4 3"/>
+  <polygon points="780,304 776,296 784,296" fill="#c2410c"/>
+
+  <text x="530" y="586" text-anchor="middle" font-size="12" fill="#94a3b8" font-style="italic">A packet that is allowed but flagged for inspection is steered through DPI/IPS, then continues to NAT, optional VPN, and egress.</text>
+  <text x="530" y="606" text-anchor="middle" font-size="12" fill="#94a3b8" font-style="italic">Line-rate inspection is why NGFWs run on user-space data planes (DPDK / VPP) with pinned cores.</text>
+</svg>

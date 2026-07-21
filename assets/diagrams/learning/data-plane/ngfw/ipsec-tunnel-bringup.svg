@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 700" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="960" height="700" fill="#ffffff"/>
+  <text x="480" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#1a1f36">Bringing a Tunnel Up</text>
+  <text x="480" y="55" text-anchor="middle" font-size="12.5" fill="#64748b">From config to a working encrypted path — control plane sets it up, data plane runs it.</text>
+
+  <!-- legend -->
+  <g font-size="10.5" font-weight="700">
+    <rect x="60" y="72" width="14" height="14" rx="3" fill="#c2410c"/><text x="82" y="84" fill="#c2410c">control (charon / VICI)</text>
+    <rect x="290" y="72" width="14" height="14" rx="3" fill="#be123c"/><text x="312" y="84" fill="#be123c">bridge (kernel-vpp)</text>
+    <rect x="470" y="72" width="14" height="14" rx="3" fill="#0f766e"/><text x="492" y="84" fill="#0f766e">data plane (VPP)</text>
+    <rect x="670" y="72" width="14" height="14" rx="3" fill="#334155"/><text x="692" y="84" fill="#334155">remote peer</text>
+  </g>
+
+  <g font-size="12.5">
+    <!-- 1 -->
+    <rect x="60" y="100" width="840" height="56" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+    <rect x="60" y="100" width="8" height="56" rx="4" fill="#c2410c"/>
+    <text x="84" y="124" font-weight="700" fill="#9a3412">1 · Load the connection</text>
+    <text x="84" y="142" font-size="10.5" fill="#64748b">create_ipsec.py connects to the VICI socket → load_conn (IKE proposals, ESP proposals, traffic selectors, reqid) + load_shared (PSK)</text>
+    <!-- 2 -->
+    <rect x="60" y="168" width="840" height="48" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+    <rect x="60" y="168" width="8" height="48" rx="4" fill="#c2410c"/>
+    <text x="84" y="190" font-weight="700" fill="#9a3412">2 · Initiate the child SA</text>
+    <text x="84" y="207" font-size="10.5" fill="#64748b">initiate({child}) tells charon to bring this tunnel up now</text>
+    <!-- 3 -->
+    <rect x="60" y="228" width="840" height="56" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="60" y="228" width="8" height="56" rx="4" fill="#334155"/>
+    <text x="84" y="252" font-weight="700" fill="#334155">3 · IKEv2 handshake with the peer</text>
+    <text x="84" y="270" font-size="10.5" fill="#64748b">charon ↔ peer over UDP 500/4500: IKE_SA_INIT (Diffie-Hellman) + IKE_AUTH (mutual auth via PSK)</text>
+    <!-- 4 -->
+    <rect x="60" y="296" width="840" height="48" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="60" y="296" width="8" height="48" rx="4" fill="#334155"/>
+    <text x="84" y="318" font-weight="700" fill="#334155">4 · Child SA established</text>
+    <text x="84" y="335" font-size="10.5" fill="#64748b">both ends now share ESP keys + SPIs (one Security Association per direction)</text>
+    <!-- 5 -->
+    <rect x="60" y="356" width="840" height="62" rx="8" fill="#fff1f2" stroke="#fda4af" stroke-width="2"/>
+    <rect x="60" y="356" width="8" height="62" rx="4" fill="#be123c"/>
+    <text x="84" y="380" font-weight="700" fill="#be123c">5 · kernel-vpp installs the SA into VPP  ★</text>
+    <text x="84" y="398" font-size="10.5" fill="#64748b">the bridge plugin programs the SA into VPP's SA table and AUTO-BINDS it to the tunnel interface (via reqid)</text>
+    <text x="84" y="412" font-size="10" fill="#be123c" font-style="italic">this is where a negotiated key becomes usable by the fast path</text>
+    <!-- 6 -->
+    <rect x="60" y="430" width="840" height="56" rx="8" fill="#f0fdfa" stroke="#5eead4"/>
+    <rect x="60" y="430" width="8" height="56" rx="4" fill="#0f766e"/>
+    <text x="84" y="454" font-weight="700" fill="#0f766e">6 · Data plane ready — encrypt at line rate</text>
+    <text x="84" y="472" font-size="10.5" fill="#64748b">packets steered to IPsec (out_sa_index from ngfw-decision) hit esp-encrypt with this SA → leave as ESP toward the peer</text>
+    <!-- 7 -->
+    <rect x="60" y="498" width="840" height="62" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+    <rect x="60" y="498" width="8" height="62" rx="4" fill="#be123c"/>
+    <text x="84" y="522" font-weight="700" fill="#be123c">7 · Rekey (keys are short-lived, by design)</text>
+    <text x="84" y="540" font-size="10.5" fill="#64748b">charon renegotiates before the SA expires (rekey_time); kernel-vpp refreshes the SA and re-binds it —</text>
+    <text x="84" y="554" font-size="10.5" fill="#64748b">the tunnel interface keeps working without manual intervention</text>
+  </g>
+
+  <!-- connectors -->
+  <g stroke="#94a3b8" stroke-width="2">
+    <line x1="480" y1="156" x2="480" y2="168"/>
+    <line x1="480" y1="216" x2="480" y2="228"/>
+    <line x1="480" y1="284" x2="480" y2="296"/>
+    <line x1="480" y1="344" x2="480" y2="356"/>
+    <line x1="480" y1="418" x2="480" y2="430"/>
+    <line x1="480" y1="486" x2="480" y2="498"/>
+  </g>
+  <!-- rekey loop arrow back to 5 -->
+  <path d="M900 529 C 936 529, 936 387, 902 387" fill="none" stroke="#be123c" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#bl)"/>
+  <text x="928" y="460" text-anchor="middle" font-size="9" fill="#be123c" transform="rotate(90 928 460)">refresh loop</text>
+
+  <text x="480" y="588" text-anchor="middle" font-size="11" fill="#334155">Steps 1–4 are the control plane; step 5 is the bridge; steps 6–7 are the data plane doing the actual work.</text>
+  <text x="480" y="610" text-anchor="middle" font-size="10.5" fill="#94a3b8" font-style="italic">The inbound direction mirrors this: ESP arrives, esp-decrypt uses the inbound SA, then the packet is processed normally.</text>
+
+  <defs>
+    <marker id="bl" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#be123c"/></marker>
+  </defs>
+</svg>

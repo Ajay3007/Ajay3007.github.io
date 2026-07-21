@@ -1,0 +1,31 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/vector-processing.svg
+' Re-render with: plantuml -tsvg vector-processing.puml
+title Why "Vector" Packet Processing\n(a node processes a whole batch at once)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+rectangle "Input frame (a vector)\n[pkt0][pkt1][pkt2]...[pkt N-1]\nup to 256 packet indices" as IN #eff6ff
+
+package "One VPP node function" {
+  rectangle "Dual loop — 2 packets at a time\nprefetch next buffers while processing\nthe current pair -> hides memory latency" as DUAL #ffffff
+  rectangle "Single loop — leftover packets\nhandles the remainder one at a time" as SINGLE #ffffff
+}
+
+rectangle "-> snort-ip4-input\n(packets to inspect)" as O1 #ecfdf5
+rectangle "-> ip4-lookup\n(passed packets)" as O2 #eff6ff
+rectangle "-> esp4-encrypt\n(packets to encrypt)" as O3 #fff7ed
+
+IN --> DUAL
+DUAL --> SINGLE
+SINGLE --> O1
+SINGLE --> O2
+SINGLE --> O3
+
+legend bottom
+Processing a batch keeps the node's code and data hot in CPU cache, so per-packet
+overhead is amortized to a few nanoseconds. This is why VPP hits line rate in software.
+endlegend
+@enduml

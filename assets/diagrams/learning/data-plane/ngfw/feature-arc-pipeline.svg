@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 560" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1260" height="560" fill="#ffffff"/>
+  <text x="630" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#1a1f36">The VPP Packet Graph &amp; the ip4-unicast Feature Arc</text>
+  <text x="630" y="58" text-anchor="middle" font-size="13" fill="#64748b">Packets flow left → right through graph nodes. The shaded band is the ordered feature arc where custom firewall logic plugs in.</text>
+
+  <!-- arc band -->
+  <rect x="290" y="150" width="674" height="212" rx="10" fill="#f0fdfa" stroke="#5eead4" stroke-dasharray="6 4"/>
+  <text x="627" y="140" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0f766e">ip4-unicast feature arc — ordered, enabled per interface</text>
+  <text x="627" y="176" text-anchor="middle" font-size="11" fill="#0d9488" font-style="italic">ngfw-decision registers runs_before snort · post-snort registers runs_after snort</text>
+
+  <!-- nodes -->
+  <g font-size="12" font-weight="700">
+    <!-- 0 dpdk-input -->
+    <rect x="30" y="196" width="122" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="91" y="234" text-anchor="middle" fill="#334155">dpdk-input</text>
+    <text x="91" y="252" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">input node:</text>
+    <text x="91" y="266" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">polls the NIC</text>
+    <!-- 1 ip4-input -->
+    <rect x="164" y="196" width="122" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="225" y="234" text-anchor="middle" fill="#334155">ip4-input</text>
+    <text x="225" y="252" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">parse +</text>
+    <text x="225" y="266" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">validate</text>
+    <!-- 2 acl -->
+    <rect x="298" y="196" width="122" height="90" rx="8" fill="#ffffff" stroke="#5eead4"/>
+    <text x="359" y="234" text-anchor="middle" fill="#0f766e" font-size="11">acl-plugin</text>
+    <text x="359" y="252" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">classify →</text>
+    <text x="359" y="266" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">steering tag</text>
+    <!-- 3 ngfw-decision (custom) -->
+    <rect x="432" y="196" width="122" height="90" rx="8" fill="#ecfdf5" stroke="#0f766e" stroke-width="2.5"/>
+    <text x="493" y="230" text-anchor="middle" fill="#0f766e" font-size="10.5">ngfw-</text>
+    <text x="493" y="245" text-anchor="middle" fill="#0f766e" font-size="10.5">decision</text>
+    <text x="493" y="263" text-anchor="middle" font-size="9.5" font-weight="400" fill="#0d9488">policy → action</text>
+    <text x="493" y="277" text-anchor="middle" font-size="8.5" font-weight="700" fill="#0f766e">CUSTOM</text>
+    <!-- 4 snort -->
+    <rect x="566" y="196" width="122" height="90" rx="8" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="627" y="230" text-anchor="middle" fill="#be123c" font-size="10.5">snort-</text>
+    <text x="627" y="245" text-anchor="middle" fill="#be123c" font-size="10.5">ip4-input</text>
+    <text x="627" y="263" text-anchor="middle" font-size="9.5" font-weight="400" fill="#9f1239">hand to IPS</text>
+    <!-- 5 post-snort (custom) -->
+    <rect x="700" y="196" width="122" height="90" rx="8" fill="#ecfdf5" stroke="#0f766e" stroke-width="2.5"/>
+    <text x="761" y="228" text-anchor="middle" fill="#0f766e" font-size="10">ngfw-post-</text>
+    <text x="761" y="242" text-anchor="middle" fill="#0f766e" font-size="10">snort</text>
+    <text x="761" y="260" text-anchor="middle" font-size="9" font-weight="400" fill="#0d9488">act on verdict</text>
+    <text x="761" y="277" text-anchor="middle" font-size="8.5" font-weight="700" fill="#0f766e">CUSTOM</text>
+    <!-- 6 nat -->
+    <rect x="834" y="196" width="122" height="90" rx="8" fill="#ffffff" stroke="#5eead4"/>
+    <text x="895" y="234" text-anchor="middle" fill="#0f766e" font-size="11">nat44 / 66</text>
+    <text x="895" y="252" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">translate</text>
+    <text x="895" y="266" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">addresses</text>
+    <!-- 7 ip4-lookup -->
+    <rect x="968" y="196" width="122" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="1029" y="234" text-anchor="middle" fill="#334155" font-size="11">ip4-lookup</text>
+    <text x="1029" y="252" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">route (FIB)</text>
+    <!-- 8 interface-output -->
+    <rect x="1102" y="196" width="128" height="90" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="1166" y="230" text-anchor="middle" fill="#334155" font-size="10.5">interface-</text>
+    <text x="1166" y="244" text-anchor="middle" fill="#334155" font-size="10.5">output</text>
+    <text x="1166" y="263" text-anchor="middle" font-size="9.5" font-weight="400" fill="#64748b">to NIC tx</text>
+  </g>
+
+  <!-- flow arrows between nodes -->
+  <g stroke="#475569" stroke-width="2">
+    <line x1="152" y1="241" x2="162" y2="241" marker-end="url(#fa)"/>
+    <line x1="286" y1="241" x2="296" y2="241" marker-end="url(#fa)"/>
+    <line x1="420" y1="241" x2="430" y2="241" marker-end="url(#fa)"/>
+    <line x1="554" y1="241" x2="564" y2="241" marker-end="url(#fa)"/>
+    <line x1="688" y1="241" x2="698" y2="241" marker-end="url(#fa)"/>
+    <line x1="822" y1="241" x2="832" y2="241" marker-end="url(#fa)"/>
+    <line x1="956" y1="241" x2="966" y2="241" marker-end="url(#fa)"/>
+    <line x1="1090" y1="241" x2="1100" y2="241" marker-end="url(#fa)"/>
+  </g>
+
+  <!-- decision exits callout -->
+  <line x1="493" y1="286" x2="493" y2="392" stroke="#0f766e" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="360" y="392" width="266" height="132" rx="8" fill="#ecfdf5" stroke="#5eead4"/>
+  <text x="493" y="412" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f766e">ngfw-decision exits</text>
+  <g font-size="10.5" fill="#334155">
+    <text x="376" y="434">• continue arc → snort (inspect)</text>
+    <text x="376" y="454">• pass → ip4-lookup</text>
+    <text x="376" y="474">• encrypt → esp4-encrypt</text>
+    <text x="376" y="494">• drop → error-drop</text>
+    <text x="376" y="514" font-style="italic" fill="#0d9488">writes a note to opaque2 if inspecting</text>
+  </g>
+
+  <!-- post-snort exits callout -->
+  <line x1="761" y1="286" x2="761" y2="392" stroke="#0f766e" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="640" y="392" width="242" height="132" rx="8" fill="#ecfdf5" stroke="#5eead4"/>
+  <text x="761" y="412" text-anchor="middle" font-size="11.5" font-weight="700" fill="#0f766e">ngfw-post-snort exits</text>
+  <g font-size="10.5" fill="#334155">
+    <text x="656" y="434">reads the note (cookie 0xAB):</text>
+    <text x="656" y="454">• pass → ip4-lookup</text>
+    <text x="656" y="474">• NAT → nat</text>
+    <text x="656" y="494">• encrypt → esp4-encrypt</text>
+    <text x="656" y="514" font-style="italic" fill="#0d9488">no cookie? just continue the arc</text>
+  </g>
+
+  <defs>
+    <marker id="fa" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#475569"/></marker>
+  </defs>
+</svg>

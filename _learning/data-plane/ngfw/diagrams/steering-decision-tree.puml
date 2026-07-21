@@ -1,0 +1,31 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/steering-decision-tree.svg
+' Re-render with: plantuml -tsvg steering-decision-tree.puml
+title Steering Tag -> Pipeline Path\n(one ACL classification, six outcomes)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+rectangle "ACL match\n-> steering tag" as ROOT #0f766e
+
+rectangle "NONE\n-> ip4-lookup\n(default pass)" as R1 #f1f5f9
+rectangle "NAT_PASS\n-> nat44 -> ip4-lookup\n(NAT then forward)" as R2 #f1f5f9
+rectangle "SNORT_NAT\n-> snort -> nat44 -> ip4-lookup\n(inspect, NAT, forward)" as R3 #f1f5f9
+rectangle "SNORT_NAT_IPSEC\n-> snort -> nat44 -> esp4-encrypt\n(inspect, NAT, VPN)" as R4 #f1f5f9
+rectangle "NAT_IPSEC\n-> nat44 -> esp4-encrypt\n(NAT, VPN, no inspection)" as R5 #f1f5f9
+rectangle "DROP\n-> error-drop\n(packet discarded)" as R6 #fef2f2
+
+ROOT --> R1
+ROOT --> R2
+ROOT --> R3
+ROOT --> R4
+ROOT --> R5
+ROOT --> R6
+
+legend bottom
+Inside ngfw-decision each tag maps to an action; a note in opaque2 carries the
+"after Snort" part (NAT / IPsec / pass). The same six paths exist for IPv6 via the
+mirror -ip6 nodes and nat66. Return traffic is matched by NAT/IPsec session state.
+endlegend
+@enduml

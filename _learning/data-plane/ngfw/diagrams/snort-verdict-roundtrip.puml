@@ -1,0 +1,25 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/snort-verdict-roundtrip.svg
+' Re-render with: plantuml -tsvg snort-verdict-roundtrip.puml
+title How a Verdict Gets Back to VPP\n(patched Snort -> thread-local storage -> DAQ copies to shared descriptor)
+
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+:1 · VPP enqueues the packet\nwrites a descriptor (offset into buffer pool), bumps the enqueue head; #f0fdfa
+:2 · Snort DAQ dequeues it\nreads the descriptor, resolves the offset, presents the packet to Snort; #fff1f2
+:3 · Snort evaluates rules — on a match, fpLogEvent() fires\nwrites THREAD-LOCAL storage (not a log file):\nsnort_sid_entries[] (SID+verdict) · snort_sid_count · snort_detected_appid; #fff1f2
+:4 · AppID event (optional)\nAppIdVppHandler catches the DataBus event, updates thread-local AppID; #fff1f2
+:5 · daq_vpp_msg_finalize() — the hand-off (star)\nreads thread-local SID/verdict/AppID and COPIES them into the descriptor\nmetadata union (verdict + appid + sid_entries[10]); resets Snort's counters; #fffbeb
+:6 · Snort signals VPP\natomically bumps the dequeue head, wakes VPP via deq_fd eventfd (or VPP polls); #fff1f2
+:7 · VPP dequeue node reads the verdict\nPASS -> continue the feature arc (to ngfw-post-snort)\nBLOCK -> error-drop; VPP tallies verdict / SID / AppID counters; #f0fdfa
+stop
+
+note right
+No log parsing, no sockets on the hot path —
+just a shared-memory descriptor + one eventfd wake.
+If Snort dies, the instance's on-disconnect policy
+(drop | pass) decides what VPP does with new packets.
+end note
+@enduml

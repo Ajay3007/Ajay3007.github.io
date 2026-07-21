@@ -1,0 +1,39 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/management-data-flow.svg
+' Re-render with: plantuml -tsvg management-data-flow.puml
+title Management Plane — from VPP counters to dashboards\n(Java bridge reads the data plane over JNI, serves it northbound)
+
+skinparam shadowing false
+skinparam rectangleRoundCorner 8
+skinparam defaultTextAlignment center
+
+package "NORTHBOUND — what operators & systems see" {
+  rectangle "Management system (NMS/OSS)\ncounter queries over an XML/HTTP API" as NMS #eef2ff
+  rectangle "Alarms\nfaults & threshold breaches (CPU, memory)" as ALARM #eef2ff
+  rectangle "Analytics / event store\nhistory, search, dashboards" as STORE #eef2ff
+}
+
+package "Management Bridge (Java process)" {
+  rectangle "Stats client + per-feature reporters\nACL · NAT · IPsec · ngfw-decision · Snort" as REPORTERS #ffffff
+  rectangle "Alarm listeners\nCPU · memory · threshold" as LISTENERS #ffffff
+  rectangle "Counter reset / purge\n+ rolling-file logger" as RESET #ffffff
+}
+
+package "JNI native library (libvpp_nms_bridge.so) — C <-> Java shim" {
+  rectangle "connectStats · listCounters\ngetSimpleCounter · dumpCombinedCounter" as JNIREAD #faf5ff
+  rectangle "clearAllCounters" as JNICLEAR #fee2e2
+}
+
+package "VPP data plane — two client interfaces" {
+  rectangle "Stats segment (shared memory)\nread-only counters: packets/bytes/verdicts/rule hits" as STATSEG #f0fdfa
+  rectangle "Binary API socket\ncommands: e.g. clear counters (request/reply)" as BINAPI #fff1f2
+}
+
+STATSEG --> JNIREAD : read counters
+JNIREAD --> REPORTERS
+REPORTERS --> NMS
+REPORTERS --> STORE
+LISTENERS --> ALARM
+JNICLEAR --> BINAPI : clear (command)
+RESET --> JNICLEAR
+@enduml

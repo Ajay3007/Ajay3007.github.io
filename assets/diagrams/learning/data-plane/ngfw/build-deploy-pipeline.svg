@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="1200" height="620" fill="#ffffff"/>
+  <text x="600" y="32" text-anchor="middle" font-size="21" font-weight="700" fill="#1a1f36">Build &amp; Deploy Pipeline</text>
+  <text x="600" y="55" text-anchor="middle" font-size="12.5" fill="#64748b">Each component builds on its own track; the orchestrator script wires the artifacts together at runtime.</text>
+
+  <!-- column headers -->
+  <text x="155" y="90" text-anchor="middle" font-size="12.5" font-weight="700" fill="#475569">SOURCE</text>
+  <text x="475" y="90" text-anchor="middle" font-size="12.5" font-weight="700" fill="#475569">BUILD</text>
+  <text x="790" y="90" text-anchor="middle" font-size="12.5" font-weight="700" fill="#475569">ARTIFACT</text>
+  <text x="1075" y="90" text-anchor="middle" font-size="12.5" font-weight="700" fill="#475569">RUNTIME</text>
+
+  <!-- Row 1: VPP plugins -->
+  <g font-size="10.5">
+    <rect x="40" y="104" width="230" height="66" rx="7" fill="#f0fdfa" stroke="#5eead4"/>
+    <text x="155" y="126" text-anchor="middle" font-weight="700" fill="#0f766e">VPP C plugins</text>
+    <text x="155" y="144" text-anchor="middle" fill="#475569">src/plugins/ngfw_decision,</text>
+    <text x="155" y="159" text-anchor="middle" fill="#475569">acl, nat, snort</text>
+    <rect x="325" y="104" width="300" height="66" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="475" y="126" text-anchor="middle" font-weight="700" fill="#334155">add_vpp_plugin(...) in CMake</text>
+    <text x="475" y="144" text-anchor="middle" fill="#475569" font-family="Consolas, monospace">cd $VPP_SRC &amp;&amp; make build-release</text>
+    <text x="475" y="159" text-anchor="middle" fill="#94a3b8">(dropped into VPP source tree)</text>
+    <rect x="665" y="104" width="250" height="66" rx="7" fill="#ecfdf5" stroke="#5eead4"/>
+    <text x="790" y="132" text-anchor="middle" font-weight="700" fill="#0f766e">vpp + plugin *.so</text>
+    <text x="790" y="150" text-anchor="middle" fill="#475569">ngfw_decision_plugin.so, ...</text>
+  </g>
+
+  <!-- Row 2: mgmt bridge -->
+  <g font-size="10.5">
+    <rect x="40" y="184" width="230" height="66" rx="7" fill="#f5f3ff" stroke="#c4b5fd"/>
+    <text x="155" y="206" text-anchor="middle" font-weight="700" fill="#6d28d9">Management bridge</text>
+    <text x="155" y="224" text-anchor="middle" fill="#475569">Java + JNI C</text>
+    <text x="155" y="239" text-anchor="middle" fill="#475569">(VppNativeBridge + .c)</text>
+    <rect x="325" y="184" width="300" height="66" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="475" y="206" text-anchor="middle" font-weight="700" fill="#334155">javac -h  →  gcc -shared -fPIC</text>
+    <text x="475" y="224" text-anchor="middle" fill="#475569" font-family="Consolas, monospace">-lvppapiclient -lvppinfra</text>
+    <text x="475" y="239" text-anchor="middle" fill="#94a3b8">generate JNI header, compile shim</text>
+    <rect x="665" y="184" width="250" height="66" rx="7" fill="#faf5ff" stroke="#c4b5fd"/>
+    <text x="790" y="212" text-anchor="middle" font-weight="700" fill="#6d28d9">bridge.jar + .so</text>
+    <text x="790" y="230" text-anchor="middle" fill="#475569">libvpp_nms_bridge.so</text>
+  </g>
+
+  <!-- Row 3: snort -->
+  <g font-size="10.5">
+    <rect x="40" y="264" width="230" height="66" rx="7" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="155" y="286" text-anchor="middle" font-weight="700" fill="#be123c">Snort (patched)</text>
+    <text x="155" y="304" text-anchor="middle" fill="#475569">extras/snort3 core patch</text>
+    <text x="155" y="319" text-anchor="middle" fill="#475569">+ VPP DAQ module</text>
+    <rect x="325" y="264" width="300" height="66" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="475" y="290" text-anchor="middle" font-weight="700" fill="#334155">build Snort + build DAQ</text>
+    <text x="475" y="310" text-anchor="middle" fill="#94a3b8">(thread-local hooks compiled in)</text>
+    <rect x="665" y="264" width="250" height="66" rx="7" fill="#fff1f2" stroke="#fda4af"/>
+    <text x="790" y="292" text-anchor="middle" font-weight="700" fill="#be123c">snort bin + daq_vpp.so</text>
+    <text x="790" y="310" text-anchor="middle" fill="#475569">rules files</text>
+  </g>
+
+  <!-- Row 4: strongswan -->
+  <g font-size="10.5">
+    <rect x="40" y="344" width="230" height="66" rx="7" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="155" y="366" text-anchor="middle" font-weight="700" fill="#9a3412">StrongSwan</text>
+    <text x="155" y="384" text-anchor="middle" fill="#475569">extras/strongswan</text>
+    <text x="155" y="399" text-anchor="middle" fill="#475569">kernel-vpp plugin</text>
+    <rect x="325" y="344" width="300" height="66" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="475" y="370" text-anchor="middle" font-weight="700" fill="#334155">build StrongSwan + plugin</text>
+    <text x="475" y="390" text-anchor="middle" fill="#94a3b8">(configure with kernel-vpp)</text>
+    <rect x="665" y="344" width="250" height="66" rx="7" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="790" y="372" text-anchor="middle" font-weight="700" fill="#9a3412">charon + kernel-vpp.so</text>
+    <text x="790" y="390" text-anchor="middle" fill="#475569">swanctl config</text>
+  </g>
+
+  <!-- Row 5: scripts/config -->
+  <g font-size="10.5">
+    <rect x="40" y="424" width="230" height="66" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="155" y="446" text-anchor="middle" font-weight="700" fill="#334155">Scripts + config</text>
+    <text x="155" y="464" text-anchor="middle" fill="#475569">python bridges,</text>
+    <text x="155" y="479" text-anchor="middle" fill="#475569">*.template + env file</text>
+    <rect x="325" y="424" width="300" height="66" rx="7" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="475" y="450" text-anchor="middle" font-weight="700" fill="#334155">no build — copied as-is</text>
+    <text x="475" y="470" text-anchor="middle" fill="#94a3b8">templated at startup (envsubst)</text>
+    <rect x="665" y="424" width="250" height="66" rx="7" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="790" y="452" text-anchor="middle" font-weight="700" fill="#334155">*.py + rendered config</text>
+    <text x="790" y="470" text-anchor="middle" fill="#475569">startup.conf, interface script</text>
+  </g>
+
+  <!-- Runtime box -->
+  <rect x="955" y="104" width="230" height="386" rx="10" fill="#eef2ff" stroke="#818cf8" stroke-width="2"/>
+  <text x="1070" y="130" text-anchor="middle" font-size="12.5" font-weight="700" fill="#4338ca">run_ngfw.sh</text>
+  <text x="1070" y="150" text-anchor="middle" font-size="10" fill="#6366f1">(the orchestrator)</text>
+  <g font-size="10" fill="#3730a3">
+    <rect x="975" y="166" width="190" height="40" rx="6" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="1070" y="190" text-anchor="middle">1. envsubst templates</text>
+    <rect x="975" y="214" width="190" height="40" rx="6" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="1070" y="238" text-anchor="middle">2. launch VPP</text>
+    <rect x="975" y="262" width="190" height="40" rx="6" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="1070" y="286" text-anchor="middle">3. start Snort ×N</text>
+    <rect x="975" y="310" width="190" height="40" rx="6" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="1070" y="334" text-anchor="middle">4. start charon</text>
+    <rect x="975" y="358" width="190" height="40" rx="6" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="1070" y="382" text-anchor="middle">5. start bridge</text>
+    <rect x="975" y="406" width="190" height="40" rx="6" fill="#ffffff" stroke="#c7d2fe"/>
+    <text x="1070" y="430" text-anchor="middle">6. seed ACL rules</text>
+    <text x="1070" y="470" text-anchor="middle" font-size="9.5" font-style="italic" fill="#6366f1">see Module 02 startup order</text>
+  </g>
+
+  <!-- flow arrows source->build->artifact -->
+  <g stroke="#94a3b8" stroke-width="1.8">
+    <line x1="270" y1="137" x2="323" y2="137" marker-end="url(#ba)"/>
+    <line x1="625" y1="137" x2="663" y2="137" marker-end="url(#ba)"/>
+    <line x1="270" y1="217" x2="323" y2="217" marker-end="url(#ba)"/>
+    <line x1="625" y1="217" x2="663" y2="217" marker-end="url(#ba)"/>
+    <line x1="270" y1="297" x2="323" y2="297" marker-end="url(#ba)"/>
+    <line x1="625" y1="297" x2="663" y2="297" marker-end="url(#ba)"/>
+    <line x1="270" y1="377" x2="323" y2="377" marker-end="url(#ba)"/>
+    <line x1="625" y1="377" x2="663" y2="377" marker-end="url(#ba)"/>
+    <line x1="270" y1="457" x2="323" y2="457" marker-end="url(#ba)"/>
+    <line x1="625" y1="457" x2="663" y2="457" marker-end="url(#ba)"/>
+  </g>
+  <!-- artifacts converge into runtime -->
+  <g stroke="#818cf8" stroke-width="1.8">
+    <line x1="915" y1="137" x2="953" y2="200" marker-end="url(#bb)"/>
+    <line x1="915" y1="217" x2="953" y2="240" marker-end="url(#bb)"/>
+    <line x1="915" y1="297" x2="953" y2="300" marker-end="url(#bb)"/>
+    <line x1="915" y1="377" x2="953" y2="340" marker-end="url(#bb)"/>
+    <line x1="915" y1="457" x2="953" y2="400" marker-end="url(#bb)"/>
+  </g>
+
+  <defs>
+    <marker id="ba" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#94a3b8"/></marker>
+    <marker id="bb" markerWidth="9" markerHeight="9" refX="4" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#818cf8"/></marker>
+  </defs>
+</svg>

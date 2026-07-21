@@ -1,0 +1,27 @@
+@startuml
+' Source of truth for: assets/diagrams/learning/data-plane/ngfw/packet-journey.svg
+' Re-render with: plantuml -tsvg packet-journey.puml
+title One Packet's Journey — inspected flow going out over VPN
+
+skinparam shadowing false
+skinparam defaultTextAlignment left
+
+start
+:0. Ingress — inbound VLAN sub-interface\npacket arrives; 5-tuple (src:port -> dst:port, proto);
+:1. ip4-input\nparse + validate header, checksum, TTL;
+:2. acl-plugin\nrule match -> steering tag = SNORT_NAT_IPSEC\n[opaque2[0..3] = tag];
+:3. ngfw-decision\naction = snort-then-nat-then-ipsec; continue arc\n[note = { cookie 0xAB, post=NAT, sa=# }];
+:4. snort-ip4-input\ndeep inspection -> verdict PASS (a DROP never returns);
+:5. ngfw-post-snort\ncookie 0xAB valid -> post_action = NAT\n[read note -> NAT; cookie consumed];
+:6. nat44\ntranslate source addr/port; open a session (flow state);
+:7. esp4-encrypt\nencrypt with the outbound IPsec SA\n[buffer.ipsec.sad_index = SA];
+:8. Egress — VPN-out VLAN sub-interface\nencrypted packet leaves toward the tunnel peer;
+stop
+
+note right
+Drop paths (not shown):
+- policy DROP -> error-drop at step 3
+- Snort DROP verdict -> error-drop
+  (never reaches step 5)
+end note
+@enduml
