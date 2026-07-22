@@ -1,0 +1,354 @@
+{
+  "total_duration": 217.809,
+  "language": "en",
+  "word_count": 579,
+  "sentence_count": 47,
+  "words_per_minute": 159.5,
+  "articulation_wpm": 187.0,
+  "pauses": {
+    "count": 63,
+    "short": 45,
+    "long": 18,
+    "total_time": 32.071,
+    "average_duration": 0.509,
+    "longest": 1.041
+  },
+  "fast_speech_regions": [
+    {
+      "start": 2.0,
+      "end": 11.0,
+      "words_per_minute": 225.6,
+      "kind": "fast"
+    },
+    {
+      "start": 18.0,
+      "end": 24.0,
+      "words_per_minute": 210.0,
+      "kind": "fast"
+    },
+    {
+      "start": 46.0,
+      "end": 51.0,
+      "words_per_minute": 204.0,
+      "kind": "fast"
+    },
+    {
+      "start": 77.0,
+      "end": 83.0,
+      "words_per_minute": 204.0,
+      "kind": "fast"
+    },
+    {
+      "start": 80.0,
+      "end": 85.0,
+      "words_per_minute": 204.0,
+      "kind": "fast"
+    },
+    {
+      "start": 126.0,
+      "end": 131.0,
+      "words_per_minute": 204.0,
+      "kind": "fast"
+    },
+    {
+      "start": 209.0,
+      "end": 215.0,
+      "words_per_minute": 210.0,
+      "kind": "fast"
+    }
+  ],
+  "slow_speech_regions": [
+    {
+      "start": 10.0,
+      "end": 17.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 99.0,
+      "end": 104.0,
+      "words_per_minute": 96.0,
+      "kind": "slow"
+    },
+    {
+      "start": 167.0,
+      "end": 172.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 169.0,
+      "end": 174.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    },
+    {
+      "start": 171.0,
+      "end": 176.0,
+      "words_per_minute": 108.0,
+      "kind": "slow"
+    }
+  ],
+  "emphasized_words": [
+    {
+      "word": "Sounds",
+      "start": 11.822,
+      "importance": "medium"
+    },
+    {
+      "word": "right?",
+      "start": 13.384,
+      "importance": "medium"
+    },
+    {
+      "word": "does.",
+      "start": 16.827,
+      "importance": "high"
+    },
+    {
+      "word": "NIC,",
+      "start": 28.88,
+      "importance": "high"
+    },
+    {
+      "word": "processing.",
+      "start": 34.29,
+      "importance": "medium"
+    },
+    {
+      "word": "They",
+      "start": 35.552,
+      "importance": "medium"
+    },
+    {
+      "word": "Every",
+      "start": 38.096,
+      "importance": "medium"
+    },
+    {
+      "word": "CPU",
+      "start": 39.238,
+      "importance": "medium"
+    },
+    {
+      "word": "cache.",
+      "start": 41.362,
+      "importance": "medium"
+    },
+    {
+      "word": "Instead",
+      "start": 46.268,
+      "importance": "medium"
+    },
+    {
+      "word": "mBuff.",
+      "start": 55.178,
+      "importance": "medium"
+    },
+    {
+      "word": "exact",
+      "start": 65.23,
+      "importance": "medium"
+    },
+    {
+      "word": "Now",
+      "start": 68.393,
+      "importance": "medium"
+    },
+    {
+      "word": "DPDK",
+      "start": 72.739,
+      "importance": "high"
+    },
+    {
+      "word": "mempool.",
+      "start": 78.328,
+      "importance": "medium"
+    },
+    {
+      "word": "NIC",
+      "start": 85.619,
+      "importance": "medium"
+    },
+    {
+      "word": "Instead,",
+      "start": 88.764,
+      "importance": "medium"
+    },
+    {
+      "word": "NIC",
+      "start": 89.766,
+      "importance": "medium"
+    },
+    {
+      "word": "DMA",
+      "start": 92.09,
+      "importance": "high"
+    },
+    {
+      "word": "no",
+      "start": 98.179,
+      "importance": "high"
+    },
+    {
+      "word": "CPU",
+      "start": 98.58,
+      "importance": "medium"
+    },
+    {
+      "word": "no",
+      "start": 99.882,
+      "importance": "medium"
+    },
+    {
+      "word": "no",
+      "start": 101.826,
+      "importance": "high"
+    },
+    {
+      "word": "copies.",
+      "start": 102.768,
+      "importance": "medium"
+    },
+    {
+      "word": "From",
+      "start": 103.95,
+      "importance": "medium"
+    },
+    {
+      "word": "only",
+      "start": 120.361,
+      "importance": "medium"
+    },
+    {
+      "word": "moves.",
+      "start": 125.471,
+      "importance": "medium"
+    },
+    {
+      "word": "or",
+      "start": 128.557,
+      "importance": "medium"
+    },
+    {
+      "word": "exactly",
+      "start": 133.827,
+      "importance": "medium"
+    },
+    {
+      "word": "NIC",
+      "start": 134.949,
+      "importance": "medium"
+    },
+    {
+      "word": "key",
+      "start": 137.614,
+      "importance": "medium"
+    },
+    {
+      "word": "copy.",
+      "start": 138.976,
+      "importance": "medium"
+    },
+    {
+      "word": "Only",
+      "start": 142.081,
+      "importance": "medium"
+    },
+    {
+      "word": "8-byte",
+      "start": 147.008,
+      "importance": "medium"
+    },
+    {
+      "word": "64-bit",
+      "start": 148.651,
+      "importance": "medium"
+    },
+    {
+      "word": "CPU",
+      "start": 162.631,
+      "importance": "high"
+    },
+    {
+      "word": "moving",
+      "start": 164.653,
+      "importance": "medium"
+    },
+    {
+      "word": "By",
+      "start": 168.058,
+      "importance": "medium"
+    },
+    {
+      "word": "zero",
+      "start": 169.9,
+      "importance": "medium"
+    },
+    {
+      "word": "CPU",
+      "start": 171.903,
+      "importance": "medium"
+    },
+    {
+      "word": "lowers",
+      "start": 173.084,
+      "importance": "medium"
+    },
+    {
+      "word": "DPDK",
+      "start": 178.311,
+      "importance": "high"
+    },
+    {
+      "word": "tens",
+      "start": 179.693,
+      "importance": "medium"
+    },
+    {
+      "word": "NIC",
+      "start": 186.803,
+      "importance": "medium"
+    },
+    {
+      "word": "only",
+      "start": 198.965,
+      "importance": "medium"
+    },
+    {
+      "word": "Only",
+      "start": 201.69,
+      "importance": "medium"
+    },
+    {
+      "word": "data,",
+      "start": 203.734,
+      "importance": "medium"
+    },
+    {
+      "word": "one",
+      "start": 205.277,
+      "importance": "medium"
+    },
+    {
+      "word": "in",
+      "start": 207.683,
+      "importance": "medium"
+    },
+    {
+      "word": "bytes,",
+      "start": 212.408,
+      "importance": "medium"
+    },
+    {
+      "word": "bytes.",
+      "start": 214.52,
+      "importance": "medium"
+    },
+    {
+      "word": "And",
+      "start": 215.806,
+      "importance": "medium"
+    }
+  ]
+}
