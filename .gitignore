@@ -12,7 +12,6 @@ __pycache__/
 project_dump.txt
 dump_*.txt
 feed_*.txt
-prompt.md
 
 # Jekyll build output
 _site/
