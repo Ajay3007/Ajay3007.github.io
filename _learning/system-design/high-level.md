@@ -87,5 +87,5 @@ permalink: /learning/system-design/high-level/
 
 Intro, core concepts, and practical examples.
 
-[← Back to System Design](/learning/system-design/{ '/learning/system-design/' | relative_url })
+[← Back to System Design]({{ '/learning/system-design/' | relative_url }})
 

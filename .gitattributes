@@ -1,0 +1,36 @@
+# Normalize line endings and enforce UTF-8-friendly text handling.
+# Prevents the encoding/CRLF corruption (mojibake) noted in AUDIT_REPORT.md.
+
+# Auto-detect text files; check out with LF to keep the repo consistent.
+* text=auto eol=lf
+
+# Explicit text types (rendered content)
+*.md    text eol=lf
+*.markdown text eol=lf
+*.html  text eol=lf
+*.css   text eol=lf
+*.js    text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.svg   text eol=lf
+*.py    text eol=lf
+*.rb    text eol=lf
+
+# Windows-specific scripts keep CRLF
+*.bat   text eol=crlf
+*.ps1   text eol=crlf
+
+# Binary assets — never normalize
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.ico   binary
+*.pdf   binary
+*.mp3   binary
+*.mp4   binary
+*.woff  binary
+*.woff2 binary
+*.exe   binary
+*.docx  binary

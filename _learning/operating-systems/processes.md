@@ -16,5 +16,5 @@ permalink: /learning/operating-systems/processes/
 
 Key ideas, algorithms, and pitfalls.
 
-[← Back to Operating Systems](/learning/operating-systems/{ '/learning/operating-systems/' | relative_url })
+[← Back to Operating Systems]({{ '/learning/operating-systems/' | relative_url }})
 

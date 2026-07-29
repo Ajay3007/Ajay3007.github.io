@@ -40,9 +40,23 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# Exclude from processing
+# Exclude from processing (kept in the repo, but NOT published to the built site)
 exclude:
   - scripts/
   - README.md
   - Gemfile
   - Gemfile.lock
+  - vendor/
+  - .venv/
+  # Video-generation tooling (AxioByte manim project) — repo content, not a website section
+  - _learning/manim-scripts/
+  # Internal planning / maintenance docs — not public pages
+  - CLAUDE.md
+  - prompt.md
+  - redesign-prompt.md
+  - AUDIT_REPORT.md
+  - LINK_CONVERSION_GUIDE.md
+  - SITE_MAINTENANCE_LOG.md
+  - RELEASE_NOTES_v1.0.0.md
+  - RELEASE_v1.1.0.md
+  - RELEASE_v1.2.0.md
