@@ -30,3 +30,7 @@ Thumbs.db
 
 # Node
 node_modules/
+
+# Manim render output / review drafts (large binaries — final videos rendered locally)
+_learning/manim-scripts/**/media/
+*_draft_*.mp4

@@ -9,7 +9,8 @@ I will provide:
 
 1. A complete voiceover file either in mp3, mpeg or wav.
 2. A timeline.json file containing word-level timestamps.
-3. (optional) previous project assets
+3. Video should be as of youtube standard ie 9x16
+4. Take reference of previous episode at location _learning\manim-scripts\axiobyte-system\ep01. Although this was a short type project ie 16x9 for this episode a youtube style format 9x16 should be follow.
 
 Your job is to build a complete Manim Community Edition animation that is perfectly synchronized with the narration.
 
