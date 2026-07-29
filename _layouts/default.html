@@ -48,7 +48,11 @@
     <!-- RSS / Atom auto-discovery (jekyll-feed generates /feed.xml) -->
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }} — Blog Feed" href="{{ '/feed.xml' | relative_url }}">
 
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <!-- Core stylesheet, split into ordered layers (redesign Phase 2). Load order = cascade order. -->
+    <link rel="stylesheet" href="{{ '/assets/css/base.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/modules.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/syntax-print.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/signal.css' | relative_url }}">
     {% if page.custom_css %}
     <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css | append: '.css?v=1.1' | relative_url }}">
     {% endif %}

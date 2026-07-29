@@ -76,9 +76,17 @@ class="{% if cur contains '/blog' %}active{% endif %}"
 
 ## CSS
 
-Single stylesheet at `assets/css/main.css`. CSS custom properties (defined in `:root`):
-- `--primary-color: #1a1f36`, `--secondary-color: #00d4ff`, `--accent-color: #ff6b9d`
-- `--bg-color: #f7fafc`, `--card-bg: #ffffff`, `--shadow`, `--shadow-sm`
+Core styles live in four ordered layer files under `assets/css/`, loaded in this order by `_layouts/default.html` (load order = cascade order):
+1. `base.css` — reset, `:root` design tokens, base elements, site shell (header/nav/footer), buttons, global search
+2. `modules.css` — feature/page modules (problem cards, topic pages, learning sidebar, breadcrumbs, post article, scroll-to-top)
+3. `syntax-print.css` — Rouge code highlighting + print stylesheet
+4. `signal.css` — the "Signal / Packet" component system (`c-*` classes: hero, sections, cards, about, timeline, project visualizers)
+
+The site is **dark-only**. Design tokens (in `base.css` `:root`) are the single source of truth:
+- Colour: `--bg: #06080d`, `--panel`, `--panel-2`, `--ink`, `--body`, `--dim`, `--rule`; single accent `--accent: #22d3ee`; `--warm` (used sparingly). Legacy aliases (`--primary-color`, `--secondary-color`, `--accent-color`, `--bg-color`, `--card-bg`, `--shadow`, `--shadow-sm`) map onto these for older classes.
+- Scale: `--space-*`, `--fs-*`, `--leading-*`, `--radius-*`, `--container`, `--z-*`, `--dur-*`, and semantic `--info` / `--tip` / `--warn` / `--danger`.
+
+Per-page CSS is still loaded additionally via the `custom_css` front-matter key (e.g. roadmap pages), after the core layers.
 
 ## AI Assistant Constraints
 
