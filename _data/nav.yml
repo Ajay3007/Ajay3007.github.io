@@ -1,0 +1,51 @@
+# Single source of truth for site navigation (redesign Phase 3).
+#  - `main`         drives the top navigation  (_layouts/default.html)
+#  - `learn_groups` drives the grouped category sidebar (_layouts/learning.html)
+#
+# Top-nav active state: an item is active when the current page URL contains
+# its `match` value. `Home` has no `match`, so it is active only on `/`.
+
+main:
+  - title: Home
+    url: /
+  - title: Learning
+    url: /learning
+    match: /learning
+  - title: Problems
+    url: /problems
+    match: /problems
+  - title: Roadmap
+    url: /roadmap
+    match: /roadmap
+  - title: Projects
+    url: /projects
+    match: /projects
+  - title: Blogs
+    url: /blogs
+    match: /blogs
+  - title: About
+    url: /about
+    match: /about
+
+# Learning categories, grouped for scannability. `slug` is the folder under
+# /learning/. Sub-topic pages are listed automatically from site.learning
+# when a category is the active one, so this list only needs the categories.
+learn_groups:
+  - group: Systems
+    items:
+      - { title: "Data Plane",        slug: "data-plane" }
+      - { title: "Networking",        slug: "networking" }
+      - { title: "4G / 5G Networks",  slug: "4g-5g" }
+      - { title: "Operating Systems", slug: "operating-systems" }
+  - group: Foundations
+    items:
+      - { title: "DSA",                   slug: "dsa" }
+      - { title: "System Design",         slug: "system-design" }
+      - { title: "OOP",                   slug: "oop" }
+      - { title: "Programming Languages", slug: "programming-language" }
+  - group: Applied
+    items:
+      - { title: "AI & ML",                 slug: "ai-ml" }
+      - { title: "Backend",                 slug: "backend" }
+      - { title: "Competitive Programming", slug: "competitive-programming" }
+      - { title: "Finance",                 slug: "finance" }

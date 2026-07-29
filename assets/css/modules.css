@@ -666,3 +666,39 @@
   .c-post-h1 { font-size: 28px; }
 }
 
+
+/* ===============================================================
+   Data-driven navigation (redesign Phase 3)
+   Grouped, nested learning sidebar + site-wide breadcrumbs.
+   =============================================================== */
+.sidebar-group { margin-bottom: 1.25rem; }
+.sidebar-group + .sidebar-group { border-top: 1px solid var(--rule); padding-top: 1rem; }
+.sidebar-group-title {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 0.5rem;
+}
+.learning-sidebar nav a.sidebar-cat { font-weight: 600; }
+.sidebar-subnav {
+  list-style: none;
+  margin: 0.25rem 0 0.6rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--rule);
+}
+.sidebar-subnav li { margin: 0; }
+.learning-sidebar nav .sidebar-subnav a {
+  padding: 0.3rem 0;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--body);
+}
+.learning-sidebar nav .sidebar-subnav a:hover { color: var(--ink); }
+.learning-sidebar nav .sidebar-subnav a.active { color: var(--accent); font-weight: 600; }
+
+/* Breadcrumbs (site-wide include) */
+.breadcrumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+.breadcrumb-sep { color: var(--faint); }
+.breadcrumb-current { color: var(--body); }

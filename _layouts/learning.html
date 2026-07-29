@@ -8,36 +8,31 @@ layout: default
             <span class="sidebar-toggle-label">📚 Topics</span>
             <span class="sidebar-toggle-icon">▾</span>
         </button>
-        <nav id="sidebar-nav" class="sidebar-nav">
-            <a href="{{ '/learning/programming-language/' | relative_url }}"
-                class="{% if page.url contains '/programming-language/' %}active{% endif %}">Programming Languages</a>
-            <a href="{{ '/learning/dsa/' | relative_url }}"
-                class="{% if page.url contains '/dsa/' %}active{% endif %}">DSA</a>
-            <a href="{{ '/learning/system-design/' | relative_url }}"
-                class="{% if page.url contains '/system-design/' %}active{% endif %}">System Design</a>
-            <a href="{{ '/learning/oop/' | relative_url }}"
-                class="{% if page.url contains '/oop/' %}active{% endif %}">OOP</a>
-            <a href="{{ '/learning/operating-systems/' | relative_url }}"
-                class="{% if page.url contains '/operating-systems/' %}active{% endif %}">Operating Systems</a>
-            <a href="{{ '/learning/networking/' | relative_url }}"
-                class="{% if page.url contains '/networking/' %}active{% endif %}">Networking</a>
-            <a href="{{ '/learning/4g-5g/' | relative_url }}"
-                class="{% if page.url contains '/4g-5g/' %}active{% endif %}">4G/5G Networks</a>
-            <a href="{{ '/learning/competitive-programming/' | relative_url }}"
-                class="{% if page.url contains '/competitive-programming/' %}active{% endif %}">Competitive Programming</a>
-            <a href="{{ '/learning/ai-ml/' | relative_url }}"
-                class="{% if page.url contains '/ai-ml/' %}active{% endif %}">AI & ML</a>
-            <a href="{{ '/learning/data-plane/' | relative_url }}"
-                class="{% if page.url contains '/data-plane/' %}active{% endif %}">Data Plane</a>
-            <a href="{{ '/learning/finance/' | relative_url }}"
-                class="{% if page.url contains '/finance/' %}active{% endif %}">Finance</a>
+        <nav id="sidebar-nav" class="sidebar-nav" aria-label="Learning topics">
+            {% for group in site.data.nav.learn_groups %}
+            <div class="sidebar-group">
+                <div class="sidebar-group-title">{{ group.group }}</div>
+                {% for cat in group.items %}
+                    {% assign cat_prefix = '/learning/' | append: cat.slug | append: '/' %}
+                    {% assign is_cat_active = false %}
+                    {% if page.url contains cat_prefix %}{% assign is_cat_active = true %}{% endif %}
+                    <a href="{{ cat_prefix | relative_url }}" class="sidebar-cat{% if is_cat_active %} active{% endif %}">{{ cat.title }}</a>
+                    {% if is_cat_active %}
+                        {% assign cat_pages = site.learning | where_exp: "p", "p.url contains cat_prefix" | sort: "url" %}
+                        {% capture subitems %}{% for p in cat_pages %}{% assign rest = p.url | remove_first: cat_prefix %}{% assign depth = rest | split: '/' | size %}{% if depth == 1 %}<li><a href="{{ p.url | relative_url }}"{% if p.url == page.url %} class="active"{% endif %}>{{ p.title | default: p.name }}</a></li>{% endif %}{% endfor %}{% endcapture %}
+                        {% assign subitems_trim = subitems | strip %}
+                        {% if subitems_trim != '' %}
+                        <ul class="sidebar-subnav">{{ subitems }}</ul>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
         </nav>
     </aside>
 
     <div class="learning-content">
-        <div class="breadcrumbs">
-            <a href="{{ '/learning/' | relative_url }}">Learning Portal</a> &raquo; <span>{{ page.title }}</span>
-        </div>
+        {% include breadcrumbs.html %}
 
         {{ content }}
     </div>

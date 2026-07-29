@@ -74,13 +74,15 @@
 
             <nav class="site-nav">
                 {% assign cur = page.url | default: '/' %}
-                <a href="{{ '/' | relative_url }}" class="{% if cur == '/' or cur == '' %}active{% endif %}">Home</a>
-                <a href="{{ '/learning' | relative_url }}" class="{% if cur contains '/learning' %}active{% endif %}">Learning</a>
-                <a href="{{ '/problems' | relative_url }}" class="{% if cur contains '/problems' %}active{% endif %}">Problems</a>
-                <a href="{{ '/roadmap' | relative_url }}" class="{% if cur contains '/roadmap' %}active{% endif %}">Roadmap</a>
-                <a href="{{ '/projects' | relative_url }}" class="{% if cur contains '/projects' %}active{% endif %}">Projects</a>
-                <a href="{{ '/blogs' | relative_url }}" class="{% if cur contains '/blogs' %}active{% endif %}">Blogs</a>
-                <a href="{{ '/about' | relative_url }}" class="{% if cur contains '/about' %}active{% endif %}">About</a>
+                {% for item in site.data.nav.main %}
+                    {% assign is_active = false %}
+                    {% if item.match %}
+                        {% if cur contains item.match %}{% assign is_active = true %}{% endif %}
+                    {% elsif cur == '/' or cur == '' %}
+                        {% assign is_active = true %}
+                    {% endif %}
+                    <a href="{{ item.url | relative_url }}" class="{% if is_active %}active{% endif %}">{{ item.title }}</a>
+                {% endfor %}
             </nav>
 
             <div class="header-meta">

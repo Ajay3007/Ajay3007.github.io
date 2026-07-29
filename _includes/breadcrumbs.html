@@ -1,0 +1,34 @@
+{%- comment -%}
+  Site-wide breadcrumb trail derived from page.url.
+  - Intermediate crumbs link only when a real page exists at that path
+    (checked against every collection doc + static page), so grouping
+    folders with no index never produce a 404 link.
+  - The label prefers the target page's own title, falling back to a
+    humanised slug. The final crumb is the current page title.
+{%- endcomment -%}
+{%- assign segments = page.url | remove_first: '/' | split: '/' -%}
+{%- if segments.size > 0 -%}
+{%- assign lookup = site.documents | concat: site.pages -%}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="{{ '/' | relative_url }}">Home</a>
+  {%- assign path = '' -%}
+  {%- for seg in segments -%}
+    {%- assign path = path | append: '/' | append: seg -%}
+    {%- assign target = path | append: '/' -%}
+    <span class="breadcrumb-sep" aria-hidden="true">&rsaquo;</span>
+    {%- if forloop.last -%}
+      {%- assign last_label = page.title | default: seg | replace: '-', ' ' -%}
+      <span class="breadcrumb-current" aria-current="page">{{ last_label }}</span>
+    {%- else -%}
+      {%- assign hit = lookup | where: "url", target -%}
+      {%- assign label = seg | replace: '-', ' ' | capitalize -%}
+      {%- if hit.size > 0 -%}
+        {%- assign label = hit[0].title | default: label -%}
+        <a href="{{ target | relative_url }}">{{ label }}</a>
+      {%- else -%}
+        <span>{{ label }}</span>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+</nav>
+{%- endif -%}
