@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Recursion
 permalink: /learning/dsa/recursion/
 ---

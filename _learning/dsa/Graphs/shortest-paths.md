@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Shortest Paths
 permalink: /learning/dsa/graphs/shortest-paths/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Circular Queue
 permalink: /learning/dsa/queues/circular-queue/
 ---

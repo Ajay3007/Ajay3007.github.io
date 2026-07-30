@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Bit Manipulation - Practice Problems
 permalink: /learning/dsa/bit-manipulation/bit-manipulation-problems/
 ---

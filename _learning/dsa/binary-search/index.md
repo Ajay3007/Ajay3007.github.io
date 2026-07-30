@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Binary Search
 permalink: /learning/dsa/binary-search/
 ---

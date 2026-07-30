@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Arrays
 permalink: /learning/dsa/arrays/
 ---

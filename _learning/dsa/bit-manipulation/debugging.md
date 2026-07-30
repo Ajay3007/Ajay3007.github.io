@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Bit Manipulation — Debugging Guide"
 permalink: /learning/dsa/bit-manipulation/debugging/
 ---

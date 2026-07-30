@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Trees
 permalink: /learning/dsa/tree/
 ---

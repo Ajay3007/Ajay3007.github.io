@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Greedy - Practice Problems
 permalink: /learning/dsa/greedy/greedy-problems/
 ---

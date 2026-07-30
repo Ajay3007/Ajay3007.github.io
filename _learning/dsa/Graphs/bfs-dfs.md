@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: BFS & DFS
 permalink: /learning/dsa/graphs/bfs-dfs/
 ---

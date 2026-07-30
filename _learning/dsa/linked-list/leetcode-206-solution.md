@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Reverse Linked List - Solution
 permalink: /learning/dsa/linked-list/leetcode-206-solution/
 ---

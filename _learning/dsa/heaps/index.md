@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Heaps
 permalink: /learning/dsa/heaps/
 ---

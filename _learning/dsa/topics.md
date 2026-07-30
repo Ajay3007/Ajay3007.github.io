@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Data Structures Topics
 permalink: /learning/dsa/topics/
 ---

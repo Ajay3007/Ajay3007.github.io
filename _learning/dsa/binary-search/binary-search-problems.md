@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Binary Search - Practice Problems
 permalink: /learning/dsa/binary-search/binary-search-problems/
 ---

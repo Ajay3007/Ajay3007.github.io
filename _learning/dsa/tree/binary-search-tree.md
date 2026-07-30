@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Binary Search Tree
 permalink: /learning/dsa/tree/binary-search-tree/
 ---

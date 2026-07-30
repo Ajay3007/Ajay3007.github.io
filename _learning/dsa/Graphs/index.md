@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Graphs
 permalink: /learning/dsa/graphs/
 ---

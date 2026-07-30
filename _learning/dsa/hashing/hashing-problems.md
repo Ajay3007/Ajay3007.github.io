@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Hashing - Practice Problems
 permalink: /learning/dsa/hashing/hashing-problems/
 ---

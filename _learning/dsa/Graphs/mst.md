@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Minimum Spanning Tree
 permalink: /learning/dsa/graphs/mst/
 ---

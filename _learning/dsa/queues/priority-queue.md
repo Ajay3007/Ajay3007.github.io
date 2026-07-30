@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Priority Queue
 permalink: /learning/dsa/queues/priority-queue/
 ---

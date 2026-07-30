@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Master Problem List
 permalink: /learning/dsa/master-problem-list/
 ---

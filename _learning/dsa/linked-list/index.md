@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Linked List
 permalink: /learning/dsa/linked-list/
 ---

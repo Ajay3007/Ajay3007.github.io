@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Leetcode 271. Encode and Decode Strings
 permalink: /learning/dsa/strings/leetcode-271/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Linked List Cycle - Solution
 permalink: /learning/dsa/linked-list/leetcode-141-solution/
 ---

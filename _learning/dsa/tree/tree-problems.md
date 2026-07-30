@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Trees - Practice Problems
 permalink: /learning/dsa/tree/tree-problems/
 ---

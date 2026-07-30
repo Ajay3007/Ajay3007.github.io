@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Strings - Practice Problems
 permalink: /learning/dsa/strings/strings-problems/
 ---

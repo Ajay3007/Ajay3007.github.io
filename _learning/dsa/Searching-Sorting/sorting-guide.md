@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Sorting Algorithms Master Guide
 permalink: /learning/dsa/searching-sorting/sorting-guide/
 ---

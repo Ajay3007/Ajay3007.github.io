@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Bit Manipulation — Systems Problems"
 permalink: /learning/dsa/bit-manipulation/systems-problems/
 ---

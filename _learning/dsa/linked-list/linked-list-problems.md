@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Linked List - Practice Problems
 permalink: /learning/dsa/linked-list/linked-list-problems/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: 2D DP
 permalink: /learning/dsa/dynamic-programming/2d-dp/
 ---

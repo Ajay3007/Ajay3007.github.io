@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: String Pattern Matching
 permalink: /learning/dsa/strings/pattern-matching/
 ---

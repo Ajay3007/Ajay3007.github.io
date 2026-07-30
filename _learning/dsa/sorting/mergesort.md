@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Mergesort
 permalink: /learning/dsa/sorting/mergesort/
 published: false

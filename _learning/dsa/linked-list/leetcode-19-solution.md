@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Merge Two Sorted Lists - Solution
 permalink: /learning/dsa/linked-list/leetcode-19-solution/
 ---

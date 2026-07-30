@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Graphs - Practice Problems
 permalink: /learning/dsa/graphs/graphs-problems/
 ---

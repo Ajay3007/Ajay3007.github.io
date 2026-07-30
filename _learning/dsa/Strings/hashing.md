@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: String Hashing
 permalink: /learning/dsa/strings/hashing/
 ---

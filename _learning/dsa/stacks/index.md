@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Stacks
 permalink: /learning/dsa/stacks/
 ---

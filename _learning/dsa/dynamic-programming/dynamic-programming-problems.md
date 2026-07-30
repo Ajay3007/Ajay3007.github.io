@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Dynamic Programming - Practice Problems
 permalink: /learning/dsa/dynamic-programming/dynamic-programming-problems/
 ---

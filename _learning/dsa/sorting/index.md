@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Sorting
 permalink: /learning/dsa/sorting/
 published: false

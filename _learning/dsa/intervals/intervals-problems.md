@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Intervals - Practice Problems
 permalink: /learning/dsa/intervals/intervals-problems/
 ---

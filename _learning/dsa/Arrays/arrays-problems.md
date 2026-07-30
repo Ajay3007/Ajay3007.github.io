@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Arrays - Practice Problems
 permalink: /learning/dsa/arrays/arrays-problems/
 ---

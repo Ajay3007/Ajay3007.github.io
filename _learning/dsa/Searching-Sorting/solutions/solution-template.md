@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Problem Title - Solution
 permalink: /learning/dsa/searching-sorting/solutions/solution-template/
 ---

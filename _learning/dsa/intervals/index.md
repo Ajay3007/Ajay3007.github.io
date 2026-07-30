@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Intervals
 permalink: /learning/dsa/intervals/
 ---

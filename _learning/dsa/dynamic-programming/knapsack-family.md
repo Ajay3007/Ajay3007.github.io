@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Knapsack Family
 permalink: /learning/dsa/dynamic-programming/knapsack-family/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Bit Manipulation — First-Principles Deep Dive"
 permalink: /learning/dsa/bit-manipulation/
 ---

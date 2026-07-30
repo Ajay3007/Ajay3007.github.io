@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Searching & Sorting - Practice Problems
 permalink: /learning/dsa/searching-sorting/searching-sorting-problems/
 ---

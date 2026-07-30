@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Heapsort
 permalink: /learning/dsa/sorting/heapsort/
 published: false

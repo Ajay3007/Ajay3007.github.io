@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Trie
 permalink: /learning/dsa/tree/trie/
 ---

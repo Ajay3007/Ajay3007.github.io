@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Backtracking - Practice Problems
 permalink: /learning/dsa/backtracking/backtracking-problems/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Middle of the Linked List - Solution
 permalink: /learning/dsa/linked-list/leetcode-876-solution/
 ---

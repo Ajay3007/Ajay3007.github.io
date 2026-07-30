@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Quicksort
 permalink: /learning/dsa/sorting/quicksort/
 published: false

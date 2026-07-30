@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Stacks - Practice Problems
 permalink: /learning/dsa/stacks/stacks-problems/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Backtracking
 permalink: /learning/dsa/backtracking/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Queues - Practice Problems
 permalink: /learning/dsa/queues/queues-problems/
 ---

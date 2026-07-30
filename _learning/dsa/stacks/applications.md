@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Stack Applications
 permalink: /learning/dsa/stacks/applications/
 ---

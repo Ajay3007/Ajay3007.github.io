@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: 1D DP
 permalink: /learning/dsa/dynamic-programming/1d-dp/
 ---

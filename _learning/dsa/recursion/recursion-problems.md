@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Recursion - Practice Problems
 permalink: /learning/dsa/recursion/recursion-problems/
 ---

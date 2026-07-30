@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Dynamic Programming
 permalink: /learning/dsa/dynamic-programming/
 ---

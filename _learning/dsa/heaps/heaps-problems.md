@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Heaps - Practice Problems
 permalink: /learning/dsa/heaps/heaps-problems/
 ---

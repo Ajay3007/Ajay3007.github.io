@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: String Basics
 permalink: /learning/dsa/strings/string-basics/
 ---

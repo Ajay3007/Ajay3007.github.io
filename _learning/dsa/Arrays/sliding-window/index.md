@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Sliding Window Technique
 permalink: /learning/dsa/arrays/sliding-window/
 ---

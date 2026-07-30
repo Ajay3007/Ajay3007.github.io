@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Queues
 permalink: /learning/dsa/queues/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Greedy Algorithms
 permalink: /learning/dsa/greedy/
 ---
