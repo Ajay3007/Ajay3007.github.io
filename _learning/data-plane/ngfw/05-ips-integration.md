@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: IPS Integration (Snort + DAQ)
 permalink: /learning/data-plane/ngfw/ips-integration/
 ---

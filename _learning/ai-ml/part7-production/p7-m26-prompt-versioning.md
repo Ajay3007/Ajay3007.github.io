@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P7-M26 - Prompt Versioning, Cost Monitoring & Caching"
 permalink: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
 ---

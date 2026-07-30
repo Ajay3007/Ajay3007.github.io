@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M09 — Authentication & Authorization"
 permalink: /learning/backend/m09-auth-jwt/
 ---

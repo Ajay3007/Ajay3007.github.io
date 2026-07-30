@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Track C - AI Automation Engineer"
 permalink: /learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java Primitive Data Types – Complete Guide
 permalink: /learning/programming-language/java/01-basics/primitive-data-types/
 ---

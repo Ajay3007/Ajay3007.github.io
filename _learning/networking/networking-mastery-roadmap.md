@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Networking Mastery Roadmap"
 permalink: /learning/networking-mastery/
 ---

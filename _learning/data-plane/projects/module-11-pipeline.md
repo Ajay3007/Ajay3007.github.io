@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 11 — Multi-lcore RX/TX Pipeline"
 permalink: /learning/data-plane/projects/module-11-pipeline/
 ---

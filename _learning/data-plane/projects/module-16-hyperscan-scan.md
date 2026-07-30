@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 16 — Hyperscan: Scratch Management + Scanning"
 permalink: /learning/data-plane/projects/module-16-hyperscan-scan/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Memory Layout in C
 permalink: /learning/programming-language/c/c-basics/memory-layout/
 ---

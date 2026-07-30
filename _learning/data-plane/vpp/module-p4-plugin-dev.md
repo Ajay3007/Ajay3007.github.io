@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P4 - Plugin Development"
 permalink: /learning/data-plane/vpp/module-p4-plugin-dev/
 ---

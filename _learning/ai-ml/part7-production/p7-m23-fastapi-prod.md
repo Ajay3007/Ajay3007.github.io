@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P7-M23 - FastAPI Production Patterns"
 permalink: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK P2 — Poll Mode Drivers & Port Config"
 permalink: /learning/data-plane/dpdk/module-p2-pmd/
 ---

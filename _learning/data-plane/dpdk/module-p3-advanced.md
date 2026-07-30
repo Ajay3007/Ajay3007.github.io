@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK P3 — Multi-Process, rte_flow & NUMA"
 permalink: /learning/data-plane/dpdk/module-p3-advanced/
 ---

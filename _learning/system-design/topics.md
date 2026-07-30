@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: System Design Topics
 permalink: /learning/system-design/topics/
 ---

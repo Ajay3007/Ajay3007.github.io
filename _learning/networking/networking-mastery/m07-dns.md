@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M07 - DNS"
 permalink: /learning/networking-mastery/m07-dns/
 ---

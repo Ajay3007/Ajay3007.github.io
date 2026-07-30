@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Operating Systems
 permalink: /learning/operating-systems/
 ---

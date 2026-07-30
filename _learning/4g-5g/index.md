@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: 4G/5G Networks
 permalink: /learning/4g-5g/
 ---

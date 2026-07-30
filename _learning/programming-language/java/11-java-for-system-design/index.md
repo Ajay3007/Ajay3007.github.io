@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java for System Design
 permalink: /learning/programming-language/java/11-java-for-system-design/
 ---

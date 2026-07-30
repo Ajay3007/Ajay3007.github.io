@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M19 - Cryptography Foundations"
 permalink: /learning/networking-mastery/m19-cryptography/
 ---

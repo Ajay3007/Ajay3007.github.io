@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M17 - High-Performance Networking with DPDK"
 permalink: /learning/networking-mastery/m17-dpdk/
 ---

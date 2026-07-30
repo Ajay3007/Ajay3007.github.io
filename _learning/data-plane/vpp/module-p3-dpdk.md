@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P3A - DPDK Plugin Deep Dive"
 permalink: /learning/data-plane/vpp/module-p3-dpdk/
 ---

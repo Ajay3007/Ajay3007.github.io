@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Contributor's Guide
 permalink: /learning/data-plane/ngfw/contributor-guide/
 ---

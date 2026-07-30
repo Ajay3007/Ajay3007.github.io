@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Track D - Data Scientist / Analyst"
 permalink: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
 ---

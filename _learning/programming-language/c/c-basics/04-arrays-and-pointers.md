@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Arrays and Pointers
 permalink: /learning/programming-language/c/c-basics/arrays-and-pointers/
 ---

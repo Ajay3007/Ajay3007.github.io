@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: CAP Theorem
 permalink: /learning/system-design/fundamentals/cap-theorem/
 ---

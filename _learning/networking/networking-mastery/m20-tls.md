@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M20 - TLS Internals"
 permalink: /learning/networking-mastery/m20-tls/
 ---

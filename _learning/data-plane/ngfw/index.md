@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: NGFW (Next-Generation Firewall)
 permalink: /learning/data-plane/ngfw/
 ---

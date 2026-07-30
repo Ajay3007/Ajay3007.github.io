@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Low-Level Design (LLD)
 permalink: /learning/system-design/lld/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P4-M14 - Reliability, Cost & Security"
 permalink: /learning/ai-ml/part4-llm-apis/p4-m14-reliability-security/
 ---

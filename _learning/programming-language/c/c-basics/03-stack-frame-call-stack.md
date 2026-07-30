@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Stack Frame and Call Stack
 permalink: /learning/programming-language/c/c-basics/stack-frame/
 ---

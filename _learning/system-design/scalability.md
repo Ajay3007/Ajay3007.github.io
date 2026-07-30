@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Scalability Patterns
 permalink: /learning/system-design/scalability/
 ---

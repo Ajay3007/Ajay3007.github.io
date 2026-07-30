@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M08 - HTTP/1.1, HTTP/2, HTTP/3 and QUIC"
 permalink: /learning/networking-mastery/m08-http/
 ---

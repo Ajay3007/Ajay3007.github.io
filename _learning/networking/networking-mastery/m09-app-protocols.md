@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M09 - SMTP, FTP, and DHCP"
 permalink: /learning/networking-mastery/m09-app-protocols/
 ---

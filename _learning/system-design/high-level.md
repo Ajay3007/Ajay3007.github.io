@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: High-Level Design
 permalink: /learning/system-design/high-level/
 ---

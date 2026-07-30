@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P6-M22 - Evaluation Harnesses & Task Success Metrics"
 permalink: /learning/ai-ml/part6-agents/p6-m22-evaluation/
 ---

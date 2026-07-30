@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P3-M10 - Unsupervised Learning: K-Means, PCA & t-SNE"
 permalink: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
 ---

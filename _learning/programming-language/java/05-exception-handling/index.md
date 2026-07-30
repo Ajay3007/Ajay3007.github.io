@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Exception Handling
 permalink: /learning/programming-language/java/05-exception-handling/
 ---

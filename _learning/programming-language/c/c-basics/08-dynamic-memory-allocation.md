@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Dynamic Memory Allocation
 permalink: /learning/programming-language/c/c-basics/dynamic-memory/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module B12: System Design Interview Framework"
 permalink: /learning/system-design/hld/module-b12-interview-framework/
 ---

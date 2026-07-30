@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module B7 Notes: WhatsApp"
 permalink: /learning/system-design/hld/module-b7-notes/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK P1 — Hugepages, mempool & mbuf"
 permalink: /learning/data-plane/dpdk/module-p1-memory/
 ---

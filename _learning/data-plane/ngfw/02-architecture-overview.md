@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: NGFW Architecture Overview
 permalink: /learning/data-plane/ngfw/architecture-overview/
 ---

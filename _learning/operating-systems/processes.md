@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Processes
 permalink: /learning/operating-systems/processes/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: IPsec / VPN
 permalink: /learning/data-plane/ngfw/ipsec-vpn/
 ---

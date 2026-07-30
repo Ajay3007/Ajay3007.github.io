@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 02 — Logger"
 permalink: /learning/data-plane/projects/module-02-logger/
 ---

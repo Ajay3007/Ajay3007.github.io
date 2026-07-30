@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P7-M27 - MLOps Foundations"
 permalink: /learning/ai-ml/part7-production/p7-m27-mlops/
 ---

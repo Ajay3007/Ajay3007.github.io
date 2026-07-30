@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Memory Management & Garbage Collection in Java
 permalink: /learning/programming-language/java/03-core-java/memory-management-garbage-collection/
 ---

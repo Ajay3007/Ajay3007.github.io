@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module B11 Notes: ACID, Distributed Transactions & Saga"
 permalink: /learning/system-design/hld/module-b11-notes/
 ---

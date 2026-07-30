@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Scalability
 permalink: /learning/system-design/fundamentals/scalability/
 ---

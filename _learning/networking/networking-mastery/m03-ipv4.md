@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M03 - IPv4 Deep Dive"
 permalink: /learning/networking-mastery/m03-ipv4/
 ---

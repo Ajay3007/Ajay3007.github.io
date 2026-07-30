@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M24 - Deep Packet Inspection and Application Identification"
 permalink: /learning/networking-mastery/m24-dpi/
 ---

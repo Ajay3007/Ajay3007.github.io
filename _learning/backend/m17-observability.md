@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M17 — Observability & Hardening"
 description: "Logs, metrics, traces — the 3 pillars. Prometheus, distributed tracing, rate limiting, OWASP Top 10, secrets management, graceful shutdown — with C implementations."
 ---

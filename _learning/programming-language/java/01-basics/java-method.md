@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java Methods – Declaration & Access Specifiers
 permalink: /learning/programming-language/java/01-basics/java-method/
 ---

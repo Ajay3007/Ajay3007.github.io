@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Observer Pattern
 permalink: /learning/system-design/patterns/observer/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Design Patterns
 permalink: /learning/oop/design-patterns/
 ---

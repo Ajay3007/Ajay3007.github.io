@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P3-M08 - Classification: Decision Trees, Random Forest & SVM"
 permalink: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
 ---

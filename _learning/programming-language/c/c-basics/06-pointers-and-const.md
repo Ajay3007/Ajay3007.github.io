@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Pointers and const
 permalink: /learning/programming-language/c/c-basics/pointers-const/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: OOP
 permalink: /learning/programming-language/java/02-oop/
 ---

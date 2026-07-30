@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P6-M21 - Failure Handling in Agents"
 permalink: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 ---

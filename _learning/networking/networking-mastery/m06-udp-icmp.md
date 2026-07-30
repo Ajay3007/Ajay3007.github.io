@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M06 - UDP and ICMP"
 permalink: /learning/networking-mastery/m06-udp-icmp/
 ---

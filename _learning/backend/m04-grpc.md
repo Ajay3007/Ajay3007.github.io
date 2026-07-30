@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M04 — gRPC & Protocol Buffers Deep Dive"
 description: "Proto3 syntax, all 4 streaming modes, Protobuf wire encoding, gRPC error model, interceptors, gRPC-Gateway, and schema evolution — with C implementations using protobuf-c."
 ---

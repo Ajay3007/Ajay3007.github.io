@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P3-M07 - Regression: Linear, Ridge, Lasso & Polynomial"
 permalink: /learning/ai-ml/part3-classical-ml/p3-m07-regression/
 ---

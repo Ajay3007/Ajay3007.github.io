@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M06 — SQL & Indexing"
 permalink: /learning/backend/m06-sql-indexing/
 ---

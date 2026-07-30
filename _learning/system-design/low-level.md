@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Low-Level Design
 permalink: /learning/system-design/low-level/
 ---

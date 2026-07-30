@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P6-M19 - Agent Loops & LangGraph"
 permalink: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
 ---

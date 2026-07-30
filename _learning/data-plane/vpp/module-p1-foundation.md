@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P1 - Foundation and Environment"
 permalink: /learning/data-plane/vpp/module-p1-foundation/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Management Plane
 permalink: /learning/data-plane/ngfw/management-plane/
 ---

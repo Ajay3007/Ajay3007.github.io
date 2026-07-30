@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M13 — Event-Driven Architecture"
 description: "Kafka internals, RabbitMQ patterns, Saga, Outbox, CQRS, Event Sourcing, idempotent consumers — with C/librdkafka implementations"
 ---

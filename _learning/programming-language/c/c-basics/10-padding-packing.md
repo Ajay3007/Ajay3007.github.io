@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Padding, Alignment and Packing
 permalink: /learning/programming-language/c/c-basics/padding-packing/
 ---

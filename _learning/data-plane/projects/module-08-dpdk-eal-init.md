@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 08 — DPDK EAL Initialization"
 permalink: /learning/data-plane/projects/module-08-dpdk-eal-init/
 ---

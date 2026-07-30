@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Core Java
 permalink: /learning/programming-language/java/03-core-java/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 01 — Config Parser"
 permalink: /learning/data-plane/projects/module-01-config-parser/
 ---

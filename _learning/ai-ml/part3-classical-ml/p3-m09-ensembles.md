@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P3-M09 - Ensembles: XGBoost, LightGBM, SMOTE & Optuna"
 permalink: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
 ---

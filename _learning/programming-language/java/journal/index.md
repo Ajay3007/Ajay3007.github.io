@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java Learning Journal
 permalink: /learning/programming-language/java/journal/
 ---

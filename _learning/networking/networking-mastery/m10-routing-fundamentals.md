@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M10 - Routing Fundamentals and FIB"
 permalink: /learning/networking-mastery/m10-routing-fundamentals/
 ---

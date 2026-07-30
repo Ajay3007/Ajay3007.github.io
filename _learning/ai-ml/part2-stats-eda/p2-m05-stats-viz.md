@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P2-M05 - Statistics, EDA & Visualisation"
 permalink: /learning/ai-ml/part2-stats-eda/p2-m05-stats-viz/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Basics
 permalink: /learning/programming-language/java/01-basics/
 ---

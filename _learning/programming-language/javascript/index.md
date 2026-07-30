@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: JavaScript Language
 permalink: /learning/programming-language/javascript/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Tax Hurdle Documentation Hub
 permalink: /learning/finance/tax_hurdle/
 ---

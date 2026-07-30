@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Factory Pattern
 permalink: /learning/system-design/patterns/factory/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Rust Language
 permalink: /learning/programming-language/rust/
 ---

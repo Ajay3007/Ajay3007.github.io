@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M26 - Policy Engine and NGFW Capstone"
 permalink: /learning/networking-mastery/m26-policy-capstone/
 ---

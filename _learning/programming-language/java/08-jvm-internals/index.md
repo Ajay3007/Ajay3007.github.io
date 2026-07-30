@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: JVM Internals
 permalink: /learning/programming-language/java/08-jvm-internals/
 ---

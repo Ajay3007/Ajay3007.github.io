@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java Reference Data Types – Core Notes
 permalink: /learning/programming-language/java/01-basics/reference-data-type/
 ---

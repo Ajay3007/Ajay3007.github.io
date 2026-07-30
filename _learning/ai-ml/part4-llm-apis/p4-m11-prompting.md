@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P4-M11 - Prompting Fundamentals"
 permalink: /learning/ai-ml/part4-llm-apis/p4-m11-prompting/
 ---

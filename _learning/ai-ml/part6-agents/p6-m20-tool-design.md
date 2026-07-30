@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P6-M20 - Tool Design, Workflow Patterns & When NOT to Use Agents"
 permalink: /learning/ai-ml/part6-agents/p6-m20-tool-design/
 ---

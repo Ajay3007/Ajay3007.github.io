@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P3C - TAP, AF_XDP, vhost-user, AF_PACKET"
 permalink: /learning/data-plane/vpp/module-p3-tap-afxdp/
 ---

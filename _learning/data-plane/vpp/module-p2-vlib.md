@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P2B - vlib - Graph Dispatcher"
 permalink: /learning/data-plane/vpp/module-p2-vlib/
 ---

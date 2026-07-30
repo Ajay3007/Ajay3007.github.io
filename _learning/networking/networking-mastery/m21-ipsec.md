@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M21 - IPsec and IKEv2"
 permalink: /learning/networking-mastery/m21-ipsec/
 ---

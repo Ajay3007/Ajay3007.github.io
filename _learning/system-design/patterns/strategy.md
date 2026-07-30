@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Strategy Pattern
 permalink: /learning/system-design/patterns/strategy/
 ---

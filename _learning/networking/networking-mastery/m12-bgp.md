@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M12 - BGP Internals"
 permalink: /learning/networking-mastery/m12-bgp/
 ---

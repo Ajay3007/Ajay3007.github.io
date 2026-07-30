@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P1-M04 - SQL Basics & FastAPI"
 permalink: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
 ---

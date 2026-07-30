@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Learning Portal
 permalink: /learning/
 ---

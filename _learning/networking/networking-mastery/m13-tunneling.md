@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M13 - MPLS, VxLAN, GRE and Tunneling"
 permalink: /learning/networking-mastery/m13-tunneling/
 ---

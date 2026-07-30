@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Function Pointers
 permalink: /learning/programming-language/c/c-basics/function-pointers/
 ---

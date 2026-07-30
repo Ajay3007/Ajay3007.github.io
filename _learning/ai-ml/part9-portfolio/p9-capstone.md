@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P9 - Capstone, Portfolio & Job-Readiness"
 permalink: /learning/ai-ml/part9-portfolio/p9-capstone/
 ---

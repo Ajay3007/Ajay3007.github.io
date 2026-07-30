@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M22 - SSL Inspection and PKI Operations"
 permalink: /learning/networking-mastery/m22-ssl-inspection/
 ---

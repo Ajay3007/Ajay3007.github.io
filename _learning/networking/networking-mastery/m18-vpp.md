@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M18 - VPP and Data Plane Development"
 permalink: /learning/networking-mastery/m18-vpp/
 ---

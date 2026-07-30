@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: The VPP Data Plane
 permalink: /learning/data-plane/ngfw/vpp-data-plane/
 ---

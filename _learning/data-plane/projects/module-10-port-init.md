@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 10 — NIC Port Initialization"
 permalink: /learning/data-plane/projects/module-10-port-init/
 ---

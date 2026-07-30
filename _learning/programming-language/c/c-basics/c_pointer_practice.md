@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: C Pointer Practice
 permalink: /learning/programming-language/c/c-basics/pointer-practice/
 ---

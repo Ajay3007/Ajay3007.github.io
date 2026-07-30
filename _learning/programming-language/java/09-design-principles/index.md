@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Design Principles
 permalink: /learning/programming-language/java/09-design-principles/
 ---

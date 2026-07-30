@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module C5: Security Architecture"
 permalink: /learning/system-design/hld/module-c5-security/
 ---

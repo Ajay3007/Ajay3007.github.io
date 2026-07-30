@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P3B - memif and Shared Memory Interfaces"
 permalink: /learning/data-plane/vpp/module-p3-memif/
 ---

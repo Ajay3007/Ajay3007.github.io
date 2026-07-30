@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK P2 — rte_ring, Distributor & App Models"
 permalink: /learning/data-plane/dpdk/module-p2-rings/
 ---

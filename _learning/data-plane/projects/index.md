@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Dataplane Learning — Hands-on C Projects"
 permalink: /learning/data-plane/projects/
 ---

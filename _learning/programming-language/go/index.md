@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Go Language
 permalink: /learning/programming-language/go/
 ---

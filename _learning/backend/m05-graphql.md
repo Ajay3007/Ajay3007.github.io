@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M05 — GraphQL & API Contracts"
 description: "SDL type system, query/mutation/subscription execution, resolver chain, N+1 & DataLoader, cursor pagination, schema federation, persisted queries, and building a GraphQL parser in C."
 ---

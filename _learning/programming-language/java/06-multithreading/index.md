@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Multithreading
 permalink: /learning/programming-language/java/06-multithreading/
 ---

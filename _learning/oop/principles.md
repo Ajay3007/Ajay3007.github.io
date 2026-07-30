@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: OOP Principles (SOLID etc.)
 permalink: /learning/oop/principles/
 ---

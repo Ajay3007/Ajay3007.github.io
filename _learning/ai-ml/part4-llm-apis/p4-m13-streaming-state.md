@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P4-M13 - Streaming & Conversation State"
 permalink: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
 ---

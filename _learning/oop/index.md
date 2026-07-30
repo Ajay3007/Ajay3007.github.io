@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Object Oriented Programming (OOPs)
 permalink: /learning/oop/
 ---

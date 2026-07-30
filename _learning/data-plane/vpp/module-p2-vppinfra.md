@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP P2A - vppinfra Core Library"
 permalink: /learning/data-plane/vpp/module-p2-vppinfra/
 ---

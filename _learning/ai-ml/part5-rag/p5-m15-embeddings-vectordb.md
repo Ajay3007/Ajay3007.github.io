@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P5-M15 - Embeddings & Vector Databases"
 permalink: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
 ---

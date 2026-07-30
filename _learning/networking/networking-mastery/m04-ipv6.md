@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M04 - IPv6"
 permalink: /learning/networking-mastery/m04-ipv6/
 ---

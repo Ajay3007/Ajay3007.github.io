@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: C++ Language
 permalink: /learning/programming-language/cpp/lambda-functions
 ---

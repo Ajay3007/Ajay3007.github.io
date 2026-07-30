@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M02 - Ethernet and Layer 2"
 permalink: /learning/networking-mastery/m02-ethernet-l2/
 ---

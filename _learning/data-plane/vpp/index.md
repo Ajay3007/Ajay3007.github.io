@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: VPP Mastery
 permalink: /learning/data-plane/vpp/
 ---

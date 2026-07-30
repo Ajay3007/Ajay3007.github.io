@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M23 - Connection Tracking and NAT"
 permalink: /learning/networking-mastery/m23-conntrack-nat/
 ---

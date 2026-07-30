@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M07 — NoSQL: Redis, MongoDB & Cassandra"
 description: "NoSQL taxonomy and tradeoffs, Redis data structures with complexity guarantees, caching patterns, persistence, pub/sub, Lua scripting, rate limiting, MongoDB aggregation pipeline, Cassandra data modeling, and hiredis in C."
 ---

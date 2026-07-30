@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P1-M01 - Python Programming Fundamentals"
 permalink: /learning/ai-ml/part1-foundation/p1-m01-python/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Track B - Applied ML / LLM Engineer"
 permalink: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
 ---

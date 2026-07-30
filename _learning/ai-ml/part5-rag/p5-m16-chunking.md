@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P5-M16 - Chunking & Document Ingestion"
 permalink: /learning/ai-ml/part5-rag/p5-m16-chunking/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M05 - TCP Internals"
 permalink: /learning/networking-mastery/m05-tcp/
 ---

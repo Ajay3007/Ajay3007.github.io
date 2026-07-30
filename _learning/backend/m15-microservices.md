@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M15 — Microservices & Infrastructure"
 description: "Service architecture decisions, API Gateway, circuit breaker, Docker multi-stage builds, Kubernetes fundamentals, CI/CD pipelines — with C implementations"
 ---

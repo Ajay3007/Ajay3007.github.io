@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Programming Languages
 permalink: /learning/programming-language/
 ---

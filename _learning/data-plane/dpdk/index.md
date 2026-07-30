@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK — Data Plane Development Kit"
 permalink: /learning/data-plane/dpdk/
 ---

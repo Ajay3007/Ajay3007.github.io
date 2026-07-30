@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M14 - Linux Network Stack"
 permalink: /learning/networking-mastery/m14-linux-stack/
 ---

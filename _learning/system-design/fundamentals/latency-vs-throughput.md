@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Latency vs Throughput
 permalink: /learning/system-design/fundamentals/latency-vs-throughput/
 ---

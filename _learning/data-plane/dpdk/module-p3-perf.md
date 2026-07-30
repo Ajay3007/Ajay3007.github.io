@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK P3 — Packet Patterns, Tuning & Debugging"
 permalink: /learning/data-plane/dpdk/module-p3-perf/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Packet Walkthrough
 permalink: /learning/data-plane/ngfw/packet-walkthrough/
 ---

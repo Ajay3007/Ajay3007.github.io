@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P5-M18 - RAG Pipelines, Grounding & Hallucination Reduction"
 permalink: /learning/ai-ml/part5-rag/p5-m18-rag-pipelines/
 ---

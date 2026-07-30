@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P1-M03 - Developer Essentials: Git, CLI, APIs & Async"
 permalink: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
 ---

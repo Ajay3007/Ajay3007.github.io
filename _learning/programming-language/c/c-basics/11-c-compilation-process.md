@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: C Compilation Process (Deep Dive)
 permalink: /learning/programming-language/c/c-basics/c-compilation-process/
 ---

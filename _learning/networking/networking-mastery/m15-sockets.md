@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M15 - Socket Programming"
 permalink: /learning/networking-mastery/m15-sockets/
 ---

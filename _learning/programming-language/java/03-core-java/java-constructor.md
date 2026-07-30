@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Constructors in Java – Initialization & Object Creation
 permalink: /learning/programming-language/java/03-core-java/java-constructor/
 ---

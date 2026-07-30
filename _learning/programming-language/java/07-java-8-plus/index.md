@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java 8+
 permalink: /learning/programming-language/java/07-java-8-plus/
 ---

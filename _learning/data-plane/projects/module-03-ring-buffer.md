@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 03 — Ring Buffer (SPSC, lock-free)"
 permalink: /learning/data-plane/projects/module-03-ring-buffer/
 ---

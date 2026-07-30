@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Pointers in C
 permalink: /learning/programming-language/c/c-basics/pointers/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java Language
 permalink: /learning/programming-language/java/
 ---

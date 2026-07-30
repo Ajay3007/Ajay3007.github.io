@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Competitive Programming
 permalink: /learning/competitive-programming/
 ---

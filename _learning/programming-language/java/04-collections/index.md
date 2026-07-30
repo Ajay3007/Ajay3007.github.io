@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Collections
 permalink: /learning/programming-language/java/04-collections/
 ---

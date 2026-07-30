@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M11 — Concurrency & Performance"
 permalink: /learning/backend/m11-concurrency/
 ---

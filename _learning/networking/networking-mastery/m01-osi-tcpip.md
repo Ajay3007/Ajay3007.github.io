@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M01 - OSI and TCP/IP Model"
 permalink: /learning/networking-mastery/m01-osi-tcpip/
 ---

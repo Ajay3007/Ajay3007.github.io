@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: OOP Topics
 permalink: /learning/oop/topics/
 ---

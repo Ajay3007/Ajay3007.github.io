@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M02 — HTTP Deep Dive & Web Server Internals"
 description: "HTTP request parsing, header internals, epoll event loops, middleware pipelines, routing, content negotiation — with full C implementations."
 ---

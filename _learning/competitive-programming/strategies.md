@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Strategies
 permalink: /learning/competitive-programming/strategies/
 ---

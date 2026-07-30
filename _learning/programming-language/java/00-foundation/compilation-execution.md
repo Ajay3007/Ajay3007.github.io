@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Java Compilation & Execution Flow
 permalink: /learning/programming-language/java/00-foundation/compilation-execution/
 ---

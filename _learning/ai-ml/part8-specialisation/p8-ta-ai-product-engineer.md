@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Track A - AI Product Engineer"
 permalink: /learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/
 ---

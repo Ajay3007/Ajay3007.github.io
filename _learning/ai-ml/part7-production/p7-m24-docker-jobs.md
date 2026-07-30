@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P7-M24 - Docker & Background Jobs"
 permalink: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: C Basics
 permalink: /learning/programming-language/c/c-basics/
 ---

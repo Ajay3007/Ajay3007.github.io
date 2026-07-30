@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module C1: Consensus Algorithms — Raft & Paxos"
 permalink: /learning/system-design/hld/module-c1-consensus/
 ---

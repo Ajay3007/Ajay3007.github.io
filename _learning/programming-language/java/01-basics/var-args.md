@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Variable Arguments (Varargs) in Java
 permalink: /learning/programming-language/java/01-basics/var-args/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M01 — DNS, TCP & TLS Deep Dive"
 permalink: /learning/backend/m01-dns-tcp-tls/
 ---

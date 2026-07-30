@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "VPP Host Stack - TCP and Session Layers"
 permalink: /learning/data-plane/vpp/module-hoststack/
 ---

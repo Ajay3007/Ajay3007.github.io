@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module B10: Consistent Hashing"
 permalink: /learning/system-design/hld/module-b10-consistent-hashing/
 ---

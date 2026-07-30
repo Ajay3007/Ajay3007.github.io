@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Networking
 permalink: /learning/networking/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Foundation
 permalink: /learning/programming-language/java/00-foundation/
 ---

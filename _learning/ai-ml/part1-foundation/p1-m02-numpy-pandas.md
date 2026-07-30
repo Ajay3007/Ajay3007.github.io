@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P1-M02 - NumPy & Pandas Data Toolkit"
 permalink: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
 ---

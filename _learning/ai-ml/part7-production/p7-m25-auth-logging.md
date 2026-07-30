@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P7-M25 - Auth, Logging & Observability"
 permalink: /learning/ai-ml/part7-production/p7-m25-auth-logging/
 ---

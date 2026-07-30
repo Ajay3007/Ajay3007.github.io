@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "DPDK Mastery Roadmap"
 permalink: /learning/data-plane/dpdk/dpdk-roadmap/
 ---

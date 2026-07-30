@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Design Patterns
 permalink: /learning/programming-language/java/10-design-patterns/
 ---

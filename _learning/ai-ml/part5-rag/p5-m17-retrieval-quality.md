@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P5-M17 - Retrieval Quality"
 permalink: /learning/ai-ml/part5-rag/p5-m17-retrieval-quality/
 ---

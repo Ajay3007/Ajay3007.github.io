@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: System Design Fundamentals
 permalink: /learning/system-design/fundamentals/
 ---

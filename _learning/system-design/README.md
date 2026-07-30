@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: System Design Learning Hub
 permalink: /learning/system-design/README/
 ---

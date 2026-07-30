@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "P2-M06 - ML Workflow & Feature Engineering"
 permalink: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
 ---

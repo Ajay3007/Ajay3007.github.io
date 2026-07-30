@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M11 - OSPF Internals"
 permalink: /learning/networking-mastery/m11-ospf/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Data Plane
 permalink: /learning/data-plane/
 ---

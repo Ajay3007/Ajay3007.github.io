@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: High-Level Design (HLD)
 permalink: /learning/system-design/hld/
 ---

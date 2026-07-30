@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M03 — REST API Design"
 permalink: /learning/backend/m03-rest/
 ---

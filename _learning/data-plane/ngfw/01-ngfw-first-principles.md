@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: NGFW from First Principles
 permalink: /learning/data-plane/ngfw/first-principles/
 ---

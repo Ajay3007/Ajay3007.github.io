@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: CPU Scheduling
 permalink: /learning/operating-systems/scheduling/
 ---

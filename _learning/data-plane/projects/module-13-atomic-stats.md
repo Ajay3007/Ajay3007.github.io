@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 13 — Atomic Counters + Per-lcore Stats"
 permalink: /learning/data-plane/projects/module-13-atomic-stats/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "Module 19 — Kafka Producer (CDR Export)"
 permalink: /learning/data-plane/projects/module-19-kafka-producer/
 ---

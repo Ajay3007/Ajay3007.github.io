@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Structures in C
 permalink: /learning/programming-language/c/c-basics/structures/
 ---

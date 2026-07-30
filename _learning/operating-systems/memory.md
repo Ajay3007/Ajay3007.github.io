@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Memory Management
 permalink: /learning/operating-systems/memory/
 ---

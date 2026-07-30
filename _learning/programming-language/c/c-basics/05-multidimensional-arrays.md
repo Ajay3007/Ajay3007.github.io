@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: Multidimensional Arrays & Pointers
 permalink: /learning/programming-language/c/c-basics/multidimensional-arrays/
 ---

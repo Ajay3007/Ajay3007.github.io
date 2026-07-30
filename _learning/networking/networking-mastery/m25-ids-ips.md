@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M25 - IDS/IPS and Threat Detection"
 permalink: /learning/networking-mastery/m25-ids-ips/
 ---

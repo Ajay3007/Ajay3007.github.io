@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: learning
 title: "M16 - eBPF and XDP"
 permalink: /learning/networking-mastery/m16-ebpf-xdp/
 ---
