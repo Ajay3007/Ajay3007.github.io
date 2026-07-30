@@ -735,3 +735,44 @@
 .learning-content pre:hover .copy-code-btn,
 .copy-code-btn:focus { opacity: 1; }
 .copy-code-btn:hover { color: var(--accent); border-color: var(--accent); }
+/* ===============================================================
+   "On this page" TOC — right column (redesign Phase 5b)
+   Makes docs a 3-col layout: sidebar | content | toc.
+   =============================================================== */
+.learning-toc {
+  width: 200px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 5rem;
+  align-self: flex-start;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  font-size: 0.85rem;
+}
+.learning-toc[hidden] { display: none; }
+.toc-title {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 0.75rem;
+}
+.toc-nav { display: flex; flex-direction: column; border-left: 1px solid var(--rule); }
+.toc-link {
+  color: var(--body);
+  text-decoration: none;
+  padding: 0.3rem 0 0.3rem 0.75rem;
+  border-left: 2px solid transparent;
+  margin-left: -1px;
+  line-height: 1.4;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-link.toc-h3 { padding-left: 1.5rem; font-size: 0.82rem; color: var(--dim); }
+.toc-link:hover { color: var(--ink); }
+.toc-link.active { color: var(--accent); border-left-color: var(--accent); }
+
+/* Hide the TOC when there isn't room for 3 columns */
+@media (max-width: 1100px) {
+  .learning-toc { display: none; }
+}
