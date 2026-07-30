@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module C2: Geo-Distribution & Multi-Region Architecture"
 permalink: /learning/system-design/hld/module-c2-geo-distribution/
 ---

@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B9: Rate Limiter"
 permalink: /learning/system-design/hld/module-b9-rate-limiter/
 ---

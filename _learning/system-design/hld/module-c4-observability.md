@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module C4: Observability & SRE"
 permalink: /learning/system-design/hld/module-c4-observability/
 ---

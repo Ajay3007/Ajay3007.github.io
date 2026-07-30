@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B6: Twitter/X Feed"
 permalink: /learning/system-design/hld/module-b6-twitter-feed/
 ---

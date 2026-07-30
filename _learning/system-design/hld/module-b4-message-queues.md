@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B4 — Message Queues"
 permalink: /learning/system-design/hld/module-b4-message-queues/
 ---

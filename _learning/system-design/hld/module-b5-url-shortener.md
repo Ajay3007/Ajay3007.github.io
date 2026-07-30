@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B5 — URL Shortener"
 permalink: /learning/system-design/hld/module-b5-url-shortener/
 ---

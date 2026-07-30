@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B14: Kubernetes & Container Orchestration"
 permalink: /learning/system-design/hld/module-b14-kubernetes/
 ---

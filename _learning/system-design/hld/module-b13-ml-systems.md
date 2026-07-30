@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B13: ML Systems Design"
 permalink: /learning/system-design/hld/module-b13-ml-systems/
 ---

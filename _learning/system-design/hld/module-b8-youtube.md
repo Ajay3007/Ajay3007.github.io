@@ -1,5 +1,5 @@
 ---
-layout: learning
+layout: default
 title: "Module B8: YouTube"
 permalink: /learning/system-design/hld/module-b8-youtube/
 ---
