@@ -44,16 +44,27 @@ jobs:
       - name: Render all .puml files to SVG
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           mkdir -p assets/diagrams
-
+          tmp="$(mktemp -d)"
+          failed=0
+          # Render each file to a temp dir first; only copy into place on success,
+          # so a .puml with a syntax error never overwrites a good committed SVG.
           while IFS= read -r file; do
-            rel_path=${file#./}
+            rel_path="${file#./}"
             out_dir="assets/diagrams/$(dirname "$rel_path")"
             mkdir -p "$out_dir"
-            echo "Rendering: $rel_path -> $out_dir"
-            java -jar plantuml.jar -tsvg "$rel_path" -o "$PWD/$out_dir"
+            rm -f "$tmp"/*.svg
+            echo "Rendering: $rel_path"
+            if java -jar plantuml.jar -tsvg "$rel_path" -o "$tmp"; then
+              cp "$tmp"/*.svg "$out_dir"/ 2>/dev/null || true
+            else
+              echo "::warning file=$rel_path::PlantUML failed to render (existing SVG kept)"
+              failed=$((failed + 1))
+            fi
           done < <(find . -type f -name "*.puml" -print)
+          rm -rf "$tmp"
+          echo "Rendering complete with $failed failure(s); existing SVGs kept for any that failed."
 
       - name: Commit rendered SVGs
         run: |
