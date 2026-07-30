@@ -1,0 +1,77 @@
+# Single source of truth for the /roadmap/ hub (redesign Phase 4 re-scope).
+# The hero "Live Roadmaps" count and the domain grid are generated from this,
+# so stats no longer drift and adding a roadmap = adding an entry here.
+
+primary_language: "C++"
+curated_problems: "100+"
+
+list:
+  - title: "DSA Mastery"
+    icon: "🧠"
+    status: live            # live | soon
+    accent: "linear-gradient(90deg,#00d4ff,#3b82f6)"
+    desc: "Data Structures &amp; Algorithms for coding interviews — 13 chapters, 100+ LeetCode problems, C++ templates &amp; complexity cheat-sheet."
+    tags: [Arrays, Trees, Graphs, DP, C++]
+    meta: "13 chapters complete"
+    ctas:
+      - { label: "📖 Open Roadmap →", url: /learning/dsa/dsa-roadmap/ }
+
+  - title: "AI & Machine Learning"
+    icon: "🤖"
+    status: live
+    accent: "linear-gradient(90deg,#a78bfa,#ec4899)"
+    desc: "From Python &amp; statistics to supervised learning, neural networks, GenAI/LLMs, RAG, and MLOps — 9 modules, 30 weeks, 4 career tracks."
+    tags: [Python, PyTorch, LLMs, MLOps]
+    meta: "9 Modules · 30+ Weeks"
+    ctas:
+      - { label: "🤖 Open Roadmap →", url: /learning/ai-ml/ai-ml-roadmap/ }
+
+  - title: "System Design"
+    icon: "🏗️"
+    status: live
+    accent: "linear-gradient(90deg,#f59e0b,#ef4444)"
+    desc: "HLD &amp; LLD from scratch — scalability, databases, caching, message queues, distributed systems, and real design case studies."
+    tags: [HLD, LLD, Databases, CAP]
+    meta: "14 HLD · 6 LLD Modules"
+    ctas:
+      - { label: "🏗️ Open Roadmap →", url: /learning/system-design/system-design-roadmap/ }
+
+  - title: "Competitive Programming"
+    icon: "🏆"
+    status: soon
+    accent: "linear-gradient(90deg,#10b981,#3b82f6)"
+    desc: "Codeforces/ICPC-level problem solving — advanced number theory, segment trees, heavy-light decomposition, flow algorithms."
+    tags: [C++, "Number Theory", "Segment Tree"]
+    meta: "Planning"
+    ctas: []
+
+  - title: "Data Plane Engineering"
+    icon: "⚡"
+    status: live
+    accent: "linear-gradient(90deg,#6366f1,#8b5cf6)"
+    desc: "High-performance packet processing from silicon to software — VPP architecture internals, plugin dev &amp; host stack TCP/session layer, plus DPDK from PMD polling to production multi-process SASE dataplane."
+    tags: [VPP, DPDK, PMD, C, Linux]
+    meta: "VPP: 5 Phases · 10 Modules &nbsp;|&nbsp; DPDK: 3 Phases · 6 Modules"
+    ctas:
+      - { label: "⚡ VPP Roadmap →", url: /learning/data-plane/vpp/ }
+      - { label: "🔧 DPDK Roadmap →", url: /learning/data-plane/dpdk/dpdk-roadmap/, style: "background:linear-gradient(135deg,#0a2040,#1a5a7a);border-color:#1a5a7a;" }
+
+  - title: "Networking Mastery"
+    icon: "📡"
+    status: live
+    accent: "linear-gradient(90deg,#06b6d4,#0ea5e9)"
+    desc: "Zero to NGFW — 26 modules across OSI/TCP-IP, routing (OSPF/BGP), Linux kernel stack, eBPF/XDP, TLS/IPsec, and building a Next-Generation Firewall from scratch."
+    tags: ["TCP/IP", eBPF, TLS, NGFW, C]
+    meta: "6 Phases · 26 Modules"
+    ctas:
+      - { label: "📡 Open Roadmap →", url: /learning/networking-mastery/ }
+
+  - title: "Backend Engineering"
+    icon: "⚙️"
+    status: live
+    accent: "linear-gradient(90deg,#f59e0b,#10b981)"
+    desc: "HTTP fundamentals to production-hardened systems — API design, databases, auth, concurrency, event-driven architecture, microservices, and observability. C/C++ code throughout."
+    tags: [REST, gRPC, SQL, Kafka, "C/C++"]
+    meta: "8 Phases · 80 Concepts"
+    ctas:
+      - { label: "⚙️ Open Roadmap →", url: /learning/backend/backend-roadmap/ }
