@@ -27,10 +27,19 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
-      - name: Install PlantUML + Graphviz
+      - name: Install Graphviz
         run: |
           sudo apt-get update
-          sudo apt-get install -y graphviz plantuml
+          sudo apt-get install -y graphviz
+
+      - name: Download PlantUML (latest release)
+        run: |
+          set -euo pipefail
+          BASE="https://repo1.maven.org/maven2/net/sourceforge/plantuml/plantuml"
+          VER="$(curl -fsSL "$BASE/maven-metadata.xml" | grep -oP '(?<=<release>)[^<]+')"
+          echo "PlantUML version: $VER"
+          curl -fsSL -o plantuml.jar "$BASE/$VER/plantuml-$VER.jar"
+          java -jar plantuml.jar -version
 
       - name: Render all .puml files to SVG
         shell: bash
@@ -43,7 +52,7 @@ jobs:
             out_dir="assets/diagrams/$(dirname "$rel_path")"
             mkdir -p "$out_dir"
             echo "Rendering: $rel_path -> $out_dir"
-            plantuml -tsvg "$rel_path" -o "$PWD/$out_dir"
+            java -jar plantuml.jar -tsvg "$rel_path" -o "$PWD/$out_dir"
           done < <(find . -type f -name "*.puml" -print)
 
       - name: Commit rendered SVGs
