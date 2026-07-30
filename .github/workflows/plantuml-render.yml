@@ -2,7 +2,7 @@ name: Render PlantUML to SVG
 
 on:
   push:
-    branches: ["main"]
+    branches: ["master"]
     paths:
       - "**/*.puml"
       - ".github/workflows/plantuml-render.yml"
