@@ -13,7 +13,6 @@
 *.json  text eol=lf
 *.yml   text eol=lf
 *.yaml  text eol=lf
-*.svg   text eol=lf
 *.py    text eol=lf
 *.rb    text eol=lf
 
@@ -22,6 +21,9 @@
 *.ps1   text eol=crlf
 
 # Binary assets — never normalize
+# .svg = machine-generated PlantUML diagrams; treat as binary so EOL is never
+# rewritten (otherwise the Linux CI-committed LF versions churn on Windows).
+*.svg   binary
 *.png   binary
 *.jpg   binary
 *.jpeg  binary
