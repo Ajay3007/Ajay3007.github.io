@@ -86,10 +86,10 @@
             </nav>
 
             <div class="header-meta">
-                <div id="global-search-wrapper">
-                    <input type="text" id="global-search-input" class="search-chip" placeholder="Search  ⌘K" autocomplete="off">
-                    <ul id="global-results-container"></ul>
-                </div>
+                <button type="button" class="search-trigger" data-cmdk-open aria-label="Search (Ctrl or Command + K)">
+                    <span class="search-trigger-label">Search</span>
+                    <kbd class="search-trigger-kbd">⌘K</kbd>
+                </button>
             </div>
         </div>
     </header>
@@ -99,6 +99,20 @@
     </main>
 
     <button id="scroll-to-top" class="scroll-to-top" aria-label="Scroll to top" title="Back to top">↑</button>
+
+    <!-- Command palette (⌘K / Ctrl+K) -->
+    <div id="cmdk" class="cmdk" hidden data-search="{{ '/search.json' | relative_url }}">
+        <div class="cmdk-backdrop" data-cmdk-close></div>
+        <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Search">
+            <input id="cmdk-input" class="cmdk-input" type="text" placeholder="Search notes, roadmaps, projects…" autocomplete="off" spellcheck="false" aria-label="Search">
+            <ul id="cmdk-results" class="cmdk-results" role="listbox"></ul>
+            <div class="cmdk-foot">
+                <span><kbd>↑</kbd><kbd>↓</kbd>&nbsp;navigate</span>
+                <span><kbd>↵</kbd>&nbsp;open</span>
+                <span><kbd>esc</kbd>&nbsp;close</span>
+            </div>
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="footer-inner">
@@ -145,23 +159,7 @@
     {% if page.url == '/' or page.url == '' %}
     <script src="{{ '/assets/js/home.js' | relative_url }}" defer></script>
     {% endif %}
-    <script src="{{ '/assets/js/simple-jekyll-search.min.js' | relative_url }}"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (document.getElementById('global-search-input')) {
-                SimpleJekyllSearch({
-                    searchInput: document.getElementById('global-search-input'),
-                    resultsContainer: document.getElementById('global-results-container'),
-                    json: '{{ site.baseurl }}/search.json',
-                    searchResultTemplate: '<li style="padding: 0.5rem; border-bottom: 1px solid var(--border-color);"><a href="{url}" style="text-decoration: none; color: var(--text-color); display: block;"><span style="font-weight: bold; display: block;">{title}</span><span style="font-size: 0.8rem; color: var(--light-text);">{category}</span></a></li>',
-                    noResultsText: '<li style="padding: 0.5rem; color: var(--light-text);">No results found</li>',
-                    limit: 10,
-                    fuzzy: false
-                });
-            }
-
-        });
-    </script>
+    <script src="{{ '/assets/js/command-palette.js' | relative_url }}" defer></script>
     <script>
         if (window.netlifyIdentity) {
             window.netlifyIdentity.init({
