@@ -111,7 +111,9 @@
 
   --fg: #e6ebf2;
   --muted: #aab4c2;
-  --subtle: #6a7388;
+  /* 5.47:1 on --bg. The previous #6a7388 measured 4.22:1, under the 4.5
+     minimum, and this token carries most of the 11-13px metadata on the site. */
+  --subtle: #7d8698;
   --line: #1a2030;
   --line-strong: #2a3142;
 
