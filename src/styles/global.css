@@ -1,0 +1,177 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* ==========================================================================
+   Theme switching
+   --------------------------------------------------------------------------
+   Class-driven rather than media-driven, so the toggle can override the OS.
+   BaseLayout sets `.dark` on <html> before first paint to avoid a flash.
+   ========================================================================== */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Design tokens
+   --------------------------------------------------------------------------
+   Two layers, deliberately:
+     1. :root / .dark declare SEMANTIC values that flip with the theme.
+     2. @theme inline maps them onto Tailwind utilities (bg-surface, text-muted…).
+   Components only ever reference the semantic names, so re-theming the site is
+   a single edit here. This is the discipline the Jekyll site lost: 23 of its 31
+   page stylesheets declared their own private colour variables, so changing the
+   accent changed almost nothing.
+
+   The dark palette is the site's existing identity, carried over verbatim from
+   assets/css/base.css so the migration is not also a visual redesign.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Signal cyan — the one accent, unchanged from the Jekyll site. */
+  --accent: #0e7490;
+  --accent-hover: #155e75;
+  --accent-contrast: #ffffff;
+  --accent-tint: #ecfeff;
+  --accent-border: #a5f3fc;
+
+  --bg: #ffffff;
+  --bg-subtle: #f6f8fa;
+  --surface: #ffffff;
+  --surface-hover: #f6f8fa;
+
+  --fg: #0d121b;
+  --muted: #4a5464;
+  --subtle: #6a7388;
+  --line: #d8dee6;
+  --line-strong: #b9c2ce;
+
+  --warm: #b45309;
+  --ok: #047857;
+  --warn: #b45309;
+  --danger: #b91c1c;
+
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Menlo', monospace;
+
+  --container-prose: 46rem;
+  --container-wide: 78rem;
+  --radius-card: 0.625rem;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --accent: #22d3ee;
+  --accent-hover: #67e8f9;
+  --accent-contrast: #06080d;
+  --accent-tint: #0b2a33;
+  --accent-border: #0e7490;
+
+  --bg: #06080d;
+  --bg-subtle: #0d121b;
+  --surface: #0d121b;
+  --surface-hover: #11182a;
+
+  --fg: #e6ebf2;
+  --muted: #aab4c2;
+  --subtle: #6a7388;
+  --line: #1a2030;
+  --line-strong: #2a3142;
+
+  --warm: #f59e0b;
+  --ok: #10b981;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-accent-tint: var(--accent-tint);
+  --color-accent-border: var(--accent-border);
+  --color-warm: var(--warm);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-card: var(--radius-card);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 { color: var(--fg); }
+
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Heading anchors from rehype-autolink-headings — visible on hover only. */
+.heading-anchor {
+  margin-left: 0.4em;
+  color: var(--subtle);
+  opacity: 0;
+  text-decoration: none;
+  transition: opacity 120ms ease;
+}
+h1:hover > .heading-anchor,
+h2:hover > .heading-anchor,
+h3:hover > .heading-anchor,
+h4:hover > .heading-anchor { opacity: 1; }
+
+/* Shiki emits both themes in one render; swap on the theme class rather than
+   re-highlighting on the client. */
+.dark .astro-code,
+.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* KaTeX: keep long displayed equations scrollable instead of overflowing. */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25rem 0;
+}

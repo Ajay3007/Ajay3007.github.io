@@ -1,0 +1,50 @@
+---
+/**
+ * Placeholder home page for the Phase 2 foundation.
+ *
+ * Deliberately minimal: it exists to prove the shell, tokens, theming, math and
+ * code rendering all work end to end. The real homepage is Phase 9, once the
+ * content collections it should derive from actually exist.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, PROFILE, DOMAINS } from '../consts';
+---
+
+<BaseLayout title={SITE.title} description={SITE.description}>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-16 sm:px-8 sm:pt-24">
+    <p class="font-mono text-[13px] tracking-wide text-subtle">
+      // {PROFILE.role.toUpperCase()} · {PROFILE.location.toUpperCase()}
+    </p>
+    <h1 class="mt-4 text-4xl font-semibold tracking-tight text-fg sm:text-5xl">
+      {PROFILE.name}
+    </h1>
+    <p class="mt-5 max-w-(--container-prose) text-lg leading-relaxed text-muted">
+      {SITE.description}
+    </p>
+
+    <div class="mt-8 rounded-card border border-accent-border bg-accent-tint p-5">
+      <p class="font-mono text-[12px] tracking-wide text-subtle">CURRENTLY LEARNING</p>
+      <p class="mt-2 max-w-(--container-prose) text-[15px] leading-relaxed text-fg">
+        {PROFILE.currentFocus}
+      </p>
+    </div>
+
+    <h2 class="mt-16 text-sm font-semibold tracking-wide text-subtle uppercase">
+      Knowledge domains
+    </h2>
+    <ul class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        DOMAINS.map((d) => (
+          <li class="rounded-card border border-line bg-surface p-4 transition-colors hover:border-line-strong">
+            <p class="font-medium text-fg">{d.label}</p>
+            <p class="mt-1 text-[13.5px] leading-relaxed text-subtle">{d.blurb}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-16 font-mono text-[13px] text-subtle">
+      Phase 2 foundation — content collections land in Phase 3.
+    </p>
+  </section>
+</BaseLayout>

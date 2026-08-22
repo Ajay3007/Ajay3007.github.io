@@ -1,0 +1,13 @@
+---
+/**
+ * KaTeX stylesheet, loaded per-page rather than globally.
+ *
+ * rehype-katex renders the math to HTML at build time, but that HTML is
+ * unreadable without this stylesheet (~23 KB plus font files). Only a minority
+ * of pages contain math, so layouts include this component only when the entry
+ * needs it — the rest of the site never downloads it.
+ *
+ * Astro dedupes the import, so including it from several layouts is free.
+ */
+import 'katex/dist/katex.min.css';
+---
