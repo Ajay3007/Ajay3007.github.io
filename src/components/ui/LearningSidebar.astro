@@ -1,0 +1,81 @@
+---
+/**
+ * The learning navigation rail.
+ *
+ * Jekyll kept this list in _data/nav.yml as a second copy of the folder tree,
+ * which had to be edited by hand whenever content moved. Here the groups come
+ * from DOMAINS, the tracks from the tracks collection, and the counts from the
+ * concepts themselves — adding a domain or a track puts it in the sidebar with
+ * no edit here.
+ *
+ * The active domain expands to show its tracks; everything else stays a single
+ * line, so the rail does not become a wall of links as the corpus grows.
+ */
+import { DOMAIN_GROUPS } from '../../consts';
+import { getConcepts, getTracks, trackUrl } from '../../lib/content';
+
+interface Props {
+  /** Domain slug of the page being viewed, so the rail can expand it. */
+  activeDomain?: string;
+  /** Track id of the page being viewed, to mark the current track. */
+  activeTrack?: string;
+}
+const { activeDomain, activeTrack } = Astro.props;
+
+const [allConcepts, allTracks] = await Promise.all([getConcepts(), getTracks()]);
+const countFor = (domain: string) => allConcepts.filter((c) => c.data.domain === domain).length;
+const tracksFor = (domain: string) => allTracks.filter((t) => t.data.domain === domain);
+---
+
+<nav class="text-[13.5px]" aria-label="Learning topics">
+  {
+    DOMAIN_GROUPS.map(({ group, domains }) => {
+      const populated = domains.filter((d) => countFor(d.slug) > 0);
+      return (
+        populated.length > 0 && (
+          <div class="mb-5">
+            <p class="mb-1.5 font-mono text-[11px] tracking-wide text-subtle uppercase">{group}</p>
+            <ul>
+              {populated.map((d) => {
+                const active = d.slug === activeDomain;
+                const tracks = active ? tracksFor(d.slug) : [];
+                return (
+                  <li>
+                    <a
+                      href={`/learning/${d.slug}/`}
+                      class:list={[
+                        'flex items-baseline gap-2 rounded px-2 py-1 transition-colors hover:text-accent',
+                        active ? 'font-semibold text-accent' : 'text-muted',
+                      ]}
+                      aria-current={active ? 'true' : undefined}
+                    >
+                      <span>{d.label}</span>
+                      <span class="ml-auto font-mono text-[11px] text-subtle">{countFor(d.slug)}</span>
+                    </a>
+                    {tracks.length > 0 && (
+                      <ul class="mt-0.5 mb-1 ml-2 border-l border-line">
+                        {tracks.map((t) => (
+                          <li>
+                            <a
+                              href={trackUrl(t)}
+                              class:list={[
+                                '-ml-px block border-l border-transparent py-1 pl-3 text-[13px] transition-colors hover:border-accent hover:text-accent',
+                                t.id === activeTrack ? 'border-accent text-accent' : 'text-subtle',
+                              ]}
+                            >
+                              {t.data.title}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )
+      );
+    })
+  }
+</nav>

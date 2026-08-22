@@ -16,6 +16,9 @@ import Badge from '../components/ui/Badge.astro';
 import Tag from '../components/ui/Tag.astro';
 import ConceptList from '../components/ui/ConceptList.astro';
 import TableOfContents from '../components/ui/TableOfContents.astro';
+import LearningSidebar from '../components/ui/LearningSidebar.astro';
+import ProgressStore from '../components/learning/ProgressStore.astro';
+import MarkComplete from '../components/learning/MarkComplete.astro';
 import { DOMAIN_LABELS } from '../consts';
 import { conceptUrl, formatDuration, type Concept, type Neighbourhood } from '../lib/content';
 
@@ -59,14 +62,25 @@ const crumbs = [
 >
   <MathStyles />
 
+  <ProgressStore />
   <div
     class:list={[
       'mx-auto gap-10 px-5 pt-10 sm:px-8',
       bare
         ? 'max-w-(--container-wide)'
-        : 'grid max-w-(--container-wide) lg:grid-cols-[minmax(0,1fr)_15rem]',
+        : 'grid max-w-(--container-wide) lg:grid-cols-[13rem_minmax(0,1fr)_15rem]',
     ]}
   >
+    {
+      !bare && (
+        <aside class="hidden lg:block">
+          <div class="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-8">
+            <LearningSidebar activeDomain={d.domain} activeTrack={d.track} />
+          </div>
+        </aside>
+      )
+    }
+
     <article class="min-w-0">
       <Breadcrumb items={crumbs} />
 
@@ -94,6 +108,7 @@ const crumbs = [
             {d.difficulty && <Badge>{d.difficulty}</Badge>}
             <span>{readingTime} min read</span>
             {d.updated && <span>Updated {d.updated.toISOString().slice(0, 10)}</span>}
+            <span class="ml-auto"><MarkComplete id={concept.id} /></span>
           </div>
         )
       }

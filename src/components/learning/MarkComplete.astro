@@ -1,0 +1,14 @@
+---
+/** Per-concept completion toggle. State lives in ProgressStore. */
+interface Props { id: string }
+const { id } = Astro.props;
+---
+<button
+  type="button"
+  data-done-toggle={id}
+  aria-pressed="false"
+  class="inline-flex items-center gap-2 rounded border border-line px-3 py-1.5 text-[13px] text-muted transition-colors hover:border-accent-border hover:text-accent aria-pressed:border-accent-border aria-pressed:text-accent"
+>
+  <span aria-hidden="true" class="text-[15px] leading-none">✓</span>
+  <span data-done-label>Mark complete</span>
+</button>

@@ -46,18 +46,30 @@ export const SOCIALS = [
  * means this list can be reorganised later without breaking a single link.
  */
 export const DOMAINS = [
-  { slug: 'ai-ml', label: 'AI / ML', blurb: 'Foundations, neural networks, transformers, LLMs' },
-  { slug: 'compilers', label: 'Compilers & Graph Compilers', blurb: 'Computational graphs, IR, optimisation, codegen' },
-  { slug: 'systems', label: 'Systems & OS', blurb: 'Memory, scheduling, processes, IPC' },
-  { slug: 'networking', label: 'Networking', blurb: 'TCP/IP, routing, TLS, 4G/5G, NGFW' },
-  { slug: 'data-plane', label: 'Data Plane', blurb: 'DPDK, VPP, line-rate packet processing' },
-  { slug: 'distributed', label: 'Distributed Systems', blurb: 'Consensus, replication, partitioning' },
-  { slug: 'system-design', label: 'System Design', blurb: 'HLD, LLD, scale and trade-offs' },
-  { slug: 'dsa', label: 'DSA & Algorithms', blurb: 'Patterns, structures, complexity' },
-  { slug: 'languages', label: 'Programming Languages', blurb: 'C, C++, Java, Python, OOP and design patterns' },
-  { slug: 'engineering', label: 'Engineering Practice', blurb: 'Backend, tooling, workflow, competitive programming' },
-  { slug: 'finance', label: 'Finance', blurb: 'Markets, taxation, personal finance engineering' },
+  { slug: 'data-plane', label: 'Data Plane', group: 'Systems', blurb: 'DPDK, VPP, line-rate packet processing' },
+  { slug: 'networking', label: 'Networking', group: 'Systems', blurb: 'TCP/IP, routing, TLS, 4G/5G, NGFW' },
+  { slug: 'systems', label: 'Systems & OS', group: 'Systems', blurb: 'Memory, scheduling, processes, IPC' },
+  { slug: 'distributed', label: 'Distributed Systems', group: 'Systems', blurb: 'Consensus, replication, partitioning' },
+
+  { slug: 'dsa', label: 'DSA & Algorithms', group: 'Foundations', blurb: 'Patterns, structures, complexity' },
+  { slug: 'system-design', label: 'System Design', group: 'Foundations', blurb: 'HLD, LLD, scale and trade-offs' },
+  { slug: 'languages', label: 'Programming Languages', group: 'Foundations', blurb: 'C, C++, Java, Python, OOP and design patterns' },
+
+  { slug: 'ai-ml', label: 'AI / ML', group: 'Applied', blurb: 'Foundations, neural networks, transformers, LLMs' },
+  { slug: 'compilers', label: 'Compilers & Graph Compilers', group: 'Applied', blurb: 'Computational graphs, IR, optimisation, codegen' },
+  { slug: 'engineering', label: 'Engineering Practice', group: 'Applied', blurb: 'Backend, tooling, workflow, competitive programming' },
+  { slug: 'finance', label: 'Finance', group: 'Applied', blurb: 'Markets, taxation, personal finance engineering' },
 ] as const;
+
+/**
+ * Sidebar grouping, derived from DOMAINS rather than listed separately —
+ * Jekyll kept the same three groups in _data/nav.yml as a second copy that had
+ * to be edited alongside the folder tree. Order follows DOMAINS.
+ */
+export const DOMAIN_GROUPS = [...new Set(DOMAINS.map((d) => d.group))].map((group) => ({
+  group,
+  domains: DOMAINS.filter((d) => d.group === group),
+}));
 
 export type DomainSlug = (typeof DOMAINS)[number]['slug'];
 

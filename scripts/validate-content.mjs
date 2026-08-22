@@ -113,6 +113,30 @@ for (const e of addressable) {
   }
 }
 
+/* ── 1b. URLs differing only by case ─────────────────────────────────────── */
+
+/**
+ * Distinct pages on Linux, the same directory on macOS.
+ *
+ * The Jekyll tree mixes casing (`_learning/dsa/Arrays` next to
+ * `_learning/dsa/tree`), and the static files inside those folders are served
+ * at the capitalised path while the pages use a lowercased permalink. CI builds
+ * on Linux and gets both; a local macOS build silently merges them into
+ * whichever directory was created first, which makes local output look like
+ * pages have gone missing. Warn rather than fail — the content is legal, it is
+ * the local filesystem that cannot represent it.
+ */
+{
+  const byLower = new Map();
+  for (const url of byUrl.keys()) {
+    const k = url.toLowerCase();
+    if (!byLower.has(k)) byLower.set(k, []);
+    byLower.get(k).push(url);
+  }
+  const clashes = [...byLower.values()].filter((v) => v.length > 1);
+  for (const set of clashes) warn(`URLs differ only by case: ${set.join('  ')}`);
+}
+
 /* ── 2. URL preservation ─────────────────────────────────────────────────── */
 
 let covered = 0;
