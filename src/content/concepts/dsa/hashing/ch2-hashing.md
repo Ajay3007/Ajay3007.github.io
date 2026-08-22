@@ -7,6 +7,8 @@ order: 2
 url: /learning/dsa/hashing/ch2-hashing/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
     <div class="ch-hero-breadcrumb">

@@ -7,6 +7,8 @@ order: 3
 url: /learning/dsa/linked-list/ch3-linked-lists/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
     <div class="ch-hero-breadcrumb">

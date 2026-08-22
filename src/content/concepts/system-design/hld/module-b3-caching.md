@@ -7,6 +7,8 @@ order: 106
 url: /learning/system-design/hld/module-b3-caching/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-b3.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,200;0,400;0,600;0,800;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
 <header>
@@ -697,3 +699,6 @@ function tick(el) {
   <a href="/learning/system-design/system-design-roadmap/" class="b3-nav-footer-btn">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-b4-message-queues/" class="b3-nav-footer-btn">B4: Message Queues →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-b3.js" defer></script>

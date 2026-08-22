@@ -7,6 +7,8 @@ order: 103
 url: /learning/system-design/hld/module-b1-notes/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div style="margin-bottom:1.5rem;">
   <a href="/learning/system-design/" style="color:var(--light-text);text-decoration:none;font-size:0.85rem;">System Design Roadmap</a>
   <span style="color:var(--light-text);margin:0 0.4rem;">›</span>

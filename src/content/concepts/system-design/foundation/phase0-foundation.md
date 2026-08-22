@@ -6,6 +6,8 @@ order: 99
 url: /learning/system-design/foundation/phase0-foundation/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-phase0.css">
+
 <div class="header">
   <div class="eyebrow">// system design mastery &middot; phase 0</div>
   <h1>Foundation Primer</h1>
@@ -364,3 +366,6 @@ Peak &asymp; Average &times; <span class="ca">3</span></pre>
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid var(--border-color);border-radius:4px;color:var(--text-color);text-decoration:none;transition:all 0.2s;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a1-solid/" style="padding:12px 24px;border:1px solid #7c6fff;background:rgba(124,111,255,0.1);color:#7c6fff;border-radius:4px;text-decoration:none;font-weight:600;transition:all 0.2s;">NEXT: LLD A1 — SOLID →</a>
 </div>
+
+
+<script src="/assets/js/sd-phase0.js" defer></script>

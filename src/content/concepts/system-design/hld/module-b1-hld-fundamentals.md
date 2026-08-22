@@ -7,6 +7,8 @@ order: 102
 url: /learning/system-design/hld/module-b1-hld-fundamentals/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-b1.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
 <!-- HEADER -->
@@ -665,3 +667,6 @@ function tick(el) {
   <a href="/learning/system-design/system-design-roadmap/" class="b1-nav-footer-btn">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-b2-databases-at-scale/" class="b1-nav-footer-btn">B2: Databases at Scale →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-b1.js" defer></script>

@@ -7,6 +7,8 @@ order: 10
 url: /learning/system-design/lld/module-a5-concurrency/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-a5.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
 <header>
   <div class="hdr-top">
@@ -791,3 +793,6 @@ setInterval(animateCounts, 400);
   <a href="/learning/system-design/system-design-roadmap/" class="m5-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a6-case-studies/" class="m5-nav-footer-btn" style="padding:12px 24px;background:var(--cyan);color:var(--bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A6 →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-a5.js" defer></script>

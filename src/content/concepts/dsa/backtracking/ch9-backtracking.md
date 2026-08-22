@@ -7,6 +7,8 @@ order: 9
 url: /learning/dsa/backtracking/ch9-backtracking/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <!-- ========================================== -->
 <!-- HERO SECTION                               -->
 <!-- ========================================== -->

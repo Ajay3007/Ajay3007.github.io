@@ -7,6 +7,8 @@ order: 104
 url: /learning/system-design/hld/module-b2-databases-at-scale/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-b2.css">
+
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Code+Pro:wght@300;400;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <header>
@@ -574,3 +576,6 @@ function tick(el) {
   <a href="/learning/system-design/system-design-roadmap/" class="b2-nav-footer-btn">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-b3-caching/" class="b2-nav-footer-btn">B3: Caching →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-b2.js" defer></script>

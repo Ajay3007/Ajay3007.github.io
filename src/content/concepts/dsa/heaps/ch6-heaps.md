@@ -7,6 +7,8 @@ order: 6
 url: /learning/dsa/heaps/ch6-heaps/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
     <div class="ch-hero-breadcrumb">

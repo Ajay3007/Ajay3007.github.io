@@ -7,6 +7,8 @@ order: 8
 url: /learning/dsa/binary-search/ch8-binary-search/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <!-- ==============================================
      HERO SECTION
 =============================================== -->

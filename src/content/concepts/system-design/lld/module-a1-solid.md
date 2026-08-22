@@ -7,6 +7,8 @@ order: 2
 url: /learning/system-design/lld/module-a1-solid/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-a1.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
 
 <div class="m1-page">
@@ -799,3 +801,6 @@ Deliverable:
 </div>
 
 </div><!-- end .m1-page -->
+
+
+<script src="/assets/js/sd-module-a1.js" defer></script>

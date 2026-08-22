@@ -7,6 +7,8 @@ order: 12
 url: /learning/dsa/ch12-cheat-sheet/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <!-- ========================================== -->
 <!-- HERO SECTION                               -->
 <!-- ========================================== -->

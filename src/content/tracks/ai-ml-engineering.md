@@ -8,6 +8,8 @@ status: active
 url: /learning/ai-ml/ai-ml-roadmap/
 ---
 
+<link rel="stylesheet" href="/assets/css/ai-ml-roadmap.css">
+
 <div id="pb"></div>
 
 <div class="aiml-breadcrumb">
@@ -686,3 +688,6 @@ url: /learning/ai-ml/ai-ml-roadmap/
   9 Parts &bull; 28 Modules &bull; 15+ Projects &bull; Build. Ship. Deploy.</p>
   <a href="/roadmap/">← Back to All Roadmaps</a>
 </div>
+
+
+<script src="/assets/js/ai-ml-roadmap.js" defer></script>

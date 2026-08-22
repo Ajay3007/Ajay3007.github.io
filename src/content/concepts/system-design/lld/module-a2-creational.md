@@ -7,6 +7,8 @@ order: 4
 url: /learning/system-design/lld/module-a2-creational/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-a2.css">
+
 <div class="m2-page">
 
 <header class="m2-header">
@@ -727,3 +729,6 @@ shallow clone intentional? When is it a bug?</pre>
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid var(--border);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a3-structural/" style="padding:12px 24px;background:var(--gold);color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A3 →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-a2.js" defer></script>

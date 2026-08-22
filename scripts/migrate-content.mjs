@@ -201,6 +201,8 @@ function writeTracks() {
   for (const def of TRACK_DEFS) {
     let body = '';
     let url;
+    let trackHead = '';
+    let trackFoot = '';
     let description = def.tagline;
 
     if (def.from && existsSync(join(ROOT, def.from))) {
@@ -209,6 +211,8 @@ function writeTracks() {
       if (fm) {
         const data = parseYaml(fm[1]) ?? {};
         url = data.permalink;
+        if (data.custom_css) trackHead = `<link rel="stylesheet" href="/assets/css/${data.custom_css}.css">`;
+        if (data.custom_js) trackFoot = `<script src="/assets/js/${data.custom_js}.js" defer></script>`;
         const converted = convertLiquid(fm[2]);
         body = converted.body;
         if (converted.remaining) report.liquidLeft.push([def.from, converted.remaining]);
@@ -224,7 +228,10 @@ function writeTracks() {
     out.push(`order: ${def.order}`);
     out.push('status: active');
     if (url) out.push(`url: ${url}`);
-    out.push('---', '', body.replace(/^\n+/, ''));
+    out.push('---', '');
+    if (trackHead) out.push(trackHead, '');
+    out.push(body.replace(/^\n+/, ''));
+    if (trackFoot) out.push('', trackFoot);
 
     const dest = join(OUT, 'tracks', `${def.id}.md`);
     if (!DRY) { mkdirSync(dirname(dest), { recursive: true }); writeFileSync(dest, out.join('\n')); }
@@ -311,6 +318,17 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
     report.autoDescription.push(file);
   }
 
+  /**
+   * The Jekyll layout injected per-page CSS/JS from `custom_css` / `custom_js`
+   * front matter. Astro has no equivalent hook, and 41 pages depend on it, so
+   * the tags move into the body — which is exactly how the other 15 bespoke
+   * pages already did it. sync-public.mjs puts the files where these point.
+   */
+  const headTags = [];
+  if (data.custom_css) headTags.push(`<link rel="stylesheet" href="/assets/css/${data.custom_css}.css">`);
+  const footTags = [];
+  if (data.custom_js) footTags.push(`<script src="/assets/js/${data.custom_js}.js" defer></script>`);
+
   const out = ['---'];
   out.push(`title: ${quote(data.title ?? basename(file, '.md'))}`);
   out.push(`description: ${quote(description)}`);
@@ -319,7 +337,10 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
   if (module) out.push(`module: ${module}`);
   out.push(`order: ${inferOrder(file)}`);
   out.push(`url: ${url}`);
-  out.push('---', '', body.replace(/^\n+/, ''));
+  out.push('---', '');
+  if (headTags.length) out.push(...headTags, '');
+  out.push(body.replace(/^\n+/, ''));
+  if (footTags.length) out.push('', ...footTags);
 
   /**
    * _learning/networking/networking-mastery/m05-tcp.md

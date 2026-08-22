@@ -7,6 +7,8 @@ order: 6
 url: /learning/system-design/lld/module-a3-structural/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-a3.css">
+
 <div class="m3-page m3-bg">
 <header class="m3-header">
   <div class="m3-colour-bar">
@@ -740,3 +742,6 @@ Demo scenario:
   <a href="/learning/system-design/system-design-roadmap/" class="m3-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a4-behavioral/" class="m3-nav-footer-btn" style="padding:12px 24px;background:var(--c1);color:var(--paper);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A4 →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-a3.js" defer></script>

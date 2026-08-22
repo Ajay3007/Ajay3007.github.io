@@ -8,6 +8,8 @@ status: active
 url: /learning/system-design/system-design-roadmap/
 ---
 
+<link rel="stylesheet" href="/assets/css/system-design-roadmap.css">
+
 <header>
   <div class="header-tag">// system design mastery course</div>
   <h1>Complete System Design<br>Roadmap & Course</h1>
@@ -706,3 +708,6 @@ url: /learning/system-design/system-design-roadmap/
   <div class="tooltip-title" id="tt-title"></div>
   <div class="tooltip-body" id="tt-body"></div>
 </div>
+
+
+<script src="/assets/js/system-design-roadmap.js" defer></script>

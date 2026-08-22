@@ -7,6 +7,8 @@ order: 209
 url: /learning/system-design/hld/module-c4-notes/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div style="margin-bottom:24px;padding:14px 20px;background:#e0f8e6;border-left:4px solid #00c840;border-radius:0 4px 4px 0;font-family:'IBM Plex Mono',monospace;font-size:13px;">
   <strong>Module C4 · Week 28 · Track C — Advanced Topics</strong><br>
   <span style="color:#666;">Prerequisites: B1–B14, C1–C3 &nbsp;|&nbsp; Goal: Metrics, tracing, logging, SLOs/SLAs, incident response, SRE practices</span>

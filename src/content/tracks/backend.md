@@ -8,6 +8,8 @@ status: active
 url: /learning/backend/backend-roadmap/
 ---
 
+<link rel="stylesheet" href="/assets/css/backend-roadmap.css">
+
 <div class="be-breadcrumb">
   <a href="/">Home</a>
   <span>/</span>
@@ -925,3 +927,6 @@ document.addEventListener('DOMContentLoaded', function() {
   // JS file handles all logic; this is a no-op safety net
 });
 </script>
+
+
+<script src="/assets/js/backend-roadmap.js" defer></script>

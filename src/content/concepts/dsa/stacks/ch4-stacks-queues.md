@@ -7,6 +7,8 @@ order: 4
 url: /learning/dsa/stacks/ch4-stacks-queues/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
     <div class="ch-hero-breadcrumb">

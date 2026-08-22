@@ -7,6 +7,8 @@ order: 205
 url: /learning/system-design/hld/module-c2-notes/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div style="margin-bottom:24px;padding:14px 20px;background:#e0fafb;border-left:4px solid #00b8c8;border-radius:0 4px 4px 0;font-family:'JetBrains Mono',monospace;font-size:13px;">
   <strong>Module C2 · Week 26 · Track C — Advanced Topics</strong><br>
   <span style="color:#666;">Prerequisites: B1–B14, C1 &nbsp;|&nbsp; Goal: Multi-region replication, active-active, latency-based routing, disaster recovery</span>

@@ -7,6 +7,8 @@ order: 10
 url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <!-- ========================================== -->
 <!-- HERO SECTION                               -->
 <!-- ========================================== -->

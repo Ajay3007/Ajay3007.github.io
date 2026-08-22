@@ -7,6 +7,8 @@ order: 5
 url: /learning/dsa/tree/ch5-trees-graphs/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
     <div class="ch-hero-breadcrumb">

@@ -7,6 +7,8 @@ order: 9
 url: /learning/system-design/lld/module-a4-notes/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero" style="--ch-1:#ef4444;--ch-2:#dc2626;">
   <div class="breadcrumb">
     <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>

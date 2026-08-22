@@ -7,6 +7,8 @@ order: 12
 url: /learning/system-design/lld/module-a6-case-studies/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-a6.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <!-- MASTHEAD -->
 <header>
@@ -726,3 +728,6 @@ function tick(el) {
   <a href="/learning/system-design/system-design-roadmap/" class="m6-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
   <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" class="m6-nav-footer-btn" style="padding:12px 24px;background:var(--amber);color:var(--bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: HLD B1 →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-a6.js" defer></script>

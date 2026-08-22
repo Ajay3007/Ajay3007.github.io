@@ -8,6 +8,8 @@ status: active
 url: /learning/dsa/dsa-roadmap/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-roadmap.css">
+
 <div class="dsa-breadcrumb">
   <a href="/roadmap/">🗺️ All Roadmaps</a>
   <span>›</span>
@@ -1158,3 +1160,6 @@ uint32_t field = (x >> start) & ((1 << width) - 1);
 <div style="text-align:center;padding:2rem 0 1rem;">
   <a href="/roadmap/" style="display:inline-block;padding:0.6rem 1.4rem;background:linear-gradient(135deg,#00c9a7,#00b4d8);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:700;">← Back to All Roadmaps</a>
 </div>
+
+
+<script src="/assets/js/dsa-roadmap.js" defer></script>

@@ -7,6 +7,8 @@ order: 11
 url: /learning/dsa/intervals/ch11-bonus-topics/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <!-- ========================================== -->
 <!-- HERO SECTION                               -->
 <!-- ========================================== -->

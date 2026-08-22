@@ -7,6 +7,8 @@ order: 8
 url: /learning/system-design/lld/module-a4-behavioral/
 ---
 
+<link rel="stylesheet" href="/assets/css/sd-module-a4.css">
+
 <div class="m4-page">
 <header class="m4-header">
   <div class="m4-eyebrow">Track A · LLD · Module A4 · Weeks 6–7</div>
@@ -891,3 +893,6 @@ Deliverable:
   <a href="/learning/system-design/system-design-roadmap/" class="m4-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a5-concurrency/" class="m4-nav-footer-btn" style="padding:12px 24px;background:var(--p1);color:var(--paper);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A5 →</a>
 </div>
+
+
+<script src="/assets/js/sd-module-a4.js" defer></script>

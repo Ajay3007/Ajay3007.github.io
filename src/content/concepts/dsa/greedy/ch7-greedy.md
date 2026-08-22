@@ -7,6 +7,8 @@ order: 7
 url: /learning/dsa/greedy/ch7-greedy/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
     <div class="ch-hero-breadcrumb">

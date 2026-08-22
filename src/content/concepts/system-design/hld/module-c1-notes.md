@@ -7,6 +7,8 @@ order: 203
 url: /learning/system-design/hld/module-c1-notes/
 ---
 
+<link rel="stylesheet" href="/assets/css/dsa-chapter.css">
+
 <div style="margin-bottom:24px;padding:14px 20px;background:#e8f0ff;border-left:4px solid #2060e0;border-radius:0 4px 4px 0;font-family:'JetBrains Mono',monospace;font-size:13px;">
   <strong>Module C1 · Week 25 · Track C — Advanced Topics</strong><br>
   <span style="color:#666;">Prerequisites: B1–B14 &nbsp;|&nbsp; Goal: Raft consensus, Paxos, leader election, distributed coordination</span>
