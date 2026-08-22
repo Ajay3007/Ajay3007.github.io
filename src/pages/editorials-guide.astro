@@ -1,0 +1,25 @@
+---
+/**
+ * The authoring guide for problems and editorials.
+ *
+ * A repo document that Jekyll happened to publish at /editorials-guide/. It is
+ * not a blog post and does not belong in the posts collection — filing it there
+ * put it in the archive and mounted it under /blog/. Imported directly instead,
+ * so it keeps its URL and stays out of every content listing.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import { Content } from '../guides/editorials-guide.md';
+---
+
+<BaseLayout
+  title="How to Add Problems & Solutions"
+  description="The workflow for adding problems, marking them solved, and attaching approaches, PDFs, code files and editorials."
+>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Problems', href: '/problems/' }, { label: 'Authoring guide' }]} />
+    <div class="legacy-content prose dark:prose-invert mt-8 max-w-(--container-prose) prose-a:text-accent prose-code:before:content-none prose-code:after:content-none">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

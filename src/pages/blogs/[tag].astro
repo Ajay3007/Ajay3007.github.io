@@ -1,0 +1,62 @@
+---
+/**
+ * One page per tag, generated from the tags posts carry.
+ *
+ * Replaces seven hand-written Jekyll pages that still shipped pre-redesign
+ * light-theme inline styles — white cards and #1e293b text on a dark site.
+ */
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { isPublished } from '../../lib/content';
+
+type Post = CollectionEntry<'posts'>;
+interface Props { tag: string; posts: Post[] }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('posts', isPublished);
+  const byTag = new Map<string, Post[]>();
+  for (const p of posts) for (const t of p.data.tags) byTag.set(t, [...(byTag.get(t) ?? []), p]);
+  return [...byTag].map(([tag, list]) => ({
+    params: { tag },
+    props: { tag, posts: list.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()) },
+  }));
+};
+
+const { tag, posts } = Astro.props as Props;
+const postUrl = (p: Post) => p.data.url ?? `/blog/${p.id}/`;
+---
+
+<BaseLayout
+  title={`${tag.replace(/-/g, ' ')} posts`}
+  description={`${posts.length} post${posts.length === 1 ? '' : 's'} tagged ${tag}.`}
+  indexable={false}
+>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Blog', href: '/blogs/' }, { label: tag.replace(/-/g, ' ') }]} />
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// TOPIC</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg capitalize sm:text-4xl">
+        {tag.replace(/-/g, ' ')}
+      </h1>
+      <p class="mt-2 text-[13px] text-subtle">{posts.length} post{posts.length === 1 ? '' : 's'}</p>
+    </header>
+
+    <ul class="mt-8 divide-y divide-line border-y border-line">
+      {
+        posts.map((p) => (
+          <li>
+            <a href={postUrl(p)} class="group block py-4">
+              <div class="flex flex-wrap items-baseline gap-x-4">
+                <span class="font-mono text-[12px] text-subtle">{p.data.date.toISOString().slice(0, 10)}</span>
+                <span class="text-[15px] text-fg group-hover:text-accent">{p.data.title}</span>
+              </div>
+              <p class="mt-1 text-[13.5px] leading-relaxed text-subtle">{p.data.description}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

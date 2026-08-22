@@ -27,7 +27,13 @@ const DIRS = [
 ];
 
 /** Extensions inside _learning that Jekyll served as static files. */
-const STATIC_EXT = new Set(['.pdf', '.cpp', '.c', '.h', '.sh', '.puml', '.docx', '.csv', '.png', '.jpg', '.svg', '.gif']);
+const STATIC_EXT = new Set([
+  '.pdf', '.cpp', '.c', '.h', '.sh', '.puml', '.docx', '.csv', '.png', '.jpg', '.svg', '.gif',
+  // dsa-mastery-roadmap.html is a complete standalone document with its own
+  // <head> — it has never had site chrome, so it is served as-is rather than
+  // wrapped in a layout it was not designed for.
+  '.html',
+]);
 
 let dirCount = 0;
 for (const [from, to] of DIRS) {

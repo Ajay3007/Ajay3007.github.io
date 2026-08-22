@@ -36,6 +36,14 @@ export default defineConfig({
   redirects: {
     // The hand-maintained master list is superseded by the generated hub.
     '/learning/dsa/master-problem-list/': '/problems/',
+    // about.md had no permalink, so Jekyll served it as a file.
+    '/about.html': '/about/',
+    // This one permalink omitted its trailing slash, so Jekyll wrote a file
+    // where every sibling is a directory.
+    '/learning/programming-language/cpp/lambda-functions.html':
+      '/learning/programming-language/cpp/lambda-functions/',
+    // An empty category page in Jekyll; no post carries the tag.
+    '/blogs/competitive-programming/': '/blogs/',
   },
 
   integrations: [
