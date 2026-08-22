@@ -41,6 +41,11 @@ plugins:
   - jekyll-sitemap
 
 # Exclude from processing (kept in the repo, but NOT published to the built site)
+#
+# NOTE: declaring `exclude` REPLACES Jekyll's built-in default list, so the
+# defaults that still matter have to be repeated here. Omitting node_modules/
+# previously copied 52 MB into _site/ and put 131 node_modules URLs into
+# sitemap.xml on every local build.
 exclude:
   - scripts/
   - README.md
@@ -48,6 +53,12 @@ exclude:
   - Gemfile.lock
   - vendor/
   - .venv/
+  # Restored Jekyll defaults
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - .sass-cache/
+  - .jekyll-cache/
   # Video-generation tooling (AxioByte manim project) — repo content, not a website section
   - _learning/manim-scripts/
   # Internal planning / maintenance docs — not public pages
@@ -60,3 +71,10 @@ exclude:
   - RELEASE_NOTES_v1.0.0.md
   - RELEASE_v1.1.0.md
   - RELEASE_v1.2.0.md
+  # Architecture / migration documents (Astro migration, 2026-08)
+  - CURRENT_ARCHITECTURE.md
+  - REFERENCE_ARCHITECTURE.md
+  - PROPOSED_ARCHITECTURE.md
+  - MIGRATION_PLAN.md
+  - AUDIT_URL_INVENTORY.txt
+  - MIGRATION_INVENTORY.csv
