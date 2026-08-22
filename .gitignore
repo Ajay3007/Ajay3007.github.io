@@ -8,6 +8,12 @@ __pycache__/
 *.bak
 *.md.bak
 
+# Compiled output of the committed .cpp/.c learning samples — rebuildable,
+# and 2.7 MB of Windows binaries has no business in a public knowledge site.
+*.exe
+*.out
+a.out
+
 # Project dumps and AI prompts
 project_dump.txt
 dump_*.txt
@@ -34,3 +40,4 @@ node_modules/
 # Manim render output / review drafts (large binaries — final videos rendered locally)
 _learning/manim-scripts/**/media/
 *_draft_*.mp4
+
