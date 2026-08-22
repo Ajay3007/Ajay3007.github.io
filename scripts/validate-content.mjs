@@ -188,6 +188,50 @@ for (const p of problems)
   for (const c of p.concepts ?? [])
     if (!conceptIds.has(c)) fail(`problems.json: problem ${p.id} references unknown concept "${c}"`);
 
+/* ── 3b. internal links inside the problem database ──────────────────────── */
+
+/**
+ * problems.json carries approach/solution links straight into the rendered
+ * cards, so a wrong one is a 404 the page itself cannot detect.
+ *
+ * Checked here rather than left to check-links because that runs against the
+ * built output, and on a case-insensitive filesystem the built output cannot
+ * tell /Searching-Sorting/ from /searching-sorting/ — which is exactly how a
+ * mis-cased link reached CI and failed the first deploy.
+ */
+{
+  const servedPages = new Set(byUrl.keys());
+  const staticFiles = new Set();
+  const learningDir = join(ROOT, '_learning');
+  const walkStatic = (dir) => {
+    if (!existsSync(dir)) return;
+    for (const name of readdirSync(dir)) {
+      const abs = join(dir, name);
+      if (statSync(abs).isDirectory()) {
+        if (name !== 'manim-scripts') walkStatic(abs);
+      } else if (!name.endsWith('.md')) {
+        staticFiles.add('/learning/' + relative(learningDir, abs).split(sep).join('/'));
+      }
+    }
+  };
+  walkStatic(learningDir);
+
+  for (const p of problems) {
+    for (const key of ['approach_url', 'solution_url']) {
+      const url = p[key];
+      if (!url || !url.startsWith('/')) continue;
+      if (servedPages.has(url) || staticFiles.has(url)) continue;
+      // Case-only mismatches are the dangerous ones; name the right spelling.
+      const hit =
+        [...servedPages, ...staticFiles].find((u) => u.toLowerCase() === url.toLowerCase());
+      fail(
+        `problems.json: problem ${p.id} ${key} does not resolve — ${url}` +
+          (hit ? `\n     did you mean ${hit}` : ''),
+      );
+    }
+  }
+}
+
 /* ── 4. prerequisite cycles ──────────────────────────────────────────────── */
 
 {
