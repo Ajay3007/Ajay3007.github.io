@@ -2,6 +2,43 @@
 @plugin '@tailwindcss/typography';
 
 /* ==========================================================================
+   Fonts
+   --------------------------------------------------------------------------
+   Self-hosted rather than fetched from Google, which is what the Jekyll site
+   did on every page as a render-blocking cross-origin request. Only the latin
+   subset ships, and both are variable fonts, so one file covers the whole
+   weight range.
+
+   The `-variable` packages expose a single wght-normal file each; importing
+   the subset entrypoint directly avoids pulling every subset Fontsource
+   declares.
+   ========================================================================== */
+/* Declared by hand rather than importing Fontsource's stylesheet, which
+   declares seven subsets and makes the build emit 31 woff2 files (604 KB). A
+   latin-only site needs two. */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono Variable';
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url('@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2') format('woff2-variations');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+/* ==========================================================================
    Theme switching
    --------------------------------------------------------------------------
    Class-driven rather than media-driven, so the toggle can override the OS.
@@ -50,8 +87,8 @@
   --warn: #b45309;
   --danger: #b91c1c;
 
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'Menlo', monospace;
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Menlo', monospace;
 
   --container-prose: 46rem;
   --container-wide: 78rem;

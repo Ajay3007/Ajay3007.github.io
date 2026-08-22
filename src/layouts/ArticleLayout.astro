@@ -26,7 +26,14 @@ const { title, description, kicker, date, meta = [], tags = [], crumbs, headings
   Astro.props;
 ---
 
-<BaseLayout title={title} description={description} type="article" publishedAt={date} tags={tags}>
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  publishedAt={date}
+  tags={tags}
+  searchType={kicker?.startsWith('PROJECT') ? 'project' : kicker?.startsWith('LEETCODE') ? 'editorial' : 'post'}
+>
   <MathStyles />
   <div class="mx-auto grid max-w-(--container-wide) gap-10 px-5 pt-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_15rem]">
     <article class="min-w-0">

@@ -41,7 +41,13 @@ const moduleSlugs = new Set(modules.map((m) => m.data.slug));
 const ungrouped = concepts.filter((c) => !c.data.module || !moduleSlugs.has(c.data.module));
 ---
 
-<BaseLayout title={d.title} description={d.description} tags={d.tags}>
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  tags={d.tags}
+  searchType="track"
+  searchDomain={d.domain}
+>
   <MathStyles />
   <ProgressStore />
   <div class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">

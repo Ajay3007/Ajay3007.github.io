@@ -9,6 +9,7 @@
  */
 import '../styles/global.css';
 import { SITE, NAV } from '../consts';
+import CommandPalette from '../components/ui/CommandPalette.astro';
 
 interface Props {
   title: string;
@@ -20,6 +21,10 @@ interface Props {
   tags?: string[];
   /** Set false on index pages so Pagefind indexes real content only. */
   indexable?: boolean;
+  /** Pagefind facets: what kind of page this is, and where it sits. */
+  searchType?: string;
+  searchDomain?: string;
+  searchStatus?: string;
 }
 
 const {
@@ -30,6 +35,9 @@ const {
   updatedAt,
   tags = [],
   indexable = true,
+  searchType,
+  searchDomain,
+  searchStatus,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
@@ -124,6 +132,7 @@ const currentPath = Astro.url.pathname;
         </nav>
 
         <div class="ml-auto flex items-center gap-2">
+          <CommandPalette />
           <button
             type="button"
             id="nav-toggle"
@@ -164,7 +173,22 @@ const currentPath = Astro.url.pathname;
       </ul>
     </nav>
 
-    <main id="main" data-pagefind-body={indexable ? '' : undefined}>
+    <main
+      id="main"
+      data-pagefind-body={indexable ? '' : undefined}
+      data-pagefind-filter={
+        indexable
+          ? [
+              searchType && `type:${searchType}`,
+              searchDomain && `domain:${searchDomain}`,
+              searchStatus && `status:${searchStatus}`,
+            ]
+              .filter(Boolean)
+              .join(', ') || undefined
+          : undefined
+      }
+      data-pagefind-meta={searchType ? `type:${searchType}` : undefined}
+    >
       <slot />
     </main>
 

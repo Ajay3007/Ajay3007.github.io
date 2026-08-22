@@ -1,0 +1,209 @@
+---
+/**
+ * ⌘K search.
+ *
+ * Two indexes, deliberately, because they answer different questions:
+ *
+ *   • a small JSON list of pages, tracks and domains — "take me to X". It is
+ *     fetched on first open, so a visitor who never presses ⌘K never pays for
+ *     it. Jekyll's palette loaded a 229 KB index eagerly.
+ *   • Pagefind for full text, loaded lazily on the same trigger. Its index is
+ *     sharded, so a query pulls only the shards it needs rather than the whole
+ *     corpus, which is why the 5 MB on disk is not 5 MB over the wire.
+ *
+ * Degrades to nothing if either is unavailable — the trigger simply no-ops.
+ */
+---
+
+<button
+  type="button"
+  data-cmdk-open
+  class="hidden items-center gap-2 rounded border border-line px-2.5 py-1 text-[12px] text-subtle transition-colors hover:border-line-strong hover:text-fg sm:inline-flex"
+  aria-label="Search"
+>
+  <span>Search</span>
+  <kbd class="font-mono text-[11px]">⌘K</kbd>
+</button>
+
+<div id="cmdk" hidden class="fixed inset-0 z-50">
+  <div data-cmdk-close class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-label="Search"
+    class="absolute inset-x-4 top-[12vh] mx-auto max-w-2xl overflow-hidden rounded-card border border-line bg-surface shadow-2xl"
+  >
+    <input
+      id="cmdk-input"
+      type="text"
+      placeholder="Search pages, concepts, problems…"
+      autocomplete="off"
+      spellcheck="false"
+      aria-label="Search"
+      class="w-full border-b border-line bg-transparent px-4 py-3.5 text-[15px] text-fg outline-none placeholder:text-subtle"
+    />
+    <div id="cmdk-filters" class="flex flex-wrap gap-1.5 border-b border-line px-4 py-2"></div>
+    <ul id="cmdk-results" class="max-h-[55vh] overflow-y-auto p-2" role="listbox"></ul>
+    <div class="flex gap-4 border-t border-line px-4 py-2 font-mono text-[11px] text-subtle">
+      <span>↑↓ navigate</span><span>↵ open</span><span>esc close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Nav = { title: string; href: string; section: string; description?: string };
+
+  /**
+   * Takes its elements as non-null arguments rather than reading them inside.
+   * Under strictNullChecks a `if (el && input)` guard does not narrow for the
+   * nested closures below, so the null checks happen once, here.
+   */
+  function initPalette(
+    el: HTMLElement,
+    input: HTMLInputElement,
+    results: HTMLElement,
+    filterBar: HTMLElement,
+  ) {
+    let nav: Nav[] | null = null;
+    let pagefind: any = null;
+    let items: { title: string; href: string; meta: string; excerpt?: string }[] = [];
+    let sel = -1;
+    let activeType: string | null = null;
+    let lastFocus: Element | null = null;
+
+    async function loadNav(): Promise<Nav[]> {
+      if (nav) return nav;
+      try {
+        nav = (await (await fetch('/search-index.json')).json()) as Nav[];
+      } catch {
+        nav = [];
+      }
+      return nav;
+    }
+
+    async function loadPagefind() {
+      if (pagefind !== null) return pagefind;
+      try {
+        // Built by `pagefind --site dist` after astro build, so it does not
+        // exist when this is type-checked. The indirection keeps TS out of it.
+        const bundle = '/pagefind/pagefind.js';
+        pagefind = await import(/* @vite-ignore */ bundle);
+        await pagefind.options?.({ excerptLength: 20 });
+      } catch {
+        pagefind = false; // not built (dev server) — navigation search still works
+      }
+      return pagefind;
+    }
+
+    function render() {
+      results.innerHTML = '';
+      items.forEach((it, i) => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = it.href;
+        a.className =
+          'block rounded px-3 py-2 ' + (i === sel ? 'bg-accent-tint text-accent' : 'text-muted');
+        a.innerHTML =
+          `<span class="text-[14.5px] text-fg">${it.title}</span>` +
+          `<span class="ml-2 font-mono text-[11px] text-subtle">${it.meta}</span>` +
+          (it.excerpt ? `<span class="mt-0.5 block text-[12.5px] text-subtle">${it.excerpt}</span>` : '');
+        li.appendChild(a);
+        results.appendChild(li);
+      });
+    }
+
+    async function search(q: string) {
+      q = q.trim();
+      if (!q) { items = []; sel = -1; return render(); }
+
+      const list = await loadNav();
+      const lower = q.toLowerCase();
+      items = list
+        .filter((n) => n.title.toLowerCase().includes(lower))
+        .slice(0, 5)
+        .map((n) => ({ title: n.title, href: n.href, meta: n.section }));
+
+      const pf = await loadPagefind();
+      if (pf) {
+        const res = await pf.search(q, activeType ? { filters: { type: activeType } } : undefined);
+        const top = await Promise.all(res.results.slice(0, 12).map((r: any) => r.data()));
+        for (const d of top) {
+          if (items.some((i) => i.href === d.url)) continue;
+          items.push({
+            title: d.meta?.title ?? d.url,
+            href: d.url,
+            meta: d.filters?.type?.[0] ?? 'page',
+            excerpt: d.excerpt?.replace(/<[^>]*>/g, ''),
+          });
+        }
+      }
+      sel = items.length ? 0 : -1;
+      render();
+    }
+
+    function renderFilters() {
+      const types = ['concept', 'post', 'editorial', 'project', 'track'];
+      filterBar.innerHTML = '';
+      for (const t of types) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = t;
+        b.className =
+          'rounded-full border px-2.5 py-0.5 text-[12px] capitalize transition-colors ' +
+          (activeType === t ? 'border-accent text-accent' : 'border-line text-subtle hover:text-fg');
+        b.addEventListener('click', () => {
+          activeType = activeType === t ? null : t;
+          renderFilters();
+          search(input.value);
+        });
+        filterBar.appendChild(b);
+      }
+    }
+
+    function open() {
+      if (!el.hidden) return;
+      lastFocus = document.activeElement;
+      el.hidden = false;
+      input.value = '';
+      items = [];
+      render();
+      renderFilters();
+      input.focus();
+      loadNav();
+    }
+
+    function close() {
+      el.hidden = true;
+      if (lastFocus instanceof HTMLElement) lastFocus.focus();
+    }
+
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (t.closest('[data-cmdk-open]')) open();
+      else if (t.closest('[data-cmdk-close]')) close();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); open(); return; }
+      if (el.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, items.length - 1); render(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); render(); }
+      else if (e.key === 'Enter' && items[sel]) { e.preventDefault(); location.href = items[sel].href; }
+    });
+
+    let timer: number;
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => search(input.value), 120);
+    });
+  }
+
+  const el = document.getElementById('cmdk');
+  const input = document.getElementById('cmdk-input');
+  const results = document.getElementById('cmdk-results');
+  const filterBar = document.getElementById('cmdk-filters');
+  if (el && input instanceof HTMLInputElement && results && filterBar) {
+    initPalette(el, input, results, filterBar);
+  }
+</script>
