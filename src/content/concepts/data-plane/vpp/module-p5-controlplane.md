@@ -68,10 +68,10 @@ url: /learning/data-plane/vpp/module-p5-controlplane/
   <div class="mod-title">🎛️ Control Plane &amp; GoVPP</div>
   <div class="mod-subtitle">GoVPP binary API client · Stats API · vpp_papi · Observability · NUMA tuning · Production patterns</div>
   <div class="mod-pills">
-    <span class="mod-pill">github.com/FDio/govpp</span>
-    <span class="mod-pill">Stats API</span>
-    <span class="mod-pill">vpp_papi</span>
-    <span class="mod-pill">Projects 8 &amp; 9</span>
+<span class="mod-pill">github.com/FDio/govpp</span>
+<span class="mod-pill">Stats API</span>
+<span class="mod-pill">vpp_papi</span>
+<span class="mod-pill">Projects 8 &amp; 9</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -89,17 +89,20 @@ url: /learning/data-plane/vpp/module-p5-controlplane/
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🐹</span><h3>GoVPP Architecture and Setup</h3><span class="tag tag-green">GOVPP</span></div>
   <div class="cp-body">
-    <p>GoVPP (<code>github.com/FDio/govpp</code>) is the official Go library for VPP's binary API. It connects to VPP via a Unix socket or shared memory, sends request messages, and receives reply/notification messages. GoVPP auto-generates Go structs from VPP's <code>.api.json</code> files - so every VPP API is accessible with full type safety.</p>
-<div class="cb"><pre><span class="cm">// ── go.mod setup ──</span>
-<span class="cm">// go get go.fd.io/govpp@latest</span>
- 
+<p>GoVPP (<code>github.com/FDio/govpp</code>) is the official Go library for VPP's binary API. It connects to VPP via a Unix socket or shared memory, sends request messages, and receives reply/notification messages. GoVPP auto-generates Go structs from VPP's <code>.api.json</code> files - so every VPP API is accessible with full type safety.</p>
+
+
+```python
+// ── go.mod setup ──
+// go get go.fd.io/govpp@latest
+
 package main
- 
+
 import (
     "context"
     "fmt"
     "log"
- 
+
     "go.fd.io/govpp"
     "go.fd.io/govpp/api"
     "go.fd.io/govpp/binapi/interface_types"
@@ -108,38 +111,44 @@ import (
     "go.fd.io/govpp/binapi/ip_types"
     "go.fd.io/govpp/core"
 )
- 
+
 func main() {
-    <span class="cm">// Connect to VPP binary API socket</span>
+    // Connect to VPP binary API socket
     conn, err := govpp.Connect("/run/vpp/api.sock")
     if err != nil {
         log.Fatalf("connect: %v", err)
     }
     defer conn.Disconnect()
- 
-    <span class="cm">// Open a channel - each goroutine should have its own channel</span>
+
+    // Open a channel - each goroutine should have its own channel
     ch, err := conn.NewAPIChannel()
     if err != nil {
         log.Fatalf("channel: %v", err)
     }
     defer ch.Close()
- 
-    <span class="cm">// ── Example 1: Show VPP version ──</span>
+
+    // ── Example 1: Show VPP version ──
     req := &vpe.ShowVersion{}
     reply := &vpe.ShowVersionReply{}
     if err := ch.SendRequest(req).ReceiveReply(reply); err != nil {
         log.Fatalf("ShowVersion: %v", err)
     }
     fmt.Printf("VPP version: %s\n", reply.Version)
-}</pre></div>
+}
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Interface Operations</h3><span class="tag tag-blue">API PATTERNS</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">// ── List all interfaces ──</span>
+
+
+```yaml
+// ── List all interfaces ──
 reqCtx := ch.SendMultiRequest(&interfaces.SwInterfaceDump{
-    SwIfIndex: interface_types.InterfaceIndex(^uint32(0)), <span class="cm">// ~0 = all</span>
+    SwIfIndex: interface_types.InterfaceIndex(^uint32(0)), // ~0 = all
 })
 for {
     details := &interfaces.SwInterfaceDetails{}
@@ -151,14 +160,14 @@ for {
         details.InterfaceName,
         details.AdminUpDown, details.LinkUpDown)
 }
- 
-<span class="cm">// ── Set interface state up ──</span>
+
+// ── Set interface state up ──
 _, err = ch.SendRequest(&interfaces.SwInterfaceSetFlags{
     SwIfIndex: interface_types.InterfaceIndex(swIfIndex),
     Flags:     interface_types.IF_STATUS_API_FLAG_ADMIN_UP,
 }).ReceiveReply(&interfaces.SwInterfaceSetFlagsReply{})
- 
-<span class="cm">// ── Add IPv4 address ──</span>
+
+// ── Add IPv4 address ──
 _, err = ch.SendRequest(&interfaces.SwInterfaceAddDelAddress{
     SwIfIndex: interface_types.InterfaceIndex(swIfIndex),
     IsAdd:     true,
@@ -170,8 +179,8 @@ _, err = ch.SendRequest(&interfaces.SwInterfaceAddDelAddress{
         Len: 24,
     },
 }).ReceiveReply(&interfaces.SwInterfaceAddDelAddressReply{})
- 
-<span class="cm">// ── Add a static route ──</span>
+
+// ── Add a static route ──
 _, err = ch.SendRequest(&ip.IPRouteAddDel{
     IsAdd: true,
     Route: ip.IPRoute{
@@ -194,7 +203,10 @@ _, err = ch.SendRequest(&ip.IPRouteAddDel{
             Preference: 0,
         }},
     },
-}).ReceiveReply(&ip.IPRouteAddDelReply{})</pre></div>
+}).ReceiveReply(&ip.IPRouteAddDelReply{})
+```
+
+
   </div>
 </div>
 </div>
@@ -204,46 +216,36 @@ _, err = ch.SendRequest(&ip.IPRouteAddDel{
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📨</span><h3>Event Subscriptions and Multi-Channel Patterns</h3><span class="tag tag-teal">ADVANCED</span></div>
   <div class="cp-body">
-<div class="cb"><pre"><span class="cm">// ── Subscribe to interface state change events ──</span>
+
+
+```yaml
+// ── Subscribe to interface state change events ──
 notifChan := make(chan api.Message, 100)
 sub, err := conn.WatchEvent(context.Background(), (*interfaces.SwInterfaceEvent)(nil))
 if err != nil { log.Fatalf("subscribe: %v", err) }
- 
-<span class="cm">// Enable notifications (VPP won't send events without this)</span>
+
+// Enable notifications (VPP won't send events without this)
 ch.SendRequest(&interfaces.WantInterfaceEvents{
     EnableDisable: 1,
     PID:           uint32(os.Getpid()),
 }).ReceiveReply(&interfaces.WantInterfaceEventsReply{})
- 
-<span class="cm">// Process events in a goroutine</span>
+
+// Process events in a goroutine
 go func() {
     for {
-        msg, ok := <-sub.Events()
-        if !ok { return }
-        ev := msg.(*interfaces.SwInterfaceEvent)
-        fmt.Printf("Interface %d: admin=%v link=%v\n",
-            ev.SwIfIndex, ev.AdminUpDown, ev.LinkUpDown)
-    }
-}()
- 
-<span class="cm">// ── Multi-channel pattern: one channel per worker goroutine ──</span>
+        msg, ok := // ── Multi-channel pattern: one channel per worker goroutine ──
 type VPPWorker struct {
     ch api.Channel
 }
- 
+
 func NewWorker(conn api.Connection) (*VPPWorker, error) {
     ch, err := conn.NewAPIChannel()
     if err != nil { return nil, err }
     return &VPPWorker{ch: ch}, nil
 }
- 
-<span class="cm">// Each goroutine has its OWN channel - no sharing, no locking</span>
-for i := 0; i < numWorkers; i++ {
-    w, _ := NewWorker(conn)
-    go w.processBatch(routes[i])
-}
- 
-<span class="cm">// ── Bulk route programming - batch via channel ──</span>
+
+// Each goroutine has its OWN channel - no sharing, no locking
+for i := 0; i // ── Bulk route programming - batch via channel ──
 func (w *VPPWorker) programRoutes(routes []Route) error {
     for _, r := range routes {
         req := buildIPRouteAddDel(r)
@@ -256,7 +258,10 @@ func (w *VPPWorker) programRoutes(routes []Route) error {
         }
     }
     return nil
-}</pre></div>
+}
+```
+
+
   </div>
 </div>
 </div>
@@ -266,19 +271,22 @@ func (w *VPPWorker) programRoutes(routes []Route) error {
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📊</span><h3>VPP Stats Segment - Zero-Copy Telemetry</h3><span class="tag tag-orange">STATS</span></div>
   <div class="cp-body">
-    <p>The Stats API is VPP's high-performance telemetry interface. It exposes per-node, per-interface, per-worker, and per-error counters via a <strong>shared memory segment</strong> - no IPC, no socket round-trip. A monitoring agent can read millions of counters per second without impacting the VPP dataplane.</p>
-<div class="cb"><pre><span class="cm">// ── GoVPP Stats client ──</span>
+<p>The Stats API is VPP's high-performance telemetry interface. It exposes per-node, per-interface, per-worker, and per-error counters via a <strong>shared memory segment</strong> - no IPC, no socket round-trip. A monitoring agent can read millions of counters per second without impacting the VPP dataplane.</p>
+
+
+```python
+// ── GoVPP Stats client ──
 import "go.fd.io/govpp/adapter/statsclient"
- 
+
 func monitorVPP() {
-    <span class="cm">// Connect to stats segment (separate from binary API socket)</span>
+    // Connect to stats segment (separate from binary API socket)
     client := statsclient.NewStatsClient("/run/vpp/stats.sock")
     if err := client.Connect(); err != nil {
         log.Fatalf("stats connect: %v", err)
     }
     defer client.Disconnect()
- 
-    <span class="cm">// ── Poll interface counters ──</span>
+
+    // ── Poll interface counters ──
     ifCounters, err := client.GetInterfaceCounters()
     for _, ifc := range ifCounters {
         fmt.Printf("%-30s  rx: %8d pkts %12d bytes  tx: %8d pkts %12d bytes\n",
@@ -286,8 +294,8 @@ func monitorVPP() {
             ifc.RxPackets, ifc.RxBytes,
             ifc.TxPackets, ifc.TxBytes)
     }
- 
-    <span class="cm">// ── Poll per-node stats (show run equivalent) ──</span>
+
+    // ── Poll per-node stats (show run equivalent) ──
     nodeCounters, err := client.GetNodeCounters()
     for _, nc := range nodeCounters {
         if nc.Calls == 0 { continue }
@@ -295,26 +303,29 @@ func monitorVPP() {
             nc.NodeName, nc.Calls, nc.Vectors,
             float64(nc.Vectors)/float64(nc.Calls))
     }
- 
-    <span class="cm">// ── Poll error counters (show error equivalent) ──</span>
+
+    // ── Poll error counters (show error equivalent) ──
     errCounters, err := client.GetErrorCounters()
     for _, ec := range errCounters {
         if ec.Value == 0 { continue }
         fmt.Printf("%-50s  %d\n", ec.CounterName, ec.Value)
     }
- 
-    <span class="cm">// ── Continuous monitoring loop ──</span>
+
+    // ── Continuous monitoring loop ──
     ticker := time.NewTicker(1 * time.Second)
     for range ticker.C {
-        <span class="cm">// Stats segment uses version counter for consistency</span>
-        <span class="cm">// GetInterfaceCounters handles the epoch check internally</span>
+        // Stats segment uses version counter for consistency
+        // GetInterfaceCounters handles the epoch check internally
         ifc, _ := client.GetInterfaceCounters()
-        exportMetrics(ifc)  <span class="cm">// Prometheus, InfluxDB, etc.</span>
+        exportMetrics(ifc)  // Prometheus, InfluxDB, etc.
     }
-}</pre></div>
-    <div class="ins">
-      <p>💡 <strong>Stats segment vs binary API for telemetry:</strong> The Stats API reads from shared memory - it costs ~1 microsecond per read. The binary API requires a socket round-trip - ~50–100 microseconds. For polling counters at 1Hz or faster, always use the Stats API. Use the binary API only for configuration operations (add route, set interface state).</p>
-    </div>
+}
+```
+
+
+<div class="ins">
+<p>💡 <strong>Stats segment vs binary API for telemetry:</strong> The Stats API reads from shared memory - it costs ~1 microsecond per read. The binary API requires a socket round-trip - ~50–100 microseconds. For polling counters at 1Hz or faster, always use the Stats API. Use the binary API only for configuration operations (add route, set interface state).</p>
+</div>
   </div>
 </div>
 </div>
@@ -324,25 +335,28 @@ func monitorVPP() {
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🐍</span><h3>vpp_papi - Scripting and Automation</h3><span class="tag tag-purple">PYTHON</span></div>
   <div class="cp-body">
-    <p>vpp_papi (<code>src/vpp-api/python/vpp_papi/</code>) provides Python bindings for VPP's binary API. It is the same library used by VPP's Python test framework. Use it for automation scripts, management integrations, and quick prototyping.</p>
-<div class="cb"><pre>from vpp_papi import VPPApiClient
+<p>vpp_papi (<code>src/vpp-api/python/vpp_papi/</code>) provides Python bindings for VPP's binary API. It is the same library used by VPP's Python test framework. Use it for automation scripts, management integrations, and quick prototyping.</p>
+
+
+```python
+from vpp_papi import VPPApiClient
 import socket
- 
-<span class="cm"># Connect to VPP</span>
+
+# Connect to VPP
 vpp = VPPApiClient(apifiles=["/usr/share/vpp/api/core/"],
                    server_address="/run/vpp/api.sock")
 vpp.connect("my-python-agent")
- 
-<span class="cm"># ── Show version ──</span>
+
+# ── Show version ──
 rv = vpp.api.show_version()
 print(f"VPP: {rv.version}")
- 
-<span class="cm"># ── List interfaces ──</span>
+
+# ── List interfaces ──
 for intf in vpp.api.sw_interface_dump():
     print(f"  [{intf.sw_if_index}] {intf.interface_name.rstrip(chr(0))} "
           f"link={'up' if intf.link_up_down else 'down'}")
- 
-<span class="cm"># ── Create a TAP interface ──</span>
+
+# ── Create a TAP interface ──
 rv = vpp.api.tap_create_v3(
     id=0,
     host_if_name_set=True,
@@ -355,8 +369,8 @@ rv = vpp.api.tap_create_v3(
     }
 )
 print(f"TAP created: sw_if_index={rv.sw_if_index}")
- 
-<span class="cm"># ── Add an IP route ──</span>
+
+# ── Add an IP route ──
 vpp.api.ip_route_add_del(
     is_add=True,
     route={
@@ -369,16 +383,19 @@ vpp.api.ip_route_add_del(
                    "weight": 1, "preference": 0}]
     }
 )
- 
-<span class="cm"># ── Subscribe to interface events ──</span>
+
+# ── Subscribe to interface events ──
 @vpp.register_event_callback
 def on_interface_event(msg_name, msg):
     if msg_name == "sw_interface_event":
         print(f"Interface {msg.sw_if_index} link {'up' if msg.link_up_down else 'down'}")
- 
+
 vpp.api.want_interface_events(enable_disable=1, pid=0)
- 
-vpp.disconnect()</pre></div>
+
+vpp.disconnect()
+```
+
+
   </div>
 </div>
 </div>
@@ -388,44 +405,53 @@ vpp.disconnect()</pre></div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>NUMA Awareness and CPU Topology</h3><span class="tag tag-blue">PERFORMANCE</span></div>
   <div class="cp-body">
-    <p>VPP performance is highly sensitive to NUMA placement. Accessing memory across NUMA nodes adds ~100ns latency and reduces throughput by 30–50%. The goal is to keep NIC, hugepages, CPU cores, and worker threads all on the same NUMA node.</p>
-<div class="cb"><pre><span class="cm"># Step 1: Find which NUMA node your Mellanox NIC is on</span>
+<p>VPP performance is highly sensitive to NUMA placement. Accessing memory across NUMA nodes adds ~100ns latency and reduces throughput by 30–50%. The goal is to keep NIC, hugepages, CPU cores, and worker threads all on the same NUMA node.</p>
+
+
+```bash
+# Step 1: Find which NUMA node your Mellanox NIC is on
 cat /sys/bus/pci/devices/0000:03:00.0/numa_node
-<span class="cm"># e.g. output: 0  → NUMA 0</span>
-<span class="cm"># Step 2: Find NUMA-local CPU cores</span>
+# e.g. output: 0  → NUMA 0
+
+# Step 2: Find NUMA-local CPU cores
 lscpu | grep -A5 "NUMA node0"
-<span class="cm"># e.g. NUMA node0 CPU(s): 0-11,24-35</span>
-<span class="cm"># Step 3: Configure startup.conf to use NUMA-local cores</span>
+# e.g. NUMA node0 CPU(s): 0-11,24-35
+
+# Step 3: Configure startup.conf to use NUMA-local cores
 cpu {
-  main-core 0          <span class="cm"># core 0 on NUMA 0</span>
-  corelist-workers 2-5 <span class="cm"># cores 2-5 on NUMA 0</span>
+  main-core 0          # core 0 on NUMA 0
+  corelist-workers 2-5 # cores 2-5 on NUMA 0
 }
 dpdk {
-  socket-mem 4096,0    <span class="cm"># 4GB on NUMA 0, 0 on NUMA 1</span>
+  socket-mem 4096,0    # 4GB on NUMA 0, 0 on NUMA 1
 }
 buffers {
-  buffers-per-numa 262144   <span class="cm"># 256K buffers on NUMA 0</span>
+  buffers-per-numa 262144   # 256K buffers on NUMA 0
 }
- 
-<span class="cm"># Step 4: Verify with VPP</span>
-<span class="cm"># vppctl: show interface rx-placement</span>
-<span class="cm"># Verify each queue is on the worker thread whose core is NUMA-local to the NIC</span></pre></div>
-    <table class="cp-body" style="padding:0">
-      <tr><td>
-        <table style="width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.86rem">
-          <thead><tr><th style="background:#1a3a5c;color:#fff;padding:.5rem .9rem;text-align:left;font-size:.77rem;font-family:monospace">Tuning Area</th><th style="background:#1a3a5c;color:#fff;padding:.5rem .9rem;text-align:left;font-size:.77rem;font-family:monospace">Recommendation</th><th style="background:#1a3a5c;color:#fff;padding:.5rem .9rem;text-align:left;font-size:.77rem;font-family:monospace">How to Verify</th></tr></thead>
-          <tbody>
-            <tr><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">NUMA placement</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">NIC, hugepages, and workers all on same NUMA node</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">numastat, show interface rx-placement</td></tr>
-            <tr style="background:var(--bg-color,#f8f8f8)"><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Workers = queues</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">num-rx-queues == num worker threads for full saturation</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">show run - vectors/call should be 64–256</td></tr>
-            <tr><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Huge pages size</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">1GB pages preferred over 2MB at high load (fewer TLB misses)</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">perf stat -e dTLB-load-misses</td></tr>
-            <tr style="background:var(--bg-color,#f8f8f8)"><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">CPU isolation</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">isolcpus=2-5 in kernel cmdline; no other processes on worker cores</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">cat /sys/devices/system/cpu/isolated</td></tr>
-            <tr><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">IRQ affinity</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Move all NIC IRQs to non-worker cores (set_irq_affinity.sh)</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">cat /proc/irq/*/smp_affinity_list</td></tr>
-            <tr style="background:var(--bg-color,#f8f8f8)"><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Buffer sizing</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">buffers-per-numa ≥ 2× (num_workers × (rx_desc + tx_desc))</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">show buffers - free% should stay above 20%</td></tr>
-            <tr><td style="padding:.48rem .9rem;color:var(--text-color,#222)">Turbo / C-states</td><td style="padding:.48rem .9rem;color:var(--text-color,#222)">Disable CPU power management (cpufreq governor=performance)</td><td style="padding:.48rem .9rem;color:var(--text-color,#222)">cpupower frequency-info</td></tr>
-          </tbody>
-        </table>
-      </td></tr>
-    </table>
+
+# Step 4: Verify with VPP
+# vppctl: show interface rx-placement
+# Verify each queue is on the worker thread whose core is NUMA-local to the NIC
+```
+
+
+
+<table class="cp-body" style="padding:0">
+<tr><td>
+<table style="width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.86rem">
+<thead><tr><th style="background:#1a3a5c;color:#fff;padding:.5rem .9rem;text-align:left;font-size:.77rem;font-family:monospace">Tuning Area</th><th style="background:#1a3a5c;color:#fff;padding:.5rem .9rem;text-align:left;font-size:.77rem;font-family:monospace">Recommendation</th><th style="background:#1a3a5c;color:#fff;padding:.5rem .9rem;text-align:left;font-size:.77rem;font-family:monospace">How to Verify</th></tr></thead>
+<tbody>
+<tr><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">NUMA placement</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">NIC, hugepages, and workers all on same NUMA node</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">numastat, show interface rx-placement</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8)"><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Workers = queues</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">num-rx-queues == num worker threads for full saturation</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">show run - vectors/call should be 64–256</td></tr>
+<tr><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Huge pages size</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">1GB pages preferred over 2MB at high load (fewer TLB misses)</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">perf stat -e dTLB-load-misses</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8)"><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">CPU isolation</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">isolcpus=2-5 in kernel cmdline; no other processes on worker cores</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">cat /sys/devices/system/cpu/isolated</td></tr>
+<tr><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">IRQ affinity</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Move all NIC IRQs to non-worker cores (set_irq_affinity.sh)</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">cat /proc/irq/*/smp_affinity_list</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8)"><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">Buffer sizing</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">buffers-per-numa ≥ 2× (num_workers × (rx_desc + tx_desc))</td><td style="padding:.48rem .9rem;border-bottom:1px solid var(--border-color,#eee);color:var(--text-color,#222)">show buffers - free% should stay above 20%</td></tr>
+<tr><td style="padding:.48rem .9rem;color:var(--text-color,#222)">Turbo / C-states</td><td style="padding:.48rem .9rem;color:var(--text-color,#222)">Disable CPU power management (cpufreq governor=performance)</td><td style="padding:.48rem .9rem;color:var(--text-color,#222)">cpupower frequency-info</td></tr>
+</tbody>
+</table>
+</td></tr>
+</table>
   </div>
 </div>
 </div>
@@ -434,24 +460,24 @@ buffers {
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 8</span><h4>GoVPP Control Plane Agent</h4></div>
   <div class="proj-body">
-    <p><strong>Objective:</strong> Build a Go agent that manages a VPP instance - configures interfaces, programs routes, polls stats, and exposes a REST API for a management frontend.</p>
-    <div class="ps"><div class="sn">1</div><div>Implement <code>Connect(socketPath string)</code> that establishes GoVPP connection and opens a pool of channels (one per goroutine). Handle reconnect with exponential backoff on disconnect.</div></div>
-    <div class="ps"><div class="sn">2</div><div>Implement <code>ConfigureInterface(name string, ip string, prefix int)</code>: list interfaces, find by name, set admin-up, add IP address. Return error if interface not found.</div></div>
-    <div class="ps"><div class="sn">3</div><div>Implement <code>ProgramRoutes(routes []Route)</code>: batch-program a list of static routes using a dedicated goroutine + channel. Measure time to program 1000 routes and report routes/second.</div></div>
-    <div class="ps"><div class="sn">4</div><div>Implement a Stats poller: connect to Stats segment, poll interface counters every 1 second, compute RX/TX PPS (delta / interval), expose via Prometheus HTTP endpoint at <code>:9090/metrics</code>.</div></div>
-    <div class="ps"><div class="sn">5</div><div>Implement event subscription: subscribe to <code>SwInterfaceEvent</code>, log all link state changes with timestamp. Test by toggling an interface up/down via vppctl and verifying the agent logs the event.</div></div>
-    <div class="ps"><div class="sn">6</div><div>Add a REST API: <code>GET /interfaces</code> returns JSON list of all VPP interfaces with counters. <code>POST /routes</code> programs a new route. <code>DELETE /routes/{prefix}</code> removes it. Test with curl.</div></div>
+<p><strong>Objective:</strong> Build a Go agent that manages a VPP instance - configures interfaces, programs routes, polls stats, and exposes a REST API for a management frontend.</p>
+<div class="ps"><div class="sn">1</div><div>Implement <code>Connect(socketPath string)</code> that establishes GoVPP connection and opens a pool of channels (one per goroutine). Handle reconnect with exponential backoff on disconnect.</div></div>
+<div class="ps"><div class="sn">2</div><div>Implement <code>ConfigureInterface(name string, ip string, prefix int)</code>: list interfaces, find by name, set admin-up, add IP address. Return error if interface not found.</div></div>
+<div class="ps"><div class="sn">3</div><div>Implement <code>ProgramRoutes(routes []Route)</code>: batch-program a list of static routes using a dedicated goroutine + channel. Measure time to program 1000 routes and report routes/second.</div></div>
+<div class="ps"><div class="sn">4</div><div>Implement a Stats poller: connect to Stats segment, poll interface counters every 1 second, compute RX/TX PPS (delta / interval), expose via Prometheus HTTP endpoint at <code>:9090/metrics</code>.</div></div>
+<div class="ps"><div class="sn">5</div><div>Implement event subscription: subscribe to <code>SwInterfaceEvent</code>, log all link state changes with timestamp. Test by toggling an interface up/down via vppctl and verifying the agent logs the event.</div></div>
+<div class="ps"><div class="sn">6</div><div>Add a REST API: <code>GET /interfaces</code> returns JSON list of all VPP interfaces with counters. <code>POST /routes</code> programs a new route. <code>DELETE /routes/{prefix}</code> removes it. Test with curl.</div></div>
   </div>
 </div>
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 9</span><h4>End-to-End Production Topology</h4></div>
   <div class="proj-body">
-    <p><strong>Objective:</strong> Integrate all phases into a complete topology: VPP + DPDK physical ports + memif container connections + linux-cp for control plane + GoVPP management agent + observability.</p>
-    <div class="ps"><div class="sn">1</div><div>Design the topology: 2 DPDK ports (physical NIC), 2 memif ports (connecting to application containers), 1 TAP for management. VPP acts as the central packet forwarder.</div></div>
-    <div class="ps"><div class="sn">2</div><div>Deploy linux-cp mirroring both DPDK interfaces to Linux for FRRouting OSPF. Verify FRR forms OSPF adjacency and installs routes. VPP dataplane uses these routes for forwarding.</div></div>
-    <div class="ps"><div class="sn">3</div><div>Enable the classify plugin (from Phase 4) on ip4-unicast arc. Program DROP rules for RFC-1918 sources via the GoVPP agent's REST API. Verify drops with show error.</div></div>
-    <div class="ps"><div class="sn">4</div><div>Deploy the Prometheus + Grafana stack. Import the GoVPP agent's metrics. Build a dashboard showing: RX/TX PPS per interface, vectors/call for dpdk-input, buffer utilisation, error counter rates.</div></div>
-    <div class="ps"><div class="sn">5</div><div>Run a 30-minute traffic test at 50% line rate. Verify: zero packet loss (<code>show error</code>), stable vectors/call for dpdk-input (32–256), free buffer% stays above 30%, FRR OSPF adjacency stays up throughout.</div></div>
+<p><strong>Objective:</strong> Integrate all phases into a complete topology: VPP + DPDK physical ports + memif container connections + linux-cp for control plane + GoVPP management agent + observability.</p>
+<div class="ps"><div class="sn">1</div><div>Design the topology: 2 DPDK ports (physical NIC), 2 memif ports (connecting to application containers), 1 TAP for management. VPP acts as the central packet forwarder.</div></div>
+<div class="ps"><div class="sn">2</div><div>Deploy linux-cp mirroring both DPDK interfaces to Linux for FRRouting OSPF. Verify FRR forms OSPF adjacency and installs routes. VPP dataplane uses these routes for forwarding.</div></div>
+<div class="ps"><div class="sn">3</div><div>Enable the classify plugin (from Phase 4) on ip4-unicast arc. Program DROP rules for RFC-1918 sources via the GoVPP agent's REST API. Verify drops with show error.</div></div>
+<div class="ps"><div class="sn">4</div><div>Deploy the Prometheus + Grafana stack. Import the GoVPP agent's metrics. Build a dashboard showing: RX/TX PPS per interface, vectors/call for dpdk-input, buffer utilisation, error counter rates.</div></div>
+<div class="ps"><div class="sn">5</div><div>Run a 30-minute traffic test at 50% line rate. Verify: zero packet loss (<code>show error</code>), stable vectors/call for dpdk-input (32–256), free buffer% stays above 30%, FRR OSPF adjacency stays up throughout.</div></div>
   </div>
 </div>
 </div>

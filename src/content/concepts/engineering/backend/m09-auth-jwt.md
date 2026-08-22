@@ -145,9 +145,9 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
   <h1>M09 — Authentication &amp; Authorization</h1>
   <div class="sub">Phase 3 · Auth &amp; Authz · Sessions · JWT · OAuth2 · RBAC · Argon2</div>
   <div class="badges">
-    <span class="badge b-phase">Phase 3</span>
-    <span class="badge b-prereq">Requires M03 (REST)</span>
-    <span class="badge b-lang">C / OpenSSL / libsodium</span>
+<span class="badge b-phase">Phase 3</span>
+<span class="badge b-prereq">Requires M03 (REST)</span>
+<span class="badge b-lang">C / OpenSSL / libsodium</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -175,42 +175,42 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
 <div class="cp p-orange">
   <div class="cp-hdr">Why get this right</div>
   <div class="cp-body">
-    <ul style="padding-left:1.2rem;line-height:1.9">
-      <li>Broken authentication is #1 on OWASP's list of critical web security risks</li>
-      <li>A single mistake — MD5 passwords, weak JWT secret, missing <code>HttpOnly</code> flag — can expose every user account</li>
-      <li>Auth bugs are often invisible: the system <em>works</em> but is trivially bypassable</li>
-      <li>Security-in-depth requires both correct concepts and correct implementation</li>
-    </ul>
+<ul style="padding-left:1.2rem;line-height:1.9">
+<li>Broken authentication is #1 on OWASP's list of critical web security risks</li>
+<li>A single mistake — MD5 passwords, weak JWT secret, missing <code>HttpOnly</code> flag — can expose every user account</li>
+<li>Auth bugs are often invisible: the system <em>works</em> but is trivially bypassable</li>
+<li>Security-in-depth requires both correct concepts and correct implementation</li>
+</ul>
   </div>
 </div>
 <hr class="sep">
 <div class="cp p-blue">
   <div class="cp-hdr">The authentication landscape</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Mechanism</th><th>State</th><th>Best for</th><th>Main risk</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Session cookies</strong></td><td>Server-side</td><td>Traditional web apps, SSR</td><td>CSRF, session fixation</td></tr>
-        <tr><td><strong>JWT (Bearer)</strong></td><td>Stateless</td><td>APIs, SPA, mobile</td><td>Token theft, alg=none, weak secret</td></tr>
-        <tr><td><strong>OAuth2 / OIDC</strong></td><td>Delegated</td><td>Third-party login, SSO</td><td>Open redirect, CSRF on callback</td></tr>
-        <tr><td><strong>API Keys</strong></td><td>Stateless</td><td>M2M, developer APIs</td><td>Key exposure, no expiry</td></tr>
-        <tr><td><strong>mTLS</strong></td><td>Cert-based</td><td>Service-to-service</td><td>Cert rotation complexity</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Mechanism</th><th>State</th><th>Best for</th><th>Main risk</th></tr></thead>
+<tbody>
+<tr><td><strong>Session cookies</strong></td><td>Server-side</td><td>Traditional web apps, SSR</td><td>CSRF, session fixation</td></tr>
+<tr><td><strong>JWT (Bearer)</strong></td><td>Stateless</td><td>APIs, SPA, mobile</td><td>Token theft, alg=none, weak secret</td></tr>
+<tr><td><strong>OAuth2 / OIDC</strong></td><td>Delegated</td><td>Third-party login, SSO</td><td>Open redirect, CSRF on callback</td></tr>
+<tr><td><strong>API Keys</strong></td><td>Stateless</td><td>M2M, developer APIs</td><td>Key exposure, no expiry</td></tr>
+<tr><td><strong>mTLS</strong></td><td>Cert-based</td><td>Service-to-service</td><td>Cert rotation complexity</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr">Phase 3 concept map</div>
   <div class="cp-body">
-    <ul class="flow-list">
-      <li><span class="fl-step">1</span><div><strong>Sessions &amp; Cookies</strong> — server-side state, <code>HttpOnly</code>+<code>Secure</code>+<code>SameSite</code>, Redis storage, session fixation, CSRF tokens</div></li>
-      <li><span class="fl-step">2</span><div><strong>JWT</strong> — header.payload.signature, signing algorithms (HS256/RS256/ES256), claims, verification, pitfalls (<code>alg:none</code>, weak secrets)</div></li>
-      <li><span class="fl-step">3</span><div><strong>Access + Refresh tokens</strong> — short-lived access, long-lived refresh, rotation, revocation in DB</div></li>
-      <li><span class="fl-step">4</span><div><strong>OAuth2</strong> — Authorization Code + PKCE, Client Credentials, Device Code; OIDC layer for identity</div></li>
-      <li><span class="fl-step">5</span><div><strong>API Keys</strong> — CSPRNG generation, SHA-256 hashing at rest, prefix-based lookup, scoping, rotation</div></li>
-      <li><span class="fl-step">6</span><div><strong>RBAC / ABAC</strong> — role hierarchy, permission matrices, policy evaluation, OPA integration</div></li>
-      <li><span class="fl-step">7</span><div><strong>Password security</strong> — bcrypt, Argon2id parameters, timing-safe comparison, pepper strategy</div></li>
-    </ul>
+<ul class="flow-list">
+<li><span class="fl-step">1</span><div><strong>Sessions &amp; Cookies</strong> — server-side state, <code>HttpOnly</code>+<code>Secure</code>+<code>SameSite</code>, Redis storage, session fixation, CSRF tokens</div></li>
+<li><span class="fl-step">2</span><div><strong>JWT</strong> — header.payload.signature, signing algorithms (HS256/RS256/ES256), claims, verification, pitfalls (<code>alg:none</code>, weak secrets)</div></li>
+<li><span class="fl-step">3</span><div><strong>Access + Refresh tokens</strong> — short-lived access, long-lived refresh, rotation, revocation in DB</div></li>
+<li><span class="fl-step">4</span><div><strong>OAuth2</strong> — Authorization Code + PKCE, Client Credentials, Device Code; OIDC layer for identity</div></li>
+<li><span class="fl-step">5</span><div><strong>API Keys</strong> — CSPRNG generation, SHA-256 hashing at rest, prefix-based lookup, scoping, rotation</div></li>
+<li><span class="fl-step">6</span><div><strong>RBAC / ABAC</strong> — role hierarchy, permission matrices, policy evaluation, OPA integration</div></li>
+<li><span class="fl-step">7</span><div><strong>Password security</strong> — bcrypt, Argon2id parameters, timing-safe comparison, pepper strategy</div></li>
+</ul>
   </div>
 </div>
 <div class="note">
@@ -223,38 +223,38 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
 <div class="cp p-red">
   <div class="cp-hdr">How session-based authentication works</div>
   <div class="cp-body">
-    <ol class="flow-list">
-      <li><span class="fl-step">1</span><div>User submits credentials (username + password) over HTTPS</div></li>
-      <li><span class="fl-step">2</span><div>Server verifies password hash, then calls <code>session_create()</code> → generates cryptographically random session ID</div></li>
-      <li><span class="fl-step">3</span><div>Server stores session data (user_id, role, created_at, expires_at) in Redis/DB keyed by session ID</div></li>
-      <li><span class="fl-step">4</span><div>Server sends: <code>Set-Cookie: sid=&lt;random_id&gt;; HttpOnly; Secure; SameSite=Strict; Max-Age=3600</code></div></li>
-      <li><span class="fl-step">5</span><div>Browser automatically includes cookie on every subsequent same-origin request</div></li>
-      <li><span class="fl-step">6</span><div>Server looks up session ID in Redis → retrieves user context → authorizes request</div></li>
-      <li><span class="fl-step">7</span><div>On logout: delete the session record from Redis (server-side invalidation) + clear cookie</div></li>
-    </ol>
+<ol class="flow-list">
+<li><span class="fl-step">1</span><div>User submits credentials (username + password) over HTTPS</div></li>
+<li><span class="fl-step">2</span><div>Server verifies password hash, then calls <code>session_create()</code> → generates cryptographically random session ID</div></li>
+<li><span class="fl-step">3</span><div>Server stores session data (user_id, role, created_at, expires_at) in Redis/DB keyed by session ID</div></li>
+<li><span class="fl-step">4</span><div>Server sends: <code>Set-Cookie: sid=&lt;random_id&gt;; HttpOnly; Secure; SameSite=Strict; Max-Age=3600</code></div></li>
+<li><span class="fl-step">5</span><div>Browser automatically includes cookie on every subsequent same-origin request</div></li>
+<li><span class="fl-step">6</span><div>Server looks up session ID in Redis → retrieves user context → authorizes request</div></li>
+<li><span class="fl-step">7</span><div>On logout: delete the session record from Redis (server-side invalidation) + clear cookie</div></li>
+</ol>
   </div>
 </div>
 <div class="two-col">
   <div class="cp p-orange">
-    <div class="cp-hdr">Cookie attributes — every one matters</div>
-    <div class="cp-body">
-      <table class="t-table">
-        <thead><tr><th>Attribute</th><th>Purpose</th></tr></thead>
-        <tbody>
-          <tr><td><code>HttpOnly</code></td><td>JS cannot read cookie → blocks XSS token theft</td></tr>
-          <tr><td><code>Secure</code></td><td>Only sent over HTTPS → no cleartext leakage</td></tr>
-          <tr><td><code>SameSite=Strict</code></td><td>Cookie not sent cross-site → blocks CSRF</td></tr>
-          <tr><td><code>SameSite=Lax</code></td><td>Sent on top-level GET nav; blocks form-based CSRF</td></tr>
-          <tr><td><code>Max-Age</code></td><td>Seconds until expiry (prefer over <code>Expires</code>)</td></tr>
-          <tr><td><code>Path=/</code></td><td>Scope to whole domain (usually what you want)</td></tr>
-          <tr><td><code>Domain</code></td><td>Omit to restrict to exact domain (more secure)</td></tr>
-        </tbody>
-      </table>
-    </div>
+<div class="cp-hdr">Cookie attributes — every one matters</div>
+<div class="cp-body">
+<table class="t-table">
+<thead><tr><th>Attribute</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>HttpOnly</code></td><td>JS cannot read cookie → blocks XSS token theft</td></tr>
+<tr><td><code>Secure</code></td><td>Only sent over HTTPS → no cleartext leakage</td></tr>
+<tr><td><code>SameSite=Strict</code></td><td>Cookie not sent cross-site → blocks CSRF</td></tr>
+<tr><td><code>SameSite=Lax</code></td><td>Sent on top-level GET nav; blocks form-based CSRF</td></tr>
+<tr><td><code>Max-Age</code></td><td>Seconds until expiry (prefer over <code>Expires</code>)</td></tr>
+<tr><td><code>Path=/</code></td><td>Scope to whole domain (usually what you want)</td></tr>
+<tr><td><code>Domain</code></td><td>Omit to restrict to exact domain (more secure)</td></tr>
+</tbody>
+</table>
+</div>
   </div>
   <div class="cp p-blue">
-    <div class="cp-hdr">Redis session storage layout</div>
-    <div class="cp-body">
+<div class="cp-hdr">Redis session storage layout</div>
+<div class="cp-body">
 <div class="cb">
 <span class="cm"># Key: "session:{id}" — TTL = session duration</span>
 <span class="cm"># Value: hash with user context</span>
@@ -270,47 +270,47 @@ EXPIRE session:a3f9b2c1... 3600
 <span class="cm"># Lookup on every request (sub-millisecond)</span>
 HGETALL session:a3f9b2c1...
 </div>
-      <div class="note" style="margin-top:.5rem">Use a dedicated Redis DB (index 1+) for sessions, separate from cache, so a cache flush doesn't log everyone out.</div>
-    </div>
+<div class="note" style="margin-top:.5rem">Use a dedicated Redis DB (index 1+) for sessions, separate from cache, so a cache flush doesn't log everyone out.</div>
+</div>
   </div>
 </div>
 <div class="cp p-red">
   <div class="cp-hdr">Session fixation attack &amp; defence</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Attack scenario:</strong> Attacker visits site, gets session ID <code>sid=ATTACKER_KNOWN_ID</code>.
+<div class="analogy">
+<strong>Attack scenario:</strong> Attacker visits site, gets session ID <code>sid=ATTACKER_KNOWN_ID</code>.
       Tricks victim into using that same ID (e.g., via URL parameter <code>?sid=...</code>).
       Victim logs in. Server associates victim's identity with attacker's known session ID.
       Attacker is now authenticated as victim.
-    </div>
-    <div class="sec-box">
-      <strong>Defence: Always regenerate session ID on privilege elevation</strong>
+</div>
+<div class="sec-box">
+<strong>Defence: Always regenerate session ID on privilege elevation</strong>
       On login (or any privilege change): delete old session record, create new session ID, set new cookie.
       Never reuse a pre-authentication session ID after authentication.
-    </div>
+</div>
 <div class="cb">
 <span class="cm">/* Pseudocode for safe login flow */</span>
 <span class="ck">void</span> <span class="cf">handle_login</span>(Request *req, Response *res) {
-    <span class="cm">// 1. Verify credentials</span>
+<span class="cm">// 1. Verify credentials</span>
     User *user = verify_credentials(req->body.username, req->body.password);
-    <span class="ck">if</span> (!user) { send_401(res); <span class="ck">return</span>; }
+<span class="ck">if</span> (!user) { send_401(res); <span class="ck">return</span>; }
 
-    <span class="cm">// 2. CRITICAL: destroy old session (session fixation defence)</span>
-    <span class="ck">const char</span> *old_sid = get_cookie(req, <span class="cs">"sid"</span>);
-    <span class="ck">if</span> (old_sid) redis_del(old_sid);
+<span class="cm">// 2. CRITICAL: destroy old session (session fixation defence)</span>
+<span class="ck">const char</span> *old_sid = get_cookie(req, <span class="cs">"sid"</span>);
+<span class="ck">if</span> (old_sid) redis_del(old_sid);
 
-    <span class="cm">// 3. Generate new session ID (128-bit random)</span>
-    <span class="cn">uint8_t</span> raw[<span class="cn">16</span>];
+<span class="cm">// 3. Generate new session ID (128-bit random)</span>
+<span class="cn">uint8_t</span> raw[<span class="cn">16</span>];
     RAND_bytes(raw, <span class="ck">sizeof</span>(raw));  <span class="cm">/* OpenSSL CSPRNG */</span>
-    <span class="ck">char</span> sid[<span class="cn">33</span>]; bin2hex(raw, sid, <span class="cn">16</span>);
+<span class="ck">char</span> sid[<span class="cn">33</span>]; bin2hex(raw, sid, <span class="cn">16</span>);
 
-    <span class="cm">// 4. Store in Redis with TTL</span>
+<span class="cm">// 4. Store in Redis with TTL</span>
     redis_hset(<span class="cs">"session:"</span>, sid, <span class="cs">"user_id"</span>, user->id);
     redis_expire(<span class="cs">"session:"</span>, sid, <span class="cn">3600</span>);
 
-    <span class="cm">// 5. Set HttpOnly Secure SameSite=Strict cookie</span>
+<span class="cm">// 5. Set HttpOnly Secure SameSite=Strict cookie</span>
     set_cookie(res, <span class="cs">"sid"</span>, sid,
-        <span class="cs">"HttpOnly; Secure; SameSite=Strict; Max-Age=3600"</span>);
+<span class="cs">"HttpOnly; Secure; SameSite=Strict; Max-Age=3600"</span>);
 }
 </div>
   </div>
@@ -318,34 +318,34 @@ HGETALL session:a3f9b2c1...
 <div class="cp p-amber">
   <div class="cp-hdr">CSRF — Cross-Site Request Forgery</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Why cookies are vulnerable to CSRF:</strong> The browser attaches cookies automatically to ANY request to the target origin — including requests initiated from a malicious third-party site via hidden forms or image tags.
-    </div>
-    <table class="t-table">
-      <thead><tr><th>CSRF Defence</th><th>How it works</th><th>When to use</th></tr></thead>
-      <tbody>
-        <tr><td><code>SameSite=Strict</code></td><td>Cookie never sent cross-site</td><td>Best — use for auth cookies</td></tr>
-        <tr><td><code>SameSite=Lax</code></td><td>Sent on top-level GET nav only</td><td>Good fallback, allows OAuth redirects</td></tr>
-        <tr><td>CSRF token (synchronizer)</td><td>Server issues random token, validates on POST</td><td>Needed when SameSite not supported</td></tr>
-        <tr><td>Double-submit cookie</td><td>Cookie + header must match</td><td>Stateless CSRF protection</td></tr>
-        <tr><td>Origin/Referer check</td><td>Validate request origin header</td><td>Defense-in-depth only</td></tr>
-      </tbody>
-    </table>
-    <div class="warn">SameSite=Lax still allows CSRF via cross-site top-level navigation (e.g., clicking a link). Use Strict for login flows. If you use both SameSite and CSRF tokens, you get defense-in-depth.</div>
+<div class="analogy">
+<strong>Why cookies are vulnerable to CSRF:</strong> The browser attaches cookies automatically to ANY request to the target origin — including requests initiated from a malicious third-party site via hidden forms or image tags.
+</div>
+<table class="t-table">
+<thead><tr><th>CSRF Defence</th><th>How it works</th><th>When to use</th></tr></thead>
+<tbody>
+<tr><td><code>SameSite=Strict</code></td><td>Cookie never sent cross-site</td><td>Best — use for auth cookies</td></tr>
+<tr><td><code>SameSite=Lax</code></td><td>Sent on top-level GET nav only</td><td>Good fallback, allows OAuth redirects</td></tr>
+<tr><td>CSRF token (synchronizer)</td><td>Server issues random token, validates on POST</td><td>Needed when SameSite not supported</td></tr>
+<tr><td>Double-submit cookie</td><td>Cookie + header must match</td><td>Stateless CSRF protection</td></tr>
+<tr><td>Origin/Referer check</td><td>Validate request origin header</td><td>Defense-in-depth only</td></tr>
+</tbody>
+</table>
+<div class="warn">SameSite=Lax still allows CSRF via cross-site top-level navigation (e.g., clicking a link). Use Strict for login flows. If you use both SameSite and CSRF tokens, you get defense-in-depth.</div>
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr">Session security checklist</div>
   <div class="cp-body">
-    <ul class="cl">
-      <li>Session ID is ≥128 bits from CSPRNG (OpenSSL <code>RAND_bytes</code>, not <code>rand()</code>)</li>
-      <li>Session ID regenerated on every login (session fixation defence)</li>
-      <li>Cookie: <code>HttpOnly</code> + <code>Secure</code> + <code>SameSite=Strict</code></li>
-      <li>Session TTL enforced server-side (Redis EXPIRE), not just client-side cookie</li>
-      <li>Logout deletes session from Redis (not just clears cookie)</li>
-      <li>Concurrent session limit enforced (revoke old sessions on new login, or cap at N)</li>
-      <li>Session ID not in URL (prevents log leakage)</li>
-    </ul>
+<ul class="cl">
+<li>Session ID is ≥128 bits from CSPRNG (OpenSSL <code>RAND_bytes</code>, not <code>rand()</code>)</li>
+<li>Session ID regenerated on every login (session fixation defence)</li>
+<li>Cookie: <code>HttpOnly</code> + <code>Secure</code> + <code>SameSite=Strict</code></li>
+<li>Session TTL enforced server-side (Redis EXPIRE), not just client-side cookie</li>
+<li>Logout deletes session from Redis (not just clears cookie)</li>
+<li>Concurrent session limit enforced (revoke old sessions on new login, or cap at N)</li>
+<li>Session ID not in URL (prevents log leakage)</li>
+</ul>
   </div>
 </div>
 </div><!-- /sessions -->
@@ -377,49 +377,49 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 
 <span class="cm">// Signature = HMAC-SHA256(base64url(header) + "." + base64url(payload), secret)</span>
 </div>
-    <div class="warn">The payload is <strong>not encrypted</strong> — only signed. Anyone with the token can base64-decode and read the claims. Never put secrets, PII, or sensitive data in JWT payload unless using JWE (JSON Web Encryption).</div>
+<div class="warn">The payload is <strong>not encrypted</strong> — only signed. Anyone with the token can base64-decode and read the claims. Never put secrets, PII, or sensitive data in JWT payload unless using JWE (JSON Web Encryption).</div>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr">Signing algorithms: HS256 vs RS256 vs ES256</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Algorithm</th><th>Type</th><th>Key material</th><th>Verify cost</th><th>Best for</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>HS256</strong></td><td>Symmetric HMAC-SHA256</td>
-          <td>One shared secret — all services that verify must have it</td>
-          <td>Very fast</td>
-          <td>Monolith or single-service systems</td>
-        </tr>
-        <tr>
-          <td><strong>RS256</strong></td><td>Asymmetric RSA-PKCS1v15</td>
-          <td>Private key signs, public key verifies — distributable JWKS endpoint</td>
-          <td>Slow (RSA)</td>
-          <td>Multi-service; public key can be published</td>
-        </tr>
-        <tr>
-          <td><strong>ES256</strong></td><td>Asymmetric ECDSA P-256</td>
-          <td>Same as RS256 but smaller keys (256-bit vs 2048-bit)</td>
-          <td>Moderate</td>
-          <td>Modern APIs, mobile, IoT</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="sec-box">
-      <strong>HS256 secret requirements:</strong> Must be ≥256 bits (32 bytes) of entropy from CSPRNG.
+<table class="t-table">
+<thead><tr><th>Algorithm</th><th>Type</th><th>Key material</th><th>Verify cost</th><th>Best for</th></tr></thead>
+<tbody>
+<tr>
+<td><strong>HS256</strong></td><td>Symmetric HMAC-SHA256</td>
+<td>One shared secret — all services that verify must have it</td>
+<td>Very fast</td>
+<td>Monolith or single-service systems</td>
+</tr>
+<tr>
+<td><strong>RS256</strong></td><td>Asymmetric RSA-PKCS1v15</td>
+<td>Private key signs, public key verifies — distributable JWKS endpoint</td>
+<td>Slow (RSA)</td>
+<td>Multi-service; public key can be published</td>
+</tr>
+<tr>
+<td><strong>ES256</strong></td><td>Asymmetric ECDSA P-256</td>
+<td>Same as RS256 but smaller keys (256-bit vs 2048-bit)</td>
+<td>Moderate</td>
+<td>Modern APIs, mobile, IoT</td>
+</tr>
+</tbody>
+</table>
+<div class="sec-box">
+<strong>HS256 secret requirements:</strong> Must be ≥256 bits (32 bytes) of entropy from CSPRNG.
       A weak secret (e.g., "secret", "password") can be brute-forced offline — attacker just needs any valid JWT.
       For RS256/ES256, use a proper key pair generated with OpenSSL.
-    </div>
+</div>
   </div>
 </div>
 <div class="cp p-violet">
   <div class="cp-hdr">Access + Refresh token pattern</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Problem:</strong> If you make access tokens long-lived (24h+), a stolen token is valid for a long time.
+<div class="analogy">
+<strong>Problem:</strong> If you make access tokens long-lived (24h+), a stolen token is valid for a long time.
       If you make them short-lived (15min), users must re-login constantly. The solution is two tokens with different lifetimes.
-    </div>
+</div>
 <div class="seq">
 <span class="actor">Client</span>          <span class="actor">Auth Server</span>                      <span class="actor">Resource Server</span>
   │                    │                                   │
@@ -440,67 +440,67 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
   │◄──new access(15m)──│                                   │
   │   new refresh(30d) │                                   │
 </div>
-    <table class="t-table" style="margin-top:.8rem">
-      <thead><tr><th>Property</th><th>Access Token</th><th>Refresh Token</th></tr></thead>
-      <tbody>
-        <tr><td>Lifetime</td><td>15 min – 1 hour</td><td>7 – 30 days</td></tr>
-        <tr><td>Storage (client)</td><td>Memory (SPA) or HttpOnly cookie</td><td>HttpOnly Secure cookie</td></tr>
-        <tr><td>Validation</td><td>Signature only — no DB lookup</td><td>DB lookup — can be revoked</td></tr>
-        <tr><td>Rotation</td><td>Not rotated</td><td>Single-use: new token on each use</td></tr>
-        <tr><td>On theft detection</td><td>Wait for expiry</td><td>Revoke entire refresh token family</td></tr>
-      </tbody>
-    </table>
-    <div class="ins">Refresh token rotation: if server receives a previously-used (already-rotated) refresh token, assume token theft → revoke all tokens for that user/session immediately (refresh token reuse detection).</div>
+<table class="t-table" style="margin-top:.8rem">
+<thead><tr><th>Property</th><th>Access Token</th><th>Refresh Token</th></tr></thead>
+<tbody>
+<tr><td>Lifetime</td><td>15 min – 1 hour</td><td>7 – 30 days</td></tr>
+<tr><td>Storage (client)</td><td>Memory (SPA) or HttpOnly cookie</td><td>HttpOnly Secure cookie</td></tr>
+<tr><td>Validation</td><td>Signature only — no DB lookup</td><td>DB lookup — can be revoked</td></tr>
+<tr><td>Rotation</td><td>Not rotated</td><td>Single-use: new token on each use</td></tr>
+<tr><td>On theft detection</td><td>Wait for expiry</td><td>Revoke entire refresh token family</td></tr>
+</tbody>
+</table>
+<div class="ins">Refresh token rotation: if server receives a previously-used (already-rotated) refresh token, assume token theft → revoke all tokens for that user/session immediately (refresh token reuse detection).</div>
   </div>
 </div>
 <div class="cp p-red">
   <div class="cp-hdr">Critical JWT vulnerabilities</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Attack</th><th>How it works</th><th>Defence</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><span class="bad">alg:none</span></td>
-          <td>Attacker sets <code>"alg":"none"</code> in header and removes signature. Some libraries accept unsigned tokens.</td>
-          <td>Hardcode expected algorithm — never trust the header's <code>alg</code> field. Reject <code>none</code>.</td>
-        </tr>
-        <tr>
-          <td><span class="bad">Algorithm confusion</span></td>
-          <td>RS256 server given token with <code>alg:HS256</code>; HMAC key = public key (which attacker knows). Library uses public key as HMAC secret.</td>
-          <td>Always specify algorithm explicitly in verification call, never pass <code>allowed_algs=all</code>.</td>
-        </tr>
-        <tr>
-          <td><span class="bad">Weak HS256 secret</span></td>
-          <td>Offline brute-force with hashcat using any valid JWT.</td>
-          <td>Use ≥256 bits from CSPRNG. Rotate regularly.</td>
-        </tr>
-        <tr>
-          <td><span class="bad">Missing exp validation</span></td>
-          <td>Expired tokens accepted indefinitely.</td>
-          <td>Always validate <code>exp</code>, <code>nbf</code>, <code>iss</code>, <code>aud</code>.</td>
-        </tr>
-        <tr>
-          <td><span class="bad">JWT stored in localStorage</span></td>
-          <td>XSS can read <code>localStorage</code> and exfiltrate the token.</td>
-          <td>Store in memory (SPA) or HttpOnly cookie. Never <code>localStorage</code>.</td>
-        </tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Attack</th><th>How it works</th><th>Defence</th></tr></thead>
+<tbody>
+<tr>
+<td><span class="bad">alg:none</span></td>
+<td>Attacker sets <code>"alg":"none"</code> in header and removes signature. Some libraries accept unsigned tokens.</td>
+<td>Hardcode expected algorithm — never trust the header's <code>alg</code> field. Reject <code>none</code>.</td>
+</tr>
+<tr>
+<td><span class="bad">Algorithm confusion</span></td>
+<td>RS256 server given token with <code>alg:HS256</code>; HMAC key = public key (which attacker knows). Library uses public key as HMAC secret.</td>
+<td>Always specify algorithm explicitly in verification call, never pass <code>allowed_algs=all</code>.</td>
+</tr>
+<tr>
+<td><span class="bad">Weak HS256 secret</span></td>
+<td>Offline brute-force with hashcat using any valid JWT.</td>
+<td>Use ≥256 bits from CSPRNG. Rotate regularly.</td>
+</tr>
+<tr>
+<td><span class="bad">Missing exp validation</span></td>
+<td>Expired tokens accepted indefinitely.</td>
+<td>Always validate <code>exp</code>, <code>nbf</code>, <code>iss</code>, <code>aud</code>.</td>
+</tr>
+<tr>
+<td><span class="bad">JWT stored in localStorage</span></td>
+<td>XSS can read <code>localStorage</code> and exfiltrate the token.</td>
+<td>Store in memory (SPA) or HttpOnly cookie. Never <code>localStorage</code>.</td>
+</tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr">JWT revocation strategies</div>
   <div class="cp-body">
     JWTs are stateless — once issued, they're valid until <code>exp</code> unless you implement revocation:
-    <table class="t-table" style="margin-top:.6rem">
-      <thead><tr><th>Strategy</th><th>How</th><th>Cost</th><th>Scale</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Short expiry</strong></td><td>15-min access tokens; only refresh revocable</td><td>None</td><td>Excellent</td></tr>
-        <tr><td><strong>jti denylist</strong></td><td>Store revoked <code>jti</code> values in Redis; check on every request</td><td>1 Redis lookup/req</td><td>Good</td></tr>
-        <tr><td><strong>Token family in DB</strong></td><td>Store token generation counter per user; reject if stale</td><td>1 DB lookup/req</td><td>Moderate</td></tr>
-        <tr><td><strong>JWKS key rotation</strong></td><td>Rotate signing key; old tokens signed with revoked key rejected</td><td>None per-req</td><td>Excellent (bulk revoke)</td></tr>
-      </tbody>
-    </table>
+<table class="t-table" style="margin-top:.6rem">
+<thead><tr><th>Strategy</th><th>How</th><th>Cost</th><th>Scale</th></tr></thead>
+<tbody>
+<tr><td><strong>Short expiry</strong></td><td>15-min access tokens; only refresh revocable</td><td>None</td><td>Excellent</td></tr>
+<tr><td><strong>jti denylist</strong></td><td>Store revoked <code>jti</code> values in Redis; check on every request</td><td>1 Redis lookup/req</td><td>Good</td></tr>
+<tr><td><strong>Token family in DB</strong></td><td>Store token generation counter per user; reject if stale</td><td>1 DB lookup/req</td><td>Moderate</td></tr>
+<tr><td><strong>JWKS key rotation</strong></td><td>Rotate signing key; old tokens signed with revoked key rejected</td><td>None per-req</td><td>Excellent (bulk revoke)</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div><!-- /jwt -->
@@ -509,20 +509,20 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 <div class="cp p-orange">
   <div class="cp-hdr">OAuth2 — delegation, not authentication</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>OAuth2 is an authorization framework, not an authentication protocol.</strong>
+<div class="analogy">
+<strong>OAuth2 is an authorization framework, not an authentication protocol.</strong>
       It lets a user delegate limited access to their resources (e.g., their GitHub repos) to a third-party app,
       without giving the app their password. OpenID Connect (OIDC) adds an identity layer on top of OAuth2.
-    </div>
-    <table class="t-table" style="margin-top:.6rem">
-      <thead><tr><th>Role</th><th>Who they are</th><th>Example</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Resource Owner</strong></td><td>The user</td><td>Alice</td></tr>
-        <tr><td><strong>Client</strong></td><td>App requesting access</td><td>Your app</td></tr>
-        <tr><td><strong>Authorization Server</strong></td><td>Issues tokens after user consent</td><td>GitHub, Google, Auth0</td></tr>
-        <tr><td><strong>Resource Server</strong></td><td>API that accepts tokens</td><td>GitHub API</td></tr>
-      </tbody>
-    </table>
+</div>
+<table class="t-table" style="margin-top:.6rem">
+<thead><tr><th>Role</th><th>Who they are</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Resource Owner</strong></td><td>The user</td><td>Alice</td></tr>
+<tr><td><strong>Client</strong></td><td>App requesting access</td><td>Your app</td></tr>
+<tr><td><strong>Authorization Server</strong></td><td>Issues tokens after user consent</td><td>GitHub, Google, Auth0</td></tr>
+<tr><td><strong>Resource Server</strong></td><td>API that accepts tokens</td><td>GitHub API</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-blue">
@@ -551,7 +551,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
   │                  │◄───── access_token + id_token│
   │◄──logged in──────│                              │
 </div>
-    <div class="note">PKCE (Proof Key for Code Exchange) prevents authorization code interception attacks. Even if the code is stolen in transit, the attacker doesn't have the code_verifier needed to exchange it for a token.</div>
+<div class="note">PKCE (Proof Key for Code Exchange) prevents authorization code interception attacks. Even if the code is stolen in transit, the attacker doesn't have the code_verifier needed to exchange it for a token.</div>
   </div>
 </div>
 <div class="cp p-violet">
@@ -575,21 +575,21 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
   <span class="cs">"scope"</span>: <span class="cs">"payments:read inventory:write"</span>
 }
 </div>
-    <div class="warn">Client secrets are like passwords — store in environment variables or a secrets manager (Vault, AWS Secrets Manager), never in code or git.</div>
+<div class="warn">Client secrets are like passwords — store in environment variables or a secrets manager (Vault, AWS Secrets Manager), never in code or git.</div>
   </div>
 </div>
 <hr class="sep">
 <div class="cp p-red">
   <div class="cp-hdr">API Keys — design for security</div>
   <div class="cp-body">
-    <ul class="flow-list">
-      <li><span class="fl-step">1</span><div><strong>Generation:</strong> 32 bytes from CSPRNG → base62 or hex encode → prefix with identifier (e.g., <code>sk_live_</code> for lookup without full hash scan)</div></li>
-      <li><span class="fl-step">2</span><div><strong>Storage:</strong> Never store plaintext. Store <code>SHA-256(key)</code> in DB. Show full key to user exactly once on creation.</div></li>
-      <li><span class="fl-step">3</span><div><strong>Lookup:</strong> <code>prefix</code> column (first 8 chars) for fast DB lookup + constant-time comparison of hash</div></li>
-      <li><span class="fl-step">4</span><div><strong>Scoping:</strong> Attach permissions to key (e.g., <code>read:payments</code>, <code>write:orders</code>)</div></li>
-      <li><span class="fl-step">5</span><div><strong>Rotation:</strong> Allow multiple active keys; deactivate old key after grace period</div></li>
-      <li><span class="fl-step">6</span><div><strong>Rate limiting:</strong> Limit by key, not just IP — prevents key sharing abuse</div></li>
-    </ul>
+<ul class="flow-list">
+<li><span class="fl-step">1</span><div><strong>Generation:</strong> 32 bytes from CSPRNG → base62 or hex encode → prefix with identifier (e.g., <code>sk_live_</code> for lookup without full hash scan)</div></li>
+<li><span class="fl-step">2</span><div><strong>Storage:</strong> Never store plaintext. Store <code>SHA-256(key)</code> in DB. Show full key to user exactly once on creation.</div></li>
+<li><span class="fl-step">3</span><div><strong>Lookup:</strong> <code>prefix</code> column (first 8 chars) for fast DB lookup + constant-time comparison of hash</div></li>
+<li><span class="fl-step">4</span><div><strong>Scoping:</strong> Attach permissions to key (e.g., <code>read:payments</code>, <code>write:orders</code>)</div></li>
+<li><span class="fl-step">5</span><div><strong>Rotation:</strong> Allow multiple active keys; deactivate old key after grace period</div></li>
+<li><span class="fl-step">6</span><div><strong>Rate limiting:</strong> Limit by key, not just IP — prevents key sharing abuse</div></li>
+</ul>
 <div class="cb">
 <span class="cm">-- API key DB schema</span>
 <span class="ck">CREATE TABLE</span> api_keys (
@@ -611,16 +611,16 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 <div class="cp p-amber">
   <div class="cp-hdr">OAuth2 security pitfalls</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Vulnerability</th><th>Description</th><th>Defence</th></tr></thead>
-      <tbody>
-        <tr><td><span class="bad">Open redirect</span></td><td><code>redirect_uri</code> not validated → tokens sent to attacker</td><td>Exact match against allowlist of registered URIs</td></tr>
-        <tr><td><span class="bad">CSRF on callback</span></td><td>Attacker initiates OAuth flow, tricks user's browser to complete it</td><td>Use <code>state</code> parameter (random nonce, validated on callback)</td></tr>
-        <tr><td><span class="bad">Token leakage in logs</span></td><td>Access tokens appear in access logs via URL params</td><td>Always use Authorization header, never URL params</td></tr>
-        <tr><td><span class="bad">Implicit flow</span></td><td>Token returned in URL fragment (deprecated) → history/referrer leakage</td><td>Use Authorization Code + PKCE instead of Implicit flow</td></tr>
-        <tr><td><span class="bad">aud not validated</span></td><td>Token issued for service A accepted by service B</td><td>Always validate <code>aud</code> claim matches expected audience</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Vulnerability</th><th>Description</th><th>Defence</th></tr></thead>
+<tbody>
+<tr><td><span class="bad">Open redirect</span></td><td><code>redirect_uri</code> not validated → tokens sent to attacker</td><td>Exact match against allowlist of registered URIs</td></tr>
+<tr><td><span class="bad">CSRF on callback</span></td><td>Attacker initiates OAuth flow, tricks user's browser to complete it</td><td>Use <code>state</code> parameter (random nonce, validated on callback)</td></tr>
+<tr><td><span class="bad">Token leakage in logs</span></td><td>Access tokens appear in access logs via URL params</td><td>Always use Authorization header, never URL params</td></tr>
+<tr><td><span class="bad">Implicit flow</span></td><td>Token returned in URL fragment (deprecated) → history/referrer leakage</td><td>Use Authorization Code + PKCE instead of Implicit flow</td></tr>
+<tr><td><span class="bad">aud not validated</span></td><td>Token issued for service A accepted by service B</td><td>Always validate <code>aud</code> claim matches expected audience</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div><!-- /oauth -->
@@ -629,10 +629,10 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 <div class="cp p-indigo">
   <div class="cp-hdr">RBAC — Role-Based Access Control</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Concept:</strong> Users are assigned roles; roles are granted permissions.
+<div class="analogy">
+<strong>Concept:</strong> Users are assigned roles; roles are granted permissions.
       The user never holds permissions directly — only via roles. Simple, auditable, scales well for most apps.
-    </div>
+</div>
 <div class="cb">
 <span class="cm">-- Classic RBAC schema</span>
 <span class="ck">CREATE TABLE</span> roles (id BIGINT <span class="ck">PRIMARY KEY</span>, name <span class="cn">TEXT UNIQUE</span>);
@@ -648,24 +648,24 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
   <span class="ck">AND</span> p.name = <span class="cs">'invoices:read'</span>
 <span class="ck">LIMIT</span> 1;
 </div>
-    <table class="t-table" style="margin-top:.7rem">
-      <thead><tr><th>Role</th><th>Permissions</th></tr></thead>
-      <tbody>
-        <tr><td>viewer</td><td>invoices:read, orders:read</td></tr>
-        <tr><td>editor</td><td>+ invoices:write, orders:write</td></tr>
-        <tr><td>admin</td><td>+ users:manage, settings:write</td></tr>
-        <tr><td>billing</td><td>invoices:*, payments:*</td></tr>
-      </tbody>
-    </table>
+<table class="t-table" style="margin-top:.7rem">
+<thead><tr><th>Role</th><th>Permissions</th></tr></thead>
+<tbody>
+<tr><td>viewer</td><td>invoices:read, orders:read</td></tr>
+<tr><td>editor</td><td>+ invoices:write, orders:write</td></tr>
+<tr><td>admin</td><td>+ users:manage, settings:write</td></tr>
+<tr><td>billing</td><td>invoices:*, payments:*</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-violet">
   <div class="cp-hdr">ABAC — Attribute-Based Access Control</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Concept:</strong> Policies evaluate attributes of subject (user), resource, action, and environment.
+<div class="analogy">
+<strong>Concept:</strong> Policies evaluate attributes of subject (user), resource, action, and environment.
       More expressive than RBAC — supports fine-grained, context-aware rules.
-    </div>
+</div>
 <div class="cb">
 <span class="cm">// OPA (Open Policy Agent) Rego policy example</span>
 <span class="ck">package</span> authz
@@ -690,35 +690,35 @@ deny {
     hour >= <span class="cn">18</span>
 }
 </div>
-    <table class="t-table" style="margin-top:.7rem">
-      <thead><tr><th></th><th>RBAC</th><th>ABAC</th></tr></thead>
-      <tbody>
-        <tr><td>Granularity</td><td>Coarse (role-level)</td><td>Fine (any attribute)</td></tr>
-        <tr><td>Complexity</td><td>Simple</td><td>Complex (policy management)</td></tr>
-        <tr><td>Context-awareness</td><td>None</td><td>Time, IP, device, location</td></tr>
-        <tr><td>Auditing</td><td>Easy</td><td>Harder (policy explosion)</td></tr>
-        <tr><td>Use when</td><td>Clear role hierarchy</td><td>Multi-tenant, fine-grained rules</td></tr>
-      </tbody>
-    </table>
+<table class="t-table" style="margin-top:.7rem">
+<thead><tr><th></th><th>RBAC</th><th>ABAC</th></tr></thead>
+<tbody>
+<tr><td>Granularity</td><td>Coarse (role-level)</td><td>Fine (any attribute)</td></tr>
+<tr><td>Complexity</td><td>Simple</td><td>Complex (policy management)</td></tr>
+<tr><td>Context-awareness</td><td>None</td><td>Time, IP, device, location</td></tr>
+<tr><td>Auditing</td><td>Easy</td><td>Harder (policy explosion)</td></tr>
+<tr><td>Use when</td><td>Clear role hierarchy</td><td>Multi-tenant, fine-grained rules</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr">Authorization enforcement patterns</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Pattern</th><th>How</th><th>Problem it solves</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Middleware check</strong></td><td>Auth middleware runs before route handler; rejects if insufficient role</td><td>Coarse-grained: route-level protection</td></tr>
-        <tr><td><strong>Resource ownership</strong></td><td><code>WHERE user_id = current_user_id</code> in every query</td><td>Prevents horizontal privilege escalation (user A reading user B's data)</td></tr>
-        <tr><td><strong>Policy as code</strong></td><td>OPA sidecar or in-process evaluation</td><td>Complex/dynamic rules; audit trail</td></tr>
-        <tr><td><strong>Field-level authz</strong></td><td>Strip sensitive fields from response if requester lacks permission</td><td>Fine-grained: same resource, different views</td></tr>
-      </tbody>
-    </table>
-    <div class="ins">
-      <strong>Horizontal privilege escalation (IDOR)</strong> — the most common authz bug:<br>
-      <code>GET /invoices/9999</code> — always check that invoice 9999 belongs to the authenticated user.
+<table class="t-table">
+<thead><tr><th>Pattern</th><th>How</th><th>Problem it solves</th></tr></thead>
+<tbody>
+<tr><td><strong>Middleware check</strong></td><td>Auth middleware runs before route handler; rejects if insufficient role</td><td>Coarse-grained: route-level protection</td></tr>
+<tr><td><strong>Resource ownership</strong></td><td><code>WHERE user_id = current_user_id</code> in every query</td><td>Prevents horizontal privilege escalation (user A reading user B's data)</td></tr>
+<tr><td><strong>Policy as code</strong></td><td>OPA sidecar or in-process evaluation</td><td>Complex/dynamic rules; audit trail</td></tr>
+<tr><td><strong>Field-level authz</strong></td><td>Strip sensitive fields from response if requester lacks permission</td><td>Fine-grained: same resource, different views</td></tr>
+</tbody>
+</table>
+<div class="ins">
+<strong>Horizontal privilege escalation (IDOR)</strong> — the most common authz bug:<br>
+<code>GET /invoices/9999</code> — always check that invoice 9999 belongs to the authenticated user.
       Never rely only on "authenticated" — always check ownership.
-    </div>
+</div>
   </div>
 </div>
 <div class="cp p-green">
@@ -734,10 +734,10 @@ deny {
   <span class="cs">"exp"</span>: 1711003600
 }
 </div>
-    <div class="warn">
+<div class="warn">
       Claims in JWT are stale as soon as they're issued. If you revoke a user's role, they retain the old claims until token expiry.
       Short access token lifetime (15min) limits the stale-data window. For immediate revocation, use a token denylist.
-    </div>
+</div>
   </div>
 </div>
 </div><!-- /authz -->
@@ -746,20 +746,20 @@ deny {
 <div class="cp p-red">
   <div class="cp-hdr">Why fast hashes are catastrophically wrong</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Hash</th><th>Speed on GPU</th><th>Time to crack 8-char password</th></tr></thead>
-      <tbody>
-        <tr><td>MD5</td><td class="bad">~200 billion/sec</td><td class="bad">Seconds</td></tr>
-        <tr><td>SHA-256</td><td class="bad">~20 billion/sec</td><td class="bad">Minutes to hours</td></tr>
-        <tr><td>bcrypt (cost=10)</td><td class="ok">~10,000/sec</td><td class="ok">Months to years</td></tr>
-        <tr><td>Argon2id (recommended)</td><td class="good">~1,000/sec</td><td class="good">Years to decades</td></tr>
-      </tbody>
-    </table>
-    <div class="analogy">
-      <strong>Why password hashing needs to be slow:</strong> A DB breach exposes all hashed passwords.
+<table class="t-table">
+<thead><tr><th>Hash</th><th>Speed on GPU</th><th>Time to crack 8-char password</th></tr></thead>
+<tbody>
+<tr><td>MD5</td><td class="bad">~200 billion/sec</td><td class="bad">Seconds</td></tr>
+<tr><td>SHA-256</td><td class="bad">~20 billion/sec</td><td class="bad">Minutes to hours</td></tr>
+<tr><td>bcrypt (cost=10)</td><td class="ok">~10,000/sec</td><td class="ok">Months to years</td></tr>
+<tr><td>Argon2id (recommended)</td><td class="good">~1,000/sec</td><td class="good">Years to decades</td></tr>
+</tbody>
+</table>
+<div class="analogy">
+<strong>Why password hashing needs to be slow:</strong> A DB breach exposes all hashed passwords.
       With a fast hash, a GPU cluster can try billions of common passwords per second.
       A deliberately slow hash (bcrypt, Argon2) forces brute-force to take impractically long, even if the hash is stolen.
-    </div>
+</div>
   </div>
 </div>
 <div class="cp p-orange">
@@ -778,17 +778,17 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="cm">/* - Cost factor should be re-evaluated every 2 years */</span>
 <span class="cm">/* - Max input 72 bytes (silently truncates longer passwords) */</span>
 </div>
-    <div class="warn">bcrypt truncates inputs longer than 72 bytes. If users might have longer passwords, pre-hash with SHA-256 (to compress to 32 bytes) before bcrypt — but use a constant encoding, not just SHA-256 alone.</div>
+<div class="warn">bcrypt truncates inputs longer than 72 bytes. If users might have longer passwords, pre-hash with SHA-256 (to compress to 32 bytes) before bcrypt — but use a constant encoding, not just SHA-256 alone.</div>
   </div>
 </div>
 <div class="cp p-violet">
   <div class="cp-hdr">Argon2id — OWASP recommended</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Why Argon2id over bcrypt?</strong> Argon2 is memory-hard — it requires large amounts of RAM per hash,
+<div class="analogy">
+<strong>Why Argon2id over bcrypt?</strong> Argon2 is memory-hard — it requires large amounts of RAM per hash,
       which makes GPU/ASIC attacks expensive (GPUs have less RAM per core than CPUs).
       Argon2id combines Argon2i (side-channel resistance) and Argon2d (GPU resistance).
-    </div>
+</div>
 <div class="cb">
 <span class="cm">/* Argon2id parameters (OWASP recommendations for interactive login): */</span>
 <span class="cm">/* - m = 19456 KB (19 MiB) memory                                    */</span>
@@ -805,7 +805,7 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
         crypto_pwhash_OPSLIMIT_INTERACTIVE,   <span class="cm">/* 2 ops   */</span>
         crypto_pwhash_MEMLIMIT_INTERACTIVE    <span class="cm">/* 64 MiB  */</span>
     ) != <span class="cn">0</span>) {
-    <span class="cm">/* out of memory — return 500 */</span>
+<span class="cm">/* out of memory — return 500 */</span>
 }
 <span class="cm">/* Store hashed_password in DB */</span>
 <span class="cm">/* Verification: */</span>
@@ -813,7 +813,7 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
         hashed_password,
         password, strlen(password)
     ) != <span class="cn">0</span>) {
-    <span class="cm">/* Wrong password */</span>
+<span class="cm">/* Wrong password */</span>
 }
 </div>
   </div>
@@ -821,11 +821,11 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <div class="cp p-blue">
   <div class="cp-hdr">Timing-safe comparison — critical for security</div>
   <div class="cp-body">
-    <div class="analogy">
-      <strong>Timing attack:</strong> A naive <code>strcmp()</code> returns early on the first differing byte.
+<div class="analogy">
+<strong>Timing attack:</strong> A naive <code>strcmp()</code> returns early on the first differing byte.
       An attacker can measure how long the comparison takes to deduce how many bytes of their guess match.
       With enough measurements, they can recover a secret byte-by-byte.
-    </div>
+</div>
 <div class="cb">
 <span class="cm">/* WRONG — leaks timing information */</span>
 <span class="ck">int</span> verify = strcmp(submitted_hash, stored_hash) == <span class="cn">0</span>;
@@ -843,7 +843,7 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="cm">/* Note: For passwords, use crypto_pwhash_str_verify() — which
          handles timing internally */</span>
 </div>
-    <div class="ins">When comparing API keys: hash both submitted and stored values with SHA-256, then compare the hashes with a constant-time function. This is safer than comparing raw keys.</div>
+<div class="ins">When comparing API keys: hash both submitted and stored values with SHA-256, then compare the hashes with a constant-time function. This is safer than comparing raw keys.</div>
   </div>
 </div>
 <div class="cp p-green">
@@ -853,15 +853,15 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <div class="cb">
 <span class="cm">/* Pepper strategy: HMAC password with pepper, then Argon2 */</span>
 <span class="ck">void</span> <span class="cf">hash_password_with_pepper</span>(<span class="ck">const char</span> *password, <span class="ck">char</span> *out) {
-    <span class="cn">uint8_t</span> pepper[<span class="cn">32</span>];
+<span class="cn">uint8_t</span> pepper[<span class="cn">32</span>];
     get_pepper_from_env(pepper);  <span class="cm">/* load from secrets manager */</span>
-    <span class="cm">/* HMAC-SHA256(pepper, password) → 32 bytes */</span>
-    <span class="cn">uint8_t</span> peppered[<span class="cn">32</span>];
+<span class="cm">/* HMAC-SHA256(pepper, password) → 32 bytes */</span>
+<span class="cn">uint8_t</span> peppered[<span class="cn">32</span>];
     HMAC(EVP_sha256(), pepper, <span class="cn">32</span>,
          (<span class="ck">const unsigned char</span> *)password, strlen(password),
          peppered, <span class="ck">NULL</span>);
 
-    <span class="cm">/* Then Argon2id the peppered value */</span>
+<span class="cm">/* Then Argon2id the peppered value */</span>
     crypto_pwhash_str(out, (<span class="ck">const char</span> *)peppered, <span class="cn">32</span>,
         crypto_pwhash_OPSLIMIT_INTERACTIVE,
         crypto_pwhash_MEMLIMIT_INTERACTIVE);
@@ -887,19 +887,19 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;time.h&gt;</span>
 <span class="cm">/* Base64url encoding (no padding) */</span>
 <span class="ck">static const char</span> b64url_chars[] =
-    <span class="cs">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"</span>;
+<span class="cs">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"</span>;
 
 <span class="ck">void</span> <span class="cf">base64url_encode</span>(<span class="ck">const uint8_t</span> *data, <span class="cn">size_t</span> len, <span class="ck">char</span> *out) {
-    <span class="cn">size_t</span> i = <span class="cn">0</span>, j = <span class="cn">0</span>;
-    <span class="ck">for</span> (; i + <span class="cn">2</span> < len; i += <span class="cn">3</span>) {
+<span class="cn">size_t</span> i = <span class="cn">0</span>, j = <span class="cn">0</span>;
+<span class="ck">for</span> (; i + <span class="cn">2</span> < len; i += <span class="cn">3</span>) {
         out[j++] = b64url_chars[(data[i] >> <span class="cn">2</span>) & <span class="cn">0x3F</span>];
         out[j++] = b64url_chars[((data[i] & <span class="cn">3</span>) << <span class="cn">4</span>) | (data[i+<span class="cn">1</span>] >> <span class="cn">4</span>)];
         out[j++] = b64url_chars[((data[i+<span class="cn">1</span>] & <span class="cn">0xF</span>) << <span class="cn">2</span>) | (data[i+<span class="cn">2</span>] >> <span class="cn">6</span>)];
         out[j++] = b64url_chars[data[i+<span class="cn">2</span>] & <span class="cn">0x3F</span>];
     }
-    <span class="ck">if</span> (i < len) {
+<span class="ck">if</span> (i < len) {
         out[j++] = b64url_chars[(data[i] >> <span class="cn">2</span>) & <span class="cn">0x3F</span>];
-        <span class="ck">if</span> (i + <span class="cn">1</span> == len) {
+<span class="ck">if</span> (i + <span class="cn">1</span> == len) {
             out[j++] = b64url_chars[(data[i] & <span class="cn">3</span>) << <span class="cn">4</span>];
         } <span class="ck">else</span> {
             out[j++] = b64url_chars[((data[i] & <span class="cn">3</span>) << <span class="cn">4</span>) | (data[i+<span class="cn">1</span>] >> <span class="cn">4</span>)];
@@ -911,68 +911,68 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 
 <span class="cm">/* Create JWT: header.payload — returns malloc'd string */</span>
 <span class="ck">char</span> *<span class="cf">jwt_create_hs256</span>(<span class="ck">const char</span> *payload_json,
-                        <span class="ck">const uint8_t</span> *secret, <span class="cn">size_t</span> secret_len)
+<span class="ck">const uint8_t</span> *secret, <span class="cn">size_t</span> secret_len)
 {
-    <span class="cm">/* Fixed header: {"alg":"HS256","typ":"JWT"} */</span>
-    <span class="ck">const char</span> *hdr_json = <span class="cs">"{\"alg\":\"HS256\",\"typ\":\"JWT\"}"</span>;
-    <span class="ck">char</span> hdr_b64[<span class="cn">64</span>], pay_b64[<span class="cn">512</span>], sig_b64[<span class="cn">64</span>];
+<span class="cm">/* Fixed header: {"alg":"HS256","typ":"JWT"} */</span>
+<span class="ck">const char</span> *hdr_json = <span class="cs">"{\"alg\":\"HS256\",\"typ\":\"JWT\"}"</span>;
+<span class="ck">char</span> hdr_b64[<span class="cn">64</span>], pay_b64[<span class="cn">512</span>], sig_b64[<span class="cn">64</span>];
 
     base64url_encode((<span class="ck">const uint8_t</span> *)hdr_json, strlen(hdr_json), hdr_b64);
     base64url_encode((<span class="ck">const uint8_t</span> *)payload_json, strlen(payload_json), pay_b64);
 
-    <span class="cm">/* Signing input: base64url(header) + "." + base64url(payload) */</span>
-    <span class="ck">char</span> signing_input[<span class="cn">600</span>];
+<span class="cm">/* Signing input: base64url(header) + "." + base64url(payload) */</span>
+<span class="ck">char</span> signing_input[<span class="cn">600</span>];
     snprintf(signing_input, <span class="ck">sizeof</span>(signing_input), <span class="cs">"%s.%s"</span>, hdr_b64, pay_b64);
 
-    <span class="cm">/* HMAC-SHA256 */</span>
-    <span class="cn">uint8_t</span> sig[<span class="cn">32</span>]; <span class="cn">uint32_t</span> sig_len;
+<span class="cm">/* HMAC-SHA256 */</span>
+<span class="cn">uint8_t</span> sig[<span class="cn">32</span>]; <span class="cn">uint32_t</span> sig_len;
     HMAC(EVP_sha256(), secret, (<span class="ck">int</span>)secret_len,
          (<span class="ck">const uint8_t</span> *)signing_input, strlen(signing_input),
          sig, &sig_len);
 
     base64url_encode(sig, sig_len, sig_b64);
 
-    <span class="ck">char</span> *token = malloc(<span class="cn">700</span>);
+<span class="ck">char</span> *token = malloc(<span class="cn">700</span>);
     snprintf(token, <span class="cn">700</span>, <span class="cs">"%s.%s"</span>, signing_input, sig_b64);
-    <span class="ck">return</span> token;
+<span class="ck">return</span> token;
 }
 
 <span class="cm">/* Constant-time comparison */</span>
 <span class="ck">static int</span> <span class="cf">const_time_eq</span>(<span class="ck">const uint8_t</span> *a, <span class="ck">const uint8_t</span> *b, <span class="cn">size_t</span> n) {
-    <span class="cn">uint8_t</span> diff = <span class="cn">0</span>;
-    <span class="ck">for</span> (<span class="cn">size_t</span> i = <span class="cn">0</span>; i < n; i++) diff |= a[i] ^ b[i];
-    <span class="ck">return</span> diff == <span class="cn">0</span>;
+<span class="cn">uint8_t</span> diff = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="cn">size_t</span> i = <span class="cn">0</span>; i < n; i++) diff |= a[i] ^ b[i];
+<span class="ck">return</span> diff == <span class="cn">0</span>;
 }
 
 <span class="cm">/* Verify JWT signature — returns 1 on success, 0 on failure */</span>
 <span class="ck">int</span> <span class="cf">jwt_verify_hs256</span>(<span class="ck">const char</span> *token,
-                      <span class="ck">const uint8_t</span> *secret, <span class="cn">size_t</span> secret_len,
-                      <span class="ck">char</span> **payload_out)
+<span class="ck">const uint8_t</span> *secret, <span class="cn">size_t</span> secret_len,
+<span class="ck">char</span> **payload_out)
 {
-    <span class="cm">/* Split: find the two dots */</span>
-    <span class="ck">const char</span> *dot1 = strchr(token, <span class="cs">'.'</span>);
-    <span class="ck">if</span> (!dot1) <span class="ck">return</span> <span class="cn">0</span>;
-    <span class="ck">const char</span> *dot2 = strchr(dot1 + <span class="cn">1</span>, <span class="cs">'.'</span>);
-    <span class="ck">if</span> (!dot2) <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cm">/* Split: find the two dots */</span>
+<span class="ck">const char</span> *dot1 = strchr(token, <span class="cs">'.'</span>);
+<span class="ck">if</span> (!dot1) <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">const char</span> *dot2 = strchr(dot1 + <span class="cn">1</span>, <span class="cs">'.'</span>);
+<span class="ck">if</span> (!dot2) <span class="ck">return</span> <span class="cn">0</span>;
 
-    <span class="cm">/* signing_input = everything before last dot */</span>
-    <span class="cn">size_t</span> si_len = dot2 - token;
-    <span class="ck">char</span> signing_input[<span class="cn">600</span>];
-    <span class="ck">if</span> (si_len >= <span class="ck">sizeof</span>(signing_input)) <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cm">/* signing_input = everything before last dot */</span>
+<span class="cn">size_t</span> si_len = dot2 - token;
+<span class="ck">char</span> signing_input[<span class="cn">600</span>];
+<span class="ck">if</span> (si_len >= <span class="ck">sizeof</span>(signing_input)) <span class="ck">return</span> <span class="cn">0</span>;
     memcpy(signing_input, token, si_len);
     signing_input[si_len] = <span class="cs">'\0'</span>;
 
-    <span class="cm">/* Recompute HMAC */</span>
-    <span class="cn">uint8_t</span> computed[<span class="cn">32</span>]; <span class="cn">uint32_t</span> clen;
+<span class="cm">/* Recompute HMAC */</span>
+<span class="cn">uint8_t</span> computed[<span class="cn">32</span>]; <span class="cn">uint32_t</span> clen;
     HMAC(EVP_sha256(), secret, (<span class="ck">int</span>)secret_len,
          (<span class="ck">const uint8_t</span> *)signing_input, si_len,
          computed, &clen);
 
-    <span class="cm">/* TODO: base64url-decode the signature portion (dot2+1) and compare */</span>
-    <span class="cm">/* Omitted for brevity — see labs for complete implementation */</span>
+<span class="cm">/* TODO: base64url-decode the signature portion (dot2+1) and compare */</span>
+<span class="cm">/* Omitted for brevity — see labs for complete implementation */</span>
 
     *payload_out = (<span class="ck">char</span> *)(dot1 + <span class="cn">1</span>);  <span class="cm">/* base64url(payload) */</span>
-    <span class="ck">return</span> <span class="cn">1</span>;  <span class="cm">/* simplified: full impl decodes and constant-time compares */</span>
+<span class="ck">return</span> <span class="cn">1</span>;  <span class="cm">/* simplified: full impl decodes and constant-time compares */</span>
 }
 </div>
   </div>
@@ -988,27 +988,27 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
 <span class="cm">/* Generate API key: "sk_live_" + 32 random bytes as hex = 72 chars total */</span>
 <span class="ck">void</span> <span class="cf">generate_api_key</span>(<span class="ck">char</span> *out_key, <span class="cn">size_t</span> key_len,
-                       <span class="ck">char</span> *out_prefix, <span class="ck">char</span> *out_hash_hex)
+<span class="ck">char</span> *out_prefix, <span class="ck">char</span> *out_hash_hex)
 {
-    <span class="cn">uint8_t</span> raw[<span class="cn">32</span>];
-    <span class="ck">if</span> (RAND_bytes(raw, <span class="cn">32</span>) != <span class="cn">1</span>) {
+<span class="cn">uint8_t</span> raw[<span class="cn">32</span>];
+<span class="ck">if</span> (RAND_bytes(raw, <span class="cn">32</span>) != <span class="cn">1</span>) {
         fprintf(stderr, <span class="cs">"RAND_bytes failed\n"</span>); <span class="ck">return</span>;
     }
 
-    <span class="cm">/* Build key string */</span>
-    <span class="ck">char</span> hex[<span class="cn">65</span>];
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">32</span>; i++)
+<span class="cm">/* Build key string */</span>
+<span class="ck">char</span> hex[<span class="cn">65</span>];
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">32</span>; i++)
         sprintf(hex + i*<span class="cn">2</span>, <span class="cs">"%02x"</span>, raw[i]);
     snprintf(out_key, key_len, <span class="cs">"sk_live_%s"</span>, hex);
 
-    <span class="cm">/* First 8 chars after prefix = prefix for DB lookup */</span>
+<span class="cm">/* First 8 chars after prefix = prefix for DB lookup */</span>
     strncpy(out_prefix, hex, <span class="cn">8</span>);
     out_prefix[<span class="cn">8</span>] = <span class="cs">'\0'</span>;
 
-    <span class="cm">/* SHA-256 hash for DB storage */</span>
-    <span class="cn">uint8_t</span> hash[<span class="cn">32</span>];
+<span class="cm">/* SHA-256 hash for DB storage */</span>
+<span class="cn">uint8_t</span> hash[<span class="cn">32</span>];
     SHA256((<span class="ck">const uint8_t</span> *)out_key, strlen(out_key), hash);
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">32</span>; i++)
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">32</span>; i++)
         sprintf(out_hash_hex + i*<span class="cn">2</span>, <span class="cs">"%02x"</span>, hash[i]);
     out_hash_hex[<span class="cn">64</span>] = <span class="cs">'\0'</span>;
 }
@@ -1016,20 +1016,20 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="cm">/* Verify submitted key against stored hash */</span>
 <span class="ck">int</span> <span class="cf">verify_api_key</span>(<span class="ck">const char</span> *submitted_key, <span class="ck">const char</span> *stored_hash_hex)
 {
-    <span class="cn">uint8_t</span> computed_hash[<span class="cn">32</span>];
+<span class="cn">uint8_t</span> computed_hash[<span class="cn">32</span>];
     SHA256((<span class="ck">const uint8_t</span> *)submitted_key, strlen(submitted_key), computed_hash);
 
-    <span class="ck">char</span> computed_hex[<span class="cn">65</span>];
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">32</span>; i++)
+<span class="ck">char</span> computed_hex[<span class="cn">65</span>];
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">32</span>; i++)
         sprintf(computed_hex + i*<span class="cn">2</span>, <span class="cs">"%02x"</span>, computed_hash[i]);
     computed_hex[<span class="cn">64</span>] = <span class="cs">'\0'</span>;
 
-    <span class="cm">/* Constant-time comparison — prevent timing attacks */</span>
-    <span class="ck">return</span> CRYPTO_memcmp(computed_hex, stored_hash_hex, <span class="cn">64</span>) == <span class="cn">0</span>;
+<span class="cm">/* Constant-time comparison — prevent timing attacks */</span>
+<span class="ck">return</span> CRYPTO_memcmp(computed_hex, stored_hash_hex, <span class="cn">64</span>) == <span class="cn">0</span>;
 }
 
 <span class="ck">int</span> <span class="cf">main</span>(<span class="ck">void</span>) {
-    <span class="ck">char</span> key[<span class="cn">80</span>], prefix[<span class="cn">9</span>], hash_hex[<span class="cn">65</span>];
+<span class="ck">char</span> key[<span class="cn">80</span>], prefix[<span class="cn">9</span>], hash_hex[<span class="cn">65</span>];
     generate_api_key(key, <span class="ck">sizeof</span>(key), prefix, hash_hex);
 
     printf(<span class="cs">"API Key (show user ONCE): %s\n"</span>, key);
@@ -1038,7 +1038,7 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 
     printf(<span class="cs">"Verify: %s\n"</span>, verify_api_key(key, hash_hex) ? <span class="cs">"OK"</span> : <span class="cs">"FAIL"</span>);
     printf(<span class="cs">"Verify (wrong): %s\n"</span>, verify_api_key(<span class="cs">"sk_live_wrong"</span>, hash_hex) ? <span class="cs">"OK"</span> : <span class="cs">"FAIL"</span>);
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }
 <span class="cm">/* gcc api_key.c -o api_key -lssl -lcrypto */</span>
 </div>
@@ -1054,33 +1054,33 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="cm">/* Hash a password for storage */</span>
 <span class="ck">int</span> <span class="cf">hash_password</span>(<span class="ck">const char</span> *password, <span class="ck">char</span> *hash_out)
 {
-    <span class="cm">/* hash_out must be crypto_pwhash_STRBYTES (128) bytes */</span>
-    <span class="ck">if</span> (crypto_pwhash_str(
+<span class="cm">/* hash_out must be crypto_pwhash_STRBYTES (128) bytes */</span>
+<span class="ck">if</span> (crypto_pwhash_str(
             hash_out,
             password, strlen(password),
             crypto_pwhash_OPSLIMIT_INTERACTIVE,   <span class="cm">/* 2 ops */</span>
             crypto_pwhash_MEMLIMIT_INTERACTIVE    <span class="cm">/* 64 MiB */</span>
         ) != <span class="cn">0</span>) {
         fprintf(stderr, <span class="cs">"hash failed: out of memory\n"</span>);
-        <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="ck">return</span> -<span class="cn">1</span>;
     }
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }
 
 <span class="cm">/* Verify a password against stored hash */</span>
 <span class="ck">int</span> <span class="cf">verify_password</span>(<span class="ck">const char</span> *stored_hash, <span class="ck">const char</span> *password)
 {
-    <span class="ck">int</span> ret = crypto_pwhash_str_verify(
+<span class="ck">int</span> ret = crypto_pwhash_str_verify(
         stored_hash,
         password, strlen(password)
     );
-    <span class="ck">return</span> ret == <span class="cn">0</span>;  <span class="cm">/* 0 = match */</span>
+<span class="ck">return</span> ret == <span class="cn">0</span>;  <span class="cm">/* 0 = match */</span>
 }
 
 <span class="cm">/* Check if hash needs re-hash (cost factor upgraded) */</span>
 <span class="ck">int</span> <span class="cf">needs_rehash</span>(<span class="ck">const char</span> *stored_hash)
 {
-    <span class="ck">return</span> crypto_pwhash_str_needs_rehash(
+<span class="ck">return</span> crypto_pwhash_str_needs_rehash(
         stored_hash,
         crypto_pwhash_OPSLIMIT_INTERACTIVE,
         crypto_pwhash_MEMLIMIT_INTERACTIVE
@@ -1088,10 +1088,10 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 }
 
 <span class="ck">int</span> <span class="cf">main</span>(<span class="ck">void</span>) {
-    <span class="ck">if</span> (sodium_init() < <span class="cn">0</span>) { fprintf(stderr, <span class="cs">"sodium init failed\n"</span>); <span class="ck">return</span> <span class="cn">1</span>; }
+<span class="ck">if</span> (sodium_init() < <span class="cn">0</span>) { fprintf(stderr, <span class="cs">"sodium init failed\n"</span>); <span class="ck">return</span> <span class="cn">1</span>; }
 
-    <span class="ck">char</span> stored_hash[crypto_pwhash_STRBYTES];
-    <span class="ck">const char</span> *password = <span class="cs">"correct-horse-battery-staple"</span>;
+<span class="ck">char</span> stored_hash[crypto_pwhash_STRBYTES];
+<span class="ck">const char</span> *password = <span class="cs">"correct-horse-battery-staple"</span>;
 
     hash_password(password, stored_hash);
     printf(<span class="cs">"Stored: %.50s...\n"</span>, stored_hash);
@@ -1099,11 +1099,11 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     printf(<span class="cs">"Verify correct:  %s\n"</span>, verify_password(stored_hash, password) ? <span class="cs">"OK"</span> : <span class="cs">"FAIL"</span>);
     printf(<span class="cs">"Verify wrong:    %s\n"</span>, verify_password(stored_hash, <span class="cs">"wrongpassword"</span>) ? <span class="cs">"OK"</span> : <span class="cs">"FAIL"</span>);
     printf(<span class="cs">"Needs rehash:    %s\n"</span>, needs_rehash(stored_hash) ? <span class="cs">"yes"</span> : <span class="cs">"no"</span>);
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }
 <span class="cm">/* gcc argon2_demo.c -o argon2_demo -lsodium */</span>
 </div>
-    <div class="note">After a successful login, call <code>needs_rehash()</code> — if true, transparently re-hash the plaintext password (which you have in memory at login time only) and update the DB. This handles algorithm upgrades without forcing password resets.</div>
+<div class="note">After a successful login, call <code>needs_rehash()</code> — if true, transparently re-hash the plaintext password (which you have in memory at login time only) and update the DB. This handles algorithm upgrades without forcing password resets.</div>
   </div>
 </div>
 <div class="cp p-blue">
@@ -1116,23 +1116,23 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="cm">/* Generate 128-bit session ID as 32-char hex string */</span>
 <span class="ck">int</span> <span class="cf">generate_session_id</span>(<span class="ck">char</span> *out)  <span class="cm">/* out: 33+ bytes */</span>
 {
-    <span class="cn">uint8_t</span> raw[<span class="cn">16</span>];
-    <span class="ck">if</span> (RAND_bytes(raw, <span class="ck">sizeof</span>(raw)) != <span class="cn">1</span>) <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* CSPRNG failure */</span>
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">16</span>; i++)
+<span class="cn">uint8_t</span> raw[<span class="cn">16</span>];
+<span class="ck">if</span> (RAND_bytes(raw, <span class="ck">sizeof</span>(raw)) != <span class="cn">1</span>) <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* CSPRNG failure */</span>
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">16</span>; i++)
         sprintf(out + i*<span class="cn">2</span>, <span class="cs">"%02x"</span>, raw[i]);
     out[<span class="cn">32</span>] = <span class="cs">'\0'</span>;
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }
 
 <span class="ck">int</span> <span class="cf">main</span>(<span class="ck">void</span>) {
-    <span class="ck">char</span> sid[<span class="cn">33</span>];
+<span class="ck">char</span> sid[<span class="cn">33</span>];
     generate_session_id(sid);
     printf(<span class="cs">"Session ID: %s\n"</span>, sid);
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }
 <span class="cm">/* gcc session_id.c -o session_id -lssl -lcrypto */</span>
 </div>
-    <div class="warn">Never use <code>rand()</code>, <code>srand(time(NULL))</code>, or sequential counters for session IDs. These are predictable. Only use a CSPRNG: <code>RAND_bytes()</code> (OpenSSL), <code>randombytes_buf()</code> (libsodium), or <code>/dev/urandom</code> directly.</div>
+<div class="warn">Never use <code>rand()</code>, <code>srand(time(NULL))</code>, or sequential counters for session IDs. These are predictable. Only use a CSPRNG: <code>RAND_bytes()</code> (OpenSSL), <code>randombytes_buf()</code> (libsodium), or <code>/dev/urandom</code> directly.</div>
   </div>
 </div>
 </div><!-- /impl -->
@@ -1141,37 +1141,37 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <div class="lab-box">
   <div class="lab-hdr">Lab 1 — JWT from scratch in C</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Implement JWT sign, verify, and claim extraction entirely in C using OpenSSL. No external JWT library.
-    <div class="lab-step"><span class="sn">1</span><div>Create a file <code>jwt.c</code>. Implement <code>base64url_encode()</code> and <code>base64url_decode()</code>.</div></div>
-    <div class="lab-step"><span class="sn">2</span><div>Implement <code>jwt_sign_hs256(payload_json, secret) → token_string</code>. The header is fixed as <code>{"alg":"HS256","typ":"JWT"}</code>.</div></div>
-    <div class="lab-step"><span class="sn">3</span><div>Implement <code>jwt_verify_hs256(token, secret, payload_out)</code> — splits on dots, recomputes HMAC, constant-time compares, extracts payload.</div></div>
-    <div class="lab-step"><span class="sn">4</span><div>Implement basic JSON claim extraction: <code>jwt_get_claim(payload, "exp") → string</code> using simple string parsing (no JSON library).</div></div>
-    <div class="lab-step"><span class="sn">5</span><div>Test: sign a token with <code>exp = now + 60</code>. Verify it passes. Modify one byte of the token. Verify it fails. Advance time past expiry. Verify expiry check fails.</div></div>
-    <div class="lab-step"><span class="sn">6</span><div><strong>Security test:</strong> craft a token with <code>"alg":"none"</code> and no signature. Ensure your verifier rejects it.</div></div>
-    <strong>Build:</strong>
+<strong>Goal:</strong> Implement JWT sign, verify, and claim extraction entirely in C using OpenSSL. No external JWT library.
+<div class="lab-step"><span class="sn">1</span><div>Create a file <code>jwt.c</code>. Implement <code>base64url_encode()</code> and <code>base64url_decode()</code>.</div></div>
+<div class="lab-step"><span class="sn">2</span><div>Implement <code>jwt_sign_hs256(payload_json, secret) → token_string</code>. The header is fixed as <code>{"alg":"HS256","typ":"JWT"}</code>.</div></div>
+<div class="lab-step"><span class="sn">3</span><div>Implement <code>jwt_verify_hs256(token, secret, payload_out)</code> — splits on dots, recomputes HMAC, constant-time compares, extracts payload.</div></div>
+<div class="lab-step"><span class="sn">4</span><div>Implement basic JSON claim extraction: <code>jwt_get_claim(payload, "exp") → string</code> using simple string parsing (no JSON library).</div></div>
+<div class="lab-step"><span class="sn">5</span><div>Test: sign a token with <code>exp = now + 60</code>. Verify it passes. Modify one byte of the token. Verify it fails. Advance time past expiry. Verify expiry check fails.</div></div>
+<div class="lab-step"><span class="sn">6</span><div><strong>Security test:</strong> craft a token with <code>"alg":"none"</code> and no signature. Ensure your verifier rejects it.</div></div>
+<strong>Build:</strong>
 <div class="cb">gcc -Wall -Wextra jwt.c -o jwt -lssl -lcrypto
 ./jwt</div>
-    <div class="note">Decode any token at jwt.io to verify your base64url encoding is correct.</div>
+<div class="note">Decode any token at jwt.io to verify your base64url encoding is correct.</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">Lab 2 — Password hashing benchmark and upgrade path</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Understand real-world performance of bcrypt vs Argon2id; implement transparent rehash-on-login.
-    <div class="lab-step"><span class="sn">1</span><div>Install libsodium: <code>sudo apt install libsodium-dev</code></div></div>
-    <div class="lab-step"><span class="sn">2</span><div>Write a benchmark that hashes "password123" 10 times each with:
-      <ul style="margin-top:.3rem;padding-left:1.2rem">
-        <li>SHA-256 (baseline — show why it's wrong)</li>
-        <li>Argon2id INTERACTIVE params</li>
-        <li>Argon2id MODERATE params</li>
-        <li>Argon2id SENSITIVE params</li>
-      </ul>
+<strong>Goal:</strong> Understand real-world performance of bcrypt vs Argon2id; implement transparent rehash-on-login.
+<div class="lab-step"><span class="sn">1</span><div>Install libsodium: <code>sudo apt install libsodium-dev</code></div></div>
+<div class="lab-step"><span class="sn">2</span><div>Write a benchmark that hashes "password123" 10 times each with:
+<ul style="margin-top:.3rem;padding-left:1.2rem">
+<li>SHA-256 (baseline — show why it's wrong)</li>
+<li>Argon2id INTERACTIVE params</li>
+<li>Argon2id MODERATE params</li>
+<li>Argon2id SENSITIVE params</li>
+</ul>
       Print average time per hash.
-    </div></div>
-    <div class="lab-step"><span class="sn">3</span><div>Simulate a "DB" (array of structs) with 5 users. Hash their passwords with Argon2id INTERACTIVE params and store.</div></div>
-    <div class="lab-step"><span class="sn">4</span><div>Simulate login: given username + plaintext password, verify and check <code>needs_rehash()</code>.</div></div>
-    <div class="lab-step"><span class="sn">5</span><div>Upgrade: change the params to MODERATE. Re-run login loop — show that users whose hashes used old params get transparently re-hashed on next login.</div></div>
-    <strong>Build:</strong>
+</div></div>
+<div class="lab-step"><span class="sn">3</span><div>Simulate a "DB" (array of structs) with 5 users. Hash their passwords with Argon2id INTERACTIVE params and store.</div></div>
+<div class="lab-step"><span class="sn">4</span><div>Simulate login: given username + plaintext password, verify and check <code>needs_rehash()</code>.</div></div>
+<div class="lab-step"><span class="sn">5</span><div>Upgrade: change the params to MODERATE. Re-run login loop — show that users whose hashes used old params get transparently re-hashed on next login.</div></div>
+<strong>Build:</strong>
 <div class="cb">gcc -Wall pwhash_bench.c -o pwhash_bench -lsodium
 ./pwhash_bench</div>
   </div>
@@ -1179,28 +1179,28 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <div class="lab-box">
   <div class="lab-hdr">Lab 3 — API key system with PostgreSQL</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Build a complete API key issuance and verification system backed by PostgreSQL and libpq.
-    <div class="lab-step"><span class="sn">1</span><div>Create the schema from the OAuth2 tab (api_keys table). Run migrations with psql.</div></div>
-    <div class="lab-step"><span class="sn">2</span><div>Write <code>apikey_issue(user_id, name, scopes[]) → key_string</code>:
-      <ul style="margin-top:.3rem;padding-left:1.2rem">
-        <li>Generate key: <code>sk_test_</code> + 32 random bytes hex</li>
-        <li>Compute SHA-256 hash</li>
-        <li>Insert (prefix, hash, user_id, name, scopes) into api_keys</li>
-        <li>Return the full key string (only time it's visible)</li>
-      </ul>
-    </div></div>
-    <div class="lab-step"><span class="sn">3</span><div>Write <code>apikey_verify(submitted_key) → {user_id, scopes} or NULL</code>:
-      <ul style="margin-top:.3rem;padding-left:1.2rem">
-        <li>Extract prefix (first 8 chars after <code>sk_test_</code>)</li>
-        <li>Query: <code>SELECT ... FROM api_keys WHERE prefix=$1 AND revoked_at IS NULL</code></li>
-        <li>Compute hash of submitted key, constant-time compare with stored hash</li>
-        <li>Update last_used timestamp</li>
-        <li>Return user context on match</li>
-      </ul>
-    </div></div>
-    <div class="lab-step"><span class="sn">4</span><div>Write <code>apikey_revoke(key_id)</code> — sets revoked_at = now().</div></div>
-    <div class="lab-step"><span class="sn">5</span><div>Test: issue key, verify it works, verify a wrong key fails, revoke key, verify it's rejected.</div></div>
-    <strong>Build:</strong>
+<strong>Goal:</strong> Build a complete API key issuance and verification system backed by PostgreSQL and libpq.
+<div class="lab-step"><span class="sn">1</span><div>Create the schema from the OAuth2 tab (api_keys table). Run migrations with psql.</div></div>
+<div class="lab-step"><span class="sn">2</span><div>Write <code>apikey_issue(user_id, name, scopes[]) → key_string</code>:
+<ul style="margin-top:.3rem;padding-left:1.2rem">
+<li>Generate key: <code>sk_test_</code> + 32 random bytes hex</li>
+<li>Compute SHA-256 hash</li>
+<li>Insert (prefix, hash, user_id, name, scopes) into api_keys</li>
+<li>Return the full key string (only time it's visible)</li>
+</ul>
+</div></div>
+<div class="lab-step"><span class="sn">3</span><div>Write <code>apikey_verify(submitted_key) → {user_id, scopes} or NULL</code>:
+<ul style="margin-top:.3rem;padding-left:1.2rem">
+<li>Extract prefix (first 8 chars after <code>sk_test_</code>)</li>
+<li>Query: <code>SELECT ... FROM api_keys WHERE prefix=$1 AND revoked_at IS NULL</code></li>
+<li>Compute hash of submitted key, constant-time compare with stored hash</li>
+<li>Update last_used timestamp</li>
+<li>Return user context on match</li>
+</ul>
+</div></div>
+<div class="lab-step"><span class="sn">4</span><div>Write <code>apikey_revoke(key_id)</code> — sets revoked_at = now().</div></div>
+<div class="lab-step"><span class="sn">5</span><div>Test: issue key, verify it works, verify a wrong key fails, revoke key, verify it's rejected.</div></div>
+<strong>Build:</strong>
 <div class="cb">gcc apikey.c -o apikey -lssl -lcrypto -lpq
 ./apikey</div>
   </div>
@@ -1208,18 +1208,18 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <div class="lab-box">
   <div class="lab-hdr">Lab 4 — RBAC middleware in a minimal HTTP server</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Add JWT authentication and RBAC authorization middleware to a minimal HTTP server.
-    <div class="lab-step"><span class="sn">1</span><div>Start with a minimal C HTTP server (see M03 reference) with routes: <code>POST /login</code>, <code>GET /api/invoices</code>, <code>DELETE /api/invoices/:id</code>, <code>GET /api/admin/users</code>.</div></div>
-    <div class="lab-step"><span class="sn">2</span><div>Implement <code>POST /login</code>: accepts JSON <code>{username, password}</code>. Verifies against hardcoded users (Argon2id hashes). Returns JWT with <code>sub</code>, <code>role</code>, <code>exp=now+900</code> (15 min).</div></div>
-    <div class="lab-step"><span class="sn">3</span><div>Implement JWT middleware: extracts <code>Authorization: Bearer &lt;token&gt;</code> header, verifies signature, checks <code>exp</code>, populates request context with <code>user_id</code> and <code>role</code>. Returns 401 if missing/invalid.</div></div>
-    <div class="lab-step"><span class="sn">4</span><div>Add RBAC checks:
-      <ul style="margin-top:.3rem;padding-left:1.2rem">
-        <li><code>GET /api/invoices</code> — roles: viewer, editor, admin</li>
-        <li><code>DELETE /api/invoices/:id</code> — roles: editor, admin only</li>
-        <li><code>GET /api/admin/users</code> — role: admin only → returns 403 for others</li>
-      </ul>
-    </div></div>
-    <div class="lab-step"><span class="sn">5</span><div>Test with curl:
+<strong>Goal:</strong> Add JWT authentication and RBAC authorization middleware to a minimal HTTP server.
+<div class="lab-step"><span class="sn">1</span><div>Start with a minimal C HTTP server (see M03 reference) with routes: <code>POST /login</code>, <code>GET /api/invoices</code>, <code>DELETE /api/invoices/:id</code>, <code>GET /api/admin/users</code>.</div></div>
+<div class="lab-step"><span class="sn">2</span><div>Implement <code>POST /login</code>: accepts JSON <code>{username, password}</code>. Verifies against hardcoded users (Argon2id hashes). Returns JWT with <code>sub</code>, <code>role</code>, <code>exp=now+900</code> (15 min).</div></div>
+<div class="lab-step"><span class="sn">3</span><div>Implement JWT middleware: extracts <code>Authorization: Bearer &lt;token&gt;</code> header, verifies signature, checks <code>exp</code>, populates request context with <code>user_id</code> and <code>role</code>. Returns 401 if missing/invalid.</div></div>
+<div class="lab-step"><span class="sn">4</span><div>Add RBAC checks:
+<ul style="margin-top:.3rem;padding-left:1.2rem">
+<li><code>GET /api/invoices</code> — roles: viewer, editor, admin</li>
+<li><code>DELETE /api/invoices/:id</code> — roles: editor, admin only</li>
+<li><code>GET /api/admin/users</code> — role: admin only → returns 403 for others</li>
+</ul>
+</div></div>
+<div class="lab-step"><span class="sn">5</span><div>Test with curl:
 <div class="cb">TOKEN=$(curl -s -X POST localhost:8080/login \
   -H 'Content-Type: application/json' \
   -d '{"username":"alice","password":"hunter2"}' | jq -r .token)
@@ -1227,8 +1227,8 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/invoices
 curl -X DELETE -H "Authorization: Bearer $TOKEN" localhost:8080/api/invoices/1
 curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 403</div>
-    </div></div>
-    <div class="lab-step"><span class="sn">6</span><div><strong>Bonus:</strong> Add <code>POST /refresh</code> with a refresh token (store in Redis-like in-memory map), implement rotation and reuse detection.</div></div>
+</div></div>
+<div class="lab-step"><span class="sn">6</span><div><strong>Bonus:</strong> Add <code>POST /refresh</code> with a refresh token (store in Redis-like in-memory map), implement rotation and reuse detection.</div></div>
   </div>
 </div>
 </div><!-- /labs -->
@@ -1237,70 +1237,70 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
 <div class="cp p-red">
   <div class="cp-hdr">Phase 3 concept checklist</div>
   <div class="cp-body">
-    <p style="margin-bottom:.8rem;font-size:.88rem;color:#64748b">Check each item after you can explain it clearly and implement it without referencing notes.</p>
-    <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin-bottom:.4rem">Sessions &amp; Cookies</div>
-    <ul class="cl">
-      <li>Session ID is ≥128-bit CSPRNG output, hex or base64url encoded, never predictable</li>
-      <li>Session ID regenerated on login — prevents session fixation attacks</li>
-      <li>Session stored server-side (Redis) with TTL; client only holds the ID</li>
-      <li>Cookie attributes: <code>HttpOnly</code> (no JS access), <code>Secure</code> (HTTPS only), <code>SameSite=Strict</code> (no CSRF)</li>
-      <li>Logout deletes session from Redis, doesn't just expire the cookie</li>
-      <li>CSRF: SameSite=Strict prevents cross-site request forgery for modern browsers</li>
-    </ul>
-    <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">JWT</div>
-    <ul class="cl">
-      <li>JWT = base64url(header) + "." + base64url(payload) + "." + base64url(signature)</li>
-      <li>Payload is NOT encrypted — only signed. Never store secrets in payload.</li>
-      <li>Standard claims: <code>iss</code>, <code>sub</code>, <code>aud</code>, <code>exp</code>, <code>nbf</code>, <code>iat</code>, <code>jti</code></li>
-      <li>HS256 = symmetric HMAC; RS256/ES256 = asymmetric; hardcode algorithm in verifier</li>
-      <li>Always verify: signature, <code>exp</code>, <code>nbf</code>, <code>iss</code>, <code>aud</code></li>
-      <li>Never accept <code>alg:none</code> — explicitly reject it in your verifier</li>
-      <li>Access token: 15min, stateless. Refresh token: 7-30d, stored in DB for revocation</li>
-      <li>Refresh token rotation: each use issues a new token; reuse detection revokes family</li>
-    </ul>
-    <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">OAuth2 &amp; API Keys</div>
-    <ul class="cl">
-      <li>OAuth2 = authorization framework (delegation), not authentication</li>
-      <li>PKCE: code_verifier → SHA-256 → code_challenge; prevents authorization code interception</li>
-      <li>State parameter on OAuth callback prevents CSRF</li>
-      <li>redirect_uri must exactly match registered URI (open redirect prevention)</li>
-      <li>API keys: generate with CSPRNG, store SHA-256 hash in DB, show plaintext once</li>
-      <li>API key lookup: prefix column (fast) + constant-time hash comparison</li>
-    </ul>
-    <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">Authorization</div>
-    <ul class="cl">
-      <li>RBAC: users → roles → permissions; simple, auditable, works for most systems</li>
-      <li>ABAC: policy evaluates subject + resource + action + environment attributes</li>
-      <li>Always check resource ownership (IDOR prevention): <code>WHERE user_id = $current</code></li>
-      <li>JWT role/permission claims go stale — short access token TTL limits the window</li>
-    </ul>
-    <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">Password Security</div>
-    <ul class="cl">
-      <li>Never use MD5/SHA-256 for passwords — they're too fast (&gt;billion/sec on GPU)</li>
-      <li>Argon2id (OWASP recommended): memory-hard + time-hard + side-channel resistant</li>
-      <li>bcrypt: cost factor 12+, ~100ms target; max 72 bytes input</li>
-      <li>Use constant-time comparison for all security tokens (CRYPTO_memcmp / sodium_memcmp)</li>
-      <li>Implement transparent rehash-on-login for cost factor upgrades</li>
-      <li>Pepper = secret mixed in before hashing; stored in secrets manager, not DB</li>
-    </ul>
+<p style="margin-bottom:.8rem;font-size:.88rem;color:#64748b">Check each item after you can explain it clearly and implement it without referencing notes.</p>
+<div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin-bottom:.4rem">Sessions &amp; Cookies</div>
+<ul class="cl">
+<li>Session ID is ≥128-bit CSPRNG output, hex or base64url encoded, never predictable</li>
+<li>Session ID regenerated on login — prevents session fixation attacks</li>
+<li>Session stored server-side (Redis) with TTL; client only holds the ID</li>
+<li>Cookie attributes: <code>HttpOnly</code> (no JS access), <code>Secure</code> (HTTPS only), <code>SameSite=Strict</code> (no CSRF)</li>
+<li>Logout deletes session from Redis, doesn't just expire the cookie</li>
+<li>CSRF: SameSite=Strict prevents cross-site request forgery for modern browsers</li>
+</ul>
+<div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">JWT</div>
+<ul class="cl">
+<li>JWT = base64url(header) + "." + base64url(payload) + "." + base64url(signature)</li>
+<li>Payload is NOT encrypted — only signed. Never store secrets in payload.</li>
+<li>Standard claims: <code>iss</code>, <code>sub</code>, <code>aud</code>, <code>exp</code>, <code>nbf</code>, <code>iat</code>, <code>jti</code></li>
+<li>HS256 = symmetric HMAC; RS256/ES256 = asymmetric; hardcode algorithm in verifier</li>
+<li>Always verify: signature, <code>exp</code>, <code>nbf</code>, <code>iss</code>, <code>aud</code></li>
+<li>Never accept <code>alg:none</code> — explicitly reject it in your verifier</li>
+<li>Access token: 15min, stateless. Refresh token: 7-30d, stored in DB for revocation</li>
+<li>Refresh token rotation: each use issues a new token; reuse detection revokes family</li>
+</ul>
+<div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">OAuth2 &amp; API Keys</div>
+<ul class="cl">
+<li>OAuth2 = authorization framework (delegation), not authentication</li>
+<li>PKCE: code_verifier → SHA-256 → code_challenge; prevents authorization code interception</li>
+<li>State parameter on OAuth callback prevents CSRF</li>
+<li>redirect_uri must exactly match registered URI (open redirect prevention)</li>
+<li>API keys: generate with CSPRNG, store SHA-256 hash in DB, show plaintext once</li>
+<li>API key lookup: prefix column (fast) + constant-time hash comparison</li>
+</ul>
+<div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">Authorization</div>
+<ul class="cl">
+<li>RBAC: users → roles → permissions; simple, auditable, works for most systems</li>
+<li>ABAC: policy evaluates subject + resource + action + environment attributes</li>
+<li>Always check resource ownership (IDOR prevention): <code>WHERE user_id = $current</code></li>
+<li>JWT role/permission claims go stale — short access token TTL limits the window</li>
+</ul>
+<div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">Password Security</div>
+<ul class="cl">
+<li>Never use MD5/SHA-256 for passwords — they're too fast (&gt;billion/sec on GPU)</li>
+<li>Argon2id (OWASP recommended): memory-hard + time-hard + side-channel resistant</li>
+<li>bcrypt: cost factor 12+, ~100ms target; max 72 bytes input</li>
+<li>Use constant-time comparison for all security tokens (CRYPTO_memcmp / sodium_memcmp)</li>
+<li>Implement transparent rehash-on-login for cost factor upgrades</li>
+<li>Pepper = secret mixed in before hashing; stored in secrets manager, not DB</li>
+</ul>
   </div>
 </div>
 <div class="cp p-amber">
   <div class="cp-hdr">Common mistakes to avoid</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Mistake</th><th>Consequence</th><th>Correct approach</th></tr></thead>
-      <tbody>
-        <tr><td>JWT in localStorage</td><td>XSS can steal token → full account takeover</td><td>Memory (SPA) or HttpOnly cookie</td></tr>
-        <tr><td>Missing <code>exp</code> check</td><td>Expired tokens valid forever</td><td>Always validate all standard claims</td></tr>
-        <tr><td>Trusting <code>alg</code> header</td><td>alg:none bypass, algorithm confusion</td><td>Hardcode expected algorithm</td></tr>
-        <tr><td>Weak HS256 secret</td><td>Offline brute-force from any valid token</td><td>32+ bytes from CSPRNG</td></tr>
-        <tr><td>MD5/SHA-256 for passwords</td><td>Full crack in hours after DB breach</td><td>Argon2id or bcrypt</td></tr>
-        <tr><td>Non-constant-time compare</td><td>Timing oracle reveals token byte-by-byte</td><td>CRYPTO_memcmp / sodium_memcmp</td></tr>
-        <tr><td>No session fixation protection</td><td>Attacker elevates pre-auth session</td><td>Regenerate session ID on login</td></tr>
-        <tr><td>Missing IDOR check</td><td>User A reads/writes user B's data</td><td>Always scope queries to current user</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Mistake</th><th>Consequence</th><th>Correct approach</th></tr></thead>
+<tbody>
+<tr><td>JWT in localStorage</td><td>XSS can steal token → full account takeover</td><td>Memory (SPA) or HttpOnly cookie</td></tr>
+<tr><td>Missing <code>exp</code> check</td><td>Expired tokens valid forever</td><td>Always validate all standard claims</td></tr>
+<tr><td>Trusting <code>alg</code> header</td><td>alg:none bypass, algorithm confusion</td><td>Hardcode expected algorithm</td></tr>
+<tr><td>Weak HS256 secret</td><td>Offline brute-force from any valid token</td><td>32+ bytes from CSPRNG</td></tr>
+<tr><td>MD5/SHA-256 for passwords</td><td>Full crack in hours after DB breach</td><td>Argon2id or bcrypt</td></tr>
+<tr><td>Non-constant-time compare</td><td>Timing oracle reveals token byte-by-byte</td><td>CRYPTO_memcmp / sodium_memcmp</td></tr>
+<tr><td>No session fixation protection</td><td>Attacker elevates pre-auth session</td><td>Regenerate session ID on login</td></tr>
+<tr><td>Missing IDOR check</td><td>User A reads/writes user B's data</td><td>Always scope queries to current user</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div><!-- /checklist -->

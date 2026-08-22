@@ -16,25 +16,25 @@ url: /learning/dsa/binary-search/ch8-binary-search/
 =============================================== -->
 <div class="chapter-hero">
   <div class="ch-hero-content">
-    <div class="back-link">
-      <a href="/learning/dsa/dsa-roadmap/">← Back to Roadmap</a>
-    </div>
-    <div class="ch-badge-row">
-      <span class="ch-badge-item">Ch8</span>
-      <span class="ch-badge-item">Intermediate</span>
-    </div>
-    <h1 class="ch-title">Binary Search</h1>
-    <p class="ch-subtitle">Classic Search • Rotated Array • Answer Space • Lower/Upper Bound</p>
-    <div class="ch-hero-stats">
-      <div class="stat-box">
-        <span class="stat-val">11</span>
-        <span class="stat-label">Sections</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-val">2</span>
-        <span class="stat-label">Solved Problems</span>
-      </div>
-    </div>
+<div class="back-link">
+<a href="/learning/dsa/dsa-roadmap/">← Back to Roadmap</a>
+</div>
+<div class="ch-badge-row">
+<span class="ch-badge-item">Ch8</span>
+<span class="ch-badge-item">Intermediate</span>
+</div>
+<h1 class="ch-title">Binary Search</h1>
+<p class="ch-subtitle">Classic Search • Rotated Array • Answer Space • Lower/Upper Bound</p>
+<div class="ch-hero-stats">
+<div class="stat-box">
+<span class="stat-val">11</span>
+<span class="stat-label">Sections</span>
+</div>
+<div class="stat-box">
+<span class="stat-val">2</span>
+<span class="stat-label">Solved Problems</span>
+</div>
+</div>
   </div>
 </div>
 <!-- ==============================================
@@ -48,11 +48,11 @@ url: /learning/dsa/binary-search/ch8-binary-search/
 <div class="insight-box">
   <span class="insight-label">The Core Invariant</span>
   <ul>
-    <li>At every step, the answer (if it exists) lies within <code>[lo, hi]</code>.</li>
-    <li>We compute <code>mid = lo + (hi - lo) / 2</code> (avoids integer overflow vs <code>(lo+hi)/2</code>).</li>
-    <li>We then shrink the window: move <code>lo</code> up or <code>hi</code> down based on the comparison at <code>mid</code>.</li>
-    <li>The loop terminates when <code>lo &gt; hi</code> (classic) or <code>lo == hi</code> (boundary search).</li>
-    <li><strong>Critical:</strong> every iteration MUST reduce the window size. If <code>lo</code> or <code>hi</code> never moves, the loop runs forever.</li>
+<li>At every step, the answer (if it exists) lies within <code>[lo, hi]</code>.</li>
+<li>We compute <code>mid = lo + (hi - lo) / 2</code> (avoids integer overflow vs <code>(lo+hi)/2</code>).</li>
+<li>We then shrink the window: move <code>lo</code> up or <code>hi</code> down based on the comparison at <code>mid</code>.</li>
+<li>The loop terminates when <code>lo &gt; hi</code> (classic) or <code>lo == hi</code> (boundary search).</li>
+<li><strong>Critical:</strong> every iteration MUST reduce the window size. If <code>lo</code> or <code>hi</code> never moves, the loop runs forever.</li>
   </ul>
 </div>
 <h3 class="section-subheading">1.1 — The Three Binary Search Templates</h3>
@@ -104,15 +104,15 @@ int upperBound(vector<int>& a, int target) {
 <h3 class="section-subheading">1.2 — Template Comparison</h3>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>Template</th><th>Loop Condition</th><th><code>hi</code> initialised to</th><th><code>lo/hi</code> Update</th><th>Returns</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Classic exact</td><td><code>lo &lt;= hi</code></td><td><code>n - 1</code></td><td><code>lo=mid+1</code> or <code>hi=mid-1</code></td><td>Index or <code>-1</code></td></tr>
-      <tr><td>Lower bound</td><td><code>lo &lt; hi</code></td><td><code>n</code></td><td><code>lo=mid+1</code> or <code>hi=mid</code></td><td>First idx &gt;= target</td></tr>
-      <tr><td>Upper bound</td><td><code>lo &lt; hi</code></td><td><code>n</code></td><td><code>lo=mid+1</code> or <code>hi=mid</code></td><td>First idx &gt; target</td></tr>
-      <tr><td>Answer space</td><td><code>lo &lt; hi</code> or <code>&lt;=</code></td><td>problem max</td><td>depends on feasibility</td><td>Optimal value</td></tr>
-    </tbody>
+<thead>
+<tr><th>Template</th><th>Loop Condition</th><th><code>hi</code> initialised to</th><th><code>lo/hi</code> Update</th><th>Returns</th></tr>
+</thead>
+<tbody>
+<tr><td>Classic exact</td><td><code>lo &lt;= hi</code></td><td><code>n - 1</code></td><td><code>lo=mid+1</code> or <code>hi=mid-1</code></td><td>Index or <code>-1</code></td></tr>
+<tr><td>Lower bound</td><td><code>lo &lt; hi</code></td><td><code>n</code></td><td><code>lo=mid+1</code> or <code>hi=mid</code></td><td>First idx &gt;= target</td></tr>
+<tr><td>Upper bound</td><td><code>lo &lt; hi</code></td><td><code>n</code></td><td><code>lo=mid+1</code> or <code>hi=mid</code></td><td>First idx &gt; target</td></tr>
+<tr><td>Answer space</td><td><code>lo &lt; hi</code> or <code>&lt;=</code></td><td>problem max</td><td>depends on feasibility</td><td>Optimal value</td></tr>
+</tbody>
   </table>
 </div>
 </div>
@@ -241,21 +241,21 @@ Rotated Array: Which Half Is Sorted?
 <h2 class="section-heading">Section 3 — Real-World Use Cases</h2>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>Application</th><th>System</th><th>How Binary Search Is Used</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Dictionary / index lookup</td><td>Database B-Tree index</td><td>Search sorted key space in O(log n) I/O pages</td></tr>
-      <tr><td>Version control bisect</td><td><code>git bisect</code></td><td>Binary search through commit history to find first bad commit</td></tr>
-      <tr><td>IP routing</td><td>Network router lookup</td><td>Longest prefix match via binary search on sorted prefix table</td></tr>
-      <tr><td>Load balancing</td><td>Consistent hashing ring</td><td>Binary search for the next server on the sorted hash ring</td></tr>
-      <tr><td>Media streaming</td><td>Video player seek</td><td>Binary search on sorted timestamp index for O(log n) seek</td></tr>
-      <tr><td>Spell checker</td><td>Sorted dictionary file</td><td>Binary search for word existence / nearest match</td></tr>
-      <tr><td>Compression</td><td>Arithmetic / range coding</td><td>Binary search on cumulative frequency table</td></tr>
-      <tr><td>Scheduling</td><td>Rate limiter / throttle</td><td>Binary search on sorted event timestamps for window queries</td></tr>
-      <tr><td>Machine learning</td><td>Hyperparameter tuning</td><td>Binary / ternary search on unimodal loss curve</td></tr>
-      <tr><td>Scientific computing</td><td>Root finding</td><td>Bisection method: binary search for f(x)=0 in continuous domain</td></tr>
-    </tbody>
+<thead>
+<tr><th>Application</th><th>System</th><th>How Binary Search Is Used</th></tr>
+</thead>
+<tbody>
+<tr><td>Dictionary / index lookup</td><td>Database B-Tree index</td><td>Search sorted key space in O(log n) I/O pages</td></tr>
+<tr><td>Version control bisect</td><td><code>git bisect</code></td><td>Binary search through commit history to find first bad commit</td></tr>
+<tr><td>IP routing</td><td>Network router lookup</td><td>Longest prefix match via binary search on sorted prefix table</td></tr>
+<tr><td>Load balancing</td><td>Consistent hashing ring</td><td>Binary search for the next server on the sorted hash ring</td></tr>
+<tr><td>Media streaming</td><td>Video player seek</td><td>Binary search on sorted timestamp index for O(log n) seek</td></tr>
+<tr><td>Spell checker</td><td>Sorted dictionary file</td><td>Binary search for word existence / nearest match</td></tr>
+<tr><td>Compression</td><td>Arithmetic / range coding</td><td>Binary search on cumulative frequency table</td></tr>
+<tr><td>Scheduling</td><td>Rate limiter / throttle</td><td>Binary search on sorted event timestamps for window queries</td></tr>
+<tr><td>Machine learning</td><td>Hyperparameter tuning</td><td>Binary / ternary search on unimodal loss curve</td></tr>
+<tr><td>Scientific computing</td><td>Root finding</td><td>Bisection method: binary search for f(x)=0 in continuous domain</td></tr>
+</tbody>
   </table>
 </div>
 </div>
@@ -421,45 +421,45 @@ bool searchMatrixII(vector<vector<int>>& mat, int target) {
 <h2 class="section-heading">Section 5 — Pattern Recognition Guide</h2>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>If the problem asks...</th><th>Binary Search Variant</th><th>Key Setup</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Find exact value in sorted array</td><td>Classic (Template 1)</td><td><code>lo=0, hi=n-1, lo&lt;=hi</code></td></tr>
-      <tr><td>First position of target (or &gt;= target)</td><td>Lower bound (Template 2)</td><td><code>lo=0, hi=n, lo&lt;hi</code></td></tr>
-      <tr><td>Last position of target</td><td>Upper bound - 1</td><td><code>upperBound(target) - 1</code></td></tr>
-      <tr><td>Count occurrences of target</td><td><code>upperBound - lowerBound</code></td><td>Both in <code>O(log n)</code></td></tr>
-      <tr><td>Search in rotated sorted array</td><td>Rotated BS</td><td>Identify sorted half at each step</td></tr>
-      <tr><td>Find minimum in rotated array</td><td>Compare <code>mid</code> to <code>hi</code></td><td>Minimum is in unsorted half</td></tr>
-      <tr><td>Minimum feasible value (Koko, capacity)</td><td>Answer space BS</td><td>Binary search on answer, check feasibility</td></tr>
-      <tr><td>Maximum feasible value</td><td>Answer space BS (reversed)</td><td>Flip condition: search for last true</td></tr>
-      <tr><td>Peak element in array</td><td>Binary search on slope</td><td>Move toward the higher neighbour</td></tr>
-      <tr><td>Square root / power search</td><td>Answer space BS</td><td><code>lo=1, hi=target, check mid*mid</code></td></tr>
-      <tr><td>Search in 2D matrix (rows+cols connected)</td><td>Flatten to 1D</td><td><code>index (r,c) = (mid/n, mid%n)</code></td></tr>
-      <tr><td>Search in 2D matrix (rows+cols sorted)</td><td>Staircase from top-right</td><td><code>O(m+n)</code>, not binary search</td></tr>
-    </tbody>
+<thead>
+<tr><th>If the problem asks...</th><th>Binary Search Variant</th><th>Key Setup</th></tr>
+</thead>
+<tbody>
+<tr><td>Find exact value in sorted array</td><td>Classic (Template 1)</td><td><code>lo=0, hi=n-1, lo&lt;=hi</code></td></tr>
+<tr><td>First position of target (or &gt;= target)</td><td>Lower bound (Template 2)</td><td><code>lo=0, hi=n, lo&lt;hi</code></td></tr>
+<tr><td>Last position of target</td><td>Upper bound - 1</td><td><code>upperBound(target) - 1</code></td></tr>
+<tr><td>Count occurrences of target</td><td><code>upperBound - lowerBound</code></td><td>Both in <code>O(log n)</code></td></tr>
+<tr><td>Search in rotated sorted array</td><td>Rotated BS</td><td>Identify sorted half at each step</td></tr>
+<tr><td>Find minimum in rotated array</td><td>Compare <code>mid</code> to <code>hi</code></td><td>Minimum is in unsorted half</td></tr>
+<tr><td>Minimum feasible value (Koko, capacity)</td><td>Answer space BS</td><td>Binary search on answer, check feasibility</td></tr>
+<tr><td>Maximum feasible value</td><td>Answer space BS (reversed)</td><td>Flip condition: search for last true</td></tr>
+<tr><td>Peak element in array</td><td>Binary search on slope</td><td>Move toward the higher neighbour</td></tr>
+<tr><td>Square root / power search</td><td>Answer space BS</td><td><code>lo=1, hi=target, check mid*mid</code></td></tr>
+<tr><td>Search in 2D matrix (rows+cols connected)</td><td>Flatten to 1D</td><td><code>index (r,c) = (mid/n, mid%n)</code></td></tr>
+<tr><td>Search in 2D matrix (rows+cols sorted)</td><td>Staircase from top-right</td><td><code>O(m+n)</code>, not binary search</td></tr>
+</tbody>
   </table>
 </div>
 <div class="insight-box">
   <span class="insight-label">🔍 How to Identify an Answer-Space Binary Search Problem</span>
   <ul>
-    <li><strong>SIGNAL 1:</strong> The problem asks for a minimum or maximum VALUE satisfying some condition.</li>
-    <li><strong>SIGNAL 2:</strong> You can define a yes/no feasibility function <code>f(x)</code> that is monotone (all NO below threshold, all YES above).</li>
-    <li><strong>SIGNAL 3:</strong> Keywords: 'minimise the maximum', 'maximum minimum', 'smallest k such that', 'allocate optimally'.</li>
-    <li><strong>SETUP:</strong> <code>lo</code> = smallest possible answer, <code>hi</code> = largest possible answer (often max element or sum).</li>
-    <li><strong>DIRECTION:</strong> minimise answer -&gt; on feasible, go left (<code>hi=mid</code>). Maximise answer -&gt; on feasible, go right (<code>lo=mid</code>).</li>
-    <li><strong>EXAMPLES:</strong> Koko Bananas, Capacity to Ship Packages, Split Array Largest Sum, Magnetic Force Between Balls.</li>
+<li><strong>SIGNAL 1:</strong> The problem asks for a minimum or maximum VALUE satisfying some condition.</li>
+<li><strong>SIGNAL 2:</strong> You can define a yes/no feasibility function <code>f(x)</code> that is monotone (all NO below threshold, all YES above).</li>
+<li><strong>SIGNAL 3:</strong> Keywords: 'minimise the maximum', 'maximum minimum', 'smallest k such that', 'allocate optimally'.</li>
+<li><strong>SETUP:</strong> <code>lo</code> = smallest possible answer, <code>hi</code> = largest possible answer (often max element or sum).</li>
+<li><strong>DIRECTION:</strong> minimise answer -&gt; on feasible, go left (<code>hi=mid</code>). Maximise answer -&gt; on feasible, go right (<code>lo=mid</code>).</li>
+<li><strong>EXAMPLES:</strong> Koko Bananas, Capacity to Ship Packages, Split Array Largest Sum, Magnetic Force Between Balls.</li>
   </ul>
 </div>
 <div class="insight-box">
   <span class="insight-label">🛡️ The Off-By-One Survival Guide</span>
   <ul>
-    <li>Use <code>lo + (hi - lo) / 2</code> always — never <code>(lo + hi) / 2</code>. Avoids integer overflow.</li>
-    <li>Classic search (exact): <code>lo &lt;= hi</code>, update <code>lo=mid+1</code> or <code>hi=mid-1</code>.</li>
-    <li>Boundary search (lower/upper bound): <code>lo &lt; hi</code>, update <code>lo=mid+1</code> or <code>hi=mid</code> (NOT <code>mid-1</code>!).</li>
-    <li><code>hi = n</code> (not <code>n-1</code>) for lower/upper bound — allows returning <code>n</code> (insert at end).</li>
-    <li>Never set <code>hi = mid - 1</code> in a lower-bound template — you will skip the answer.</li>
-    <li>After the loop: <code>lo == hi</code> == the answer index. No need to check both.</li>
+<li>Use <code>lo + (hi - lo) / 2</code> always — never <code>(lo + hi) / 2</code>. Avoids integer overflow.</li>
+<li>Classic search (exact): <code>lo &lt;= hi</code>, update <code>lo=mid+1</code> or <code>hi=mid-1</code>.</li>
+<li>Boundary search (lower/upper bound): <code>lo &lt; hi</code>, update <code>lo=mid+1</code> or <code>hi=mid</code> (NOT <code>mid-1</code>!).</li>
+<li><code>hi = n</code> (not <code>n-1</code>) for lower/upper bound — allows returning <code>n</code> (insert at end).</li>
+<li>Never set <code>hi = mid - 1</code> in a lower-bound template — you will skip the answer.</li>
+<li>After the loop: <code>lo == hi</code> == the answer index. No need to check both.</li>
   </ul>
 </div>
 </div>
@@ -558,34 +558,34 @@ public:
 <h2 class="section-heading">Section 7 — Complexity Reference</h2>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>Algorithm</th><th>Time</th><th>Space</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Classic binary search (exact)</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Lower bound / upper bound</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>First and last position of target</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Search in rotated sorted array</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Find minimum in rotated array</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Find peak element</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Koko bananas / eating speed</td><td><code>O(n log M)</code>  M = max pile</td><td><code>O(1)</code></td></tr>
-      <tr><td>Capacity to ship (D days)</td><td><code>O(n log S)</code>  S = sum</td><td><code>O(1)</code></td></tr>
-      <tr><td>Split array largest sum</td><td><code>O(n log S)</code>  S = sum</td><td><code>O(1)</code></td></tr>
-      <tr><td>Search in 2D matrix (LC 74)</td><td><code>O(log(m*n))</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Search in 2D matrix II (LC 240)</td><td><code>O(m + n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Count occurrences (lower+upper)</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-      <tr><td>Square root integer</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
-    </tbody>
+<thead>
+<tr><th>Algorithm</th><th>Time</th><th>Space</th></tr>
+</thead>
+<tbody>
+<tr><td>Classic binary search (exact)</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Lower bound / upper bound</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>First and last position of target</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Search in rotated sorted array</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Find minimum in rotated array</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Find peak element</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Koko bananas / eating speed</td><td><code>O(n log M)</code>  M = max pile</td><td><code>O(1)</code></td></tr>
+<tr><td>Capacity to ship (D days)</td><td><code>O(n log S)</code>  S = sum</td><td><code>O(1)</code></td></tr>
+<tr><td>Split array largest sum</td><td><code>O(n log S)</code>  S = sum</td><td><code>O(1)</code></td></tr>
+<tr><td>Search in 2D matrix (LC 74)</td><td><code>O(log(m*n))</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Search in 2D matrix II (LC 240)</td><td><code>O(m + n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Count occurrences (lower+upper)</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+<tr><td>Square root integer</td><td><code>O(log n)</code></td><td><code>O(1)</code></td></tr>
+</tbody>
   </table>
 </div>
 <div class="insight-box">
   <span class="insight-label">Why is Binary Search O(log n)?</span>
   <ul>
-    <li>Each iteration halves the search window: <code>n -&gt; n/2 -&gt; n/4 -&gt; ... -&gt; 1</code>.</li>
-    <li>After <code>k</code> iterations, window size = <code>n / 2^k</code>. Loop ends when <code>n / 2^k = 1</code>, so <code>k = log2(n)</code>.</li>
-    <li>For <code>n = 10^9</code>: <code>log2(10^9) ~ 30</code> iterations. Linear search would need up to <code>10^9</code>.</li>
-    <li>Answer-space binary search: <code>O(log(hi-lo))</code> iterations * <code>O(feasibility check)</code> per iteration.</li>
-    <li>If feasibility check is <code>O(n)</code>, total is <code>O(n log(hi-lo))</code>. For Koko: <code>O(n log(max_pile))</code>.</li>
+<li>Each iteration halves the search window: <code>n -&gt; n/2 -&gt; n/4 -&gt; ... -&gt; 1</code>.</li>
+<li>After <code>k</code> iterations, window size = <code>n / 2^k</code>. Loop ends when <code>n / 2^k = 1</code>, so <code>k = log2(n)</code>.</li>
+<li>For <code>n = 10^9</code>: <code>log2(10^9) ~ 30</code> iterations. Linear search would need up to <code>10^9</code>.</li>
+<li>Answer-space binary search: <code>O(log(hi-lo))</code> iterations * <code>O(feasibility check)</code> per iteration.</li>
+<li>If feasibility check is <code>O(n)</code>, total is <code>O(n log(hi-lo))</code>. For Koko: <code>O(n log(max_pile))</code>.</li>
   </ul>
 </div>
 </div>
@@ -596,22 +596,22 @@ public:
 <span class="insight-label">1. Observations & Core Idea</span>
 <p>Given an integer array nums sorted in ascending order that has been rotated at an unknown pivot, and a target value, return the index of target or -1 if not present. Must run in O(log n).</p>
 <ul>
-    <li>A rotated sorted array like <code>[4,5,6,7,0,1,2]</code> is NOT globally sorted, so naive binary search fails.</li>
-    <li><strong>Key insight:</strong> Even after rotation, at least one of the two halves <code>[lo..mid]</code> or <code>[mid..hi]</code> is ALWAYS sorted normally. We can determine which by comparing <code>a[lo]</code> with <code>a[mid]</code>.</li>
-    <li>If <code>a[lo] &lt;= a[mid]</code>: the left half <code>[lo..mid]</code> is sorted. Check if target falls within <code>[a[lo], a[mid])</code>. If yes, search left; otherwise search right.</li>
-    <li>If <code>a[lo] &gt; a[mid]</code>: the right half <code>[mid..hi]</code> is sorted. Check if target falls within <code>(a[mid], a[hi]]</code>. If yes, search right; otherwise search left.</li>
+<li>A rotated sorted array like <code>[4,5,6,7,0,1,2]</code> is NOT globally sorted, so naive binary search fails.</li>
+<li><strong>Key insight:</strong> Even after rotation, at least one of the two halves <code>[lo..mid]</code> or <code>[mid..hi]</code> is ALWAYS sorted normally. We can determine which by comparing <code>a[lo]</code> with <code>a[mid]</code>.</li>
+<li>If <code>a[lo] &lt;= a[mid]</code>: the left half <code>[lo..mid]</code> is sorted. Check if target falls within <code>[a[lo], a[mid])</code>. If yes, search left; otherwise search right.</li>
+<li>If <code>a[lo] &gt; a[mid]</code>: the right half <code>[mid..hi]</code> is sorted. Check if target falls within <code>(a[mid], a[hi]]</code>. If yes, search right; otherwise search left.</li>
 </ul>
 </div>
 <h3 class="section-subheading">2. Approach Comparison</h3>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>Approach</th><th>Time</th><th>Space</th><th>Method</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Linear Scan</td><td>O(n)</td><td>O(1)</td><td>Check every element until found.</td></tr>
-      <tr><td>Rotated Binary Search</td><td>O(log n)</td><td>O(1)</td><td>Identify sorted half, eliminate half array per step.</td></tr>
-    </tbody>
+<thead>
+<tr><th>Approach</th><th>Time</th><th>Space</th><th>Method</th></tr>
+</thead>
+<tbody>
+<tr><td>Linear Scan</td><td>O(n)</td><td>O(1)</td><td>Check every element until found.</td></tr>
+<tr><td>Rotated Binary Search</td><td>O(log n)</td><td>O(1)</td><td>Identify sorted half, eliminate half array per step.</td></tr>
+</tbody>
   </table>
 </div>
 <h3 class="section-subheading">3. Optimised Solution</h3>
@@ -659,22 +659,22 @@ public:
 <span class="insight-label">1. Observations & Core Idea</span>
 <p>Koko has piles of bananas. She eats at speed k (k bananas per hour). Each hour she picks one pile and eats min(pile, k) bananas. Find the minimum k so she can eat all bananas in at most h hours.</p>
 <ul>
-    <li>For a given speed <code>k</code>, hours needed = sum of <code>ceil(pile[i] / k)</code> over all piles.</li>
-    <li><strong>Monotone property:</strong> If speed <code>k</code> is feasible, then any speed <code>k' &gt; k</code> is also feasible. This enables binary search on <code>k</code>.</li>
-    <li>Search space: <code>lo = 1</code>, <code>hi = max(piles)</code>.</li>
-    <li>Binary search finds the minimum <code>k</code> where <code>feasible(k)</code> is true. This is the lower-bound template on the answer space.</li>
+<li>For a given speed <code>k</code>, hours needed = sum of <code>ceil(pile[i] / k)</code> over all piles.</li>
+<li><strong>Monotone property:</strong> If speed <code>k</code> is feasible, then any speed <code>k' &gt; k</code> is also feasible. This enables binary search on <code>k</code>.</li>
+<li>Search space: <code>lo = 1</code>, <code>hi = max(piles)</code>.</li>
+<li>Binary search finds the minimum <code>k</code> where <code>feasible(k)</code> is true. This is the lower-bound template on the answer space.</li>
 </ul>
 </div>
 <h3 class="section-subheading">2. Approach Comparison</h3>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>Approach</th><th>Time</th><th>Space</th><th>Method</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>Brute Force (Linear Scan)</td><td>O(n * M)</td><td>O(1)</td><td>Try every speed from 1 to M (max pile).</td></tr>
-      <tr><td>Binary Search on Answer</td><td>O(n log M)</td><td>O(1)</td><td>Binary search <code>lo</code> to <code>hi</code> boundary.</td></tr>
-    </tbody>
+<thead>
+<tr><th>Approach</th><th>Time</th><th>Space</th><th>Method</th></tr>
+</thead>
+<tbody>
+<tr><td>Brute Force (Linear Scan)</td><td>O(n * M)</td><td>O(1)</td><td>Try every speed from 1 to M (max pile).</td></tr>
+<tr><td>Binary Search on Answer</td><td>O(n log M)</td><td>O(1)</td><td>Binary search <code>lo</code> to <code>hi</code> boundary.</td></tr>
+</tbody>
   </table>
 </div>
 <h3 class="section-subheading">3. Optimised Solution</h3>
@@ -733,9 +733,9 @@ public:
 <span class="insight-label">Warning</span>
 <p><strong>Edge Cases to Consider:</strong></p>
 <ul>
-    <li>Single-element array: <code>lo==hi==mid</code>. Classic search works.</li>
-    <li>All elements equal (e.g. <code>[3,3,3]</code>): <code>lower_bound</code> returns 0, <code>upper_bound</code> returns n.</li>
-    <li>Target larger than all elements: <code>lower_bound</code> and <code>upper_bound</code> both return n.</li>
+<li>Single-element array: <code>lo==hi==mid</code>. Classic search works.</li>
+<li>All elements equal (e.g. <code>[3,3,3]</code>): <code>lower_bound</code> returns 0, <code>upper_bound</code> returns n.</li>
+<li>Target larger than all elements: <code>lower_bound</code> and <code>upper_bound</code> both return n.</li>
 </ul>
 </div>
 </div>
@@ -745,19 +745,19 @@ public:
 <p>Recommended progression for Binary Search:</p>
 <div class="ch-ed-problems">
   <table>
-    <thead>
-      <tr><th>#</th><th>Problem</th><th>Difficulty</th><th>Key Concept</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td><a href="https://leetcode.com/problems/binary-search/">704. Binary Search</a></td><td><span class="diff-easy">Easy</span></td><td>Template 1, exact search</td></tr>
-      <tr><td>2</td><td><a href="https://leetcode.com/problems/search-insert-position/">35. Search Insert Position</a></td><td><span class="diff-easy">Easy</span></td><td>Lower bound, return lo</td></tr>
-      <tr><td>3</td><td><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/">34. Find First and Last Position</a></td><td><span class="diff-medium">Medium</span></td><td>Lower + upper bound</td></tr>
-      <tr><td>4</td><td><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">33. Search in Rotated Sorted Array</a></td><td><span class="diff-medium">Medium</span></td><td>Identify sorted half</td></tr>
-      <tr><td>5</td><td><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">153. Find Minimum in Rotated Sorted Array</a></td><td><span class="diff-medium">Medium</span></td><td>Compare mid to hi</td></tr>
-      <tr><td>6</td><td><a href="https://leetcode.com/problems/search-a-2d-matrix/">74. Search a 2D Matrix</a></td><td><span class="diff-medium">Medium</span></td><td>Flatten to 1D binary search</td></tr>
-      <tr><td>7</td><td><a href="https://leetcode.com/problems/koko-eating-bananas/">875. Koko Eating Bananas</a></td><td><span class="diff-medium">Medium</span></td><td>Answer space: minimise</td></tr>
-      <tr><td>8</td><td><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/">1011. Capacity to Ship Packages</a></td><td><span class="diff-medium">Medium</span></td><td>Answer space: min capacity</td></tr>
-    </tbody>
+<thead>
+<tr><th>#</th><th>Problem</th><th>Difficulty</th><th>Key Concept</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><a href="https://leetcode.com/problems/binary-search/">704. Binary Search</a></td><td><span class="diff-easy">Easy</span></td><td>Template 1, exact search</td></tr>
+<tr><td>2</td><td><a href="https://leetcode.com/problems/search-insert-position/">35. Search Insert Position</a></td><td><span class="diff-easy">Easy</span></td><td>Lower bound, return lo</td></tr>
+<tr><td>3</td><td><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/">34. Find First and Last Position</a></td><td><span class="diff-medium">Medium</span></td><td>Lower + upper bound</td></tr>
+<tr><td>4</td><td><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/">33. Search in Rotated Sorted Array</a></td><td><span class="diff-medium">Medium</span></td><td>Identify sorted half</td></tr>
+<tr><td>5</td><td><a href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/">153. Find Minimum in Rotated Sorted Array</a></td><td><span class="diff-medium">Medium</span></td><td>Compare mid to hi</td></tr>
+<tr><td>6</td><td><a href="https://leetcode.com/problems/search-a-2d-matrix/">74. Search a 2D Matrix</a></td><td><span class="diff-medium">Medium</span></td><td>Flatten to 1D binary search</td></tr>
+<tr><td>7</td><td><a href="https://leetcode.com/problems/koko-eating-bananas/">875. Koko Eating Bananas</a></td><td><span class="diff-medium">Medium</span></td><td>Answer space: minimise</td></tr>
+<tr><td>8</td><td><a href="https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/">1011. Capacity to Ship Packages</a></td><td><span class="diff-medium">Medium</span></td><td>Answer space: min capacity</td></tr>
+</tbody>
   </table>
 </div>
 </div>

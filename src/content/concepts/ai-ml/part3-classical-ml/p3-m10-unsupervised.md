@@ -86,10 +86,10 @@ url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
   <div class="mod-title">Unsupervised Learning: K-Means, PCA &amp; t-SNE</div>
   <div class="mod-subtitle">Find hidden structure — clustering, dimensionality reduction, and visual exploration</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2 Weeks</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 scikit-learn · umap-learn · plotly</span>
-    <span class="mod-pill">📋 Prerequisite: P3-M09</span>
+<span class="mod-pill">⏱ 2 Weeks</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 scikit-learn · umap-learn · plotly</span>
+<span class="mod-pill">📋 Prerequisite: P3-M09</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -109,16 +109,16 @@ url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3 Finale</span></div>
   <div class="cp-body">
-    <p>Unsupervised learning finds structure in data without labels. It powers customer segmentation, anomaly detection, data compression, and visualisation of high-dimensional datasets. These techniques are used both standalone and as preprocessing steps for supervised models.</p>
-    <ul>
-      <li><strong>K-Means clustering</strong> — centroid-based, elbow method, silhouette score, cluster profiling</li>
-      <li><strong>DBSCAN</strong> — density-based clustering, handles non-spherical clusters, detects noise</li>
-      <li><strong>PCA (Principal Component Analysis)</strong> — dimensionality reduction, explained variance, noise removal</li>
-      <li><strong>t-SNE</strong> — non-linear dimensionality reduction for visualisation</li>
-      <li><strong>UMAP</strong> — faster than t-SNE, preserves global structure, good for production</li>
-      <li><strong>Customer segmentation pipeline</strong> — full RFM analysis and business interpretation</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>Unsupervised learning results are only as good as your interpretation.</strong> K-Means will always find K clusters — whether or not K clusters truly exist in the data. The hard work is validating that the clusters are meaningful, stable, and actionable for the business.</p></div>
+<p>Unsupervised learning finds structure in data without labels. It powers customer segmentation, anomaly detection, data compression, and visualisation of high-dimensional datasets. These techniques are used both standalone and as preprocessing steps for supervised models.</p>
+<ul>
+<li><strong>K-Means clustering</strong> — centroid-based, elbow method, silhouette score, cluster profiling</li>
+<li><strong>DBSCAN</strong> — density-based clustering, handles non-spherical clusters, detects noise</li>
+<li><strong>PCA (Principal Component Analysis)</strong> — dimensionality reduction, explained variance, noise removal</li>
+<li><strong>t-SNE</strong> — non-linear dimensionality reduction for visualisation</li>
+<li><strong>UMAP</strong> — faster than t-SNE, preserves global structure, good for production</li>
+<li><strong>Customer segmentation pipeline</strong> — full RFM analysis and business interpretation</li>
+</ul>
+<div class="ins"><p>💡 <strong>Unsupervised learning results are only as good as your interpretation.</strong> K-Means will always find K clusters — whether or not K clusters truly exist in the data. The hard work is validating that the clusters are meaningful, stable, and actionable for the business.</p></div>
   </div>
 </div>
 </div>
@@ -190,7 +190,7 @@ plt.scatter(centroids[:, 0], centroids[:, 1],
             c="black", s=200, marker="X", label="Centroids", zorder=5)
 plt.legend()
 plt.title(f"K-Means Clusters (K={best_k})")</pre></div>
-    <div class="warn"><p>⚠️ <strong>K-Means assumptions:</strong> clusters are spherical (equal shape), have similar sizes, and similar densities. Real-world clusters are often none of these. If your scatter plot shows elongated or irregular clusters, use DBSCAN or Gaussian Mixture Models instead. Always visualise before trusting K-Means results.</p></div>
+<div class="warn"><p>⚠️ <strong>K-Means assumptions:</strong> clusters are spherical (equal shape), have similar sizes, and similar densities. Real-world clusters are often none of these. If your scatter plot shows elongated or irregular clusters, use DBSCAN or Gaussian Mixture Models instead. Always visualise before trusting K-Means results.</p></div>
   </div>
 </div>
 </div>
@@ -322,7 +322,7 @@ loadings = pd.DataFrame(pca.components_.T,
                          columns=[f"PC{i+1}" for i in range(len(X.columns))])
 print("Top features for PC1 (high |loading| = strong contributor):")
 print(loadings["PC1"].abs().sort_values(ascending=False).head(5))</pre></div>
-    <div class="ins"><p>💡 <strong>PCA is linear — it only captures linear relationships.</strong> If your data has non-linear structure (spiral, ring, Swiss roll), PCA will distort it. In that case, use t-SNE or UMAP for visualisation, and kernel PCA for preprocessing.</p></div>
+<div class="ins"><p>💡 <strong>PCA is linear — it only captures linear relationships.</strong> If your data has non-linear structure (spiral, ring, Swiss roll), PCA will distort it. In that case, use t-SNE or UMAP for visualisation, and kernel PCA for preprocessing.</p></div>
   </div>
 </div>
 </div>
@@ -390,7 +390,7 @@ plt.title("UMAP Visualisation")
  
 # UMAP can transform new data (t-SNE cannot)
 new_data_2d = reducer.transform(X_test_scaled)  # project test set</pre></div>
-    <div class="warn"><p>⚠️ <strong>t-SNE and UMAP are for visualisation only.</strong> The 2D coordinates have no absolute meaning — distances between cluster groups are not interpretable. Cluster A appearing "close" to cluster B in t-SNE does not mean they are similar. Use these only to verify that clusters exist visually, not to measure cluster similarity.</p></div>
+<div class="warn"><p>⚠️ <strong>t-SNE and UMAP are for visualisation only.</strong> The 2D coordinates have no absolute meaning — distances between cluster groups are not interpretable. Cluster A appearing "close" to cluster B in t-SNE does not mean they are similar. Use these only to verify that clusters exist visually, not to measure cluster similarity.</p></div>
   </div>
 </div>
 </div>
@@ -522,11 +522,11 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — K-Means, PCA, t-SNE (YouTube)</a></td><td>Best visual explanations of how each algorithm works. Highly recommended for building intuition.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/modules/clustering.html" target="_blank" rel="noopener">Scikit-learn Clustering Guide — scikit-learn.org/stable/modules/clustering.html</a></td><td>All sklearn clustering algorithms with comparison table, parameters, and use cases.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://umap-learn.readthedocs.io/" target="_blank" rel="noopener">UMAP Documentation — umap-learn.readthedocs.io</a></td><td>UMAP parameters, comparison to t-SNE, and production use cases.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python" target="_blank" rel="noopener">Mall Customers — Kaggle</a></td><td>Classic customer segmentation dataset. Small, visual, perfect for K-Means exploration.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce" target="_blank" rel="noopener">Olist Brazilian E-Commerce — Kaggle</a></td><td>Real e-commerce data for full RFM analysis. Multiple tables to join and explore.</td></tr>
+<tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — K-Means, PCA, t-SNE (YouTube)</a></td><td>Best visual explanations of how each algorithm works. Highly recommended for building intuition.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/modules/clustering.html" target="_blank" rel="noopener">Scikit-learn Clustering Guide — scikit-learn.org/stable/modules/clustering.html</a></td><td>All sklearn clustering algorithms with comparison table, parameters, and use cases.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://umap-learn.readthedocs.io/" target="_blank" rel="noopener">UMAP Documentation — umap-learn.readthedocs.io</a></td><td>UMAP parameters, comparison to t-SNE, and production use cases.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/datasets/vjchoudhary7/customer-segmentation-tutorial-in-python" target="_blank" rel="noopener">Mall Customers — Kaggle</a></td><td>Classic customer segmentation dataset. Small, visual, perfect for K-Means exploration.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce" target="_blank" rel="noopener">Olist Brazilian E-Commerce — Kaggle</a></td><td>Real e-commerce data for full RFM analysis. Multiple tables to join and explore.</td></tr>
   </tbody>
 </table>
 </div>
@@ -534,24 +534,24 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Customer Segmentation + Churn Prediction</span><span class="proj-dur">[Advanced] 6–7 days</span></div>
   <div class="proj-body">
-    <p>A two-part project combining unsupervised and supervised ML.</p>
-    <h4>Part A — Customer Segmentation (3–4 days)</h4>
-    <ul>
-      <li>Load Telco Churn or Mall Customers dataset</li>
-      <li>Compute RFM features (or use existing features)</li>
-      <li>Use elbow + silhouette to find optimal K</li>
-      <li>Profile each cluster with mean feature values</li>
-      <li>Visualise with PCA + t-SNE side by side</li>
-      <li>Name each segment: "High-Value Loyalists", "At-Risk Churners", etc.</li>
-    </ul>
-    <h4>Part B — Churn Prediction (2–3 days)</h4>
-    <ul>
-      <li>Add cluster labels as a feature to the churn prediction dataset</li>
-      <li>Train XGBoost with and without cluster feature</li>
-      <li>Does the cluster feature improve ROC-AUC?</li>
-      <li>Which cluster has the highest churn rate?</li>
-    </ul>
-    <p><strong>Deliverable:</strong> Jupyter notebook with all plots + 1-paragraph business recommendation per segment.</p>
+<p>A two-part project combining unsupervised and supervised ML.</p>
+<h4>Part A — Customer Segmentation (3–4 days)</h4>
+<ul>
+<li>Load Telco Churn or Mall Customers dataset</li>
+<li>Compute RFM features (or use existing features)</li>
+<li>Use elbow + silhouette to find optimal K</li>
+<li>Profile each cluster with mean feature values</li>
+<li>Visualise with PCA + t-SNE side by side</li>
+<li>Name each segment: "High-Value Loyalists", "At-Risk Churners", etc.</li>
+</ul>
+<h4>Part B — Churn Prediction (2–3 days)</h4>
+<ul>
+<li>Add cluster labels as a feature to the churn prediction dataset</li>
+<li>Train XGBoost with and without cluster feature</li>
+<li>Does the cluster feature improve ROC-AUC?</li>
+<li>Which cluster has the highest churn rate?</li>
+</ul>
+<p><strong>Deliverable:</strong> Jupyter notebook with all plots + 1-paragraph business recommendation per segment.</p>
   </div>
 </div>
 <div class="part3-complete">
@@ -563,17 +563,17 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Finding the Right K</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>On Mall Customers, plot elbow curve (inertia) and silhouette score for K=2 to 10. Do both methods agree on the best K? What happens when K is too large?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Fit K-Means with the optimal K. Profile each cluster: what is the mean Income, Spending Score, and Age? Give each cluster a descriptive name (e.g., "Budget Conscious Young Adults").</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Run K-Means 5 times with different random_state values (same K). Do the cluster assignments change? Does the silhouette score change? What does this tell you about K-Means stability?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>On Mall Customers, plot elbow curve (inertia) and silhouette score for K=2 to 10. Do both methods agree on the best K? What happens when K is too large?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Fit K-Means with the optimal K. Profile each cluster: what is the mean Income, Spending Score, and Age? Give each cluster a descriptive name (e.g., "Budget Conscious Young Adults").</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Run K-Means 5 times with different random_state values (same K). Do the cluster assignments change? Does the silhouette score change? What does this tell you about K-Means stability?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>PCA for Preprocessing</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Apply PCA to House Prices numeric features. How many components are needed to explain 95% variance? How many for 99%?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Train Ridge regression on: (a) all original features, (b) PCA 95% components, (c) PCA 50% components. Compare CV RMSE. Does PCA improve or hurt performance?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Plot the loadings for PC1 and PC2. Which original features contribute most to each component? Does this match your intuition from the EDA (M05)?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Apply PCA to House Prices numeric features. How many components are needed to explain 95% variance? How many for 99%?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Train Ridge regression on: (a) all original features, (b) PCA 95% components, (c) PCA 50% components. Compare CV RMSE. Does PCA improve or hurt performance?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Plot the loadings for PC1 and PC2. Which original features contribute most to each component? Does this match your intuition from the EDA (M05)?</div></div>
   </div>
 </div>
 </div>

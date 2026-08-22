@@ -83,11 +83,11 @@ url: /learning/networking-mastery/m17-dpdk/
   <div class="mod-title">🚀 High-Performance Networking with DPDK</div>
   <div class="mod-subtitle">Poll mode drivers · mbuf and mempool · RX/TX burst API · hugepages · NUMA · RSS · DPDK pipelines</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M14 Linux Stack</span>
-    <span class="mod-pill">DPDK 23.x</span>
-    <span class="mod-pill">Your Core Work Domain</span>
-    <span class="mod-pill">3 Labs</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M14 Linux Stack</span>
+<span class="mod-pill">DPDK 23.x</span>
+<span class="mod-pill">Your Core Work Domain</span>
+<span class="mod-pill">3 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -107,34 +107,40 @@ url: /learning/networking-mastery/m17-dpdk/
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>The Performance Problem DPDK Solves</h3><span class="tag tag-orange">MOTIVATION</span></div>
   <div class="cp-body">
-    <p>You already have 2.5 years of DPDK experience — this module deepens that foundation with the theoretical underpinning of each performance technique, connecting your practical knowledge to the "why".</p>
-<div class="cb"><pre><span class="cm">/* Why kernel forwarding is slow — root causes */</span>
- 
+<p>You already have 2.5 years of DPDK experience — this module deepens that foundation with the theoretical underpinning of each performance technique, connecting your practical knowledge to the "why".</p>
+
+
+```python
+/* Why kernel forwarding is slow — root causes */
+
 1. Interrupt overhead (eliminated by PMD polling):
    10G at 64B = 14.8M packets/s = 14.8M IRQs/s
    Each IRQ: context switch + cache invalidation ≈ 1000 cycles = 14.8T cycles/s wasted
- 
+
 2. Memory allocation (eliminated by mempool):
    kmalloc()/kfree() per sk_buff → fragmentation, lock contention
    DPDK mempool: pre-allocated, lock-free, O(1)
- 
+
 3. Memory copies (eliminated by zero-copy design):
    NIC → DMA buffer → sk_buff → socket rcvbuf → userspace
    DPDK: NIC DMA → mbuf in hugepage → application (1 copy from NIC)
- 
+
 4. Cache misses (eliminated by hugepages + NUMA pinning):
    4KB pages: 1GB of packet buffers = 262,144 TLB entries → TLB thrash
    2MB hugepages: same 1GB = 512 TLB entries → fits in TLB
- 
+
 5. Lock contention (eliminated by per-core design):
    Kernel routing: locks on ARP cache, routing table, socket buffers
    DPDK: each core owns its own queues and mempools → no locks
- 
-<span class="cm">/* Performance numbers */</span>
+
+/* Performance numbers */
 Kernel stack:   ~1-3 Mpps per core (64B packets)
 DPDK (Intel):   ~30-80 Mpps per core
 DPDK (Mellanox/ConnectX): up to 100+ Mpps per core
-Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
+Your servers: AMD EPYC + Mellanox — which PMD are you using?
+```
+
+
   </div>
 </div>
 </div>
@@ -144,52 +150,63 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>EAL Initialization and Configuration</h3><span class="tag tag-blue">EAL</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* DPDK EAL — abstracts OS and hardware */</span>
-<span class="cm">/* Manages: hugepages, NUMA, CPU affinity, PCI devices, logging */</span>
-<span class="cm">/* Minimal DPDK application skeleton */</span>
-<span class="cs">#include &lt;rte_eal.h&gt;
-#include &lt;rte_ethdev.h&gt;
-#include &lt;rte_mbuf.h&gt;</span>
-<span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> **argv) {
-    <span class="cm">/* EAL init: parses EAL args, sets up hugepages, maps devices */</span>
-    <span class="ck">int</span> ret = rte_eal_init(argc, argv);
-    <span class="ck">if</span> (ret < 0) rte_exit(EXIT_FAILURE, <span class="cs">"EAL init failed\n"</span>);
-    argc -= ret; argv += ret;  <span class="cm">/* remaining args are app-specific */</span>
-    <span class="cm">/* Check available ports */</span>
+
+
+```cpp
+/* DPDK EAL — abstracts OS and hardware */
+/* Manages: hugepages, NUMA, CPU affinity, PCI devices, logging */
+
+/* Minimal DPDK application skeleton */
+#include <rte_eal.h>
+#include <rte_ethdev.h>
+#include <rte_mbuf.h>
+
+int main(int argc, char **argv) {
+    /* EAL init: parses EAL args, sets up hugepages, maps devices */
+    int ret = rte_eal_init(argc, argv);
+    if (ret "EAL init failed\n");
+    argc -= ret; argv += ret;  /* remaining args are app-specific */
+
+    /* Check available ports */
     uint16_t nb_ports = rte_eth_dev_count_avail();
-    printf(<span class="cs">"Available ports: %u\n"</span>, nb_ports);
- 
-    <span class="cm">/* Create mempool (see Tab 2) */</span>
-    <span class="ck">struct</span> rte_mempool *mp = rte_pktmbuf_pool_create(
-        <span class="cs">"MBUF_POOL"</span>,          <span class="cm">/* name */</span>
-        8192 * nb_ports,      <span class="cm">/* n: total mbufs */</span>
-        256,                  <span class="cm">/* cache_size: per-core cache */</span>
-        0,                    <span class="cm">/* priv_size */</span>
+    printf("Available ports: %u\n", nb_ports);
+
+    /* Create mempool (see Tab 2) */
+    struct rte_mempool *mp = rte_pktmbuf_pool_create(
+        "MBUF_POOL",          /* name */
+        8192 * nb_ports,      /* n: total mbufs */
+        256,                  /* cache_size: per-core cache */
+        0,                    /* priv_size */
         RTE_MBUF_DEFAULT_BUF_SIZE,
-        rte_socket_id());     <span class="cm">/* NUMA socket */</span>
-    <span class="cm">/* Configure each port */</span>
+        rte_socket_id());     /* NUMA socket */
+
+    /* Configure each port */
     uint16_t port_id;
     RTE_ETH_FOREACH_DEV(port_id) {
         port_init(port_id, mp);
     }
- 
-    <span class="cm">/* Launch worker on each lcore */</span>
+
+    /* Launch worker on each lcore */
     rte_eal_mp_remote_launch(lcore_main, NULL, CALL_MAIN);
- 
+
     rte_eal_cleanup();
     return 0;
 }
- 
-<span class="cm">/* Key EAL command-line arguments */</span>
--l 0-3          <span class="cm"># use lcores 0,1,2,3 (logical CPU cores)</span>
--n 4            <span class="cm"># 4 memory channels</span>
---socket-mem 2048  <span class="cm"># 2GB hugepage memory on socket 0</span>
---vdev eth_pcap0,iface=eth0  <span class="cm"># use pcap driver (for testing without real NIC)</span>
--a 0000:01:00.0 <span class="cm"># allow only this PCI device</span>
-<span class="cm">/* Hugepage setup (required before DPDK runs) */</span>
+
+/* Key EAL command-line arguments */
+-l 0-3          # use lcores 0,1,2,3 (logical CPU cores)
+-n 4            # 4 memory channels
+--socket-mem 2048  # 2GB hugepage memory on socket 0
+--vdev eth_pcap0,iface=eth0  # use pcap driver (for testing without real NIC)
+-a 0000:01:00.0 # allow only this PCI device
+
+/* Hugepage setup (required before DPDK runs) */
 echo 2048 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 mkdir -p /mnt/huge
-mount -t hugetlbfs nodev /mnt/huge</pre></div>
+mount -t hugetlbfs nodev /mnt/huge
+```
+
+
   </div>
 </div>
 </div>
@@ -199,49 +216,60 @@ mount -t hugetlbfs nodev /mnt/huge</pre></div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📦</span><h3>rte_mbuf and rte_mempool</h3><span class="tag tag-green">MBUF</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* rte_mbuf — DPDK's packet buffer (analogous to sk_buff) */</span>
-<span class="ck">struct</span> rte_mbuf {
-    <span class="cm">/* Buffer addresses */</span>
-    void            *buf_addr;       <span class="cm">/* virtual address of buffer start */</span>
-    rte_iova_t       buf_iova;       <span class="cm">/* IO/DMA address */</span>
-    uint16_t         buf_len;        <span class="cm">/* total buffer length */</span>
-    uint16_t         data_off;       <span class="cm">/* offset to first byte of data (headroom) */</span>
-    uint16_t         data_len;       <span class="cm">/* data length in THIS mbuf segment */</span>
-    uint32_t         pkt_len;        <span class="cm">/* total packet length (all segments) */</span>
-    <span class="cm">/* Segmentation (chained mbufs for large packets) */</span>
-    struct rte_mbuf *next;           <span class="cm">/* next segment in chain (NULL if only one) */</span>
-    uint8_t          nb_segs;        <span class="cm">/* number of segments */</span>
-    <span class="cm">/* Offload flags */</span>
-    uint64_t         ol_flags;       <span class="cm">/* PKT_TX_IP_CKSUM, PKT_RX_RSS_HASH, etc. */</span>
-    uint32_t         packet_type;    <span class="cm">/* RTE_PTYPE_L3_IPV4, L4_TCP, etc. */</span>
-    uint32_t         hash.rss;       <span class="cm">/* RSS hash computed by NIC */</span>
-    <span class="cm">/* Port and queue */</span>
+
+
+```c
+/* rte_mbuf — DPDK's packet buffer (analogous to sk_buff) */
+struct rte_mbuf {
+    /* Buffer addresses */
+    void            *buf_addr;       /* virtual address of buffer start */
+    rte_iova_t       buf_iova;       /* IO/DMA address */
+    uint16_t         buf_len;        /* total buffer length */
+    uint16_t         data_off;       /* offset to first byte of data (headroom) */
+    uint16_t         data_len;       /* data length in THIS mbuf segment */
+    uint32_t         pkt_len;        /* total packet length (all segments) */
+
+    /* Segmentation (chained mbufs for large packets) */
+    struct rte_mbuf *next;           /* next segment in chain (NULL if only one) */
+    uint8_t          nb_segs;        /* number of segments */
+
+    /* Offload flags */
+    uint64_t         ol_flags;       /* PKT_TX_IP_CKSUM, PKT_RX_RSS_HASH, etc. */
+    uint32_t         packet_type;    /* RTE_PTYPE_L3_IPV4, L4_TCP, etc. */
+    uint32_t         hash.rss;       /* RSS hash computed by NIC */
+
+    /* Port and queue */
     uint16_t         port;
     uint32_t         seqn;
 };
- 
-<span class="cm">/* Accessing packet data */</span>
-<span class="ck">struct</span> rte_ipv4_hdr *ip = rte_pktmbuf_mtod_offset(m,
-    <span class="ck">struct</span> rte_ipv4_hdr *, sizeof(<span class="ck">struct</span> rte_ether_hdr));
+
+/* Accessing packet data */
+struct rte_ipv4_hdr *ip = rte_pktmbuf_mtod_offset(m,
+    struct rte_ipv4_hdr *, sizeof(struct rte_ether_hdr));
 uint32_t src_ip = rte_be_to_cpu_32(ip->src_addr);
 uint32_t dst_ip = rte_be_to_cpu_32(ip->dst_addr);
- 
-<span class="cm">/* Prepend header (like skb_push) */</span>
-<span class="ck">struct</span> rte_ether_hdr *eth = (<span class="ck">struct</span> rte_ether_hdr *)
-    rte_pktmbuf_prepend(m, sizeof(<span class="ck">struct</span> rte_ether_hdr));
- 
-<span class="cm">/* rte_mempool — pre-allocated, lock-free pool */</span>
-<span class="cm">/* Pool has: global ring + per-lcore cache (avoids lock on common case) */</span>
-<span class="cm">/* Allocate mbuf from pool */</span>
-<span class="ck">struct</span> rte_mbuf *m = rte_pktmbuf_alloc(mp);
-<span class="ck">if</span> (!m) { <span class="cm">/* pool exhausted — back-pressure or drop */</span> }
- 
-<span class="cm">/* Free mbuf back to pool */</span>
-rte_pktmbuf_free(m);  <span class="cm">/* returns to per-lcore cache, then global ring */</span>
-<span class="cm">/* Bulk allocate/free (amortizes pool overhead) */</span>
-<span class="ck">struct</span> rte_mbuf *mbufs[32];
+
+/* Prepend header (like skb_push) */
+struct rte_ether_hdr *eth = (struct rte_ether_hdr *)
+    rte_pktmbuf_prepend(m, sizeof(struct rte_ether_hdr));
+
+/* rte_mempool — pre-allocated, lock-free pool */
+/* Pool has: global ring + per-lcore cache (avoids lock on common case) */
+
+/* Allocate mbuf from pool */
+struct rte_mbuf *m = rte_pktmbuf_alloc(mp);
+if (!m) { /* pool exhausted — back-pressure or drop */ }
+
+/* Free mbuf back to pool */
+rte_pktmbuf_free(m);  /* returns to per-lcore cache, then global ring */
+
+/* Bulk allocate/free (amortizes pool overhead) */
+struct rte_mbuf *mbufs[32];
 rte_pktmbuf_alloc_bulk(mp, mbufs, 32);
-rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div>
+rte_mempool_put_bulk(mp, (void **)mbufs, 32);
+```
+
+
   </div>
 </div>
 </div>
@@ -251,67 +279,67 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Poll Mode Driver and rte_eth_rx/tx_burst</h3><span class="tag tag-teal">PMD</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* Port initialization */</span>
-<span class="ck">static int</span> port_init(uint16_t port, <span class="ck">struct</span> rte_mempool *mp) {
-    <span class="ck">struct</span> rte_eth_conf port_conf = {
+
+
+```c
+/* Port initialization */
+static int port_init(uint16_t port, struct rte_mempool *mp) {
+    struct rte_eth_conf port_conf = {
         .rxmode = { .max_lro_pkt_size = RTE_ETHER_MAX_LEN },
         .txmode = { .mq_mode = RTE_ETH_MQ_TX_NONE },
     };
-    <span class="ck">const int</span> rx_rings = 1, tx_rings = 1;
+    const int rx_rings = 1, tx_rings = 1;
     uint16_t nb_rxd = 1024, nb_txd = 1024;
- 
+
     rte_eth_dev_configure(port, rx_rings, tx_rings, &port_conf);
     rte_eth_dev_adjust_nb_rx_tx_desc(port, &nb_rxd, &nb_txd);
- 
-    <span class="cm">/* Setup RX queue on NUMA-local socket */</span>
+
+    /* Setup RX queue on NUMA-local socket */
     rte_eth_rx_queue_setup(port, 0, nb_rxd,
         rte_eth_dev_socket_id(port), NULL, mp);
-    <span class="cm">/* Setup TX queue */</span>
+    /* Setup TX queue */
     rte_eth_tx_queue_setup(port, 0, nb_txd,
         rte_eth_dev_socket_id(port), NULL);
- 
+
     rte_eth_dev_start(port);
     rte_eth_promiscuous_enable(port);
     return 0;
 }
- 
-<span class="cm">/* Core forwarding loop — the main performance-critical loop */</span>
-<span class="ck">static int</span> lcore_main(void *arg) {
+
+/* Core forwarding loop — the main performance-critical loop */
+static int lcore_main(void *arg) {
     uint16_t port;
-    <span class="ck">struct</span> rte_mbuf *bufs[BURST_SIZE];  <span class="cm">/* BURST_SIZE = 32 */</span>
- 
+    struct rte_mbuf *bufs[BURST_SIZE];  /* BURST_SIZE = 32 */
+
     RTE_ETH_FOREACH_DEV(port) {
-        <span class="ck">if</span> (rte_eth_dev_socket_id(port) > 0 &&
-            rte_eth_dev_socket_id(port) != (<span class="ck">int</span>)rte_socket_id())
-            printf(<span class="cs">"WARNING: port %u is on remote NUMA\n"</span>, port);
+        if (rte_eth_dev_socket_id(port) > 0 &&
+            rte_eth_dev_socket_id(port) != (int)rte_socket_id())
+            printf("WARNING: port %u is on remote NUMA\n", port);
     }
- 
-    printf(<span class="cs">"Core %u forwarding. [Ctrl+C to quit]\n"</span>, rte_lcore_id());
- 
-    <span class="ck">while</span> (1) {
+
+    printf("Core %u forwarding. [Ctrl+C to quit]\n", rte_lcore_id());
+
+    while (1) {
         RTE_ETH_FOREACH_DEV(port) {
-            <span class="cm">/* POLL: pull up to BURST_SIZE packets from NIC RX queue */</span>
+            /* POLL: pull up to BURST_SIZE packets from NIC RX queue */
             uint16_t nb_rx = rte_eth_rx_burst(port, 0, bufs, BURST_SIZE);
-            <span class="ck">if</span> (nb_rx == 0) <span class="ck">continue</span>;  <span class="cm">/* nothing received */</span>
-            <span class="cm">/* Process each packet */</span>
-            <span class="ck">for</span> (uint16_t i = 0; i < nb_rx; i++) {
-                process_packet(bufs[i]);  <span class="cm">/* L3 lookup, NAT, filter... */</span>
+            if (nb_rx == 0) continue;  /* nothing received */
+
+            /* Process each packet */
+            for (uint16_t i = 0; i /* L3 lookup, NAT, filter... */
             }
- 
-            <span class="cm">/* Burst transmit — send all processed packets */</span>
+
+            /* Burst transmit — send all processed packets */
             uint16_t nb_tx = rte_eth_tx_burst(port ^ 1, 0, bufs, nb_rx);
-            <span class="cm">/* Free any packets that failed to transmit */</span>
-            <span class="ck">if</span> (nb_tx < nb_rx)
-                rte_pktmbuf_free_bulk(&bufs[nb_tx], nb_rx - nb_tx);
-        }
-    }
-}
- 
-<span class="cm">/* Why burst size matters for performance */</span>
-<span class="cm"># Burst=1:  function call overhead dominates → low throughput</span>
-<span class="cm"># Burst=32: amortize call overhead, fill cache with packet data → optimal</span>
-<span class="cm"># Burst=128: diminishing returns, prefetch distance too large</span>
-<span class="cm"># Empirically: 32 is optimal for most workloads</span></pre></div>
+            /* Free any packets that failed to transmit */
+            if (nb_tx /* Why burst size matters for performance */
+# Burst=1:  function call overhead dominates → low throughput
+# Burst=32: amortize call overhead, fill cache with packet data → optimal
+# Burst=128: diminishing returns, prefetch distance too large
+# Empirically: 32 is optimal for most workloads
+```
+
+
   </div>
 </div>
 </div>
@@ -418,48 +446,53 @@ uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Systematic Performance Optimisation</h3><span class="tag tag-red">TUNING</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* 1. CPU isolation — dedicate cores to DPDK */</span>
-<span class="cm"># Kernel boot: isolcpus=4-7,nohz_full=4-7,rcu_nocbs=4-7</span>
-<span class="cm"># DPDK EAL: -l 4-7  (use cores 4-7)</span>
-<span class="cm"># These cores will spin 100% polling — don't share with OS</span>
-<span class="cm">/* 2. NUMA awareness — memory on same socket as NIC */</span>
-<span class="ck">if</span> (rte_eth_dev_socket_id(port) != (<span class="ck">int</span>)rte_socket_id()) {
-    printf(<span class="cs">"NUMA mismatch: NIC on socket %d, core on socket %d\n"</span>,
+
+
+```c
+/* 1. CPU isolation — dedicate cores to DPDK */
+# Kernel boot: isolcpus=4-7,nohz_full=4-7,rcu_nocbs=4-7
+# DPDK EAL: -l 4-7  (use cores 4-7)
+# These cores will spin 100% polling — don't share with OS
+
+/* 2. NUMA awareness — memory on same socket as NIC */
+if (rte_eth_dev_socket_id(port) != (int)rte_socket_id()) {
+    printf("NUMA mismatch: NIC on socket %d, core on socket %d\n",
            rte_eth_dev_socket_id(port), rte_socket_id());
-    <span class="cm">/* Cross-NUMA memory access: +60ns latency per access */</span>
-    <span class="cm">/* Fix: pin workers to same NUMA node as their NIC */</span>
+    /* Cross-NUMA memory access: +60ns latency per access */
+    /* Fix: pin workers to same NUMA node as their NIC */
 }
-<span class="cm">/* Mempool MUST be on same NUMA as NIC: */</span>
-rte_pktmbuf_pool_create(<span class="cs">"MP"</span>, N, 256, 0, BUF_SIZE,
-    rte_eth_dev_socket_id(port));  <span class="cm">/* NOT rte_socket_id() */</span>
-<span class="cm">/* 3. Prefetching — hide memory latency */</span>
-<span class="ck">for</span> (i = 0; i < nb_rx; i++) {
-    <span class="ck">if</span> (i + 4 < nb_rx)
-        rte_prefetch0(rte_pktmbuf_mtod(bufs[i + 4], void *));
-    process_packet(bufs[i]);  <span class="cm">/* by the time we process [i], [i+4] is in L1 */</span>
+/* Mempool MUST be on same NUMA as NIC: */
+rte_pktmbuf_pool_create("MP", N, 256, 0, BUF_SIZE,
+    rte_eth_dev_socket_id(port));  /* NOT rte_socket_id() */
+
+/* 3. Prefetching — hide memory latency */
+for (i = 0; i if (i + 4 /* by the time we process [i], [i+4] is in L1 */
 }
- 
-<span class="cm">/* 4. TX descriptor writeback — reduce PCIe round trips */</span>
-<span class="ck">struct</span> rte_eth_txconf txconf = {
+
+/* 4. TX descriptor writeback — reduce PCIe round trips */
+struct rte_eth_txconf txconf = {
     .tx_thresh = { .pthresh = 32, .hthresh = 0, .wthresh = 0 },
-    .tx_free_thresh = 32,        <span class="cm">/* free 32 at once, not 1 by 1 */</span>
+    .tx_free_thresh = 32,        /* free 32 at once, not 1 by 1 */
 };
- 
-<span class="cm">/* 5. Offloads — hardware helps software */</span>
-<span class="ck">struct</span> rte_eth_conf port_conf = {
-    .rxmode.offloads = RTE_ETH_RX_OFFLOAD_CHECKSUM |  <span class="cm">/* HW validates cksum */</span>
-                       RTE_ETH_RX_OFFLOAD_RSS_HASH,    <span class="cm">/* HW computes RSS */</span>
-    .txmode.offloads = RTE_ETH_TX_OFFLOAD_IPV4_CKSUM | <span class="cm">/* HW fills IP cksum */</span>
-                       RTE_ETH_TX_OFFLOAD_TCP_CKSUM,   <span class="cm">/* HW fills TCP cksum */</span>
+
+/* 5. Offloads — hardware helps software */
+struct rte_eth_conf port_conf = {
+    .rxmode.offloads = RTE_ETH_RX_OFFLOAD_CHECKSUM |  /* HW validates cksum */
+                       RTE_ETH_RX_OFFLOAD_RSS_HASH,    /* HW computes RSS */
+    .txmode.offloads = RTE_ETH_TX_OFFLOAD_IPV4_CKSUM | /* HW fills IP cksum */
+                       RTE_ETH_TX_OFFLOAD_TCP_CKSUM,   /* HW fills TCP cksum */
 };
- 
-<span class="cm">/* 6. Measuring performance */</span>
+
+/* 6. Measuring performance */
 uint64_t hz = rte_get_timer_hz();
 uint64_t start = rte_get_timer_cycles();
-<span class="cm">/* ... process N packets ... */</span>
+/* ... process N packets ... */
 uint64_t elapsed = rte_get_timer_cycles() - start;
 double mpps = (double)N / ((double)elapsed / hz) / 1e6;
-printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elapsed / hz / N);</pre></div>
+printf("%.2f Mpps (%.1f ns/packet)\n", mpps, 1e9 * elapsed / hz / N);
+```
+
+
   </div>
 </div>
 </div>
@@ -468,29 +501,29 @@ printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elaps
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>DPDK Packet Counter and L3 Forwarder</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build the classic DPDK "basicfwd" — receive packets, swap MAC addresses, transmit back. Add per-flow counters.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Set up hugepages and bind a test NIC (or use vdev): <code>dpdk-devbind.py --bind=vfio-pci 0000:01:00.0</code>. Build and run the DPDK skeleton from the EAL tab. Verify you can receive packets.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Implement L2 forwarding: for each received packet, swap src/dst MAC (rte_ether_addr_copy), update checksums if needed, transmit on the other port. This is the DPDK equivalent of a wire — measure throughput with pktgen-dpdk.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add an rte_hash table (BPF-style hash map for DPDK): key = 5-tuple, value = packet count. For each received packet, parse IP+TCP/UDP headers, lookup/create entry, increment count. Print top-10 flows by packet count every 5 seconds.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Benchmark: measure Mpps with different burst sizes (1, 4, 8, 16, 32, 64). Plot throughput vs burst size. Identify the optimal burst size for your hardware. Document what limits throughput (PCIe bandwidth? CPU cycles? Memory bandwidth?).</div></div>
+<p><strong>Objective:</strong> Build the classic DPDK "basicfwd" — receive packets, swap MAC addresses, transmit back. Add per-flow counters.</p>
+<div class="lab-step"><div class="sn">1</div><div>Set up hugepages and bind a test NIC (or use vdev): <code>dpdk-devbind.py --bind=vfio-pci 0000:01:00.0</code>. Build and run the DPDK skeleton from the EAL tab. Verify you can receive packets.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Implement L2 forwarding: for each received packet, swap src/dst MAC (rte_ether_addr_copy), update checksums if needed, transmit on the other port. This is the DPDK equivalent of a wire — measure throughput with pktgen-dpdk.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add an rte_hash table (BPF-style hash map for DPDK): key = 5-tuple, value = packet count. For each received packet, parse IP+TCP/UDP headers, lookup/create entry, increment count. Print top-10 flows by packet count every 5 seconds.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Benchmark: measure Mpps with different burst sizes (1, 4, 8, 16, 32, 64). Plot throughput vs burst size. Identify the optimal burst size for your hardware. Document what limits throughput (PCIe bandwidth? CPU cycles? Memory bandwidth?).</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Multi-Core DPDK with RSS</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Scale DPDK forwarding to multiple cores using RSS for flow distribution.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Configure 4 RX queues and 4 TX queues on your test NIC. Set RSS to distribute based on IP+TCP 5-tuple. Launch 4 worker threads, one per queue: lcore 4 handles queue 0, lcore 5 handles queue 1, etc.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Generate flows from a traffic generator with varying 5-tuples. Verify RSS distribution: read per-queue packet counters from <code>rte_eth_stats_get()</code>. Distribution should be roughly even (within 10%).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Compare symmetric vs asymmetric RSS: try the standard Toeplitz key, then the symmetric key. Verify that with symmetric RSS, forward and reverse flows of the same connection land on the same queue.</div></div>
+<p><strong>Objective:</strong> Scale DPDK forwarding to multiple cores using RSS for flow distribution.</p>
+<div class="lab-step"><div class="sn">1</div><div>Configure 4 RX queues and 4 TX queues on your test NIC. Set RSS to distribute based on IP+TCP 5-tuple. Launch 4 worker threads, one per queue: lcore 4 handles queue 0, lcore 5 handles queue 1, etc.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Generate flows from a traffic generator with varying 5-tuples. Verify RSS distribution: read per-queue packet counters from <code>rte_eth_stats_get()</code>. Distribution should be roughly even (within 10%).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Compare symmetric vs asymmetric RSS: try the standard Toeplitz key, then the symmetric key. Verify that with symmetric RSS, forward and reverse flows of the same connection land on the same queue.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Performance Profiling Deep-Dive</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Profile your DPDK application at the cycle level and identify bottlenecks.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Enable Intel PMU counters in your forwarding loop: measure cycles per packet, LLC cache misses per packet, DRAM accesses per packet using perf on the isolated cores: <code>perf stat -e cycles,cache-misses,dTLB-misses -C 4 sleep 5</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Profile memory access patterns: add artificial 5-tuple lookups against a 10K-entry rte_hash table. Measure performance with table in L3 cache (small table) vs DRAM (large table). Quantify the cost of a single cache miss in ns.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Test NUMA effects: move your mempool to the remote NUMA node (use socket_id = 1 - rte_eth_dev_socket_id(port)). Measure the throughput degradation. Verify the ~60ns cross-NUMA penalty empirically.</div></div>
+<p><strong>Objective:</strong> Profile your DPDK application at the cycle level and identify bottlenecks.</p>
+<div class="lab-step"><div class="sn">1</div><div>Enable Intel PMU counters in your forwarding loop: measure cycles per packet, LLC cache misses per packet, DRAM accesses per packet using perf on the isolated cores: <code>perf stat -e cycles,cache-misses,dTLB-misses -C 4 sleep 5</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Profile memory access patterns: add artificial 5-tuple lookups against a 10K-entry rte_hash table. Measure performance with table in L3 cache (small table) vs DRAM (large table). Quantify the cost of a single cache miss in ns.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Test NUMA effects: move your mempool to the remote NUMA node (use socket_id = 1 - rte_eth_dev_socket_id(port)). Measure the throughput degradation. Verify the ~60ns cross-NUMA penalty empirically.</div></div>
   </div>
 </div>
 </div>

@@ -89,10 +89,10 @@ url: /learning/data-plane/vpp/module-p2-vnet/
   <div class="mod-title">🌐 vnet - Networking Layer</div>
   <div class="mod-subtitle">sw_if_index · Feature Arcs · FIB / DPO · ARP · Interface Abstraction</div>
   <div class="mod-pills">
-    <span class="mod-pill">src/vnet/</span>
-    <span class="mod-pill">sw_if_index</span>
-    <span class="mod-pill">feature arcs</span>
-    <span class="mod-pill">FIB · DPO</span>
+<span class="mod-pill">src/vnet/</span>
+<span class="mod-pill">sw_if_index</span>
+<span class="mod-pill">feature arcs</span>
+<span class="mod-pill">FIB · DPO</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -109,12 +109,12 @@ url: /learning/data-plane/vpp/module-p2-vnet/
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">🔌</span><h3>sw_if_index - VPP's Interface Abstraction</h3><span class="tag tag-teal">CORE CONCEPT</span></div>
   <div class="concept-panel-body">
-    <p>Every interface in VPP - DPDK physical port, memif, TAP, loopback, VLAN sub-interface - is represented by a single <strong>u32 software interface index</strong>. Graph nodes never deal with concrete interface types; they always refer to interfaces by <code>sw_if_index</code>.</p>
-    <p>There are two levels of interface index:</p>
-    <ul>
-      <li><strong>hw_if_index</strong> - hardware interface: corresponds to a physical device or PMD (e.g., the DPDK port). One per physical NIC port.</li>
-      <li><strong>sw_if_index</strong> - software interface: can be the base interface OR a sub-interface (VLAN, QinQ). Multiple sw_if_index values can share one hw_if_index.</li>
-    </ul>
+<p>Every interface in VPP - DPDK physical port, memif, TAP, loopback, VLAN sub-interface - is represented by a single <strong>u32 software interface index</strong>. Graph nodes never deal with concrete interface types; they always refer to interfaces by <code>sw_if_index</code>.</p>
+<p>There are two levels of interface index:</p>
+<ul>
+<li><strong>hw_if_index</strong> - hardware interface: corresponds to a physical device or PMD (e.g., the DPDK port). One per physical NIC port.</li>
+<li><strong>sw_if_index</strong> - software interface: can be the base interface OR a sub-interface (VLAN, QinQ). Multiple sw_if_index values can share one hw_if_index.</li>
+</ul>
 <div class="code-block"><pre><span class="c-comment">/* Get sw_if_index from a received packet */</span>
 <span class="c-type">u32</span> sw_if_index = vnet_buffer(b)->sw_if_index[VLIB_RX];
  
@@ -137,14 +137,14 @@ vnet_sw_interface_set_flags(vnm, sw_if_index, VNET_SW_INTERFACE_FLAG_ADMIN_UP);
   .is_add      = 1,
 };
 vl_api_ip4_add_del_interface_address_t_handler(&a);</pre></div>
-    <div class="dpdk-box">
-      <div class="dpdk-hdr">⚙️ DPDK PARALLEL</div>
-      <ul>
-        <li><strong>sw_if_index ≈ port_id in DPDK</strong> - but sw_if_index is virtual and can represent logical interfaces above the physical device</li>
-        <li>In DPDK you call <code>rte_eth_rx_burst(port_id, queue_id, ...)</code>. In VPP the dpdk-input node calls it internally and stamps <code>vnet_buffer(b)->sw_if_index[VLIB_RX] = sw_if_index</code></li>
-        <li>Sub-interfaces are transparent - a VLAN tag on <code>sw_if_index=3</code> may resolve to <code>sw_if_index=5</code> after L2 classification, without any code change in your L3 node</li>
-      </ul>
-    </div>
+<div class="dpdk-box">
+<div class="dpdk-hdr">⚙️ DPDK PARALLEL</div>
+<ul>
+<li><strong>sw_if_index ≈ port_id in DPDK</strong> - but sw_if_index is virtual and can represent logical interfaces above the physical device</li>
+<li>In DPDK you call <code>rte_eth_rx_burst(port_id, queue_id, ...)</code>. In VPP the dpdk-input node calls it internally and stamps <code>vnet_buffer(b)->sw_if_index[VLIB_RX] = sw_if_index</code></li>
+<li>Sub-interfaces are transparent - a VLAN tag on <code>sw_if_index=3</code> may resolve to <code>sw_if_index=5</code> after L2 classification, without any code change in your L3 node</li>
+</ul>
+</div>
   </div>
 </div>
 </div>
@@ -154,7 +154,7 @@ vl_api_ip4_add_del_interface_address_t_handler(&a);</pre></div>
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🔗</span><h3>Feature Arcs - What They Are</h3><span class="tag tag-blue">src/vnet/feature/</span></div>
   <div class="concept-panel-body">
-    <p>A feature arc is a <strong>per-interface ordered list of processing nodes</strong> that a packet traverses before the main routing/forwarding node. Features are registered at compile time, enabled per-interface at runtime via CLI or API. They are VPP's mechanism for composable, modular packet processing.</p>
+<p>A feature arc is a <strong>per-interface ordered list of processing nodes</strong> that a packet traverses before the main routing/forwarding node. Features are registered at compile time, enabled per-interface at runtime via CLI or API. They are VPP's mechanism for composable, modular packet processing.</p>
 <div class="arc-flow"><pre>Packet arrives at ip4-input
         │
         ▼
@@ -168,7 +168,7 @@ vl_api_ip4_add_del_interface_address_t_handler(&a);</pre></div>
         │
         ▼
 ip4-lookup  (main forwarding - arc terminal)</pre></div>
-    <p>The framework calls <code>vnet_feature_next()</code> at the end of each feature node to advance to the next registered feature, or to the terminal node if none remain. Packets skip disabled features automatically - zero overhead per disabled feature.</p>
+<p>The framework calls <code>vnet_feature_next()</code> at the end of each feature node to advance to the next registered feature, or to the terminal node if none remain. Packets skip disabled features automatically - zero overhead per disabled feature.</p>
   </div>
 </div>
 <div class="concept-panel panel-teal">
@@ -201,17 +201,17 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
 <span class="c-comment">/* set interface feature GigabitEthernet0/8/0 my-feature-node ip4-unicast enable */</span>
 <span class="c-comment">/* Enable via API (from GoVPP or Python) */</span>
 <span class="c-comment">/* feature_enable_disable { sw_if_index, arc_name, feature_name, enable=1 } */</span></pre></div>
-    <p><strong>Key arcs you will use:</strong></p>
-    <table class="fib-table">
-      <thead><tr><th>Arc Name</th><th>Terminal Node</th><th>Trigger</th></tr></thead>
-      <tbody>
-        <tr><td><code>ip4-unicast</code></td><td>ip4-lookup</td><td>IPv4 unicast inbound per interface</td></tr>
-        <tr><td><code>ip4-multicast</code></td><td>ip4-mfib-forward-lookup</td><td>IPv4 multicast inbound</td></tr>
-        <tr><td><code>ip4-output</code></td><td>ip4-rewrite</td><td>IPv4 outbound (post FIB, pre TX)</td></tr>
-        <tr><td><code>ip6-unicast</code></td><td>ip6-lookup</td><td>IPv6 unicast inbound</td></tr>
-        <tr><td><code>ethernet-output</code></td><td>interface-output</td><td>L2 output processing</td></tr>
-      </tbody>
-    </table>
+<p><strong>Key arcs you will use:</strong></p>
+<table class="fib-table">
+<thead><tr><th>Arc Name</th><th>Terminal Node</th><th>Trigger</th></tr></thead>
+<tbody>
+<tr><td><code>ip4-unicast</code></td><td>ip4-lookup</td><td>IPv4 unicast inbound per interface</td></tr>
+<tr><td><code>ip4-multicast</code></td><td>ip4-mfib-forward-lookup</td><td>IPv4 multicast inbound</td></tr>
+<tr><td><code>ip4-output</code></td><td>ip4-rewrite</td><td>IPv4 outbound (post FIB, pre TX)</td></tr>
+<tr><td><code>ip6-unicast</code></td><td>ip6-lookup</td><td>IPv6 unicast inbound</td></tr>
+<tr><td><code>ethernet-output</code></td><td>interface-output</td><td>L2 output processing</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -221,7 +221,7 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
 <div class="concept-panel panel-orange">
   <div class="concept-panel-hdr"><span class="icon">🗺️</span><h3>FIB Architecture - Prefix → DPO Chain</h3><span class="tag tag-orange">src/vnet/fib/</span></div>
   <div class="concept-panel-body">
-    <p>VPP's FIB is a <strong>recursive, multi-path forwarding database</strong>. It maps IP prefixes to <strong>Data Path Objects (DPOs)</strong> - a polymorphic chain of forwarding instructions. Understanding FIB is essential for writing plugins that affect routing.</p>
+<p>VPP's FIB is a <strong>recursive, multi-path forwarding database</strong>. It maps IP prefixes to <strong>Data Path Objects (DPOs)</strong> - a polymorphic chain of forwarding instructions. Understanding FIB is essential for writing plugins that affect routing.</p>
 <div class="code-block"><pre><span class="c-comment">/* FIB entry structure (simplified) */</span>
 <span class="c-comment">/* Prefix: 10.0.0.0/8 → [ECMP DPO → [adj_A, adj_B]]       */</span>
 <span class="c-comment">/* Prefix: 0.0.0.0/0  → [Drop DPO]                        */</span>
@@ -256,20 +256,20 @@ fib_table_entry_path_add(<span class="c-val">0</span>,       <span class="c-comm
 <div class="concept-panel panel-green">
   <div class="concept-panel-hdr"><span class="icon">🔗</span><h3>DPO - Data Path Objects</h3><span class="tag tag-green">FORWARDING CHAIN</span></div>
   <div class="concept-panel-body">
-    <p>A DPO is a polymorphic forwarding object. Every FIB entry resolves to a DPO chain. Key DPO types:</p>
-    <table class="fib-table">
-      <thead><tr><th>DPO Type</th><th>Meaning</th><th>Next Node</th></tr></thead>
-      <tbody>
-        <tr><td><code>DPO_ADJACENCY</code></td><td>Rewrite header + send to output interface</td><td>ip4-rewrite</td></tr>
-        <tr><td><code>DPO_ADJACENCY_GLEAN</code></td><td>Trigger ARP for unknown next-hop</td><td>arp-input-glean</td></tr>
-        <tr><td><code>DPO_RECEIVE</code></td><td>Packet destined for VPP itself</td><td>ip4-local</td></tr>
-        <tr><td><code>DPO_DROP</code></td><td>Discard packet</td><td>error-drop</td></tr>
-        <tr><td><code>DPO_LOAD_BALANCE</code></td><td>ECMP - select one of N adjacencies</td><td>selected child DPO</td></tr>
-        <tr><td><code>DPO_MPLS_LABEL</code></td><td>Push MPLS label and forward</td><td>mpls-output</td></tr>
-        <tr><td><code>DPO_PUNT</code></td><td>Send to control plane via punt socket</td><td>punt-dispatch</td></tr>
-      </tbody>
-    </table>
-    <p>You can register your own DPO type with <code>dpo_register()</code> to intercept traffic and redirect it through a custom graph node. This is the correct mechanism for tunnel encapsulation, policy routing, and SRv6.</p>
+<p>A DPO is a polymorphic forwarding object. Every FIB entry resolves to a DPO chain. Key DPO types:</p>
+<table class="fib-table">
+<thead><tr><th>DPO Type</th><th>Meaning</th><th>Next Node</th></tr></thead>
+<tbody>
+<tr><td><code>DPO_ADJACENCY</code></td><td>Rewrite header + send to output interface</td><td>ip4-rewrite</td></tr>
+<tr><td><code>DPO_ADJACENCY_GLEAN</code></td><td>Trigger ARP for unknown next-hop</td><td>arp-input-glean</td></tr>
+<tr><td><code>DPO_RECEIVE</code></td><td>Packet destined for VPP itself</td><td>ip4-local</td></tr>
+<tr><td><code>DPO_DROP</code></td><td>Discard packet</td><td>error-drop</td></tr>
+<tr><td><code>DPO_LOAD_BALANCE</code></td><td>ECMP - select one of N adjacencies</td><td>selected child DPO</td></tr>
+<tr><td><code>DPO_MPLS_LABEL</code></td><td>Push MPLS label and forward</td><td>mpls-output</td></tr>
+<tr><td><code>DPO_PUNT</code></td><td>Send to control plane via punt socket</td><td>punt-dispatch</td></tr>
+</tbody>
+</table>
+<p>You can register your own DPO type with <code>dpo_register()</code> to intercept traffic and redirect it through a custom graph node. This is the correct mechanism for tunnel encapsulation, policy routing, and SRv6.</p>
   </div>
 </div>
 <div class="insight-box">
@@ -282,7 +282,7 @@ fib_table_entry_path_add(<span class="c-val">0</span>,       <span class="c-comm
 <div class="concept-panel panel-purple">
   <div class="concept-panel-hdr"><span class="icon">📡</span><h3>How ARP Works in VPP</h3><span class="tag tag-purple">src/vnet/arp/</span></div>
   <div class="concept-panel-body">
-    <p>VPP's ARP is entirely in the dataplane. When ip4-lookup resolves a route to a <code>DPO_ADJACENCY_GLEAN</code>, it punts the packet to <code>arp-input-glean</code>, which queues the packet and sends an ARP request. When the ARP reply arrives, <code>arp-reply</code> updates the adjacency table, and queued packets are re-forwarded.</p>
+<p>VPP's ARP is entirely in the dataplane. When ip4-lookup resolves a route to a <code>DPO_ADJACENCY_GLEAN</code>, it punts the packet to <code>arp-input-glean</code>, which queues the packet and sends an ARP request. When the ARP reply arrives, <code>arp-reply</code> updates the adjacency table, and queued packets are re-forwarded.</p>
 <div class="code-block"><pre><span class="c-comment">/* Manually add a static ARP entry */</span>
 vnet_set_ip4_ethernet_arp(<span class="c-key">NULL</span>,           <span class="c-comment">/* main thread */</span>
                           sw_if_index,
@@ -293,7 +293,7 @@ vnet_set_ip4_ethernet_arp(<span class="c-key">NULL</span>,           <span class
 <span class="c-comment">/* Show ARP table: vppctl> show ip neighbors */</span>
 <span class="c-comment">/* Walk ARP entries programmatically */</span>
 ip4_neighbor_walk(sw_if_index, my_cb_fn, my_arg);</pre></div>
-    <p><strong>Important:</strong> ARP processing is slow-path. Production deployments use static ARP entries for known peers (e.g., testpmd containers) to avoid ARP-generated glean drops at startup. In your mini-projects, add static ARP entries for container-to-container communication.</p>
+<p><strong>Important:</strong> ARP processing is slow-path. Production deployments use static ARP entries for known peers (e.g., testpmd containers) to avoid ARP-generated glean drops at startup. In your mini-projects, add static ARP entries for container-to-container communication.</p>
   </div>
 </div>
 </div>
@@ -303,7 +303,7 @@ ip4_neighbor_walk(sw_if_index, my_cb_fn, my_arg);</pre></div>
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🌉</span><h3>Bridge Domains - L2 Forwarding</h3><span class="tag tag-blue">src/vnet/l2/</span></div>
   <div class="concept-panel-body">
-    <p>VPP supports full L2 bridging. Interfaces placed in the same <strong>bridge domain</strong> behave as ports on the same switch. The bridge domain handles MAC learning, flooding, and forwarding without involving the L3 FIB.</p>
+<p>VPP supports full L2 bridging. Interfaces placed in the same <strong>bridge domain</strong> behave as ports on the same switch. The bridge domain handles MAC learning, flooding, and forwarding without involving the L3 FIB.</p>
 <div class="code-block"><pre><span class="c-comment">/* Create bridge domain 1 and add two interfaces */</span>
 <span class="c-comment">/* vppctl> set interface l2 bridge GigabitEthernet0/8/0 1 */</span>
 <span class="c-comment">/* vppctl> set interface l2 bridge memif0/0 1             */</span>
@@ -327,7 +327,7 @@ set_int_l2_mode(vm, vnm, MODE_L2_BRIDGE, sw_if_index, <span class="c-val">1</spa
 <span class="c-comment">/* Show L2 MAC table */</span>
 <span class="c-comment">/* vppctl> show l2fib            */</span>
 <span class="c-comment">/* vppctl> show bridge-domain 1  */</span></pre></div>
-    <p>Bridge domains are heavily used in the mini-projects - the memif vSwitch (Project 5) uses a bridge domain to connect multiple container VPP instances via memif interfaces.</p>
+<p>Bridge domains are heavily used in the mini-projects - the memif vSwitch (Project 5) uses a bridge domain to connect multiple container VPP instances via memif interfaces.</p>
   </div>
 </div>
 </div>

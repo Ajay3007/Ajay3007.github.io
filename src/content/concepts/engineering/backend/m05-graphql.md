@@ -74,7 +74,7 @@ url: /learning/backend/m05-graphql/
 <div class="mod-header">
   <h1>M05 — GraphQL &amp; API Contracts</h1>
   <div class="sub">
-    <span class="phase-tag">Phase 1</span>
+<span class="phase-tag">Phase 1</span>
     SDL type system · Query / mutation / subscription · Resolver execution model · N+1 &amp; DataLoader · Cursor pagination · Schema federation · Persisted queries · GraphQL parser in C
   </div>
 </div>
@@ -94,7 +94,7 @@ url: /learning/backend/m05-graphql/
   <div class="cp-hdr">🌐 Why GraphQL?</div>
   <div class="cp-body">
     GraphQL is a <strong>query language for APIs</strong> and a runtime for executing those queries. Clients describe exactly what data they need — the server returns precisely that structure. This eliminates over-fetching (getting more fields than needed) and under-fetching (needing multiple round-trips).
-    <br><br>
+<br><br>
     Conceived at Facebook in 2012, open-sourced in 2015, and now governed by the <strong>GraphQL Foundation</strong>. It sits above your transport (HTTP POST by convention) and serialisation (JSON) layers.
   </div>
 </div>
@@ -102,15 +102,15 @@ url: /learning/backend/m05-graphql/
 <table class="t-table">
   <thead><tr><th>Dimension</th><th>REST</th><th>GraphQL</th><th>gRPC</th></tr></thead>
   <tbody>
-    <tr><td><strong>Data shape</strong></td><td>Fixed by endpoint</td><td>Client-defined per query</td><td>Fixed by proto message</td></tr>
-    <tr><td><strong>Transport</strong></td><td>HTTP/1.1 or 2</td><td>HTTP POST (or WebSocket)</td><td>HTTP/2 only</td></tr>
-    <tr><td><strong>Schema</strong></td><td>OpenAPI (optional)</td><td>SDL (mandatory)</td><td>Proto3 (mandatory)</td></tr>
-    <tr><td><strong>Versioning</strong></td><td>URL/header</td><td>Schema evolution (deprecated)</td><td>Package + reserved fields</td></tr>
-    <tr><td><strong>Real-time</strong></td><td>SSE / polling</td><td>Subscriptions over WS</td><td>Server / bidi streaming</td></tr>
-    <tr><td><strong>Tooling</strong></td><td>Swagger UI, Postman</td><td>GraphiQL, Apollo Studio</td><td>grpcurl, Evans</td></tr>
-    <tr><td><strong>Over/under-fetch</strong></td><td>Common problem</td><td>Solved by design</td><td>Solved by design</td></tr>
-    <tr><td><strong>N+1 risk</strong></td><td>Low (batched endpoints)</td><td>High without DataLoader</td><td>Low (explicit streams)</td></tr>
-    <tr><td><strong>Best for</strong></td><td>Public APIs, CRUD</td><td>Mobile/BFF, many consumers</td><td>Internal microservices</td></tr>
+<tr><td><strong>Data shape</strong></td><td>Fixed by endpoint</td><td>Client-defined per query</td><td>Fixed by proto message</td></tr>
+<tr><td><strong>Transport</strong></td><td>HTTP/1.1 or 2</td><td>HTTP POST (or WebSocket)</td><td>HTTP/2 only</td></tr>
+<tr><td><strong>Schema</strong></td><td>OpenAPI (optional)</td><td>SDL (mandatory)</td><td>Proto3 (mandatory)</td></tr>
+<tr><td><strong>Versioning</strong></td><td>URL/header</td><td>Schema evolution (deprecated)</td><td>Package + reserved fields</td></tr>
+<tr><td><strong>Real-time</strong></td><td>SSE / polling</td><td>Subscriptions over WS</td><td>Server / bidi streaming</td></tr>
+<tr><td><strong>Tooling</strong></td><td>Swagger UI, Postman</td><td>GraphiQL, Apollo Studio</td><td>grpcurl, Evans</td></tr>
+<tr><td><strong>Over/under-fetch</strong></td><td>Common problem</td><td>Solved by design</td><td>Solved by design</td></tr>
+<tr><td><strong>N+1 risk</strong></td><td>Low (batched endpoints)</td><td>High without DataLoader</td><td>Low (explicit streams)</td></tr>
+<tr><td><strong>Best for</strong></td><td>Public APIs, CRUD</td><td>Mobile/BFF, many consumers</td><td>Internal microservices</td></tr>
   </tbody>
 </table>
 <div class="sep">GraphQL Request / Response Lifecycle</div>
@@ -134,25 +134,25 @@ url: /learning/backend/m05-graphql/
 <div class="cp p-green">
   <div class="cp-hdr">✅ Use GraphQL when…</div>
   <div class="cp-body">
-    <ul style="margin:0;padding-left:1.2rem">
-      <li>Multiple clients (mobile, web, TV) need different shapes</li>
-      <li>Building a BFF (Backend For Frontend) layer</li>
-      <li>Rapid product iteration — add fields without breaking old clients</li>
-      <li>Schema-driven development with strong type contracts</li>
-      <li>Exposing a public, self-documenting developer API</li>
-    </ul>
+<ul style="margin:0;padding-left:1.2rem">
+<li>Multiple clients (mobile, web, TV) need different shapes</li>
+<li>Building a BFF (Backend For Frontend) layer</li>
+<li>Rapid product iteration — add fields without breaking old clients</li>
+<li>Schema-driven development with strong type contracts</li>
+<li>Exposing a public, self-documenting developer API</li>
+</ul>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr">⚠️ Prefer REST / gRPC when…</div>
   <div class="cp-body">
-    <ul style="margin:0;padding-left:1.2rem">
-      <li>Simple CRUD with few consumers</li>
-      <li>HTTP caching is important (GET semantics)</li>
-      <li>File uploads are a primary use case</li>
-      <li>Tight performance budget on edge/embedded devices</li>
-      <li>Internal microservice calls (prefer gRPC)</li>
-    </ul>
+<ul style="margin:0;padding-left:1.2rem">
+<li>Simple CRUD with few consumers</li>
+<li>HTTP caching is important (GET semantics)</li>
+<li>File uploads are a primary use case</li>
+<li>Tight performance budget on edge/embedded devices</li>
+<li>Internal microservice calls (prefer gRPC)</li>
+</ul>
   </div>
 </div>
 </div>
@@ -251,15 +251,15 @@ url: /learning/backend/m05-graphql/
 <table class="t-table">
   <thead><tr><th>Construct</th><th>SDL syntax</th><th>Purpose</th><th>Notes</th></tr></thead>
   <tbody>
-    <tr><td><strong>Scalar</strong></td><td><code>scalar DateTime</code></td><td>Leaf value (no sub-fields)</td><td>Built-in: Int, Float, String, Boolean, ID. Custom scalars need serialize/parse/parseLiteral coercion.</td></tr>
-    <tr><td><strong>Object type</strong></td><td><code>type User { … }</code></td><td>Named set of fields</td><td>All fields are nullable by default; <code>!</code> makes non-null.</td></tr>
-    <tr><td><strong>Interface</strong></td><td><code>interface Node { id: ID! }</code></td><td>Abstract type contract</td><td>Types that implement must define all interface fields.</td></tr>
-    <tr><td><strong>Union</strong></td><td><code>union SearchResult = A | B</code></td><td>One-of type (no shared fields)</td><td>Use <code>__typename</code> or inline fragments (<code>... on User</code>) to distinguish.</td></tr>
-    <tr><td><strong>Enum</strong></td><td><code>enum Status { DRAFT … }</code></td><td>Fixed set of string values</td><td>Serialized as strings in JSON; validated server-side.</td></tr>
-    <tr><td><strong>Input type</strong></td><td><code>input CreatePost { … }</code></td><td>Argument objects for mutations</td><td>Cannot contain object types — only scalars, enums, and other input types.</td></tr>
-    <tr><td><strong>Non-null</strong></td><td><code>String!</code></td><td>Field/arg must not be null</td><td>If resolver returns null, GraphQL propagates null up to nearest nullable parent.</td></tr>
-    <tr><td><strong>List</strong></td><td><code>[String!]!</code></td><td>Array of values</td><td>Outer <code>!</code> = list not null; inner <code>!</code> = no null elements.</td></tr>
-    <tr><td><strong>Directive</strong></td><td><code>@deprecated(reason: "…")</code></td><td>Metadata on types/fields</td><td>Built-in: @deprecated, @skip, @include, @specifiedBy. Custom directives extend this.</td></tr>
+<tr><td><strong>Scalar</strong></td><td><code>scalar DateTime</code></td><td>Leaf value (no sub-fields)</td><td>Built-in: Int, Float, String, Boolean, ID. Custom scalars need serialize/parse/parseLiteral coercion.</td></tr>
+<tr><td><strong>Object type</strong></td><td><code>type User { … }</code></td><td>Named set of fields</td><td>All fields are nullable by default; <code>!</code> makes non-null.</td></tr>
+<tr><td><strong>Interface</strong></td><td><code>interface Node { id: ID! }</code></td><td>Abstract type contract</td><td>Types that implement must define all interface fields.</td></tr>
+<tr><td><strong>Union</strong></td><td><code>union SearchResult = A | B</code></td><td>One-of type (no shared fields)</td><td>Use <code>__typename</code> or inline fragments (<code>... on User</code>) to distinguish.</td></tr>
+<tr><td><strong>Enum</strong></td><td><code>enum Status { DRAFT … }</code></td><td>Fixed set of string values</td><td>Serialized as strings in JSON; validated server-side.</td></tr>
+<tr><td><strong>Input type</strong></td><td><code>input CreatePost { … }</code></td><td>Argument objects for mutations</td><td>Cannot contain object types — only scalars, enums, and other input types.</td></tr>
+<tr><td><strong>Non-null</strong></td><td><code>String!</code></td><td>Field/arg must not be null</td><td>If resolver returns null, GraphQL propagates null up to nearest nullable parent.</td></tr>
+<tr><td><strong>List</strong></td><td><code>[String!]!</code></td><td>Array of values</td><td>Outer <code>!</code> = list not null; inner <code>!</code> = no null elements.</td></tr>
+<tr><td><strong>Directive</strong></td><td><code>@deprecated(reason: "…")</code></td><td>Metadata on types/fields</td><td>Built-in: @deprecated, @skip, @include, @specifiedBy. Custom directives extend this.</td></tr>
   </tbody>
 </table>
 <div class="note">💡 <strong>Non-null propagation rule:</strong> if a non-null field resolver throws or returns null, GraphQL does not return a partial object — it sets the nearest nullable parent to null. This "error bubbling" means you must think carefully about which fields to mark <code>!</code>.</div>
@@ -278,17 +278,17 @@ url: /learning/backend/m05-graphql/
 <span class="ck">query</span> <span class="cv">GetUserWithPosts</span>(<span class="cn">$userId</span>: <span class="cv">ID</span>!, <span class="cn">$first</span>: <span class="cv">Int</span> = <span class="cs">10</span>) {
   <span class="cn">user</span>(<span class="cn">id</span>: <span class="cn">$userId</span>) {
     ...<span class="cv">UserCore</span>           <span class="cm"># fragment spread</span>
-    <span class="cn">posts</span>(<span class="cn">first</span>: <span class="cn">$first</span>) {
-      <span class="cn">edges</span> {
-        <span class="cn">node</span> {
-          <span class="cn">id</span>
-          <span class="cn">title</span>
-          <span class="cn">status</span>
-          <span class="cn">author</span> { ...<span class="cv">UserCore</span> }   <span class="cm"># reuse same fragment</span>
+<span class="cn">posts</span>(<span class="cn">first</span>: <span class="cn">$first</span>) {
+<span class="cn">edges</span> {
+<span class="cn">node</span> {
+<span class="cn">id</span>
+<span class="cn">title</span>
+<span class="cn">status</span>
+<span class="cn">author</span> { ...<span class="cv">UserCore</span> }   <span class="cm"># reuse same fragment</span>
         }
-        <span class="cn">cursor</span>
+<span class="cn">cursor</span>
       }
-      <span class="cn">pageInfo</span> { <span class="cn">hasNextPage</span> <span class="cn">endCursor</span> }
+<span class="cn">pageInfo</span> { <span class="cn">hasNextPage</span> <span class="cn">endCursor</span> }
     }
   }
 }
@@ -310,15 +310,15 @@ url: /learning/backend/m05-graphql/
 <div class="cb">
 <span class="ck">query</span> <span class="cv">Search</span>(<span class="cn">$q</span>: <span class="cv">String</span>!) {
   <span class="cn">search</span>(<span class="cn">query</span>: <span class="cn">$q</span>) {
-    <span class="cn">__typename</span>                <span class="cm"># always include to discriminate union members</span>
+<span class="cn">__typename</span>                <span class="cm"># always include to discriminate union members</span>
     ... <span class="ck">on</span> <span class="cv">User</span> {
-      <span class="cn">id</span>
-      <span class="cn">username</span>
+<span class="cn">id</span>
+<span class="cn">username</span>
     }
     ... <span class="ck">on</span> <span class="cv">Post</span> {
-      <span class="cn">id</span>
-      <span class="cn">title</span>
-      <span class="cn">status</span>
+<span class="cn">id</span>
+<span class="cn">title</span>
+<span class="cn">status</span>
     }
   }
 }
@@ -333,21 +333,21 @@ url: /learning/backend/m05-graphql/
 <div class="cb">
 <span class="ck">mutation</span> <span class="cv">CreateAndPublish</span>(<span class="cn">$input</span>: <span class="cv">CreatePostInput</span>!) {
   <span class="cn">createPost</span>(<span class="cn">input</span>: <span class="cn">$input</span>) {
-    <span class="cn">id</span>
-    <span class="cn">title</span>
-    <span class="cn">status</span>
-    <span class="cn">author</span> { <span class="cn">id</span> <span class="cn">username</span> }
+<span class="cn">id</span>
+<span class="cn">title</span>
+<span class="cn">status</span>
+<span class="cn">author</span> { <span class="cn">id</span> <span class="cn">username</span> }
   }
 }
 
 <span class="cm">/* Response shape mirrors the selection set exactly */</span>
 {
   <span class="cs">"data"</span>: {
-    <span class="cs">"createPost"</span>: {
-      <span class="cs">"id"</span>: <span class="cs">"post-789"</span>,
-      <span class="cs">"title"</span>: <span class="cs">"Hello World"</span>,
-      <span class="cs">"status"</span>: <span class="cs">"DRAFT"</span>,
-      <span class="cs">"author"</span>: { <span class="cs">"id"</span>: <span class="cs">"abc-123"</span>, <span class="cs">"username"</span>: <span class="cs">"ajay"</span> }
+<span class="cs">"createPost"</span>: {
+<span class="cs">"id"</span>: <span class="cs">"post-789"</span>,
+<span class="cs">"title"</span>: <span class="cs">"Hello World"</span>,
+<span class="cs">"status"</span>: <span class="cs">"DRAFT"</span>,
+<span class="cs">"author"</span>: { <span class="cs">"id"</span>: <span class="cs">"abc-123"</span>, <span class="cs">"username"</span>: <span class="cs">"ajay"</span> }
     }
   }
 }
@@ -358,17 +358,17 @@ url: /learning/backend/m05-graphql/
   <div class="cp-hdr">⚠️ Partial Success Pattern</div>
   <div class="cp-body">
     GraphQL can return <strong>both data AND errors</strong> in the same response. A resolver that throws populates the <code>errors</code> array; other resolvers still run. This is fundamentally different from HTTP 4xx/5xx.
-    <br><br>
-    <code>{ "data": { "user": null }, "errors": [{ "message": "Not found", "locations": [...], "path": ["user"] }] }</code>
+<br><br>
+<code>{ "data": { "user": null }, "errors": [{ "message": "Not found", "locations": [...], "path": ["user"] }] }</code>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr">🏷️ Error Extensions Pattern</div>
   <div class="cp-body">
     Add structured error metadata via <code>extensions</code>:
-    <br><br>
-    <code>{ "message": "Unauthorized", "extensions": { "code": "UNAUTHENTICATED", "http": { "status": 401 } } }</code>
-    <br><br>
+<br><br>
+<code>{ "message": "Unauthorized", "extensions": { "code": "UNAUTHENTICATED", "http": { "status": 401 } } }</code>
+<br><br>
     Common codes: <code>UNAUTHENTICATED</code>, <code>FORBIDDEN</code>, <code>NOT_FOUND</code>, <code>BAD_USER_INPUT</code>, <code>INTERNAL_SERVER_ERROR</code>
   </div>
 </div>
@@ -377,13 +377,13 @@ url: /learning/backend/m05-graphql/
 <div class="cb">
 <span class="ck">query</span> <span class="cv">ConditionalQuery</span>(<span class="cn">$withEmail</span>: <span class="cv">Boolean</span>!, <span class="cn">$skipTags</span>: <span class="cv">Boolean</span>!) {
   <span class="cn">user</span>(<span class="cn">id</span>: <span class="cs">"123"</span>) {
-    <span class="cn">id</span>
-    <span class="cn">username</span>
-    <span class="cn">email</span>     <span class="ck">@include</span>(<span class="cn">if</span>: <span class="cn">$withEmail</span>)   <span class="cm"># field included only if true</span>
-    <span class="cn">posts</span>(<span class="cn">first</span>: <span class="cs">5</span>) {
-      <span class="cn">edges</span> { <span class="cn">node</span> {
-        <span class="cn">title</span>
-        <span class="cn">tags</span> <span class="ck">@skip</span>(<span class="cn">if</span>: <span class="cn">$skipTags</span>)        <span class="cm"># field omitted if true</span>
+<span class="cn">id</span>
+<span class="cn">username</span>
+<span class="cn">email</span>     <span class="ck">@include</span>(<span class="cn">if</span>: <span class="cn">$withEmail</span>)   <span class="cm"># field included only if true</span>
+<span class="cn">posts</span>(<span class="cn">first</span>: <span class="cs">5</span>) {
+<span class="cn">edges</span> { <span class="cn">node</span> {
+<span class="cn">title</span>
+<span class="cn">tags</span> <span class="ck">@skip</span>(<span class="cn">if</span>: <span class="cn">$skipTags</span>)        <span class="cm"># field omitted if true</span>
       } }
     }
   }
@@ -403,10 +403,10 @@ url: /learning/backend/m05-graphql/
 <span class="cm"># Client sends this once over WebSocket</span>
 <span class="ck">subscription</span> <span class="cv">WatchPost</span>(<span class="cn">$postId</span>: <span class="cv">ID</span>!) {
   <span class="cn">commentAdded</span>(<span class="cn">postId</span>: <span class="cn">$postId</span>) {
-    <span class="cn">id</span>
-    <span class="cn">body</span>
-    <span class="cn">author</span> { <span class="cn">id</span> <span class="cn">username</span> }
-    <span class="cn">createdAt</span>
+<span class="cn">id</span>
+<span class="cn">body</span>
+<span class="cn">author</span> { <span class="cn">id</span> <span class="cn">username</span> }
+<span class="cn">createdAt</span>
   }
 }
 
@@ -433,20 +433,20 @@ url: /learning/backend/m05-graphql/
 <span class="cm">// Node.js / graphql-js pattern (pseudocode)</span>
 <span class="ck">const</span> <span class="cv">resolvers</span> = {
   <span class="cv">Subscription</span>: {
-    <span class="cn">commentAdded</span>: {
-      <span class="cm">// subscribe returns an AsyncIterator</span>
-      <span class="ck">subscribe</span>: (<span class="cn">_</span>, { <span class="cn">postId</span> }, { <span class="cn">pubsub</span> }) =>
-        <span class="cn">pubsub</span>.<span class="cf">asyncIterableIterator</span>(<span class="cs">`COMMENT_ADDED_${postId}`</span>),
+<span class="cn">commentAdded</span>: {
+<span class="cm">// subscribe returns an AsyncIterator</span>
+<span class="ck">subscribe</span>: (<span class="cn">_</span>, { <span class="cn">postId</span> }, { <span class="cn">pubsub</span> }) =>
+<span class="cn">pubsub</span>.<span class="cf">asyncIterableIterator</span>(<span class="cs">`COMMENT_ADDED_${postId}`</span>),
 
-      <span class="cm">// resolve shapes each event payload</span>
-      <span class="ck">resolve</span>: (<span class="cn">payload</span>) => <span class="cn">payload</span>.<span class="cn">commentAdded</span>,
+<span class="cm">// resolve shapes each event payload</span>
+<span class="ck">resolve</span>: (<span class="cn">payload</span>) => <span class="cn">payload</span>.<span class="cn">commentAdded</span>,
     },
   },
   <span class="cv">Mutation</span>: {
-    <span class="cn">addComment</span>: <span class="ck">async</span> (<span class="cn">_</span>, { <span class="cn">postId</span>, <span class="cn">body</span> }, { <span class="cn">db</span>, <span class="cn">pubsub</span>, <span class="cn">user</span> }) => {
-      <span class="ck">const</span> <span class="cv">comment</span> = <span class="ck">await</span> <span class="cn">db</span>.<span class="cf">createComment</span>({ <span class="cn">postId</span>, <span class="cn">body</span>, <span class="cn">authorId</span>: <span class="cn">user</span>.<span class="cn">id</span> });
-      <span class="ck">await</span> <span class="cn">pubsub</span>.<span class="cf">publish</span>(<span class="cs">`COMMENT_ADDED_${postId}`</span>, { <span class="cn">commentAdded</span>: <span class="cv">comment</span> });
-      <span class="ck">return</span> <span class="cv">comment</span>;
+<span class="cn">addComment</span>: <span class="ck">async</span> (<span class="cn">_</span>, { <span class="cn">postId</span>, <span class="cn">body</span> }, { <span class="cn">db</span>, <span class="cn">pubsub</span>, <span class="cn">user</span> }) => {
+<span class="ck">const</span> <span class="cv">comment</span> = <span class="ck">await</span> <span class="cn">db</span>.<span class="cf">createComment</span>({ <span class="cn">postId</span>, <span class="cn">body</span>, <span class="cn">authorId</span>: <span class="cn">user</span>.<span class="cn">id</span> });
+<span class="ck">await</span> <span class="cn">pubsub</span>.<span class="cf">publish</span>(<span class="cs">`COMMENT_ADDED_${postId}`</span>, { <span class="cn">commentAdded</span>: <span class="cv">comment</span> });
+<span class="ck">return</span> <span class="cv">comment</span>;
     },
   },
 };
@@ -523,11 +523,11 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 <span class="cm">// Create one DataLoader per REQUEST (not global — to avoid cross-request cache)</span>
 <span class="ck">function</span> <span class="cf">createContext</span>({ <span class="cn">req</span> }) {
   <span class="ck">return</span> {
-    <span class="cn">db</span>,
-    <span class="cn">user</span>: <span class="cf">authenticate</span>(<span class="cn">req</span>),
-    <span class="cn">loaders</span>: {
-      <span class="cn">user</span>: <span class="ck">new</span> <span class="cv">DataLoader</span>(<span class="cn">batchUsers</span>),
-      <span class="cm">// one loader per entity type</span>
+<span class="cn">db</span>,
+<span class="cn">user</span>: <span class="cf">authenticate</span>(<span class="cn">req</span>),
+<span class="cn">loaders</span>: {
+<span class="cn">user</span>: <span class="ck">new</span> <span class="cv">DataLoader</span>(<span class="cn">batchUsers</span>),
+<span class="cm">// one loader per entity type</span>
     },
   };
 }
@@ -535,7 +535,7 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 <span class="cm">// Resolver uses loader instead of direct DB call</span>
 <span class="ck">const</span> <span class="cv">resolvers</span> = {
   <span class="cv">Post</span>: {
-    <span class="cn">author</span>: (<span class="cn">post</span>, <span class="cn">_</span>, { <span class="cn">loaders</span> }) => <span class="cn">loaders</span>.<span class="cn">user</span>.<span class="cf">load</span>(<span class="cn">post</span>.<span class="cn">authorId</span>),
+<span class="cn">author</span>: (<span class="cn">post</span>, <span class="cn">_</span>, { <span class="cn">loaders</span> }) => <span class="cn">loaders</span>.<span class="cn">user</span>.<span class="cf">load</span>(<span class="cn">post</span>.<span class="cn">authorId</span>),
   },
 };
 </div>
@@ -565,23 +565,23 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 <table class="t-table">
   <thead><tr><th>Strategy</th><th>Query pattern</th><th>Pros</th><th>Cons</th></tr></thead>
   <tbody>
-    <tr><td><strong>Offset + Limit</strong></td><td><code>posts(offset:20, limit:10)</code></td><td>Simple, supports random page jumps</td><td>Skips/duplicates on concurrent inserts; full table scan for large offsets</td></tr>
-    <tr><td><strong>Cursor (Relay)</strong></td><td><code>posts(first:10, after:"cursor")</code></td><td>Stable, no skips on inserts, works well with infinite scroll</td><td>No random page access; cursor is opaque</td></tr>
-    <tr><td><strong>Keyset</strong></td><td><code>posts(after_id:42, limit:10)</code></td><td>O(log N) with index; most scalable</td><td>Tied to sort column; no skip; non-standard</td></tr>
+<tr><td><strong>Offset + Limit</strong></td><td><code>posts(offset:20, limit:10)</code></td><td>Simple, supports random page jumps</td><td>Skips/duplicates on concurrent inserts; full table scan for large offsets</td></tr>
+<tr><td><strong>Cursor (Relay)</strong></td><td><code>posts(first:10, after:"cursor")</code></td><td>Stable, no skips on inserts, works well with infinite scroll</td><td>No random page access; cursor is opaque</td></tr>
+<tr><td><strong>Keyset</strong></td><td><code>posts(after_id:42, limit:10)</code></td><td>O(log N) with index; most scalable</td><td>Tied to sort column; no skip; non-standard</td></tr>
   </tbody>
 </table>
 <div class="sep">Relay Connection — Forward Pagination</div>
 <div class="cb">
 <span class="ck">query</span> <span class="cv">PaginatePosts</span>(<span class="cn">$after</span>: <span class="cv">String</span>, <span class="cn">$first</span>: <span class="cv">Int</span> = <span class="cs">10</span>) {
   <span class="cn">posts</span>(<span class="cn">first</span>: <span class="cn">$first</span>, <span class="cn">after</span>: <span class="cn">$after</span>) {
-    <span class="cn">totalCount</span>
-    <span class="cn">pageInfo</span> {
-      <span class="cn">hasNextPage</span>
-      <span class="cn">endCursor</span>     <span class="cm"># pass this as $after in next request</span>
+<span class="cn">totalCount</span>
+<span class="cn">pageInfo</span> {
+<span class="cn">hasNextPage</span>
+<span class="cn">endCursor</span>     <span class="cm"># pass this as $after in next request</span>
     }
-    <span class="cn">edges</span> {
-      <span class="cn">cursor</span>         <span class="cm"># per-edge cursor (base64 opaque string)</span>
-      <span class="cn">node</span> { <span class="cn">id</span> <span class="cn">title</span> <span class="cn">createdAt</span> }
+<span class="cn">edges</span> {
+<span class="cn">cursor</span>         <span class="cm"># per-edge cursor (base64 opaque string)</span>
+<span class="cn">node</span> { <span class="cn">id</span> <span class="cn">title</span> <span class="cn">createdAt</span> }
     }
   }
 }
@@ -603,7 +603,7 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 <span class="ck">async function</span> <span class="cf">postsResolver</span>(<span class="cn">_</span>, { <span class="cn">first</span> = <span class="cs">10</span>, <span class="cn">after</span> }, { <span class="cn">db</span> }) {
   <span class="ck">const</span> <span class="cv">cursorValue</span> = <span class="cn">after</span> ? <span class="cf">decodeCursor</span>(<span class="cn">after</span>) : <span class="ck">null</span>;
   <span class="ck">const</span> <span class="cv">rows</span> = <span class="ck">await</span> <span class="cn">db</span>.<span class="cf">query</span>(
-    <span class="cs">`SELECT * FROM posts
+<span class="cs">`SELECT * FROM posts
      WHERE ($1::timestamptz IS NULL OR created_at < $1)
      ORDER BY created_at DESC
      LIMIT $2`</span>,
@@ -612,12 +612,12 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   <span class="ck">const</span> <span class="cv">hasNextPage</span> = <span class="cn">rows</span>.<span class="cn">length</span> > <span class="cn">first</span>;
   <span class="ck">if</span> (<span class="cn">hasNextPage</span>) <span class="cn">rows</span>.<span class="cf">pop</span>();
   <span class="ck">return</span> {
-    <span class="cn">edges</span>: <span class="cn">rows</span>.<span class="cf">map</span>(<span class="cn">r</span> => ({ <span class="cn">node</span>: <span class="cn">r</span>, <span class="cn">cursor</span>: <span class="cf">encodeCursor</span>(<span class="cn">r</span>.<span class="cn">created_at</span>) })),
-    <span class="cn">pageInfo</span>: {
-      <span class="cn">hasNextPage</span>,
-      <span class="cn">endCursor</span>: <span class="cn">rows</span>.<span class="cn">length</span> ? <span class="cf">encodeCursor</span>(<span class="cn">rows</span>.<span class="cf">at</span>(-<span class="cs">1</span>).<span class="cn">created_at</span>) : <span class="ck">null</span>,
+<span class="cn">edges</span>: <span class="cn">rows</span>.<span class="cf">map</span>(<span class="cn">r</span> => ({ <span class="cn">node</span>: <span class="cn">r</span>, <span class="cn">cursor</span>: <span class="cf">encodeCursor</span>(<span class="cn">r</span>.<span class="cn">created_at</span>) })),
+<span class="cn">pageInfo</span>: {
+<span class="cn">hasNextPage</span>,
+<span class="cn">endCursor</span>: <span class="cn">rows</span>.<span class="cn">length</span> ? <span class="cf">encodeCursor</span>(<span class="cn">rows</span>.<span class="cf">at</span>(-<span class="cs">1</span>).<span class="cn">created_at</span>) : <span class="ck">null</span>,
     },
-    <span class="cn">totalCount</span>: <span class="ck">await</span> <span class="cn">db</span>.<span class="cf">count</span>(<span class="cs">'posts'</span>),
+<span class="cn">totalCount</span>: <span class="ck">await</span> <span class="cn">db</span>.<span class="cf">count</span>(<span class="cs">'posts'</span>),
   };
 }
 </div>
@@ -641,10 +641,10 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 
 <span class="ck">type</span> <span class="cv">Query</span> {
   <span class="cn">posts</span>(
-    <span class="cn">first</span>:   <span class="cv">Int</span>,
-    <span class="cn">after</span>:   <span class="cv">String</span>,
-    <span class="cn">filter</span>:  <span class="cv">PostFilter</span>,
-    <span class="cn">sort</span>:    <span class="cv">PostSort</span>
+<span class="cn">first</span>:   <span class="cv">Int</span>,
+<span class="cn">after</span>:   <span class="cv">String</span>,
+<span class="cn">filter</span>:  <span class="cv">PostFilter</span>,
+<span class="cn">sort</span>:    <span class="cv">PostSort</span>
   ): <span class="cv">PostConnection</span>!
 }
 </div>
@@ -655,7 +655,7 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 <div class="cp p-blue">
   <div class="cp-hdr">🏛️ Schema Federation</div>
   <div class="cp-body">
-    <strong>Apollo Federation</strong> lets you split a GraphQL schema across multiple independent services (<em>subgraphs</em>). A <em>gateway</em> composes them into a unified <em>supergraph</em>. Each subgraph owns its types and can extend types owned by other subgraphs via <code>@key</code> + <code>@external</code> directives.
+<strong>Apollo Federation</strong> lets you split a GraphQL schema across multiple independent services (<em>subgraphs</em>). A <em>gateway</em> composes them into a unified <em>supergraph</em>. Each subgraph owns its types and can extend types owned by other subgraphs via <code>@key</code> + <code>@external</code> directives.
   </div>
 </div>
 <div class="sep">Federation Architecture</div>
@@ -723,14 +723,14 @@ POST /graphql
 <table class="t-table">
   <thead><tr><th>Change</th><th>Safe?</th><th>Reason</th></tr></thead>
   <tbody>
-    <tr><td>Add nullable field to object type</td><td>✅ Safe</td><td>Existing clients ignore unknown fields</td></tr>
-    <tr><td>Add optional argument to field</td><td>✅ Safe</td><td>Clients that omit the arg still work</td></tr>
-    <tr><td>Add new enum value</td><td>⚠️ Breaking for exhaustive switches</td><td>Client code doing switch/case may fail on new value</td></tr>
-    <tr><td>Remove field</td><td>❌ Breaking</td><td>Existing queries referencing it fail validation</td></tr>
-    <tr><td>Change field type</td><td>❌ Breaking</td><td>Type mismatch at runtime</td></tr>
-    <tr><td>Add non-null field</td><td>❌ Breaking</td><td>Old clients may not provide required field</td></tr>
-    <tr><td>Remove enum value</td><td>❌ Breaking</td><td>Old clients may send the removed value</td></tr>
-    <tr><td>Rename type</td><td>❌ Breaking</td><td>Fragment spreads use type names</td></tr>
+<tr><td>Add nullable field to object type</td><td>✅ Safe</td><td>Existing clients ignore unknown fields</td></tr>
+<tr><td>Add optional argument to field</td><td>✅ Safe</td><td>Clients that omit the arg still work</td></tr>
+<tr><td>Add new enum value</td><td>⚠️ Breaking for exhaustive switches</td><td>Client code doing switch/case may fail on new value</td></tr>
+<tr><td>Remove field</td><td>❌ Breaking</td><td>Existing queries referencing it fail validation</td></tr>
+<tr><td>Change field type</td><td>❌ Breaking</td><td>Type mismatch at runtime</td></tr>
+<tr><td>Add non-null field</td><td>❌ Breaking</td><td>Old clients may not provide required field</td></tr>
+<tr><td>Remove enum value</td><td>❌ Breaking</td><td>Old clients may send the removed value</td></tr>
+<tr><td>Rename type</td><td>❌ Breaking</td><td>Fragment spreads use type names</td></tr>
   </tbody>
 </table>
 <div class="note">💡 <strong>Deprecation workflow:</strong> mark fields with <code>@deprecated(reason: "Use newField instead")</code> — introspection tools surface it to developers. Keep deprecated fields for at least one release cycle before removal.</div>
@@ -741,12 +741,12 @@ POST /graphql
 
 <span class="ck">const</span> <span class="cv">server</span> = <span class="ck">new</span> <span class="cv">ApolloServer</span>({
   <span class="cn">validationRules</span>: [
-    <span class="cf">createComplexityRule</span>({
-      <span class="cn">maximumComplexity</span>: <span class="cs">1000</span>,
-      <span class="cn">variables</span>: {},
-      <span class="cf">onComplete</span>: (<span class="cn">complexity</span>) => <span class="cn">console</span>.<span class="cf">log</span>(<span class="cs">`Query complexity: ${complexity}`</span>),
-      <span class="cn">createError</span>: (<span class="cn">max</span>, <span class="cn">actual</span>) =>
-        <span class="ck">new</span> <span class="cv">Error</span>(<span class="cs">`Query too complex: ${actual} > ${max}`</span>),
+<span class="cf">createComplexityRule</span>({
+<span class="cn">maximumComplexity</span>: <span class="cs">1000</span>,
+<span class="cn">variables</span>: {},
+<span class="cf">onComplete</span>: (<span class="cn">complexity</span>) => <span class="cn">console</span>.<span class="cf">log</span>(<span class="cs">`Query complexity: ${complexity}`</span>),
+<span class="cn">createError</span>: (<span class="cn">max</span>, <span class="cn">actual</span>) =>
+<span class="ck">new</span> <span class="cv">Error</span>(<span class="cs">`Query too complex: ${actual} > ${max}`</span>),
     }),
   ],
   <span class="cn">depthLimit</span>: <span class="cs">7</span>,   <span class="cm">// reject queries deeper than 7 levels</span>
@@ -790,11 +790,11 @@ POST /graphql
 
 <span class="ck">static void</span> <span class="cf">gql_skip_ignored</span>(<span class="cv">GqlLexer</span> *<span class="cn">l</span>) {
   <span class="ck">while</span> (<span class="cn">l</span>-><span class="cn">pos</span> < <span class="cn">l</span>-><span class="cn">len</span>) {
-    <span class="ck">char</span> <span class="cn">c</span> = <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>];
-    <span class="ck">if</span> (<span class="cn">c</span> == <span class="co">'#'</span>) {    <span class="cm">/* comment: skip to end of line */</span>
-      <span class="ck">while</span> (<span class="cn">l</span>-><span class="cn">pos</span> < <span class="cn">l</span>-><span class="cn">len</span> && <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>] != <span class="co">'\n'</span>) <span class="cn">l</span>-><span class="cn">pos</span>++;
+<span class="ck">char</span> <span class="cn">c</span> = <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>];
+<span class="ck">if</span> (<span class="cn">c</span> == <span class="co">'#'</span>) {    <span class="cm">/* comment: skip to end of line */</span>
+<span class="ck">while</span> (<span class="cn">l</span>-><span class="cn">pos</span> < <span class="cn">l</span>-><span class="cn">len</span> && <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>] != <span class="co">'\n'</span>) <span class="cn">l</span>-><span class="cn">pos</span>++;
     } <span class="ck">else if</span> (<span class="cn">isspace</span>(<span class="cn">c</span>) || <span class="cn">c</span> == <span class="co">','</span>) {
-      <span class="cn">l</span>-><span class="cn">pos</span>++;     <span class="cm">/* commas are whitespace in GraphQL */</span>
+<span class="cn">l</span>-><span class="cn">pos</span>++;     <span class="cm">/* commas are whitespace in GraphQL */</span>
     } <span class="ck">else</span> <span class="ck">break</span>;
   }
 }
@@ -805,20 +805,20 @@ POST /graphql
 
   <span class="ck">char</span> <span class="cn">c</span> = <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>];
   <span class="ck">if</span> (<span class="cn">isalpha</span>(<span class="cn">c</span>) || <span class="cn">c</span> == <span class="co">'_'</span>) {
-    <span class="ck">size_t</span> <span class="cn">start</span> = <span class="cn">l</span>-><span class="cn">pos</span>++;
-    <span class="ck">while</span> (<span class="cn">l</span>-><span class="cn">pos</span> < <span class="cn">l</span>-><span class="cn">len</span> && (<span class="cn">isalnum</span>(<span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>]) || <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>] == <span class="co">'_'</span>)) <span class="cn">l</span>-><span class="cn">pos</span>++;
-    <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_NAME</span>, <span class="cn">l</span>-><span class="cn">src</span> + <span class="cn">start</span>, <span class="cn">l</span>-><span class="cn">pos</span> - <span class="cn">start</span> };
+<span class="ck">size_t</span> <span class="cn">start</span> = <span class="cn">l</span>-><span class="cn">pos</span>++;
+<span class="ck">while</span> (<span class="cn">l</span>-><span class="cn">pos</span> < <span class="cn">l</span>-><span class="cn">len</span> && (<span class="cn">isalnum</span>(<span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>]) || <span class="cn">l</span>-><span class="cn">src</span>[<span class="cn">l</span>-><span class="cn">pos</span>] == <span class="co">'_'</span>)) <span class="cn">l</span>-><span class="cn">pos</span>++;
+<span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_NAME</span>, <span class="cn">l</span>-><span class="cn">src</span> + <span class="cn">start</span>, <span class="cn">l</span>-><span class="cn">pos</span> - <span class="cn">start</span> };
   }
   <span class="ck">switch</span> (<span class="cn">c</span>) {
-    <span class="ck">case</span> <span class="co">'{'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_LBRACE</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">'}'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_RBRACE</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">'('</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_LPAREN</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">')'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_RPAREN</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">':'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_COLON</span>,  <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">'!'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_BANG</span>,   <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">'$'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_DOLLAR</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">case</span> <span class="co">'@'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_AT</span>,     <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
-    <span class="ck">default</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_ERR</span>,   <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">'{'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_LBRACE</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">'}'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_RBRACE</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">'('</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_LPAREN</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">')'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_RPAREN</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">':'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_COLON</span>,  <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">'!'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_BANG</span>,   <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">'$'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_DOLLAR</span>, <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">case</span> <span class="co">'@'</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_AT</span>,     <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
+<span class="ck">default</span>: <span class="cn">l</span>-><span class="cn">pos</span>++; <span class="ck">return</span> (<span class="cv">GqlToken</span>){ <span class="co">TOK_ERR</span>,   <span class="cn">l</span>-><span class="cn">src</span>+<span class="cn">l</span>-><span class="cn">pos</span>-<span class="cs">1</span>, <span class="cs">1</span> };
   }
 }
 
@@ -827,7 +827,7 @@ POST /graphql
   <span class="cv">GqlLexer</span> <span class="cn">lexer</span> = { <span class="cn">src</span>, <span class="cs">0</span>, <span class="cf">strlen</span>(<span class="cn">src</span>) };
   <span class="cv">GqlToken</span> <span class="cn">tok</span>;
   <span class="ck">while</span> ((<span class="cn">tok</span> = <span class="cf">gql_next_token</span>(&<span class="cn">lexer</span>)).<span class="cn">kind</span> != <span class="co">TOK_EOF</span>) {
-    <span class="cf">printf</span>(<span class="cs">"kind=%d  text=%.*s\n"</span>, <span class="cn">tok</span>.<span class="cn">kind</span>, (<span class="ck">int</span>)<span class="cn">tok</span>.<span class="cn">len</span>, <span class="cn">tok</span>.<span class="cn">start</span>);
+<span class="cf">printf</span>(<span class="cs">"kind=%d  text=%.*s\n"</span>, <span class="cn">tok</span>.<span class="cn">kind</span>, (<span class="ck">int</span>)<span class="cn">tok</span>.<span class="cn">len</span>, <span class="cn">tok</span>.<span class="cn">start</span>);
   }
   <span class="ck">return</span> <span class="cs">0</span>;
 }
@@ -836,37 +836,37 @@ POST /graphql
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 1 — Schema-First Blog API</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Design and implement a complete GraphQL schema for a blogging platform with users, posts, comments, and tags.
-    <div class="lab-step"><span class="sn">1</span> Write the full SDL: scalars, enums, interfaces (Node), all object types, input types, and root Query/Mutation/Subscription types</div>
-    <div class="lab-step"><span class="sn">2</span> Implement all resolvers using a SQLite or in-memory data store</div>
-    <div class="lab-step"><span class="sn">3</span> Add DataLoader for all parent→child relationships (post.author, comment.author, post.comments)</div>
-    <div class="lab-step"><span class="sn">4</span> Verify N+1 elimination: log all SQL queries and count them for a <code>posts { author }</code> query</div>
-    <div class="lab-step"><span class="sn">5</span> Implement cursor pagination on posts list with proper <code>PageInfo</code></div>
-    <div class="lab-step"><span class="sn">6</span> Test with GraphiQL or Apollo Sandbox: query, mutation, and subscription</div>
+<strong>Goal:</strong> Design and implement a complete GraphQL schema for a blogging platform with users, posts, comments, and tags.
+<div class="lab-step"><span class="sn">1</span> Write the full SDL: scalars, enums, interfaces (Node), all object types, input types, and root Query/Mutation/Subscription types</div>
+<div class="lab-step"><span class="sn">2</span> Implement all resolvers using a SQLite or in-memory data store</div>
+<div class="lab-step"><span class="sn">3</span> Add DataLoader for all parent→child relationships (post.author, comment.author, post.comments)</div>
+<div class="lab-step"><span class="sn">4</span> Verify N+1 elimination: log all SQL queries and count them for a <code>posts { author }</code> query</div>
+<div class="lab-step"><span class="sn">5</span> Implement cursor pagination on posts list with proper <code>PageInfo</code></div>
+<div class="lab-step"><span class="sn">6</span> Test with GraphiQL or Apollo Sandbox: query, mutation, and subscription</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Federation Across Two Services</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Split the blog API into User Service and Post Service, federate them with Apollo Router.
-    <div class="lab-step"><span class="sn">1</span> Create User subgraph: own <code>type User @key(fields: "id")</code>; expose <code>Query.user(id)</code> and <code>Query.me</code></div>
-    <div class="lab-step"><span class="sn">2</span> Create Post subgraph: reference User via <code>extend type User @key(fields: "id")</code>; implement <code>@requires</code> if needed</div>
-    <div class="lab-step"><span class="sn">3</span> Run Apollo Router (or Apollo Gateway) to compose both subgraphs into a supergraph</div>
-    <div class="lab-step"><span class="sn">4</span> Issue a query that spans both services: <code>{ post(id:"1") { title author { username email } } }</code></div>
-    <div class="lab-step"><span class="sn">5</span> Inspect Router query plan to understand how it splits and joins the request</div>
-    <div class="lab-step"><span class="sn">6</span> Add <code>@deprecated</code> to a field in the Post schema and verify it surfaces in introspection</div>
+<strong>Goal:</strong> Split the blog API into User Service and Post Service, federate them with Apollo Router.
+<div class="lab-step"><span class="sn">1</span> Create User subgraph: own <code>type User @key(fields: "id")</code>; expose <code>Query.user(id)</code> and <code>Query.me</code></div>
+<div class="lab-step"><span class="sn">2</span> Create Post subgraph: reference User via <code>extend type User @key(fields: "id")</code>; implement <code>@requires</code> if needed</div>
+<div class="lab-step"><span class="sn">3</span> Run Apollo Router (or Apollo Gateway) to compose both subgraphs into a supergraph</div>
+<div class="lab-step"><span class="sn">4</span> Issue a query that spans both services: <code>{ post(id:"1") { title author { username email } } }</code></div>
+<div class="lab-step"><span class="sn">5</span> Inspect Router query plan to understand how it splits and joins the request</div>
+<div class="lab-step"><span class="sn">6</span> Add <code>@deprecated</code> to a field in the Post schema and verify it surfaces in introspection</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — GraphQL Lexer in C</div>
   <div class="lab-body">
-    <strong>Goal:</strong> Extend the minimal C lexer above into a working parser that produces a field-selection AST.
-    <div class="lab-step"><span class="sn">1</span> Extend <code>GqlLexer</code> to handle string literals (quoted, escaped), integer, and float tokens</div>
-    <div class="lab-step"><span class="sn">2</span> Define <code>GqlNode</code> (AST node) with fields: <code>kind</code>, <code>name</code>, <code>children[]</code>, <code>args[]</code></div>
-    <div class="lab-step"><span class="sn">3</span> Write a recursive-descent parser: <code>parse_document → parse_operation → parse_selection_set → parse_field</code></div>
-    <div class="lab-step"><span class="sn">4</span> Pretty-print the resulting AST for input <code>{ user(id:"1") { id username posts { title } } }</code></div>
-    <div class="lab-step"><span class="sn">5</span> Add variable extraction: collect all <code>$varName: Type</code> from the operation definition</div>
-    <div class="lab-step"><span class="sn">6</span> Validate that every field in the selection set exists in a hard-coded schema map (key = "TypeName.fieldName")</div>
+<strong>Goal:</strong> Extend the minimal C lexer above into a working parser that produces a field-selection AST.
+<div class="lab-step"><span class="sn">1</span> Extend <code>GqlLexer</code> to handle string literals (quoted, escaped), integer, and float tokens</div>
+<div class="lab-step"><span class="sn">2</span> Define <code>GqlNode</code> (AST node) with fields: <code>kind</code>, <code>name</code>, <code>children[]</code>, <code>args[]</code></div>
+<div class="lab-step"><span class="sn">3</span> Write a recursive-descent parser: <code>parse_document → parse_operation → parse_selection_set → parse_field</code></div>
+<div class="lab-step"><span class="sn">4</span> Pretty-print the resulting AST for input <code>{ user(id:"1") { id username posts { title } } }</code></div>
+<div class="lab-step"><span class="sn">5</span> Add variable extraction: collect all <code>$varName: Type</code> from the operation definition</div>
+<div class="lab-step"><span class="sn">6</span> Validate that every field in the selection set exists in a hard-coded schema map (key = "TypeName.fieldName")</div>
   </div>
 </div>
 <div class="sep">Mastery Checklist</div>

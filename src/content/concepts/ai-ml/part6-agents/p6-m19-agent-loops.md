@@ -103,10 +103,10 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
   <div class="mod-title">Agent Loops &amp; LangGraph</div>
   <div class="mod-subtitle">Build LLM systems that reason, act, and iterate — from scratch and with LangGraph</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟠 Intermediate–Advanced</span>
-    <span class="mod-pill">🔧 LangGraph · Anthropic SDK</span>
-    <span class="mod-pill">📋 Prerequisite: P4-M12 (Tool Calling)</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟠 Intermediate–Advanced</span>
+<span class="mod-pill">🔧 LangGraph · Anthropic SDK</span>
+<span class="mod-pill">📋 Prerequisite: P4-M12 (Tool Calling)</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -126,15 +126,15 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-violet">Core of Part 6</span></div>
   <div class="cp-body">
-    <p>An agent is an LLM that decides what to do next by choosing from a set of tools, executes those tools, observes results, and repeats until it completes a goal — or knows it cannot. This module teaches you to build agents from scratch and with LangGraph.</p>
-    <ul>
-      <li><strong>Agent mental model</strong> — what separates an agent from a chain; the think-act-observe loop</li>
-      <li><strong>ReAct loop from scratch</strong> — Reasoning + Acting pattern, fully implemented without a framework</li>
-      <li><strong>State management</strong> — how agents track what they know and what they have done</li>
-      <li><strong>LangGraph</strong> — state schemas, nodes, edges, conditional routing, checkpointing</li>
-      <li><strong>Human-in-the-loop</strong> — pausing for approval before consequential tool calls</li>
-      <li><strong>Multi-turn agent conversations</strong> — maintaining context across user interactions</li>
-    </ul>
+<p>An agent is an LLM that decides what to do next by choosing from a set of tools, executes those tools, observes results, and repeats until it completes a goal — or knows it cannot. This module teaches you to build agents from scratch and with LangGraph.</p>
+<ul>
+<li><strong>Agent mental model</strong> — what separates an agent from a chain; the think-act-observe loop</li>
+<li><strong>ReAct loop from scratch</strong> — Reasoning + Acting pattern, fully implemented without a framework</li>
+<li><strong>State management</strong> — how agents track what they know and what they have done</li>
+<li><strong>LangGraph</strong> — state schemas, nodes, edges, conditional routing, checkpointing</li>
+<li><strong>Human-in-the-loop</strong> — pausing for approval before consequential tool calls</li>
+<li><strong>Multi-turn agent conversations</strong> — maintaining context across user interactions</li>
+</ul>
   </div>
 </div>
 </div>
@@ -143,31 +143,39 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🧠</span><h3>What Is an Agent?</h3><span class="tag tag-violet">Concept First</span></div>
   <div class="cp-body">
-    <p>The word "agent" is overloaded. Here is the precise definition: an agent is an LLM that is given tools and a goal, and then <strong>decides for itself</strong> which tools to call, in what order, with what arguments — until it determines the goal is achieved.</p>
-    <div class="cb"><pre><span class="ck"># NOT an agent — you decide what to call:</span>
-weather = get_weather(<span class="cs">"Mumbai"</span>)       <span class="ck"># you chose to call this</span>
-summary = summarise(weather)          <span class="ck"># you chose to call this next</span>
-<span class="ck"># IS an agent — the LLM decides what to call:</span>
-<span class="ck"># User: "Should I carry an umbrella in Mumbai today?"</span>
-<span class="ck">#</span>
-<span class="ck"># LLM thinks: I need weather data → calls get_weather("Mumbai")</span>
-<span class="ck"># LLM observes: {"temp": 28, "condition": "partly cloudy", "rain_chance": 20%}</span>
-<span class="ck"># LLM thinks: 20% chance of rain — not high. I have enough to answer.</span>
-<span class="ck"># LLM responds: "Probably not necessary, but a light one wouldn't hurt."</span>
-<span class="ck">#</span>
-<span class="ck"># The LLM made ALL the decisions. You only provided tools and a question.</span></pre></div>
-    <div class="agent-loop">
-      <div class="al-box al-llm">🧠 LLM: Think about what to do next</div>
-      <div class="al-arrow">↓</div>
-      <div class="al-box al-cond">Decision: need tool? or have final answer?</div>
-      <div class="al-arrow">↓ need tool</div>
-      <div class="al-box al-tool">⚙️ Execute tool call — your code runs</div>
-      <div class="al-arrow">↓ tool result</div>
-      <div class="al-box al-llm">🧠 LLM: Observe result, think again</div>
-      <div class="al-arrow">↓ final answer</div>
-      <div class="al-box al-end">✅ Return answer to user</div>
-    </div>
-    <div class="warn"><p>⚠️ <strong>Agents are not always the right tool.</strong> A deterministic chain (M18 RAG pipeline) is more predictable, cheaper, and easier to debug. Use an agent when the task requires dynamic decision-making — the sequence of steps cannot be known in advance.</p></div>
+<p>The word "agent" is overloaded. Here is the precise definition: an agent is an LLM that is given tools and a goal, and then <strong>decides for itself</strong> which tools to call, in what order, with what arguments — until it determines the goal is achieved.</p>
+    
+
+```python
+# NOT an agent — you decide what to call:
+weather = get_weather("Mumbai")       # you chose to call this
+summary = summarise(weather)          # you chose to call this next
+
+# IS an agent — the LLM decides what to call:
+# User: "Should I carry an umbrella in Mumbai today?"
+#
+# LLM thinks: I need weather data → calls get_weather("Mumbai")
+# LLM observes: {"temp": 28, "condition": "partly cloudy", "rain_chance": 20%}
+# LLM thinks: 20% chance of rain — not high. I have enough to answer.
+# LLM responds: "Probably not necessary, but a light one wouldn't hurt."
+#
+# The LLM made ALL the decisions. You only provided tools and a question.
+```
+
+
+
+<div class="agent-loop">
+<div class="al-box al-llm">🧠 LLM: Think about what to do next</div>
+<div class="al-arrow">↓</div>
+<div class="al-box al-cond">Decision: need tool? or have final answer?</div>
+<div class="al-arrow">↓ need tool</div>
+<div class="al-box al-tool">⚙️ Execute tool call — your code runs</div>
+<div class="al-arrow">↓ tool result</div>
+<div class="al-box al-llm">🧠 LLM: Observe result, think again</div>
+<div class="al-arrow">↓ final answer</div>
+<div class="al-box al-end">✅ Return answer to user</div>
+</div>
+<div class="warn"><p>⚠️ <strong>Agents are not always the right tool.</strong> A deterministic chain (M18 RAG pipeline) is more predictable, cheaper, and easier to debug. Use an agent when the task requires dynamic decision-making — the sequence of steps cannot be known in advance.</p></div>
   </div>
 </div>
 </div><!-- end t1 -->
@@ -176,97 +184,105 @@ summary = summarise(weather)          <span class="ck"># you chose to call this 
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>ReAct Loop from Scratch</h3><span class="tag tag-violet">Build to Understand</span></div>
   <div class="cp-body">
-    <p>ReAct (Reasoning + Acting) is the foundational agent pattern. Before using any framework, build it from scratch.</p>
-    <div class="cb"><pre>import anthropic, json
+<p>ReAct (Reasoning + Acting) is the foundational agent pattern. Before using any framework, build it from scratch.</p>
+    
+
+```python
+import anthropic, json
 from typing import Any
- 
+
 client = anthropic.Anthropic()
- 
-<span class="ck"># ── Tool definitions ──────────────────────────────────</span>
+
+# ── Tool definitions ──────────────────────────────────
 def search_web(query: str) -> str:
-    return <span class="cs">f"Search results for '{query}': [simulated results about {query}]"</span>
- 
+    return f"Search results for '{query}': [simulated results about {query}]"
+
 def calculate(expression: str) -> str:
     try:
-        result = eval(expression, {<span class="cs">"__builtins__"</span>: {}})
-        return <span class="cs">f"{expression} = {result}"</span>
+        result = eval(expression, {"__builtins__": {}})
+        return f"{expression} = {result}"
     except Exception as e:
-        return <span class="cs">f"Error: {e}"</span>
- 
+        return f"Error: {e}"
+
 def get_current_time() -> str:
     from datetime import datetime
-    return datetime.now().strftime(<span class="cs">"%Y-%m-%d %H:%M:%S"</span>)
- 
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
 TOOLS = [
-    {<span class="cs">"name"</span>: <span class="cs">"search_web"</span>,
-     <span class="cs">"description"</span>: <span class="cs">"Search the web for current information. Use when you need facts not in your training data."</span>,
-     <span class="cs">"input_schema"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>, <span class="cs">"properties"</span>: {
-         <span class="cs">"query"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>, <span class="cs">"description"</span>: <span class="cs">"The search query"</span>}},
-         <span class="cs">"required"</span>: [<span class="cs">"query"</span>]}},
-    {<span class="cs">"name"</span>: <span class="cs">"calculate"</span>,
-     <span class="cs">"description"</span>: <span class="cs">"Evaluate a mathematical expression. Use for any arithmetic."</span>,
-     <span class="cs">"input_schema"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>, <span class="cs">"properties"</span>: {
-         <span class="cs">"expression"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>}}, <span class="cs">"required"</span>: [<span class="cs">"expression"</span>]}},
-    {<span class="cs">"name"</span>: <span class="cs">"get_current_time"</span>,
-     <span class="cs">"description"</span>: <span class="cs">"Get the current date and time."</span>,
-     <span class="cs">"input_schema"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>, <span class="cs">"properties"</span>: {}}},
+    {"name": "search_web",
+     "description": "Search the web for current information. Use when you need facts not in your training data.",
+     "input_schema": {"type": "object", "properties": {
+         "query": {"type": "string", "description": "The search query"}},
+         "required": ["query"]}},
+    {"name": "calculate",
+     "description": "Evaluate a mathematical expression. Use for any arithmetic.",
+     "input_schema": {"type": "object", "properties": {
+         "expression": {"type": "string"}}, "required": ["expression"]}},
+    {"name": "get_current_time",
+     "description": "Get the current date and time.",
+     "input_schema": {"type": "object", "properties": {}}},
 ]
- 
-TOOL_REGISTRY = {<span class="cs">"search_web"</span>: search_web,
-                 <span class="cs">"calculate"</span>: calculate,
-                 <span class="cs">"get_current_time"</span>: get_current_time}
- 
-<span class="ck"># ── ReAct agent loop ──────────────────────────────────</span>
-def run_agent(user_message: str, system: str = <span class="cs">""</span>,
-              max_turns: int = <span class="cv">10</span>) -> str:
-    messages = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
- 
+
+TOOL_REGISTRY = {"search_web": search_web,
+                 "calculate": calculate,
+                 "get_current_time": get_current_time}
+
+# ── ReAct agent loop ──────────────────────────────────
+def run_agent(user_message: str, system: str = "",
+              max_turns: int = 10) -> str:
+    messages = [{"role": "user", "content": user_message}]
+
     for turn in range(max_turns):
         response = client.messages.create(
-            model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-            max_tokens=<span class="cv">4096</span>,
+            model="claude-3-5-sonnet-20241022",
+            max_tokens=4096,
             system=system,
             tools=TOOLS,
             messages=messages
         )
- 
-        <span class="ck"># Agent finished — return final text</span>
-        if response.stop_reason == <span class="cs">"end_turn"</span>:
+
+        # Agent finished — return final text
+        if response.stop_reason == "end_turn":
             for block in response.content:
-                if hasattr(block, <span class="cs">"text"</span>):
+                if hasattr(block, "text"):
                     return block.text
-            return <span class="cs">""</span>
-        <span class="ck"># Agent wants to use tools</span>
-        if response.stop_reason == <span class="cs">"tool_use"</span>:
-            messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
- 
+            return ""
+
+        # Agent wants to use tools
+        if response.stop_reason == "tool_use":
+            messages.append({"role": "assistant", "content": response.content})
+
             tool_results = []
             for block in response.content:
-                if block.type != <span class="cs">"tool_use"</span>:
+                if block.type != "tool_use":
                     continue
                 func = TOOL_REGISTRY.get(block.name)
                 if func is None:
-                    result = {<span class="cs">"error"</span>: <span class="cs">f"Unknown tool: {block.name}"</span>}
+                    result = {"error": f"Unknown tool: {block.name}"}
                 else:
                     try:
                         result = func(**block.input)
                     except Exception as e:
-                        result = {<span class="cs">"error"</span>: str(e)}
- 
+                        result = {"error": str(e)}
+
                 tool_results.append({
-                    <span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
-                    <span class="cs">"tool_use_id"</span>: block.id,
-                    <span class="cs">"content"</span>: str(result)
+                    "type": "tool_result",
+                    "tool_use_id": block.id,
+                    "content": str(result)
                 })
- 
-            messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
- 
-    return <span class="cs">f"Agent reached max_turns ({max_turns}) without completing."</span>
-<span class="ck"># Run the agent</span>
+
+            messages.append({"role": "user", "content": tool_results})
+
+    return f"Agent reached max_turns ({max_turns}) without completing."
+
+# Run the agent
 answer = run_agent(
-    <span class="cs">"What is the square root of 1764, and what day of the week is it today?"</span>
+    "What is the square root of 1764, and what day of the week is it today?"
 )
-print(answer)</pre></div>
+print(answer)
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -275,71 +291,78 @@ print(answer)</pre></div>
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🗂</span><h3>Agent State — What the Agent Knows</h3><span class="tag tag-violet">Architecture</span></div>
   <div class="cp-body">
-    <p>State is everything the agent needs to track across turns: the conversation history, tool results, intermediate data, and decisions made. Designing state well determines how complex your agent can become.</p>
-    <div class="cb"><pre>from dataclasses import dataclass, field
+<p>State is everything the agent needs to track across turns: the conversation history, tool results, intermediate data, and decisions made. Designing state well determines how complex your agent can become.</p>
+    
+
+```python
+from dataclasses import dataclass, field
 from typing import Any, Optional
 from datetime import datetime
- 
+
 @dataclass
 class AgentState:
-    <span class="ck"># Core</span>
+    # Core
     messages:      list[dict]       = field(default_factory=list)
-    turn_count:    int              = <span class="cv">0</span>
+    turn_count:    int              = 0
     started_at:    str              = field(default_factory=lambda: datetime.utcnow().isoformat())
- 
-    <span class="ck"># Tool tracking</span>
+
+    # Tool tracking
     tools_called:  list[str]        = field(default_factory=list)
     tool_results:  dict[str, Any]   = field(default_factory=dict)
- 
-    <span class="ck"># Working memory — agent can store intermediate findings</span>
+
+    # Working memory — agent can store intermediate findings
     scratch_pad:   dict[str, Any]   = field(default_factory=dict)
- 
-    <span class="ck"># Task tracking</span>
-    goal:          str              = <span class="cs">""</span>
+
+    # Task tracking
+    goal:          str              = ""
     subtasks:      list[str]        = field(default_factory=list)
     completed:     list[str]        = field(default_factory=list)
-    status:        str              = <span class="cs">"running"</span>   <span class="ck"># running | waiting | done | failed</span>
-    <span class="ck"># Human interaction</span>
-    awaiting_approval: bool         = <span class="cv">False</span>
+    status:        str              = "running"   # running | waiting | done | failed
+
+    # Human interaction
+    awaiting_approval: bool         = False
     pending_action:    Optional[dict] = None
- 
+
 def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
     if state is None:
         state = AgentState(goal=user_message)
- 
-    state.messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message})
- 
-    while state.status == <span class="cs">"running"</span> and state.turn_count < <span class="cv">10</span>:
-        state.turn_count += <span class="cv">1</span>
+
+    state.messages.append({"role": "user", "content": user_message})
+
+    while state.status == "running" and state.turn_count 10:
+        state.turn_count += 1
         response = client.messages.create(
-            model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-            max_tokens=<span class="cv">4096</span>,
+            model="claude-3-5-sonnet-20241022",
+            max_tokens=4096,
             tools=TOOLS,
             messages=state.messages
         )
- 
-        if response.stop_reason == <span class="cs">"end_turn"</span>:
-            state.status = <span class="cs">"done"</span>
+
+        if response.stop_reason == "end_turn":
+            state.status = "done"
             for block in response.content:
-                if hasattr(block, <span class="cs">"text"</span>):
-                    state.messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: block.text})
+                if hasattr(block, "text"):
+                    state.messages.append({"role": "assistant", "content": block.text})
             break
- 
-        state.messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
- 
+
+        state.messages.append({"role": "assistant", "content": response.content})
+
         tool_results = []
         for block in response.content:
-            if block.type != <span class="cs">"tool_use"</span>:
+            if block.type != "tool_use":
                 continue
             state.tools_called.append(block.name)
-            result = TOOL_REGISTRY.get(block.name, lambda **k: <span class="cs">"unknown tool"</span>)(**block.input)
+            result = TOOL_REGISTRY.get(block.name, lambda **k: "unknown tool")(**block.input)
             state.tool_results[block.id] = result
-            tool_results.append({<span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
-                                  <span class="cs">"tool_use_id"</span>: block.id, <span class="cs">"content"</span>: str(result)})
- 
-        state.messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
- 
-    return state</pre></div>
+            tool_results.append({"type": "tool_result",
+                                  "tool_use_id": block.id, "content": str(result)})
+
+        state.messages.append({"role": "user", "content": tool_results})
+
+    return state
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -348,102 +371,117 @@ def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔀</span><h3>LangGraph — Stateful Agent Graphs</h3><span class="tag tag-violet">Framework</span></div>
   <div class="cp-body">
-    <p>LangGraph models agents as graphs: nodes (functions that transform state), edges (connections between nodes), and conditional edges (routes based on current state). It adds persistence, checkpointing, and human-in-the-loop out of the box.</p>
-    <div class="cb"><pre>pip install langgraph langchain-anthropic
- 
+<p>LangGraph models agents as graphs: nodes (functions that transform state), edges (connections between nodes), and conditional edges (routes based on current state). It adds persistence, checkpointing, and human-in-the-loop out of the box.</p>
+    
+
+```python
+pip install langgraph langchain-anthropic
+
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from typing import TypedDict, Annotated
 import operator
- 
-<span class="ck"># ── 1. Define state schema ────────────────────────────</span>
+
+# ── 1. Define state schema ────────────────────────────
 class AgentState(TypedDict):
-    messages: Annotated[list, operator.add]   <span class="ck"># reducer: add new messages</span>
-<span class="ck"># ── 2. Define nodes ───────────────────────────────────</span>
-llm = ChatAnthropic(model=<span class="cs">"claude-3-5-sonnet-20241022"</span>)
-llm_with_tools = llm.bind_tools(langchain_tools)   <span class="ck"># tools bound to LLM</span>
- 
+    messages: Annotated[list, operator.add]   # reducer: add new messages
+
+# ── 2. Define nodes ───────────────────────────────────
+llm = ChatAnthropic(model="claude-3-5-sonnet-20241022")
+llm_with_tools = llm.bind_tools(langchain_tools)   # tools bound to LLM
+
 def call_llm(state: AgentState) -> dict:
-    <span class="cs">"""LLM node — decides what to do next."""</span>
-    response = llm_with_tools.invoke(state[<span class="cs">"messages"</span>])
-    return {<span class="cs">"messages"</span>: [response]}
- 
+    """LLM node — decides what to do next."""
+    response = llm_with_tools.invoke(state["messages"])
+    return {"messages": [response]}
+
 def execute_tools(state: AgentState) -> dict:
-    <span class="cs">"""Tool node — executes all pending tool calls."""</span>
-    last_message = state[<span class="cs">"messages"</span>][-<span class="cv">1</span>]
+    """Tool node — executes all pending tool calls."""
+    last_message = state["messages"][-1]
     tool_results = []
     for tool_call in last_message.tool_calls:
-        func  = TOOL_REGISTRY[tool_call[<span class="cs">"name"</span>]]
-        result = func(**tool_call[<span class="cs">"args"</span>])
+        func  = TOOL_REGISTRY[tool_call["name"]]
+        result = func(**tool_call["args"])
         tool_results.append(ToolMessage(
             content=str(result),
-            tool_call_id=tool_call[<span class="cs">"id"</span>]
+            tool_call_id=tool_call["id"]
         ))
-    return {<span class="cs">"messages"</span>: tool_results}
- 
-<span class="ck"># ── 3. Conditional edge — route based on state ────────</span>
+    return {"messages": tool_results}
+
+# ── 3. Conditional edge — route based on state ────────
 def should_continue(state: AgentState) -> str:
-    <span class="cs">"""Return 'tools' if LLM wants to call tools, 'end' if done."""</span>
-    last = state[<span class="cs">"messages"</span>][-<span class="cv">1</span>]
-    if hasattr(last, <span class="cs">"tool_calls"</span>) and last.tool_calls:
-        return <span class="cs">"tools"</span>
-    return <span class="cs">"end"</span>
-<span class="ck"># ── 4. Build the graph ────────────────────────────────</span>
+    """Return 'tools' if LLM wants to call tools, 'end' if done."""
+    last = state["messages"][-1]
+    if hasattr(last, "tool_calls") and last.tool_calls:
+        return "tools"
+    return "end"
+
+# ── 4. Build the graph ────────────────────────────────
 graph = StateGraph(AgentState)
- 
-graph.add_node(<span class="cs">"llm"</span>,   call_llm)
-graph.add_node(<span class="cs">"tools"</span>, execute_tools)
- 
-graph.set_entry_point(<span class="cs">"llm"</span>)
-graph.add_conditional_edges(<span class="cs">"llm"</span>, should_continue, {
-    <span class="cs">"tools"</span>: <span class="cs">"tools"</span>,
-    <span class="cs">"end"</span>:   END
+
+graph.add_node("llm",   call_llm)
+graph.add_node("tools", execute_tools)
+
+graph.set_entry_point("llm")
+graph.add_conditional_edges("llm", should_continue, {
+    "tools": "tools",
+    "end":   END
 })
-graph.add_edge(<span class="cs">"tools"</span>, <span class="cs">"llm"</span>)   <span class="ck"># after tools, always go back to LLM</span>
-<span class="ck"># ── 5. Compile with checkpointer (persistence) ────────</span>
+graph.add_edge("tools", "llm")   # after tools, always go back to LLM
+
+# ── 5. Compile with checkpointer (persistence) ────────
 memory  = MemorySaver()
 agent   = graph.compile(checkpointer=memory)
- 
-<span class="ck"># ── 6. Run the agent ──────────────────────────────────</span>
-config  = {<span class="cs">"configurable"</span>: {<span class="cs">"thread_id"</span>: <span class="cs">"session-123"</span>}}
+
+# ── 6. Run the agent ──────────────────────────────────
+config  = {"configurable": {"thread_id": "session-123"}}
 result  = agent.invoke(
-    {<span class="cs">"messages"</span>: [HumanMessage(content=<span class="cs">"What is 15% of 8500 and what is today's date?"</span>)]},
+    {"messages": [HumanMessage(content="What is 15% of 8500 and what is today's date?")]},
     config=config
 )
-print(result[<span class="cs">"messages"</span>][-<span class="cv">1</span>].content)</pre></div>
-    <div class="ins"><p>💡 <strong>The thread_id in config enables multi-session persistence.</strong> Every invocation with the same thread_id continues from where it left off — the graph state is checkpointed automatically. Different users get different thread_ids and completely isolated state.</p></div>
+print(result["messages"][-1].content)
+```
+
+
+<div class="ins"><p>💡 <strong>The thread_id in config enables multi-session persistence.</strong> Every invocation with the same thread_id continues from where it left off — the graph state is checkpointed automatically. Different users get different thread_ids and completely isolated state.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>LangGraph State Reducers — Advanced Patterns</h3><span class="tag tag-blue">Power Feature</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Reducers control how state is updated when nodes return new values</span>
- 
+    
+
+```python
+# Reducers control how state is updated when nodes return new values
+
 from typing import TypedDict, Annotated
 import operator
- 
+
 class ResearchState(TypedDict):
-    <span class="ck"># operator.add — appends new items to existing list</span>
+    # operator.add — appends new items to existing list
     messages:    Annotated[list, operator.add]
     sources:     Annotated[list, operator.add]
- 
-    <span class="ck"># No reducer — node's returned value REPLACES current value</span>
+
+    # No reducer — node's returned value REPLACES current value
     current_task: str
     is_complete:  bool
- 
-    <span class="ck"># Custom reducer — keep only last 10 messages</span>
-    short_memory: Annotated[list, lambda old, new: (old + new)[-<span class="cv">10</span>:]]
- 
-<span class="ck"># Parallel nodes — execute concurrently in the graph</span>
-graph.add_node(<span class="cs">"search"</span>,    search_node)
-graph.add_node(<span class="cs">"calculate"</span>, calc_node)
-<span class="ck"># Both run in parallel when the graph reaches this fork</span>
-graph.add_edge(<span class="cs">"start"</span>, <span class="cs">"search"</span>)
-graph.add_edge(<span class="cs">"start"</span>, <span class="cs">"calculate"</span>)
-<span class="ck"># Both must complete before proceeding</span>
-graph.add_edge([<span class="cs">"search"</span>, <span class="cs">"calculate"</span>], <span class="cs">"synthesize"</span>)</pre></div>
+
+    # Custom reducer — keep only last 10 messages
+    short_memory: Annotated[list, lambda old, new: (old + new)[-10:]]
+
+# Parallel nodes — execute concurrently in the graph
+graph.add_node("search",    search_node)
+graph.add_node("calculate", calc_node)
+# Both run in parallel when the graph reaches this fork
+graph.add_edge("start", "search")
+graph.add_edge("start", "calculate")
+# Both must complete before proceeding
+graph.add_edge(["search", "calculate"], "synthesize")
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -452,59 +490,66 @@ graph.add_edge([<span class="cs">"search"</span>, <span class="cs">"calculate"</
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🧑‍💻</span><h3>Human-in-the-Loop — Pause Before Consequential Actions</h3><span class="tag tag-violet">Safety Critical</span></div>
   <div class="cp-body">
-    <p>Never let an agent autonomously send emails, delete data, make purchases, or call external APIs without human approval. LangGraph's interrupt mechanism pauses the graph at any node, waits for human input, then resumes.</p>
-    <div class="cb"><pre>from langgraph.graph import StateGraph, END, interrupt
- 
-<span class="ck"># ── Interrupt before executing a tool ─────────────────</span>
-SENSITIVE_TOOLS = {<span class="cs">"send_email"</span>, <span class="cs">"delete_record"</span>, <span class="cs">"make_payment"</span>}
- 
+<p>Never let an agent autonomously send emails, delete data, make purchases, or call external APIs without human approval. LangGraph's interrupt mechanism pauses the graph at any node, waits for human input, then resumes.</p>
+    
+
+```python
+from langgraph.graph import StateGraph, END, interrupt
+
+# ── Interrupt before executing a tool ─────────────────
+SENSITIVE_TOOLS = {"send_email", "delete_record", "make_payment"}
+
 def execute_tools_with_approval(state: AgentState) -> dict:
-    last_message = state[<span class="cs">"messages"</span>][-<span class="cv">1</span>]
+    last_message = state["messages"][-1]
     tool_results = []
- 
+
     for tool_call in last_message.tool_calls:
-        tool_name = tool_call[<span class="cs">"name"</span>]
- 
+        tool_name = tool_call["name"]
+
         if tool_name in SENSITIVE_TOOLS:
-            <span class="ck"># Pause and ask human for approval</span>
+            # Pause and ask human for approval
             approval = interrupt({
-                <span class="cs">"question"</span>: <span class="cs">f"Agent wants to call {tool_name} with args: {tool_call['args']}. Approve?"</span>,
-                <span class="cs">"tool_name"</span>: tool_name,
-                <span class="cs">"tool_args"</span>: tool_call[<span class="cs">"args"</span>]
+                "question": f"Agent wants to call {tool_name} with args: {tool_call['args']}. Approve?",
+                "tool_name": tool_name,
+                "tool_args": tool_call["args"]
             })
-            if not approval.get(<span class="cs">"approved"</span>):
+            if not approval.get("approved"):
                 tool_results.append(ToolMessage(
-                    content=<span class="cs">"User declined this action."</span>,
-                    tool_call_id=tool_call[<span class="cs">"id"</span>]
+                    content="User declined this action.",
+                    tool_call_id=tool_call["id"]
                 ))
                 continue
- 
-        <span class="ck"># Approved or non-sensitive — execute</span>
-        result = TOOL_REGISTRY[tool_name](**tool_call[<span class="cs">"args"</span>])
+
+        # Approved or non-sensitive — execute
+        result = TOOL_REGISTRY[tool_name](**tool_call["args"])
         tool_results.append(ToolMessage(content=str(result),
-                                        tool_call_id=tool_call[<span class="cs">"id"</span>]))
- 
-    return {<span class="cs">"messages"</span>: tool_results}
- 
-<span class="ck"># ── Resuming after human approval ─────────────────────</span>
-<span class="ck"># When the graph is interrupted, it returns a snapshot</span>
-<span class="ck"># The human inspects and provides a response</span>
-<span class="ck"># Then you resume with Command(resume=response)</span>
- 
+                                        tool_call_id=tool_call["id"]))
+
+    return {"messages": tool_results}
+
+# ── Resuming after human approval ─────────────────────
+# When the graph is interrupted, it returns a snapshot
+# The human inspects and provides a response
+# Then you resume with Command(resume=response)
+
 from langgraph.types import Command
- 
-<span class="ck"># Graph pauses here, returns to caller</span>
+
+# Graph pauses here, returns to caller
 result = agent.invoke(task, config)
- 
-<span class="ck"># Human reviews the interrupt value</span>
-pending = result[<span class="cs">"__interrupt__"</span>]
-print(<span class="cs">f"Waiting for approval: {pending[0]['value']}"</span>)
- 
-<span class="ck"># Human approves (or rejects)</span>
-human_response = {<span class="cs">"approved"</span>: <span class="cv">True</span>}   <span class="ck"># or False</span>
-<span class="ck"># Resume the graph from where it paused</span>
-result = agent.invoke(Command(resume=human_response), config)</pre></div>
-    <div class="warn"><p>⚠️ <strong>Human-in-the-loop is not optional for consequential actions.</strong> An agent that autonomously sends emails, deletes records, or makes API calls is an accident waiting to happen. Always implement interrupt-based approval for irreversible or high-stakes tool calls (OWASP LLM08: Excessive Agency).</p></div>
+
+# Human reviews the interrupt value
+pending = result["__interrupt__"]
+print(f"Waiting for approval: {pending[0]['value']}")
+
+# Human approves (or rejects)
+human_response = {"approved": True}   # or False
+
+# Resume the graph from where it paused
+result = agent.invoke(Command(resume=human_response), config)
+```
+
+
+<div class="warn"><p>⚠️ <strong>Human-in-the-loop is not optional for consequential actions.</strong> An agent that autonomously sends emails, deletes records, or makes API calls is an accident waiting to happen. Always implement interrupt-based approval for irreversible or high-stakes tool calls (OWASP LLM08: Excessive Agency).</p></div>
   </div>
 </div>
 </div><!-- end t5 -->
@@ -514,10 +559,10 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/low_level/" target="_blank" rel="noopener">LangGraph Low-Level Concepts — langchain-ai.github.io/langgraph</a></td><td>State schemas, reducers, nodes, edges, checkpointing — the definitive reference.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://academy.langchain.com/courses/intro-to-langgraph" target="_blank" rel="noopener">LangChain Academy: Intro to LangGraph — academy.langchain.com</a></td><td>Free official LangGraph course. Hands-on with real agent examples. Best starting point.</td></tr>
-    <tr><td class="res-type">Article</td><td><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents — anthropic.com/research</a></td><td>Anthropic's definitive guide on when to use agents vs workflows, and how to build reliable agents.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/multi_agent/" target="_blank" rel="noopener">LangGraph: Multi-Agent Concepts — langchain-ai.github.io/langgraph</a></td><td>Supervisor patterns, handoff between agents, shared state in multi-agent systems.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/low_level/" target="_blank" rel="noopener">LangGraph Low-Level Concepts — langchain-ai.github.io/langgraph</a></td><td>State schemas, reducers, nodes, edges, checkpointing — the definitive reference.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://academy.langchain.com/courses/intro-to-langgraph" target="_blank" rel="noopener">LangChain Academy: Intro to LangGraph — academy.langchain.com</a></td><td>Free official LangGraph course. Hands-on with real agent examples. Best starting point.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents — anthropic.com/research</a></td><td>Anthropic's definitive guide on when to use agents vs workflows, and how to build reliable agents.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/multi_agent/" target="_blank" rel="noopener">LangGraph: Multi-Agent Concepts — langchain-ai.github.io/langgraph</a></td><td>Supervisor patterns, handoff between agents, shared state in multi-agent systems.</td></tr>
   </tbody>
 </table>
 </div>
@@ -525,27 +570,27 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
 <div id="t7" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Research Agent — Scratch + LangGraph</span>
-    <span class="proj-dur">[Intermediate–Advanced] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Research Agent — Scratch + LangGraph</span>
+<span class="proj-dur">[Intermediate–Advanced] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Build a research agent that can search, calculate, and synthesise multi-step answers — first from scratch, then rebuilt with LangGraph to compare the approaches.</p>
-    <h4>Part A — From Scratch</h4>
-    <ul>
-      <li>Implement the full ReAct loop with 4 tools: search_web, calculate, get_current_time, read_file</li>
-      <li>Track state: tools_called, turn_count, intermediate_results</li>
-      <li>Add max_turns safeguard and meaningful error messages</li>
-      <li>Test with 5 multi-step queries that require 2+ tool calls each</li>
-    </ul>
-    <h4>Part B — LangGraph</h4>
-    <ul>
-      <li>Rebuild with LangGraph: StateGraph, MemorySaver, conditional edges</li>
-      <li>Add human-in-the-loop: interrupt before any web search (simulating a gated tool)</li>
-      <li>Test session persistence: run 3 turns, restart Python process, resume with same thread_id</li>
-      <li>Compare: what did LangGraph give you for free vs scratch?</li>
-    </ul>
-    <p><strong>Skills:</strong> ReAct loop, AgentState, LangGraph StateGraph, MemorySaver, interrupt/resume, conditional routing</p>
+<p>Build a research agent that can search, calculate, and synthesise multi-step answers — first from scratch, then rebuilt with LangGraph to compare the approaches.</p>
+<h4>Part A — From Scratch</h4>
+<ul>
+<li>Implement the full ReAct loop with 4 tools: search_web, calculate, get_current_time, read_file</li>
+<li>Track state: tools_called, turn_count, intermediate_results</li>
+<li>Add max_turns safeguard and meaningful error messages</li>
+<li>Test with 5 multi-step queries that require 2+ tool calls each</li>
+</ul>
+<h4>Part B — LangGraph</h4>
+<ul>
+<li>Rebuild with LangGraph: StateGraph, MemorySaver, conditional edges</li>
+<li>Add human-in-the-loop: interrupt before any web search (simulating a gated tool)</li>
+<li>Test session persistence: run 3 turns, restart Python process, resume with same thread_id</li>
+<li>Compare: what did LangGraph give you for free vs scratch?</li>
+</ul>
+<p><strong>Skills:</strong> ReAct loop, AgentState, LangGraph StateGraph, MemorySaver, interrupt/resume, conditional routing</p>
   </div>
 </div>
 </div>
@@ -554,33 +599,33 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Build and Break a ReAct Agent</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build deep intuition for agent behaviour by deliberately breaking it and observing failures.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the scratch ReAct loop from Tab 2 with 3 tools (search, calculate, get_time).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Test with a 5-step query: "What is today's date? What was the population of India in that year? What is 2.3% of that number?" — observe the full tool-calling sequence.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Deliberately trigger each failure mode: (a) set max_turns=2 on a 4-step task, (b) make a tool return an error string, (c) give contradictory tool results — how does the agent handle each?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Remove one tool the agent needs mid-task. What happens? Does it give up gracefully or loop?</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Add logging: print every turn number, stop_reason, and tools called. Run 5 different queries and compare turn counts. Which queries take the most turns and why?</div></div>
+<p><strong>Objective:</strong> Build deep intuition for agent behaviour by deliberately breaking it and observing failures.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the scratch ReAct loop from Tab 2 with 3 tools (search, calculate, get_time).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Test with a 5-step query: "What is today's date? What was the population of India in that year? What is 2.3% of that number?" — observe the full tool-calling sequence.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Deliberately trigger each failure mode: (a) set max_turns=2 on a 4-step task, (b) make a tool return an error string, (c) give contradictory tool results — how does the agent handle each?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Remove one tool the agent needs mid-task. What happens? Does it give up gracefully or loop?</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Add logging: print every turn number, stop_reason, and tools called. Run 5 different queries and compare turn counts. Which queries take the most turns and why?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>LangGraph — Visualise and Trace the Graph</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a LangGraph agent and use its tracing to deeply understand the execution path.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Build the simple 2-node LangGraph (llm → tools → llm) from Tab 4. Draw the graph: <code>print(agent.get_graph().draw_mermaid())</code> — paste into mermaid.live to visualise.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add a third node: <code>validate_output</code> — after the LLM produces a final answer, this node checks it meets quality criteria. Add a conditional edge: if quality check fails, route back to LLM; if passes, route to END.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Run with verbose streaming: <code>for event in agent.stream(inputs, config): print(event)</code>. Observe every state transition.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test checkpoint persistence: run 3 turns with a thread_id, then: <code>snapshot = agent.get_state(config)</code>. Print the snapshot. Kill the Python process, restart, restore from snapshot, continue.</div></div>
+<p><strong>Objective:</strong> Build a LangGraph agent and use its tracing to deeply understand the execution path.</p>
+<div class="lab-step"><div class="sn">1</div><div>Build the simple 2-node LangGraph (llm → tools → llm) from Tab 4. Draw the graph: <code>print(agent.get_graph().draw_mermaid())</code> — paste into mermaid.live to visualise.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add a third node: <code>validate_output</code> — after the LLM produces a final answer, this node checks it meets quality criteria. Add a conditional edge: if quality check fails, route back to LLM; if passes, route to END.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Run with verbose streaming: <code>for event in agent.stream(inputs, config): print(event)</code>. Observe every state transition.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test checkpoint persistence: run 3 turns with a thread_id, then: <code>snapshot = agent.get_state(config)</code>. Print the snapshot. Kill the Python process, restart, restore from snapshot, continue.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Human-in-the-Loop — Approval Flow</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Implement and test the full interrupt/resume cycle for a gated tool.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add a <code>send_email(to, subject, body)</code> tool to your LangGraph agent. Mark it as SENSITIVE.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Ask the agent: "Draft and send an email to boss@example.com explaining that the DPDK migration is complete." It should reach the send_email tool call and pause.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Inspect the interrupt value — does it contain the full email content? Approve it: <code>Command(resume={"approved": True})</code>. Verify the agent completes.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Repeat but reject with feedback: <code>Command(resume={"approved": False, "reason": "Subject line too informal"})</code>. Does the agent revise and ask again?</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> What information should always be in the interrupt payload to give a human enough context to approve or reject? Design the ideal approval UI payload.</div></div>
+<p><strong>Objective:</strong> Implement and test the full interrupt/resume cycle for a gated tool.</p>
+<div class="lab-step"><div class="sn">1</div><div>Add a <code>send_email(to, subject, body)</code> tool to your LangGraph agent. Mark it as SENSITIVE.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Ask the agent: "Draft and send an email to boss@example.com explaining that the DPDK migration is complete." It should reach the send_email tool call and pause.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Inspect the interrupt value — does it contain the full email content? Approve it: <code>Command(resume={"approved": True})</code>. Verify the agent completes.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Repeat but reject with feedback: <code>Command(resume={"approved": False, "reason": "Subject line too informal"})</code>. Does the agent revise and ask again?</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> What information should always be in the interrupt payload to give a human enough context to approve or reject? Design the ideal approval UI payload.</div></div>
   </div>
 </div>
 </div><!-- end t8 -->

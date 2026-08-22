@@ -69,7 +69,7 @@ url: /learning/backend/m02-http-servers/
 <div class="mod-header">
   <h1>M02 — HTTP Deep Dive &amp; Web Server Internals</h1>
   <div class="sub">
-    <span class="phase-tag">Phase 0</span>
+<span class="phase-tag">Phase 0</span>
     HTTP request parsing · Header internals · epoll event loop · Middleware pipeline · Trie-based routing · Content negotiation · Chunked transfer · Keep-alive &amp; connection pooling
   </div>
 </div>
@@ -103,13 +103,13 @@ url: /learning/backend/m02-http-servers/
 <span class="cv">Connection: keep-alive\r\n</span>
 <span class="cv">\r\n</span>                                   <span class="cm">← blank line = end of headers</span>
 <span class="cv">{"customer_id":"c-42","items":[{"id":"p-7"}]}</span>  <span class="cm">← body (47 bytes)</span></div>
-    <strong>Key structural rules:</strong>
-    <ul>
-      <li>Request line and each header line ends with <code>\r\n</code> (CRLF)</li>
-      <li>Header section ends with an empty line (<code>\r\n\r\n</code>)</li>
-      <li>Header name is case-insensitive; value is case-sensitive (mostly)</li>
-      <li>Body length determined by <code>Content-Length</code> or <code>Transfer-Encoding: chunked</code></li>
-    </ul>
+<strong>Key structural rules:</strong>
+<ul>
+<li>Request line and each header line ends with <code>\r\n</code> (CRLF)</li>
+<li>Header section ends with an empty line (<code>\r\n\r\n</code>)</li>
+<li>Header name is case-insensitive; value is case-sensitive (mostly)</li>
+<li>Body length determined by <code>Content-Length</code> or <code>Transfer-Encoding: chunked</code></li>
+</ul>
   </div>
 </div>
 <div class="cp p-green">
@@ -122,7 +122,7 @@ url: /learning/backend/m02-http-servers/
 <span class="cv">Cache-Control: no-store\r\n</span>
 <span class="cv">\r\n</span>
 <span class="cv">{"id":"ord-9821","status":"pending"}</span></div>
-    <div class="note">HTTP is a <strong>text protocol</strong> — both request and response are human-readable ASCII (headers). The body can be binary. This is why HTTP/2 moved to binary framing — text parsing is slower and more fragile.</div>
+<div class="note">HTTP is a <strong>text protocol</strong> — both request and response are human-readable ASCII (headers). The body can be binary. This is why HTTP/2 moved to binary framing — text parsing is slower and more fragile.</div>
   </div>
 </div>
 </div><!-- /t-overview -->
@@ -132,12 +132,12 @@ url: /learning/backend/m02-http-servers/
   <div class="cp-hdr">⚙️ HTTP/1.1 Request Parser State Machine</div>
   <div class="cp-body">
     A production HTTP parser is a state machine. It reads data from the TCP stream in chunks (not necessarily aligned to request boundaries) and must handle:
-    <ul>
-      <li>Partial reads — CRLF split across two recv() calls</li>
-      <li>Pipelining — multiple requests in one TCP read buffer</li>
-      <li>Slowloris attack — client sends headers one byte at a time</li>
-      <li>Header injection — values containing CRLF sequences</li>
-    </ul>
+<ul>
+<li>Partial reads — CRLF split across two recv() calls</li>
+<li>Pipelining — multiple requests in one TCP read buffer</li>
+<li>Slowloris attack — client sends headers one byte at a time</li>
+<li>Header injection — values containing CRLF sequences</li>
+</ul>
   </div>
 </div>
 <div class="diagram-box">
@@ -174,15 +174,15 @@ url: /learning/backend/m02-http-servers/
 <span class="cv">hello</span><span class="cv">\r\n</span>
 <span class="cn">0</span><span class="cv">\r\n</span>                     <span class="cm">← final chunk: size = 0 signals end</span>
 <span class="cv">\r\n</span>                         <span class="cm">← trailing CRLF after final chunk</span></div>
-    <div class="warn">Never trust <code>Content-Length</code> if <code>Transfer-Encoding: chunked</code> is also set. Per RFC 7230, chunked wins and <code>Content-Length</code> must be removed. A mismatch is a potential HTTP request smuggling vector.</div>
+<div class="warn">Never trust <code>Content-Length</code> if <code>Transfer-Encoding: chunked</code> is also set. Per RFC 7230, chunked wins and <code>Content-Length</code> must be removed. A mismatch is a potential HTTP request smuggling vector.</div>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr">🔒 HTTP Request Smuggling</div>
   <div class="cp-body">
     When a frontend proxy (CDN, load balancer) and backend server disagree on where one HTTP request ends and the next begins, an attacker can "smuggle" a prefix of a subsequent request past security controls.
-    <br><br>
-    <strong>CL.TE attack:</strong> frontend uses Content-Length, backend uses Transfer-Encoding:
+<br><br>
+<strong>CL.TE attack:</strong> frontend uses Content-Length, backend uses Transfer-Encoding:
 <div class="cb"><span class="cv">POST / HTTP/1.1\r\n</span>
 <span class="cv">Content-Length: 13\r\n</span>        <span class="cm">← frontend reads 13 bytes: "0\r\n\r\nGET /admin"</span>
 <span class="cv">Transfer-Encoding: chunked\r\n</span>  <span class="cm">← backend: reads chunk 0 → end, then starts "GET /admin" as new request</span>
@@ -190,23 +190,23 @@ url: /learning/backend/m02-http-servers/
 <span class="cv">0\r\n</span>
 <span class="cv">\r\n</span>
 <span class="cv">GET /admin</span></div>
-    <strong>Prevention:</strong> normalize all requests at the proxy; reject ambiguous requests; use HTTP/2 end-to-end (binary framing eliminates this class).
+<strong>Prevention:</strong> normalize all requests at the proxy; reject ambiguous requests; use HTTP/2 end-to-end (binary framing eliminates this class).
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr">📏 Parser Security: Limits to Enforce</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Limit</th><th>Nginx Default</th><th>Why</th></tr></thead>
-      <tbody>
-        <tr><td>Request line max length</td><td>8KB</td><td>Prevent buffer overflow in URI parsing</td></tr>
-        <tr><td>Max header count</td><td>~100</td><td>Prevent CPU DoS from O(N) header processing</td></tr>
-        <tr><td>Max single header value</td><td>8KB</td><td>Prevent memory DoS</td></tr>
-        <tr><td>Max body size</td><td>1MB</td><td>Prevent disk/memory exhaustion</td></tr>
-        <tr><td>Header read timeout</td><td>60s</td><td>Prevent Slowloris (slow header attack)</td></tr>
-        <tr><td>Body read timeout</td><td>60s</td><td>Prevent slow POST attacks</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Limit</th><th>Nginx Default</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td>Request line max length</td><td>8KB</td><td>Prevent buffer overflow in URI parsing</td></tr>
+<tr><td>Max header count</td><td>~100</td><td>Prevent CPU DoS from O(N) header processing</td></tr>
+<tr><td>Max single header value</td><td>8KB</td><td>Prevent memory DoS</td></tr>
+<tr><td>Max body size</td><td>1MB</td><td>Prevent disk/memory exhaustion</td></tr>
+<tr><td>Header read timeout</td><td>60s</td><td>Prevent Slowloris (slow header attack)</td></tr>
+<tr><td>Body read timeout</td><td>60s</td><td>Prevent slow POST attacks</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div><!-- /t-parsing -->
@@ -215,64 +215,64 @@ url: /learning/backend/m02-http-servers/
 <div class="cp p-teal">
   <div class="cp-hdr">📋 Essential Request Headers</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Header</th><th>Purpose</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td><code>Host</code></td><td>Virtual hosting — which domain is being requested</td><td>Required in HTTP/1.1; enables multiple sites on one IP</td></tr>
-        <tr><td><code>Accept</code></td><td>Content types client accepts: <code>application/json, text/html;q=0.9</code></td><td>q= is quality factor (0–1). Server picks best match.</td></tr>
-        <tr><td><code>Accept-Encoding</code></td><td>Compression algorithms: <code>gzip, br, deflate</code></td><td>Server compresses response body if supported</td></tr>
-        <tr><td><code>Accept-Language</code></td><td>Preferred languages: <code>en-US,en;q=0.8</code></td><td>Used for i18n</td></tr>
-        <tr><td><code>Content-Type</code></td><td>Body media type: <code>application/json; charset=utf-8</code></td><td>Required when body is present</td></tr>
-        <tr><td><code>Authorization</code></td><td>Credentials: <code>Bearer {token}</code>, <code>Basic {b64}</code></td><td>Never in URL (logged by proxies)</td></tr>
-        <tr><td><code>If-None-Match</code></td><td>Conditional GET — send ETag from previous response</td><td>Server returns 304 if unchanged → saves bandwidth</td></tr>
-        <tr><td><code>If-Modified-Since</code></td><td>Conditional GET by date</td><td>Weaker than ETag (1-second granularity)</td></tr>
-        <tr><td><code>X-Forwarded-For</code></td><td>Original client IP behind a proxy/LB</td><td>Rightmost non-trusted IP is the last known client</td></tr>
-        <tr><td><code>X-Request-Id</code></td><td>Request correlation ID</td><td>Generate at edge; propagate through all services</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Header</th><th>Purpose</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><code>Host</code></td><td>Virtual hosting — which domain is being requested</td><td>Required in HTTP/1.1; enables multiple sites on one IP</td></tr>
+<tr><td><code>Accept</code></td><td>Content types client accepts: <code>application/json, text/html;q=0.9</code></td><td>q= is quality factor (0–1). Server picks best match.</td></tr>
+<tr><td><code>Accept-Encoding</code></td><td>Compression algorithms: <code>gzip, br, deflate</code></td><td>Server compresses response body if supported</td></tr>
+<tr><td><code>Accept-Language</code></td><td>Preferred languages: <code>en-US,en;q=0.8</code></td><td>Used for i18n</td></tr>
+<tr><td><code>Content-Type</code></td><td>Body media type: <code>application/json; charset=utf-8</code></td><td>Required when body is present</td></tr>
+<tr><td><code>Authorization</code></td><td>Credentials: <code>Bearer {token}</code>, <code>Basic {b64}</code></td><td>Never in URL (logged by proxies)</td></tr>
+<tr><td><code>If-None-Match</code></td><td>Conditional GET — send ETag from previous response</td><td>Server returns 304 if unchanged → saves bandwidth</td></tr>
+<tr><td><code>If-Modified-Since</code></td><td>Conditional GET by date</td><td>Weaker than ETag (1-second granularity)</td></tr>
+<tr><td><code>X-Forwarded-For</code></td><td>Original client IP behind a proxy/LB</td><td>Rightmost non-trusted IP is the last known client</td></tr>
+<tr><td><code>X-Request-Id</code></td><td>Request correlation ID</td><td>Generate at edge; propagate through all services</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="two-col">
   <div class="cp p-blue">
-    <div class="cp-hdr">🗜️ Content Negotiation</div>
-    <div class="cp-body">
+<div class="cp-hdr">🗜️ Content Negotiation</div>
+<div class="cp-body">
       Server selects the best response format based on <code>Accept</code> header:
 <div class="cb"><span class="cm">/* Client request */</span>
 Accept: <span class="cv">application/json;q=1.0</span>,
-        <span class="cv">application/xml;q=0.8</span>,
-        <span class="cv">text/html;q=0.5</span>
+<span class="cv">application/xml;q=0.8</span>,
+<span class="cv">text/html;q=0.5</span>
 <span class="cm">/* Server algorithm */</span>
 <span class="ck">for each</span> supported_type in server_types:
-    <span class="ck">find</span> matching accept entry
-    <span class="ck">score</span> = q * specificity
+<span class="ck">find</span> matching accept entry
+<span class="ck">score</span> = q * specificity
 <span class="ck">pick</span> highest score
 <span class="cm">→ response: application/json (q=1.0 wins)</span></div>
       If no match: return <code>406 Not Acceptable</code>.
-    </div>
+</div>
   </div>
   <div class="cp p-green">
-    <div class="cp-hdr">📦 Response Caching Headers</div>
-    <div class="cp-body">
-      <table class="t-table">
-        <thead><tr><th>Header</th><th>Meaning</th></tr></thead>
-        <tbody>
-          <tr><td><code>Cache-Control: max-age=3600</code></td><td>Cache for 1 hour</td></tr>
-          <tr><td><code>Cache-Control: no-cache</code></td><td>Revalidate before using cached copy</td></tr>
-          <tr><td><code>Cache-Control: no-store</code></td><td>Never cache (auth, sensitive)</td></tr>
-          <tr><td><code>Cache-Control: private</code></td><td>Browser-only, not CDN</td></tr>
-          <tr><td><code>ETag: "abc123"</code></td><td>Version token for conditional GET</td></tr>
-          <tr><td><code>Last-Modified</code></td><td>Date-based conditional GET</td></tr>
-          <tr><td><code>Vary: Accept-Encoding</code></td><td>Cache by encoding variant</td></tr>
-        </tbody>
-      </table>
-    </div>
+<div class="cp-hdr">📦 Response Caching Headers</div>
+<div class="cp-body">
+<table class="t-table">
+<thead><tr><th>Header</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>Cache-Control: max-age=3600</code></td><td>Cache for 1 hour</td></tr>
+<tr><td><code>Cache-Control: no-cache</code></td><td>Revalidate before using cached copy</td></tr>
+<tr><td><code>Cache-Control: no-store</code></td><td>Never cache (auth, sensitive)</td></tr>
+<tr><td><code>Cache-Control: private</code></td><td>Browser-only, not CDN</td></tr>
+<tr><td><code>ETag: "abc123"</code></td><td>Version token for conditional GET</td></tr>
+<tr><td><code>Last-Modified</code></td><td>Date-based conditional GET</td></tr>
+<tr><td><code>Vary: Accept-Encoding</code></td><td>Cache by encoding variant</td></tr>
+</tbody>
+</table>
+</div>
   </div>
 </div>
 <div class="cp p-purple">
   <div class="cp-hdr">🔄 Keep-Alive &amp; Connection Pooling</div>
   <div class="cp-body">
     HTTP/1.1 defaults to persistent connections (<code>Connection: keep-alive</code>). The TCP connection is reused for multiple requests:
-    <div class="diagram-box">
+<div class="diagram-box">
 <span class="dg-teal">Without Keep-Alive</span>: TCP handshake + TLS handshake per request (~100ms overhead)
   GET /a  [TCP 3-way] [TLS handshake] → response → [TCP FIN]
   GET /b  [TCP 3-way] [TLS handshake] → response → [TCP FIN]
@@ -283,31 +283,31 @@ Accept: <span class="cv">application/json;q=1.0</span>,
   GET /b → response
   GET /c → response
   [TCP FIN when idle timeout or max-requests reached]
-    </div>
-    <strong>Server-side controls:</strong>
-    <ul style="margin:.4rem 0;padding-left:1.2rem">
-      <li><code>keepalive_timeout 65s</code> — close idle connection after 65s</li>
-      <li><code>keepalive_requests 1000</code> — max requests per connection (prevent memory leak)</li>
-      <li><code>Connection: close</code> — explicitly close after this response</li>
-    </ul>
-    <div class="note">HTTP/2 solves keep-alive inefficiency better — it multiplexes all requests over one connection without head-of-line blocking between requests.</div>
+</div>
+<strong>Server-side controls:</strong>
+<ul style="margin:.4rem 0;padding-left:1.2rem">
+<li><code>keepalive_timeout 65s</code> — close idle connection after 65s</li>
+<li><code>keepalive_requests 1000</code> — max requests per connection (prevent memory leak)</li>
+<li><code>Connection: close</code> — explicitly close after this response</li>
+</ul>
+<div class="note">HTTP/2 solves keep-alive inefficiency better — it multiplexes all requests over one connection without head-of-line blocking between requests.</div>
   </div>
 </div>
 <div class="cp p-amber">
   <div class="cp-hdr">📏 CORS — Cross-Origin Resource Sharing</div>
   <div class="cp-body">
     Browsers block cross-origin requests by default (same-origin policy). CORS headers tell the browser which cross-origin requests are allowed.
-    <table class="t-table" style="margin-top:.5rem">
-      <thead><tr><th>Header</th><th>Example Value</th><th>Meaning</th></tr></thead>
-      <tbody>
-        <tr><td><code>Access-Control-Allow-Origin</code></td><td><code>https://app.example.com</code></td><td>Allowed origin (or <code>*</code> for public APIs)</td></tr>
-        <tr><td><code>Access-Control-Allow-Methods</code></td><td><code>GET,POST,PUT,DELETE</code></td><td>Allowed HTTP methods</td></tr>
-        <tr><td><code>Access-Control-Allow-Headers</code></td><td><code>Authorization,Content-Type</code></td><td>Allowed request headers</td></tr>
-        <tr><td><code>Access-Control-Max-Age</code></td><td><code>86400</code></td><td>Cache preflight result for 24h</td></tr>
-        <tr><td><code>Access-Control-Allow-Credentials</code></td><td><code>true</code></td><td>Allow cookies/auth headers cross-origin</td></tr>
-      </tbody>
-    </table>
-    <div class="warn"><strong>Preflight:</strong> browsers send an <code>OPTIONS</code> request before any non-simple cross-origin request. Your server must respond to OPTIONS with CORS headers, or the actual request is blocked. Never set <code>Access-Control-Allow-Origin: *</code> with <code>Allow-Credentials: true</code> — that's a security mistake browsers reject.</div>
+<table class="t-table" style="margin-top:.5rem">
+<thead><tr><th>Header</th><th>Example Value</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>Access-Control-Allow-Origin</code></td><td><code>https://app.example.com</code></td><td>Allowed origin (or <code>*</code> for public APIs)</td></tr>
+<tr><td><code>Access-Control-Allow-Methods</code></td><td><code>GET,POST,PUT,DELETE</code></td><td>Allowed HTTP methods</td></tr>
+<tr><td><code>Access-Control-Allow-Headers</code></td><td><code>Authorization,Content-Type</code></td><td>Allowed request headers</td></tr>
+<tr><td><code>Access-Control-Max-Age</code></td><td><code>86400</code></td><td>Cache preflight result for 24h</td></tr>
+<tr><td><code>Access-Control-Allow-Credentials</code></td><td><code>true</code></td><td>Allow cookies/auth headers cross-origin</td></tr>
+</tbody>
+</table>
+<div class="warn"><strong>Preflight:</strong> browsers send an <code>OPTIONS</code> request before any non-simple cross-origin request. Your server must respond to OPTIONS with CORS headers, or the actual request is blocked. Never set <code>Access-Control-Allow-Origin: *</code> with <code>Allow-Credentials: true</code> — that's a security mistake browsers reject.</div>
   </div>
 </div>
 </div><!-- /t-headers -->
@@ -317,31 +317,31 @@ Accept: <span class="cv">application/json;q=1.0</span>,
   <div class="cp-hdr">⚡ epoll vs Thread-Per-Request: The C10K Problem</div>
   <div class="cp-body">
     In 1999, Dan Kegel posed the "C10K problem" — can a single server handle 10,000 simultaneous connections? Thread-per-request breaks at scale because:
-    <ul>
-      <li>Each thread = 8MB stack (default) → 10K threads = 80GB RAM just for stacks</li>
-      <li>Context switch overhead between 10K threads is CPU-expensive</li>
-      <li>Most threads are blocked on I/O — wasted resources</li>
-    </ul>
-    <strong>Solution:</strong> I/O multiplexing with <code>epoll</code> — one thread, thousands of connections, only active on I/O events.
+<ul>
+<li>Each thread = 8MB stack (default) → 10K threads = 80GB RAM just for stacks</li>
+<li>Context switch overhead between 10K threads is CPU-expensive</li>
+<li>Most threads are blocked on I/O — wasted resources</li>
+</ul>
+<strong>Solution:</strong> I/O multiplexing with <code>epoll</code> — one thread, thousands of connections, only active on I/O events.
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr">🔄 epoll Edge-Triggered Event Loop</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>syscall</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><code>epoll_create1(0)</code></td><td>Create epoll instance, returns fd</td></tr>
-        <tr><td><code>epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &amp;event)</code></td><td>Register fd to watch</td></tr>
-        <tr><td><code>epoll_wait(epfd, events, MAX, timeout_ms)</code></td><td>Block until events ready, returns count</td></tr>
-      </tbody>
-    </table>
-    <br>
-    <strong>Level-triggered (LT) vs Edge-triggered (ET):</strong>
-    <ul>
-      <li><strong>LT (default):</strong> epoll_wait returns event repeatedly while data available — simpler, forgiving of partial reads</li>
-      <li><strong>ET:</strong> epoll_wait returns event <em>once</em> per state change — you must read until EAGAIN or data is lost. Higher performance, requires non-blocking sockets + retry loops.</li>
-    </ul>
+<table class="t-table">
+<thead><tr><th>syscall</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>epoll_create1(0)</code></td><td>Create epoll instance, returns fd</td></tr>
+<tr><td><code>epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &amp;event)</code></td><td>Register fd to watch</td></tr>
+<tr><td><code>epoll_wait(epfd, events, MAX, timeout_ms)</code></td><td>Block until events ready, returns count</td></tr>
+</tbody>
+</table>
+<br>
+<strong>Level-triggered (LT) vs Edge-triggered (ET):</strong>
+<ul>
+<li><strong>LT (default):</strong> epoll_wait returns event repeatedly while data available — simpler, forgiving of partial reads</li>
+<li><strong>ET:</strong> epoll_wait returns event <em>once</em> per state change — you must read until EAGAIN or data is lost. Higher performance, requires non-blocking sockets + retry loops.</li>
+</ul>
   </div>
 </div>
 <div class="diagram-box">
@@ -354,14 +354,14 @@ Accept: <span class="cv">application/json;q=1.0</span>,
    n = epoll_wait(epfd, events, MAX_EVENTS, -1)
    for i in 0..n:
      if events[i].fd == listen_fd:
-       <span class="dg-teal">accept()</span> → new client_fd
-       <span class="dg-teal">fcntl(client_fd, F_SETFL, O_NONBLOCK)</span>
-       <span class="dg-teal">epoll_ctl(EPOLL_CTL_ADD, client_fd, EPOLLIN|EPOLLET)</span>
+<span class="dg-teal">accept()</span> → new client_fd
+<span class="dg-teal">fcntl(client_fd, F_SETFL, O_NONBLOCK)</span>
+<span class="dg-teal">epoll_ctl(EPOLL_CTL_ADD, client_fd, EPOLLIN|EPOLLET)</span>
      else:
-       <span class="dg-blue">parse_http(events[i].fd)</span>
+<span class="dg-blue">parse_http(events[i].fd)</span>
        if request complete:
-         <span class="dg-green">route_and_dispatch(request)</span>
-         <span class="dg-amber">send_response(events[i].fd)</span>
+<span class="dg-green">route_and_dispatch(request)</span>
+<span class="dg-amber">send_response(events[i].fd)</span>
          if !keep_alive: <span class="dg-gray">epoll_ctl(DEL); close(fd)</span>
 <span class="dg-purple">Worker threads</span>: for CPU-bound work, use a thread pool
   event loop enqueues work → thread pool executes → posts result back
@@ -370,12 +370,12 @@ Accept: <span class="cv">application/json;q=1.0</span>,
   <div class="cp-hdr">🏗️ Nginx Architecture: Master + Workers</div>
   <div class="cp-body">
     Nginx uses a master process + N worker processes (one per CPU core):
-    <ul>
-      <li><strong>Master process:</strong> reads config, manages worker lifecycle, handles signals, zero-downtime reload (<code>nginx -s reload</code>)</li>
-      <li><strong>Worker process:</strong> single-threaded epoll event loop; handles all connections assigned to it</li>
-      <li><strong>SO_REUSEPORT:</strong> each worker binds to the same port independently; kernel load-balances accept() calls across workers — eliminates accept mutex contention</li>
-    </ul>
-    <div class="ins">A single Nginx worker can handle ~10,000+ simultaneous connections because all I/O is non-blocking and the worker never sleeps waiting for one connection's data while others are ready.</div>
+<ul>
+<li><strong>Master process:</strong> reads config, manages worker lifecycle, handles signals, zero-downtime reload (<code>nginx -s reload</code>)</li>
+<li><strong>Worker process:</strong> single-threaded epoll event loop; handles all connections assigned to it</li>
+<li><strong>SO_REUSEPORT:</strong> each worker binds to the same port independently; kernel load-balances accept() calls across workers — eliminates accept mutex contention</li>
+</ul>
+<div class="ins">A single Nginx worker can handle ~10,000+ simultaneous connections because all I/O is non-blocking and the worker never sleeps waiting for one connection's data while others are ready.</div>
   </div>
 </div>
 </div><!-- /t-eventloop -->
@@ -399,7 +399,7 @@ Accept: <span class="cv">application/json;q=1.0</span>,
   <div class="cp-hdr">🌲 Trie-Based HTTP Router</div>
   <div class="cp-body">
     A naive router compares each route pattern sequentially O(N). A trie (radix tree) routes in O(path_depth) — constant for most APIs:
-    <div class="diagram-box">
+<div class="diagram-box">
 <span class="dg-teal">Routes registered:</span>
   GET  /users
   GET  /users/:id
@@ -416,26 +416,26 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 
 <span class="dg-gray">Path: GET /users/42/orders</span>
   match /users → match /:id (capture "42") → match /orders → handler
-    </div>
-    <strong>Path parameters</strong>: captured values (<code>id=42</code>) are extracted during trie traversal and placed in the request context.
+</div>
+<strong>Path parameters</strong>: captured values (<code>id=42</code>) are extracted during trie traversal and placed in the request context.
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr">🔌 Common Middleware Implementations</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Middleware</th><th>Responsibilities</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Logger</strong></td><td>Log method, path, status, latency, request_id</td><td>Run first (pre) and last (post) to capture full latency</td></tr>
-        <tr><td><strong>Request ID</strong></td><td>Generate/propagate X-Request-Id</td><td>Set before logger so all logs carry the ID</td></tr>
-        <tr><td><strong>Auth</strong></td><td>Validate JWT/session; attach user to context</td><td>Short-circuit with 401 if invalid</td></tr>
-        <tr><td><strong>Rate Limiter</strong></td><td>Check token bucket; return 429 if over limit</td><td>After auth (rate limit by user ID, not IP)</td></tr>
-        <tr><td><strong>CORS</strong></td><td>Add Access-Control-* headers; handle OPTIONS preflight</td><td>Must run before auth for OPTIONS to pass without credentials</td></tr>
-        <tr><td><strong>Body Parser</strong></td><td>Read body bytes; parse JSON/form; attach to context</td><td>Enforce size limits here</td></tr>
-        <tr><td><strong>Compression</strong></td><td>Gzip/br response if Accept-Encoding matches</td><td>Post-handler; skip for small responses (&lt;1KB)</td></tr>
-        <tr><td><strong>Panic Recovery</strong></td><td>Catch panics/crashes; return 500</td><td>Always the outermost middleware</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Middleware</th><th>Responsibilities</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><strong>Logger</strong></td><td>Log method, path, status, latency, request_id</td><td>Run first (pre) and last (post) to capture full latency</td></tr>
+<tr><td><strong>Request ID</strong></td><td>Generate/propagate X-Request-Id</td><td>Set before logger so all logs carry the ID</td></tr>
+<tr><td><strong>Auth</strong></td><td>Validate JWT/session; attach user to context</td><td>Short-circuit with 401 if invalid</td></tr>
+<tr><td><strong>Rate Limiter</strong></td><td>Check token bucket; return 429 if over limit</td><td>After auth (rate limit by user ID, not IP)</td></tr>
+<tr><td><strong>CORS</strong></td><td>Add Access-Control-* headers; handle OPTIONS preflight</td><td>Must run before auth for OPTIONS to pass without credentials</td></tr>
+<tr><td><strong>Body Parser</strong></td><td>Read body bytes; parse JSON/form; attach to context</td><td>Enforce size limits here</td></tr>
+<tr><td><strong>Compression</strong></td><td>Gzip/br response if Accept-Encoding matches</td><td>Post-handler; skip for small responses (&lt;1KB)</td></tr>
+<tr><td><strong>Panic Recovery</strong></td><td>Catch panics/crashes; return 500</td><td>Always the outermost middleware</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div><!-- /t-middleware -->
@@ -445,8 +445,8 @@ Accept: <span class="cv">application/json;q=1.0</span>,
   <div class="cp-hdr">🔢 HTTP/2 Binary Framing Layer</div>
   <div class="cp-body">
     HTTP/2 replaces the text-based HTTP/1.1 format with a binary framing layer. All communication happens through <strong>frames</strong> sent over <strong>streams</strong> within a single TCP connection.
-    <br><br>
-    <strong>Frame structure</strong> (9-byte fixed header):
+<br><br>
+<strong>Frame structure</strong> (9-byte fixed header):
   </div>
 </div>
 <div class="diagram-box">
@@ -478,42 +478,42 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 </div>
 <div class="two-col">
   <div class="cp p-blue">
-    <div class="cp-hdr">🌊 Streams &amp; Multiplexing</div>
-    <div class="cp-body">
+<div class="cp-hdr">🌊 Streams &amp; Multiplexing</div>
+<div class="cp-body">
       A <strong>stream</strong> is a bidirectional sequence of frames with an integer ID. Multiple streams are interleaved over one TCP connection:
-      <ul style="margin:0;padding-left:1.2rem">
-        <li>Client-initiated streams: odd IDs (1, 3, 5, …)</li>
-        <li>Server push streams: even IDs (2, 4, 6, …)</li>
-        <li>Stream 0: connection-level control (SETTINGS, PING)</li>
-        <li>Max concurrent streams: negotiated via SETTINGS_MAX_CONCURRENT_STREAMS</li>
-        <li>Frames from different streams freely interleaved → no HOL blocking between requests</li>
-      </ul>
-    </div>
+<ul style="margin:0;padding-left:1.2rem">
+<li>Client-initiated streams: odd IDs (1, 3, 5, …)</li>
+<li>Server push streams: even IDs (2, 4, 6, …)</li>
+<li>Stream 0: connection-level control (SETTINGS, PING)</li>
+<li>Max concurrent streams: negotiated via SETTINGS_MAX_CONCURRENT_STREAMS</li>
+<li>Frames from different streams freely interleaved → no HOL blocking between requests</li>
+</ul>
+</div>
   </div>
   <div class="cp p-green">
-    <div class="cp-hdr">📦 HPACK Header Compression</div>
-    <div class="cp-body">
+<div class="cp-hdr">📦 HPACK Header Compression</div>
+<div class="cp-body">
       HTTP/1.1 resends all headers on every request (~500B overhead). HPACK maintains two tables:
-      <ul style="margin:0;padding-left:1.2rem">
-        <li><strong>Static table:</strong> 61 common headers predefined (e.g., <code>:method GET</code> = index 2)</li>
-        <li><strong>Dynamic table:</strong> headers added during session; referenced by index on repeat</li>
-      </ul>
+<ul style="margin:0;padding-left:1.2rem">
+<li><strong>Static table:</strong> 61 common headers predefined (e.g., <code>:method GET</code> = index 2)</li>
+<li><strong>Dynamic table:</strong> headers added during session; referenced by index on repeat</li>
+</ul>
       Result: <code>:method GET</code> takes 1 byte (index reference) instead of 12 bytes. Repeated headers across requests are nearly free.
-      <div class="warn" style="margin-top:.4rem"><strong>CRIME attack:</strong> compressing secret data (cookies) alongside attacker-controlled data allows compression oracle attacks. HTTPS only — never compress sensitive headers over plaintext.</div>
-    </div>
+<div class="warn" style="margin-top:.4rem"><strong>CRIME attack:</strong> compressing secret data (cookies) alongside attacker-controlled data allows compression oracle attacks. HTTPS only — never compress sensitive headers over plaintext.</div>
+</div>
   </div>
 </div>
 <div class="cp p-amber">
   <div class="cp-hdr">🚰 HTTP/2 Flow Control</div>
   <div class="cp-body">
     HTTP/2 has two levels of flow control to prevent a fast sender from overwhelming a slow receiver:
-    <ul>
-      <li><strong>Connection-level:</strong> total bytes in flight across all streams</li>
-      <li><strong>Stream-level:</strong> bytes in flight per individual stream</li>
-    </ul>
+<ul>
+<li><strong>Connection-level:</strong> total bytes in flight across all streams</li>
+<li><strong>Stream-level:</strong> bytes in flight per individual stream</li>
+</ul>
     Each side advertises a <strong>receive window</strong> (initial: 65,535 bytes). Sender must stop when window is exhausted. Receiver sends <code>WINDOW_UPDATE</code> to grant more capacity after processing data.
-    <br><br>
-    <div class="note">HTTP/2 flow control is independent of TCP flow control. A receiver can throttle a single stream without blocking others — unlike HTTP/1.1 where slow reading of one response blocks the entire connection.</div>
+<br><br>
+<div class="note">HTTP/2 flow control is independent of TCP flow control. A receiver can throttle a single stream without blocking others — unlike HTTP/1.1 where slow reading of one response blocks the entire connection.</div>
   </div>
 </div>
 </div><!-- /t-http2 -->
@@ -533,83 +533,83 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 <span class="cs">#define</span> MAX_URI_LEN   <span class="cn">8192</span>
 <span class="cs">#define</span> MAX_HDR_LEN   <span class="cn">8192</span>
 <span class="cs">typedef struct</span> {
-    <span class="cs">char</span>  method[<span class="cn">16</span>];
-    <span class="cs">char</span>  uri[MAX_URI_LEN];
-    <span class="cs">char</span>  version[<span class="cn">16</span>];
-    <span class="cs">struct</span> { <span class="cs">char</span> name[<span class="cn">128</span>]; <span class="cs">char</span> value[MAX_HDR_LEN]; } headers[MAX_HEADERS];
-    <span class="cs">int</span>   header_count;
-    <span class="cs">char</span> *body;
-    <span class="cs">int</span>   body_len;
-    <span class="cs">int</span>   content_length;
+<span class="cs">char</span>  method[<span class="cn">16</span>];
+<span class="cs">char</span>  uri[MAX_URI_LEN];
+<span class="cs">char</span>  version[<span class="cn">16</span>];
+<span class="cs">struct</span> { <span class="cs">char</span> name[<span class="cn">128</span>]; <span class="cs">char</span> value[MAX_HDR_LEN]; } headers[MAX_HEADERS];
+<span class="cs">int</span>   header_count;
+<span class="cs">char</span> *body;
+<span class="cs">int</span>   body_len;
+<span class="cs">int</span>   content_length;
 } http_request_t;
 
 <span class="cm">/* Parse request line: "METHOD URI HTTP/1.x\r\n" */</span>
 <span class="ck">static int</span> <span class="cf">parse_request_line</span>(http_request_t *req, <span class="cs">char</span> *line, <span class="cs">int</span> len) {
     (void)len;
-    <span class="cm">/* sscanf is acceptable for bounded inputs with fixed format */</span>
-    <span class="ck">if</span> (sscanf(line, <span class="cv">"%15s %8191s %15s"</span>,
+<span class="cm">/* sscanf is acceptable for bounded inputs with fixed format */</span>
+<span class="ck">if</span> (sscanf(line, <span class="cv">"%15s %8191s %15s"</span>,
                req-&gt;method, req-&gt;uri, req-&gt;version) != <span class="cn">3</span>)
-        <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="ck">return</span> -<span class="cn">1</span>;
 
-    <span class="cm">/* Validate method (allowlist) */</span>
-    <span class="cs">const char</span> *valid[] = {<span class="cv">"GET"</span>,<span class="cv">"POST"</span>,<span class="cv">"PUT"</span>,<span class="cv">"DELETE"</span>,<span class="cv">"PATCH"</span>,<span class="cv">"HEAD"</span>,<span class="cv">"OPTIONS"</span>,NULL};
-    <span class="ck">for</span> (<span class="cs">int</span> i = <span class="cn">0</span>; valid[i]; i++)
-        <span class="ck">if</span> (strcmp(req-&gt;method, valid[i]) == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">0</span>;
-    <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* unknown method */</span>
+<span class="cm">/* Validate method (allowlist) */</span>
+<span class="cs">const char</span> *valid[] = {<span class="cv">"GET"</span>,<span class="cv">"POST"</span>,<span class="cv">"PUT"</span>,<span class="cv">"DELETE"</span>,<span class="cv">"PATCH"</span>,<span class="cv">"HEAD"</span>,<span class="cv">"OPTIONS"</span>,NULL};
+<span class="ck">for</span> (<span class="cs">int</span> i = <span class="cn">0</span>; valid[i]; i++)
+<span class="ck">if</span> (strcmp(req-&gt;method, valid[i]) == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* unknown method */</span>
 }
 
 <span class="cm">/* Parse one header line: "Name: value\r\n" */</span>
 <span class="ck">static int</span> <span class="cf">parse_header_line</span>(http_request_t *req, <span class="cs">char</span> *line) {
-    <span class="ck">if</span> (req-&gt;header_count &gt;= MAX_HEADERS) <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="ck">if</span> (req-&gt;header_count &gt;= MAX_HEADERS) <span class="ck">return</span> -<span class="cn">1</span>;
 
-    <span class="cs">char</span> *colon = strchr(line, <span class="cn">':'</span>);
-    <span class="ck">if</span> (!colon) <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="cs">char</span> *colon = strchr(line, <span class="cn">':'</span>);
+<span class="ck">if</span> (!colon) <span class="ck">return</span> -<span class="cn">1</span>;
 
     *colon = <span class="cn">'\0'</span>;
-    <span class="cs">char</span> *value = colon + <span class="cn">1</span>;
-    <span class="ck">while</span> (*value == <span class="cn">' '</span>) value++;  <span class="cm">/* strip leading whitespace */</span>
-    <span class="cs">int</span> i = req-&gt;header_count++;
-    <span class="cm">/* Normalize name to lowercase */</span>
+<span class="cs">char</span> *value = colon + <span class="cn">1</span>;
+<span class="ck">while</span> (*value == <span class="cn">' '</span>) value++;  <span class="cm">/* strip leading whitespace */</span>
+<span class="cs">int</span> i = req-&gt;header_count++;
+<span class="cm">/* Normalize name to lowercase */</span>
     strncpy(req-&gt;headers[i].name, line, <span class="cn">127</span>);
-    <span class="ck">for</span> (<span class="cs">char</span> *p = req-&gt;headers[i].name; *p; p++) *p = tolower(*p);
+<span class="ck">for</span> (<span class="cs">char</span> *p = req-&gt;headers[i].name; *p; p++) *p = tolower(*p);
     strncpy(req-&gt;headers[i].value, value, MAX_HDR_LEN - <span class="cn">1</span>);
 
-    <span class="cm">/* Track content-length for body parsing */</span>
-    <span class="ck">if</span> (strcmp(req-&gt;headers[i].name, <span class="cv">"content-length"</span>) == <span class="cn">0</span>)
+<span class="cm">/* Track content-length for body parsing */</span>
+<span class="ck">if</span> (strcmp(req-&gt;headers[i].name, <span class="cv">"content-length"</span>) == <span class="cn">0</span>)
         req-&gt;content_length = atoi(req-&gt;headers[i].value);
 
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }
 
 <span class="cm">/* Parse full HTTP/1.1 request from buffer */</span>
 <span class="cs">int</span> <span class="cf">http_parse_request</span>(http_request_t *req, <span class="cs">char</span> *buf, <span class="cs">int</span> len) {
     memset(req, <span class="cn">0</span>, <span class="ck">sizeof</span>(*req));
 
-    <span class="cm">/* Find end of headers: \r\n\r\n */</span>
-    <span class="cs">char</span> *header_end = strstr(buf, <span class="cv">"\r\n\r\n"</span>);
-    <span class="ck">if</span> (!header_end) <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* incomplete */</span>
+<span class="cm">/* Find end of headers: \r\n\r\n */</span>
+<span class="cs">char</span> *header_end = strstr(buf, <span class="cv">"\r\n\r\n"</span>);
+<span class="ck">if</span> (!header_end) <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* incomplete */</span>
     *header_end = <span class="cn">'\0'</span>;
 
-    <span class="cs">char</span> *line = buf;
-    <span class="cs">char</span> *nl;
-    <span class="cs">int</span> first_line = <span class="cn">1</span>;
+<span class="cs">char</span> *line = buf;
+<span class="cs">char</span> *nl;
+<span class="cs">int</span> first_line = <span class="cn">1</span>;
 
-    <span class="ck">while</span> ((nl = strstr(line, <span class="cv">"\r\n"</span>)) != NULL) {
+<span class="ck">while</span> ((nl = strstr(line, <span class="cv">"\r\n"</span>)) != NULL) {
         *nl = <span class="cn">'\0'</span>;
-        <span class="ck">if</span> (first_line) {
-            <span class="ck">if</span> (parse_request_line(req, line, nl - line) &lt; <span class="cn">0</span>) <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="ck">if</span> (first_line) {
+<span class="ck">if</span> (parse_request_line(req, line, nl - line) &lt; <span class="cn">0</span>) <span class="ck">return</span> -<span class="cn">1</span>;
             first_line = <span class="cn">0</span>;
         } <span class="ck">else if</span> (nl &gt; line) {
-            <span class="ck">if</span> (parse_header_line(req, line) &lt; <span class="cn">0</span>) <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="ck">if</span> (parse_header_line(req, line) &lt; <span class="cn">0</span>) <span class="ck">return</span> -<span class="cn">1</span>;
         }
         line = nl + <span class="cn">2</span>;
     }
 
-    <span class="cm">/* Body follows the \r\n\r\n separator */</span>
+<span class="cm">/* Body follows the \r\n\r\n separator */</span>
     req-&gt;body = header_end + <span class="cn">4</span>;
     req-&gt;body_len = req-&gt;content_length;
 
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
   </div>
 </div>
@@ -632,64 +632,64 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 <span class="cs">#define</span> BUF_SIZE    <span class="cn">65536</span>
 <span class="cs">#define</span> PORT        <span class="cn">8080</span>
 <span class="cs">typedef struct</span> {
-    <span class="cs">int</span>    fd;
-    <span class="cs">char</span>   rbuf[BUF_SIZE];
-    <span class="cs">int</span>    rlen;
-    <span class="cs">char</span>   wbuf[BUF_SIZE];
-    <span class="cs">int</span>    wlen;
-    <span class="cs">int</span>    woff;
+<span class="cs">int</span>    fd;
+<span class="cs">char</span>   rbuf[BUF_SIZE];
+<span class="cs">int</span>    rlen;
+<span class="cs">char</span>   wbuf[BUF_SIZE];
+<span class="cs">int</span>    wlen;
+<span class="cs">int</span>    woff;
 } conn_t;
 
 <span class="ck">static void</span> <span class="cf">set_nonblocking</span>(<span class="cs">int</span> fd) {
-    <span class="cs">int</span> flags = fcntl(fd, F_GETFL, <span class="cn">0</span>);
+<span class="cs">int</span> flags = fcntl(fd, F_GETFL, <span class="cn">0</span>);
     fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
 
 <span class="cm">/* HTTP response builder */</span>
 <span class="ck">static int</span> <span class="cf">build_response</span>(<span class="cs">char</span> *buf, <span class="cs">int</span> sz,
-                            <span class="cs">int</span> status, <span class="cs">const char</span> *body) {
-    <span class="cs">const char</span> *reason =
+<span class="cs">int</span> status, <span class="cs">const char</span> *body) {
+<span class="cs">const char</span> *reason =
         status == <span class="cn">200</span> ? <span class="cv">"OK"</span> :
         status == <span class="cn">201</span> ? <span class="cv">"Created"</span> :
         status == <span class="cn">404</span> ? <span class="cv">"Not Found"</span> :
         status == <span class="cn">405</span> ? <span class="cv">"Method Not Allowed"</span> : <span class="cv">"Internal Server Error"</span>;
 
-    <span class="ck">return</span> snprintf(buf, sz,
-        <span class="cv">"HTTP/1.1 %d %s\r\n"</span>
-        <span class="cv">"Content-Type: application/json\r\n"</span>
-        <span class="cv">"Content-Length: %zu\r\n"</span>
-        <span class="cv">"Connection: keep-alive\r\n"</span>
-        <span class="cv">"\r\n"</span>
-        <span class="cv">"%s"</span>,
+<span class="ck">return</span> snprintf(buf, sz,
+<span class="cv">"HTTP/1.1 %d %s\r\n"</span>
+<span class="cv">"Content-Type: application/json\r\n"</span>
+<span class="cv">"Content-Length: %zu\r\n"</span>
+<span class="cv">"Connection: keep-alive\r\n"</span>
+<span class="cv">"\r\n"</span>
+<span class="cv">"%s"</span>,
         status, reason, strlen(body), body);
 }
 
 <span class="cm">/* Route handler — returns 0 on success, -1 on unknown route */</span>
 <span class="ck">static int</span> <span class="cf">handle_request</span>(conn_t *conn,
-                            <span class="cs">const char</span> *method, <span class="cs">const char</span> *uri) {
-    <span class="ck">if</span> (strcmp(method, <span class="cv">"GET"</span>) == <span class="cn">0</span> &amp;&amp; strcmp(uri, <span class="cv">"/"</span>) == <span class="cn">0</span>) {
+<span class="cs">const char</span> *method, <span class="cs">const char</span> *uri) {
+<span class="ck">if</span> (strcmp(method, <span class="cv">"GET"</span>) == <span class="cn">0</span> &amp;&amp; strcmp(uri, <span class="cv">"/"</span>) == <span class="cn">0</span>) {
         conn-&gt;wlen = build_response(conn-&gt;wbuf, BUF_SIZE,
-            <span class="cn">200</span>, <span class="cv">"{\"status\":\"ok\"}"</span>);
-        <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cn">200</span>, <span class="cv">"{\"status\":\"ok\"}"</span>);
+<span class="ck">return</span> <span class="cn">0</span>;
     }
-    <span class="ck">if</span> (strncmp(uri, <span class="cv">"/orders"</span>, <span class="cn">7</span>) == <span class="cn">0</span> &amp;&amp; strcmp(method, <span class="cv">"GET"</span>) == <span class="cn">0</span>) {
+<span class="ck">if</span> (strncmp(uri, <span class="cv">"/orders"</span>, <span class="cn">7</span>) == <span class="cn">0</span> &amp;&amp; strcmp(method, <span class="cv">"GET"</span>) == <span class="cn">0</span>) {
         conn-&gt;wlen = build_response(conn-&gt;wbuf, BUF_SIZE,
-            <span class="cn">200</span>, <span class="cv">"{\"orders\":[]}"</span>);
-        <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cn">200</span>, <span class="cv">"{\"orders\":[]}"</span>);
+<span class="ck">return</span> <span class="cn">0</span>;
     }
     conn-&gt;wlen = build_response(conn-&gt;wbuf, BUF_SIZE,
-        <span class="cn">404</span>, <span class="cv">"{\"error\":\"NOT_FOUND\"}"</span>);
-    <span class="ck">return</span> -<span class="cn">1</span>;
+<span class="cn">404</span>, <span class="cv">"{\"error\":\"NOT_FOUND\"}"</span>);
+<span class="ck">return</span> -<span class="cn">1</span>;
 }
 
 <span class="cs">int</span> <span class="cf">main</span>(<span class="cs">void</span>) {
-    <span class="cm">/* Create listen socket */</span>
-    <span class="cs">int</span> listen_fd = socket(AF_INET, SOCK_STREAM, <span class="cn">0</span>);
-    <span class="cs">int</span> opt = <span class="cn">1</span>;
+<span class="cm">/* Create listen socket */</span>
+<span class="cs">int</span> listen_fd = socket(AF_INET, SOCK_STREAM, <span class="cn">0</span>);
+<span class="cs">int</span> opt = <span class="cn">1</span>;
     setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="ck">sizeof</span>(opt));
     set_nonblocking(listen_fd);
 
-    <span class="cs">struct sockaddr_in</span> addr = {
+<span class="cs">struct sockaddr_in</span> addr = {
         .sin_family = AF_INET,
         .sin_port   = htons(PORT),
         .sin_addr.s_addr = INADDR_ANY
@@ -697,31 +697,31 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     bind(listen_fd, (<span class="cs">struct sockaddr</span>*)&amp;addr, <span class="ck">sizeof</span>(addr));
     listen(listen_fd, SOMAXCONN);
 
-    <span class="cm">/* Create epoll instance */</span>
-    <span class="cs">int</span> epfd = epoll_create1(<span class="cn">0</span>);
-    <span class="cs">struct epoll_event</span> ev = { .events = EPOLLIN, .data.fd = listen_fd };
+<span class="cm">/* Create epoll instance */</span>
+<span class="cs">int</span> epfd = epoll_create1(<span class="cn">0</span>);
+<span class="cs">struct epoll_event</span> ev = { .events = EPOLLIN, .data.fd = listen_fd };
     epoll_ctl(epfd, EPOLL_CTL_ADD, listen_fd, &amp;ev);
 
-    <span class="cs">struct epoll_event</span> events[MAX_EVENTS];
+<span class="cs">struct epoll_event</span> events[MAX_EVENTS];
     conn_t *conns[65536] = {<span class="cn">0</span>};  <span class="cm">/* indexed by fd (simplified) */</span>
 
     fprintf(stdout, <span class="cv">"Server listening on :%d\n"</span>, PORT);
 
-    <span class="ck">for</span> (;;) {
-        <span class="cs">int</span> n = epoll_wait(epfd, events, MAX_EVENTS, -<span class="cn">1</span>);
-        <span class="ck">for</span> (<span class="cs">int</span> i = <span class="cn">0</span>; i &lt; n; i++) {
-            <span class="cs">int</span> fd = events[i].data.fd;
+<span class="ck">for</span> (;;) {
+<span class="cs">int</span> n = epoll_wait(epfd, events, MAX_EVENTS, -<span class="cn">1</span>);
+<span class="ck">for</span> (<span class="cs">int</span> i = <span class="cn">0</span>; i &lt; n; i++) {
+<span class="cs">int</span> fd = events[i].data.fd;
 
-            <span class="ck">if</span> (fd == listen_fd) {
-                <span class="cm">/* Accept new connections */</span>
-                <span class="ck">for</span> (;;) {
-                    <span class="cs">int</span> cfd = accept(listen_fd, NULL, NULL);
-                    <span class="ck">if</span> (cfd &lt; <span class="cn">0</span>) <span class="ck">break</span>;  <span class="cm">/* EAGAIN: no more waiting */</span>
+<span class="ck">if</span> (fd == listen_fd) {
+<span class="cm">/* Accept new connections */</span>
+<span class="ck">for</span> (;;) {
+<span class="cs">int</span> cfd = accept(listen_fd, NULL, NULL);
+<span class="ck">if</span> (cfd &lt; <span class="cn">0</span>) <span class="ck">break</span>;  <span class="cm">/* EAGAIN: no more waiting */</span>
                     set_nonblocking(cfd);
                     conn_t *c = calloc(<span class="cn">1</span>, <span class="ck">sizeof</span>(conn_t));
                     c-&gt;fd = cfd;
                     conns[cfd] = c;
-                    <span class="cs">struct epoll_event</span> cev = {
+<span class="cs">struct epoll_event</span> cev = {
                         .events = EPOLLIN | EPOLLET,
                         .data.fd = cfd
                     };
@@ -731,22 +731,22 @@ Accept: <span class="cv">application/json;q=1.0</span>,
                 conn_t *c = conns[fd];
                 ssize_t nr = recv(fd, c-&gt;rbuf + c-&gt;rlen,
                                   BUF_SIZE - c-&gt;rlen - <span class="cn">1</span>, <span class="cn">0</span>);
-                <span class="ck">if</span> (nr &lt;= <span class="cn">0</span>) {
+<span class="ck">if</span> (nr &lt;= <span class="cn">0</span>) {
                     epoll_ctl(epfd, EPOLL_CTL_DEL, fd, NULL);
                     close(fd); free(c); conns[fd] = NULL;
-                    <span class="ck">continue</span>;
+<span class="ck">continue</span>;
                 }
                 c-&gt;rlen += nr;
                 c-&gt;rbuf[c-&gt;rlen] = <span class="cn">'\0'</span>;
 
-                <span class="cm">/* Check if full request received */</span>
-                <span class="ck">if</span> (strstr(c-&gt;rbuf, <span class="cv">"\r\n\r\n"</span>)) {
-                    <span class="cs">char</span> method[<span class="cn">16</span>], uri[<span class="cn">256</span>];
+<span class="cm">/* Check if full request received */</span>
+<span class="ck">if</span> (strstr(c-&gt;rbuf, <span class="cv">"\r\n\r\n"</span>)) {
+<span class="cs">char</span> method[<span class="cn">16</span>], uri[<span class="cn">256</span>];
                     sscanf(c-&gt;rbuf, <span class="cv">"%15s %255s"</span>, method, uri);
                     handle_request(c, method, uri);
 
-                    <span class="cm">/* Switch to write mode */</span>
-                    <span class="cs">struct epoll_event</span> wev = {
+<span class="cm">/* Switch to write mode */</span>
+<span class="cs">struct epoll_event</span> wev = {
                         .events = EPOLLOUT | EPOLLET,
                         .data.fd = fd
                     };
@@ -756,12 +756,12 @@ Accept: <span class="cv">application/json;q=1.0</span>,
                 conn_t *c = conns[fd];
                 ssize_t nw = send(fd, c-&gt;wbuf + c-&gt;woff,
                                   c-&gt;wlen - c-&gt;woff, <span class="cn">0</span>);
-                <span class="ck">if</span> (nw &gt; <span class="cn">0</span>) c-&gt;woff += nw;
+<span class="ck">if</span> (nw &gt; <span class="cn">0</span>) c-&gt;woff += nw;
 
-                <span class="ck">if</span> (c-&gt;woff &gt;= c-&gt;wlen) {
-                    <span class="cm">/* Done writing — reset for next request (keep-alive) */</span>
+<span class="ck">if</span> (c-&gt;woff &gt;= c-&gt;wlen) {
+<span class="cm">/* Done writing — reset for next request (keep-alive) */</span>
                     c-&gt;rlen = c-&gt;wlen = c-&gt;woff = <span class="cn">0</span>;
-                    <span class="cs">struct epoll_event</span> rev = {
+<span class="cs">struct epoll_event</span> rev = {
                         .events = EPOLLIN | EPOLLET,
                         .data.fd = fd
                     };
@@ -779,47 +779,47 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 1 — Build &amp; Benchmark an epoll HTTP Server</div>
   <div class="lab-body">
-    <div class="lab-step"><span class="sn">1</span> Compile and run the epoll server from Tab 7. Test with <code>curl -v http://localhost:8080/</code> — verify headers and body.</div>
-    <div class="lab-step"><span class="sn">2</span> Benchmark with <code>wrk -t4 -c1000 -d30s http://localhost:8080/</code>. Record req/sec and latency p99.</div>
-    <div class="lab-step"><span class="sn">3</span> Compare: modify server to use thread-per-request (one <code>pthread_create</code> per accept). Re-benchmark at c=1000. Compare req/sec, memory usage (<code>valgrind --tool=massif</code>).</div>
-    <div class="lab-step"><span class="sn">4</span> Add a keep-alive test: <code>wrk --connections 100 --threads 4 --duration 30s --pipeline 10</code>. Observe connection reuse in server logs.</div>
+<div class="lab-step"><span class="sn">1</span> Compile and run the epoll server from Tab 7. Test with <code>curl -v http://localhost:8080/</code> — verify headers and body.</div>
+<div class="lab-step"><span class="sn">2</span> Benchmark with <code>wrk -t4 -c1000 -d30s http://localhost:8080/</code>. Record req/sec and latency p99.</div>
+<div class="lab-step"><span class="sn">3</span> Compare: modify server to use thread-per-request (one <code>pthread_create</code> per accept). Re-benchmark at c=1000. Compare req/sec, memory usage (<code>valgrind --tool=massif</code>).</div>
+<div class="lab-step"><span class="sn">4</span> Add a keep-alive test: <code>wrk --connections 100 --threads 4 --duration 30s --pipeline 10</code>. Observe connection reuse in server logs.</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 2 — HTTP Parser Fuzzing</div>
   <div class="lab-body">
-    <div class="lab-step"><span class="sn">1</span> Compile the parser from Tab 7 with AddressSanitizer: <code>gcc -fsanitize=address,undefined -g http_parser.c -o parser_test</code></div>
-    <div class="lab-step"><span class="sn">2</span> Write a test harness that feeds malformed inputs: missing CRLF, header without colon, zero Content-Length with body, negative Content-Length. Verify no crashes or buffer overflows.</div>
-    <div class="lab-step"><span class="sn">3</span> Test HTTP request smuggling input: body with both Content-Length and Transfer-Encoding chunked. Verify your parser handles it per RFC (chunked wins).</div>
-    <div class="lab-step"><span class="sn">4</span> <strong>Bonus:</strong> use libFuzzer: <code>clang -fsanitize=fuzzer,address -o fuzz_parser fuzz_parser.c http_parser.c</code>. Run for 60 seconds and inspect corpus.</div>
+<div class="lab-step"><span class="sn">1</span> Compile the parser from Tab 7 with AddressSanitizer: <code>gcc -fsanitize=address,undefined -g http_parser.c -o parser_test</code></div>
+<div class="lab-step"><span class="sn">2</span> Write a test harness that feeds malformed inputs: missing CRLF, header without colon, zero Content-Length with body, negative Content-Length. Verify no crashes or buffer overflows.</div>
+<div class="lab-step"><span class="sn">3</span> Test HTTP request smuggling input: body with both Content-Length and Transfer-Encoding chunked. Verify your parser handles it per RFC (chunked wins).</div>
+<div class="lab-step"><span class="sn">4</span> <strong>Bonus:</strong> use libFuzzer: <code>clang -fsanitize=fuzzer,address -o fuzz_parser fuzz_parser.c http_parser.c</code>. Run for 60 seconds and inspect corpus.</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 3 — HTTP Headers &amp; Content Negotiation</div>
   <div class="lab-body">
-    <div class="lab-step"><span class="sn">1</span> Add content negotiation to your server: if <code>Accept: application/xml</code> is requested, return XML; if <code>Accept: application/json</code>, return JSON. For unsupported types, return <code>406</code>.</div>
-    <div class="lab-step"><span class="sn">2</span> Implement ETag caching: generate a simple ETag (e.g., SHA-1 of response body). On <code>If-None-Match</code> match, return <code>304 Not Modified</code> with empty body.</div>
-    <div class="lab-step"><span class="sn">3</span> Add gzip compression: if <code>Accept-Encoding: gzip</code> present, compress response body with zlib. Add <code>Content-Encoding: gzip</code> header. Verify with <code>curl --compressed</code>.</div>
-    <div class="lab-step"><span class="sn">4</span> Implement CORS middleware: add <code>Access-Control-Allow-Origin</code> and handle <code>OPTIONS</code> preflight. Test with a browser <code>fetch()</code> from a different origin.</div>
+<div class="lab-step"><span class="sn">1</span> Add content negotiation to your server: if <code>Accept: application/xml</code> is requested, return XML; if <code>Accept: application/json</code>, return JSON. For unsupported types, return <code>406</code>.</div>
+<div class="lab-step"><span class="sn">2</span> Implement ETag caching: generate a simple ETag (e.g., SHA-1 of response body). On <code>If-None-Match</code> match, return <code>304 Not Modified</code> with empty body.</div>
+<div class="lab-step"><span class="sn">3</span> Add gzip compression: if <code>Accept-Encoding: gzip</code> present, compress response body with zlib. Add <code>Content-Encoding: gzip</code> header. Verify with <code>curl --compressed</code>.</div>
+<div class="lab-step"><span class="sn">4</span> Implement CORS middleware: add <code>Access-Control-Allow-Origin</code> and handle <code>OPTIONS</code> preflight. Test with a browser <code>fetch()</code> from a different origin.</div>
   </div>
 </div>
 <div class="sep">── Phase 0 Batch 2 Checklist ──</div>
 <div class="two-col">
   <div>
-    <ul class="cl">
-      <li>Parse an HTTP/1.1 request at the byte level (request line, headers, body)</li>
-      <li>Explain chunked transfer encoding and when it's used</li>
-      <li>Describe HTTP request smuggling (CL.TE) and prevention</li>
-      <li>Implement a non-blocking epoll server with keep-alive</li>
-    </ul>
+<ul class="cl">
+<li>Parse an HTTP/1.1 request at the byte level (request line, headers, body)</li>
+<li>Explain chunked transfer encoding and when it's used</li>
+<li>Describe HTTP request smuggling (CL.TE) and prevention</li>
+<li>Implement a non-blocking epoll server with keep-alive</li>
+</ul>
   </div>
   <div>
-    <ul class="cl">
-      <li>Describe HTTP/2 frame format and the 9 frame types</li>
-      <li>Explain HPACK compression and the static/dynamic table</li>
-      <li>Implement a middleware pipeline with short-circuit semantics</li>
-      <li>Explain CORS preflight and which headers are required</li>
-    </ul>
+<ul class="cl">
+<li>Describe HTTP/2 frame format and the 9 frame types</li>
+<li>Explain HPACK compression and the static/dynamic table</li>
+<li>Implement a middleware pipeline with short-circuit semantics</li>
+<li>Explain CORS preflight and which headers are required</li>
+</ul>
   </div>
 </div>
 <div class="mod-nav">

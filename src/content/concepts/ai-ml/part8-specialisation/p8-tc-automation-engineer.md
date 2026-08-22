@@ -57,9 +57,9 @@ url: /learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/
   <div class="mod-title">Track C — AI Automation Engineer</div>
   <div class="mod-subtitle">Build enterprise automation workflows connecting AI to business systems</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2–3 Weeks</span>
-    <span class="mod-pill">🟠 Advanced</span>
-    <span class="mod-pill">🔧 MCP · n8n · Slack API · Jira · Webhooks</span>
+<span class="mod-pill">⏱ 2–3 Weeks</span>
+<span class="mod-pill">🟠 Advanced</span>
+<span class="mod-pill">🔧 MCP · n8n · Slack API · Jira · Webhooks</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -75,16 +75,16 @@ url: /learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Track Overview</h3><span class="tag">Specialisation C</span></div>
   <div class="cp-body">
-    <p>Build enterprise automation workflows that connect AI to business systems. This is the fastest-growing segment of AI employment: companies need engineers who can integrate AI with their existing software stacks without rebuilding everything from scratch.</p>
-    <h4>Skills You Will Build</h4>
-    <ul>
-      <li>Model Context Protocol (MCP) — Anthropic's open standard for AI tool integration</li>
-      <li>n8n visual workflow automation with custom HTTP nodes for AI</li>
-      <li>Building Slack bots that respond with AI-generated answers</li>
-      <li>Jira ticket creation from AI classification output</li>
-      <li>Webhook-driven automation: receive event, classify with AI, act</li>
-      <li>Error handling and dead letter queues for multi-step workflows</li>
-    </ul>
+<p>Build enterprise automation workflows that connect AI to business systems. This is the fastest-growing segment of AI employment: companies need engineers who can integrate AI with their existing software stacks without rebuilding everything from scratch.</p>
+<h4>Skills You Will Build</h4>
+<ul>
+<li>Model Context Protocol (MCP) — Anthropic's open standard for AI tool integration</li>
+<li>n8n visual workflow automation with custom HTTP nodes for AI</li>
+<li>Building Slack bots that respond with AI-generated answers</li>
+<li>Jira ticket creation from AI classification output</li>
+<li>Webhook-driven automation: receive event, classify with AI, act</li>
+<li>Error handling and dead letter queues for multi-step workflows</li>
+</ul>
   </div>
 </div>
 </div>
@@ -92,7 +92,7 @@ url: /learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Model Context Protocol — Build an MCP Server</h3><span class="tag">Standard</span></div>
   <div class="cp-body">
-    <p>MCP is Anthropic's open standard for connecting AI to external tools. Build an MCP server once and it works with Claude Desktop, Claude Code, and any other MCP-compatible client.</p>
+<p>MCP is Anthropic's open standard for connecting AI to external tools. Build an MCP server once and it works with Claude Desktop, Claude Code, and any other MCP-compatible client.</p>
     <div class="cb"><pre>pip install mcp
  
 # mcp_server.py — expose your tools to any MCP client
@@ -368,22 +368,22 @@ async def process_webhook(source: str, payload: dict):
 <div id="t5" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Capstone: Enterprise AI Automation System</span>
-    <span class="proj-dur">2–3 weeks</span>
+<span>🛠</span>
+<span class="proj-title">Capstone: Enterprise AI Automation System</span>
+<span class="proj-dur">2–3 weeks</span>
   </div>
   <div class="proj-body">
-    <p>Build an end-to-end enterprise automation that handles real support requests with AI.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Slack bot that receives @mentions and responds with AI (RAG-backed for technical questions)</li>
-      <li>Automatic Jira ticket creation when classification = "bug report"</li>
-      <li>Daily digest Slack message: summary of tickets created, questions answered, topics covered</li>
-      <li>MCP server with 3+ tools registered in Claude Desktop</li>
-      <li>n8n workflow connecting at least 2 external systems</li>
-      <li>Error handling: if any step fails, log to structured JSON and send Slack alert to ops channel</li>
-    </ul>
-    <p>Deploy as a persistent service on Railway or Render. Test with real Slack channel for 1 week.</p>
+<p>Build an end-to-end enterprise automation that handles real support requests with AI.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Slack bot that receives @mentions and responds with AI (RAG-backed for technical questions)</li>
+<li>Automatic Jira ticket creation when classification = "bug report"</li>
+<li>Daily digest Slack message: summary of tickets created, questions answered, topics covered</li>
+<li>MCP server with 3+ tools registered in Claude Desktop</li>
+<li>n8n workflow connecting at least 2 external systems</li>
+<li>Error handling: if any step fails, log to structured JSON and send Slack alert to ops channel</li>
+</ul>
+<p>Deploy as a persistent service on Railway or Render. Test with real Slack channel for 1 week.</p>
   </div>
 </div>
 </div>

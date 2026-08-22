@@ -16,19 +16,19 @@ Welcome to the complete hub for Array. Here you'll find guides, templates, and c
 <div style="display:flex;flex-wrap:wrap;gap:2.2rem 2.5rem;justify-content:center;margin-bottom:2.5rem;">
   <!-- Sliding Window Card -->
   <div class="project-card" style="min-width:260px;max-width:340px;background:#f8fafc;border-radius:12px;box-shadow:0 2px 10px #e2e8f0;padding:1.7rem 1.2rem;text-align:center;">
-    <span style="font-size:2.2rem;">🧮</span>
-    <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
-      <a href="/learning/dsa/arrays/sliding-window/" style="color:#1976d2;text-decoration:none;">Sliding Window Technique</a>
-    </h3>
-    <div style="color:#607d8b;font-size:0.98rem;">Sliding Window is a fundamental technique used for solving problems involving contiguous subarrays or substrings.</div>
+<span style="font-size:2.2rem;">🧮</span>
+<h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
+<a href="/learning/dsa/arrays/sliding-window/" style="color:#1976d2;text-decoration:none;">Sliding Window Technique</a>
+</h3>
+<div style="color:#607d8b;font-size:0.98rem;">Sliding Window is a fundamental technique used for solving problems involving contiguous subarrays or substrings.</div>
   </div>
   <!-- Two Pointer Technique -->
   <div class="project-card" style="min-width:260px;max-width:340px;background:#f8fafc;border-radius:12px;box-shadow:0 2px 10px #e2e8f0;padding:1.7rem 1.2rem;text-align:center;">
-    <span style="font-size:2.2rem;">🔎</span>
-    <h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
-      <a href="/learning/dsa/arrays/two-pointers/" style="color:#1976d2;text-decoration:none;">Two Pointer Technique</a>
-    </h3>
-    <div style="color:#607d8b;font-size:0.98rem;">Two indices that move independently, reduce time complexity from O(n²) to O(n)</div>
+<span style="font-size:2.2rem;">🔎</span>
+<h3 style="margin:0.7rem 0 0.3rem 0;font-size:1.18rem;font-weight:700;">
+<a href="/learning/dsa/arrays/two-pointers/" style="color:#1976d2;text-decoration:none;">Two Pointer Technique</a>
+</h3>
+<div style="color:#607d8b;font-size:0.98rem;">Two indices that move independently, reduce time complexity from O(n²) to O(n)</div>
   </div>
 </div>
 

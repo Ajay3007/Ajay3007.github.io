@@ -604,8 +604,8 @@ Publisher                    Redis                     Subscribers
   <span class="cv">title</span>: <span class="cs">"Understanding Redis"</span>,
   <span class="cv">slug</span>:  <span class="cs">"understanding-redis"</span>,
   <span class="cv">author</span>: {
-    <span class="cv">id</span>: <span class="cf">ObjectId</span>(<span class="cs">"..."</span>),
-    <span class="cv">name</span>: <span class="cs">"Alice"</span>   <span class="cm">// denormalized — avoid join</span>
+<span class="cv">id</span>: <span class="cf">ObjectId</span>(<span class="cs">"..."</span>),
+<span class="cv">name</span>: <span class="cs">"Alice"</span>   <span class="cm">// denormalized — avoid join</span>
   },
   <span class="cv">tags</span>: [<span class="cs">"redis"</span>, <span class="cs">"backend"</span>, <span class="cs">"caching"</span>],
   <span class="cv">publishedAt</span>: <span class="cf">ISODate</span>(<span class="cs">"2026-03-27T10:00:00Z"</span>),
@@ -662,24 +662,24 @@ Collection → [$match] → [$lookup] → [$unwind] → [$group] → [$sort] →
 <div class="cb">db.posts.<span class="cf">aggregate</span>([
   <span class="cm">// Stage 1: filter published posts from 2026</span>
   { <span class="co">$</span><span class="cv">match</span>: {
-    <span class="cv">status</span>: <span class="cs">"published"</span>,
-    <span class="cv">publishedAt</span>: { <span class="co">$</span><span class="cv">gte</span>: <span class="ck">new</span> <span class="cf">Date</span>(<span class="cs">"2026-01-01"</span>) }
+<span class="cv">status</span>: <span class="cs">"published"</span>,
+<span class="cv">publishedAt</span>: { <span class="co">$</span><span class="cv">gte</span>: <span class="ck">new</span> <span class="cf">Date</span>(<span class="cs">"2026-01-01"</span>) }
   }},
 
   <span class="cm">// Stage 2: join with users collection</span>
   { <span class="co">$</span><span class="cv">lookup</span>: {
-    <span class="cv">from</span>:         <span class="cs">"users"</span>,
-    <span class="cv">localField</span>:   <span class="cs">"author.id"</span>,
-    <span class="cv">foreignField</span>: <span class="cs">"_id"</span>,
-    <span class="cv">as</span>:           <span class="cs">"authorDoc"</span>
+<span class="cv">from</span>:         <span class="cs">"users"</span>,
+<span class="cv">localField</span>:   <span class="cs">"author.id"</span>,
+<span class="cv">foreignField</span>: <span class="cs">"_id"</span>,
+<span class="cv">as</span>:           <span class="cs">"authorDoc"</span>
   }},
 
   <span class="cm">// Stage 3: group by tag to count posts per tag</span>
   { <span class="co">$</span><span class="cv">unwind</span>: <span class="cs">"$tags"</span> },
   { <span class="co">$</span><span class="cv">group</span>: {
-    <span class="cv">_id</span>:   <span class="cs">"$tags"</span>,
-    <span class="cv">count</span>: { <span class="co">$</span><span class="cv">sum</span>: <span class="cn">1</span> },
-    <span class="cv">totalViews</span>: { <span class="co">$</span><span class="cv">sum</span>: <span class="cs">"$stats.views"</span> }
+<span class="cv">_id</span>:   <span class="cs">"$tags"</span>,
+<span class="cv">count</span>: { <span class="co">$</span><span class="cv">sum</span>: <span class="cn">1</span> },
+<span class="cv">totalViews</span>: { <span class="co">$</span><span class="cv">sum</span>: <span class="cs">"$stats.views"</span> }
   }},
 
   <span class="cm">// Stage 4: sort by count descending, return top 10</span>
@@ -699,9 +699,9 @@ Collection → [$match] → [$lookup] → [$unwind] → [$group] → [$sort] →
 <span class="ck">await</span> <span class="cv">db</span>.<span class="cf">collection</span>(<span class="cs">'posts'</span>).<span class="cf">updateOne</span>(
   { <span class="cv">_id</span>: <span class="cv">postId</span> },
   {
-    <span class="co">$</span><span class="cv">set</span>: { <span class="cv">status</span>: <span class="cs">"published"</span>, <span class="cv">publishedAt</span>: <span class="ck">new</span> <span class="cf">Date</span>() },
-    <span class="co">$</span><span class="cv">inc</span>: { <span class="cs">'stats.views'</span>: <span class="cn">1</span> },        <span class="cm">// atomic increment</span>
-    <span class="co">$</span><span class="cv">push</span>: { <span class="cv">tags</span>: <span class="cs">"featured"</span> }         <span class="cm">// append to array</span>
+<span class="co">$</span><span class="cv">set</span>: { <span class="cv">status</span>: <span class="cs">"published"</span>, <span class="cv">publishedAt</span>: <span class="ck">new</span> <span class="cf">Date</span>() },
+<span class="co">$</span><span class="cv">inc</span>: { <span class="cs">'stats.views'</span>: <span class="cn">1</span> },        <span class="cm">// atomic increment</span>
+<span class="co">$</span><span class="cv">push</span>: { <span class="cv">tags</span>: <span class="cs">"featured"</span> }         <span class="cm">// append to array</span>
   }
 );
 
@@ -854,60 +854,60 @@ Example with RF=3: QUORUM write (2) + QUORUM read (2) = 4 > 3 ✓ → guaranteed
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
 <span class="cm">/* Helper: check reply type and abort on error */</span>
 <span class="ck">static void</span> <span class="cf">check</span>(<span class="cg">redisReply</span> <span class="co">*</span>r, <span class="ck">const char</span> <span class="co">*</span>label) {
-    <span class="ck">if</span> (!r) { <span class="cf">fprintf</span>(stderr, <span class="cs">"%s: null reply\n"</span>, label); <span class="cf">exit</span>(<span class="cn">1</span>); }
-    <span class="ck">if</span> (r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_ERROR) {
-        <span class="cf">fprintf</span>(stderr, <span class="cs">"%s error: %s\n"</span>, label, r<span class="co">-&gt;</span>str);
-        <span class="cf">freeReplyObject</span>(r);
-        <span class="cf">exit</span>(<span class="cn">1</span>);
+<span class="ck">if</span> (!r) { <span class="cf">fprintf</span>(stderr, <span class="cs">"%s: null reply\n"</span>, label); <span class="cf">exit</span>(<span class="cn">1</span>); }
+<span class="ck">if</span> (r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_ERROR) {
+<span class="cf">fprintf</span>(stderr, <span class="cs">"%s error: %s\n"</span>, label, r<span class="co">-&gt;</span>str);
+<span class="cf">freeReplyObject</span>(r);
+<span class="cf">exit</span>(<span class="cn">1</span>);
     }
 }
 
 <span class="ck">int</span> <span class="cf">main</span>(<span class="ck">void</span>) {
-    <span class="cm">/* Connect */</span>
-    <span class="cg">redisContext</span> <span class="co">*</span>c = <span class="cf">redisConnect</span>(<span class="cs">"127.0.0.1"</span>, <span class="cn">6379</span>);
-    <span class="ck">if</span> (!c <span class="co">||</span> c<span class="co">-&gt;</span>err) {
-        <span class="cf">fprintf</span>(stderr, <span class="cs">"Connect error: %s\n"</span>, c ? c<span class="co">-&gt;</span>errstr : <span class="cs">"OOM"</span>);
-        <span class="cf">exit</span>(<span class="cn">1</span>);
+<span class="cm">/* Connect */</span>
+<span class="cg">redisContext</span> <span class="co">*</span>c = <span class="cf">redisConnect</span>(<span class="cs">"127.0.0.1"</span>, <span class="cn">6379</span>);
+<span class="ck">if</span> (!c <span class="co">||</span> c<span class="co">-&gt;</span>err) {
+<span class="cf">fprintf</span>(stderr, <span class="cs">"Connect error: %s\n"</span>, c ? c<span class="co">-&gt;</span>errstr : <span class="cs">"OOM"</span>);
+<span class="cf">exit</span>(<span class="cn">1</span>);
     }
-    <span class="cf">printf</span>(<span class="cs">"Connected to Redis\n"</span>);
+<span class="cf">printf</span>(<span class="cs">"Connected to Redis\n"</span>);
 
-    <span class="cg">redisReply</span> <span class="co">*</span>reply;
+<span class="cg">redisReply</span> <span class="co">*</span>reply;
 
-    <span class="cm">/* SET with EX (expire in 300 seconds) */</span>
+<span class="cm">/* SET with EX (expire in 300 seconds) */</span>
     reply = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c, <span class="cs">"SET user:42 Alice EX 300"</span>);
-    <span class="cf">check</span>(reply, <span class="cs">"SET"</span>);
-    <span class="cf">printf</span>(<span class="cs">"SET: %s\n"</span>, reply<span class="co">-&gt;</span>str);  <span class="cm">/* "OK" */</span>
-    <span class="cf">freeReplyObject</span>(reply);
+<span class="cf">check</span>(reply, <span class="cs">"SET"</span>);
+<span class="cf">printf</span>(<span class="cs">"SET: %s\n"</span>, reply<span class="co">-&gt;</span>str);  <span class="cm">/* "OK" */</span>
+<span class="cf">freeReplyObject</span>(reply);
 
-    <span class="cm">/* GET */</span>
+<span class="cm">/* GET */</span>
     reply = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c, <span class="cs">"GET user:42"</span>);
-    <span class="cf">check</span>(reply, <span class="cs">"GET"</span>);
-    <span class="cf">printf</span>(<span class="cs">"GET user:42 = %s\n"</span>, reply<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_NIL ? <span class="cs">"(nil)"</span> : reply<span class="co">-&gt;</span>str);
-    <span class="cf">freeReplyObject</span>(reply);
+<span class="cf">check</span>(reply, <span class="cs">"GET"</span>);
+<span class="cf">printf</span>(<span class="cs">"GET user:42 = %s\n"</span>, reply<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_NIL ? <span class="cs">"(nil)"</span> : reply<span class="co">-&gt;</span>str);
+<span class="cf">freeReplyObject</span>(reply);
 
-    <span class="cm">/* INCR — atomic counter */</span>
+<span class="cm">/* INCR — atomic counter */</span>
     reply = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c, <span class="cs">"INCR post:7:views"</span>);
-    <span class="cf">check</span>(reply, <span class="cs">"INCR"</span>);
-    <span class="cf">printf</span>(<span class="cs">"post:7:views = %lld\n"</span>, reply<span class="co">-&gt;</span>integer);
-    <span class="cf">freeReplyObject</span>(reply);
+<span class="cf">check</span>(reply, <span class="cs">"INCR"</span>);
+<span class="cf">printf</span>(<span class="cs">"post:7:views = %lld\n"</span>, reply<span class="co">-&gt;</span>integer);
+<span class="cf">freeReplyObject</span>(reply);
 
-    <span class="cm">/* HSET — store object fields */</span>
+<span class="cm">/* HSET — store object fields */</span>
     reply = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c,
-        <span class="cs">"HSET user:42:profile name Alice email alice@example.com age 28"</span>);
-    <span class="cf">check</span>(reply, <span class="cs">"HSET"</span>);
-    <span class="cf">printf</span>(<span class="cs">"HSET: added %lld fields\n"</span>, reply<span class="co">-&gt;</span>integer);
-    <span class="cf">freeReplyObject</span>(reply);
+<span class="cs">"HSET user:42:profile name Alice email alice@example.com age 28"</span>);
+<span class="cf">check</span>(reply, <span class="cs">"HSET"</span>);
+<span class="cf">printf</span>(<span class="cs">"HSET: added %lld fields\n"</span>, reply<span class="co">-&gt;</span>integer);
+<span class="cf">freeReplyObject</span>(reply);
 
-    <span class="cm">/* HGETALL — read all hash fields */</span>
+<span class="cm">/* HGETALL — read all hash fields */</span>
     reply = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c, <span class="cs">"HGETALL user:42:profile"</span>);
-    <span class="cf">check</span>(reply, <span class="cs">"HGETALL"</span>);
-    <span class="cf">printf</span>(<span class="cs">"Profile fields:\n"</span>);
-    <span class="ck">for</span> (<span class="cg">size_t</span> i = <span class="cn">0</span>; i <span class="co">+</span> <span class="cn">1</span> <span class="co">&lt;</span> reply<span class="co">-&gt;</span>elements; i <span class="co">+=</span> <span class="cn">2</span>)
-        <span class="cf">printf</span>(<span class="cs">"  %s = %s\n"</span>, reply<span class="co">-&gt;</span>element[i]<span class="co">-&gt;</span>str, reply<span class="co">-&gt;</span>element[i<span class="co">+</span><span class="cn">1</span>]<span class="co">-&gt;</span>str);
-    <span class="cf">freeReplyObject</span>(reply);
+<span class="cf">check</span>(reply, <span class="cs">"HGETALL"</span>);
+<span class="cf">printf</span>(<span class="cs">"Profile fields:\n"</span>);
+<span class="ck">for</span> (<span class="cg">size_t</span> i = <span class="cn">0</span>; i <span class="co">+</span> <span class="cn">1</span> <span class="co">&lt;</span> reply<span class="co">-&gt;</span>elements; i <span class="co">+=</span> <span class="cn">2</span>)
+<span class="cf">printf</span>(<span class="cs">"  %s = %s\n"</span>, reply<span class="co">-&gt;</span>element[i]<span class="co">-&gt;</span>str, reply<span class="co">-&gt;</span>element[i<span class="co">+</span><span class="cn">1</span>]<span class="co">-&gt;</span>str);
+<span class="cf">freeReplyObject</span>(reply);
 
-    <span class="cf">redisFree</span>(c);
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cf">redisFree</span>(c);
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
 <div class="cb"><span class="cm"># Compile: link against hiredis</span>
 gcc -o hiredis_demo hiredis_demo.c -lhiredis</div>
@@ -930,22 +930,22 @@ With pipelining (N commands = 1 round-trip):
   </div>
 <div class="cb"><span class="cm">/* hiredis pipelining — queue commands, flush once */</span>
 <span class="ck">void</span> <span class="cf">pipeline_demo</span>(<span class="cg">redisContext</span> <span class="co">*</span>c) {
-    <span class="cm">/* Queue commands without waiting for reply */</span>
-    <span class="cf">redisAppendCommand</span>(c, <span class="cs">"SET key1 val1"</span>);
-    <span class="cf">redisAppendCommand</span>(c, <span class="cs">"SET key2 val2"</span>);
-    <span class="cf">redisAppendCommand</span>(c, <span class="cs">"INCR counter"</span>);
-    <span class="cf">redisAppendCommand</span>(c, <span class="cs">"EXPIRE key1 3600"</span>);
+<span class="cm">/* Queue commands without waiting for reply */</span>
+<span class="cf">redisAppendCommand</span>(c, <span class="cs">"SET key1 val1"</span>);
+<span class="cf">redisAppendCommand</span>(c, <span class="cs">"SET key2 val2"</span>);
+<span class="cf">redisAppendCommand</span>(c, <span class="cs">"INCR counter"</span>);
+<span class="cf">redisAppendCommand</span>(c, <span class="cs">"EXPIRE key1 3600"</span>);
 
-    <span class="cm">/* Flush and collect replies */</span>
-    <span class="cg">redisReply</span> <span class="co">*</span>r;
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i <span class="co">&lt;</span> <span class="cn">4</span>; i<span class="co">++</span>) {
-        <span class="cf">redisGetReply</span>(c, (<span class="ck">void</span> <span class="co">**</span>)<span class="co">&amp;</span>r);
-        <span class="ck">if</span> (r) {
-            <span class="ck">if</span> (r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_INTEGER)
-                <span class="cf">printf</span>(<span class="cs">"reply[%d] = %lld\n"</span>, i, r<span class="co">-&gt;</span>integer);
-            <span class="ck">else if</span> (r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_STATUS)
-                <span class="cf">printf</span>(<span class="cs">"reply[%d] = %s\n"</span>, i, r<span class="co">-&gt;</span>str);
-            <span class="cf">freeReplyObject</span>(r);
+<span class="cm">/* Flush and collect replies */</span>
+<span class="cg">redisReply</span> <span class="co">*</span>r;
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i <span class="co">&lt;</span> <span class="cn">4</span>; i<span class="co">++</span>) {
+<span class="cf">redisGetReply</span>(c, (<span class="ck">void</span> <span class="co">**</span>)<span class="co">&amp;</span>r);
+<span class="ck">if</span> (r) {
+<span class="ck">if</span> (r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_INTEGER)
+<span class="cf">printf</span>(<span class="cs">"reply[%d] = %lld\n"</span>, i, r<span class="co">-&gt;</span>integer);
+<span class="ck">else if</span> (r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_STATUS)
+<span class="cf">printf</span>(<span class="cs">"reply[%d] = %s\n"</span>, i, r<span class="co">-&gt;</span>str);
+<span class="cf">freeReplyObject</span>(r);
         }
     }
 }</div>
@@ -961,40 +961,40 @@ With pipelining (N commands = 1 round-trip):
 <span class="cm">/* Returns 1 if lock acquired, 0 otherwise.
    token must be unique per lock-holder (used to safely release) */</span>
 <span class="ck">int</span> <span class="cf">redis_lock</span>(<span class="cg">redisContext</span> <span class="co">*</span>c, <span class="ck">const char</span> <span class="co">*</span>key, <span class="ck">const char</span> <span class="co">*</span>token, <span class="ck">int</span> ttl_sec) {
-    <span class="cg">redisReply</span> <span class="co">*</span>r = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c,
-        <span class="cs">"SET %s %s NX EX %d"</span>, key, token, ttl_sec);
-    <span class="ck">int</span> acquired = (r <span class="co">&amp;&amp;</span> r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_STATUS
-                      <span class="co">&amp;&amp;</span> <span class="cf">strcmp</span>(r<span class="co">-&gt;</span>str, <span class="cs">"OK"</span>) <span class="co">==</span> <span class="cn">0</span>);
-    <span class="ck">if</span> (r) <span class="cf">freeReplyObject</span>(r);
-    <span class="ck">return</span> acquired;
+<span class="cg">redisReply</span> <span class="co">*</span>r = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c,
+<span class="cs">"SET %s %s NX EX %d"</span>, key, token, ttl_sec);
+<span class="ck">int</span> acquired = (r <span class="co">&amp;&amp;</span> r<span class="co">-&gt;</span>type <span class="co">==</span> REDIS_REPLY_STATUS
+<span class="co">&amp;&amp;</span> <span class="cf">strcmp</span>(r<span class="co">-&gt;</span>str, <span class="cs">"OK"</span>) <span class="co">==</span> <span class="cn">0</span>);
+<span class="ck">if</span> (r) <span class="cf">freeReplyObject</span>(r);
+<span class="ck">return</span> acquired;
 }
 
 <span class="cm">/* Release only if our token matches (Lua ensures atomicity) */</span>
 <span class="ck">void</span> <span class="cf">redis_unlock</span>(<span class="cg">redisContext</span> <span class="co">*</span>c, <span class="ck">const char</span> <span class="co">*</span>key, <span class="ck">const char</span> <span class="co">*</span>token) {
-    <span class="ck">const char</span> <span class="co">*</span>lua =
-        <span class="cs">"if redis.call('GET',KEYS[1])==ARGV[1] then "</span>
-        <span class="cs">"  return redis.call('DEL',KEYS[1]) "</span>
-        <span class="cs">"else return 0 end"</span>;
-    <span class="cg">redisReply</span> <span class="co">*</span>r = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c,
-        <span class="cs">"EVAL %s 1 %s %s"</span>, lua, key, token);
-    <span class="ck">if</span> (r) <span class="cf">freeReplyObject</span>(r);
+<span class="ck">const char</span> <span class="co">*</span>lua =
+<span class="cs">"if redis.call('GET',KEYS[1])==ARGV[1] then "</span>
+<span class="cs">"  return redis.call('DEL',KEYS[1]) "</span>
+<span class="cs">"else return 0 end"</span>;
+<span class="cg">redisReply</span> <span class="co">*</span>r = (<span class="cg">redisReply</span> <span class="co">*</span>)<span class="cf">redisCommand</span>(c,
+<span class="cs">"EVAL %s 1 %s %s"</span>, lua, key, token);
+<span class="ck">if</span> (r) <span class="cf">freeReplyObject</span>(r);
 }
 
 <span class="cm">/* Usage */</span>
 <span class="ck">int</span> <span class="cf">main</span>(<span class="ck">void</span>) {
-    <span class="cg">redisContext</span> <span class="co">*</span>c = <span class="cf">redisConnect</span>(<span class="cs">"127.0.0.1"</span>, <span class="cn">6379</span>);
-    <span class="ck">const char</span> <span class="co">*</span>lock_key   = <span class="cs">"lock:job:42"</span>;
-    <span class="ck">const char</span> <span class="co">*</span>lock_token = <span class="cs">"unique-token-abc"</span>;  <span class="cm">/* use UUID in practice */</span>
-    <span class="ck">if</span> (<span class="cf">redis_lock</span>(c, lock_key, lock_token, <span class="cn">5</span>)) {
-        <span class="cf">printf</span>(<span class="cs">"Lock acquired — doing work\n"</span>);
-        <span class="cm">/* ... critical section ... */</span>
-        <span class="cf">redis_unlock</span>(c, lock_key, lock_token);
-        <span class="cf">printf</span>(<span class="cs">"Lock released\n"</span>);
+<span class="cg">redisContext</span> <span class="co">*</span>c = <span class="cf">redisConnect</span>(<span class="cs">"127.0.0.1"</span>, <span class="cn">6379</span>);
+<span class="ck">const char</span> <span class="co">*</span>lock_key   = <span class="cs">"lock:job:42"</span>;
+<span class="ck">const char</span> <span class="co">*</span>lock_token = <span class="cs">"unique-token-abc"</span>;  <span class="cm">/* use UUID in practice */</span>
+<span class="ck">if</span> (<span class="cf">redis_lock</span>(c, lock_key, lock_token, <span class="cn">5</span>)) {
+<span class="cf">printf</span>(<span class="cs">"Lock acquired — doing work\n"</span>);
+<span class="cm">/* ... critical section ... */</span>
+<span class="cf">redis_unlock</span>(c, lock_key, lock_token);
+<span class="cf">printf</span>(<span class="cs">"Lock released\n"</span>);
     } <span class="ck">else</span> {
-        <span class="cf">printf</span>(<span class="cs">"Could not acquire lock — another process holds it\n"</span>);
+<span class="cf">printf</span>(<span class="cs">"Could not acquire lock — another process holds it\n"</span>);
     }
-    <span class="cf">redisFree</span>(c);
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cf">redisFree</span>(c);
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
   </div>
 </div>
@@ -1004,36 +1004,36 @@ With pipelining (N commands = 1 round-trip):
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 1 — Redis Caching Layer for a REST API</div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Add cache-aside caching to an Express.js API, measure cache hit rate.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Spin up Redis locally: <code>docker run -p 6379:6379 redis:7-alpine</code></div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Create an Express endpoint <code>GET /users/:id</code> that hits a PostgreSQL DB.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Wrap the handler with cache-aside logic: check Redis first, populate on miss, TTL = 300s.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add a middleware that increments <code>cache:hits</code> and <code>cache:misses</code> counters in Redis.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Load test with <code>wrk -t4 -c100 -d30s http://localhost:3000/users/42</code>.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div>Check hit rate: <code>redis-cli GET cache:hits</code> vs <code>GET cache:misses</code>. Expect &gt;95% hits after warm-up.</div></div>
-    <div class="lab-step"><div class="sn">7</div><div>Test invalidation: update user in DB, verify Redis key is deleted, next request repopulates.</div></div>
+<p><strong>Goal:</strong> Add cache-aside caching to an Express.js API, measure cache hit rate.</p>
+<div class="lab-step"><div class="sn">1</div><div>Spin up Redis locally: <code>docker run -p 6379:6379 redis:7-alpine</code></div></div>
+<div class="lab-step"><div class="sn">2</div><div>Create an Express endpoint <code>GET /users/:id</code> that hits a PostgreSQL DB.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Wrap the handler with cache-aside logic: check Redis first, populate on miss, TTL = 300s.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add a middleware that increments <code>cache:hits</code> and <code>cache:misses</code> counters in Redis.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Load test with <code>wrk -t4 -c100 -d30s http://localhost:3000/users/42</code>.</div></div>
+<div class="lab-step"><div class="sn">6</div><div>Check hit rate: <code>redis-cli GET cache:hits</code> vs <code>GET cache:misses</code>. Expect &gt;95% hits after warm-up.</div></div>
+<div class="lab-step"><div class="sn">7</div><div>Test invalidation: update user in DB, verify Redis key is deleted, next request repopulates.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Rate Limiter Middleware (Sliding Window)</div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Implement a sliding-window rate limiter in Redis; test boundary behavior.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the <code>isAllowedSliding(ip, limit=10, windowMs=60000)</code> function using Redis sorted sets.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Wire it as Express middleware: return <code>429 Too Many Requests</code> with <code>Retry-After</code> header when over limit.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Verify: send 10 rapid requests — all succeed. Send 11th — gets 429.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Verify sliding window: wait 30s, send 5 more requests — all succeed (window slid, old entries purged).</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Inspect Redis: <code>ZSCORE ratelimit:sliding:127.0.0.1</code> — confirm timestamps are in sorted set.</div></div>
+<p><strong>Goal:</strong> Implement a sliding-window rate limiter in Redis; test boundary behavior.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the <code>isAllowedSliding(ip, limit=10, windowMs=60000)</code> function using Redis sorted sets.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Wire it as Express middleware: return <code>429 Too Many Requests</code> with <code>Retry-After</code> header when over limit.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Verify: send 10 rapid requests — all succeed. Send 11th — gets 429.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Verify sliding window: wait 30s, send 5 more requests — all succeed (window slid, old entries purged).</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Inspect Redis: <code>ZSCORE ratelimit:sliding:127.0.0.1</code> — confirm timestamps are in sorted set.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — MongoDB Aggregation: Top Tags Report</div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Build an aggregation pipeline that computes per-tag post counts and total views.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Insert 50 sample posts with <code>mongosh</code> using a seed script. Include varied tags and view counts.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Write the pipeline: <code>$match</code> (published) → <code>$unwind</code> (tags) → <code>$group</code> (count, sumViews) → <code>$sort</code> → <code>$limit 10</code>.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Run with <code>.explain("executionStats")</code> — confirm the initial <code>$match</code> uses an index.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Create the compound index <code>{status:1, publishedAt:-1}</code> and re-run explain — compare <code>totalDocsExamined</code>.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Cache the result in Redis as <code>report:top-tags</code> with TTL 3600. Serve from cache on repeat requests.</div></div>
+<p><strong>Goal:</strong> Build an aggregation pipeline that computes per-tag post counts and total views.</p>
+<div class="lab-step"><div class="sn">1</div><div>Insert 50 sample posts with <code>mongosh</code> using a seed script. Include varied tags and view counts.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Write the pipeline: <code>$match</code> (published) → <code>$unwind</code> (tags) → <code>$group</code> (count, sumViews) → <code>$sort</code> → <code>$limit 10</code>.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Run with <code>.explain("executionStats")</code> — confirm the initial <code>$match</code> uses an index.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Create the compound index <code>{status:1, publishedAt:-1}</code> and re-run explain — compare <code>totalDocsExamined</code>.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Cache the result in Redis as <code>report:top-tags</code> with TTL 3600. Serve from cache on repeat requests.</div></div>
   </div>
 </div>
 <hr class="sep"/>

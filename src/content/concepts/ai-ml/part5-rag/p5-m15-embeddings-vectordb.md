@@ -113,10 +113,10 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
   <div class="mod-title">Embeddings &amp; Vector Databases</div>
   <div class="mod-subtitle">Turn text into searchable numbers — the foundation of every RAG system</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 ChromaDB · Pinecone · pgvector · FAISS</span>
-    <span class="mod-pill">📋 Prerequisite: P4 Complete</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 ChromaDB · Pinecone · pgvector · FAISS</span>
+<span class="mod-pill">📋 Prerequisite: P4 Complete</span>
   </div>
 </div>
 <!-- ── TAB BAR ── -->
@@ -138,35 +138,41 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-emerald">RAG Foundation</span></div>
   <div class="cp-body">
-    <p>RAG (Retrieval-Augmented Generation) lets LLMs answer questions about your own documents. The foundation of RAG is embeddings — mathematical representations of text that capture meaning — and vector databases that store and search them efficiently. This module teaches you everything you need to build the retrieval layer.</p>
-    <ul>
-      <li><strong>Embeddings</strong> — what they are, how they encode meaning, why similar texts produce similar vectors</li>
-      <li><strong>Embedding models</strong> — OpenAI text-embedding-3, Cohere embed, HuggingFace sentence-transformers</li>
-      <li><strong>Similarity metrics</strong> — cosine similarity, dot product, Euclidean distance — when to use each</li>
-      <li><strong>Vector databases</strong> — ChromaDB, Pinecone, Qdrant, pgvector, FAISS — how to choose</li>
-      <li><strong>Indexing and querying</strong> — adding documents, querying by semantic similarity, filtering with metadata</li>
-      <li><strong>Embedding costs and performance</strong> — batch embedding, caching, model selection</li>
-    </ul>
+<p>RAG (Retrieval-Augmented Generation) lets LLMs answer questions about your own documents. The foundation of RAG is embeddings — mathematical representations of text that capture meaning — and vector databases that store and search them efficiently. This module teaches you everything you need to build the retrieval layer.</p>
+<ul>
+<li><strong>Embeddings</strong> — what they are, how they encode meaning, why similar texts produce similar vectors</li>
+<li><strong>Embedding models</strong> — OpenAI text-embedding-3, Cohere embed, HuggingFace sentence-transformers</li>
+<li><strong>Similarity metrics</strong> — cosine similarity, dot product, Euclidean distance — when to use each</li>
+<li><strong>Vector databases</strong> — ChromaDB, Pinecone, Qdrant, pgvector, FAISS — how to choose</li>
+<li><strong>Indexing and querying</strong> — adding documents, querying by semantic similarity, filtering with metadata</li>
+<li><strong>Embedding costs and performance</strong> — batch embedding, caching, model selection</li>
+</ul>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>Where This Fits in RAG</h3><span class="tag tag-blue">Architecture</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># The full RAG pipeline — this module covers the RETRIEVAL box</span>
-<span class="ck">#</span>
-<span class="ck"># INDEXING (offline):                RETRIEVAL (online, per query):</span>
-<span class="ck">#</span>
-<span class="ck"># Documents                          User Question</span>
-<span class="ck">#    ↓                                    ↓</span>
-<span class="ck"># Chunking (M16)           →    Embed question (this module)</span>
-<span class="ck">#    ↓                                    ↓</span>
-<span class="ck"># Embed chunks (this module) →   Search vector DB (this module)</span>
-<span class="ck">#    ↓                                    ↓</span>
-<span class="ck"># Store in Vector DB (this) →    Top-K chunks returned</span>
-<span class="ck">#                                         ↓</span>
-<span class="ck">#                               Reranking (M17)</span>
-<span class="ck">#                                         ↓</span>
-<span class="ck">#                               LLM generates answer (M18)</span></pre></div>
+    
+
+```python
+# The full RAG pipeline — this module covers the RETRIEVAL box
+#
+# INDEXING (offline):                RETRIEVAL (online, per query):
+#
+# Documents                          User Question
+#    ↓                                    ↓
+# Chunking (M16)           →    Embed question (this module)
+#    ↓                                    ↓
+# Embed chunks (this module) →   Search vector DB (this module)
+#    ↓                                    ↓
+# Store in Vector DB (this) →    Top-K chunks returned
+#                                         ↓
+#                               Reranking (M17)
+#                                         ↓
+#                               LLM generates answer (M18)
+```
+
+
   </div>
 </div>
 </div><!-- end t0 -->
@@ -175,117 +181,135 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>What Are Embeddings?</h3><span class="tag tag-emerald">Concept First</span></div>
   <div class="cp-body">
-    <p>An embedding is a list of floating-point numbers (a vector) that represents the <strong>meaning</strong> of a piece of text. The embedding model maps semantically similar texts to nearby points in vector space — so "dog" and "canine" are close together, but "dog" and "database" are far apart.</p>
-    <div class="embed-viz">
-      <div class="ev-word">"dog"</div>
-      <div class="ev-arrow">→</div>
-      <div class="ev-vec">[0.82, -0.14, 0.33, 0.67, ...]<br>1536 dimensions</div>
-    </div>
-    <div class="embed-viz">
-      <div class="ev-word">"canine"</div>
-      <div class="ev-arrow">→</div>
-      <div class="ev-vec">[0.79, -0.11, 0.31, 0.71, ...]<br>← very close to "dog"</div>
-    </div>
-    <div class="embed-viz">
-      <div class="ev-word">"database"</div>
-      <div class="ev-arrow">→</div>
-      <div class="ev-vec">[-0.23, 0.88, -0.45, 0.12, ...]<br>← far from "dog"</div>
-    </div>
-    <div class="ins"><p>💡 <strong>The key insight:</strong> you never look at the actual numbers. The magic is that vector distance corresponds to semantic similarity. Two passages about the same topic will have similar vectors even if they use completely different words — enabling semantic search that keyword search cannot match.</p></div>
+<p>An embedding is a list of floating-point numbers (a vector) that represents the <strong>meaning</strong> of a piece of text. The embedding model maps semantically similar texts to nearby points in vector space — so "dog" and "canine" are close together, but "dog" and "database" are far apart.</p>
+<div class="embed-viz">
+<div class="ev-word">"dog"</div>
+<div class="ev-arrow">→</div>
+<div class="ev-vec">[0.82, -0.14, 0.33, 0.67, ...]<br>1536 dimensions</div>
+</div>
+<div class="embed-viz">
+<div class="ev-word">"canine"</div>
+<div class="ev-arrow">→</div>
+<div class="ev-vec">[0.79, -0.11, 0.31, 0.71, ...]<br>← very close to "dog"</div>
+</div>
+<div class="embed-viz">
+<div class="ev-word">"database"</div>
+<div class="ev-arrow">→</div>
+<div class="ev-vec">[-0.23, 0.88, -0.45, 0.12, ...]<br>← far from "dog"</div>
+</div>
+<div class="ins"><p>💡 <strong>The key insight:</strong> you never look at the actual numbers. The magic is that vector distance corresponds to semantic similarity. Two passages about the same topic will have similar vectors even if they use completely different words — enabling semantic search that keyword search cannot match.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Generating Embeddings — OpenAI, Cohere, HuggingFace</h3><span class="tag tag-blue">Code</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install openai cohere sentence-transformers
- 
-<span class="ck"># ── OpenAI Embeddings ─────────────────────────────────</span>
+    
+
+```python
+pip install openai cohere sentence-transformers
+
+# ── OpenAI Embeddings ─────────────────────────────────
 from openai import OpenAI
 client = OpenAI()
- 
-def embed_openai(texts: list[str], model: str = <span class="cs">"text-embedding-3-small"</span>) -> list[list[float]]:
+
+def embed_openai(texts: list[str], model: str = "text-embedding-3-small") -> list[list[float]]:
     response = client.embeddings.create(input=texts, model=model)
     return [item.embedding for item in response.data]
- 
-<span class="ck"># Single text</span>
-vec = embed_openai([<span class="cs">"What is DPDK?"</span>])[<span class="cv">0</span>]
-print(<span class="cs">f"Dimensions: {len(vec)}"</span>)   <span class="ck"># 1536 for text-embedding-3-small</span>
-<span class="ck"># Batch — much more efficient (one API call for many texts)</span>
-docs = [<span class="cs">"DPDK is a packet processing framework"</span>,
-        <span class="cs">"VPP runs on DPDK for high-performance networking"</span>,
-        <span class="cs">"Machine learning uses gradient descent"</span>]
-vecs = embed_openai(docs)   <span class="ck"># 3 embeddings, 1 API call</span>
-<span class="ck"># ── Cohere Embeddings ─────────────────────────────────</span>
+
+# Single text
+vec = embed_openai(["What is DPDK?"])[0]
+print(f"Dimensions: {len(vec)}")   # 1536 for text-embedding-3-small
+
+# Batch — much more efficient (one API call for many texts)
+docs = ["DPDK is a packet processing framework",
+        "VPP runs on DPDK for high-performance networking",
+        "Machine learning uses gradient descent"]
+vecs = embed_openai(docs)   # 3 embeddings, 1 API call
+
+# ── Cohere Embeddings ─────────────────────────────────
 import cohere
-co = cohere.Client()   <span class="ck"># COHERE_API_KEY from environment</span>
- 
+co = cohere.Client()   # COHERE_API_KEY from environment
+
 response = co.embed(
     texts=docs,
-    model=<span class="cs">"embed-english-v3.0"</span>,
-    input_type=<span class="cs">"search_document"</span>   <span class="ck"># "search_document" for indexing, "search_query" for queries</span>
+    model="embed-english-v3.0",
+    input_type="search_document"   # "search_document" for indexing, "search_query" for queries
 )
-vecs = response.embeddings   <span class="ck"># list of lists</span>
-<span class="ck"># ── HuggingFace Sentence Transformers (free, local) ───</span>
+vecs = response.embeddings   # list of lists
+
+# ── HuggingFace Sentence Transformers (free, local) ───
 from sentence_transformers import SentenceTransformer
- 
-model = SentenceTransformer(<span class="cs">"all-MiniLM-L6-v2"</span>)   <span class="ck"># 384 dims, fast, free</span>
-vecs = model.encode(docs, show_progress_bar=<span class="cv">True</span>)   <span class="ck"># numpy arrays</span>
-print(vecs.shape)   <span class="ck"># (3, 384)</span>
-<span class="ck"># Better quality, slower:</span>
-model = SentenceTransformer(<span class="cs">"BAAI/bge-large-en-v1.5"</span>)   <span class="ck"># 1024 dims, SOTA free model</span></pre></div>
-    <table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
-      <thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.55rem .8rem;text-align:left">Model</th><th style="padding:.55rem .8rem">Dims</th><th style="padding:.55rem .8rem">Cost</th><th style="padding:.55rem .8rem">Best For</th></tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>text-embedding-3-small</strong></td><td style="padding:.55rem .8rem">1536</td><td style="padding:.55rem .8rem">$0.02/1M tokens</td><td style="padding:.55rem .8rem">Default choice — great quality, cheap</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>text-embedding-3-large</strong></td><td style="padding:.55rem .8rem">3072</td><td style="padding:.55rem .8rem">$0.13/1M tokens</td><td style="padding:.55rem .8rem">Highest quality, higher cost</td></tr>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>embed-english-v3.0 (Cohere)</strong></td><td style="padding:.55rem .8rem">1024</td><td style="padding:.55rem .8rem">$0.10/1M tokens</td><td style="padding:.55rem .8rem">Best with Cohere reranker (M17)</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>all-MiniLM-L6-v2</strong></td><td style="padding:.55rem .8rem">384</td><td style="padding:.55rem .8rem">Free (local)</td><td style="padding:.55rem .8rem">Prototyping, offline, no API cost</td></tr>
-        <tr><td style="padding:.55rem .8rem"><strong>BAAI/bge-large-en-v1.5</strong></td><td style="padding:.55rem .8rem">1024</td><td style="padding:.55rem .8rem">Free (local)</td><td style="padding:.55rem .8rem">Best free model quality — production with GPU</td></tr>
-      </tbody>
-    </table>
+
+model = SentenceTransformer("all-MiniLM-L6-v2")   # 384 dims, fast, free
+vecs = model.encode(docs, show_progress_bar=True)   # numpy arrays
+print(vecs.shape)   # (3, 384)
+
+# Better quality, slower:
+model = SentenceTransformer("BAAI/bge-large-en-v1.5")   # 1024 dims, SOTA free model
+```
+
+
+
+<table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
+<thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.55rem .8rem;text-align:left">Model</th><th style="padding:.55rem .8rem">Dims</th><th style="padding:.55rem .8rem">Cost</th><th style="padding:.55rem .8rem">Best For</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>text-embedding-3-small</strong></td><td style="padding:.55rem .8rem">1536</td><td style="padding:.55rem .8rem">$0.02/1M tokens</td><td style="padding:.55rem .8rem">Default choice — great quality, cheap</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>text-embedding-3-large</strong></td><td style="padding:.55rem .8rem">3072</td><td style="padding:.55rem .8rem">$0.13/1M tokens</td><td style="padding:.55rem .8rem">Highest quality, higher cost</td></tr>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>embed-english-v3.0 (Cohere)</strong></td><td style="padding:.55rem .8rem">1024</td><td style="padding:.55rem .8rem">$0.10/1M tokens</td><td style="padding:.55rem .8rem">Best with Cohere reranker (M17)</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>all-MiniLM-L6-v2</strong></td><td style="padding:.55rem .8rem">384</td><td style="padding:.55rem .8rem">Free (local)</td><td style="padding:.55rem .8rem">Prototyping, offline, no API cost</td></tr>
+<tr><td style="padding:.55rem .8rem"><strong>BAAI/bge-large-en-v1.5</strong></td><td style="padding:.55rem .8rem">1024</td><td style="padding:.55rem .8rem">Free (local)</td><td style="padding:.55rem .8rem">Best free model quality — production with GPU</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💡</span><h3>Embedding Best Practices</h3><span class="tag tag-teal">Production</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># 1. Always batch — never embed one text at a time in a loop</span>
-<span class="ck"># BAD: 1000 API calls</span>
-vecs = [embed_openai([text])[<span class="cv">0</span>] for text in texts]
- 
-<span class="ck"># GOOD: 1 API call (batch up to 2048 texts)</span>
-<span class="ck"># Batch into chunks of 500 to stay within API limits</span>
-def embed_batch(texts: list[str], batch_size: int = <span class="cv">500</span>) -> list[list[float]]:
+    
+
+```python
+# 1. Always batch — never embed one text at a time in a loop
+# BAD: 1000 API calls
+vecs = [embed_openai([text])[0] for text in texts]
+
+# GOOD: 1 API call (batch up to 2048 texts)
+# Batch into chunks of 500 to stay within API limits
+def embed_batch(texts: list[str], batch_size: int = 500) -> list[list[float]]:
     all_embeddings = []
-    for i in range(<span class="cv">0</span>, len(texts), batch_size):
+    for i in range(0, len(texts), batch_size):
         batch = texts[i:i + batch_size]
-        response = client.embeddings.create(input=batch, model=<span class="cs">"text-embedding-3-small"</span>)
+        response = client.embeddings.create(input=batch, model="text-embedding-3-small")
         all_embeddings.extend([item.embedding for item in response.data])
     return all_embeddings
- 
-<span class="ck"># 2. Cache embeddings — never re-embed the same text twice</span>
+
+# 2. Cache embeddings — never re-embed the same text twice
 import hashlib, json, sqlite3
- 
+
 def cached_embed(text: str) -> list[float]:
     key = hashlib.md5(text.encode()).hexdigest()
-    with sqlite3.connect(<span class="cs">"embeddings.db"</span>) as conn:
-        conn.execute(<span class="cs">"CREATE TABLE IF NOT EXISTS cache (key TEXT PRIMARY KEY, vec TEXT)"</span>)
-        row = conn.execute(<span class="cs">"SELECT vec FROM cache WHERE key=?"</span>, (key,)).fetchone()
+    with sqlite3.connect("embeddings.db") as conn:
+        conn.execute("CREATE TABLE IF NOT EXISTS cache (key TEXT PRIMARY KEY, vec TEXT)")
+        row = conn.execute("SELECT vec FROM cache WHERE key=?", (key,)).fetchone()
         if row:
-            return json.loads(row[<span class="cv">0</span>])
-        vec = embed_openai([text])[<span class="cv">0</span>]
-        conn.execute(<span class="cs">"INSERT INTO cache VALUES (?,?)"</span>, (key, json.dumps(vec)))
+            return json.loads(row[0])
+        vec = embed_openai([text])[0]
+        conn.execute("INSERT INTO cache VALUES (?,?)", (key, json.dumps(vec)))
         return vec
- 
-<span class="ck"># 3. Use the right input_type (Cohere only)</span>
-<span class="ck"># Documents being indexed: input_type="search_document"</span>
-<span class="ck"># User queries: input_type="search_query"</span>
-<span class="ck"># Using the wrong type degrades retrieval quality</span>
-<span class="ck"># 4. Normalise embeddings before cosine similarity (optional but consistent)</span>
+
+# 3. Use the right input_type (Cohere only)
+# Documents being indexed: input_type="search_document"
+# User queries: input_type="search_query"
+# Using the wrong type degrades retrieval quality
+
+# 4. Normalise embeddings before cosine similarity (optional but consistent)
 import numpy as np
- 
+
 def normalise(vec: list[float]) -> list[float]:
     arr = np.array(vec)
-    return (arr / np.linalg.norm(arr)).tolist()</pre></div>
+    return (arr / np.linalg.norm(arr)).tolist()
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -294,62 +318,77 @@ def normalise(vec: list[float]) -> list[float]:
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Similarity Metrics — Cosine, Dot Product, Euclidean</h3><span class="tag tag-emerald">Core Math</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import numpy as np
- 
+    
+
+```python
+import numpy as np
+
 def cosine_similarity(a: list[float], b: list[float]) -> float:
     """Angle between vectors. Range: -1 to 1. 1 = identical direction."""
     a, b = np.array(a), np.array(b)
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
- 
+
 def dot_product(a: list[float], b: list[float]) -> float:
     """Dot product. Equivalent to cosine if vectors are normalised."""
     return float(np.dot(np.array(a), np.array(b)))
- 
+
 def euclidean_distance(a: list[float], b: list[float]) -> float:
     """Straight-line distance. Lower = more similar. Range: 0 to inf."""
     return float(np.linalg.norm(np.array(a) - np.array(b)))
- 
-<span class="ck"># Demonstrate: semantically similar texts should be close</span>
+
+# Demonstrate: semantically similar texts should be close
 vecs = embed_openai([
-    <span class="cs">"DPDK is a fast packet processing framework"</span>,
-    <span class="cs">"FD.io DPDK provides high-speed networking"</span>,
-    <span class="cs">"Machine learning uses gradient descent optimisation"</span>
+    "DPDK is a fast packet processing framework",
+    "FD.io DPDK provides high-speed networking",
+    "Machine learning uses gradient descent optimisation"
 ])
- 
-print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">1</span>]))  <span class="ck"># ~0.91 — very similar</span>
-print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">2</span>]))  <span class="ck"># ~0.18 — very different</span></pre></div>
-    <table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
-      <thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.55rem .8rem;text-align:left">Metric</th><th style="padding:.55rem .8rem">Range</th><th style="padding:.55rem .8rem">More Similar =</th><th style="padding:.55rem .8rem">Use When</th></tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>Cosine Similarity</strong></td><td style="padding:.55rem .8rem">-1 to 1</td><td style="padding:.55rem .8rem">Higher (→ 1)</td><td style="padding:.55rem .8rem">Default for text. Ignores vector magnitude.</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>Dot Product</strong></td><td style="padding:.55rem .8rem">−∞ to ∞</td><td style="padding:.55rem .8rem">Higher</td><td style="padding:.55rem .8rem">When vectors are normalised (= cosine). Fastest.</td></tr>
-        <tr><td style="padding:.55rem .8rem"><strong>Euclidean Distance</strong></td><td style="padding:.55rem .8rem">0 to ∞</td><td style="padding:.55rem .8rem">Lower (→ 0)</td><td style="padding:.55rem .8rem">Image embeddings, when magnitude matters.</td></tr>
-      </tbody>
-    </table>
-    <div class="ins"><p>💡 <strong>Use cosine similarity for text embeddings by default.</strong> OpenAI recommends it for text-embedding-3 models. Most vector databases default to cosine. Dot product is equivalent and faster when vectors are L2-normalised — many embedding models output normalised vectors.</p></div>
+
+print(cosine_similarity(vecs[0], vecs[1]))  # ~0.91 — very similar
+print(cosine_similarity(vecs[0], vecs[2]))  # ~0.18 — very different
+```
+
+
+
+<table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
+<thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.55rem .8rem;text-align:left">Metric</th><th style="padding:.55rem .8rem">Range</th><th style="padding:.55rem .8rem">More Similar =</th><th style="padding:.55rem .8rem">Use When</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>Cosine Similarity</strong></td><td style="padding:.55rem .8rem">-1 to 1</td><td style="padding:.55rem .8rem">Higher (→ 1)</td><td style="padding:.55rem .8rem">Default for text. Ignores vector magnitude.</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.55rem .8rem"><strong>Dot Product</strong></td><td style="padding:.55rem .8rem">−∞ to ∞</td><td style="padding:.55rem .8rem">Higher</td><td style="padding:.55rem .8rem">When vectors are normalised (= cosine). Fastest.</td></tr>
+<tr><td style="padding:.55rem .8rem"><strong>Euclidean Distance</strong></td><td style="padding:.55rem .8rem">0 to ∞</td><td style="padding:.55rem .8rem">Lower (→ 0)</td><td style="padding:.55rem .8rem">Image embeddings, when magnitude matters.</td></tr>
+</tbody>
+</table>
+<div class="ins"><p>💡 <strong>Use cosine similarity for text embeddings by default.</strong> OpenAI recommends it for text-embedding-3 models. Most vector databases default to cosine. Dot product is equivalent and faster when vectors are L2-normalised — many embedding models output normalised vectors.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Brute-Force vs ANN — How Vector DBs Search at Scale</h3><span class="tag tag-blue">Performance</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Brute-force: compare query to EVERY stored vector</span>
-<span class="ck"># O(n × d) — works fine for &lt; 100k vectors, slow for millions</span>
+    
+
+```python
+# Brute-force: compare query to EVERY stored vector
+# O(n × d) — works fine for < 100k vectors, slow for millions
 def brute_force_search(query_vec, stored_vecs, top_k=5):
     scores = [(cosine_similarity(query_vec, v), i)
               for i, v in enumerate(stored_vecs)]
-    scores.sort(reverse=<span class="cv">True</span>)
+    scores.sort(reverse=True)
     return scores[:top_k]
- 
-<span class="ck"># ANN (Approximate Nearest Neighbor) — index structure for fast search</span>
-<span class="ck"># HNSW (Hierarchical Navigable Small World) — used by ChromaDB, Qdrant, Weaviate</span>
-<span class="ck"># IVF (Inverted File Index) — used by FAISS</span>
-<span class="ck"># ANNOY — used by Spotify, disk-friendly</span>
-<span class="ck"># ANN trade-off: slightly approximate results, but 100-1000x faster</span>
-<span class="ck"># In practice: ANN accuracy is &gt;99% with right parameters</span>
-<span class="ck"># Rule of thumb:</span>
-<span class="ck"># &lt; 100k vectors:   brute force fine (ChromaDB default)</span>
-<span class="ck"># 100k - 10M:       HNSW index (Qdrant, Weaviate)</span>
-<span class="ck"># &gt; 10M:            FAISS IVF or managed service (Pinecone)</span></pre></div>
+
+# ANN (Approximate Nearest Neighbor) — index structure for fast search
+# HNSW (Hierarchical Navigable Small World) — used by ChromaDB, Qdrant, Weaviate
+# IVF (Inverted File Index) — used by FAISS
+# ANNOY — used by Spotify, disk-friendly
+
+# ANN trade-off: slightly approximate results, but 100-1000x faster
+# In practice: ANN accuracy is >99% with right parameters
+
+# Rule of thumb:
+# < 100k vectors:   brute force fine (ChromaDB default)
+# 100k - 10M:       HNSW index (Qdrant, Weaviate)
+# > 10M:            FAISS IVF or managed service (Pinecone)
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -358,43 +397,43 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🗄</span><h3>Choosing a Vector Database</h3><span class="tag tag-emerald">Decision Guide</span></div>
   <div class="cp-body">
-    <div class="vdb-grid">
-      <div class="vdb-card vc-chroma">
-        <span class="badge">Local / OSS</span>
-        <h4>ChromaDB</h4>
-        <p>Zero-setup local vector DB. In-memory or persisted. Perfect for prototyping and small-scale RAG. No server needed.</p>
-      </div>
-      <div class="vdb-card vc-pinecone">
-        <span class="badge">Managed Cloud</span>
-        <h4>Pinecone</h4>
-        <p>Fully managed, serverless. Free tier. Best for production with no infra overhead. Up to billions of vectors.</p>
-      </div>
-      <div class="vdb-card vc-qdrant">
-        <span class="badge">OSS / Cloud</span>
-        <h4>Qdrant</h4>
-        <p>Best open-source production option. Rich filtering, HNSW, Rust performance. Self-host or use Qdrant Cloud.</p>
-      </div>
-      <div class="vdb-card vc-pgvector">
-        <span class="badge">PostgreSQL</span>
-        <h4>pgvector</h4>
-        <p>Vector search inside PostgreSQL. Best when your data is already in Postgres. No new infra to manage.</p>
-      </div>
-      <div class="vdb-card vc-faiss">
-        <span class="badge">Library</span>
-        <h4>FAISS</h4>
-        <p>Meta's vector similarity library. Not a DB — needs wrapping. Fastest raw search for large in-memory indexes.</p>
-      </div>
-    </div>
-    <table style="width:100%;border-collapse:collapse;font-size:.83rem;margin:.8rem 0">
-      <thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.5rem .8rem;text-align:left">Use Case</th><th style="padding:.5rem .8rem">Recommended</th><th style="padding:.5rem .8rem">Why</th></tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Prototype / learning</td><td style="padding:.5rem .8rem"><strong>ChromaDB</strong></td><td style="padding:.5rem .8rem">pip install, no server, works in 5 lines</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Production (managed)</td><td style="padding:.5rem .8rem"><strong>Pinecone</strong></td><td style="padding:.5rem .8rem">No infra, scales to billions, SLA</td></tr>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Production (self-hosted)</td><td style="padding:.5rem .8rem"><strong>Qdrant</strong></td><td style="padding:.5rem .8rem">Best OSS quality, rich filters, Docker deploy</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Already using Postgres</td><td style="padding:.5rem .8rem"><strong>pgvector</strong></td><td style="padding:.5rem .8rem">Reuse existing DB, ACID, familiar SQL</td></tr>
-        <tr><td style="padding:.5rem .8rem">Max performance (large scale)</td><td style="padding:.5rem .8rem"><strong>FAISS</strong></td><td style="padding:.5rem .8rem">Fastest raw search, GPU support</td></tr>
-      </tbody>
-    </table>
+<div class="vdb-grid">
+<div class="vdb-card vc-chroma">
+<span class="badge">Local / OSS</span>
+<h4>ChromaDB</h4>
+<p>Zero-setup local vector DB. In-memory or persisted. Perfect for prototyping and small-scale RAG. No server needed.</p>
+</div>
+<div class="vdb-card vc-pinecone">
+<span class="badge">Managed Cloud</span>
+<h4>Pinecone</h4>
+<p>Fully managed, serverless. Free tier. Best for production with no infra overhead. Up to billions of vectors.</p>
+</div>
+<div class="vdb-card vc-qdrant">
+<span class="badge">OSS / Cloud</span>
+<h4>Qdrant</h4>
+<p>Best open-source production option. Rich filtering, HNSW, Rust performance. Self-host or use Qdrant Cloud.</p>
+</div>
+<div class="vdb-card vc-pgvector">
+<span class="badge">PostgreSQL</span>
+<h4>pgvector</h4>
+<p>Vector search inside PostgreSQL. Best when your data is already in Postgres. No new infra to manage.</p>
+</div>
+<div class="vdb-card vc-faiss">
+<span class="badge">Library</span>
+<h4>FAISS</h4>
+<p>Meta's vector similarity library. Not a DB — needs wrapping. Fastest raw search for large in-memory indexes.</p>
+</div>
+</div>
+<table style="width:100%;border-collapse:collapse;font-size:.83rem;margin:.8rem 0">
+<thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.5rem .8rem;text-align:left">Use Case</th><th style="padding:.5rem .8rem">Recommended</th><th style="padding:.5rem .8rem">Why</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Prototype / learning</td><td style="padding:.5rem .8rem"><strong>ChromaDB</strong></td><td style="padding:.5rem .8rem">pip install, no server, works in 5 lines</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Production (managed)</td><td style="padding:.5rem .8rem"><strong>Pinecone</strong></td><td style="padding:.5rem .8rem">No infra, scales to billions, SLA</td></tr>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Production (self-hosted)</td><td style="padding:.5rem .8rem"><strong>Qdrant</strong></td><td style="padding:.5rem .8rem">Best OSS quality, rich filters, Docker deploy</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Already using Postgres</td><td style="padding:.5rem .8rem"><strong>pgvector</strong></td><td style="padding:.5rem .8rem">Reuse existing DB, ACID, familiar SQL</td></tr>
+<tr><td style="padding:.5rem .8rem">Max performance (large scale)</td><td style="padding:.5rem .8rem"><strong>FAISS</strong></td><td style="padding:.5rem .8rem">Fastest raw search, GPU support</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div><!-- end t3 -->
@@ -403,92 +442,105 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🟢</span><h3>ChromaDB — Start Here for Every RAG Project</h3><span class="tag tag-emerald">Prototype to Production</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install chromadb openai
- 
+    
+
+```python
+pip install chromadb openai
+
 import chromadb
 from chromadb.utils import embedding_functions
- 
-<span class="ck"># ── In-memory (for tests / notebooks) ────────────────</span>
+
+# ── In-memory (for tests / notebooks) ────────────────
 client = chromadb.Client()
- 
-<span class="ck"># ── Persistent (survives restarts) ───────────────────</span>
-client = chromadb.PersistentClient(path=<span class="cs">"./chroma_db"</span>)
- 
-<span class="ck"># ── Use OpenAI embeddings automatically ──────────────</span>
+
+# ── Persistent (survives restarts) ───────────────────
+client = chromadb.PersistentClient(path="./chroma_db")
+
+# ── Use OpenAI embeddings automatically ──────────────
 oai_ef = embedding_functions.OpenAIEmbeddingFunction(
-    api_key=os.environ[<span class="cs">"OPENAI_API_KEY"</span>],
-    model_name=<span class="cs">"text-embedding-3-small"</span>
+    api_key=os.environ["OPENAI_API_KEY"],
+    model_name="text-embedding-3-small"
 )
- 
-<span class="ck"># Create or get a collection</span>
+
+# Create or get a collection
 collection = client.get_or_create_collection(
-    name=<span class="cs">"docs"</span>,
-    embedding_function=oai_ef,           <span class="ck"># auto-embeds on add/query</span>
-    metadata={<span class="cs">"hnsw:space"</span>: <span class="cs">"cosine"</span>}   <span class="ck"># use cosine similarity</span>
+    name="docs",
+    embedding_function=oai_ef,           # auto-embeds on add/query
+    metadata={"hnsw:space": "cosine"}   # use cosine similarity
 )
- 
-<span class="ck"># Add documents — Chroma embeds them automatically</span>
+
+# Add documents — Chroma embeds them automatically
 collection.add(
-    ids=[<span class="cs">"doc1"</span>, <span class="cs">"doc2"</span>, <span class="cs">"doc3"</span>],
+    ids=["doc1", "doc2", "doc3"],
     documents=[
-        <span class="cs">"DPDK is a set of libraries for fast packet processing"</span>,
-        <span class="cs">"VPP uses DPDK for high-performance networking in telecom"</span>,
-        <span class="cs">"Python is a general-purpose programming language"</span>
+        "DPDK is a set of libraries for fast packet processing",
+        "VPP uses DPDK for high-performance networking in telecom",
+        "Python is a general-purpose programming language"
     ],
     metadatas=[
-        {<span class="cs">"source"</span>: <span class="cs">"dpdk_docs"</span>, <span class="cs">"year"</span>: <span class="cv">2024</span>},
-        {<span class="cs">"source"</span>: <span class="cs">"vpp_docs"</span>,  <span class="cs">"year"</span>: <span class="cv">2024</span>},
-        {<span class="cs">"source"</span>: <span class="cs">"python_docs"</span>, <span class="cs">"year"</span>: <span class="cv">2023</span>},
+        {"source": "dpdk_docs", "year": 2024},
+        {"source": "vpp_docs",  "year": 2024},
+        {"source": "python_docs", "year": 2023},
     ]
 )
- 
-<span class="ck"># Query — semantic search</span>
+
+# Query — semantic search
 results = collection.query(
-    query_texts=[<span class="cs">"how does packet processing work?"</span>],
-    n_results=<span class="cv">2</span>,
-    include=[<span class="cs">"documents"</span>, <span class="cs">"metadatas"</span>, <span class="cs">"distances"</span>]
+    query_texts=["how does packet processing work?"],
+    n_results=2,
+    include=["documents", "metadatas", "distances"]
 )
 for doc, meta, dist in zip(
-    results[<span class="cs">"documents"</span>][<span class="cv">0</span>],
-    results[<span class="cs">"metadatas"</span>][<span class="cv">0</span>],
-    results[<span class="cs">"distances"</span>][<span class="cv">0</span>]
+    results["documents"][0],
+    results["metadatas"][0],
+    results["distances"][0]
 ):
-    print(<span class="cs">f"Score: {1-dist:.3f} | Source: {meta['source']} | {doc[:60]}"</span>)</pre></div>
+    print(f"Score: {1-dist:.3f} | Source: {meta['source']} | {doc[:60]}")
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Metadata Filtering — Combine Semantic + Structured Search</h3><span class="tag tag-blue">Power Feature</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Filter by metadata BEFORE semantic search</span>
-<span class="ck"># This is critical for multi-tenant apps or date-filtered search</span>
-<span class="ck"># Only search within dpdk_docs source</span>
+    
+
+```python
+# Filter by metadata BEFORE semantic search
+# This is critical for multi-tenant apps or date-filtered search
+
+# Only search within dpdk_docs source
 results = collection.query(
-    query_texts=[<span class="cs">"packet processing"</span>],
-    n_results=<span class="cv">5</span>,
-    where={<span class="cs">"source"</span>: <span class="cs">"dpdk_docs"</span>}   <span class="ck"># metadata filter</span>
+    query_texts=["packet processing"],
+    n_results=5,
+    where={"source": "dpdk_docs"}   # metadata filter
 )
- 
-<span class="ck"># Numeric comparison filters</span>
+
+# Numeric comparison filters
 results = collection.query(
-    query_texts=[<span class="cs">"networking architecture"</span>],
-    n_results=<span class="cv">5</span>,
-    where={<span class="cs">"year"</span>: {<span class="cs">"$gte"</span>: <span class="cv">2024</span>}}   <span class="ck"># year >= 2024</span>
+    query_texts=["networking architecture"],
+    n_results=5,
+    where={"year": {"$gte": 2024}}   # year >= 2024
 )
- 
-<span class="ck"># Boolean operators</span>
+
+# Boolean operators
 results = collection.query(
-    query_texts=[<span class="cs">"high performance networking"</span>],
-    n_results=<span class="cv">5</span>,
-    where={<span class="cs">"$and"</span>: [
-        {<span class="cs">"source"</span>: {<span class="cs">"$in"</span>: [<span class="cs">"dpdk_docs"</span>, <span class="cs">"vpp_docs"</span>]}},
-        {<span class="cs">"year"</span>: {<span class="cs">"$gte"</span>: <span class="cv">2023</span>}}
+    query_texts=["high performance networking"],
+    n_results=5,
+    where={"$and": [
+        {"source": {"$in": ["dpdk_docs", "vpp_docs"]}},
+        {"year": {"$gte": 2023}}
     ]}
 )
- 
-<span class="ck"># Update and delete</span>
-collection.update(ids=[<span class="cs">"doc1"</span>], metadatas=[{<span class="cs">"year"</span>: <span class="cv">2025</span>}])
-collection.delete(ids=[<span class="cs">"doc3"</span>])
-print(collection.count())   <span class="ck"># current document count</span></pre></div>
+
+# Update and delete
+collection.update(ids=["doc1"], metadatas=[{"year": 2025}])
+collection.delete(ids=["doc3"])
+print(collection.count())   # current document count
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -497,95 +549,107 @@ print(collection.count())   <span class="ck"># current document count</span></pr
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">📌</span><h3>Pinecone — Managed Vector DB</h3><span class="tag tag-emerald">Cloud Production</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install pinecone-client
- 
+    
+
+```python
+pip install pinecone-client
+
 from pinecone import Pinecone, ServerlessSpec
- 
-pc = Pinecone(api_key=os.environ[<span class="cs">"PINECONE_API_KEY"</span>])
- 
-<span class="ck"># Create index (one-time setup)</span>
+
+pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
+
+# Create index (one-time setup)
 pc.create_index(
-    name=<span class="cs">"my-rag-index"</span>,
-    dimension=<span class="cv">1536</span>,            <span class="ck"># must match embedding model dimension</span>
-    metric=<span class="cs">"cosine"</span>,
-    spec=ServerlessSpec(cloud=<span class="cs">"aws"</span>, region=<span class="cs">"us-east-1"</span>)
+    name="my-rag-index",
+    dimension=1536,            # must match embedding model dimension
+    metric="cosine",
+    spec=ServerlessSpec(cloud="aws", region="us-east-1")
 )
- 
-index = pc.Index(<span class="cs">"my-rag-index"</span>)
- 
-<span class="ck"># Upsert vectors (create or update)</span>
+
+index = pc.Index("my-rag-index")
+
+# Upsert vectors (create or update)
 vectors = embed_batch(documents)
 index.upsert(vectors=[
     {
-        <span class="cs">"id"</span>:     <span class="cs">f"doc_{i}"</span>,
-        <span class="cs">"values"</span>: vec,
-        <span class="cs">"metadata"</span>: {<span class="cs">"text"</span>: doc, <span class="cs">"source"</span>: <span class="cs">"docs"</span>, <span class="cs">"chunk_idx"</span>: i}
+        "id":     f"doc_{i}",
+        "values": vec,
+        "metadata": {"text": doc, "source": "docs", "chunk_idx": i}
     }
     for i, (vec, doc) in enumerate(zip(vectors, documents))
 ])
- 
-<span class="ck"># Query</span>
-query_vec = embed_openai([<span class="cs">"packet processing performance"</span>])[<span class="cv">0</span>]
+
+# Query
+query_vec = embed_openai(["packet processing performance"])[0]
 results = index.query(
     vector=query_vec,
-    top_k=<span class="cv">5</span>,
-    include_metadata=<span class="cv">True</span>,
-    filter={<span class="cs">"source"</span>: {<span class="cs">"$eq"</span>: <span class="cs">"docs"</span>}}
+    top_k=5,
+    include_metadata=True,
+    filter={"source": {"$eq": "docs"}}
 )
- 
-for match in results[<span class="cs">"matches"</span>]:
-    print(<span class="cs">f"Score: {match['score']:.3f} | {match['metadata']['text'][:60]}"</span>)
- 
-<span class="ck"># Index stats</span>
-print(index.describe_index_stats())</pre></div>
+
+for match in results["matches"]:
+    print(f"Score: {match['score']:.3f} | {match['metadata']['text'][:60]}")
+
+# Index stats
+print(index.describe_index_stats())
+```
+
+
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔷</span><h3>Qdrant — Best Self-Hosted Option</h3><span class="tag tag-orange">OSS Production</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install qdrant-client
- 
-<span class="ck"># Start Qdrant locally with Docker:</span>
-<span class="ck"># docker run -p 6333:6333 qdrant/qdrant</span>
- 
+    
+
+```python
+pip install qdrant-client
+
+# Start Qdrant locally with Docker:
+# docker run -p 6333:6333 qdrant/qdrant
+
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct, Filter, FieldCondition, MatchValue
- 
-client = QdrantClient(host=<span class="cs">"localhost"</span>, port=<span class="cv">6333</span>)
- 
-<span class="ck"># Create collection</span>
+
+client = QdrantClient(host="localhost", port=6333)
+
+# Create collection
 client.create_collection(
-    collection_name=<span class="cs">"docs"</span>,
-    vectors_config=VectorParams(size=<span class="cv">1536</span>, distance=Distance.COSINE),
+    collection_name="docs",
+    vectors_config=VectorParams(size=1536, distance=Distance.COSINE),
 )
- 
-<span class="ck"># Upsert points</span>
+
+# Upsert points
 vectors = embed_batch(documents)
 client.upsert(
-    collection_name=<span class="cs">"docs"</span>,
+    collection_name="docs",
     points=[
         PointStruct(
             id=i,
             vector=vec,
-            payload={<span class="cs">"text"</span>: doc, <span class="cs">"source"</span>: <span class="cs">"dpdk_docs"</span>}
+            payload={"text": doc, "source": "dpdk_docs"}
         )
         for i, (vec, doc) in enumerate(zip(vectors, documents))
     ]
 )
- 
-<span class="ck"># Semantic search with metadata filter</span>
-query_vec = embed_openai([<span class="cs">"DPDK performance"</span>])[<span class="cv">0</span>]
+
+# Semantic search with metadata filter
+query_vec = embed_openai(["DPDK performance"])[0]
 results = client.search(
-    collection_name=<span class="cs">"docs"</span>,
+    collection_name="docs",
     query_vector=query_vec,
-    limit=<span class="cv">5</span>,
+    limit=5,
     query_filter=Filter(
-        must=[FieldCondition(key=<span class="cs">"source"</span>, match=MatchValue(value=<span class="cs">"dpdk_docs"</span>))]
+        must=[FieldCondition(key="source", match=MatchValue(value="dpdk_docs"))]
     ),
-    with_payload=<span class="cv">True</span>
+    with_payload=True
 )
 for hit in results:
-    print(<span class="cs">f"Score: {hit.score:.3f} | {hit.payload['text'][:60]}"</span>)</pre></div>
+    print(f"Score: {hit.score:.3f} | {hit.payload['text'][:60]}")
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -594,104 +658,118 @@ for hit in results:
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🐘</span><h3>pgvector — Vector Search in PostgreSQL</h3><span class="tag tag-emerald">SQL + Vectors</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Install pgvector extension in PostgreSQL</span>
-<span class="ck"># docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 pgvector/pgvector:pg16</span>
- 
+    
+
+```python
+# Install pgvector extension in PostgreSQL
+# docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 pgvector/pgvector:pg16
+
 pip install psycopg2-binary pgvector
- 
+
 import psycopg2
 from pgvector.psycopg2 import register_vector
 import numpy as np
- 
-conn = psycopg2.connect(<span class="cs">"postgresql://postgres:pass@localhost/ragdb"</span>)
+
+conn = psycopg2.connect("postgresql://postgres:pass@localhost/ragdb")
 register_vector(conn)
- 
-<span class="ck"># Enable extension and create table</span>
+
+# Enable extension and create table
 with conn.cursor() as cur:
-    cur.execute(<span class="cs">"CREATE EXTENSION IF NOT EXISTS vector"</span>)
-    cur.execute(<span class="cs">"""
+    cur.execute("CREATE EXTENSION IF NOT EXISTS vector")
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS documents (
             id      SERIAL PRIMARY KEY,
             content TEXT NOT NULL,
             source  TEXT,
             embedding vector(1536)
         )
-    """</span>)
-    cur.execute(<span class="cs">"CREATE INDEX IF NOT EXISTS docs_embedding_idx ON documents USING ivfflat (embedding vector_cosine_ops)"</span>)
+    """)
+    cur.execute("CREATE INDEX IF NOT EXISTS docs_embedding_idx ON documents USING ivfflat (embedding vector_cosine_ops)")
     conn.commit()
- 
-<span class="ck"># Insert documents with embeddings</span>
+
+# Insert documents with embeddings
 def insert_docs(texts: list[str], source: str):
     vecs = embed_batch(texts)
     with conn.cursor() as cur:
-        cur.executemany(<span class="cs">"""
+        cur.executemany("""
             INSERT INTO documents (content, source, embedding)
             VALUES (%s, %s, %s)
-        """</span>, [(text, source, vec) for text, vec in zip(texts, vecs)])
+        """, [(text, source, vec) for text, vec in zip(texts, vecs)])
     conn.commit()
- 
-<span class="ck"># Semantic search — pure SQL!</span>
-def semantic_search(query: str, top_k: int = <span class="cv">5</span>, source: str = None) -> list[dict]:
-    query_vec = embed_openai([query])[<span class="cv">0</span>]
-    source_filter = <span class="cs">"AND source = %s"</span> if source else <span class="cs">""</span>
+
+# Semantic search — pure SQL!
+def semantic_search(query: str, top_k: int = 5, source: str = None) -> list[dict]:
+    query_vec = embed_openai([query])[0]
+    source_filter = "AND source = %s" if source else ""
     params = [query_vec, top_k] if not source else [query_vec, source, top_k]
- 
+
     with conn.cursor() as cur:
-        cur.execute(<span class="cs">f"""
+        cur.execute(f"""
             SELECT content, source,
-                   1 - (embedding &lt;=&gt; %s::vector) AS similarity
+                   1 - (embedding <=> %s::vector) AS similarity
             FROM documents
             {f"WHERE source = %s" if source else ""}
-            ORDER BY embedding &lt;=&gt; %s::vector
+            ORDER BY embedding <=> %s::vector
             LIMIT %s
-        """</span>, [query_vec] + ([source] if source else []) + [query_vec, top_k])
+        """, [query_vec] + ([source] if source else []) + [query_vec, top_k])
         rows = cur.fetchall()
-    return [{<span class="cs">"content"</span>: r[<span class="cv">0</span>], <span class="cs">"source"</span>: r[<span class="cv">1</span>], <span class="cs">"similarity"</span>: r[<span class="cv">2</span>]} for r in rows]
- 
-<span class="ck"># pgvector distance operators:</span>
-<span class="ck"># &lt;-&gt;   Euclidean distance</span>
-<span class="ck"># &lt;=&gt;   Cosine distance (1 - cosine_similarity)</span>
-<span class="ck"># &lt;#&gt;   Negative dot product</span></pre></div>
+    return [{"content": r[0], "source": r[1], "similarity": r[2]} for r in rows]
+
+# pgvector distance operators:
+# <->   Euclidean distance
+# <=>   Cosine distance (1 - cosine_similarity)
+# <#>   Negative dot product
+```
+
+
   </div>
 </div>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>FAISS — Maximum Performance Library</h3><span class="tag tag-purple">High Scale</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install faiss-cpu   <span class="ck"># or faiss-gpu for GPU</span>
- 
+    
+
+```python
+pip install faiss-cpu   # or faiss-gpu for GPU
+
 import faiss
 import numpy as np
- 
-<span class="ck"># Build an index</span>
-dimension = <span class="cv">1536</span>
-<span class="ck"># Flat (brute force) — exact, best for &lt; 100k vectors</span>
-index = faiss.IndexFlatIP(dimension)   <span class="ck"># Inner Product (= cosine for normalised)</span>
-<span class="ck"># IVF (Inverted File) — fast approximate, for &gt; 100k vectors</span>
-nlist = <span class="cv">100</span>   <span class="ck"># number of clusters</span>
+
+# Build an index
+dimension = 1536
+
+# Flat (brute force) — exact, best for < 100k vectors
+index = faiss.IndexFlatIP(dimension)   # Inner Product (= cosine for normalised)
+
+# IVF (Inverted File) — fast approximate, for > 100k vectors
+nlist = 100   # number of clusters
 quantiser = faiss.IndexFlatIP(dimension)
 index = faiss.IndexIVFFlat(quantiser, dimension, nlist, faiss.METRIC_INNER_PRODUCT)
- 
-<span class="ck"># Add vectors (normalised for cosine similarity)</span>
-vecs = np.array(embed_batch(documents), dtype=<span class="cs">'float32'</span>)
-faiss.normalize_L2(vecs)   <span class="ck"># in-place L2 normalisation</span>
- 
+
+# Add vectors (normalised for cosine similarity)
+vecs = np.array(embed_batch(documents), dtype='float32')
+faiss.normalize_L2(vecs)   # in-place L2 normalisation
+
 if isinstance(index, faiss.IndexIVFFlat):
-    index.train(vecs)   <span class="ck"># IVF index must be trained first</span>
+    index.train(vecs)   # IVF index must be trained first
 index.add(vecs)
- 
-<span class="ck"># Search</span>
-query_vec = np.array(embed_openai([<span class="cs">"packet processing"</span>]), dtype=<span class="cs">'float32'</span>)
+
+# Search
+query_vec = np.array(embed_openai(["packet processing"]), dtype='float32')
 faiss.normalize_L2(query_vec)
-distances, indices = index.search(query_vec, k=<span class="cv">5</span>)
- 
-for dist, idx in zip(distances[<span class="cv">0</span>], indices[<span class="cv">0</span>]):
-    if idx != -<span class="cv">1</span>:   <span class="ck"># -1 means not enough results</span>
-        print(<span class="cs">f"Score: {dist:.3f} | {documents[idx][:60]}"</span>)
- 
-<span class="ck"># Save and load index</span>
-faiss.write_index(index, <span class="cs">"docs.faiss"</span>)
-index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
-    <div class="warn"><p>⚠️ <strong>FAISS does not store document text — only vectors and integer IDs.</strong> You must maintain a separate mapping from FAISS index position → document text (a Python list or SQLite table). This is the most common FAISS mistake.</p></div>
+distances, indices = index.search(query_vec, k=5)
+
+for dist, idx in zip(distances[0], indices[0]):
+    if idx != -1:   # -1 means not enough results
+        print(f"Score: {dist:.3f} | {documents[idx][:60]}")
+
+# Save and load index
+faiss.write_index(index, "docs.faiss")
+index = faiss.read_index("docs.faiss")
+```
+
+
+<div class="warn"><p>⚠️ <strong>FAISS does not store document text — only vectors and integer IDs.</strong> You must maintain a separate mapping from FAISS index position → document text (a Python list or SQLite table). This is the most common FAISS mistake.</p></div>
   </div>
 </div>
 </div><!-- end t6 -->
@@ -701,11 +779,11 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Article</td><td><a href="https://platform.openai.com/docs/guides/embeddings" target="_blank" rel="noopener">OpenAI Embeddings Guide — platform.openai.com/docs/guides/embeddings</a></td><td>Best introduction to text embeddings. Covers use cases, models, and similarity metrics with examples.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.trychroma.com/" target="_blank" rel="noopener">ChromaDB Documentation — docs.trychroma.com</a></td><td>Complete ChromaDB reference. Start with the Getting Started guide.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://qdrant.tech/documentation/" target="_blank" rel="noopener">Qdrant Documentation — qdrant.tech/documentation</a></td><td>Production-quality vector DB. Excellent filtering and performance documentation.</td></tr>
-    <tr><td class="res-type">Article</td><td><a href="https://huggingface.co/blog/getting-started-with-embeddings" target="_blank" rel="noopener">HuggingFace: Getting Started with Embeddings — huggingface.co/blog</a></td><td>Free embedding models with sentence-transformers. Hands-on with real code.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener">pgvector — github.com/pgvector/pgvector</a></td><td>Vector search in PostgreSQL. README covers all operators and index types.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://platform.openai.com/docs/guides/embeddings" target="_blank" rel="noopener">OpenAI Embeddings Guide — platform.openai.com/docs/guides/embeddings</a></td><td>Best introduction to text embeddings. Covers use cases, models, and similarity metrics with examples.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.trychroma.com/" target="_blank" rel="noopener">ChromaDB Documentation — docs.trychroma.com</a></td><td>Complete ChromaDB reference. Start with the Getting Started guide.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://qdrant.tech/documentation/" target="_blank" rel="noopener">Qdrant Documentation — qdrant.tech/documentation</a></td><td>Production-quality vector DB. Excellent filtering and performance documentation.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://huggingface.co/blog/getting-started-with-embeddings" target="_blank" rel="noopener">HuggingFace: Getting Started with Embeddings — huggingface.co/blog</a></td><td>Free embedding models with sentence-transformers. Hands-on with real code.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://github.com/pgvector/pgvector" target="_blank" rel="noopener">pgvector — github.com/pgvector/pgvector</a></td><td>Vector search in PostgreSQL. README covers all operators and index types.</td></tr>
   </tbody>
 </table>
 </div><!-- end t7 -->
@@ -714,28 +792,28 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
 <p class="sep">MILESTONE PROJECT</p>
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Semantic Document Search Engine</span>
-    <span class="proj-dur">[Intermediate] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Semantic Document Search Engine</span>
+<span class="proj-dur">[Intermediate] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Build a complete semantic search engine over a collection of real documents — the foundation layer for your RAG system in M18.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Index at least 50 real documents (PDF or text files from any domain you care about)</li>
-      <li>Embed all documents using OpenAI text-embedding-3-small with batch embedding and caching</li>
-      <li>Store in ChromaDB with metadata: source, date, category, chunk_idx</li>
-      <li>Build a query function: <code>search(query, top_k=5, filter_source=None)</code> → returns ranked results with similarity scores</li>
-      <li>Compare semantic search vs keyword search on 10 queries — show where semantic wins</li>
-      <li>FastAPI endpoint: <code>POST /search</code> with Pydantic request/response models</li>
-    </ul>
-    <h4>Stretch Goals</h4>
-    <ul>
-      <li>Add a second collection using a free HuggingFace model — compare retrieval quality</li>
-      <li>Implement the same search in pgvector — compare query time for 1000 documents</li>
-      <li>Add an embedding cache to SQLite — verify zero API calls on re-indexing same documents</li>
-    </ul>
-    <p><strong>Skills:</strong> OpenAI embeddings, ChromaDB, batch processing, metadata filtering, FastAPI, Pydantic</p>
+<p>Build a complete semantic search engine over a collection of real documents — the foundation layer for your RAG system in M18.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Index at least 50 real documents (PDF or text files from any domain you care about)</li>
+<li>Embed all documents using OpenAI text-embedding-3-small with batch embedding and caching</li>
+<li>Store in ChromaDB with metadata: source, date, category, chunk_idx</li>
+<li>Build a query function: <code>search(query, top_k=5, filter_source=None)</code> → returns ranked results with similarity scores</li>
+<li>Compare semantic search vs keyword search on 10 queries — show where semantic wins</li>
+<li>FastAPI endpoint: <code>POST /search</code> with Pydantic request/response models</li>
+</ul>
+<h4>Stretch Goals</h4>
+<ul>
+<li>Add a second collection using a free HuggingFace model — compare retrieval quality</li>
+<li>Implement the same search in pgvector — compare query time for 1000 documents</li>
+<li>Add an embedding cache to SQLite — verify zero API calls on re-indexing same documents</li>
+</ul>
+<p><strong>Skills:</strong> OpenAI embeddings, ChromaDB, batch processing, metadata filtering, FastAPI, Pydantic</p>
   </div>
 </div>
 </div><!-- end t8 -->
@@ -744,34 +822,34 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Visualise the Embedding Space — Make Semantic Similarity Concrete</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> See embeddings as geometry — observe that similar texts cluster together in vector space.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create 15 texts in 3 clusters: 5 about networking/DPDK, 5 about machine learning, 5 about cooking. Embed all 15 with OpenAI or a free HuggingFace model.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Compute the full 15×15 cosine similarity matrix. Print it as a formatted table. Observe: within-cluster scores should be 0.7–0.95, cross-cluster scores should be 0.1–0.4.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Use PCA to reduce to 2D: <code>from sklearn.decomposition import PCA; coords = PCA(n_components=2).fit_transform(vecs)</code>. Print the 2D coordinates for each text. Do texts cluster as expected?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Now embed 3 query texts: "What is packet processing?", "How does gradient descent work?", "How do I make pasta?". For each query, compute similarity to all 15 texts. Verify the top results match the expected cluster.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Add 2 ambiguous texts that belong to two clusters simultaneously (e.g. "AI-powered network packet classification"). Where do they land in the similarity matrix?</div></div>
+<p><strong>Objective:</strong> See embeddings as geometry — observe that similar texts cluster together in vector space.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create 15 texts in 3 clusters: 5 about networking/DPDK, 5 about machine learning, 5 about cooking. Embed all 15 with OpenAI or a free HuggingFace model.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Compute the full 15×15 cosine similarity matrix. Print it as a formatted table. Observe: within-cluster scores should be 0.7–0.95, cross-cluster scores should be 0.1–0.4.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Use PCA to reduce to 2D: <code>from sklearn.decomposition import PCA; coords = PCA(n_components=2).fit_transform(vecs)</code>. Print the 2D coordinates for each text. Do texts cluster as expected?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Now embed 3 query texts: "What is packet processing?", "How does gradient descent work?", "How do I make pasta?". For each query, compute similarity to all 15 texts. Verify the top results match the expected cluster.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Add 2 ambiguous texts that belong to two clusters simultaneously (e.g. "AI-powered network packet classification"). Where do they land in the similarity matrix?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>ChromaDB Full Lifecycle — Index, Query, Filter, Update</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build fluency with ChromaDB by exercising every operation.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create a persistent ChromaDB collection with OpenAI embeddings. Add 30 documents from at least 3 different sources (e.g. DPDK docs, Python docs, cooking recipes). Store source, date, and category in metadata.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run these 5 query scenarios and verify results make sense: (a) semantic only — top 5 for a domain query. (b) semantic + source filter. (c) semantic + date filter. (d) semantic + $and filter combining source and category. (e) direct ID lookup: collection.get(ids=["doc1"]).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Update: change the category metadata for 3 documents. Verify with collection.get() that metadata updated but embedding is unchanged.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Delete 5 documents. Verify collection.count() decreased. Verify deleted IDs no longer appear in query results.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Test persistence: stop your Python process, restart, re-create the PersistentClient with the same path. Verify all documents are still present. This is the critical test for production use.</div></div>
+<p><strong>Objective:</strong> Build fluency with ChromaDB by exercising every operation.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create a persistent ChromaDB collection with OpenAI embeddings. Add 30 documents from at least 3 different sources (e.g. DPDK docs, Python docs, cooking recipes). Store source, date, and category in metadata.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run these 5 query scenarios and verify results make sense: (a) semantic only — top 5 for a domain query. (b) semantic + source filter. (c) semantic + date filter. (d) semantic + $and filter combining source and category. (e) direct ID lookup: collection.get(ids=["doc1"]).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Update: change the category metadata for 3 documents. Verify with collection.get() that metadata updated but embedding is unchanged.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Delete 5 documents. Verify collection.count() decreased. Verify deleted IDs no longer appear in query results.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Test persistence: stop your Python process, restart, re-create the PersistentClient with the same path. Verify all documents are still present. This is the critical test for production use.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Compare Vector DBs — Same Data, Same Queries</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Run the same workload on two different vector DBs and compare the experience.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Take your 30 documents from Lab 2. Index them in <strong>both</strong> ChromaDB (already done) and Qdrant (start with Docker: <code>docker run -p 6333:6333 qdrant/qdrant</code>).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run the same 5 queries on both. Compare: (a) results match? (b) query latency (time it with time.perf_counter()). (c) metadata filtering syntax differences.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add 1000 synthetic documents to both (generate with random text + embeddings). Re-run timing. How does each DB scale?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>If you have PostgreSQL available: implement the same search with pgvector. Compare SQL query syntax to ChromaDB/Qdrant API. What are the advantages of each approach?</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> Based on your experience, which DB would you choose for: (a) prototype RAG with 1k docs, (b) production RAG with 100k docs self-hosted, (c) production RAG with 10M docs managed service?</div></div>
+<p><strong>Objective:</strong> Run the same workload on two different vector DBs and compare the experience.</p>
+<div class="lab-step"><div class="sn">1</div><div>Take your 30 documents from Lab 2. Index them in <strong>both</strong> ChromaDB (already done) and Qdrant (start with Docker: <code>docker run -p 6333:6333 qdrant/qdrant</code>).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run the same 5 queries on both. Compare: (a) results match? (b) query latency (time it with time.perf_counter()). (c) metadata filtering syntax differences.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add 1000 synthetic documents to both (generate with random text + embeddings). Re-run timing. How does each DB scale?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>If you have PostgreSQL available: implement the same search with pgvector. Compare SQL query syntax to ChromaDB/Qdrant API. What are the advantages of each approach?</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> Based on your experience, which DB would you choose for: (a) prototype RAG with 1k docs, (b) production RAG with 100k docs self-hosted, (c) production RAG with 10M docs managed service?</div></div>
   </div>
 </div>
 </div><!-- end t9 -->

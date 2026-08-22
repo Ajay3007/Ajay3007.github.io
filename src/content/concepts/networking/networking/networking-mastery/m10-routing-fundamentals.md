@@ -108,11 +108,11 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
   <div class="mod-title">🗺️ Routing Fundamentals and FIB</div>
   <div class="mod-subtitle">FIB/RIB architecture · Longest Prefix Match · LPM algorithms · ECMP · Policy routing · Administrative distance</div>
   <div class="mod-pills">
-    <span class="mod-pill">Intermediate</span>
-    <span class="mod-pill">Prerequisite: M03 IPv4</span>
-    <span class="mod-pill">RFC 1812</span>
-    <span class="mod-pill">Core Data-Plane Operation</span>
-    <span class="mod-pill">3 Labs</span>
+<span class="mod-pill">Intermediate</span>
+<span class="mod-pill">Prerequisite: M03 IPv4</span>
+<span class="mod-pill">RFC 1812</span>
+<span class="mod-pill">Core Data-Plane Operation</span>
+<span class="mod-pill">3 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -132,13 +132,13 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>The Routing Problem</h3><span class="tag tag-green">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>Routing is the process of selecting a path for network traffic. When a packet arrives at a router, the router must answer one question in microseconds: <strong>which interface should I send this packet out of?</strong> The answer depends on the packet's destination IP address and the router's routing table.</p>
-    <p>Three types of routes populate a routing table:</p>
-    <ul>
-      <li><strong>Connected routes</strong> — automatically created when an interface is brought up and assigned an IP. The router knows it can reach that subnet directly. These have the highest trustworthiness.</li>
-      <li><strong>Static routes</strong> — manually configured by an administrator. Simple, predictable, but don't adapt to topology changes.</li>
-      <li><strong>Dynamic routes</strong> — learned from other routers via routing protocols (OSPF, BGP, RIP). Adapt automatically when links fail or topology changes.</li>
-    </ul>
+<p>Routing is the process of selecting a path for network traffic. When a packet arrives at a router, the router must answer one question in microseconds: <strong>which interface should I send this packet out of?</strong> The answer depends on the packet's destination IP address and the router's routing table.</p>
+<p>Three types of routes populate a routing table:</p>
+<ul>
+<li><strong>Connected routes</strong> — automatically created when an interface is brought up and assigned an IP. The router knows it can reach that subnet directly. These have the highest trustworthiness.</li>
+<li><strong>Static routes</strong> — manually configured by an administrator. Simple, predictable, but don't adapt to topology changes.</li>
+<li><strong>Dynamic routes</strong> — learned from other routers via routing protocols (OSPF, BGP, RIP). Adapt automatically when links fail or topology changes.</li>
+</ul>
   </div>
 </div>
 <div class="analogy">
@@ -148,36 +148,42 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>The Five-Step Packet Forwarding Process</h3><span class="tag tag-blue">FORWARDING</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* When a router receives a packet */</span>
- 
+
+
+```bash
+/* When a router receives a packet */
+
 Step 1: Receive packet on ingress interface
   - NIC copies frame from wire to memory
   - Strip Ethernet header, verify CRC
- 
+
 Step 2: Verify IP header
   - Check IP version (4 or 6)
   - Validate IP header checksum (drop if corrupt)
   - Check TTL: if TTL == 0 → discard + send ICMP Time Exceeded
   - Decrement TTL
- 
+
 Step 3: FIB lookup (Longest Prefix Match)
   - Look up destination IP in Forwarding Information Base
   - Find most specific matching prefix
   - Get: egress interface + next-hop IP
- 
+
 Step 4: Resolve next-hop MAC (ARP / Neighbour Cache)
   - Look up next-hop IP in ARP cache
   - If miss: send ARP request, queue packet
- 
+
 Step 5: Rewrite L2 header + transmit
   - New Ethernet header: dst=next-hop MAC, src=egress port MAC
   - Recompute IP checksum (TTL changed)
   - Transmit on egress interface
- 
-<span class="cm">/* What the router does NOT change */</span>
-<span class="cm"># Source IP, Destination IP — unchanged (except NAT)</span>
-<span class="cm"># Payload (TCP/UDP/application data) — unchanged</span>
-<span class="cm"># Only TTL (decremented) and checksum (recomputed) change in IP header</span></pre></div>
+
+/* What the router does NOT change */
+# Source IP, Destination IP — unchanged (except NAT)
+# Payload (TCP/UDP/application data) — unchanged
+# Only TTL (decremented) and checksum (recomputed) change in IP header
+```
+
+
   </div>
 </div>
 </div>
@@ -187,61 +193,76 @@ Step 5: Rewrite L2 header + transmit
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📚</span><h3>RIB vs FIB — Different Purposes, Different Structures</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
-    <p>Modern routing systems maintain two separate databases for routes. Understanding the distinction is critical for data-plane engineering:</p>
-    <div class="two-col">
-      <div>
-        <h4>RIB — Routing Information Base</h4>
-        <p>The <em>control plane</em> database. Contains <strong>all routes learned</strong> from all sources — connected, static, OSPF, BGP, RIP, etc. — including multiple competing routes to the same destination from different protocols or next-hops. The RIB is the "complete knowledge" database. It is managed by the routing daemon (Quagga, FRR, VPP's routing engine).</p>
-        <p>The RIB is <strong>not used for packet forwarding</strong> — it's too large and complex for per-packet lookups at line rate.</p>
-      </div>
-      <div>
-        <h4>FIB — Forwarding Information Base</h4>
-        <p>The <em>data plane</em> database. Contains only the <strong>best route per destination prefix</strong> — selected from the RIB by the routing daemon after applying administrative distance and metric comparisons. The FIB is what the forwarding engine (ASIC, NP, or CPU) uses for every packet lookup.</p>
-        <p>The FIB is optimised for <strong>speed</strong>: it may be stored in TCAM (hardware), a radix trie, or a hash table. In VPP, the FIB is a multi-level lookup structure in hugepage memory. In Linux, it's the kernel routing table.</p>
-      </div>
-    </div>
-<div class="cb"><pre><span class="cm">/* RIB → FIB population process */</span>
- 
+<p>Modern routing systems maintain two separate databases for routes. Understanding the distinction is critical for data-plane engineering:</p>
+<div class="two-col">
+<div>
+<h4>RIB — Routing Information Base</h4>
+<p>The <em>control plane</em> database. Contains <strong>all routes learned</strong> from all sources — connected, static, OSPF, BGP, RIP, etc. — including multiple competing routes to the same destination from different protocols or next-hops. The RIB is the "complete knowledge" database. It is managed by the routing daemon (Quagga, FRR, VPP's routing engine).</p>
+<p>The RIB is <strong>not used for packet forwarding</strong> — it's too large and complex for per-packet lookups at line rate.</p>
+</div>
+<div>
+<h4>FIB — Forwarding Information Base</h4>
+<p>The <em>data plane</em> database. Contains only the <strong>best route per destination prefix</strong> — selected from the RIB by the routing daemon after applying administrative distance and metric comparisons. The FIB is what the forwarding engine (ASIC, NP, or CPU) uses for every packet lookup.</p>
+<p>The FIB is optimised for <strong>speed</strong>: it may be stored in TCAM (hardware), a radix trie, or a hash table. In VPP, the FIB is a multi-level lookup structure in hugepage memory. In Linux, it's the kernel routing table.</p>
+</div>
+</div>
+
+
+
+```python
+/* RIB → FIB population process */
+
 RIB contains (for destination 10.0.0.0/8):
   OSPF:   10.0.0.0/8 via 192.168.1.2  metric=20  AD=110
   Static: 10.0.0.0/8 via 192.168.1.3  metric=0   AD=1
   BGP:    10.0.0.0/8 via 10.255.0.1   metric=100  AD=200
- 
+
 Route selection:
   1. Prefer lower Administrative Distance: Static AD=1 wins over OSPF(110) and BGP(200)
   2. Among equal AD routes: prefer lower metric
   Best route: Static 10.0.0.0/8 via 192.168.1.3
- 
+
 FIB entry: 10.0.0.0/8 → egress=eth1 nexthop=192.168.1.3 mac=aa:bb:cc:dd:ee:ff
- 
-<span class="cm">/* Linux commands */</span>
-ip route show table main        <span class="cm"># FIB (main routing table)</span>
-ip route show table all         <span class="cm"># all routing tables</span>
-ip route get 8.8.8.8            <span class="cm"># which route would be used for 8.8.8.8?</span>
-<span class="cm">/* VPP FIB inspection */</span>
-<span class="cm"># vppctl: show ip fib</span>
-<span class="cm"># vppctl: show ip fib 10.0.0.0/8</span>
-<span class="cm"># vppctl: show ip fib summary</span></pre></div>
+
+/* Linux commands */
+ip route show table main        # FIB (main routing table)
+ip route show table all         # all routing tables
+ip route get 8.8.8.8            # which route would be used for 8.8.8.8?
+
+/* VPP FIB inspection */
+# vppctl: show ip fib
+# vppctl: show ip fib 10.0.0.0/8
+# vppctl: show ip fib summary
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏎️</span><h3>Hardware FIB — TCAM</h3><span class="tag tag-teal">HARDWARE</span></div>
   <div class="cp-body">
-    <p>High-end routers and switches implement the FIB in <strong>TCAM (Ternary Content-Addressable Memory)</strong> — a specialised memory that can match a search key against all stored entries simultaneously in O(1) time, regardless of table size.</p>
-    <p>TCAM stores entries with three states per bit: 0, 1, or X (don't care). For IP routing: the network bits are stored as 0/1, and the host bits as X. A lookup of any destination IP matches the most specific entry in a single clock cycle at line rate — 100 Gbps, no software involved.</p>
-<div class="cb"><pre><span class="cm">/* TCAM entry for 192.168.1.0/24 */</span>
+<p>High-end routers and switches implement the FIB in <strong>TCAM (Ternary Content-Addressable Memory)</strong> — a specialised memory that can match a search key against all stored entries simultaneously in O(1) time, regardless of table size.</p>
+<p>TCAM stores entries with three states per bit: 0, 1, or X (don't care). For IP routing: the network bits are stored as 0/1, and the host bits as X. A lookup of any destination IP matches the most specific entry in a single clock cycle at line rate — 100 Gbps, no software involved.</p>
+
+
+```bash
+/* TCAM entry for 192.168.1.0/24 */
 Value: 11000000.10101000.00000001.00000000
-Mask:  11111111.11111111.11111111.00000000  <span class="cm">(X = don't care on unmasked bits)</span>
-<span class="cm">/* A lookup of 192.168.1.55: */</span>
+Mask:  11111111.11111111.11111111.00000000  (X = don't care on unmasked bits)
+
+/* A lookup of 192.168.1.55: */
 Match: 11000000.10101000.00000001.00110111
 AND mask: first 24 bits match → HIT
- 
-<span class="cm">/* TCAM limitations */</span>
-<span class="cm"># Expensive per-bit (vs SRAM)</span>
-<span class="cm"># High power consumption</span>
-<span class="cm"># Limited capacity (typically 256K–2M entries in enterprise routers)</span>
-<span class="cm"># Internet full routing table ~950K prefixes — approaches TCAM limits</span>
-<span class="cm"># BGP router TCAM exhaustion is a real operational concern</span></pre></div>
+
+/* TCAM limitations */
+# Expensive per-bit (vs SRAM)
+# High power consumption
+# Limited capacity (typically 256K–2M entries in enterprise routers)
+# Internet full routing table ~950K prefixes — approaches TCAM limits
+# BGP router TCAM exhaustion is a real operational concern
+```
+
+
   </div>
 </div>
 </div>
@@ -251,7 +272,7 @@ AND mask: first 24 bits match → HIT
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>What is Longest Prefix Match?</h3><span class="tag tag-green">CONCEPT</span></div>
   <div class="cp-body">
-    <p>Longest Prefix Match (LPM) is the rule for selecting which route to use when multiple routes match a destination address. The route with the <strong>most specific prefix</strong> (longest subnet mask / highest prefix length) wins.</p>
+<p>Longest Prefix Match (LPM) is the rule for selecting which route to use when multiple routes match a destination address. The route with the <strong>most specific prefix</strong> (longest subnet mask / highest prefix length) wins.</p>
 <div class="cb"><pre><span class="cm">/* Routing table example */</span>
 10.0.0.0/8       via 192.168.1.1   <span class="cm"># matches any 10.x.x.x</span>
 10.10.0.0/16     via 192.168.1.2   <span class="cm"># matches any 10.10.x.x</span>
@@ -274,16 +295,19 @@ AND mask: first 24 bits match → HIT
  
 <span class="cm">/* LPM for destination 8.8.8.8 */</span>
 0.0.0.0/0     matches  → /0   ← LONGEST (only) MATCH → default route</pre></div>
-    <div class="ins"><p>💡 <strong>The /32 host route is the most specific possible</strong> — it matches exactly one IP address. Used for: BGP next-hop routes, traffic engineering, sinkholing specific IPs, loopback interfaces. In VPP/DPDK data planes you will frequently add /32 routes for specific flows.</p></div>
+<div class="ins"><p>💡 <strong>The /32 host route is the most specific possible</strong> — it matches exactly one IP address. Used for: BGP next-hop routes, traffic engineering, sinkholing specific IPs, loopback interfaces. In VPP/DPDK data planes you will frequently add /32 routes for specific flows.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌳</span><h3>LPM Data Structures — Radix Trie</h3><span class="tag tag-blue">ALGORITHM</span></div>
   <div class="cp-body">
-    <p>Software LPM (used in Linux kernel, VPP for IPv6, and when TCAM isn't available) is typically implemented with a <strong>radix trie</strong> (Patricia trie). Each bit of the IP address is a branch point. The lookup traverses the trie bit by bit from MSB to LSB, recording the last matching node that has a route entry. After all bits are processed, the last recorded entry is the LPM result.</p>
-<div class="cb"><pre><span class="cm">/* Binary trie LPM lookup for 10.10.1.5 */</span>
-<span class="cm">/* 10.10.1.5 = 00001010.00001010.00000001.00000101 */</span>
- 
+<p>Software LPM (used in Linux kernel, VPP for IPv6, and when TCAM isn't available) is typically implemented with a <strong>radix trie</strong> (Patricia trie). Each bit of the IP address is a branch point. The lookup traverses the trie bit by bit from MSB to LSB, recording the last matching node that has a route entry. After all bits are processed, the last recorded entry is the LPM result.</p>
+
+
+```c
+/* Binary trie LPM lookup for 10.10.1.5 */
+/* 10.10.1.5 = 00001010.00001010.00000001.00000101 */
+
 Bit 1 (MSB): 0 → go left
 Bit 2:       0 → go left
 Bit 3:       0 → go left
@@ -295,27 +319,31 @@ Bit 5:       1 → go right  ← first '1' bit
 ...continue to bit 24, record 10.10.1.0/24...
 ...continue to bit 32, record 10.10.1.5/32...
 End of bits → return 10.10.1.5/32 (last recorded = longest match)
- 
-<span class="cm">/* Implementing LPM in C — simple version */</span>
-<span class="ck">typedef struct</span> trie_node {
-    <span class="ck">struct</span> trie_node *child[2]; <span class="cm">/* 0=left, 1=right */</span>
-    uint32_t nexthop;           <span class="cm">/* 0 = no route at this node */</span>
+
+/* Implementing LPM in C — simple version */
+typedef struct trie_node {
+    struct trie_node *child[2]; /* 0=left, 1=right */
+    uint32_t nexthop;           /* 0 = no route at this node */
     uint8_t  prefix_len;
 } trie_node_t;
- 
+
 uint32_t lpm_lookup(trie_node_t *root, uint32_t dst_ip) {
     trie_node_t *node = root;
     uint32_t best_nexthop = 0;
-    <span class="ck">for</span> (<span class="ck">int</span> bit = 31; bit >= 0 && node; bit--) {
-        <span class="ck">if</span> (node->nexthop) best_nexthop = node->nexthop;
-        <span class="ck">int</span> b = (dst_ip >> bit) & 1;
+    for (int bit = 31; bit >= 0 && node; bit--) {
+        if (node->nexthop) best_nexthop = node->nexthop;
+        int b = (dst_ip >> bit) & 1;
         node = node->child[b];
     }
-    <span class="ck">if</span> (node && node->nexthop) best_nexthop = node->nexthop;
-    <span class="ck">return</span> best_nexthop; <span class="cm">/* 0 = no route (drop) */</span>
-}</pre></div>
-    <h4>LPM at Scale — DIR-24-8 and LC-Trie</h4>
-    <p>For IPv4 in software at high speed, routers often use <strong>DIR-24-8</strong> (Direct Index Route lookup): a two-level table where the first 24 bits index a 16M-entry array (with one 32-bit entry per /24 prefix), and the last 8 bits are resolved with a secondary table for prefixes longer than /24. This achieves O(1) or O(2) lookup with excellent cache performance.</p>
+    if (node && node->nexthop) best_nexthop = node->nexthop;
+    return best_nexthop; /* 0 = no route (drop) */
+}
+```
+
+
+
+<h4>LPM at Scale — DIR-24-8 and LC-Trie</h4>
+<p>For IPv4 in software at high speed, routers often use <strong>DIR-24-8</strong> (Direct Index Route lookup): a two-level table where the first 24 bits index a 16M-entry array (with one 32-bit entry per /24 prefix), and the last 8 bits are resolved with a secondary table for prefixes longer than /24. This achieves O(1) or O(2) lookup with excellent cache performance.</p>
   </div>
 </div>
 </div>
@@ -325,56 +353,71 @@ uint32_t lpm_lookup(trie_node_t *root, uint32_t dst_ip) {
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚖️</span><h3>What ECMP Is and Why It Exists</h3><span class="tag tag-teal">CONCEPT</span></div>
   <div class="cp-body">
-    <p>ECMP (Equal-Cost Multi-Path) allows a router to use <strong>multiple next-hops simultaneously</strong> for a destination when multiple paths have the same metric. This provides both load balancing (traffic distributed across multiple links) and redundancy (if one path fails, others continue).</p>
-<div class="cb"><pre><span class="cm">/* ECMP in Linux routing table */</span>
+<p>ECMP (Equal-Cost Multi-Path) allows a router to use <strong>multiple next-hops simultaneously</strong> for a destination when multiple paths have the same metric. This provides both load balancing (traffic distributed across multiple links) and redundancy (if one path fails, others continue).</p>
+
+
+```python
+/* ECMP in Linux routing table */
 $ ip route show
 10.0.0.0/8
     nexthop via 192.168.1.1 dev eth0 weight 1
     nexthop via 192.168.1.2 dev eth1 weight 1
     nexthop via 192.168.1.3 dev eth2 weight 1
-<span class="cm"># Three equal-cost paths — traffic balanced across all three</span>
-<span class="cm">/* ECMP hashing — how traffic is distributed */</span>
-<span class="cm"># Each packet is assigned to a path using a hash of its flow identifier</span>
-<span class="cm"># This ensures packets of the SAME FLOW go to the SAME next-hop</span>
-<span class="cm"># (required for stateful protocols — TCP reordering causes retransmits)</span>
-<span class="cm">/* Hash inputs (per-flow consistent hashing) */</span>
+# Three equal-cost paths — traffic balanced across all three
+
+/* ECMP hashing — how traffic is distributed */
+# Each packet is assigned to a path using a hash of its flow identifier
+# This ensures packets of the SAME FLOW go to the SAME next-hop
+# (required for stateful protocols — TCP reordering causes retransmits)
+
+/* Hash inputs (per-flow consistent hashing) */
 5-tuple hash (most common):
   hash(src_ip, dst_ip, src_port, dst_port, protocol) % num_paths
- 
-<span class="cm">/* For IPv6: also include Flow Label (20-bit) */</span>
+
+/* For IPv6: also include Flow Label (20-bit) */
 hash(src_ip6, dst_ip6, flow_label) % num_paths
- 
-<span class="cm">/* Weighted ECMP (unequal links) */</span>
+
+/* Weighted ECMP (unequal links) */
 10.0.0.0/8
-    nexthop via 192.168.1.1 weight 3   <span class="cm"># 3/4 of traffic</span>
-    nexthop via 192.168.1.2 weight 1   <span class="cm"># 1/4 of traffic</span></pre></div>
+    nexthop via 192.168.1.1 weight 3   # 3/4 of traffic
+    nexthop via 192.168.1.2 weight 1   # 1/4 of traffic
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>ECMP Challenges — The Polarisation Problem</h3><span class="tag tag-blue">CHALLENGES</span></div>
   <div class="cp-body">
-    <p>ECMP has two well-known operational problems:</p>
-    <ul>
-      <li><strong>Hash polarisation</strong> — if every router in a topology uses the same hash function and inputs, all traffic may land on the same path through the network. The fix: vary hash seeds per router, or include router-specific fields (e.g., ingress interface) in the hash.</li>
-      <li><strong>Large flows dominate</strong> — ECMP distributes by flow, not by byte count. A single TCP elephant flow (file download) sending 10 Gbps gets one path. 1000 small flows might be evenly distributed across 3 paths but the elephant's path carries 10× more traffic. Fix: flow-aware traffic engineering (MPLS TE, Segment Routing).</li>
-    </ul>
-    <h4>ECMP and Stateful Firewalls</h4>
-    <p>ECMP creates a critical challenge for stateful firewalls and NGFW clusters: if outbound and inbound packets of the same TCP session take different paths and hit different firewall nodes, the firewall node handling the return traffic has no state for the connection and drops it (asymmetric routing). Solutions: session synchronisation between firewall nodes, consistent hashing to ensure symmetric path, or stateless inspection modes.</p>
-<div class="cb"><pre><span class="cm">/* ECMP configuration in Linux */</span>
-<span class="cm"># Add ECMP route</span>
+<p>ECMP has two well-known operational problems:</p>
+<ul>
+<li><strong>Hash polarisation</strong> — if every router in a topology uses the same hash function and inputs, all traffic may land on the same path through the network. The fix: vary hash seeds per router, or include router-specific fields (e.g., ingress interface) in the hash.</li>
+<li><strong>Large flows dominate</strong> — ECMP distributes by flow, not by byte count. A single TCP elephant flow (file download) sending 10 Gbps gets one path. 1000 small flows might be evenly distributed across 3 paths but the elephant's path carries 10× more traffic. Fix: flow-aware traffic engineering (MPLS TE, Segment Routing).</li>
+</ul>
+<h4>ECMP and Stateful Firewalls</h4>
+<p>ECMP creates a critical challenge for stateful firewalls and NGFW clusters: if outbound and inbound packets of the same TCP session take different paths and hit different firewall nodes, the firewall node handling the return traffic has no state for the connection and drops it (asymmetric routing). Solutions: session synchronisation between firewall nodes, consistent hashing to ensure symmetric path, or stateless inspection modes.</p>
+
+
+```bash
+/* ECMP configuration in Linux */
+# Add ECMP route
 ip route add 10.0.0.0/8 \
     nexthop via 192.168.1.1 dev eth0 weight 1 \
     nexthop via 192.168.1.2 dev eth1 weight 1
- 
-<span class="cm"># Control ECMP hash inputs</span>
+
+# Control ECMP hash inputs
 sysctl net.ipv4.fib_multipath_hash_policy
-<span class="cm"># 0 = L3 (src+dst IP only)</span>
-<span class="cm"># 1 = L3+L4 (5-tuple) — recommended for better distribution</span>
-<span class="cm"># 2 = L3+L4 including inner headers for encapsulated packets</span>
-<span class="cm"># VPP ECMP (load-balance object)</span>
-<span class="cm"># vppctl: ip route add 10.0.0.0/8 via 192.168.1.1 GigE0/0</span>
-<span class="cm"># vppctl: ip route add 10.0.0.0/8 via 192.168.1.2 GigE0/1</span>
-<span class="cm"># VPP creates a load-balance object with flow-hash buckets</span></pre></div>
+# 0 = L3 (src+dst IP only)
+# 1 = L3+L4 (5-tuple) — recommended for better distribution
+# 2 = L3+L4 including inner headers for encapsulated packets
+
+# VPP ECMP (load-balance object)
+# vppctl: ip route add 10.0.0.0/8 via 192.168.1.1 GigE0/0
+# vppctl: ip route add 10.0.0.0/8 via 192.168.1.2 GigE0/1
+# VPP creates a load-balance object with flow-hash buckets
+```
+
+
   </div>
 </div>
 </div>
@@ -384,36 +427,44 @@ sysctl net.ipv4.fib_multipath_hash_policy
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🏆</span><h3>Administrative Distance — Route Source Preference</h3><span class="tag tag-amber">AD</span></div>
   <div class="cp-body">
-    <p>When multiple routing protocols learn routes to the same destination, the router must choose which one to install in the FIB. Administrative Distance (AD) is the preference value assigned to each routing source — lower AD = more trusted = preferred. AD is a Cisco term; other vendors use similar concepts (route preference, distance).</p>
-    <table class="t-table">
-      <thead><tr><th>Route Source</th><th>AD (Cisco)</th><th>AD (Linux metric)</th><th>Why This Priority</th></tr></thead>
-      <tbody>
-        <tr><td>Connected interface</td><td>0</td><td>0</td><td>Router is directly attached — 100% reliable</td></tr>
-        <tr><td>Static route</td><td>1</td><td>—</td><td>Manually configured — administrator knows best</td></tr>
-        <tr><td>EIGRP (internal)</td><td>90</td><td>—</td><td>Cisco proprietary — high trust</td></tr>
-        <tr><td>OSPF</td><td>110</td><td>—</td><td>Standard IGP — trusted but below static</td></tr>
-        <tr><td>IS-IS</td><td>115</td><td>—</td><td>Standard IGP — similar to OSPF</td></tr>
-        <tr><td>RIP</td><td>120</td><td>—</td><td>Old distance-vector — lower trust</td></tr>
-        <tr><td>EIGRP (external)</td><td>170</td><td>—</td><td>Redistributed from another protocol — less trusted</td></tr>
-        <tr><td>BGP (eBGP)</td><td>20</td><td>—</td><td>External BGP — specific route from peer, high trust</td></tr>
-        <tr><td>BGP (iBGP)</td><td>200</td><td>—</td><td>Internal BGP — redistributed, lowest trust by default</td></tr>
-        <tr><td>Unreachable (blackhole)</td><td>255</td><td>—</td><td>Used to mark routes as unusable</td></tr>
-      </tbody>
-    </table>
-<div class="cb"><pre><span class="cm">/* AD in practice — floating static route */</span>
-<span class="cm"># Primary path: OSPF learns 10.0.0.0/8 via fiber link (AD=110)</span>
-<span class="cm"># Backup: static route via 4G modem (should only be used if OSPF fails)</span>
- 
+<p>When multiple routing protocols learn routes to the same destination, the router must choose which one to install in the FIB. Administrative Distance (AD) is the preference value assigned to each routing source — lower AD = more trusted = preferred. AD is a Cisco term; other vendors use similar concepts (route preference, distance).</p>
+<table class="t-table">
+<thead><tr><th>Route Source</th><th>AD (Cisco)</th><th>AD (Linux metric)</th><th>Why This Priority</th></tr></thead>
+<tbody>
+<tr><td>Connected interface</td><td>0</td><td>0</td><td>Router is directly attached — 100% reliable</td></tr>
+<tr><td>Static route</td><td>1</td><td>—</td><td>Manually configured — administrator knows best</td></tr>
+<tr><td>EIGRP (internal)</td><td>90</td><td>—</td><td>Cisco proprietary — high trust</td></tr>
+<tr><td>OSPF</td><td>110</td><td>—</td><td>Standard IGP — trusted but below static</td></tr>
+<tr><td>IS-IS</td><td>115</td><td>—</td><td>Standard IGP — similar to OSPF</td></tr>
+<tr><td>RIP</td><td>120</td><td>—</td><td>Old distance-vector — lower trust</td></tr>
+<tr><td>EIGRP (external)</td><td>170</td><td>—</td><td>Redistributed from another protocol — less trusted</td></tr>
+<tr><td>BGP (eBGP)</td><td>20</td><td>—</td><td>External BGP — specific route from peer, high trust</td></tr>
+<tr><td>BGP (iBGP)</td><td>200</td><td>—</td><td>Internal BGP — redistributed, lowest trust by default</td></tr>
+<tr><td>Unreachable (blackhole)</td><td>255</td><td>—</td><td>Used to mark routes as unusable</td></tr>
+</tbody>
+</table>
+
+
+
+```bash
+/* AD in practice — floating static route */
+# Primary path: OSPF learns 10.0.0.0/8 via fiber link (AD=110)
+# Backup: static route via 4G modem (should only be used if OSPF fails)
+
 ip route add 10.0.0.0/8 via 192.168.100.1 metric 200
-<span class="cm"># In Linux: metric 200 = lower priority than OSPF routes</span>
-<span class="cm"># While OSPF is active: OSPF route wins (metric 110)</span>
-<span class="cm"># When OSPF fails: OSPF route removed → static route with metric 200 activates</span>
-<span class="cm"># This is a "floating static route" — floats below dynamic routes</span>
-<span class="cm">/* Viewing route sources in Linux */</span>
-ip route show proto ospf    <span class="cm"># routes from OSPF</span>
-ip route show proto bgp     <span class="cm"># routes from BGP</span>
-ip route show proto static  <span class="cm"># static routes</span>
-ip route show proto kernel  <span class="cm"># connected (kernel-generated)</span></pre></div>
+# In Linux: metric 200 = lower priority than OSPF routes
+# While OSPF is active: OSPF route wins (metric 110)
+# When OSPF fails: OSPF route removed → static route with metric 200 activates
+# This is a "floating static route" — floats below dynamic routes
+
+/* Viewing route sources in Linux */
+ip route show proto ospf    # routes from OSPF
+ip route show proto bgp     # routes from BGP
+ip route show proto static  # static routes
+ip route show proto kernel  # connected (kernel-generated)
+```
+
+
   </div>
 </div>
 </div>
@@ -423,29 +474,40 @@ ip route show proto kernel  <span class="cm"># connected (kernel-generated)</spa
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📋</span><h3>What Policy Routing Adds</h3><span class="tag tag-purple">PBR</span></div>
   <div class="cp-body">
-    <p>Standard routing forwards packets based only on <strong>destination IP address</strong>. Policy-Based Routing (PBR) allows routing decisions based on additional criteria: source IP, DSCP/TOS, protocol, port, or even incoming interface. This is essential for NGFW deployments where different traffic classes must take different paths.</p>
-<div class="cb"><pre><span class="cm">/* Linux Policy Routing (ip rule + multiple routing tables) */</span>
-<span class="cm"># Scenario: ISP-A (eth0) for normal traffic, ISP-B (eth1) for VoIP</span>
-<span class="cm"># Step 1: Create separate routing tables</span>
-<span class="cm"># /etc/iproute2/rt_tables: add "200 isp_b"</span>
+<p>Standard routing forwards packets based only on <strong>destination IP address</strong>. Policy-Based Routing (PBR) allows routing decisions based on additional criteria: source IP, DSCP/TOS, protocol, port, or even incoming interface. This is essential for NGFW deployments where different traffic classes must take different paths.</p>
+
+
+```sql
+/* Linux Policy Routing (ip rule + multiple routing tables) */
+
+# Scenario: ISP-A (eth0) for normal traffic, ISP-B (eth1) for VoIP
+
+# Step 1: Create separate routing tables
+# /etc/iproute2/rt_tables: add "200 isp_b"
 echo "200 isp_b" >> /etc/iproute2/rt_tables
- 
-<span class="cm"># Step 2: Populate table for ISP-B</span>
+
+# Step 2: Populate table for ISP-B
 ip route add default via 10.2.0.1 dev eth1 table isp_b
-ip route add 10.2.0.0/24 dev eth1 table isp_b  <span class="cm"># local subnet</span>
-<span class="cm"># Step 3: Create rules to select table based on criteria</span>
-ip rule add from 192.168.1.0/24 dport 5060 table isp_b  <span class="cm"># SIP → ISP-B</span>
-ip rule add dscp 46 table isp_b                           <span class="cm"># EF (VoIP) → ISP-B</span>
-ip rule add from 10.0.0.5 table isp_b                    <span class="cm"># specific host → ISP-B</span>
-<span class="cm"># Default rule: use main table (ISP-A)</span>
-<span class="cm"># View rules (evaluated in priority order, lower = first)</span>
+ip route add 10.2.0.0/24 dev eth1 table isp_b  # local subnet
+
+# Step 3: Create rules to select table based on criteria
+ip rule add from 192.168.1.0/24 dport 5060 table isp_b  # SIP → ISP-B
+ip rule add dscp 46 table isp_b                           # EF (VoIP) → ISP-B
+ip rule add from 10.0.0.5 table isp_b                    # specific host → ISP-B
+# Default rule: use main table (ISP-A)
+
+# View rules (evaluated in priority order, lower = first)
 ip rule show
-<span class="cm"># 0:      from all lookup local</span>
-<span class="cm"># 100:    from 10.0.0.5 lookup isp_b</span>
-<span class="cm"># 200:    dscp 46 lookup isp_b</span>
-<span class="cm"># 32766:  from all lookup main</span>
-<span class="cm"># 32767:  from all lookup default</span></pre></div>
-    <div class="ins"><p>💡 <strong>NGFW use cases for PBR:</strong> Route management traffic out a dedicated OOB (out-of-band) interface. Send IDS/IPS traffic to an inline inspection appliance. Route different VLANs to different next-hops. Forward specific threat-tagged traffic to a honeypot or sandbox. Force all DNS to the internal resolver regardless of destination port.</p></div>
+# 0:      from all lookup local
+# 100:    from 10.0.0.5 lookup isp_b
+# 200:    dscp 46 lookup isp_b
+# 32766:  from all lookup main
+# 32767:  from all lookup default
+```
+
+
+
+<div class="ins"><p>💡 <strong>NGFW use cases for PBR:</strong> Route management traffic out a dedicated OOB (out-of-band) interface. Send IDS/IPS traffic to an inline inspection appliance. Route different VLANs to different next-hops. Forward specific threat-tagged traffic to a honeypot or sandbox. Force all DNS to the internal resolver regardless of destination port.</p></div>
   </div>
 </div>
 </div>
@@ -455,67 +517,88 @@ ip rule show
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🐧</span><h3>Linux Kernel Routing Architecture</h3><span class="tag tag-teal">LINUX</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* Linux routing table management commands */</span>
-<span class="cm"># View main routing table (FIB)</span>
+
+
+```bash
+/* Linux routing table management commands */
+
+# View main routing table (FIB)
 ip route show
 ip route show table main
-route -n   <span class="cm"># older tool (still useful)</span>
-<span class="cm"># View a specific route and which would be used</span>
+route -n   # older tool (still useful)
+
+# View a specific route and which would be used
 ip route get 8.8.8.8
-<span class="cm"># 8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.5 uid 1000</span>
-<span class="cm">#    cache</span>
-<span class="cm"># Add static routes</span>
-ip route add 10.0.0.0/8 via 192.168.1.1              <span class="cm"># via next-hop</span>
-ip route add 10.0.0.0/8 dev eth0                     <span class="cm"># directly connected</span>
-ip route add 10.0.0.0/8 via 192.168.1.1 metric 100  <span class="cm"># with metric</span>
-ip route add blackhole 203.0.113.0/24                <span class="cm"># null route (drop)</span>
-ip route add prohibit 192.0.2.0/24                   <span class="cm"># drop + ICMP prohibit</span>
-ip route add unreachable 198.51.100.0/24             <span class="cm"># drop + ICMP unreachable</span>
-<span class="cm"># Delete routes</span>
+# 8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.5 uid 1000
+#    cache
+
+# Add static routes
+ip route add 10.0.0.0/8 via 192.168.1.1              # via next-hop
+ip route add 10.0.0.0/8 dev eth0                     # directly connected
+ip route add 10.0.0.0/8 via 192.168.1.1 metric 100  # with metric
+ip route add blackhole 203.0.113.0/24                # null route (drop)
+ip route add prohibit 192.0.2.0/24                   # drop + ICMP prohibit
+ip route add unreachable 198.51.100.0/24             # drop + ICMP unreachable
+
+# Delete routes
 ip route del 10.0.0.0/8 via 192.168.1.1
- 
-<span class="cm"># Default route</span>
+
+# Default route
 ip route add default via 192.168.1.1
-ip route add 0.0.0.0/0 via 192.168.1.1  <span class="cm"># same thing</span>
-<span class="cm"># Make Linux forward packets (act as router)</span>
+ip route add 0.0.0.0/0 via 192.168.1.1  # same thing
+
+# Make Linux forward packets (act as router)
 sysctl net.ipv4.ip_forward=1
 echo 1 > /proc/sys/net/ipv4/ip_forward
-<span class="cm"># Permanent: add to /etc/sysctl.conf</span>
-<span class="cm"># Route cache (Linux 3.6+ uses FIB directly — no separate route cache)</span>
-<span class="cm"># Previous versions had a route cache (dst_entry) that caused hash table attacks</span>
-<span class="cm"># IPv6 routing</span>
+# Permanent: add to /etc/sysctl.conf
+
+# Route cache (Linux 3.6+ uses FIB directly — no separate route cache)
+# Previous versions had a route cache (dst_entry) that caused hash table attacks
+
+# IPv6 routing
 ip -6 route show
 ip -6 route add 2001:db8::/32 via fe80::1 dev eth0
-ip -6 route get 2001:4860:4860::8888</pre></div>
+ip -6 route get 2001:4860:4860::8888
+```
+
+
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Routing in VPP — The Data-Plane Perspective</h3><span class="tag tag-green">VPP</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* VPP FIB architecture */</span>
-<span class="cm"># VPP uses a multi-level FIB structure in hugepage memory</span>
-<span class="cm"># IP4 FIB: hash table + mtrie (multi-way trie) for IPv4</span>
-<span class="cm"># IP6 FIB: hash table for /128s, mtrie for others</span>
-<span class="cm"># VPP routing commands (vppctl)</span>
-show ip fib                          <span class="cm"># entire IPv4 FIB</span>
-show ip fib 10.0.0.0/8              <span class="cm"># specific prefix</span>
-show ip fib summary                  <span class="cm"># prefix count by length</span>
- 
+
+
+```bash
+/* VPP FIB architecture */
+# VPP uses a multi-level FIB structure in hugepage memory
+# IP4 FIB: hash table + mtrie (multi-way trie) for IPv4
+# IP6 FIB: hash table for /128s, mtrie for others
+
+# VPP routing commands (vppctl)
+show ip fib                          # entire IPv4 FIB
+show ip fib 10.0.0.0/8              # specific prefix
+show ip fib summary                  # prefix count by length
+
 ip route add 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
 ip route add 0.0.0.0/0  via 192.168.1.254 GigabitEthernet0/8/0
- 
-<span class="cm"># ECMP in VPP</span>
+
+# ECMP in VPP
 ip route add 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
 ip route add 10.0.0.0/8 via 192.168.1.2 GigabitEthernet0/8/1
-<span class="cm"># VPP automatically creates a load-balance adjacency with flow-hash buckets</span>
-show ip fib 10.0.0.0/8    <span class="cm"># shows load-balance object with N buckets</span>
-<span class="cm"># VPP FIB lookup in C (graph node)</span>
-<span class="cm">/* In ip4_lookup.c: */</span>
+# VPP automatically creates a load-balance adjacency with flow-hash buckets
+show ip fib 10.0.0.0/8    # shows load-balance object with N buckets
+
+# VPP FIB lookup in C (graph node)
+/* In ip4_lookup.c: */
 ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 0);
 ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 1);
 ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 2);
 ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
-<span class="cm">/* 4 pipeline stages for 32-bit IPv4 address lookup */</span></pre></div>
+/* 4 pipeline stages for 32-bit IPv4 address lookup */
+```
+
+
   </div>
 </div>
 </div>
@@ -524,30 +607,30 @@ ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>LPM Trie Implementation in C</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Implement a binary trie for LPM routing lookups. Insert routes and verify the correct next-hop is returned for various destination IPs.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the <code>trie_node_t</code> struct and <code>trie_insert(root, prefix, prefix_len, nexthop)</code> function. For each prefix, set bits 0–prefix_len of the address path in the trie and store the nexthop at the terminal node.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Implement <code>lpm_lookup(root, dst_ip)</code> — traverse the trie bit by bit from MSB to LSB, recording the most recently seen nexthop. Return the last recorded nexthop (or 0 for no route).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Insert: 0.0.0.0/0 → 1, 10.0.0.0/8 → 2, 10.10.0.0/16 → 3, 10.10.1.0/24 → 4, 10.10.1.5/32 → 5. Verify: lookup(10.10.1.5)=5, lookup(10.10.1.6)=4, lookup(10.10.2.1)=3, lookup(10.20.0.1)=2, lookup(8.8.8.8)=1.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Benchmark: insert 100,000 random /24 prefixes and measure lookups/second. Compare with a linear scan of the same routes. The trie should be 100–1000× faster on large tables.</div></div>
+<p><strong>Objective:</strong> Implement a binary trie for LPM routing lookups. Insert routes and verify the correct next-hop is returned for various destination IPs.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the <code>trie_node_t</code> struct and <code>trie_insert(root, prefix, prefix_len, nexthop)</code> function. For each prefix, set bits 0–prefix_len of the address path in the trie and store the nexthop at the terminal node.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Implement <code>lpm_lookup(root, dst_ip)</code> — traverse the trie bit by bit from MSB to LSB, recording the most recently seen nexthop. Return the last recorded nexthop (or 0 for no route).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Insert: 0.0.0.0/0 → 1, 10.0.0.0/8 → 2, 10.10.0.0/16 → 3, 10.10.1.0/24 → 4, 10.10.1.5/32 → 5. Verify: lookup(10.10.1.5)=5, lookup(10.10.1.6)=4, lookup(10.10.2.1)=3, lookup(10.20.0.1)=2, lookup(8.8.8.8)=1.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Benchmark: insert 100,000 random /24 prefixes and measure lookups/second. Compare with a linear scan of the same routes. The trie should be 100–1000× faster on large tables.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a Multi-Path Router with ECMP</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Configure a Linux VM as a router with ECMP, observe traffic distribution, and test failover when one path goes down.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Enable IP forwarding: <code>sudo sysctl net.ipv4.ip_forward=1</code>. Add an ECMP route with two nexthops: <code>sudo ip route add 10.0.0.0/8 nexthop via 192.168.1.1 dev eth0 weight 1 nexthop via 192.168.1.2 dev eth1 weight 1</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Verify traffic distribution: use <code>ip route get</code> with different destination IPs to see which nexthop is selected. The hash of the destination IP determines the path: <code>for i in $(seq 1 20); do ip route get 10.0.$i.1 | grep via; done</code>. Count how many go to each nexthop — should be roughly 50/50.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Enable L4 hashing: <code>sudo sysctl net.ipv4.fib_multipath_hash_policy=1</code>. Repeat. The distribution should change because port numbers now affect the hash.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test failover: bring down eth1 (<code>sudo ip link set eth1 down</code>). Verify the ECMP route has only one nexthop remaining: <code>ip route show</code>. Bring it back up and re-add the nexthop.</div></div>
+<p><strong>Objective:</strong> Configure a Linux VM as a router with ECMP, observe traffic distribution, and test failover when one path goes down.</p>
+<div class="lab-step"><div class="sn">1</div><div>Enable IP forwarding: <code>sudo sysctl net.ipv4.ip_forward=1</code>. Add an ECMP route with two nexthops: <code>sudo ip route add 10.0.0.0/8 nexthop via 192.168.1.1 dev eth0 weight 1 nexthop via 192.168.1.2 dev eth1 weight 1</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Verify traffic distribution: use <code>ip route get</code> with different destination IPs to see which nexthop is selected. The hash of the destination IP determines the path: <code>for i in $(seq 1 20); do ip route get 10.0.$i.1 | grep via; done</code>. Count how many go to each nexthop — should be roughly 50/50.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Enable L4 hashing: <code>sudo sysctl net.ipv4.fib_multipath_hash_policy=1</code>. Repeat. The distribution should change because port numbers now affect the hash.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test failover: bring down eth1 (<code>sudo ip link set eth1 down</code>). Verify the ECMP route has only one nexthop remaining: <code>ip route show</code>. Bring it back up and re-add the nexthop.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Policy Routing — Multiple Uplinks</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Configure Linux Policy Routing to route different traffic classes to different uplinks.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add routing tables: <code>echo "100 isp1" >> /etc/iproute2/rt_tables; echo "200 isp2" >> /etc/iproute2/rt_tables</code>. Populate each: <code>ip route add default via 10.1.0.1 table isp1; ip route add default via 10.2.0.1 table isp2</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add rules: SSH traffic (port 22) to ISP1 (management), web traffic to ISP2: <code>ip rule add dport 22 table isp1 priority 100; ip rule add dport 80 table isp2 priority 101; ip rule add dport 443 table isp2 priority 102</code>. View with <code>ip rule show</code>.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Test: <code>ip route get 8.8.8.8 dport 22</code> vs <code>ip route get 8.8.8.8 dport 80</code>. Verify different nexthops are selected. Use <code>traceroute</code> on each to confirm different first hops.</div></div>
+<p><strong>Objective:</strong> Configure Linux Policy Routing to route different traffic classes to different uplinks.</p>
+<div class="lab-step"><div class="sn">1</div><div>Add routing tables: <code>echo "100 isp1" >> /etc/iproute2/rt_tables; echo "200 isp2" >> /etc/iproute2/rt_tables</code>. Populate each: <code>ip route add default via 10.1.0.1 table isp1; ip route add default via 10.2.0.1 table isp2</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add rules: SSH traffic (port 22) to ISP1 (management), web traffic to ISP2: <code>ip rule add dport 22 table isp1 priority 100; ip rule add dport 80 table isp2 priority 101; ip rule add dport 443 table isp2 priority 102</code>. View with <code>ip rule show</code>.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Test: <code>ip route get 8.8.8.8 dport 22</code> vs <code>ip route get 8.8.8.8 dport 80</code>. Verify different nexthops are selected. Use <code>traceroute</code> on each to confirm different first hops.</div></div>
   </div>
 </div>
 </div>

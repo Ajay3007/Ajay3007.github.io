@@ -57,9 +57,9 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
   <div class="mod-title">Track D — Data Scientist / Analyst</div>
   <div class="mod-subtitle">Statistical analysis, ML pipelines, and AI-augmented data science</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2–3 Weeks</span>
-    <span class="mod-pill">🟡 Intermediate–Advanced</span>
-    <span class="mod-pill">🔧 pandas · DuckDB · scikit-learn · SHAP</span>
+<span class="mod-pill">⏱ 2–3 Weeks</span>
+<span class="mod-pill">🟡 Intermediate–Advanced</span>
+<span class="mod-pill">🔧 pandas · DuckDB · scikit-learn · SHAP</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -75,16 +75,16 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Track Overview</h3><span class="tag">Specialisation D</span></div>
   <div class="cp-body">
-    <p>Use AI to dramatically accelerate data science work and build predictive systems on top of LLM infrastructure. This track is for engineers working with structured data who want to augment traditional ML pipelines with LLM capabilities.</p>
-    <h4>Skills You Will Build</h4>
-    <ul>
-      <li>AI-augmented EDA: automated hypothesis generation and insight narration</li>
-      <li>DuckDB for blazing-fast analytical SQL on large CSV/Parquet files</li>
-      <li>Natural language to SQL: let users query data in plain English</li>
-      <li>scikit-learn pipelines with LLM-suggested feature engineering</li>
-      <li>SHAP for ML model interpretability reports</li>
-      <li>Automated report generation: data in, executive summary out</li>
-    </ul>
+<p>Use AI to dramatically accelerate data science work and build predictive systems on top of LLM infrastructure. This track is for engineers working with structured data who want to augment traditional ML pipelines with LLM capabilities.</p>
+<h4>Skills You Will Build</h4>
+<ul>
+<li>AI-augmented EDA: automated hypothesis generation and insight narration</li>
+<li>DuckDB for blazing-fast analytical SQL on large CSV/Parquet files</li>
+<li>Natural language to SQL: let users query data in plain English</li>
+<li>scikit-learn pipelines with LLM-suggested feature engineering</li>
+<li>SHAP for ML model interpretability reports</li>
+<li>Automated report generation: data in, executive summary out</li>
+</ul>
   </div>
 </div>
 </div>
@@ -336,22 +336,22 @@ Do not use terms like SHAP, feature importance, or model architecture."""}]
 <div id="t5" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Capstone: AI-Augmented Analysis Pipeline</span>
-    <span class="proj-dur">2–3 weeks</span>
+<span>🛠</span>
+<span class="proj-title">Capstone: AI-Augmented Analysis Pipeline</span>
+<span class="proj-dur">2–3 weeks</span>
   </div>
   <div class="proj-body">
-    <p>Build an end-to-end AI-augmented data analysis pipeline for a real dataset from your professional domain.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Automated EDA: run ai_eda_assistant() and apply its suggested feature engineering</li>
-      <li>Natural language query interface: POST /query endpoint that executes NL-to-SQL</li>
-      <li>Predictive model: scikit-learn pipeline with LLM-suggested features, cross-validated</li>
-      <li>SHAP explanation with LLM narrative — readable by a non-technical manager</li>
-      <li>Automated report: function that accepts new data and produces a formatted HTML/PDF report</li>
-      <li>Report includes: key metrics, top insights, model prediction with confidence, recommended actions</li>
-    </ul>
-    <p>Use a dataset relevant to your work. The output should be a report you could actually send to your manager.</p>
+<p>Build an end-to-end AI-augmented data analysis pipeline for a real dataset from your professional domain.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Automated EDA: run ai_eda_assistant() and apply its suggested feature engineering</li>
+<li>Natural language query interface: POST /query endpoint that executes NL-to-SQL</li>
+<li>Predictive model: scikit-learn pipeline with LLM-suggested features, cross-validated</li>
+<li>SHAP explanation with LLM narrative — readable by a non-technical manager</li>
+<li>Automated report: function that accepts new data and produces a formatted HTML/PDF report</li>
+<li>Report includes: key metrics, top insights, model prediction with confidence, recommended actions</li>
+</ul>
+<p>Use a dataset relevant to your work. The output should be a report you could actually send to your manager.</p>
   </div>
 </div>
 </div>

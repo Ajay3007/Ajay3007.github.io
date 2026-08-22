@@ -13,19 +13,19 @@ url: /learning/system-design/lld/module-a1-notes/
 
 <div class="chapter-hero" style="--ch-1:#00e5ff;--ch-2:#7c6fff;">
   <div class="breadcrumb">
-    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/module-a1-solid/">Module A1</a>
-    <span class="separator">›</span>
-    <span class="current">Full Notes</span>
+<a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/module-a1-solid/">Module A1</a>
+<span class="separator">›</span>
+<span class="current">Full Notes</span>
   </div>
   <h1>Module A1 — SOLID + OOP + UML</h1>
   <p class="ch-subtitle">Complete reference notes · Track A: LLD · Week 3</p>
   <div class="hero-stats">
-    <span class="stat-badge">5 SOLID Principles</span>
-    <span class="stat-badge">4 OOP Pillars</span>
-    <span class="stat-badge">2 UML Diagrams</span>
-    <span class="stat-badge">1 Mini Project</span>
+<span class="stat-badge">5 SOLID Principles</span>
+<span class="stat-badge">4 OOP Pillars</span>
+<span class="stat-badge">2 UML Diagrams</span>
+<span class="stat-badge">1 Mini Project</span>
   </div>
 </div>
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">

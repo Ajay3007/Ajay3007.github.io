@@ -218,11 +218,11 @@ url: /learning/networking-mastery/m01-osi-tcpip/
   <div class="mod-title">📡 OSI and TCP/IP Model</div>
   <div class="mod-subtitle">How networks are structured · Layers · Encapsulation · Protocols · PDUs</div>
   <div class="mod-pills">
-    <span class="mod-pill">Beginner</span>
-    <span class="mod-pill">No prior knowledge needed</span>
-    <span class="mod-pill">7 Layers</span>
-    <span class="mod-pill">Encapsulation</span>
-    <span class="mod-pill">2 Labs</span>
+<span class="mod-pill">Beginner</span>
+<span class="mod-pill">No prior knowledge needed</span>
+<span class="mod-pill">7 Layers</span>
+<span class="mod-pill">Encapsulation</span>
+<span class="mod-pill">2 Labs</span>
   </div>
 </div>
 <!-- ── TAB BAR ── -->
@@ -243,14 +243,14 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🤔</span><h3>Why Does Networking Need a Layered Model?</h3><span class="tag tag-blue">MOTIVATION</span></div>
   <div class="cp-body">
-    <p>Imagine you want to send a message to a friend in another country. You don't think about the physics of radio waves, the routing protocols in backbone routers, the TCP retransmit timers, or the TLS cipher negotiation. You just type and hit send. That's possible because networking is broken into <strong>layers</strong> — each layer does one specific job and hides the complexity from the layers above and below it.</p>
-    <p>Without layers, every application would need to understand every type of network hardware, every cable standard, every routing algorithm. It would be impossible to maintain. Layers solve this with a principle called <strong>separation of concerns</strong>:</p>
-    <ul>
-      <li>Each layer has a <strong>clearly defined job</strong>.</li>
-      <li>Each layer communicates only with the <strong>layer directly above and below</strong> it.</li>
-      <li>A layer can be <strong>swapped or upgraded</strong> without touching other layers. WiFi replaced Ethernet as the physical layer for laptops — no change to TCP, HTTP, or your app.</li>
-      <li>When something breaks, layers tell you <strong>exactly where to look</strong>. "Is this a Layer 1 cable problem, or a Layer 3 routing problem?"</li>
-    </ul>
+<p>Imagine you want to send a message to a friend in another country. You don't think about the physics of radio waves, the routing protocols in backbone routers, the TCP retransmit timers, or the TLS cipher negotiation. You just type and hit send. That's possible because networking is broken into <strong>layers</strong> — each layer does one specific job and hides the complexity from the layers above and below it.</p>
+<p>Without layers, every application would need to understand every type of network hardware, every cable standard, every routing algorithm. It would be impossible to maintain. Layers solve this with a principle called <strong>separation of concerns</strong>:</p>
+<ul>
+<li>Each layer has a <strong>clearly defined job</strong>.</li>
+<li>Each layer communicates only with the <strong>layer directly above and below</strong> it.</li>
+<li>A layer can be <strong>swapped or upgraded</strong> without touching other layers. WiFi replaced Ethernet as the physical layer for laptops — no change to TCP, HTTP, or your app.</li>
+<li>When something breaks, layers tell you <strong>exactly where to look</strong>. "Is this a Layer 1 cable problem, or a Layer 3 routing problem?"</li>
+</ul>
   </div>
 </div>
 <div class="analogy">
@@ -260,12 +260,12 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📜</span><h3>Two Models — OSI and TCP/IP</h3><span class="tag tag-teal">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>There are two main layered models you'll encounter:</p>
-    <ul>
-      <li><strong>OSI Model (Open Systems Interconnection)</strong> — A theoretical 7-layer model created by the ISO in 1984. It is the reference standard used for understanding, teaching, and troubleshooting. You will use OSI terminology every day as a network engineer ("that's a Layer 3 issue", "this operates at Layer 4").</li>
-      <li><strong>TCP/IP Model</strong> — The practical 4-layer model that describes how the actual internet works. This is what your operating system and every network device actually implements. It maps onto the OSI model but collapses some layers together.</li>
-    </ul>
-    <p>Both models exist for different reasons. OSI gives you precise vocabulary and troubleshooting clarity. TCP/IP tells you how real implementations work. You need to know both — and more importantly, how they map to each other.</p>
+<p>There are two main layered models you'll encounter:</p>
+<ul>
+<li><strong>OSI Model (Open Systems Interconnection)</strong> — A theoretical 7-layer model created by the ISO in 1984. It is the reference standard used for understanding, teaching, and troubleshooting. You will use OSI terminology every day as a network engineer ("that's a Layer 3 issue", "this operates at Layer 4").</li>
+<li><strong>TCP/IP Model</strong> — The practical 4-layer model that describes how the actual internet works. This is what your operating system and every network device actually implements. It maps onto the OSI model but collapses some layers together.</li>
+</ul>
+<p>Both models exist for different reasons. OSI gives you precise vocabulary and troubleshooting clarity. TCP/IP tells you how real implementations work. You need to know both — and more importantly, how they map to each other.</p>
   </div>
 </div>
 </div>
@@ -277,46 +277,46 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 </div>
 <div class="osi-stack">
   <div class="osi-layer l7" onclick="vt_direct('t2','s7')">
-    <div class="osi-layer-num">7</div>
-    <div class="osi-layer-name">Application</div>
-    <div class="osi-layer-desc">User-facing protocols. HTTP, DNS, SMTP, FTP, SSH. Your app lives here.</div>
-    <div class="osi-layer-pdu" style="background:#ede8f5;color:#3a1a6c">Data</div>
+<div class="osi-layer-num">7</div>
+<div class="osi-layer-name">Application</div>
+<div class="osi-layer-desc">User-facing protocols. HTTP, DNS, SMTP, FTP, SSH. Your app lives here.</div>
+<div class="osi-layer-pdu" style="background:#ede8f5;color:#3a1a6c">Data</div>
   </div>
   <div class="osi-layer l6" onclick="vt_direct('t2','s6')">
-    <div class="osi-layer-num">6</div>
-    <div class="osi-layer-name">Presentation</div>
-    <div class="osi-layer-desc">Data format translation, encryption (TLS/SSL), compression.</div>
-    <div class="osi-layer-pdu" style="background:#e8f0fc;color:#1a3a8c">Data</div>
+<div class="osi-layer-num">6</div>
+<div class="osi-layer-name">Presentation</div>
+<div class="osi-layer-desc">Data format translation, encryption (TLS/SSL), compression.</div>
+<div class="osi-layer-pdu" style="background:#e8f0fc;color:#1a3a8c">Data</div>
   </div>
   <div class="osi-layer l5" onclick="vt_direct('t2','s5')">
-    <div class="osi-layer-num">5</div>
-    <div class="osi-layer-name">Session</div>
-    <div class="osi-layer-desc">Manages sessions between applications. Setup, maintenance, teardown.</div>
-    <div class="osi-layer-pdu" style="background:#e0f0f8;color:#1a5a7c">Data</div>
+<div class="osi-layer-num">5</div>
+<div class="osi-layer-name">Session</div>
+<div class="osi-layer-desc">Manages sessions between applications. Setup, maintenance, teardown.</div>
+<div class="osi-layer-pdu" style="background:#e0f0f8;color:#1a5a7c">Data</div>
   </div>
   <div class="osi-layer l4" onclick="vt_direct('t2','s4')">
-    <div class="osi-layer-num">4</div>
-    <div class="osi-layer-name">Transport</div>
-    <div class="osi-layer-desc">End-to-end delivery. TCP (reliable) and UDP (fast). Ports live here.</div>
-    <div class="osi-layer-pdu" style="background:#c8e8e4;color:#0e5248">Segment</div>
+<div class="osi-layer-num">4</div>
+<div class="osi-layer-name">Transport</div>
+<div class="osi-layer-desc">End-to-end delivery. TCP (reliable) and UDP (fast). Ports live here.</div>
+<div class="osi-layer-pdu" style="background:#c8e8e4;color:#0e5248">Segment</div>
   </div>
   <div class="osi-layer l3" onclick="vt_direct('t2','s3')">
-    <div class="osi-layer-num">3</div>
-    <div class="osi-layer-name">Network</div>
-    <div class="osi-layer-desc">Logical addressing and routing. IP addresses, routers, FIB/RIB.</div>
-    <div class="osi-layer-pdu" style="background:#c8e8c8;color:#1a4a1a">Packet</div>
+<div class="osi-layer-num">3</div>
+<div class="osi-layer-name">Network</div>
+<div class="osi-layer-desc">Logical addressing and routing. IP addresses, routers, FIB/RIB.</div>
+<div class="osi-layer-pdu" style="background:#c8e8c8;color:#1a4a1a">Packet</div>
   </div>
   <div class="osi-layer l2" onclick="vt_direct('t2','s2')">
-    <div class="osi-layer-num">2</div>
-    <div class="osi-layer-name">Data Link</div>
-    <div class="osi-layer-desc">Node-to-node delivery on same network. MAC addresses, Ethernet frames, switches.</div>
-    <div class="osi-layer-pdu" style="background:#fae8a0;color:#5a3800">Frame</div>
+<div class="osi-layer-num">2</div>
+<div class="osi-layer-name">Data Link</div>
+<div class="osi-layer-desc">Node-to-node delivery on same network. MAC addresses, Ethernet frames, switches.</div>
+<div class="osi-layer-pdu" style="background:#fae8a0;color:#5a3800">Frame</div>
   </div>
   <div class="osi-layer l1" onclick="vt_direct('t2','s1')">
-    <div class="osi-layer-num">1</div>
-    <div class="osi-layer-name">Physical</div>
-    <div class="osi-layer-desc">Raw bits over physical medium. Cables, optical fibre, radio waves, voltages.</div>
-    <div class="osi-layer-pdu" style="background:#fad8b8;color:#6a2800">Bits</div>
+<div class="osi-layer-num">1</div>
+<div class="osi-layer-name">Physical</div>
+<div class="osi-layer-desc">Raw bits over physical medium. Cables, optical fibre, radio waves, voltages.</div>
+<div class="osi-layer-pdu" style="background:#fad8b8;color:#6a2800">Bits</div>
   </div>
 </div>
 <div class="ins">
@@ -325,15 +325,15 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📦</span><h3>PDU — Protocol Data Unit</h3><span class="tag tag-orange">KEY TERM</span></div>
   <div class="cp-body">
-    <p>Each layer has a specific name for the chunk of data it works with. These are called <strong>PDUs (Protocol Data Units)</strong>:</p>
-    <ul>
-      <li><strong>Layer 7/6/5</strong> — just called <strong>Data</strong> (your application message)</li>
-      <li><strong>Layer 4</strong> — <strong>Segment</strong> (TCP) or <strong>Datagram</strong> (UDP)</li>
-      <li><strong>Layer 3</strong> — <strong>Packet</strong> (IP packet)</li>
-      <li><strong>Layer 2</strong> — <strong>Frame</strong> (Ethernet frame)</li>
-      <li><strong>Layer 1</strong> — <strong>Bits</strong> (1s and 0s on the wire)</li>
-    </ul>
-    <p>In network engineering conversations, using the right PDU name matters. A "packet" is specifically an L3 PDU. Calling an Ethernet frame a "packet" is technically wrong and can confuse your team when debugging.</p>
+<p>Each layer has a specific name for the chunk of data it works with. These are called <strong>PDUs (Protocol Data Units)</strong>:</p>
+<ul>
+<li><strong>Layer 7/6/5</strong> — just called <strong>Data</strong> (your application message)</li>
+<li><strong>Layer 4</strong> — <strong>Segment</strong> (TCP) or <strong>Datagram</strong> (UDP)</li>
+<li><strong>Layer 3</strong> — <strong>Packet</strong> (IP packet)</li>
+<li><strong>Layer 2</strong> — <strong>Frame</strong> (Ethernet frame)</li>
+<li><strong>Layer 1</strong> — <strong>Bits</strong> (1s and 0s on the wire)</li>
+</ul>
+<p>In network engineering conversations, using the right PDU name matters. A "packet" is specifically an L3 PDU. Calling an Ethernet frame a "packet" is technically wrong and can confuse your team when debugging.</p>
   </div>
 </div>
 </div>
@@ -344,122 +344,122 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 <div id="s7" class="cp p-purple">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Layer 7 — Application Layer</h3><span class="tag tag-purple">L7 · DATA</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Provides network services directly to user applications. This is the layer your code interacts with when you call <code>curl</code>, open a browser, or write a socket program.</p>
-    <p><strong>What it does:</strong></p>
-    <ul>
-      <li>Defines the <strong>syntax and semantics</strong> of the messages exchanged (e.g., HTTP request format: <code>GET /index.html HTTP/1.1</code>)</li>
-      <li>Handles <strong>application-level authentication</strong> (HTTP Basic Auth, API keys)</li>
-      <li>No header is added by the OS at this layer — the application itself constructs the message</li>
-    </ul>
-    <p><strong>Protocols:</strong> HTTP/HTTPS, DNS, SMTP, FTP, SSH, Telnet, DHCP, SNMP, LDAP, SIP, RTP</p>
-    <p><strong>NGFW relevance:</strong> This is where DPI (Deep Packet Inspection) operates. An NGFW inspects L7 content to identify applications, detect malware payloads, and enforce URL/content policies.</p>
+<p><strong>Job:</strong> Provides network services directly to user applications. This is the layer your code interacts with when you call <code>curl</code>, open a browser, or write a socket program.</p>
+<p><strong>What it does:</strong></p>
+<ul>
+<li>Defines the <strong>syntax and semantics</strong> of the messages exchanged (e.g., HTTP request format: <code>GET /index.html HTTP/1.1</code>)</li>
+<li>Handles <strong>application-level authentication</strong> (HTTP Basic Auth, API keys)</li>
+<li>No header is added by the OS at this layer — the application itself constructs the message</li>
+</ul>
+<p><strong>Protocols:</strong> HTTP/HTTPS, DNS, SMTP, FTP, SSH, Telnet, DHCP, SNMP, LDAP, SIP, RTP</p>
+<p><strong>NGFW relevance:</strong> This is where DPI (Deep Packet Inspection) operates. An NGFW inspects L7 content to identify applications, detect malware payloads, and enforce URL/content policies.</p>
   </div>
 </div>
 <!-- Layer 6 -->
 <div id="s6" class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>Layer 6 — Presentation Layer</h3><span class="tag tag-blue">L6 · DATA</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Translates data between the format the network uses and the format the application needs. Acts as a <strong>data translator</strong>.</p>
-    <p><strong>What it does:</strong></p>
-    <ul>
-      <li><strong>Encryption / Decryption</strong> — TLS/SSL encrypts data at this layer before it goes down to L4/L3</li>
-      <li><strong>Compression</strong> — HTTP compression (gzip, brotli) is a Layer 6 function</li>
-      <li><strong>Data format translation</strong> — Converting between character encodings (ASCII vs UTF-8), serialisation formats (JSON → binary)</li>
-    </ul>
-    <p><strong>Real-world note:</strong> In practice, the OSI Presentation layer is not implemented as a distinct OS layer. TLS runs as a library your application calls (OpenSSL, mbedTLS). The <em>concept</em> is still useful — when you say "TLS is a Layer 6 function", everyone understands you mean it handles the encryption/format translation concern, not transport or routing.</p>
-    <p><strong>NGFW relevance:</strong> SSL inspection (decrypting HTTPS traffic for inspection) is a Layer 6 operation.</p>
+<p><strong>Job:</strong> Translates data between the format the network uses and the format the application needs. Acts as a <strong>data translator</strong>.</p>
+<p><strong>What it does:</strong></p>
+<ul>
+<li><strong>Encryption / Decryption</strong> — TLS/SSL encrypts data at this layer before it goes down to L4/L3</li>
+<li><strong>Compression</strong> — HTTP compression (gzip, brotli) is a Layer 6 function</li>
+<li><strong>Data format translation</strong> — Converting between character encodings (ASCII vs UTF-8), serialisation formats (JSON → binary)</li>
+</ul>
+<p><strong>Real-world note:</strong> In practice, the OSI Presentation layer is not implemented as a distinct OS layer. TLS runs as a library your application calls (OpenSSL, mbedTLS). The <em>concept</em> is still useful — when you say "TLS is a Layer 6 function", everyone understands you mean it handles the encryption/format translation concern, not transport or routing.</p>
+<p><strong>NGFW relevance:</strong> SSL inspection (decrypting HTTPS traffic for inspection) is a Layer 6 operation.</p>
   </div>
 </div>
 <!-- Layer 5 -->
 <div id="s5" class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Layer 5 — Session Layer</h3><span class="tag tag-teal">L5 · DATA</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Establishes, manages, and terminates <strong>sessions</strong> — logical conversations between two applications.</p>
-    <p><strong>What it does:</strong></p>
-    <ul>
-      <li><strong>Session establishment</strong> — setting up a logical connection before data flows</li>
-      <li><strong>Session maintenance</strong> — keeping the session alive (keepalives), handling disconnects and reconnects</li>
-      <li><strong>Synchronisation</strong> — checkpointing long transfers so they can resume after interruption</li>
-      <li><strong>Dialog control</strong> — managing half-duplex vs full-duplex communication</li>
-    </ul>
-    <p><strong>Real-world note:</strong> Like Layer 6, Session is not a distinct OS layer in practice. The functionality is handled by TCP (connection state), TLS (session tickets for resumption), and application-level session management (HTTP cookies, WebSocket sessions). You'll use Layer 5 as a concept more than as a distinct implementation concern.</p>
-    <p><strong>Protocols:</strong> NetBIOS, PPTP, RPC session management, SQL session management</p>
+<p><strong>Job:</strong> Establishes, manages, and terminates <strong>sessions</strong> — logical conversations between two applications.</p>
+<p><strong>What it does:</strong></p>
+<ul>
+<li><strong>Session establishment</strong> — setting up a logical connection before data flows</li>
+<li><strong>Session maintenance</strong> — keeping the session alive (keepalives), handling disconnects and reconnects</li>
+<li><strong>Synchronisation</strong> — checkpointing long transfers so they can resume after interruption</li>
+<li><strong>Dialog control</strong> — managing half-duplex vs full-duplex communication</li>
+</ul>
+<p><strong>Real-world note:</strong> Like Layer 6, Session is not a distinct OS layer in practice. The functionality is handled by TCP (connection state), TLS (session tickets for resumption), and application-level session management (HTTP cookies, WebSocket sessions). You'll use Layer 5 as a concept more than as a distinct implementation concern.</p>
+<p><strong>Protocols:</strong> NetBIOS, PPTP, RPC session management, SQL session management</p>
   </div>
 </div>
 <!-- Layer 4 -->
 <div id="s4" class="cp p-green">
   <div class="cp-hdr"><span class="ico">🚚</span><h3>Layer 4 — Transport Layer</h3><span class="tag tag-green">L4 · SEGMENT</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Reliable (or unreliable) end-to-end delivery of data between two processes on different hosts. This is where <strong>ports</strong> live — they are how Layer 4 distinguishes which application a packet belongs to.</p>
-    <p><strong>What it does:</strong></p>
-    <ul>
-      <li><strong>Port numbers</strong> — Source port + destination port identify the application. Port 80 = HTTP, 443 = HTTPS, 22 = SSH, 53 = DNS (UDP)</li>
-      <li><strong>Segmentation</strong> — Large application messages are broken into segments. Each segment is numbered so the receiver can reassemble them in order</li>
-      <li><strong>Flow control</strong> — TCP adjusts the sending rate so the receiver isn't overwhelmed</li>
-      <li><strong>Error detection</strong> — Checksum verifies data wasn't corrupted in transit</li>
-      <li><strong>Multiplexing</strong> — Multiple applications can use the network simultaneously because they each have unique port numbers</li>
-    </ul>
-    <p><strong>Two protocols:</strong></p>
-    <ul>
-      <li><strong>TCP (Transmission Control Protocol)</strong> — Reliable, ordered, connection-oriented. Guarantees delivery. Used by HTTP, SMTP, SSH. Slower but safe.</li>
-      <li><strong>UDP (User Datagram Protocol)</strong> — Unreliable, connectionless, no ordering. Fast, no overhead. Used by DNS, video streaming, VoIP, gaming. You handle reliability yourself if you need it.</li>
-    </ul>
-    <p><strong>NGFW relevance:</strong> Stateful firewalls operate at Layer 4. Connection tracking matches packets to established sessions by (src_ip, src_port, dst_ip, dst_port, proto) — the 5-tuple.</p>
+<p><strong>Job:</strong> Reliable (or unreliable) end-to-end delivery of data between two processes on different hosts. This is where <strong>ports</strong> live — they are how Layer 4 distinguishes which application a packet belongs to.</p>
+<p><strong>What it does:</strong></p>
+<ul>
+<li><strong>Port numbers</strong> — Source port + destination port identify the application. Port 80 = HTTP, 443 = HTTPS, 22 = SSH, 53 = DNS (UDP)</li>
+<li><strong>Segmentation</strong> — Large application messages are broken into segments. Each segment is numbered so the receiver can reassemble them in order</li>
+<li><strong>Flow control</strong> — TCP adjusts the sending rate so the receiver isn't overwhelmed</li>
+<li><strong>Error detection</strong> — Checksum verifies data wasn't corrupted in transit</li>
+<li><strong>Multiplexing</strong> — Multiple applications can use the network simultaneously because they each have unique port numbers</li>
+</ul>
+<p><strong>Two protocols:</strong></p>
+<ul>
+<li><strong>TCP (Transmission Control Protocol)</strong> — Reliable, ordered, connection-oriented. Guarantees delivery. Used by HTTP, SMTP, SSH. Slower but safe.</li>
+<li><strong>UDP (User Datagram Protocol)</strong> — Unreliable, connectionless, no ordering. Fast, no overhead. Used by DNS, video streaming, VoIP, gaming. You handle reliability yourself if you need it.</li>
+</ul>
+<p><strong>NGFW relevance:</strong> Stateful firewalls operate at Layer 4. Connection tracking matches packets to established sessions by (src_ip, src_port, dst_ip, dst_port, proto) — the 5-tuple.</p>
   </div>
 </div>
 <!-- Layer 3 -->
 <div id="s3" class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>Layer 3 — Network Layer</h3><span class="tag tag-amber">L3 · PACKET</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Logical addressing and routing of packets across multiple networks. This is the layer that makes the <strong>internet</strong> possible — the ability to send data from any network to any other network, potentially traversing dozens of routers in between.</p>
-    <p><strong>What it does:</strong></p>
-    <ul>
-      <li><strong>IP addressing</strong> — Assigns logical addresses (IPv4: 192.168.1.1, IPv6: 2001:db8::1) that identify hosts globally, not just on a local network</li>
-      <li><strong>Routing</strong> — Determines the best path for a packet to travel. Routers operate at Layer 3, reading the destination IP and consulting their routing table (FIB) to decide the next hop</li>
-      <li><strong>Fragmentation</strong> — If a packet is too large for a network link's MTU (Maximum Transmission Unit), Layer 3 fragments it into smaller packets</li>
-      <li><strong>TTL (Time To Live)</strong> — Each packet has a TTL counter decremented by each router. When it hits 0 the packet is discarded — prevents loops</li>
-    </ul>
-    <p><strong>Protocols:</strong> IPv4, IPv6, ICMP, OSPF, BGP, EIGRP, ARP (technically L2/L3 boundary)</p>
-    <p><strong>Devices at this layer:</strong> Routers, Layer 3 switches, firewalls (packet inspection)</p>
-    <p><strong>NGFW relevance:</strong> Every packet processed by a firewall goes through Layer 3 — source/destination IP ACLs, routing decisions, and IP-based threat intelligence all live here.</p>
+<p><strong>Job:</strong> Logical addressing and routing of packets across multiple networks. This is the layer that makes the <strong>internet</strong> possible — the ability to send data from any network to any other network, potentially traversing dozens of routers in between.</p>
+<p><strong>What it does:</strong></p>
+<ul>
+<li><strong>IP addressing</strong> — Assigns logical addresses (IPv4: 192.168.1.1, IPv6: 2001:db8::1) that identify hosts globally, not just on a local network</li>
+<li><strong>Routing</strong> — Determines the best path for a packet to travel. Routers operate at Layer 3, reading the destination IP and consulting their routing table (FIB) to decide the next hop</li>
+<li><strong>Fragmentation</strong> — If a packet is too large for a network link's MTU (Maximum Transmission Unit), Layer 3 fragments it into smaller packets</li>
+<li><strong>TTL (Time To Live)</strong> — Each packet has a TTL counter decremented by each router. When it hits 0 the packet is discarded — prevents loops</li>
+</ul>
+<p><strong>Protocols:</strong> IPv4, IPv6, ICMP, OSPF, BGP, EIGRP, ARP (technically L2/L3 boundary)</p>
+<p><strong>Devices at this layer:</strong> Routers, Layer 3 switches, firewalls (packet inspection)</p>
+<p><strong>NGFW relevance:</strong> Every packet processed by a firewall goes through Layer 3 — source/destination IP ACLs, routing decisions, and IP-based threat intelligence all live here.</p>
   </div>
 </div>
 <!-- Layer 2 -->
 <div id="s2" class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Layer 2 — Data Link Layer</h3><span class="tag tag-orange">L2 · FRAME</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Node-to-node delivery of data on the <em>same</em> physical network. While Layer 3 handles routing across many networks, Layer 2 handles the hop-by-hop delivery on each individual link.</p>
-    <p><strong>What it does:</strong></p>
-    <ul>
-      <li><strong>MAC addressing</strong> — Uses hardware (MAC) addresses to identify devices on the same network segment. Unlike IP addresses, MAC addresses are burned into the NIC at manufacture (though they can be spoofed)</li>
-      <li><strong>Framing</strong> — Wraps Layer 3 packets in a frame with MAC src/dst header and a trailer containing a CRC checksum for error detection</li>
-      <li><strong>Error detection</strong> — The CRC (Cyclic Redundancy Check) in the Ethernet trailer detects corrupted frames. Corrupted frames are silently dropped (error recovery is Layer 4's job)</li>
-      <li><strong>Access control</strong> — CSMA/CD (old Ethernet) and CSMA/CA (WiFi) decide who can transmit when</li>
-    </ul>
-    <p><strong>Two sub-layers (important for NGFW):</strong></p>
-    <ul>
-      <li><strong>LLC (Logical Link Control)</strong> — flow control and error notification to upper layers</li>
-      <li><strong>MAC (Media Access Control)</strong> — hardware addressing and media access</li>
-    </ul>
-    <p><strong>Protocols:</strong> Ethernet (802.3), WiFi (802.11), PPP, VLAN (802.1Q), STP (802.1D), ARP</p>
-    <p><strong>Devices:</strong> Network switches, bridges, NICs, WiFi access points</p>
+<p><strong>Job:</strong> Node-to-node delivery of data on the <em>same</em> physical network. While Layer 3 handles routing across many networks, Layer 2 handles the hop-by-hop delivery on each individual link.</p>
+<p><strong>What it does:</strong></p>
+<ul>
+<li><strong>MAC addressing</strong> — Uses hardware (MAC) addresses to identify devices on the same network segment. Unlike IP addresses, MAC addresses are burned into the NIC at manufacture (though they can be spoofed)</li>
+<li><strong>Framing</strong> — Wraps Layer 3 packets in a frame with MAC src/dst header and a trailer containing a CRC checksum for error detection</li>
+<li><strong>Error detection</strong> — The CRC (Cyclic Redundancy Check) in the Ethernet trailer detects corrupted frames. Corrupted frames are silently dropped (error recovery is Layer 4's job)</li>
+<li><strong>Access control</strong> — CSMA/CD (old Ethernet) and CSMA/CA (WiFi) decide who can transmit when</li>
+</ul>
+<p><strong>Two sub-layers (important for NGFW):</strong></p>
+<ul>
+<li><strong>LLC (Logical Link Control)</strong> — flow control and error notification to upper layers</li>
+<li><strong>MAC (Media Access Control)</strong> — hardware addressing and media access</li>
+</ul>
+<p><strong>Protocols:</strong> Ethernet (802.3), WiFi (802.11), PPP, VLAN (802.1Q), STP (802.1D), ARP</p>
+<p><strong>Devices:</strong> Network switches, bridges, NICs, WiFi access points</p>
   </div>
 </div>
 <!-- Layer 1 -->
 <div id="s1" class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Layer 1 — Physical Layer</h3><span class="tag tag-red">L1 · BITS</span></div>
   <div class="cp-body">
-    <p><strong>Job:</strong> Transmit raw bits (1s and 0s) over a physical medium. This layer knows nothing about addresses, protocols, or meaning — it just pushes electrical signals, light pulses, or radio waves.</p>
-    <p><strong>What it defines:</strong></p>
-    <ul>
-      <li><strong>Physical connectors</strong> — RJ45 (Ethernet), SFP (fibre), coaxial</li>
-      <li><strong>Cable types</strong> — Cat5e, Cat6, Cat6A (copper), single-mode, multi-mode fibre</li>
-      <li><strong>Signal encoding</strong> — How bits 0 and 1 are represented as voltages, light intensity, or radio frequency</li>
-      <li><strong>Bit rate</strong> — 100 Mbps, 1 Gbps, 10 Gbps, 100 Gbps</li>
-      <li><strong>Duplex mode</strong> — Half-duplex (one direction at a time) vs full-duplex (both directions simultaneously)</li>
-    </ul>
-    <p><strong>Devices:</strong> Hubs, repeaters, cables, optical transceivers, modems, NICs (the physical signalling part)</p>
-    <p><strong>Troubleshooting:</strong> "Is the cable plugged in? Is the link light on?" — these are Layer 1 questions. In DPDK and VPP, <code>show interface</code> reports link state as "up" or "down" — this is a Layer 1 status.</p>
+<p><strong>Job:</strong> Transmit raw bits (1s and 0s) over a physical medium. This layer knows nothing about addresses, protocols, or meaning — it just pushes electrical signals, light pulses, or radio waves.</p>
+<p><strong>What it defines:</strong></p>
+<ul>
+<li><strong>Physical connectors</strong> — RJ45 (Ethernet), SFP (fibre), coaxial</li>
+<li><strong>Cable types</strong> — Cat5e, Cat6, Cat6A (copper), single-mode, multi-mode fibre</li>
+<li><strong>Signal encoding</strong> — How bits 0 and 1 are represented as voltages, light intensity, or radio frequency</li>
+<li><strong>Bit rate</strong> — 100 Mbps, 1 Gbps, 10 Gbps, 100 Gbps</li>
+<li><strong>Duplex mode</strong> — Half-duplex (one direction at a time) vs full-duplex (both directions simultaneously)</li>
+</ul>
+<p><strong>Devices:</strong> Hubs, repeaters, cables, optical transceivers, modems, NICs (the physical signalling part)</p>
+<p><strong>Troubleshooting:</strong> "Is the cable plugged in? Is the link light on?" — these are Layer 1 questions. In DPDK and VPP, <code>show interface</code> reports link state as "up" or "down" — this is a Layer 1 status.</p>
   </div>
 </div>
 </div>
@@ -469,45 +469,45 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>Why the TCP/IP Model Exists</h3><span class="tag tag-blue">BACKGROUND</span></div>
   <div class="cp-body">
-    <p>The TCP/IP model (also called the Internet model or DoD model) was developed in the 1970s by DARPA as the actual protocol suite for ARPANET — the precursor to the internet. Unlike OSI, it wasn't a theoretical standard first — it was built pragmatically around the two core protocols: IP and TCP.</p>
-    <p>It has <strong>4 layers</strong> instead of 7, collapsing the top three OSI layers into one and the bottom two into one. This reflects how implementations actually work — operating systems don't have separate Session and Presentation modules; they're handled by libraries your app calls.</p>
+<p>The TCP/IP model (also called the Internet model or DoD model) was developed in the 1970s by DARPA as the actual protocol suite for ARPANET — the precursor to the internet. Unlike OSI, it wasn't a theoretical standard first — it was built pragmatically around the two core protocols: IP and TCP.</p>
+<p>It has <strong>4 layers</strong> instead of 7, collapsing the top three OSI layers into one and the bottom two into one. This reflects how implementations actually work — operating systems don't have separate Session and Presentation modules; they're handled by libraries your app calls.</p>
   </div>
 </div>
 <p class="sep">OSI vs TCP/IP — MAPPING</p>
 <table class="model-compare">
   <thead>
-    <tr>
-      <th>TCP/IP Layer</th>
-      <th>OSI Equivalent</th>
-      <th>What It Covers</th>
-      <th>Key Protocols</th>
-    </tr>
+<tr>
+<th>TCP/IP Layer</th>
+<th>OSI Equivalent</th>
+<th>What It Covers</th>
+<th>Key Protocols</th>
+</tr>
   </thead>
   <tbody>
-    <tr>
-      <td style="font-weight:700;background:#f0ecfc;color:#3a1a6c">Application</td>
-      <td>L7 Application<br>L6 Presentation<br>L5 Session</td>
-      <td>Everything from the OS socket API upward — your app, its data format, session management</td>
-      <td><code>HTTP</code> <code>DNS</code> <code>SMTP</code> <code>FTP</code> <code>SSH</code> <code>TLS</code></td>
-    </tr>
-    <tr>
-      <td style="font-weight:700;background:#e0f0ee;color:#0a3a30">Transport</td>
-      <td>L4 Transport</td>
-      <td>End-to-end data delivery between processes. Ports, reliability, flow control</td>
-      <td><code>TCP</code> <code>UDP</code> <code>QUIC</code> <code>SCTP</code></td>
-    </tr>
-    <tr>
-      <td style="font-weight:700;background:#e8f5e8;color:#1a4a1a">Internet</td>
-      <td>L3 Network</td>
-      <td>Logical addressing and routing across multiple networks</td>
-      <td><code>IPv4</code> <code>IPv6</code> <code>ICMP</code> <code>OSPF</code> <code>BGP</code></td>
-    </tr>
-    <tr>
-      <td style="font-weight:700;background:#fdf4dc;color:#5a3800">Network Access<br><span style="font-weight:400;font-size:.8rem">(Link Layer)</span></td>
-      <td>L2 Data Link<br>L1 Physical</td>
-      <td>Physical transmission and local network delivery</td>
-      <td><code>Ethernet</code> <code>WiFi</code> <code>ARP</code> <code>PPP</code></td>
-    </tr>
+<tr>
+<td style="font-weight:700;background:#f0ecfc;color:#3a1a6c">Application</td>
+<td>L7 Application<br>L6 Presentation<br>L5 Session</td>
+<td>Everything from the OS socket API upward — your app, its data format, session management</td>
+<td><code>HTTP</code> <code>DNS</code> <code>SMTP</code> <code>FTP</code> <code>SSH</code> <code>TLS</code></td>
+</tr>
+<tr>
+<td style="font-weight:700;background:#e0f0ee;color:#0a3a30">Transport</td>
+<td>L4 Transport</td>
+<td>End-to-end data delivery between processes. Ports, reliability, flow control</td>
+<td><code>TCP</code> <code>UDP</code> <code>QUIC</code> <code>SCTP</code></td>
+</tr>
+<tr>
+<td style="font-weight:700;background:#e8f5e8;color:#1a4a1a">Internet</td>
+<td>L3 Network</td>
+<td>Logical addressing and routing across multiple networks</td>
+<td><code>IPv4</code> <code>IPv6</code> <code>ICMP</code> <code>OSPF</code> <code>BGP</code></td>
+</tr>
+<tr>
+<td style="font-weight:700;background:#fdf4dc;color:#5a3800">Network Access<br><span style="font-weight:400;font-size:.8rem">(Link Layer)</span></td>
+<td>L2 Data Link<br>L1 Physical</td>
+<td>Physical transmission and local network delivery</td>
+<td><code>Ethernet</code> <code>WiFi</code> <code>ARP</code> <code>PPP</code></td>
+</tr>
   </tbody>
 </table>
 <div class="ins">
@@ -516,7 +516,7 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Where Does Each Protocol Actually Run?</h3><span class="tag tag-teal">REAL MAPPING</span></div>
   <div class="cp-body">
-    <p>Understanding which layer a protocol belongs to is crucial — it tells you which device processes it, what header format to look for, and what tools to use for debugging.</p>
+<p>Understanding which layer a protocol belongs to is crucial — it tells you which device processes it, what header format to look for, and what tools to use for debugging.</p>
 <div class="cb"><pre><span class="cm">/* In your OS — the TCP/IP stack as seen by a C program */</span>
  
 Your application code
@@ -532,7 +532,7 @@ Your application code
 <span class="ck">NIC hardware</span>           <span class="cm">← Physical (converts to electrical/optical signals)</span>
     ↓
 <span class="cs">wire / fibre / air</span></pre></div>
-    <p>When you call <code>send(sockfd, buf, len, 0)</code> in C, the OS kernel handles everything below the socket API. Your app only touches the Application layer. The kernel builds the TCP segment, IP packet, and Ethernet frame automatically.</p>
+<p>When you call <code>send(sockfd, buf, len, 0)</code> in C, the OS kernel handles everything below the socket API. Your app only touches the Application layer. The kernel builds the TCP segment, IP packet, and Ethernet frame automatically.</p>
   </div>
 </div>
 </div>
@@ -542,43 +542,43 @@ Your application code
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>What is Encapsulation?</h3><span class="tag tag-blue">CORE CONCEPT</span></div>
   <div class="cp-body">
-    <p>Encapsulation is the process of <strong>wrapping data with a header (and sometimes trailer) at each layer</strong> as it travels down the stack from the sending application to the physical wire. Each layer adds its own control information (addressing, error detection, sequencing) without modifying the data from the layer above.</p>
-    <p>Think of it as nested envelopes — you put a letter in an envelope, then put that envelope in a padded mailer, then put that in a shipping box. Each wrapper adds information the relevant handler needs, without touching the inner contents.</p>
-    <p>On the receiving end, the process reverses — each layer strips off its own header and passes the inner data up. This is called <strong>de-encapsulation</strong>.</p>
+<p>Encapsulation is the process of <strong>wrapping data with a header (and sometimes trailer) at each layer</strong> as it travels down the stack from the sending application to the physical wire. Each layer adds its own control information (addressing, error detection, sequencing) without modifying the data from the layer above.</p>
+<p>Think of it as nested envelopes — you put a letter in an envelope, then put that envelope in a padded mailer, then put that in a shipping box. Each wrapper adds information the relevant handler needs, without touching the inner contents.</p>
+<p>On the receiving end, the process reverses — each layer strips off its own header and passes the inner data up. This is called <strong>de-encapsulation</strong>.</p>
   </div>
 </div>
 <p class="sep">ENCAPSULATION STEP BY STEP — SENDING AN HTTP REQUEST</p>
 <div class="encap-wrap">
   <div class="encap-row">
-    <div class="encap-label">L7 App</div>
-    <div class="encap-block eb-app eb-new" style="flex:4">HTTP Request: "GET /index.html HTTP/1.1\r\nHost: example.com\r\n"</div>
+<div class="encap-label">L7 App</div>
+<div class="encap-block eb-app eb-new" style="flex:4">HTTP Request: "GET /index.html HTTP/1.1\r\nHost: example.com\r\n"</div>
   </div>
   <div class="encap-arrow">↓ Transport layer wraps with TCP header</div>
   <div class="encap-row">
-    <div class="encap-label">L4 Segment</div>
-    <div class="encap-block eb-tcp eb-new" style="flex:1">TCP Header<br><span style="font-size:.65rem">src:52341 dst:80<br>seq:1001 ack:0<br>flags:PSH|ACK</span></div>
-    <div class="encap-block eb-app" style="flex:4">HTTP Data</div>
+<div class="encap-label">L4 Segment</div>
+<div class="encap-block eb-tcp eb-new" style="flex:1">TCP Header<br><span style="font-size:.65rem">src:52341 dst:80<br>seq:1001 ack:0<br>flags:PSH|ACK</span></div>
+<div class="encap-block eb-app" style="flex:4">HTTP Data</div>
   </div>
   <div class="encap-arrow">↓ Network layer wraps with IP header</div>
   <div class="encap-row">
-    <div class="encap-label">L3 Packet</div>
-    <div class="encap-block eb-ip eb-new" style="flex:1">IP Header<br><span style="font-size:.65rem">src:10.0.0.5<br>dst:93.184.216.34<br>TTL:64 proto:TCP</span></div>
-    <div class="encap-block eb-tcp" style="flex:1">TCP Hdr</div>
-    <div class="encap-block eb-app" style="flex:3">HTTP Data</div>
+<div class="encap-label">L3 Packet</div>
+<div class="encap-block eb-ip eb-new" style="flex:1">IP Header<br><span style="font-size:.65rem">src:10.0.0.5<br>dst:93.184.216.34<br>TTL:64 proto:TCP</span></div>
+<div class="encap-block eb-tcp" style="flex:1">TCP Hdr</div>
+<div class="encap-block eb-app" style="flex:3">HTTP Data</div>
   </div>
   <div class="encap-arrow">↓ Data Link layer wraps with Ethernet header + trailer</div>
   <div class="encap-row">
-    <div class="encap-label">L2 Frame</div>
-    <div class="encap-block eb-eth eb-new" style="flex:1">Eth Header<br><span style="font-size:.65rem">dst MAC<br>src MAC<br>Type:0x0800</span></div>
-    <div class="encap-block eb-ip" style="flex:1">IP Hdr</div>
-    <div class="encap-block eb-tcp" style="flex:.8">TCP Hdr</div>
-    <div class="encap-block eb-app" style="flex:2.5">HTTP Data</div>
-    <div class="encap-block eb-eth eb-new" style="flex:.6">CRC<br><span style="font-size:.65rem">4 bytes</span></div>
+<div class="encap-label">L2 Frame</div>
+<div class="encap-block eb-eth eb-new" style="flex:1">Eth Header<br><span style="font-size:.65rem">dst MAC<br>src MAC<br>Type:0x0800</span></div>
+<div class="encap-block eb-ip" style="flex:1">IP Hdr</div>
+<div class="encap-block eb-tcp" style="flex:.8">TCP Hdr</div>
+<div class="encap-block eb-app" style="flex:2.5">HTTP Data</div>
+<div class="encap-block eb-eth eb-new" style="flex:.6">CRC<br><span style="font-size:.65rem">4 bytes</span></div>
   </div>
   <div class="encap-arrow">↓ Physical layer converts to bits on the wire</div>
   <div class="encap-row">
-    <div class="encap-label">L1 Bits</div>
-    <div class="encap-block eb-bit eb-new">01001000 01010100 01010100 01010000 ... (everything above as raw bits)</div>
+<div class="encap-label">L1 Bits</div>
+<div class="encap-block eb-bit eb-new">01001000 01010100 01010100 01010000 ... (everything above as raw bits)</div>
   </div>
 </div>
 <div class="ins">
@@ -587,46 +587,46 @@ Your application code
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📖</span><h3>Header Fields — What Each Layer Adds</h3><span class="tag tag-teal">REFERENCE</span></div>
   <div class="cp-body">
-    <h4>Ethernet Frame Header (14 bytes)</h4>
-    <div class="pdu-breakdown">
-      <div class="pdu-row">
-        <div class="pdu-label">Ethernet</div>
-        <div class="pdu-field eb-eth" style="flex:3">Destination MAC<br><span style="font-size:.65rem;font-weight:400">6 bytes</span></div>
-        <div class="pdu-field eb-eth" style="flex:3">Source MAC<br><span style="font-size:.65rem;font-weight:400">6 bytes</span></div>
-        <div class="pdu-field eb-eth" style="flex:1.5">EtherType<br><span style="font-size:.65rem;font-weight:400">2 bytes</span></div>
-        <div class="pdu-spacer" style="flex:2;font-size:.72rem;display:flex;align-items:center;padding:0 8px;color:var(--light-text,#888)">Payload (up to 1500B)</div>
-        <div class="pdu-field eb-eth" style="flex:1">CRC<br><span style="font-size:.65rem;font-weight:400">4 bytes</span></div>
-      </div>
-    </div>
-    <h4>IPv4 Header (20 bytes minimum)</h4>
-    <div class="pdu-breakdown">
-      <div class="pdu-row">
-        <div class="pdu-label">IPv4</div>
-        <div class="pdu-field eb-ip" style="flex:1">Ver/IHL<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
-        <div class="pdu-field eb-ip" style="flex:1">DSCP<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
-        <div class="pdu-field eb-ip" style="flex:1.5">Total Length<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-        <div class="pdu-field eb-ip" style="flex:1.5">ID<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-        <div class="pdu-field eb-ip" style="flex:1">TTL<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
-        <div class="pdu-field eb-ip" style="flex:1">Proto<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
-        <div class="pdu-field eb-ip" style="flex:1.5">Checksum<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-        <div class="pdu-field eb-ip" style="flex:3">Source IP<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
-        <div class="pdu-field eb-ip" style="flex:3">Dest IP<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
-      </div>
-    </div>
-    <h4>TCP Header (20 bytes minimum)</h4>
-    <div class="pdu-breakdown">
-      <div class="pdu-row">
-        <div class="pdu-label">TCP</div>
-        <div class="pdu-field eb-tcp" style="flex:2">Src Port<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-        <div class="pdu-field eb-tcp" style="flex:2">Dst Port<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-        <div class="pdu-field eb-tcp" style="flex:3">Sequence Number<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
-        <div class="pdu-field eb-tcp" style="flex:3">Ack Number<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
-        <div class="pdu-field eb-tcp" style="flex:1.5">Flags<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
-        <div class="pdu-field eb-tcp" style="flex:2">Window<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-        <div class="pdu-field eb-tcp" style="flex:2">Checksum<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
-      </div>
-    </div>
-    <p style="font-size:.82rem;color:var(--light-text,#777);margin-top:.5rem">Each header will be dissected in detail in its own module — M02 for Ethernet, M03 for IPv4, M05 for TCP.</p>
+<h4>Ethernet Frame Header (14 bytes)</h4>
+<div class="pdu-breakdown">
+<div class="pdu-row">
+<div class="pdu-label">Ethernet</div>
+<div class="pdu-field eb-eth" style="flex:3">Destination MAC<br><span style="font-size:.65rem;font-weight:400">6 bytes</span></div>
+<div class="pdu-field eb-eth" style="flex:3">Source MAC<br><span style="font-size:.65rem;font-weight:400">6 bytes</span></div>
+<div class="pdu-field eb-eth" style="flex:1.5">EtherType<br><span style="font-size:.65rem;font-weight:400">2 bytes</span></div>
+<div class="pdu-spacer" style="flex:2;font-size:.72rem;display:flex;align-items:center;padding:0 8px;color:var(--light-text,#888)">Payload (up to 1500B)</div>
+<div class="pdu-field eb-eth" style="flex:1">CRC<br><span style="font-size:.65rem;font-weight:400">4 bytes</span></div>
+</div>
+</div>
+<h4>IPv4 Header (20 bytes minimum)</h4>
+<div class="pdu-breakdown">
+<div class="pdu-row">
+<div class="pdu-label">IPv4</div>
+<div class="pdu-field eb-ip" style="flex:1">Ver/IHL<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
+<div class="pdu-field eb-ip" style="flex:1">DSCP<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
+<div class="pdu-field eb-ip" style="flex:1.5">Total Length<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+<div class="pdu-field eb-ip" style="flex:1.5">ID<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+<div class="pdu-field eb-ip" style="flex:1">TTL<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
+<div class="pdu-field eb-ip" style="flex:1">Proto<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
+<div class="pdu-field eb-ip" style="flex:1.5">Checksum<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+<div class="pdu-field eb-ip" style="flex:3">Source IP<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
+<div class="pdu-field eb-ip" style="flex:3">Dest IP<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
+</div>
+</div>
+<h4>TCP Header (20 bytes minimum)</h4>
+<div class="pdu-breakdown">
+<div class="pdu-row">
+<div class="pdu-label">TCP</div>
+<div class="pdu-field eb-tcp" style="flex:2">Src Port<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+<div class="pdu-field eb-tcp" style="flex:2">Dst Port<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+<div class="pdu-field eb-tcp" style="flex:3">Sequence Number<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
+<div class="pdu-field eb-tcp" style="flex:3">Ack Number<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
+<div class="pdu-field eb-tcp" style="flex:1.5">Flags<br><span style="font-size:.62rem;font-weight:400">1B</span></div>
+<div class="pdu-field eb-tcp" style="flex:2">Window<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+<div class="pdu-field eb-tcp" style="flex:2">Checksum<br><span style="font-size:.62rem;font-weight:400">2B</span></div>
+</div>
+</div>
+<p style="font-size:.82rem;color:var(--light-text,#777);margin-top:.5rem">Each header will be dissected in detail in its own module — M02 for Ethernet, M03 for IPv4, M05 for TCP.</p>
   </div>
 </div>
 </div>
@@ -638,32 +638,32 @@ Your application code
 </div>
 <div class="proto-grid">
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#5b3a8c">Layer 7 — Application</div>
-    <div class="proto-card-items">HTTP · HTTPS · DNS · SMTP · FTP · SFTP · SSH · Telnet · DHCP · SNMP · LDAP · SIP · RTP · RTSP · NTP · POP3 · IMAP</div>
+<div class="proto-card-layer" style="color:#5b3a8c">Layer 7 — Application</div>
+<div class="proto-card-items">HTTP · HTTPS · DNS · SMTP · FTP · SFTP · SSH · Telnet · DHCP · SNMP · LDAP · SIP · RTP · RTSP · NTP · POP3 · IMAP</div>
   </div>
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#1a3a8c">Layer 6 — Presentation</div>
-    <div class="proto-card-items">TLS · SSL · MIME · ASCII · UTF-8 · JPEG · MPEG · gzip · XDR · ASN.1</div>
+<div class="proto-card-layer" style="color:#1a3a8c">Layer 6 — Presentation</div>
+<div class="proto-card-items">TLS · SSL · MIME · ASCII · UTF-8 · JPEG · MPEG · gzip · XDR · ASN.1</div>
   </div>
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#1a5a7c">Layer 5 — Session</div>
-    <div class="proto-card-items">NetBIOS · PPTP · SAP · SDP · NFS (session part) · SQL session · RPC</div>
+<div class="proto-card-layer" style="color:#1a5a7c">Layer 5 — Session</div>
+<div class="proto-card-items">NetBIOS · PPTP · SAP · SDP · NFS (session part) · SQL session · RPC</div>
   </div>
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#0f5a48">Layer 4 — Transport</div>
-    <div class="proto-card-items">TCP · UDP · QUIC · SCTP · DCCP · SPX</div>
+<div class="proto-card-layer" style="color:#0f5a48">Layer 4 — Transport</div>
+<div class="proto-card-items">TCP · UDP · QUIC · SCTP · DCCP · SPX</div>
   </div>
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#1a5a1a">Layer 3 — Network</div>
-    <div class="proto-card-items">IPv4 · IPv6 · ICMP · ICMPv6 · OSPF · EIGRP · BGP · IS-IS · RIP · MPLS · IPsec (tunnel mode) · GRE · ARP (boundary)</div>
+<div class="proto-card-layer" style="color:#1a5a1a">Layer 3 — Network</div>
+<div class="proto-card-items">IPv4 · IPv6 · ICMP · ICMPv6 · OSPF · EIGRP · BGP · IS-IS · RIP · MPLS · IPsec (tunnel mode) · GRE · ARP (boundary)</div>
   </div>
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#7a5800">Layer 2 — Data Link</div>
-    <div class="proto-card-items">Ethernet (802.3) · WiFi (802.11) · PPP · HDLC · Frame Relay · ATM · VLAN (802.1Q) · STP (802.1D) · LACP (802.3ad) · ARP · NDP</div>
+<div class="proto-card-layer" style="color:#7a5800">Layer 2 — Data Link</div>
+<div class="proto-card-items">Ethernet (802.3) · WiFi (802.11) · PPP · HDLC · Frame Relay · ATM · VLAN (802.1Q) · STP (802.1D) · LACP (802.3ad) · ARP · NDP</div>
   </div>
   <div class="proto-card">
-    <div class="proto-card-layer" style="color:#6a2800">Layer 1 — Physical</div>
-    <div class="proto-card-items">Ethernet physical (100BASE-T, 1000BASE-T, 10GBASE-SR) · USB · RS-232 · DSL · SONET · OTN · Bluetooth (PHY) · 802.11 (radio PHY)</div>
+<div class="proto-card-layer" style="color:#6a2800">Layer 1 — Physical</div>
+<div class="proto-card-items">Ethernet physical (100BASE-T, 1000BASE-T, 10GBASE-SR) · USB · RS-232 · DSL · SONET · OTN · Bluetooth (PHY) · 802.11 (radio PHY)</div>
   </div>
 </div>
 <div class="warn">
@@ -672,20 +672,20 @@ Your application code
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔥</span><h3>NGFW — Which Layer Does Each Feature Operate At?</h3><span class="tag tag-green">NGFW MAP</span></div>
   <div class="cp-body">
-    <table class="model-compare">
-      <thead><tr><th>NGFW Feature</th><th>OSI Layer</th><th>What It Inspects</th></tr></thead>
-      <tbody>
-        <tr><td>Packet filtering (ACL)</td><td>L3 / L4</td><td>IP src/dst, protocol, port numbers</td></tr>
-        <tr><td>Stateful inspection</td><td>L4</td><td>TCP/UDP connection state (5-tuple)</td></tr>
-        <tr><td>NAT (Network Address Translation)</td><td>L3 / L4</td><td>IP address and port rewriting</td></tr>
-        <tr><td>Deep Packet Inspection (DPI)</td><td>L7</td><td>Application payload, protocol signatures</td></tr>
-        <tr><td>URL filtering</td><td>L7</td><td>HTTP Host header, TLS SNI</td></tr>
-        <tr><td>DNS filtering / sinkholing</td><td>L7</td><td>DNS query names, response IPs</td></tr>
-        <tr><td>SSL inspection</td><td>L6 / L7</td><td>TLS handshake, certificate, decrypted payload</td></tr>
-        <tr><td>IDS / IPS</td><td>L4 – L7</td><td>Packet content, protocol anomalies, signatures</td></tr>
-        <tr><td>QoS / traffic shaping</td><td>L3 / L4</td><td>DSCP markings, port-based prioritisation</td></tr>
-      </tbody>
-    </table>
+<table class="model-compare">
+<thead><tr><th>NGFW Feature</th><th>OSI Layer</th><th>What It Inspects</th></tr></thead>
+<tbody>
+<tr><td>Packet filtering (ACL)</td><td>L3 / L4</td><td>IP src/dst, protocol, port numbers</td></tr>
+<tr><td>Stateful inspection</td><td>L4</td><td>TCP/UDP connection state (5-tuple)</td></tr>
+<tr><td>NAT (Network Address Translation)</td><td>L3 / L4</td><td>IP address and port rewriting</td></tr>
+<tr><td>Deep Packet Inspection (DPI)</td><td>L7</td><td>Application payload, protocol signatures</td></tr>
+<tr><td>URL filtering</td><td>L7</td><td>HTTP Host header, TLS SNI</td></tr>
+<tr><td>DNS filtering / sinkholing</td><td>L7</td><td>DNS query names, response IPs</td></tr>
+<tr><td>SSL inspection</td><td>L6 / L7</td><td>TLS handshake, certificate, decrypted payload</td></tr>
+<tr><td>IDS / IPS</td><td>L4 – L7</td><td>Packet content, protocol anomalies, signatures</td></tr>
+<tr><td>QoS / traffic shaping</td><td>L3 / L4</td><td>DSCP markings, port-based prioritisation</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -695,58 +695,58 @@ Your application code
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>The Full Journey of a Packet</h3><span class="tag tag-blue">WALKTHROUGH</span></div>
   <div class="cp-body">
-    <p>Scenario: Your laptop (<code>10.0.0.5</code>) sends an HTTP GET request to a web server (<code>93.184.216.34</code>) on the internet. There is one router between you and the internet. Let's trace every layer.</p>
+<p>Scenario: Your laptop (<code>10.0.0.5</code>) sends an HTTP GET request to a web server (<code>93.184.216.34</code>) on the internet. There is one router between you and the internet. Let's trace every layer.</p>
   </div>
 </div>
 <div class="flow-path">
   <div class="fp-step" data-n="1" style="--step-col:#5b3a8c">
-    <div>
-      <div class="fp-title">Your Browser — L7 Application</div>
-      <div class="fp-detail">Browser constructs an HTTP GET request: <code>GET /index.html HTTP/1.1\r\nHost: example.com\r\n\r\n</code>. This is pure application data — no headers from lower layers yet. Passed down to the OS via the socket API.</div>
-      <div class="fp-code">send(sockfd, "GET /index.html HTTP/1.1\r\n...", len, 0)</div>
-    </div>
+<div>
+<div class="fp-title">Your Browser — L7 Application</div>
+<div class="fp-detail">Browser constructs an HTTP GET request: <code>GET /index.html HTTP/1.1\r\nHost: example.com\r\n\r\n</code>. This is pure application data — no headers from lower layers yet. Passed down to the OS via the socket API.</div>
+<div class="fp-code">send(sockfd, "GET /index.html HTTP/1.1\r\n...", len, 0)</div>
+</div>
   </div>
   <div class="fp-step" data-n="2" style="--step-col:#0f5a48">
-    <div>
-      <div class="fp-title">OS Kernel — L4 Transport (TCP)</div>
-      <div class="fp-detail">Kernel wraps the HTTP data in a TCP segment. Adds: source port (e.g. 52341, random ephemeral), destination port (80), sequence number (for ordering), flags (PSH+ACK). TCP ensures reliable delivery and handles retransmission if needed.</div>
-      <div class="fp-code">[TCP hdr: sport=52341 dport=80 seq=1001 flags=PSH|ACK] + [HTTP data]</div>
-    </div>
+<div>
+<div class="fp-title">OS Kernel — L4 Transport (TCP)</div>
+<div class="fp-detail">Kernel wraps the HTTP data in a TCP segment. Adds: source port (e.g. 52341, random ephemeral), destination port (80), sequence number (for ordering), flags (PSH+ACK). TCP ensures reliable delivery and handles retransmission if needed.</div>
+<div class="fp-code">[TCP hdr: sport=52341 dport=80 seq=1001 flags=PSH|ACK] + [HTTP data]</div>
+</div>
   </div>
   <div class="fp-step" data-n="3" style="--step-col:#1a5a1a">
-    <div>
-      <div class="fp-title">OS Kernel — L3 Network (IP)</div>
-      <div class="fp-detail">IP layer wraps the TCP segment in an IP packet. Adds: source IP (10.0.0.5), destination IP (93.184.216.34), TTL (64), protocol (6 = TCP). The kernel consults the routing table: destination is not local, so next hop = default gateway (router at 10.0.0.1).</div>
-      <div class="fp-code">[IP hdr: src=10.0.0.5 dst=93.184.216.34 TTL=64 proto=6] + [TCP] + [HTTP]</div>
-    </div>
+<div>
+<div class="fp-title">OS Kernel — L3 Network (IP)</div>
+<div class="fp-detail">IP layer wraps the TCP segment in an IP packet. Adds: source IP (10.0.0.5), destination IP (93.184.216.34), TTL (64), protocol (6 = TCP). The kernel consults the routing table: destination is not local, so next hop = default gateway (router at 10.0.0.1).</div>
+<div class="fp-code">[IP hdr: src=10.0.0.5 dst=93.184.216.34 TTL=64 proto=6] + [TCP] + [HTTP]</div>
+</div>
   </div>
   <div class="fp-step" data-n="4" style="--step-col:#7a5800">
-    <div>
-      <div class="fp-title">NIC Driver — L2 Data Link (Ethernet)</div>
-      <div class="fp-detail">Ethernet layer wraps the IP packet in a frame. ARP resolves the router's MAC address (10.0.0.1 → aa:bb:cc:dd:ee:01). Adds: dst MAC (router's MAC), src MAC (your NIC's MAC), EtherType (0x0800 = IPv4), CRC trailer.</div>
-      <div class="fp-code">[Eth: dst=aa:bb:cc:dd:ee:01 src=your_mac type=0x0800] + [IP] + [TCP] + [HTTP] + [CRC]</div>
-    </div>
+<div>
+<div class="fp-title">NIC Driver — L2 Data Link (Ethernet)</div>
+<div class="fp-detail">Ethernet layer wraps the IP packet in a frame. ARP resolves the router's MAC address (10.0.0.1 → aa:bb:cc:dd:ee:01). Adds: dst MAC (router's MAC), src MAC (your NIC's MAC), EtherType (0x0800 = IPv4), CRC trailer.</div>
+<div class="fp-code">[Eth: dst=aa:bb:cc:dd:ee:01 src=your_mac type=0x0800] + [IP] + [TCP] + [HTTP] + [CRC]</div>
+</div>
   </div>
   <div class="fp-step" data-n="5" style="--step-col:#6a2800">
-    <div>
-      <div class="fp-title">NIC Hardware — L1 Physical</div>
-      <div class="fp-detail">The NIC converts the frame to electrical signals (or light pulses for fibre) and transmits them on the wire. The signals travel to the router's port.</div>
-      <div class="fp-code">01001000 01010100 01010100... (raw bits on wire)</div>
-    </div>
+<div>
+<div class="fp-title">NIC Hardware — L1 Physical</div>
+<div class="fp-detail">The NIC converts the frame to electrical signals (or light pulses for fibre) and transmits them on the wire. The signals travel to the router's port.</div>
+<div class="fp-code">01001000 01010100 01010100... (raw bits on wire)</div>
+</div>
   </div>
   <div class="fp-step" data-n="6" style="--step-col:#1a3a5c">
-    <div>
-      <div class="fp-title">Router — L2 De-encapsulation + L3 Processing</div>
-      <div class="fp-detail">Router receives bits → reassembles frame → checks CRC (drops if corrupt) → strips Ethernet header → reads IP header. Decrements TTL (64→63). Looks up destination IP (93.184.216.34) in its routing table → routes to ISP next hop. <strong>Builds a NEW Ethernet frame</strong> with the router's WAN MAC as source and the next-hop router's MAC as destination. The IP packet is unchanged (only TTL decremented).</div>
-      <div class="fp-code">New Eth frame: [dst=isp_router_mac src=router_wan_mac] + [IP TTL=63] + [TCP] + [HTTP]</div>
-    </div>
+<div>
+<div class="fp-title">Router — L2 De-encapsulation + L3 Processing</div>
+<div class="fp-detail">Router receives bits → reassembles frame → checks CRC (drops if corrupt) → strips Ethernet header → reads IP header. Decrements TTL (64→63). Looks up destination IP (93.184.216.34) in its routing table → routes to ISP next hop. <strong>Builds a NEW Ethernet frame</strong> with the router's WAN MAC as source and the next-hop router's MAC as destination. The IP packet is unchanged (only TTL decremented).</div>
+<div class="fp-code">New Eth frame: [dst=isp_router_mac src=router_wan_mac] + [IP TTL=63] + [TCP] + [HTTP]</div>
+</div>
   </div>
   <div class="fp-step" data-n="7" style="--step-col:#0f6e56">
-    <div>
-      <div class="fp-title">Web Server — De-encapsulation (all layers)</div>
-      <div class="fp-detail">Packet arrives at the server. NIC receives bits → Ethernet driver strips frame header/trailer → IP layer strips IP header (checks TTL, checksum, delivers to TCP) → TCP layer strips TCP header (checks sequence, sends ACK, passes data to socket buffer) → Application reads from socket → HTTP server processes GET request → sends response.</div>
-      <div class="fp-code">recv(sockfd, buf, len, 0) → buf = "GET /index.html HTTP/1.1\r\nHost: example.com..."</div>
-    </div>
+<div>
+<div class="fp-title">Web Server — De-encapsulation (all layers)</div>
+<div class="fp-detail">Packet arrives at the server. NIC receives bits → Ethernet driver strips frame header/trailer → IP layer strips IP header (checks TTL, checksum, delivers to TCP) → TCP layer strips TCP header (checks sequence, sends ACK, passes data to socket buffer) → Application reads from socket → HTTP server processes GET request → sends response.</div>
+<div class="fp-code">recv(sockfd, buf, len, 0) → buf = "GET /index.html HTTP/1.1\r\nHost: example.com..."</div>
+</div>
   </div>
 </div>
 <div class="ins">
@@ -758,26 +758,26 @@ Your application code
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Packet Dissection with Wireshark</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Capture live traffic and identify every OSI layer in a real packet. See exactly how encapsulation looks on the wire.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install Wireshark on Linux: <code>sudo apt install wireshark</code>. On the first run, add your user to the wireshark group: <code>sudo usermod -aG wireshark $USER</code>, then log out and back in.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Open Wireshark. Select your active network interface (usually <code>eth0</code> or <code>wlan0</code>). Click the blue shark fin to start capture.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Open a terminal and run: <code>curl http://example.com</code>. This sends a plain HTTP request (not HTTPS — we want to see the payload).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>In Wireshark, type this filter in the filter bar and press Enter: <code>http and ip.dst == 93.184.216.34</code>. You should see the HTTP GET packet appear.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Click the packet. In the bottom panel, expand each layer: <strong>Frame</strong> (L2), <strong>Internet Protocol</strong> (L3), <strong>Transmission Control Protocol</strong> (L4), <strong>Hypertext Transfer Protocol</strong> (L7). For each layer, identify: header fields, their values, and their size in bytes.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div>Answer these questions from what you see: What is the source and destination MAC address? What is the TTL in the IP header? What are the source and destination ports? What HTTP method and path is being requested? Is there a TCP sequence number — what is it?</div></div>
-    <div class="lab-step"><div class="sn">7</div><div><strong>Bonus:</strong> Right-click the packet and select "Follow > TCP Stream". See the full HTTP conversation — request and response — reassembled by Wireshark from multiple packets. Notice that Wireshark stripped all headers for you, showing only the L7 application data.</div></div>
+<p><strong>Objective:</strong> Capture live traffic and identify every OSI layer in a real packet. See exactly how encapsulation looks on the wire.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install Wireshark on Linux: <code>sudo apt install wireshark</code>. On the first run, add your user to the wireshark group: <code>sudo usermod -aG wireshark $USER</code>, then log out and back in.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Open Wireshark. Select your active network interface (usually <code>eth0</code> or <code>wlan0</code>). Click the blue shark fin to start capture.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Open a terminal and run: <code>curl http://example.com</code>. This sends a plain HTTP request (not HTTPS — we want to see the payload).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>In Wireshark, type this filter in the filter bar and press Enter: <code>http and ip.dst == 93.184.216.34</code>. You should see the HTTP GET packet appear.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Click the packet. In the bottom panel, expand each layer: <strong>Frame</strong> (L2), <strong>Internet Protocol</strong> (L3), <strong>Transmission Control Protocol</strong> (L4), <strong>Hypertext Transfer Protocol</strong> (L7). For each layer, identify: header fields, their values, and their size in bytes.</div></div>
+<div class="lab-step"><div class="sn">6</div><div>Answer these questions from what you see: What is the source and destination MAC address? What is the TTL in the IP header? What are the source and destination ports? What HTTP method and path is being requested? Is there a TCP sequence number — what is it?</div></div>
+<div class="lab-step"><div class="sn">7</div><div><strong>Bonus:</strong> Right-click the packet and select "Follow > TCP Stream". See the full HTTP conversation — request and response — reassembled by Wireshark from multiple packets. Notice that Wireshark stripped all headers for you, showing only the L7 application data.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Trace a Packet with tcpdump and Identify Layers</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Use the command-line tool tcpdump to capture and decode packets. tcpdump is your primary diagnostic tool as a network application developer — learn it well.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install tcpdump: <code>sudo apt install tcpdump</code>. Run it with verbose output: <code>sudo tcpdump -i eth0 -v -n 'port 80'</code>. The <code>-v</code> flag shows L3 details, <code>-n</code> disables hostname resolution, <code>'port 80'</code> filters to HTTP traffic.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>In another terminal, run: <code>curl http://example.com</code>. Watch tcpdump output. You should see the TCP 3-way handshake (SYN → SYN-ACK → ACK) followed by the HTTP request and response.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Run with the <code>-vv</code> flag for even more detail: <code>sudo tcpdump -i eth0 -vv -n 'port 80'</code>. Now capture to a file: <code>sudo tcpdump -i eth0 -w /tmp/http_capture.pcap 'port 80'</code>. Then curl again and stop tcpdump with Ctrl-C.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Read the captured file: <code>tcpdump -r /tmp/http_capture.pcap -vv -n</code>. Now try adding the <code>-e</code> flag to also show Layer 2 (Ethernet) MAC addresses: <code>tcpdump -r /tmp/http_capture.pcap -evvn</code>.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Open the .pcap file in Wireshark for a visual view: <code>wireshark /tmp/http_capture.pcap</code>. Compare the Wireshark layer tree with what tcpdump showed on the command line.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Bonus challenge:</strong> Write a 10-line Python script using the <code>scapy</code> library (<code>pip install scapy</code>) that constructs a raw Ethernet + IP + TCP + HTTP frame from scratch and prints each layer's fields. This directly demonstrates encapsulation in code:<br><code>from scapy.all import *</code><br><code>pkt = Ether()/IP(dst="93.184.216.34")/TCP(dport=80)/Raw(b"GET / HTTP/1.0\r\n\r\n")</code><br><code>pkt.show()</code></div></div>
+<p><strong>Objective:</strong> Use the command-line tool tcpdump to capture and decode packets. tcpdump is your primary diagnostic tool as a network application developer — learn it well.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install tcpdump: <code>sudo apt install tcpdump</code>. Run it with verbose output: <code>sudo tcpdump -i eth0 -v -n 'port 80'</code>. The <code>-v</code> flag shows L3 details, <code>-n</code> disables hostname resolution, <code>'port 80'</code> filters to HTTP traffic.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>In another terminal, run: <code>curl http://example.com</code>. Watch tcpdump output. You should see the TCP 3-way handshake (SYN → SYN-ACK → ACK) followed by the HTTP request and response.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Run with the <code>-vv</code> flag for even more detail: <code>sudo tcpdump -i eth0 -vv -n 'port 80'</code>. Now capture to a file: <code>sudo tcpdump -i eth0 -w /tmp/http_capture.pcap 'port 80'</code>. Then curl again and stop tcpdump with Ctrl-C.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Read the captured file: <code>tcpdump -r /tmp/http_capture.pcap -vv -n</code>. Now try adding the <code>-e</code> flag to also show Layer 2 (Ethernet) MAC addresses: <code>tcpdump -r /tmp/http_capture.pcap -evvn</code>.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Open the .pcap file in Wireshark for a visual view: <code>wireshark /tmp/http_capture.pcap</code>. Compare the Wireshark layer tree with what tcpdump showed on the command line.</div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Bonus challenge:</strong> Write a 10-line Python script using the <code>scapy</code> library (<code>pip install scapy</code>) that constructs a raw Ethernet + IP + TCP + HTTP frame from scratch and prints each layer's fields. This directly demonstrates encapsulation in code:<br><code>from scapy.all import *</code><br><code>pkt = Ether()/IP(dst="93.184.216.34")/TCP(dport=80)/Raw(b"GET / HTTP/1.0\r\n\r\n")</code><br><code>pkt.show()</code></div></div>
   </div>
 </div>
 </div>

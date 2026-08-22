@@ -13,22 +13,22 @@ url: /learning/system-design/lld/module-a4-notes/
 
 <div class="chapter-hero" style="--ch-1:#ef4444;--ch-2:#dc2626;">
   <div class="breadcrumb">
-    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/module-a4-behavioral/">Module A4</a>
-    <span class="separator">›</span>
-    <span class="current">Full Notes</span>
+<a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/module-a4-behavioral/">Module A4</a>
+<span class="separator">›</span>
+<span class="current">Full Notes</span>
   </div>
   <h1>Module A4 — Behavioral Patterns</h1>
   <p class="ch-subtitle">Complete reference notes · Track A: LLD · Week 6</p>
   <div class="hero-stats">
-    <span class="stat-badge">Strategy</span>
-    <span class="stat-badge">Observer</span>
-    <span class="stat-badge">Command</span>
-    <span class="stat-badge">State</span>
-    <span class="stat-badge">Template Method</span>
-    <span class="stat-badge">Chain of Responsibility</span>
-    <span class="stat-badge">12 Behavioral Patterns</span>
+<span class="stat-badge">Strategy</span>
+<span class="stat-badge">Observer</span>
+<span class="stat-badge">Command</span>
+<span class="stat-badge">State</span>
+<span class="stat-badge">Template Method</span>
+<span class="stat-badge">Chain of Responsibility</span>
+<span class="stat-badge">12 Behavioral Patterns</span>
   </div>
 </div>
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">

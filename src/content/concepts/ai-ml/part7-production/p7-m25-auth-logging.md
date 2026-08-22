@@ -89,10 +89,10 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
   <div class="mod-title">Auth, Logging &amp; Observability</div>
   <div class="mod-subtitle">See inside your running AI system — metrics, traces, alerts, and proper auth</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 Prometheus · Grafana · structlog · Sentry</span>
-    <span class="mod-pill">📋 Prerequisite: P7-M24</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 Prometheus · Grafana · structlog · Sentry</span>
+<span class="mod-pill">📋 Prerequisite: P7-M24</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -112,15 +112,15 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-navy">See Everything</span></div>
   <div class="cp-body">
-    <p>A deployed AI system you can't see inside is a liability. When the LLM API starts returning 500 errors at 2am, or a user complains the chatbot is slow, you need instrumentation to diagnose it within seconds — not hours. This module covers the full observability stack.</p>
-    <ul>
-      <li><strong>Metrics with Prometheus</strong> — request rates, latency histograms, LLM token counters, error rates</li>
-      <li><strong>Dashboards with Grafana</strong> — visualising metrics, setting up standard AI API panels</li>
-      <li><strong>Structured logging</strong> — production log pipeline, correlation IDs, log aggregation</li>
-      <li><strong>Distributed tracing</strong> — tracing requests across API + worker + LLM calls</li>
-      <li><strong>Error tracking with Sentry</strong> — capturing exceptions with context in production</li>
-      <li><strong>Alerting</strong> — alert rules for error rate, p95 latency, and LLM cost spikes</li>
-    </ul>
+<p>A deployed AI system you can't see inside is a liability. When the LLM API starts returning 500 errors at 2am, or a user complains the chatbot is slow, you need instrumentation to diagnose it within seconds — not hours. This module covers the full observability stack.</p>
+<ul>
+<li><strong>Metrics with Prometheus</strong> — request rates, latency histograms, LLM token counters, error rates</li>
+<li><strong>Dashboards with Grafana</strong> — visualising metrics, setting up standard AI API panels</li>
+<li><strong>Structured logging</strong> — production log pipeline, correlation IDs, log aggregation</li>
+<li><strong>Distributed tracing</strong> — tracing requests across API + worker + LLM calls</li>
+<li><strong>Error tracking with Sentry</strong> — capturing exceptions with context in production</li>
+<li><strong>Alerting</strong> — alert rules for error rate, p95 latency, and LLM cost spikes</li>
+</ul>
   </div>
 </div>
 </div>
@@ -129,100 +129,117 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Prometheus Metrics for AI APIs</h3><span class="tag tag-navy">Measure Everything</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install prometheus-client prometheus-fastapi-instrumentator
- 
+    
+
+```python
+pip install prometheus-client prometheus-fastapi-instrumentator
+
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
 from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi import FastAPI, Response
- 
-<span class="ck"># ── Standard HTTP metrics (auto-instrumented) ─────────</span>
+
+# ── Standard HTTP metrics (auto-instrumented) ─────────
 Instrumentator().instrument(app).expose(app)
-<span class="ck"># Provides: http_requests_total, http_request_duration_seconds</span>
-<span class="ck"># ── Custom AI-specific metrics ────────────────────────</span>
-<span class="ck"># Token usage counter — track cost per model per endpoint</span>
+# Provides: http_requests_total, http_request_duration_seconds
+
+# ── Custom AI-specific metrics ────────────────────────
+# Token usage counter — track cost per model per endpoint
 llm_tokens = Counter(
-    <span class="cs">"llm_tokens_total"</span>,
-    <span class="cs">"Total LLM tokens used"</span>,
-    labelnames=[<span class="cs">"model"</span>, <span class="cs">"endpoint"</span>, <span class="cs">"token_type"</span>]   <span class="ck"># input | output</span>
+    "llm_tokens_total",
+    "Total LLM tokens used",
+    labelnames=["model", "endpoint", "token_type"]   # input | output
 )
- 
-<span class="ck"># LLM call latency histogram</span>
+
+# LLM call latency histogram
 llm_latency = Histogram(
-    <span class="cs">"llm_call_duration_seconds"</span>,
-    <span class="cs">"LLM API call duration"</span>,
-    labelnames=[<span class="cs">"model"</span>, <span class="cs">"endpoint"</span>],
-    buckets=[<span class="cv">0.5</span>, <span class="cv">1.0</span>, <span class="cv">2.0</span>, <span class="cv">5.0</span>, <span class="cv">10.0</span>, <span class="cv">30.0</span>]
+    "llm_call_duration_seconds",
+    "LLM API call duration",
+    labelnames=["model", "endpoint"],
+    buckets=[0.5, 1.0, 2.0, 5.0, 10.0, 30.0]
 )
- 
-<span class="ck"># RAG retrieval quality gauge</span>
+
+# RAG retrieval quality gauge
 rag_avg_score = Gauge(
-    <span class="cs">"rag_retrieval_score_avg"</span>,
-    <span class="cs">"Rolling average RAG retrieval similarity score"</span>
+    "rag_retrieval_score_avg",
+    "Rolling average RAG retrieval similarity score"
 )
- 
-<span class="ck"># Active agent sessions</span>
+
+# Active agent sessions
 active_agents = Gauge(
-    <span class="cs">"agent_sessions_active"</span>,
-    <span class="cs">"Number of currently running agent sessions"</span>
+    "agent_sessions_active",
+    "Number of currently running agent sessions"
 )
- 
-<span class="ck"># Usage example inside an endpoint</span>
+
+# Usage example inside an endpoint
 import time
- 
+
 async def call_llm_instrumented(prompt: str, model: str, endpoint: str) -> str:
     start = time.perf_counter()
     try:
         response = await llm_client.messages.create(
-            model=model, max_tokens=<span class="cv">1024</span>,
-            messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: prompt}]
+            model=model, max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}]
         )
-        reply = response.content[<span class="cv">0</span>].text
-        llm_tokens.labels(model=model, endpoint=endpoint, token_type=<span class="cs">"input"</span>).inc(response.usage.input_tokens)
-        llm_tokens.labels(model=model, endpoint=endpoint, token_type=<span class="cs">"output"</span>).inc(response.usage.output_tokens)
+        reply = response.content[0].text
+        llm_tokens.labels(model=model, endpoint=endpoint, token_type="input").inc(response.usage.input_tokens)
+        llm_tokens.labels(model=model, endpoint=endpoint, token_type="output").inc(response.usage.output_tokens)
         return reply
     finally:
         llm_latency.labels(model=model, endpoint=endpoint).observe(time.perf_counter() - start)
- 
-<span class="ck"># Expose metrics endpoint</span>
-@app.get(<span class="cs">"/metrics"</span>)
+
+# Expose metrics endpoint
+@app.get("/metrics")
 async def metrics():
-    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)</pre></div>
-    <div class="ins"><p>💡 <strong>Four AI-specific metrics to always instrument:</strong> (1) LLM token counts by model — directly maps to cost. (2) LLM call latency histogram — detect when the API is slow. (3) RAG retrieval scores — quality degradation over time. (4) Agent session count — detect runaway loops. Standard HTTP metrics (request rate, latency, error rate) come free from the Instrumentator.</p></div>
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+```
+
+
+<div class="ins"><p>💡 <strong>Four AI-specific metrics to always instrument:</strong> (1) LLM token counts by model — directly maps to cost. (2) LLM call latency histogram — detect when the API is slow. (3) RAG retrieval scores — quality degradation over time. (4) Agent session count — detect runaway loops. Standard HTTP metrics (request rate, latency, error rate) come free from the Instrumentator.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Grafana Dashboard Setup</h3><span class="tag tag-blue">Visualise</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Add Prometheus + Grafana to docker-compose.yml</span>
-<span class="ck"># prometheus service</span>
-<span class="cs">  prometheus:</span>
-<span class="cs">    image: prom/prometheus:latest</span>
-<span class="cs">    ports:</span>
-<span class="cs">      - "9090:9090"</span>
-<span class="cs">    volumes:</span>
-<span class="cs">      - ./prometheus.yml:/etc/prometheus/prometheus.yml</span>
-<span class="ck"># grafana service</span>
-<span class="cs">  grafana:</span>
-<span class="cs">    image: grafana/grafana:latest</span>
-<span class="cs">    ports:</span>
-<span class="cs">      - "3000:3000"</span>
-<span class="cs">    environment:</span>
-<span class="cs">      GF_SECURITY_ADMIN_PASSWORD: admin</span>
-<span class="cs">    volumes:</span>
-<span class="cs">      - grafana_data:/var/lib/grafana</span>
-<span class="ck"># prometheus.yml — scrape your FastAPI app</span>
-<span class="cs">global:</span>
-<span class="cs">  scrape_interval: 15s</span>
-<span class="cs">scrape_configs:</span>
-<span class="cs">  - job_name: "ai-api"</span>
-<span class="cs">    static_configs:</span>
-<span class="cs">      - targets: ["api:8000"]</span>   <span class="ck"># Docker service name</span>
-<span class="ck"># Key Grafana panels for an AI API:</span>
-<span class="ck"># 1. Request rate: rate(http_requests_total[5m])</span>
-<span class="ck"># 2. p95 latency: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))</span>
-<span class="ck"># 3. Error rate: rate(http_requests_total{status=~"5.."}[5m])</span>
-<span class="ck"># 4. LLM tokens/hour: rate(llm_tokens_total[1h]) * 3600</span>
-<span class="ck"># 5. LLM p95 latency: histogram_quantile(0.95, rate(llm_call_duration_seconds_bucket[5m]))</span></pre></div>
+    
+
+```python
+# Add Prometheus + Grafana to docker-compose.yml
+
+# prometheus service
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+# grafana service
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+# prometheus.yml — scrape your FastAPI app
+global:
+  scrape_interval: 15s
+scrape_configs:
+  - job_name: "ai-api"
+    static_configs:
+      - targets: ["api:8000"]   # Docker service name
+
+# Key Grafana panels for an AI API:
+# 1. Request rate: rate(http_requests_total[5m])
+# 2. p95 latency: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+# 3. Error rate: rate(http_requests_total{status=~"5.."}[5m])
+# 4. LLM tokens/hour: rate(llm_tokens_total[1h]) * 3600
+# 5. LLM p95 latency: histogram_quantile(0.95, rate(llm_call_duration_seconds_bucket[5m]))
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -231,48 +248,51 @@ async def metrics():
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Production Log Pipeline</h3><span class="tag tag-navy">Queryable Logs</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install structlog python-json-logger
- 
+    
+
+```python
+pip install structlog python-json-logger
+
 import structlog, logging, sys
 from pythonjsonlogger import jsonlogger
- 
-<span class="ck"># ── Production structlog configuration ────────────────</span>
-def configure_logging(environment: str = <span class="cs">"production"</span>):
-    if environment == <span class="cs">"development"</span>:
-        <span class="ck"># Human-readable console output for dev</span>
+
+# ── Production structlog configuration ────────────────
+def configure_logging(environment: str = "production"):
+    if environment == "development":
+        # Human-readable console output for dev
         structlog.configure(
             processors=[
                 structlog.contextvars.merge_contextvars,
                 structlog.processors.add_log_level,
-                structlog.processors.TimeStamper(fmt=<span class="cs">"%H:%M:%S"</span>),
-                structlog.dev.ConsoleRenderer(colors=<span class="cv">True</span>)
+                structlog.processors.TimeStamper(fmt="%H:%M:%S"),
+                structlog.dev.ConsoleRenderer(colors=True)
             ]
         )
     else:
-        <span class="ck"># JSON output for production — queryable by log aggregators</span>
+        # JSON output for production — queryable by log aggregators
         structlog.configure(
             processors=[
                 structlog.contextvars.merge_contextvars,
                 structlog.processors.add_log_level,
-                structlog.processors.TimeStamper(fmt=<span class="cs">"iso"</span>),
+                structlog.processors.TimeStamper(fmt="iso"),
                 structlog.processors.format_exc_info,
                 structlog.processors.JSONRenderer()
             ]
         )
- 
+
 logger = structlog.get_logger()
- 
-<span class="ck"># ── Request correlation — trace a request through all logs</span>
+
+# ── Request correlation — trace a request through all logs
 import uuid
 from starlette.middleware.base import BaseHTTPMiddleware
- 
+
 class CorrelationMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
-        <span class="ck"># Use incoming X-Request-ID or generate new one</span>
-        request_id = request.headers.get(<span class="cs">"X-Request-ID"</span>, str(uuid.uuid4())[:8])
-        user_id    = getattr(request.state, <span class="cs">"user"</span>, {}).get(<span class="cs">"user_id"</span>, <span class="cs">"anon"</span>)
- 
-        <span class="ck"># Bind to context — all logs in this request include these fields</span>
+        # Use incoming X-Request-ID or generate new one
+        request_id = request.headers.get("X-Request-ID", str(uuid.uuid4())[:8])
+        user_id    = getattr(request.state, "user", {}).get("user_id", "anon")
+
+        # Bind to context — all logs in this request include these fields
         structlog.contextvars.bind_contextvars(
             request_id=request_id,
             user_id=user_id,
@@ -280,12 +300,15 @@ class CorrelationMiddleware(BaseHTTPMiddleware):
         )
         response = await call_next(request)
         structlog.contextvars.clear_contextvars()
-        response.headers[<span class="cs">"X-Request-ID"</span>] = request_id
+        response.headers["X-Request-ID"] = request_id
         return response
- 
-<span class="ck"># All logs now include request_id and user_id automatically</span>
-<span class="ck"># Output: {"event":"llm_called","model":"claude...","request_id":"a3f7b2","user_id":"user_1",...}</span>
-<span class="ck"># Query in CloudWatch/Datadog/Loki: request_id="a3f7b2" → all logs for that request</span></pre></div>
+
+# All logs now include request_id and user_id automatically
+# Output: {"event":"llm_called","model":"claude...","request_id":"a3f7b2","user_id":"user_1",...}
+# Query in CloudWatch/Datadog/Loki: request_id="a3f7b2" → all logs for that request
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -294,46 +317,53 @@ class CorrelationMiddleware(BaseHTTPMiddleware):
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Distributed Tracing with OpenTelemetry</h3><span class="tag tag-navy">End-to-End</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install opentelemetry-api opentelemetry-sdk             opentelemetry-instrumentation-fastapi             opentelemetry-exporter-otlp
- 
+    
+
+```python
+pip install opentelemetry-api opentelemetry-sdk             opentelemetry-instrumentation-fastapi             opentelemetry-exporter-otlp
+
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
- 
-<span class="ck"># Setup tracing — sends to Jaeger or any OTLP-compatible backend</span>
+
+# Setup tracing — sends to Jaeger or any OTLP-compatible backend
 provider = TracerProvider()
 provider.add_span_processor(
-    BatchSpanProcessor(OTLPSpanExporter(endpoint=<span class="cs">"http://jaeger:4317"</span>))
+    BatchSpanProcessor(OTLPSpanExporter(endpoint="http://jaeger:4317"))
 )
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
- 
-<span class="ck"># Auto-instrument FastAPI and all HTTPX calls (LLM API calls)</span>
+
+# Auto-instrument FastAPI and all HTTPX calls (LLM API calls)
 FastAPIInstrumentor.instrument_app(app)
 HTTPXClientInstrumentor().instrument()
-<span class="ck"># Every FastAPI request and every LLM API call now has a trace span</span>
-<span class="ck"># Manual spans for custom work</span>
+# Every FastAPI request and every LLM API call now has a trace span
+
+# Manual spans for custom work
 async def rag_pipeline(question: str) -> dict:
-    with tracer.start_as_current_span(<span class="cs">"rag.retrieve"</span>) as span:
-        span.set_attribute(<span class="cs">"query.length"</span>, len(question))
+    with tracer.start_as_current_span("rag.retrieve") as span:
+        span.set_attribute("query.length", len(question))
         chunks = await retrieve(question)
-        span.set_attribute(<span class="cs">"chunks.count"</span>, len(chunks))
- 
-    with tracer.start_as_current_span(<span class="cs">"rag.generate"</span>) as span:
-        span.set_attribute(<span class="cs">"model"</span>, <span class="cs">"claude-3-5-sonnet-20241022"</span>)
+        span.set_attribute("chunks.count", len(chunks))
+
+    with tracer.start_as_current_span("rag.generate") as span:
+        span.set_attribute("model", "claude-3-5-sonnet-20241022")
         answer = await generate(question, chunks)
-        span.set_attribute(<span class="cs">"answer.length"</span>, len(answer))
- 
-    return {<span class="cs">"answer"</span>: answer, <span class="cs">"chunks"</span>: chunks}
- 
-<span class="ck"># Trace view in Jaeger UI:</span>
-<span class="ck"># [GET /rag/ask 450ms]</span>
-<span class="ck">#   └─ [rag.retrieve 120ms] chunks=5</span>
-<span class="ck">#   └─ [rag.generate 320ms] model=claude-3-5-sonnet</span>
-<span class="ck">#        └─ [POST api.anthropic.com/v1/messages 310ms]</span></pre></div>
+        span.set_attribute("answer.length", len(answer))
+
+    return {"answer": answer, "chunks": chunks}
+
+# Trace view in Jaeger UI:
+# [GET /rag/ask 450ms]
+#   └─ [rag.retrieve 120ms] chunks=5
+#   └─ [rag.generate 320ms] model=claude-3-5-sonnet
+#        └─ [POST api.anthropic.com/v1/messages 310ms]
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -342,34 +372,38 @@ async def rag_pipeline(question: str) -> dict:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>Alerting — Know Before Your Users Do</h3><span class="tag tag-navy">Proactive</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Sentry for exception tracking</span>
+    
+
+```python
+# Sentry for exception tracking
 pip install sentry-sdk[fastapi]
- 
+
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.celery import CeleryIntegration
- 
+
 sentry_sdk.init(
-    dsn=os.environ[<span class="cs">"SENTRY_DSN"</span>],
-    environment=os.environ.get(<span class="cs">"ENVIRONMENT"</span>, <span class="cs">"production"</span>),
+    dsn=os.environ["SENTRY_DSN"],
+    environment=os.environ.get("ENVIRONMENT", "production"),
     integrations=[FastApiIntegration(), CeleryIntegration()],
-    traces_sample_rate=<span class="cv">0.1</span>,   <span class="ck"># 10% of requests traced</span>
-    profiles_sample_rate=<span class="cv">0.1</span>,
+    traces_sample_rate=0.1,   # 10% of requests traced
+    profiles_sample_rate=0.1,
 )
-<span class="ck"># Any unhandled exception now appears in Sentry with full context:
-# stack trace, request headers, user ID, environment, breadcrumbs</span>
-<span class="ck"># Add user context so Sentry shows which user triggered the error</span>
+# Any unhandled exception now appears in Sentry with full context:
+# stack trace, request headers, user ID, environment, breadcrumbs
+
+# Add user context so Sentry shows which user triggered the error
 from sentry_sdk import set_user, set_extra
- 
+
 async def call_with_sentry_context(user: dict, func, *args):
-    set_user({<span class="cs">"id"</span>: user[<span class="cs">"user_id"</span>], <span class="cs">"email"</span>: user.get(<span class="cs">"email"</span>)})
-    set_extra(<span class="cs">"request_tier"</span>, user.get(<span class="cs">"tier"</span>))
+    set_user({"id": user["user_id"], "email": user.get("email")})
+    set_extra("request_tier", user.get("tier"))
     return await func(*args)
- 
-<span class="ck"># Prometheus alert rules (prometheus-alerts.yml)</span>
-<span class="ck"># Copy into Alertmanager for PagerDuty / Slack / email alerts</span>
- 
-ALERT_RULES = <span class="cs">"""
+
+# Prometheus alert rules (prometheus-alerts.yml)
+# Copy into Alertmanager for PagerDuty / Slack / email alerts
+
+ALERT_RULES = """
 groups:
   - name: ai_api_alerts
     rules:
@@ -380,7 +414,7 @@ groups:
           severity: critical
         annotations:
           summary: "Error rate above 5% for 2 minutes"
- 
+
       - alert: HighLLMLatency
         expr: histogram_quantile(0.95, rate(llm_call_duration_seconds_bucket[5m])) > 15
         for: 3m
@@ -388,7 +422,7 @@ groups:
           severity: warning
         annotations:
           summary: "LLM p95 latency above 15s"
- 
+
       - alert: TokenCostSpike
         expr: rate(llm_tokens_total[1h]) * 3600 > 500000
         for: 5m
@@ -396,7 +430,10 @@ groups:
           severity: critical
         annotations:
           summary: "Token usage spike: >500k tokens/hour"
-"""</span></pre></div>
+"""
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -405,68 +442,74 @@ groups:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>Auth Patterns — OAuth2 and API Key Management</h3><span class="tag tag-navy">Security</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># ── Rotating API keys — never embed keys in clients ───</span>
+    
+
+```python
+# ── Rotating API keys — never embed keys in clients ───
 import secrets, hashlib, sqlite3
 from datetime import datetime
- 
+
 def generate_api_key() -> tuple[str, str]:
     """Returns (raw_key, hashed_key). Store only the hash."""
-    raw = <span class="cs">f"sk-{secrets.token_urlsafe(32)}"</span>
+    raw = f"sk-{secrets.token_urlsafe(32)}"
     hsh = hashlib.sha256(raw.encode()).hexdigest()
     return raw, hsh
- 
-def create_user_api_key(user_id: str, name: str = <span class="cs">"default"</span>) -> str:
+
+def create_user_api_key(user_id: str, name: str = "default") -> str:
     raw, hsh = generate_api_key()
-    with sqlite3.connect(<span class="cs">"keys.db"</span>) as conn:
-        conn.execute(<span class="cs">"""CREATE TABLE IF NOT EXISTS api_keys (
+    with sqlite3.connect("keys.db") as conn:
+        conn.execute("""CREATE TABLE IF NOT EXISTS api_keys (
             hash TEXT PRIMARY KEY, user_id TEXT, name TEXT,
-            created_at TEXT, last_used TEXT, is_active INTEGER DEFAULT 1)"""</span>)
-        conn.execute(<span class="cs">"INSERT INTO api_keys VALUES (?,?,?,?,?,1)"</span>,
+            created_at TEXT, last_used TEXT, is_active INTEGER DEFAULT 1)""")
+        conn.execute("INSERT INTO api_keys VALUES (?,?,?,?,?,1)",
                      (hsh, user_id, name, datetime.utcnow().isoformat(), None))
-    return raw   <span class="ck"># show raw key to user ONCE — never store it</span>
- 
+    return raw   # show raw key to user ONCE — never store it
+
 async def validate_api_key(raw_key: str) -> dict | None:
     hsh = hashlib.sha256(raw_key.encode()).hexdigest()
-    with sqlite3.connect(<span class="cs">"keys.db"</span>) as conn:
+    with sqlite3.connect("keys.db") as conn:
         row = conn.execute(
-            <span class="cs">"SELECT user_id, name FROM api_keys WHERE hash=? AND is_active=1"</span>,
+            "SELECT user_id, name FROM api_keys WHERE hash=? AND is_active=1",
             (hsh,)).fetchone()
         if row:
-            conn.execute(<span class="cs">"UPDATE api_keys SET last_used=? WHERE hash=?"</span>,
+            conn.execute("UPDATE api_keys SET last_used=? WHERE hash=?",
                          (datetime.utcnow().isoformat(), hsh))
-    return {<span class="cs">"user_id"</span>: row[<span class="cv">0</span>], <span class="cs">"key_name"</span>: row[<span class="cv">1</span>]} if row else None
- 
+    return {"user_id": row[0], "key_name": row[1]} if row else None
+
 def revoke_api_key(hsh: str):
-    with sqlite3.connect(<span class="cs">"keys.db"</span>) as conn:
-        conn.execute(<span class="cs">"UPDATE api_keys SET is_active=0 WHERE hash=?"</span>, (hsh,))
- 
-<span class="ck"># ── OAuth2 with Google (social login) ─────────────────</span>
+    with sqlite3.connect("keys.db") as conn:
+        conn.execute("UPDATE api_keys SET is_active=0 WHERE hash=?", (hsh,))
+
+# ── OAuth2 with Google (social login) ─────────────────
 pip install authlib httpx
- 
+
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
- 
-config = Config(<span class="cs">".env"</span>)
+
+config = Config(".env")
 oauth = OAuth(config)
 oauth.register(
-    name=<span class="cs">"google"</span>,
-    server_metadata_url=<span class="cs">"https://accounts.google.com/.well-known/openid-configuration"</span>,
-    client_id=config(<span class="cs">"GOOGLE_CLIENT_ID"</span>),
-    client_secret=config(<span class="cs">"GOOGLE_CLIENT_SECRET"</span>),
-    client_kwargs={<span class="cs">"scope"</span>: <span class="cs">"openid email profile"</span>},
+    name="google",
+    server_metadata_url="https://accounts.google.com/.well-known/openid-configuration",
+    client_id=config("GOOGLE_CLIENT_ID"),
+    client_secret=config("GOOGLE_CLIENT_SECRET"),
+    client_kwargs={"scope": "openid email profile"},
 )
- 
-@router.get(<span class="cs">"/auth/google"</span>)
+
+@router.get("/auth/google")
 async def google_login(request: Request):
-    redirect_uri = request.url_for(<span class="cs">"google_callback"</span>)
+    redirect_uri = request.url_for("google_callback")
     return await oauth.google.authorize_redirect(request, redirect_uri)
- 
-@router.get(<span class="cs">"/auth/google/callback"</span>, name=<span class="cs">"google_callback"</span>)
+
+@router.get("/auth/google/callback", name="google_callback")
 async def google_callback(request: Request):
     token   = await oauth.google.authorize_access_token(request)
-    user    = token[<span class="cs">"userinfo"</span>]
-    api_key = create_user_api_key(user[<span class="cs">"sub"</span>], name=<span class="cs">"google-oauth"</span>)
-    return {<span class="cs">"api_key"</span>: api_key, <span class="cs">"email"</span>: user[<span class="cs">"email"</span>]}</pre></div>
+    user    = token["userinfo"]
+    api_key = create_user_api_key(user["sub"], name="google-oauth")
+    return {"api_key": api_key, "email": user["email"]}
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -476,10 +519,10 @@ async def google_callback(request: Request):
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Library</td><td><a href="https://github.com/trallnag/prometheus-fastapi-instrumentator" target="_blank" rel="noopener">Prometheus FastAPI Instrumentator — github.com/trallnag</a></td><td>Zero-config HTTP metrics for FastAPI. Auto-instruments all routes.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://opentelemetry.io/docs/instrumentation/python/" target="_blank" rel="noopener">OpenTelemetry Python — opentelemetry.io/docs</a></td><td>Complete Python OTel instrumentation guide for tracing and metrics.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.sentry.io/platforms/python/integrations/fastapi/" target="_blank" rel="noopener">Sentry FastAPI Integration — docs.sentry.io</a></td><td>Setting up Sentry error tracking with FastAPI and Celery.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://prometheus.io/docs/alerting/latest/alertmanager/" target="_blank" rel="noopener">Prometheus Alertmanager — prometheus.io/docs</a></td><td>Setting up alert rules and routing to Slack, PagerDuty, or email.</td></tr>
+<tr><td class="res-type">Library</td><td><a href="https://github.com/trallnag/prometheus-fastapi-instrumentator" target="_blank" rel="noopener">Prometheus FastAPI Instrumentator — github.com/trallnag</a></td><td>Zero-config HTTP metrics for FastAPI. Auto-instruments all routes.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://opentelemetry.io/docs/instrumentation/python/" target="_blank" rel="noopener">OpenTelemetry Python — opentelemetry.io/docs</a></td><td>Complete Python OTel instrumentation guide for tracing and metrics.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.sentry.io/platforms/python/integrations/fastapi/" target="_blank" rel="noopener">Sentry FastAPI Integration — docs.sentry.io</a></td><td>Setting up Sentry error tracking with FastAPI and Celery.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://prometheus.io/docs/alerting/latest/alertmanager/" target="_blank" rel="noopener">Prometheus Alertmanager — prometheus.io/docs</a></td><td>Setting up alert rules and routing to Slack, PagerDuty, or email.</td></tr>
   </tbody>
 </table>
 </div>
@@ -487,22 +530,22 @@ async def google_callback(request: Request):
 <div id="t7" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Full Observability Stack for Your AI API</span>
-    <span class="proj-dur">[Intermediate] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Full Observability Stack for Your AI API</span>
+<span class="proj-dur">[Intermediate] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Add the complete observability layer to your M24 containerised app.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>Metrics</strong> — Prometheus scraping /metrics; custom counters for LLM tokens, latency histogram, active agents gauge</li>
-      <li><strong>Grafana</strong> — 5 panels: request rate, p95 latency, error rate, tokens/hour, LLM p95 latency</li>
-      <li><strong>Structured logs</strong> — JSON in production, request_id + user_id in every log line via CorrelationMiddleware</li>
-      <li><strong>Sentry</strong> — exception tracking with user context and environment tag</li>
-      <li><strong>Alerts</strong> — 3 Prometheus alert rules: high error rate, high LLM latency, token spike</li>
-      <li><strong>API keys</strong> — full DB-backed key management: create, validate, revoke, track last_used</li>
-    </ul>
-    <p><strong>Skills:</strong> Prometheus, Grafana, structlog, OpenTelemetry, Sentry, API key management</p>
+<p>Add the complete observability layer to your M24 containerised app.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>Metrics</strong> — Prometheus scraping /metrics; custom counters for LLM tokens, latency histogram, active agents gauge</li>
+<li><strong>Grafana</strong> — 5 panels: request rate, p95 latency, error rate, tokens/hour, LLM p95 latency</li>
+<li><strong>Structured logs</strong> — JSON in production, request_id + user_id in every log line via CorrelationMiddleware</li>
+<li><strong>Sentry</strong> — exception tracking with user context and environment tag</li>
+<li><strong>Alerts</strong> — 3 Prometheus alert rules: high error rate, high LLM latency, token spike</li>
+<li><strong>API keys</strong> — full DB-backed key management: create, validate, revoke, track last_used</li>
+</ul>
+<p><strong>Skills:</strong> Prometheus, Grafana, structlog, OpenTelemetry, Sentry, API key management</p>
   </div>
 </div>
 </div>
@@ -511,31 +554,31 @@ async def google_callback(request: Request):
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Metrics — Instrument and Dashboard</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Instrument your API and build a Grafana dashboard that answers: is the system healthy right now?</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add prometheus-fastapi-instrumentator. Start your app + Prometheus in Docker Compose. Verify /metrics returns data.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add 3 custom metrics: llm_tokens_total (Counter), llm_call_duration_seconds (Histogram), active_agent_sessions (Gauge). Instrument your LLM calls to update them.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Open Grafana (localhost:3000). Add Prometheus as data source. Create a dashboard with 4 panels: request rate, error rate, p95 HTTP latency, LLM tokens/minute.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Generate load: send 100 requests via a simple script. Watch your dashboard update in real-time. Deliberately trigger some 500 errors and watch the error rate panel spike.</div></div>
+<p><strong>Objective:</strong> Instrument your API and build a Grafana dashboard that answers: is the system healthy right now?</p>
+<div class="lab-step"><div class="sn">1</div><div>Add prometheus-fastapi-instrumentator. Start your app + Prometheus in Docker Compose. Verify /metrics returns data.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add 3 custom metrics: llm_tokens_total (Counter), llm_call_duration_seconds (Histogram), active_agent_sessions (Gauge). Instrument your LLM calls to update them.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Open Grafana (localhost:3000). Add Prometheus as data source. Create a dashboard with 4 panels: request rate, error rate, p95 HTTP latency, LLM tokens/minute.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Generate load: send 100 requests via a simple script. Watch your dashboard update in real-time. Deliberately trigger some 500 errors and watch the error rate panel spike.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Structured Logs — Trace a Request</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Add correlation IDs and trace a single request through all your logs.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add CorrelationMiddleware that binds request_id and user_id to structlog context. Send a request and verify the JSON log includes both fields.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add log statements at 3 levels: middleware (request received), service (LLM called), endpoint (response sent). Verify all 3 logs share the same request_id.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Parse your JSONL log file with Python: group all log lines by request_id. For one specific request, print the full trace — every log event in order.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Find all requests with status=500 in your logs. Extract their request_ids. For each, reconstruct what happened leading up to the error using correlated logs.</div></div>
+<p><strong>Objective:</strong> Add correlation IDs and trace a single request through all your logs.</p>
+<div class="lab-step"><div class="sn">1</div><div>Add CorrelationMiddleware that binds request_id and user_id to structlog context. Send a request and verify the JSON log includes both fields.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add log statements at 3 levels: middleware (request received), service (LLM called), endpoint (response sent). Verify all 3 logs share the same request_id.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Parse your JSONL log file with Python: group all log lines by request_id. For one specific request, print the full trace — every log event in order.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Find all requests with status=500 in your logs. Extract their request_ids. For each, reconstruct what happened leading up to the error using correlated logs.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>API Key Lifecycle</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build and test the complete API key management lifecycle.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement create_user_api_key(), validate_api_key(), revoke_api_key(). Create 2 keys for the same user.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Make 5 API calls with key 1. Query the database and verify last_used updated correctly for key 1 but not key 2.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Revoke key 1. Verify subsequent API calls with key 1 return 403. Verify key 2 still works.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Try to reconstruct the raw key from the database hash. Verify it's impossible — only SHA-256 is stored. This is the key security property: even database access doesn't expose user keys.</div></div>
+<p><strong>Objective:</strong> Build and test the complete API key management lifecycle.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement create_user_api_key(), validate_api_key(), revoke_api_key(). Create 2 keys for the same user.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Make 5 API calls with key 1. Query the database and verify last_used updated correctly for key 1 but not key 2.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Revoke key 1. Verify subsequent API calls with key 1 return 403. Verify key 2 still works.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Try to reconstruct the raw key from the database hash. Verify it's impossible — only SHA-256 is stored. This is the key security property: even database access doesn't expose user keys.</div></div>
   </div>
 </div>
 </div><!-- end t8 -->

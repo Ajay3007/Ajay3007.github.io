@@ -64,11 +64,11 @@ url: /learning/dsa/bit-manipulation/
   <div class="mod-title">&#9881;&#65039; Bit Manipulation &amp; Masking</div>
   <div class="mod-subtitle">Binary representation · 6 operators · masking patterns · classic tricks · interview problems · systems flags</div>
   <div class="mod-pills">
-    <span class="mod-pill">Binary / Two's Complement</span>
-    <span class="mod-pill">AND · OR · XOR · NOT · Shifts</span>
-    <span class="mod-pill">Masking · Bitfields</span>
-    <span class="mod-pill">FAANG Patterns</span>
-    <span class="mod-pill">C / Java / C++</span>
+<span class="mod-pill">Binary / Two's Complement</span>
+<span class="mod-pill">AND · OR · XOR · NOT · Shifts</span>
+<span class="mod-pill">Masking · Bitfields</span>
+<span class="mod-pill">FAANG Patterns</span>
+<span class="mod-pill">C / Java / C++</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -394,7 +394,7 @@ Bit <em>i</em> = 1 means element <em>i</em> is <em>in</em> the set. Bit <em>i</e
 <span class="ck">int</span> all = (<span class="cn">1</span> &lt;&lt; <span class="cn">4</span>) - <span class="cn">1</span>; <span class="cm">// 0b1111 = {T0,T1,T2,T3} — full set</span>
 <span class="cm">// Iterate all non-empty subsets of set S (classic DP trick):</span>
 <span class="ck">for</span> (<span class="ck">int</span> sub = S; sub &gt; <span class="cn">0</span>; sub = (sub - <span class="cn">1</span>) &amp; S) {
-    <span class="cm">// process subset 'sub' — covers all 2^|S| non-empty subsets</span>
+<span class="cm">// process subset 'sub' — covers all 2^|S| non-empty subsets</span>
 }</div>
 <div class="note">📌 <strong>Subset enumeration:</strong> <code>sub = (sub−1) &amp; S</code> iterates all non-empty subsets of S efficiently. This is the cornerstone of bitmask DP for problems like TSP, task scheduling, and subset-sum variants.</div>
 </div><!-- /t-mask -->
@@ -412,7 +412,7 @@ Non-power (20): 0001 0100
           19:   0001 0011
           AND:  0001 0000 ← non-zero</div>
 <div class="cb"><span class="ck">bool</span> <span class="cf">isPow2</span>(<span class="ck">int</span> x) {
-    <span class="ck">return</span> x &gt; <span class="cn">0</span> &amp;&amp; (x &amp; (x-<span class="cn">1</span>)) == <span class="cn">0</span>;
+<span class="ck">return</span> x &gt; <span class="cn">0</span> &amp;&amp; (x &amp; (x-<span class="cn">1</span>)) == <span class="cn">0</span>;
 }</div>
 </div>
 <div class="pattern-card">
@@ -422,9 +422,9 @@ x-1   = 1011 0011  (borrow cascades up)
 x&(x-1)= 1011 0000  ← lowest set bit gone</div>
 <div class="cb"><span class="cm">// Brian Kernighan bit count</span>
 <span class="ck">int</span> <span class="cf">countBits</span>(<span class="ck">int</span> x) {
-    <span class="ck">int</span> c = <span class="cn">0</span>;
-    <span class="ck">while</span> (x) { x &amp;= (x-<span class="cn">1</span>); c++; }
-    <span class="ck">return</span> c;  <span class="cm">// O(set bits) not O(32)</span>
+<span class="ck">int</span> c = <span class="cn">0</span>;
+<span class="ck">while</span> (x) { x &amp;= (x-<span class="cn">1</span>); c++; }
+<span class="ck">return</span> c;  <span class="cm">// O(set bits) not O(32)</span>
 }</div>
 </div>
 </div>
@@ -449,7 +449,7 @@ Why: -x flips all bits above the lowest 1,
     x |= x &gt;&gt; <span class="cn">1</span>; x |= x &gt;&gt; <span class="cn">2</span>;
     x |= x &gt;&gt; <span class="cn">4</span>; x |= x &gt;&gt; <span class="cn">8</span>;
     x |= x &gt;&gt; <span class="cn">16</span>;
-    <span class="ck">return</span> x - (x &gt;&gt; <span class="cn">1</span>);
+<span class="ck">return</span> x - (x &gt;&gt; <span class="cn">1</span>);
 }</div>
 </div>
 </div>
@@ -490,12 +490,12 @@ x = 0b0101 1100  (92)
 After smearing: 0b0111 1111  (127)
 Add 1:          0b1000 0000  (128) ✓</div>
 <div class="cb"><span class="co">uint32_t</span> <span class="cf">nextPow2</span>(<span class="co">uint32_t</span> x) {
-    <span class="ck">if</span> (x == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">1</span>;
+<span class="ck">if</span> (x == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">1</span>;
     x--;               <span class="cm">// handle exact powers of 2</span>
     x |= x &gt;&gt; <span class="cn">1</span>;  x |= x &gt;&gt; <span class="cn">2</span>;
     x |= x &gt;&gt; <span class="cn">4</span>;  x |= x &gt;&gt; <span class="cn">8</span>;
     x |= x &gt;&gt; <span class="cn">16</span>;
-    <span class="ck">return</span> x + <span class="cn">1</span>;
+<span class="ck">return</span> x + <span class="cn">1</span>;
 }
 <span class="cm">// nextPow2(100)=128  nextPow2(128)=128  nextPow2(0)=1</span></div>
 </div>
@@ -523,7 +523,7 @@ COUNT set bits in range:
     n = ((n &amp; <span class="cn">0xF0F0F0F0</span>) &gt;&gt;  <span class="cn">4</span>) | ((n &amp; <span class="cn">0x0F0F0F0F</span>) &lt;&lt;  <span class="cn">4</span>); <span class="cm">// swap nibbles</span>
     n = ((n &amp; <span class="cn">0xCCCCCCCC</span>) &gt;&gt;  <span class="cn">2</span>) | ((n &amp; <span class="cn">0x33333333</span>) &lt;&lt;  <span class="cn">2</span>); <span class="cm">// swap pairs</span>
     n = ((n &amp; <span class="cn">0xAAAAAAAA</span>) &gt;&gt;  <span class="cn">1</span>) | ((n &amp; <span class="x55555555</span>) &lt;&lt;  <span class="cn">1</span>); <span class="cm">// swap bits</span>
-    <span class="ck">return</span> n;
+<span class="ck">return</span> n;
 }</div>
 <div class="p-teal">
 <h4>Strategy: Divide-and-Conquer Swap</h4>
@@ -535,9 +535,9 @@ Each level swaps progressively smaller chunks: 16-bit halves → 8-bit bytes →
 
 <span class="cm">// Gray code → Binary</span>
 <span class="ck">int</span> <span class="cf">fromGray</span>(<span class="ck">int</span> g) {
-    <span class="ck">int</span> n = <span class="cn">0</span>;
-    <span class="ck">for</span> (; g &gt; <span class="cn">0</span>; g &gt;&gt;= <span class="cn">1</span>) n ^= g;
-    <span class="ck">return</span> n;
+<span class="ck">int</span> n = <span class="cn">0</span>;
+<span class="ck">for</span> (; g &gt; <span class="cn">0</span>; g &gt;&gt;= <span class="cn">1</span>) n ^= g;
+<span class="ck">return</span> n;
 }</div>
 <div class="diagram-box">Gray Code — consecutive values differ by exactly 1 bit:
 Dec │ Binary │ Gray
@@ -585,11 +585,11 @@ Check Don't Fragment bit: df     = ntohs(ip-&gt;frag_off) &amp; 0x4000</div>
 <p class="sep">C BITFIELD STRUCTS vs EXPLICIT MASKS</p>
 <div class="cb"><span class="cm">// C bitfield struct — concise but NOT portable for network protocols</span>
 <span class="ck">struct</span> ipv4_hdr_bits {
-    <span class="co">uint32_t</span> ihl       : <span class="cn">4</span>;   <span class="cm">// bits 0-3</span>
-    <span class="co">uint32_t</span> version   : <span class="cn">4</span>;   <span class="cm">// bits 4-7</span>
-    <span class="co">uint32_t</span> ecn       : <span class="cn">2</span>;   <span class="cm">// bits 8-9</span>
-    <span class="co">uint32_t</span> dscp      : <span class="cn">6</span>;   <span class="cm">// bits 10-15</span>
-    <span class="co">uint32_t</span> total_len : <span class="cn">16</span>;  <span class="cm">// bits 16-31</span>
+<span class="co">uint32_t</span> ihl       : <span class="cn">4</span>;   <span class="cm">// bits 0-3</span>
+<span class="co">uint32_t</span> version   : <span class="cn">4</span>;   <span class="cm">// bits 4-7</span>
+<span class="co">uint32_t</span> ecn       : <span class="cn">2</span>;   <span class="cm">// bits 8-9</span>
+<span class="co">uint32_t</span> dscp      : <span class="cn">6</span>;   <span class="cm">// bits 10-15</span>
+<span class="co">uint32_t</span> total_len : <span class="cn">16</span>;  <span class="cm">// bits 16-31</span>
 };</div>
 <div class="warn">&#9888;&#65039; <strong>Portability trap:</strong> Bit ordering within bytes in C structs is compiler and architecture-dependent. For network protocol parsing, always prefer <strong>explicit bit manipulation with masks and shifts</strong> over bitfield structs. The struct version above is readable for documentation but unsafe for cross-platform packet parsing.</div>
 <p class="sep">TCP FLAGS FIELD</p>
@@ -664,44 +664,44 @@ tag = ((<span class="co">uint16_t</span>)pcp &lt;&lt; <span class="cn">13</span>
 Every element appears twice except one. XOR cancels pairs: <code>x^x=0</code>.
 </div>
 <div class="cb"><span class="ck">int</span> <span class="cf">singleNumber</span>(<span class="ck">int</span>[] nums) {
-    <span class="ck">int</span> result = <span class="cn">0</span>;
-    <span class="ck">for</span> (<span class="ck">int</span> n : nums) result ^= n;
-    <span class="ck">return</span> result;  <span class="cm">// O(n) time · O(1) space</span>
+<span class="ck">int</span> result = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="ck">int</span> n : nums) result ^= n;
+<span class="ck">return</span> result;  <span class="cm">// O(n) time · O(1) space</span>
 }</div>
 <div class="pattern-card">
 <h4>&#129504; Find Missing Number</h4>
 Array contains 0..n with one missing. XOR all indices with all values.
 </div>
 <div class="cb"><span class="ck">int</span> <span class="cf">missingNumber</span>(<span class="ck">int</span>[] nums) {
-    <span class="ck">int</span> xor = nums.length;  <span class="cm">// start with n</span>
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i &lt; nums.length; i++)
+<span class="ck">int</span> xor = nums.length;  <span class="cm">// start with n</span>
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i &lt; nums.length; i++)
         xor ^= i ^ nums[i];  <span class="cm">// paired indices and values cancel</span>
-    <span class="ck">return</span> xor;
+<span class="ck">return</span> xor;
 }</div>
 <div class="pattern-card">
 <h4>&#129504; Two Elements Appearing Once (others twice)</h4>
 XOR all → get x^y. Use rightmost differing bit to partition array into two groups.
 </div>
 <div class="cb"><span class="ck">int</span>[] <span class="cf">twoSingleNumbers</span>(<span class="ck">int</span>[] nums) {
-    <span class="ck">int</span> xorAll = <span class="cn">0</span>;
-    <span class="ck">for</span> (<span class="ck">int</span> n : nums) xorAll ^= n;       <span class="cm">// xorAll = x ^ y</span>
-    <span class="ck">int</span> diffBit = xorAll &amp; (-xorAll);     <span class="cm">// rightmost bit where x≠y</span>
-    <span class="ck">int</span> a = <span class="cn">0</span>, b = <span class="cn">0</span>;
-    <span class="ck">for</span> (<span class="ck">int</span> n : nums) {
-        <span class="ck">if</span> ((n &amp; diffBit) != <span class="cn">0</span>) a ^= n;  <span class="cm">// group with that bit set</span>
-        <span class="ck">else</span>                    b ^= n;  <span class="cm">// group without</span>
+<span class="ck">int</span> xorAll = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="ck">int</span> n : nums) xorAll ^= n;       <span class="cm">// xorAll = x ^ y</span>
+<span class="ck">int</span> diffBit = xorAll &amp; (-xorAll);     <span class="cm">// rightmost bit where x≠y</span>
+<span class="ck">int</span> a = <span class="cn">0</span>, b = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="ck">int</span> n : nums) {
+<span class="ck">if</span> ((n &amp; diffBit) != <span class="cn">0</span>) a ^= n;  <span class="cm">// group with that bit set</span>
+<span class="ck">else</span>                    b ^= n;  <span class="cm">// group without</span>
     }
-    <span class="ck">return</span> <span class="ck">new</span> <span class="ck">int</span>[]{a, b};
+<span class="ck">return</span> <span class="ck">new</span> <span class="ck">int</span>[]{a, b};
 }</div>
 <div class="pattern-card">
 <h4>&#129504; Count Bits for 0..n — LeetCode 338</h4>
 DP: <code>dp[i] = dp[i &gt;&gt; 1] + (i &amp; 1)</code>. Removes LSB and adds it back.
 </div>
 <div class="cb"><span class="ck">int</span>[] <span class="cf">countBits</span>(<span class="ck">int</span> n) {
-    <span class="ck">int</span>[] dp = <span class="ck">new</span> <span class="ck">int</span>[n + <span class="cn">1</span>];
-    <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">1</span>; i &lt;= n; i++)
+<span class="ck">int</span>[] dp = <span class="ck">new</span> <span class="ck">int</span>[n + <span class="cn">1</span>];
+<span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">1</span>; i &lt;= n; i++)
         dp[i] = dp[i &gt;&gt; <span class="cn">1</span>] + (i &amp; <span class="cn">1</span>);  <span class="cm">// O(n)</span>
-    <span class="ck">return</span> dp;
+<span class="ck">return</span> dp;
 }</div>
 <p class="sep">MORE INTERVIEW PATTERNS</p>
 <div class="pattern-card">
@@ -709,12 +709,12 @@ DP: <code>dp[i] = dp[i &gt;&gt; 1] + (i &amp; 1)</code>. Removes LSB and adds it
 XOR cancels pairs but not triplets. Use two variables (<code>ones</code>, <code>twos</code>) to track per-bit modulo-3 count. The single number accumulates in <code>ones</code>.
 </div>
 <div class="cb"><span class="ck">int</span> <span class="cf">singleNumberII</span>(<span class="ck">int</span>[] nums) {
-    <span class="ck">int</span> ones = <span class="cn">0</span>, twos = <span class="cn">0</span>;
-    <span class="ck">for</span> (<span class="ck">int</span> n : nums) {
+<span class="ck">int</span> ones = <span class="cn">0</span>, twos = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="ck">int</span> n : nums) {
         ones = (ones ^ n) &amp; ~twos;  <span class="cm">// add to ‘seen once’ if not in ‘seen twice’</span>
         twos = (twos ^ n) &amp; ~ones;  <span class="cm">// add to ‘seen twice’ if not in ‘seen once’</span>
     }
-    <span class="ck">return</span> ones;  <span class="cm">// bits that appeared exactly 1 time (mod 3)</span>
+<span class="ck">return</span> ones;  <span class="cm">// bits that appeared exactly 1 time (mod 3)</span>
 }</div>
 <div class="pattern-card">
 <h4>🧠 Hamming Distance — LeetCode 461 &amp; Total Hamming Distance LC 477</h4>
@@ -722,31 +722,31 @@ Number of positions where two values differ = popcount of their XOR.
 </div>
 <div class="cb"><span class="cm">// Single pair — O(1)</span>
 <span class="ck">int</span> <span class="cf">hammingDistance</span>(<span class="ck">int</span> x, <span class="ck">int</span> y) {
-    <span class="ck">return</span> <span class="cf">Integer.bitCount</span>(x ^ y);  <span class="cm">// Java; C: __builtin_popcount(x^y)</span>
+<span class="ck">return</span> <span class="cf">Integer.bitCount</span>(x ^ y);  <span class="cm">// Java; C: __builtin_popcount(x^y)</span>
 }
 
 <span class="cm">// Total Hamming distance across all pairs in array — O(32n)</span>
 <span class="ck">int</span> <span class="cf">totalHammingDistance</span>(<span class="ck">int</span>[] nums) {
-    <span class="ck">int</span> total = <span class="cn">0</span>;
-    <span class="ck">for</span> (<span class="ck">int</span> bit = <span class="cn">0</span>; bit &lt; <span class="cn">32</span>; bit++) {
-        <span class="ck">int</span> ones = <span class="cn">0</span>;
-        <span class="ck">for</span> (<span class="ck">int</span> n : nums) ones += (n &gt;&gt; bit) &amp; <span class="cn">1</span>;
+<span class="ck">int</span> total = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="ck">int</span> bit = <span class="cn">0</span>; bit &lt; <span class="cn">32</span>; bit++) {
+<span class="ck">int</span> ones = <span class="cn">0</span>;
+<span class="ck">for</span> (<span class="ck">int</span> n : nums) ones += (n &gt;&gt; bit) &amp; <span class="cn">1</span>;
         total += ones * (nums.length - ones); <span class="cm">// pairs that differ at this bit</span>
     }
-    <span class="ck">return</span> total;
+<span class="ck">return</span> total;
 }</div>
 <div class="pattern-card">
 <h4>🧠 Bitwise AND of Range [m, n] — LeetCode 201</h4>
 AND of all numbers in [m, n]. Any bit that flips across the range becomes 0. Only the common prefix of m and n survives.
 </div>
 <div class="cb"><span class="ck">int</span> <span class="cf">rangeBitwiseAnd</span>(<span class="ck">int</span> m, <span class="ck">int</span> n) {
-    <span class="ck">int</span> shift = <span class="cn">0</span>;
-    <span class="ck">while</span> (m != n) {   <span class="cm">// right-shift until equal = find common prefix</span>
+<span class="ck">int</span> shift = <span class="cn">0</span>;
+<span class="ck">while</span> (m != n) {   <span class="cm">// right-shift until equal = find common prefix</span>
         m &gt;&gt;= <span class="cn">1</span>;
         n &gt;&gt;= <span class="cn">1</span>;
         shift++;
     }
-    <span class="ck">return</span> m &lt;&lt; shift;  <span class="cm">// restore prefix to original bit position</span>
+<span class="ck">return</span> m &lt;&lt; shift;  <span class="cm">// restore prefix to original bit position</span>
 }
 <span class="cm">// Example: [5,7] = 101 &amp; 110 &amp; 111 = 100  → common prefix = 1, shift=2 → 4</span></div>
 </div><!-- /t-patterns -->
@@ -844,17 +844,17 @@ Example: A=64, ptr=0x1003
   Round up:  (0x1003 + 63) &amp; ~63 = 0x1042 &amp; 0xFFFFFFC0 = 0x1040</div>
 <div class="cb"><span class="cm">// Check if ptr is aligned to A (A must be power of 2)</span>
 <span class="ck">bool</span> isAligned(<span class="co">uintptr_t</span> ptr, <span class="ck">size_t</span> A) {
-    <span class="ck">return</span> (ptr &amp; (A - <span class="cn">1</span>)) == <span class="cn">0</span>;
+<span class="ck">return</span> (ptr &amp; (A - <span class="cn">1</span>)) == <span class="cn">0</span>;
 }
 
 <span class="cm">// Round address up to next multiple of A</span>
 <span class="co">uintptr_t</span> alignUp(<span class="co">uintptr_t</span> ptr, <span class="ck">size_t</span> A) {
-    <span class="ck">return</span> (ptr + A - <span class="cn">1</span>) &amp; ~(A - <span class="cn">1</span>);
+<span class="ck">return</span> (ptr + A - <span class="cn">1</span>) &amp; ~(A - <span class="cn">1</span>);
 }
 
 <span class="cm">// Round address down</span>
 <span class="co">uintptr_t</span> alignDown(<span class="co">uintptr_t</span> ptr, <span class="ck">size_t</span> A) {
-    <span class="ck">return</span> ptr &amp; ~(A - <span class="cn">1</span>);
+<span class="ck">return</span> ptr &amp; ~(A - <span class="cn">1</span>);
 }
 
 <span class="cm">// Verify at runtime:</span>
@@ -887,9 +887,9 @@ Used in checksums, error correction, set cardinality checks, and cryptography. H
 <span class="ck">int</span> cnt = <span class="cf">Integer.bitCount</span>(x);       <span class="cm">// Java</span>
 <span class="cm">// Brian Kernighan — O(set bits), no hardware needed</span>
 <span class="ck">int</span> <span class="cf">popcount</span>(<span class="co">uint32_t</span> x) {
-    <span class="ck">int</span> c = <span class="cn">0</span>;
-    <span class="ck">while</span> (x) { x &amp;= x - <span class="cn">1</span>; c++; }    <span class="cm">// clear lowest set bit each iteration</span>
-    <span class="ck">return</span> c;
+<span class="ck">int</span> c = <span class="cn">0</span>;
+<span class="ck">while</span> (x) { x &amp;= x - <span class="cn">1</span>; c++; }    <span class="cm">// clear lowest set bit each iteration</span>
+<span class="ck">return</span> c;
 }
 
 <span class="cm">// Parallel popcount — O(log bits), no loop</span>
@@ -897,7 +897,7 @@ Used in checksums, error correction, set cardinality checks, and cryptography. H
     x = x - ((x &gt;&gt; <span class="cn">1</span>) &amp; <span class="cn">0x55555555</span>);           <span class="cm">// count pairs</span>
     x = (x &amp; <span class="cn">0x33333333</span>) + ((x &gt;&gt; <span class="cn">2</span>) &amp; <span class="cn">0x33333333</span>); <span class="cm">// count nibbles</span>
     x = (x + (x &gt;&gt; <span class="cn">4</span>)) &amp; <span class="cn">0x0F0F0F0F</span>;             <span class="cm">// count bytes</span>
-    <span class="ck">return</span> (x * <span class="cn">0x01010101</span>) &gt;&gt; <span class="cn">24</span>;              <span class="cm">// sum all byte counts</span>
+<span class="ck">return</span> (x * <span class="cn">0x01010101</span>) &gt;&gt; <span class="cn">24</span>;              <span class="cm">// sum all byte counts</span>
 }</div>
 </div><!-- /t-arith -->
 <!-- TAB: Advanced -->
@@ -924,11 +924,11 @@ Answer:     dp[(1&lt;&lt;N)-1]  (full set)</div>
 <span class="ck">for</span> (<span class="ck">int</span>[] row : dp) <span class="cf">Arrays.fill</span>(row, <span class="cn">Integer.MAX_VALUE</span> / <span class="cn">2</span>);
 dp[<span class="cn">1</span>][<span class="cn">0</span>] = <span class="cn">0</span>;  <span class="cm">// start at node 0, mask = 0b0001</span>
 <span class="ck">for</span> (<span class="ck">int</span> mask = <span class="cn">1</span>; mask &lt; (<span class="cn">1</span> &lt;&lt; N); mask++) {
-    <span class="ck">for</span> (<span class="ck">int</span> u = <span class="cn">0</span>; u &lt; N; u++) {
-        <span class="ck">if</span> ((mask &amp; (<span class="cn">1</span> &lt;&lt; u)) == <span class="cn">0</span>) <span class="ck">continue</span>;  <span class="cm">// u not in mask</span>
-        <span class="ck">for</span> (<span class="ck">int</span> v = <span class="cn">0</span>; v &lt; N; v++) {
-            <span class="ck">if</span> ((mask &amp; (<span class="cn">1</span> &lt;&lt; v)) != <span class="cn">0</span>) <span class="ck">continue</span>; <span class="cm">// v already visited</span>
-            <span class="ck">int</span> newmask = mask | (<span class="cn">1</span> &lt;&lt; v);
+<span class="ck">for</span> (<span class="ck">int</span> u = <span class="cn">0</span>; u &lt; N; u++) {
+<span class="ck">if</span> ((mask &amp; (<span class="cn">1</span> &lt;&lt; u)) == <span class="cn">0</span>) <span class="ck">continue</span>;  <span class="cm">// u not in mask</span>
+<span class="ck">for</span> (<span class="ck">int</span> v = <span class="cn">0</span>; v &lt; N; v++) {
+<span class="ck">if</span> ((mask &amp; (<span class="cn">1</span> &lt;&lt; v)) != <span class="cn">0</span>) <span class="ck">continue</span>; <span class="cm">// v already visited</span>
+<span class="ck">int</span> newmask = mask | (<span class="cn">1</span> &lt;&lt; v);
             dp[newmask][v] = <span class="cf">Math.min</span>(dp[newmask][v], dp[mask][u] + dist[u][v]);
         }
     }
@@ -951,11 +951,11 @@ Mask 0x7F7F7F7F7F7F7F7F:
   Clear the MSB of every byte (guard bit)
   Allows carry within each byte but blocks inter-byte carry propagation</div>
 <div class="cb"><span class="co">uint64_t</span> <span class="cf">swar_add1_to_each_byte</span>(<span class="co">uint64_t</span> v) {
-    <span class="cm">// Add 1 to each byte field without inter-byte carry</span>
-    <span class="co">uint64_t</span> lo = v &amp; <span class="cn">0x7F7F7F7F7F7F7F7FULL</span>;  <span class="cm">// clear MSB of each byte</span>
+<span class="cm">// Add 1 to each byte field without inter-byte carry</span>
+<span class="co">uint64_t</span> lo = v &amp; <span class="cn">0x7F7F7F7F7F7F7F7FULL</span>;  <span class="cm">// clear MSB of each byte</span>
     lo = lo + <span class="cn">0x0101010101010101ULL</span>;           <span class="cm">// add 1 to each byte (no overflow into guard)</span>
-    <span class="co">uint64_t</span> hi = (v ^ lo) &amp; <span class="cn">0x8080808080808080ULL</span>; <span class="cm">// recover original MSBs</span>
-    <span class="ck">return</span> lo | hi;
+<span class="co">uint64_t</span> hi = (v ^ lo) &amp; <span class="cn">0x8080808080808080ULL</span>; <span class="cm">// recover original MSBs</span>
+<span class="ck">return</span> lo | hi;
 }
 
 <span class="cm">// Population count via SWAR (classic Hacker's Delight)</span>
@@ -963,7 +963,7 @@ Mask 0x7F7F7F7F7F7F7F7F:
     x = x - ((x &gt;&gt; <span class="cn">1</span>) &amp; <span class="cn">0x5555555555555555ULL</span>);
     x = (x &amp; <span class="cn">0x3333333333333333ULL</span>) + ((x &gt;&gt; <span class="cn">2</span>) &amp; <span class="cn">0x3333333333333333ULL</span>);
     x = (x + (x &gt;&gt; <span class="cn">4</span>)) &amp; <span class="cn">0x0F0F0F0F0F0F0F0FULL</span>;
-    <span class="ck">return</span> (x * <span class="cn">0x0101010101010101ULL</span>) &gt;&gt; <span class="cn">56</span>;
+<span class="ck">return</span> (x * <span class="cn">0x0101010101010101ULL</span>) &gt;&gt; <span class="cn">56</span>;
 }</div>
 <div class="note">📌 SWAR is used in high-performance parsers, DPDK, network classification engines, and wherever vectorized operations are needed without SIMD intrinsics. The key discipline: choose masks so the "guard bit" pattern prevents fields from bleeding into each other.</div>
 </div><!-- /t-advanced -->

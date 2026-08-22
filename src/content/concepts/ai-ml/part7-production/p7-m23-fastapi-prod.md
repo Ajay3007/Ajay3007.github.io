@@ -91,10 +91,10 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
   <div class="mod-title">FastAPI Production Patterns</div>
   <div class="mod-subtitle">Structure, middleware, dependency injection, and async patterns for AI-powered APIs</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 FastAPI · Pydantic v2 · uvicorn · gunicorn</span>
-    <span class="mod-pill">📋 Prerequisite: P4-M14</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 FastAPI · Pydantic v2 · uvicorn · gunicorn</span>
+<span class="mod-pill">📋 Prerequisite: P4-M14</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -115,15 +115,15 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-navy">Part 7 Start</span></div>
   <div class="cp-body">
-    <p>Parts 1–6 taught you to build AI systems. Part 7 teaches you to ship them. FastAPI is the standard Python framework for AI APIs — it is async-native, type-safe, and generates OpenAPI docs automatically. This module covers the production patterns that take a working FastAPI app to a deployable service.</p>
-    <ul>
-      <li><strong>App structure</strong> — routers, lifespan events, settings, project layout for production</li>
-      <li><strong>Dependency injection</strong> — sharing LLM clients, DB connections, and config across endpoints</li>
-      <li><strong>Middleware</strong> — request logging, rate limiting, CORS, error handling</li>
-      <li><strong>Async patterns</strong> — background tasks, concurrent requests, avoiding blocking calls</li>
-      <li><strong>Authentication</strong> — API key validation, JWT tokens, per-user rate limiting</li>
-      <li><strong>Deployment</strong> — uvicorn + gunicorn, health checks, graceful shutdown</li>
-    </ul>
+<p>Parts 1–6 taught you to build AI systems. Part 7 teaches you to ship them. FastAPI is the standard Python framework for AI APIs — it is async-native, type-safe, and generates OpenAPI docs automatically. This module covers the production patterns that take a working FastAPI app to a deployable service.</p>
+<ul>
+<li><strong>App structure</strong> — routers, lifespan events, settings, project layout for production</li>
+<li><strong>Dependency injection</strong> — sharing LLM clients, DB connections, and config across endpoints</li>
+<li><strong>Middleware</strong> — request logging, rate limiting, CORS, error handling</li>
+<li><strong>Async patterns</strong> — background tasks, concurrent requests, avoiding blocking calls</li>
+<li><strong>Authentication</strong> — API key validation, JWT tokens, per-user rate limiting</li>
+<li><strong>Deployment</strong> — uvicorn + gunicorn, health checks, graceful shutdown</li>
+</ul>
   </div>
 </div>
 </div>
@@ -132,69 +132,76 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🏗</span><h3>Production App Structure</h3><span class="tag tag-navy">Layout</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Production FastAPI project layout</span>
-<span class="ck">#</span>
-<span class="ck"># app/</span>
-<span class="ck"># ├── main.py          ← app factory, lifespan, mount routers</span>
-<span class="ck"># ├── config.py        ← settings from environment variables</span>
-<span class="ck"># ├── dependencies.py  ← shared clients (LLM, DB, cache)</span>
-<span class="ck"># ├── middleware.py     ← logging, rate limiting, CORS</span>
-<span class="ck"># ├── routers/</span>
-<span class="ck"># │   ├── chat.py      ← /chat endpoints</span>
-<span class="ck"># │   ├── rag.py       ← /search, /ask endpoints</span>
-<span class="ck"># │   └── admin.py     ← /health, /metrics</span>
-<span class="ck"># ├── models/</span>
-<span class="ck"># │   ├── requests.py  ← Pydantic request models</span>
-<span class="ck"># │   └── responses.py ← Pydantic response models</span>
-<span class="ck"># └── services/</span>
-<span class="ck">#     ├── llm.py       ← LLM call wrappers</span>
-<span class="ck">#     └── rag.py       ← retrieval pipeline</span>
-<span class="ck"># config.py — all settings from environment</span>
+    
+
+```python
+# Production FastAPI project layout
+#
+# app/
+# ├── main.py          ← app factory, lifespan, mount routers
+# ├── config.py        ← settings from environment variables
+# ├── dependencies.py  ← shared clients (LLM, DB, cache)
+# ├── middleware.py     ← logging, rate limiting, CORS
+# ├── routers/
+# │   ├── chat.py      ← /chat endpoints
+# │   ├── rag.py       ← /search, /ask endpoints
+# │   └── admin.py     ← /health, /metrics
+# ├── models/
+# │   ├── requests.py  ← Pydantic request models
+# │   └── responses.py ← Pydantic response models
+# └── services/
+#     ├── llm.py       ← LLM call wrappers
+#     └── rag.py       ← retrieval pipeline
+
+# config.py — all settings from environment
 from pydantic_settings import BaseSettings
 from functools import lru_cache
- 
+
 class Settings(BaseSettings):
     anthropic_api_key: str
-    openai_api_key:    str = <span class="cs">""</span>
-    database_url:      str = <span class="cs">"sqlite:///./app.db"</span>
-    redis_url:         str = <span class="cs">"redis://localhost:6379"</span>
-    api_key_secret:    str = <span class="cs">"change-me-in-production"</span>
-    max_requests_per_minute: int = <span class="cv">60</span>
-    environment:       str = <span class="cs">"development"</span>
- 
+    openai_api_key:    str = ""
+    database_url:      str = "sqlite:///./app.db"
+    redis_url:         str = "redis://localhost:6379"
+    api_key_secret:    str = "change-me-in-production"
+    max_requests_per_minute: int = 60
+    environment:       str = "development"
+
     class Config:
-        env_file = <span class="cs">".env"</span>
- 
+        env_file = ".env"
+
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
- 
-<span class="ck"># main.py — app factory with lifespan</span>
+
+# main.py — app factory with lifespan
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 import anthropic, chromadb
- 
+
 app_state = {}
- 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    <span class="ck"># Startup: initialise shared resources once</span>
+    # Startup: initialise shared resources once
     settings = get_settings()
-    app_state[<span class="cs">"llm_client"</span>]  = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
-    app_state[<span class="cs">"vector_db"</span>]   = chromadb.PersistentClient(path=<span class="cs">"./chroma_db"</span>)
-    print(<span class="cs">"✓ App started"</span>)
+    app_state["llm_client"]  = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
+    app_state["vector_db"]   = chromadb.PersistentClient(path="./chroma_db")
+    print("✓ App started")
     yield
-    <span class="ck"># Shutdown: clean up</span>
-    await app_state[<span class="cs">"llm_client"</span>].close()
-    print(<span class="cs">"✓ App stopped"</span>)
- 
-app = FastAPI(title=<span class="cs">"AI API"</span>, version=<span class="cs">"1.0.0"</span>, lifespan=lifespan)
- 
-<span class="ck"># Mount routers</span>
+    # Shutdown: clean up
+    await app_state["llm_client"].close()
+    print("✓ App stopped")
+
+app = FastAPI(title="AI API", version="1.0.0", lifespan=lifespan)
+
+# Mount routers
 from routers import chat, rag, admin
-app.include_router(chat.router,  prefix=<span class="cs">"/chat"</span>,  tags=[<span class="cs">"chat"</span>])
-app.include_router(rag.router,   prefix=<span class="cs">"/rag"</span>,   tags=[<span class="cs">"rag"</span>])
-app.include_router(admin.router, prefix=<span class="cs">"/admin"</span>, tags=[<span class="cs">"admin"</span>])</pre></div>
+app.include_router(chat.router,  prefix="/chat",  tags=["chat"])
+app.include_router(rag.router,   prefix="/rag",   tags=["rag"])
+app.include_router(admin.router, prefix="/admin", tags=["admin"])
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -203,63 +210,69 @@ app.include_router(admin.router, prefix=<span class="cs">"/admin"</span>, tags=[
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Dependency Injection — Share Without Global State</h3><span class="tag tag-navy">Core Pattern</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from fastapi import Depends, Request
+    
+
+```python
+from fastapi import Depends, Request
 import anthropic
- 
-<span class="ck"># dependencies.py — all shared resource providers</span>
- 
+
+# dependencies.py — all shared resource providers
+
 def get_llm_client(request: Request) -> anthropic.AsyncAnthropic:
     """Provide the shared LLM client initialised at startup."""
-    return request.app.state.llm_client   <span class="ck"># stored in lifespan</span>
- 
+    return request.app.state.llm_client   # stored in lifespan
+
 def get_settings_dep() -> Settings:
     return get_settings()
- 
+
 def get_vector_db(request: Request):
     return request.app.state.vector_db
- 
-<span class="ck"># Alternative: use app_state dict from lifespan</span>
+
+# Alternative: use app_state dict from lifespan
 def get_llm(request: Request) -> anthropic.AsyncAnthropic:
-    return app_state[<span class="cs">"llm_client"</span>]
- 
-<span class="ck"># In routers — inject dependencies cleanly</span>
+    return app_state["llm_client"]
+
+# In routers — inject dependencies cleanly
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Annotated
- 
+
 router = APIRouter()
- 
+
 class ChatRequest(BaseModel):
     message:    str
-    session_id: str = <span class="cs">""</span>
-    max_tokens: int = <span class="cv">1024</span>
- 
+    session_id: str = ""
+    max_tokens: int = 1024
+
 class ChatResponse(BaseModel):
     reply:      str
     session_id: str
     tokens_used: int
- 
-<span class="ck"># Type-aliased dependency for cleaner signatures</span>
+
+# Type-aliased dependency for cleaner signatures
 LLMDep      = Annotated[anthropic.AsyncAnthropic, Depends(get_llm_client)]
 SettingsDep = Annotated[Settings, Depends(get_settings_dep)]
- 
-@router.post(<span class="cs">"/message"</span>, response_model=ChatResponse)
+
+@router.post("/message", response_model=ChatResponse)
 async def send_message(
     request: ChatRequest,
-    client:  LLMDep,         <span class="ck"># injected — no global state</span>
-    settings: SettingsDep,   <span class="ck"># injected — type-safe settings</span>
+    client:  LLMDep,         # injected — no global state
+    settings: SettingsDep,   # injected — type-safe settings
 ) -> ChatResponse:
     response = await client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
+        model="claude-3-5-sonnet-20241022",
         max_tokens=request.max_tokens,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: request.message}]
+        messages=[{"role": "user", "content": request.message}]
     )
     return ChatResponse(
-        reply=response.content[<span class="cv">0</span>].text,
-        session_id=request.session_id or <span class="cs">"anon"</span>,
+        reply=response.content[0].text,
+        session_id=request.session_id or "anon",
         tokens_used=response.usage.input_tokens + response.usage.output_tokens
-    )</pre></div>
-    <div class="ins"><p>💡 <strong>Never create LLM clients inside endpoint functions.</strong> Creating a new <code>anthropic.AsyncAnthropic()</code> on every request means creating a new HTTP connection pool on every request — a significant performance penalty. Always initialise clients once at startup via lifespan and share via dependency injection.</p></div>
+    )
+```
+
+
+<div class="ins"><p>💡 <strong>Never create LLM clients inside endpoint functions.</strong> Creating a new <code>anthropic.AsyncAnthropic()</code> on every request means creating a new HTTP connection pool on every request — a significant performance penalty. Always initialise clients once at startup via lifespan and share via dependency injection.</p></div>
   </div>
 </div>
 </div><!-- end t2 -->
@@ -268,84 +281,90 @@ async def send_message(
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🛡</span><h3>Middleware — Request Lifecycle Hooks</h3><span class="tag tag-navy">Cross-Cutting</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from fastapi import FastAPI, Request, Response
+    
+
+```python
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 import time, uuid, structlog
- 
+
 logger = structlog.get_logger()
- 
-<span class="ck"># ── 1. Request ID + Timing middleware ─────────────────</span>
+
+# ── 1. Request ID + Timing middleware ─────────────────
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         request_id = str(uuid.uuid4())[:8]
         start      = time.perf_counter()
- 
-        <span class="ck"># Attach request_id to context for all logs in this request</span>
+
+        # Attach request_id to context for all logs in this request
         structlog.contextvars.bind_contextvars(request_id=request_id)
- 
+
         response = await call_next(request)
- 
-        elapsed = round((time.perf_counter() - start) * <span class="cv">1000</span>, <span class="cv">1</span>)
-        logger.info(<span class="cs">"http_request"</span>,
+
+        elapsed = round((time.perf_counter() - start) * 1000, 1)
+        logger.info("http_request",
                     method=request.method,
                     path=request.url.path,
                     status=response.status_code,
                     latency_ms=elapsed,
                     request_id=request_id)
- 
-        response.headers[<span class="cs">"X-Request-ID"</span>] = request_id
+
+        response.headers["X-Request-ID"] = request_id
         structlog.contextvars.clear_contextvars()
         return response
- 
-<span class="ck"># ── 2. Rate limiting middleware ───────────────────────</span>
+
+# ── 2. Rate limiting middleware ───────────────────────
 import asyncio
 from collections import defaultdict
- 
+
 class RateLimitMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, calls_per_minute: int = <span class="cv">60</span>):
+    def __init__(self, app, calls_per_minute: int = 60):
         super().__init__(app)
         self.calls_per_minute = calls_per_minute
         self._counts: dict[str, list] = defaultdict(list)
- 
+
     def _get_client_id(self, request: Request) -> str:
-        return request.headers.get(<span class="cs">"X-API-Key"</span>, request.client.host)
- 
+        return request.headers.get("X-API-Key", request.client.host)
+
     async def dispatch(self, request: Request, call_next) -> Response:
         client_id = self._get_client_id(request)
         now       = time.time()
-        window    = [t for t in self._counts[client_id] if now - t < <span class="cv">60</span>]
- 
+        window    = [t for t in self._counts[client_id] if now - t 60]
+
         if len(window) >= self.calls_per_minute:
             return Response(
-                content=<span class="cs">'{"detail":"Rate limit exceeded. Try again in 60 seconds."}',
+                content='{"detail":"Rate limit exceeded. Try again in 60 seconds."}',
                 status_code=429,
-                headers={</span><span class="cs">"Retry-After"</span>: <span class="cs">"60"</span>,
-                         <span class="cs">"Content-Type"</span>: <span class="cs">"application/json"</span>}
+                headers={"Retry-After": "60",
+                         "Content-Type": "application/json"}
             )
         self._counts[client_id] = window + [now]
         return await call_next(request)
- 
-<span class="ck"># ── 3. Global exception handler ───────────────────────</span>
+
+# ── 3. Global exception handler ───────────────────────
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
- 
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    logger.error(<span class="cs">"unhandled_exception"</span>, path=request.url.path, error=str(exc))
+    logger.error("unhandled_exception", path=request.url.path, error=str(exc))
     return JSONResponse(
-        status_code=<span class="cv">500</span>,
-        content={<span class="cs">"detail"</span>: <span class="cs">"Internal server error"</span>,
-                 <span class="cs">"request_id"</span>: request.headers.get(<span class="cs">"X-Request-ID"</span>)}
+        status_code=500,
+        content={"detail": "Internal server error",
+                 "request_id": request.headers.get("X-Request-ID")}
     )
- 
-<span class="ck"># ── Register all middleware ────────────────────────────</span>
+
+# ── Register all middleware ────────────────────────────
 app.add_middleware(RequestLoggingMiddleware)
-app.add_middleware(RateLimitMiddleware, calls_per_minute=<span class="cv">60</span>)
+app.add_middleware(RateLimitMiddleware, calls_per_minute=60)
 app.add_middleware(CORSMiddleware,
-    allow_origins=[<span class="cs">"https://yourdomain.com"</span>],   <span class="ck"># never "*" in production</span>
-    allow_methods=[<span class="cs">"GET"</span>, <span class="cs">"POST"</span>],
-    allow_headers=[<span class="cs">"*"</span>])</pre></div>
+    allow_origins=["https://yourdomain.com"],   # never "*" in production
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"])
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -354,64 +373,71 @@ app.add_middleware(CORSMiddleware,
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Async Patterns for AI APIs</h3><span class="tag tag-navy">Performance</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from fastapi import BackgroundTasks
+    
+
+```python
+from fastapi import BackgroundTasks
 import asyncio
- 
-<span class="ck"># ── Background tasks — fire and forget ───────────────</span>
-<span class="ck"># Use for: logging, analytics, cache warming, notifications</span>
-<span class="ck"># Do NOT use for: work the user needs to see in the response</span>
- 
+
+# ── Background tasks — fire and forget ───────────────
+# Use for: logging, analytics, cache warming, notifications
+# Do NOT use for: work the user needs to see in the response
+
 async def log_usage_async(user_id: str, tokens: int, cost: float):
     """Run after response is sent — user doesn't wait for this."""
-    await asyncio.sleep(<span class="cv">0</span>)   <span class="ck"># yield to event loop</span>
+    await asyncio.sleep(0)   # yield to event loop
     await db.insert_usage(user_id, tokens, cost)
- 
-@router.post(<span class="cs">"/chat"</span>)
+
+@router.post("/chat")
 async def chat_with_logging(
     request: ChatRequest,
     background_tasks: BackgroundTasks,
     client: LLMDep
 ):
     response = await client.messages.create(...)
-    reply    = response.content[<span class="cv">0</span>].text
- 
-    <span class="ck"># Schedule logging AFTER response is sent</span>
+    reply    = response.content[0].text
+
+    # Schedule logging AFTER response is sent
     background_tasks.add_task(
         log_usage_async,
         user_id=request.session_id,
         tokens=response.usage.output_tokens,
-        cost=response.usage.output_tokens * <span class="cv">15e-6</span>
+        cost=response.usage.output_tokens * 15e-6
     )
-    return {<span class="cs">"reply"</span>: reply}   <span class="ck"># returned immediately; logging runs after</span>
-<span class="ck"># ── Never block the event loop ────────────────────────</span>
+    return {"reply": reply}   # returned immediately; logging runs after
+
+# ── Never block the event loop ────────────────────────
 import asyncio
- 
-<span class="ck"># BAD: blocks the entire event loop — other requests wait</span>
-@router.get(<span class="cs">"/bad"</span>)
+
+# BAD: blocks the entire event loop — other requests wait
+@router.get("/bad")
 async def bad_endpoint():
     import time
-    time.sleep(<span class="cv">5</span>)   <span class="ck"># blocks! no other requests can run during this</span>
-    return {<span class="cs">"ok"</span>: <span class="cv">True</span>}
- 
-<span class="ck"># GOOD: yields to event loop</span>
-@router.get(<span class="cs">"/good"</span>)
+    time.sleep(5)   # blocks! no other requests can run during this
+    return {"ok": True}
+
+# GOOD: yields to event loop
+@router.get("/good")
 async def good_endpoint():
-    await asyncio.sleep(<span class="cv">5</span>)   <span class="ck"># other requests run while waiting</span>
-    return {<span class="cs">"ok"</span>: <span class="cv">True</span>}
- 
-<span class="ck"># For CPU-bound work: run in thread pool</span>
+    await asyncio.sleep(5)   # other requests run while waiting
+    return {"ok": True}
+
+# For CPU-bound work: run in thread pool
 import functools
- 
-@router.post(<span class="cs">"/embed"</span>)
+
+@router.post("/embed")
 async def embed_text(text: str):
     loop  = asyncio.get_event_loop()
-    <span class="ck"># Run sync embedding model in thread pool — doesn't block event loop</span>
+    # Run sync embedding model in thread pool — doesn't block event loop
     embed = await loop.run_in_executor(
         None,
         functools.partial(sync_embedding_model.encode, text)
     )
-    return {<span class="cs">"embedding"</span>: embed.tolist()}</pre></div>
-    <div class="warn"><p>⚠️ <strong>Every <code>time.sleep()</code>, synchronous DB call, or CPU-heavy operation inside an <code>async def</code> blocks the entire FastAPI event loop.</strong> While your endpoint sleeps, every other concurrent request waits. Use <code>asyncio.sleep()</code> for delays, <code>run_in_executor()</code> for CPU work, and async DB drivers (asyncpg, motor) for database calls.</p></div>
+    return {"embedding": embed.tolist()}
+```
+
+
+<div class="warn"><p>⚠️ <strong>Every <code>time.sleep()</code>, synchronous DB call, or CPU-heavy operation inside an <code>async def</code> blocks the entire FastAPI event loop.</strong> While your endpoint sleeps, every other concurrent request waits. Use <code>asyncio.sleep()</code> for delays, <code>run_in_executor()</code> for CPU work, and async DB drivers (asyncpg, motor) for database calls.</p></div>
   </div>
 </div>
 </div><!-- end t4 -->
@@ -420,57 +446,63 @@ async def embed_text(text: str):
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>Authentication — API Keys and JWT</h3><span class="tag tag-navy">Security</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from fastapi import Security, HTTPException, status
+    
+
+```python
+from fastapi import Security, HTTPException, status
 from fastapi.security import APIKeyHeader
 import secrets, hashlib
- 
-API_KEY_HEADER = APIKeyHeader(name=<span class="cs">"X-API-Key"</span>, auto_error=<span class="cv">False</span>)
- 
-<span class="ck"># ── Simple API key validation ─────────────────────────</span>
-VALID_KEYS = {  <span class="ck"># in prod, store hashed keys in DB</span>
-    hashlib.sha256(<span class="cs">"sk-dev-key-1"</span>.encode()).hexdigest(): {<span class="cs">"user_id"</span>: <span class="cs">"user_1"</span>, <span class="cs">"tier"</span>: <span class="cs">"free"</span>},
-    hashlib.sha256(<span class="cs">"sk-prod-key-1"</span>.encode()).hexdigest(): {<span class="cs">"user_id"</span>: <span class="cs">"user_2"</span>, <span class="cs">"tier"</span>: <span class="cs">"pro"</span>},
+
+API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+# ── Simple API key validation ─────────────────────────
+VALID_KEYS = {  # in prod, store hashed keys in DB
+    hashlib.sha256("sk-dev-key-1".encode()).hexdigest(): {"user_id": "user_1", "tier": "free"},
+    hashlib.sha256("sk-prod-key-1".encode()).hexdigest(): {"user_id": "user_2", "tier": "pro"},
 }
- 
+
 async def require_api_key(api_key: str = Security(API_KEY_HEADER)):
     if not api_key:
-        raise HTTPException(status_code=<span class="cv">401</span>, detail=<span class="cs">"API key required"</span>)
+        raise HTTPException(status_code=401, detail="API key required")
     key_hash = hashlib.sha256(api_key.encode()).hexdigest()
     user = VALID_KEYS.get(key_hash)
     if not user:
-        raise HTTPException(status_code=<span class="cv">403</span>, detail=<span class="cs">"Invalid API key"</span>)
+        raise HTTPException(status_code=403, detail="Invalid API key")
     return user
- 
-<span class="ck"># Type alias for clean signatures</span>
+
+# Type alias for clean signatures
 AuthUser = Annotated[dict, Security(require_api_key)]
- 
-@router.post(<span class="cs">"/ask"</span>)
+
+@router.post("/ask")
 async def ask(request: RAGRequest, user: AuthUser, client: LLMDep):
-    <span class="ck"># user = {"user_id": "user_2", "tier": "pro"}</span>
-    if user[<span class="cs">"tier"</span>] == <span class="cs">"free"</span> and len(request.question) > <span class="cv">500</span>:
-        raise HTTPException(status_code=<span class="cv">402</span>, detail=<span class="cs">"Upgrade to Pro for longer questions"</span>)
+    # user = {"user_id": "user_2", "tier": "pro"}
+    if user["tier"] == "free" and len(request.question) > 500:
+        raise HTTPException(status_code=402, detail="Upgrade to Pro for longer questions")
     ...
- 
-<span class="ck"># ── JWT with python-jose ──────────────────────────────</span>
+
+# ── JWT with python-jose ──────────────────────────────
 pip install python-jose[cryptography]
- 
+
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
- 
-SECRET_KEY = <span class="cs">"your-256-bit-secret"</span>   <span class="ck"># from environment in prod</span>
-ALGORITHM  = <span class="cs">"HS256"</span>
- 
-def create_access_token(user_id: str, expires_minutes: int = <span class="cv">60</span>) -> str:
-    payload = {<span class="cs">"sub"</span>: user_id,
-               <span class="cs">"exp"</span>: datetime.utcnow() + timedelta(minutes=expires_minutes)}
+
+SECRET_KEY = "your-256-bit-secret"   # from environment in prod
+ALGORITHM  = "HS256"
+
+def create_access_token(user_id: str, expires_minutes: int = 60) -> str:
+    payload = {"sub": user_id,
+               "exp": datetime.utcnow() + timedelta(minutes=expires_minutes)}
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
- 
+
 async def get_current_user_jwt(token: str = Security(oauth2_scheme)) -> str:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload[<span class="cs">"sub"</span>]
+        return payload["sub"]
     except JWTError:
-        raise HTTPException(status_code=<span class="cv">401</span>, detail=<span class="cs">"Invalid or expired token"</span>)</pre></div>
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -479,46 +511,53 @@ async def get_current_user_jwt(token: str = Security(oauth2_scheme)) -> str:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>Deployment — uvicorn + gunicorn + Health Checks</h3><span class="tag tag-navy">Ship It</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># ── Development server ────────────────────────────────</span>
+    
+
+```python
+# ── Development server ────────────────────────────────
 uvicorn app.main:app --reload --port 8000
- 
-<span class="ck"># ── Production: gunicorn manages uvicorn workers ──────</span>
-<span class="ck"># workers = (2 × CPU cores) + 1 is the standard formula</span>
+
+# ── Production: gunicorn manages uvicorn workers ──────
+# workers = (2 × CPU cores) + 1 is the standard formula
 gunicorn app.main:app   --worker-class uvicorn.workers.UvicornWorker   --workers 4   --bind 0.0.0.0:8000   --timeout 120   --graceful-timeout 30   --access-logfile -   --error-logfile -
- 
-<span class="ck"># ── Health check endpoints ────────────────────────────</span>
-<span class="ck"># /health — fast liveness check (load balancer uses this)</span>
-<span class="ck"># /ready  — readiness check (DB connected, model loaded)</span>
- 
-@router.get(<span class="cs">"/health"</span>)
+
+# ── Health check endpoints ────────────────────────────
+# /health — fast liveness check (load balancer uses this)
+# /ready  — readiness check (DB connected, model loaded)
+
+@router.get("/health")
 async def health():
-    return {<span class="cs">"status"</span>: <span class="cs">"ok"</span>, <span class="cs">"timestamp"</span>: datetime.utcnow().isoformat()}
- 
-@router.get(<span class="cs">"/ready"</span>)
+    return {"status": "ok", "timestamp": datetime.utcnow().isoformat()}
+
+@router.get("/ready")
 async def readiness(client: LLMDep, request: Request):
     checks = {}
-    <span class="ck"># Check LLM API reachable</span>
+    # Check LLM API reachable
     try:
         await client.messages.count_tokens(
-            model=<span class="cs">"claude-3-haiku-20240307"</span>,
-            messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"ping"</span>}]
+            model="claude-3-haiku-20240307",
+            messages=[{"role": "user", "content": "ping"}]
         )
-        checks[<span class="cs">"llm"</span>] = <span class="cs">"ok"</span>
+        checks["llm"] = "ok"
     except Exception as e:
-        checks[<span class="cs">"llm"</span>] = <span class="cs">f"error: {e}"</span>
-    <span class="ck"># Check vector DB</span>
+        checks["llm"] = f"error: {e}"
+
+    # Check vector DB
     try:
         vdb = request.app.state.vector_db
         vdb.heartbeat()
-        checks[<span class="cs">"vector_db"</span>] = <span class="cs">"ok"</span>
+        checks["vector_db"] = "ok"
     except Exception as e:
-        checks[<span class="cs">"vector_db"</span>] = <span class="cs">f"error: {e}"</span>
- 
-    all_ok = all(v == <span class="cs">"ok"</span> for v in checks.values())
+        checks["vector_db"] = f"error: {e}"
+
+    all_ok = all(v == "ok" for v in checks.values())
     return JSONResponse(
-        status_code=<span class="cv">200</span> if all_ok else <span class="cv">503</span>,
-        content={<span class="cs">"status"</span>: <span class="cs">"ready"</span> if all_ok else <span class="cs">"degraded"</span>, <span class="cs">"checks"</span>: checks}
-    )</pre></div>
+        status_code=200 if all_ok else 503,
+        content={"status": "ready" if all_ok else "degraded", "checks": checks}
+    )
+```
+
+
   </div>
 </div>
 </div><!-- end t6 -->
@@ -528,10 +567,10 @@ async def readiness(client: LLMDep, request: Request):
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://fastapi.tiangolo.com/tutorial/bigger-applications/" target="_blank" rel="noopener">FastAPI: Bigger Applications — fastapi.tiangolo.com</a></td><td>Official guide on routers, dependencies, and project structure for production apps.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://fastapi.tiangolo.com/tutorial/dependencies/" target="_blank" rel="noopener">FastAPI: Dependencies — fastapi.tiangolo.com</a></td><td>Complete dependency injection documentation including yield dependencies and lifespan.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://www.uvicorn.org/deployment/" target="_blank" rel="noopener">Uvicorn Deployment Guide — uvicorn.org/deployment</a></td><td>Production deployment with gunicorn workers, systemd, and supervisor.</td></tr>
-    <tr><td class="res-type">Library</td><td><a href="https://docs.pydantic.dev/latest/concepts/pydantic_settings/" target="_blank" rel="noopener">Pydantic Settings — docs.pydantic.dev</a></td><td>Environment variable management with type safety. Essential for production config.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://fastapi.tiangolo.com/tutorial/bigger-applications/" target="_blank" rel="noopener">FastAPI: Bigger Applications — fastapi.tiangolo.com</a></td><td>Official guide on routers, dependencies, and project structure for production apps.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://fastapi.tiangolo.com/tutorial/dependencies/" target="_blank" rel="noopener">FastAPI: Dependencies — fastapi.tiangolo.com</a></td><td>Complete dependency injection documentation including yield dependencies and lifespan.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://www.uvicorn.org/deployment/" target="_blank" rel="noopener">Uvicorn Deployment Guide — uvicorn.org/deployment</a></td><td>Production deployment with gunicorn workers, systemd, and supervisor.</td></tr>
+<tr><td class="res-type">Library</td><td><a href="https://docs.pydantic.dev/latest/concepts/pydantic_settings/" target="_blank" rel="noopener">Pydantic Settings — docs.pydantic.dev</a></td><td>Environment variable management with type safety. Essential for production config.</td></tr>
   </tbody>
 </table>
 </div>
@@ -539,24 +578,24 @@ async def readiness(client: LLMDep, request: Request):
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Production-Ready AI API — Full FastAPI App</span>
-    <span class="proj-dur">[Intermediate] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Production-Ready AI API — Full FastAPI App</span>
+<span class="proj-dur">[Intermediate] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Wrap your M18 RAG system and M21 agent in a production-grade FastAPI application.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>Structure</strong> — routers, models, services, config using pydantic-settings</li>
-      <li><strong>Lifespan</strong> — LLM client and vector DB initialised once at startup, cleaned up on shutdown</li>
-      <li><strong>Dependency injection</strong> — no global state; all resources injected via Depends()</li>
-      <li><strong>Middleware</strong> — request logging (request_id, path, latency), rate limiting (60 req/min)</li>
-      <li><strong>CORS</strong> — configured for your frontend domain only</li>
-      <li><strong>Auth</strong> — API key validation via X-API-Key header</li>
-      <li><strong>Endpoints</strong> — POST /rag/ask, POST /chat/message (streaming), GET /admin/health, GET /admin/ready</li>
-      <li><strong>Deployment</strong> — gunicorn config, .env file, Procfile for cloud deployment</li>
-    </ul>
-    <p><strong>Skills:</strong> pydantic-settings, lifespan, dependency injection, BaseHTTPMiddleware, APIKeyHeader, gunicorn</p>
+<p>Wrap your M18 RAG system and M21 agent in a production-grade FastAPI application.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>Structure</strong> — routers, models, services, config using pydantic-settings</li>
+<li><strong>Lifespan</strong> — LLM client and vector DB initialised once at startup, cleaned up on shutdown</li>
+<li><strong>Dependency injection</strong> — no global state; all resources injected via Depends()</li>
+<li><strong>Middleware</strong> — request logging (request_id, path, latency), rate limiting (60 req/min)</li>
+<li><strong>CORS</strong> — configured for your frontend domain only</li>
+<li><strong>Auth</strong> — API key validation via X-API-Key header</li>
+<li><strong>Endpoints</strong> — POST /rag/ask, POST /chat/message (streaming), GET /admin/health, GET /admin/ready</li>
+<li><strong>Deployment</strong> — gunicorn config, .env file, Procfile for cloud deployment</li>
+</ul>
+<p><strong>Skills:</strong> pydantic-settings, lifespan, dependency injection, BaseHTTPMiddleware, APIKeyHeader, gunicorn</p>
   </div>
 </div>
 </div>
@@ -565,31 +604,31 @@ async def readiness(client: LLMDep, request: Request):
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Lifespan and Dependency Injection</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Verify that shared resources are initialised once and injected correctly.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Build the lifespan function that creates an anthropic.AsyncAnthropic client. Add a print statement with an ID (id(client)) to confirm it is the same object across requests.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Create a dependency get_llm_client() and inject it into 3 endpoints. Add the same id() print. Verify all 3 print the same ID — proving the client is shared.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Load all settings from a .env file using pydantic-settings. Verify a missing required variable raises a clear ValidationError at startup (not at request time).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test graceful shutdown: send a request, then Ctrl+C while it is in progress. Does the lifespan cleanup run? Does the in-progress request complete or get cut off?</div></div>
+<p><strong>Objective:</strong> Verify that shared resources are initialised once and injected correctly.</p>
+<div class="lab-step"><div class="sn">1</div><div>Build the lifespan function that creates an anthropic.AsyncAnthropic client. Add a print statement with an ID (id(client)) to confirm it is the same object across requests.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Create a dependency get_llm_client() and inject it into 3 endpoints. Add the same id() print. Verify all 3 print the same ID — proving the client is shared.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Load all settings from a .env file using pydantic-settings. Verify a missing required variable raises a clear ValidationError at startup (not at request time).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test graceful shutdown: send a request, then Ctrl+C while it is in progress. Does the lifespan cleanup run? Does the in-progress request complete or get cut off?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Middleware Stack</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build and verify the middleware stack works correctly in combination.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add RequestLoggingMiddleware. Verify every request produces one JSON log line with method, path, status, latency_ms, and request_id. Verify the X-Request-ID header appears in the response.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add RateLimitMiddleware (5 req/minute for testing). Send 6 requests in rapid succession. Verify the 6th returns 429 with a Retry-After header.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Trigger the global exception handler: add a route that raises an unhandled ValueError. Verify the response is 500 JSON (not an HTML traceback) and the error is logged.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test CORS: use a browser fetch() from a different origin. Verify that allowed origins work and blocked origins get a CORS error.</div></div>
+<p><strong>Objective:</strong> Build and verify the middleware stack works correctly in combination.</p>
+<div class="lab-step"><div class="sn">1</div><div>Add RequestLoggingMiddleware. Verify every request produces one JSON log line with method, path, status, latency_ms, and request_id. Verify the X-Request-ID header appears in the response.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add RateLimitMiddleware (5 req/minute for testing). Send 6 requests in rapid succession. Verify the 6th returns 429 with a Retry-After header.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Trigger the global exception handler: add a route that raises an unhandled ValueError. Verify the response is 500 JSON (not an HTML traceback) and the error is logged.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test CORS: use a browser fetch() from a different origin. Verify that allowed origins work and blocked origins get a CORS error.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Async Safety</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Verify that blocking code kills concurrency and fix it.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create two endpoints: /slow-sync (time.sleep(3) inside async def) and /slow-async (await asyncio.sleep(3)). Send 3 concurrent requests to each using httpx.AsyncClient with asyncio.gather.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Measure total time for 3 concurrent requests to /slow-sync vs /slow-async. /slow-sync should take ~9s (sequential). /slow-async should take ~3s (parallel).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Fix /slow-sync using run_in_executor(). Re-measure. Verify it now takes ~3s for 3 concurrent requests.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add a background task to an endpoint. Verify: the response arrives before the background task completes (add asyncio.sleep(2) in the task and confirm response arrives in &lt;1s).</div></div>
+<p><strong>Objective:</strong> Verify that blocking code kills concurrency and fix it.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create two endpoints: /slow-sync (time.sleep(3) inside async def) and /slow-async (await asyncio.sleep(3)). Send 3 concurrent requests to each using httpx.AsyncClient with asyncio.gather.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Measure total time for 3 concurrent requests to /slow-sync vs /slow-async. /slow-sync should take ~9s (sequential). /slow-async should take ~3s (parallel).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Fix /slow-sync using run_in_executor(). Re-measure. Verify it now takes ~3s for 3 concurrent requests.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add a background task to an endpoint. Verify: the response arrives before the background task completes (add asyncio.sleep(2) in the task and confirm response arrives in &lt;1s).</div></div>
   </div>
 </div>
 </div><!-- end t9 -->

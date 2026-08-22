@@ -83,11 +83,11 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
   <div class="mod-title">🔮 eBPF and XDP</div>
   <div class="mod-subtitle">eBPF virtual machine · BPF maps · Verifier · XDP hook · TC eBPF · AF_XDP · bpftool and libbpf</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M14 Linux Stack</span>
-    <span class="mod-pill">Kernel 5.x+</span>
-    <span class="mod-pill">Modern Networking Paradigm</span>
-    <span class="mod-pill">2 Labs</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M14 Linux Stack</span>
+<span class="mod-pill">Kernel 5.x+</span>
+<span class="mod-pill">Modern Networking Paradigm</span>
+<span class="mod-pill">2 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -107,32 +107,32 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔮</span><h3>What eBPF Is</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>eBPF (extended Berkeley Packet Filter) is a revolutionary Linux kernel technology that allows you to run sandboxed programs inside the kernel without writing kernel modules or rebooting. eBPF programs are loaded from userspace, verified for safety by the kernel verifier, JIT-compiled to native machine code, and attached to hook points throughout the kernel.</p>
-    <p><strong>Why eBPF transformed networking:</strong></p>
-    <ul>
-      <li><strong>Performance</strong> — XDP eBPF programs run in the NIC driver, before sk_buff allocation. Drop speed: ~100ns per packet vs ~1µs in iptables</li>
-      <li><strong>Safety</strong> — the verifier proves the program terminates, accesses only valid memory, and doesn't crash the kernel. Safer than kernel modules</li>
-      <li><strong>Programmability</strong> — change packet processing logic at runtime without kernel recompile or reboot. Deploy new features in seconds</li>
-      <li><strong>Observability</strong> — instrument any kernel function without overhead of traditional probes; used by tools like bpftrace, Cilium, Falco, Pixie</li>
-    </ul>
-    <p><strong>Who uses eBPF in production:</strong> Cloudflare uses XDP to drop DDoS traffic at 100+ Gbps. Facebook uses eBPF for load balancing (Katran). Google uses it for security policy enforcement. Cilium uses eBPF to replace iptables in Kubernetes.</p>
+<p>eBPF (extended Berkeley Packet Filter) is a revolutionary Linux kernel technology that allows you to run sandboxed programs inside the kernel without writing kernel modules or rebooting. eBPF programs are loaded from userspace, verified for safety by the kernel verifier, JIT-compiled to native machine code, and attached to hook points throughout the kernel.</p>
+<p><strong>Why eBPF transformed networking:</strong></p>
+<ul>
+<li><strong>Performance</strong> — XDP eBPF programs run in the NIC driver, before sk_buff allocation. Drop speed: ~100ns per packet vs ~1µs in iptables</li>
+<li><strong>Safety</strong> — the verifier proves the program terminates, accesses only valid memory, and doesn't crash the kernel. Safer than kernel modules</li>
+<li><strong>Programmability</strong> — change packet processing logic at runtime without kernel recompile or reboot. Deploy new features in seconds</li>
+<li><strong>Observability</strong> — instrument any kernel function without overhead of traditional probes; used by tools like bpftrace, Cilium, Falco, Pixie</li>
+</ul>
+<p><strong>Who uses eBPF in production:</strong> Cloudflare uses XDP to drop DDoS traffic at 100+ Gbps. Facebook uses eBPF for load balancing (Katran). Google uses it for security policy enforcement. Cilium uses eBPF to replace iptables in Kubernetes.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📍</span><h3>eBPF Hook Points in the Network Stack</h3><span class="tag tag-blue">HOOKS</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Hook Type</th><th>Location</th><th>Performance</th><th>Capabilities</th></tr></thead>
-      <tbody>
-        <tr><td><strong>XDP (Native)</strong></td><td>NIC driver, before sk_buff</td><td>~10-30 Mpps/core</td><td>DROP, PASS, TX, REDIRECT. Modify packet bytes. No sk_buff access.</td></tr>
-        <tr><td><strong>XDP (Generic)</strong></td><td>After sk_buff allocation</td><td>~5-10 Mpps/core</td><td>Same actions; works on any NIC (no driver support needed)</td></tr>
-        <tr><td><strong>TC (ingress)</strong></td><td>After sk_buff, before routing</td><td>~5 Mpps/core</td><td>Full sk_buff access, conntrack, modify headers, redirect to other interfaces</td></tr>
-        <tr><td><strong>TC (egress)</strong></td><td>After routing, before NIC</td><td>~5 Mpps/core</td><td>Modify outgoing packets, traffic shaping, redirect</td></tr>
-        <tr><td><strong>socket filter</strong></td><td>Socket recv path</td><td>Per-socket</td><td>Filter which packets delivered to socket (classic tcpdump use)</td></tr>
-        <tr><td><strong>cgroup/sock</strong></td><td>Per-cgroup socket operations</td><td>Per-operation</td><td>Control network access per container/cgroup (Cilium network policy)</td></tr>
-        <tr><td><strong>kprobe/tracepoint</strong></td><td>Any kernel function</td><td>Observability only</td><td>Read kernel data structures, send to userspace via maps</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Hook Type</th><th>Location</th><th>Performance</th><th>Capabilities</th></tr></thead>
+<tbody>
+<tr><td><strong>XDP (Native)</strong></td><td>NIC driver, before sk_buff</td><td>~10-30 Mpps/core</td><td>DROP, PASS, TX, REDIRECT. Modify packet bytes. No sk_buff access.</td></tr>
+<tr><td><strong>XDP (Generic)</strong></td><td>After sk_buff allocation</td><td>~5-10 Mpps/core</td><td>Same actions; works on any NIC (no driver support needed)</td></tr>
+<tr><td><strong>TC (ingress)</strong></td><td>After sk_buff, before routing</td><td>~5 Mpps/core</td><td>Full sk_buff access, conntrack, modify headers, redirect to other interfaces</td></tr>
+<tr><td><strong>TC (egress)</strong></td><td>After routing, before NIC</td><td>~5 Mpps/core</td><td>Modify outgoing packets, traffic shaping, redirect</td></tr>
+<tr><td><strong>socket filter</strong></td><td>Socket recv path</td><td>Per-socket</td><td>Filter which packets delivered to socket (classic tcpdump use)</td></tr>
+<tr><td><strong>cgroup/sock</strong></td><td>Per-cgroup socket operations</td><td>Per-operation</td><td>Control network access per container/cgroup (Cilium network policy)</td></tr>
+<tr><td><strong>kprobe/tracepoint</strong></td><td>Any kernel function</td><td>Observability only</td><td>Read kernel data structures, send to userspace via maps</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -142,57 +142,63 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>eBPF Virtual Machine</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* eBPF ISA (Instruction Set Architecture) */</span>
+
+
+```python
+/* eBPF ISA (Instruction Set Architecture) */
 64-bit RISC architecture
 11 general-purpose 64-bit registers:
   r0:  return value / function return
   r1-r5: function arguments (calling convention)
   r6-r9: callee-saved (preserved across helper calls)
   r10: read-only frame pointer (stack base)
- 
+
 512 bytes of stack space per eBPF program
 Pointer arithmetic allowed but bounds-checked by verifier
 No unbounded loops (kernel ≥5.3 allows bounded loops)
 Max instruction count: 1 million (kernel ≥5.2)
- 
-<span class="cm">/* eBPF program lifecycle */</span>
- 
+
+/* eBPF program lifecycle */
+
 1. Write eBPF program in C with restricted syntax
    (No: user function calls, global vars, unbounded loops)
- 
+
 2. Compile with clang + libbpf:
    clang -O2 -target bpf -c prog.c -o prog.o
- 
+
 3. Load into kernel via bpf() syscall:
    bpf(BPF_PROG_LOAD, &attr, sizeof(attr))
- 
+
 4. Verifier validates:
    - All code paths terminate (DAG, no infinite loops)
    - All memory accesses in bounds
    - Helper function signatures correct
    - Pointer arithmetic safe
    If verification fails: EACCES/EINVAL with verifier log
- 
+
 5. JIT compiler: eBPF bytecode → native x86-64 machine code
    Zero interpretation overhead at runtime
- 
+
 6. Attach to hook point:
    XDP: bpf_set_link_xdp_fd(ifindex, prog_fd, flags)
    TC:  tc filter add dev eth0 ingress bpf obj prog.o
- 
+
 7. Program executes for every packet at hook point
    Returns action code (XDP_DROP, XDP_PASS, etc.)
- 
-<span class="cm">/* eBPF helper functions */</span>
-<span class="cm"># eBPF programs cannot call arbitrary kernel functions</span>
-<span class="cm"># They call only whitelisted "helper functions"</span>
-bpf_map_lookup_elem()   <span class="cm"># lookup in BPF map</span>
-bpf_map_update_elem()   <span class="cm"># update BPF map</span>
-bpf_redirect()          <span class="cm"># redirect packet to another interface</span>
-bpf_xdp_adjust_head()   <span class="cm"># push/pop bytes at packet head</span>
-bpf_ktime_get_ns()      <span class="cm"># current timestamp</span>
-bpf_trace_printk()      <span class="cm"># debug print to /sys/kernel/debug/tracing/trace_pipe</span>
-bpf_perf_event_output() <span class="cm"># send events to userspace</span></pre></div>
+
+/* eBPF helper functions */
+# eBPF programs cannot call arbitrary kernel functions
+# They call only whitelisted "helper functions"
+bpf_map_lookup_elem()   # lookup in BPF map
+bpf_map_update_elem()   # update BPF map
+bpf_redirect()          # redirect packet to another interface
+bpf_xdp_adjust_head()   # push/pop bytes at packet head
+bpf_ktime_get_ns()      # current timestamp
+bpf_trace_printk()      # debug print to /sys/kernel/debug/tracing/trace_pipe
+bpf_perf_event_output() # send events to userspace
+```
+
+
   </div>
 </div>
 </div>
@@ -202,8 +208,11 @@ bpf_perf_event_output() <span class="cm"># send events to userspace</span></pre>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>BPF Map Types</h3><span class="tag tag-teal">MAPS</span></div>
   <div class="cp-body">
-    <p>BPF maps are the primary mechanism for state sharing: eBPF programs (running in kernel) and userspace applications both access the same map. This enables per-flow counters, blocklists, connection tables, and configuration without stopping the packet processor.</p>
-<div class="cb"><pre><span class="cm">/* BPF map types */</span>
+<p>BPF maps are the primary mechanism for state sharing: eBPF programs (running in kernel) and userspace applications both access the same map. This enables per-flow counters, blocklists, connection tables, and configuration without stopping the packet processor.</p>
+
+
+```c
+/* BPF map types */
 BPF_MAP_TYPE_HASH:       Hash table. Key→value lookup. Most common.
 BPF_MAP_TYPE_ARRAY:      Fixed-size indexed array. Access by index.
 BPF_MAP_TYPE_LPM_TRIE:  Longest Prefix Match. For IP prefix tables!
@@ -211,46 +220,49 @@ BPF_MAP_TYPE_PERCPU_HASH: Per-CPU hash (no lock contention)
 BPF_MAP_TYPE_PERF_EVENT_ARRAY: Send events to userspace perf ring
 BPF_MAP_TYPE_RINGBUF:    Lock-free ring buffer (kernel 5.8+)
 BPF_MAP_TYPE_DEVMAP:     Interface index map for XDP_REDIRECT
- 
-<span class="cm">/* Defining a map in eBPF C program */</span>
-<span class="ck">struct</span> {
+
+/* Defining a map in eBPF C program */
+struct {
     __uint(type,        BPF_MAP_TYPE_HASH);
     __uint(max_entries, 1024);
-    __type(key,         __u32);     <span class="cm">/* src IP */</span>
-    __type(value,       __u64);     <span class="cm">/* packet count */</span>
-} pkt_count SEC(<span class="cs">".maps"</span>);
- 
-<span class="cm">/* Using the map in eBPF program */</span>
+    __type(key,         __u32);     /* src IP */
+    __type(value,       __u64);     /* packet count */
+} pkt_count SEC(".maps");
+
+/* Using the map in eBPF program */
 __u32 src_ip = iph->saddr;
 __u64 *count = bpf_map_lookup_elem(&pkt_count, &src_ip);
-<span class="ck">if</span> (count)
+if (count)
     __sync_fetch_and_add(count, 1);
-<span class="ck">else</span> {
+else {
     __u64 one = 1;
     bpf_map_update_elem(&pkt_count, &src_ip, &one, BPF_ANY);
 }
- 
-<span class="cm">/* Reading map from userspace (libbpf) */</span>
-<span class="ck">struct</span> bpf_object *obj = bpf_object__open(<span class="cs">"prog.o"</span>);
+
+/* Reading map from userspace (libbpf) */
+struct bpf_object *obj = bpf_object__open("prog.o");
 bpf_object__load(obj);
-<span class="ck">struct</span> bpf_map *map = bpf_object__find_map_by_name(obj, <span class="cs">"pkt_count"</span>);
-<span class="ck">int</span> map_fd = bpf_map__fd(map);
- 
-__u32 key = inet_addr(<span class="cs">"192.168.1.5"</span>);
+struct bpf_map *map = bpf_object__find_map_by_name(obj, "pkt_count");
+int map_fd = bpf_map__fd(map);
+
+__u32 key = inet_addr("192.168.1.5");
 __u64 value;
 bpf_map_lookup_elem(map_fd, &key, &value);
-printf(<span class="cs">"Packets from 192.168.1.5: %llu\n"</span>, value);
- 
-<span class="cm">/* BPF LPM trie for IP blocklist */</span>
-<span class="ck">struct</span> lpm_key {
+printf("Packets from 192.168.1.5: %llu\n", value);
+
+/* BPF LPM trie for IP blocklist */
+struct lpm_key {
     __u32 prefixlen;
-    __u8  data[4];  <span class="cm">/* IPv4 address */</span>
+    __u8  data[4];  /* IPv4 address */
 };
-<span class="cm">/* Insert 192.168.0.0/16 → drop */</span>
-<span class="ck">struct</span> lpm_key key16 = { .prefixlen = 16, .data = {192, 168, 0, 0} };
+/* Insert 192.168.0.0/16 → drop */
+struct lpm_key key16 = { .prefixlen = 16, .data = {192, 168, 0, 0} };
 __u32 action = XDP_DROP;
 bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
-<span class="cm">/* Any packet with src in 192.168.0.0/16 matches! */</span></pre></div>
+/* Any packet with src in 192.168.0.0/16 matches! */
+```
+
+
   </div>
 </div>
 </div>
@@ -260,72 +272,80 @@ bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Complete XDP Program — IP Firewall</h3><span class="tag tag-purple">XDP</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cs">// xdp_firewall.c — drop packets from blocked IPs using BPF hash map
-#include &lt;linux/bpf.h&gt;
-#include &lt;linux/if_ether.h&gt;
-#include &lt;linux/ip.h&gt;
-#include &lt;bpf/bpf_helpers.h&gt;
-#include &lt;bpf/bpf_endian.h&gt;</span>
-<span class="cm">/* Map: blocked source IPs → 1 */</span>
-<span class="ck">struct</span> {
+
+
+```cpp
+// xdp_firewall.c — drop packets from blocked IPs using BPF hash map
+#include <linux/bpf.h>
+#include <linux/if_ether.h>
+#include <linux/ip.h>
+#include <bpf/bpf_helpers.h>
+#include <bpf/bpf_endian.h>
+
+/* Map: blocked source IPs → 1 */
+struct {
     __uint(type,        BPF_MAP_TYPE_HASH);
     __uint(max_entries, 65536);
-    __type(key,         __u32);  <span class="cm">/* IPv4 src addr */</span>
-    __type(value,       __u8);   <span class="cm">/* 1 = blocked */</span>
-} blocklist SEC(<span class="cs">".maps"</span>);
- 
-<span class="cm">/* Map: per-IP packet counters */</span>
-<span class="ck">struct</span> {
+    __type(key,         __u32);  /* IPv4 src addr */
+    __type(value,       __u8);   /* 1 = blocked */
+} blocklist SEC(".maps");
+
+/* Map: per-IP packet counters */
+struct {
     __uint(type,        BPF_MAP_TYPE_PERCPU_HASH);
     __uint(max_entries, 65536);
     __type(key,         __u32);
     __type(value,       __u64);
-} pkt_stats SEC(<span class="cs">".maps"</span>);
- 
-SEC(<span class="cs">"xdp"</span>)
-<span class="ck">int</span> xdp_firewall_prog(<span class="ck">struct</span> xdp_md *ctx)
+} pkt_stats SEC(".maps");
+
+SEC("xdp")
+int xdp_firewall_prog(struct xdp_md *ctx)
 {
-    <span class="ck">void</span> *data_end = (void *)(long)ctx->data_end;
-    <span class="ck">void</span> *data     = (void *)(long)ctx->data;
- 
-    <span class="cm">/* Parse Ethernet header */</span>
-    <span class="ck">struct</span> ethhdr *eth = data;
-    <span class="ck">if</span> (data + sizeof(*eth) > data_end)
-        return XDP_DROP;  <span class="cm">/* malformed — drop */</span>
-    <span class="cm">/* Only handle IPv4 */</span>
-    <span class="ck">if</span> (eth->h_proto != bpf_htons(ETH_P_IP))
+    void *data_end = (void *)(long)ctx->data_end;
+    void *data     = (void *)(long)ctx->data;
+
+    /* Parse Ethernet header */
+    struct ethhdr *eth = data;
+    if (data + sizeof(*eth) > data_end)
+        return XDP_DROP;  /* malformed — drop */
+
+    /* Only handle IPv4 */
+    if (eth->h_proto != bpf_htons(ETH_P_IP))
         return XDP_PASS;
- 
-    <span class="cm">/* Parse IP header */</span>
-    <span class="ck">struct</span> iphdr *iph = data + sizeof(*eth);
-    <span class="ck">if</span> (data + sizeof(*eth) + sizeof(*iph) > data_end)
+
+    /* Parse IP header */
+    struct iphdr *iph = data + sizeof(*eth);
+    if (data + sizeof(*eth) + sizeof(*iph) > data_end)
         return XDP_DROP;
- 
+
     __u32 src = iph->saddr;
- 
-    <span class="cm">/* Update per-IP packet counter */</span>
+
+    /* Update per-IP packet counter */
     __u64 *stat = bpf_map_lookup_elem(&pkt_stats, &src);
-    <span class="ck">if</span> (stat) {
+    if (stat) {
         __sync_fetch_and_add(stat, 1);
-    } <span class="ck">else</span> {
+    } else {
         __u64 one = 1;
         bpf_map_update_elem(&pkt_stats, &src, &one, BPF_NOEXIST);
     }
- 
-    <span class="cm">/* Check blocklist */</span>
+
+    /* Check blocklist */
     __u8 *blocked = bpf_map_lookup_elem(&blocklist, &src);
-    <span class="ck">if</span> (blocked && *blocked == 1)
+    if (blocked && *blocked == 1)
         return XDP_DROP;
- 
+
     return XDP_PASS;
 }
- 
-char _license[] SEC(<span class="cs">"license"</span>) = <span class="cs">"GPL"</span>;
- 
-<span class="cm">/* Compile and load */</span>
-<span class="cm">// clang -O2 -target bpf -c xdp_firewall.c -o xdp_firewall.o</span>
-<span class="cm">// ip link set dev eth0 xdp obj xdp_firewall.o sec xdp</span>
-<span class="cm">// ip link set dev eth0 xdp off  # detach</span></pre></div>
+
+char _license[] SEC("license") = "GPL";
+
+/* Compile and load */
+// clang -O2 -target bpf -c xdp_firewall.c -o xdp_firewall.o
+// ip link set dev eth0 xdp obj xdp_firewall.o sec xdp
+// ip link set dev eth0 xdp off  # detach
+```
+
+
   </div>
 </div>
 </div>
@@ -335,48 +355,53 @@ char _license[] SEC(<span class="cs">"license"</span>) = <span class="cs">"GPL"<
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🚦</span><h3>TC BPF vs XDP</h3><span class="tag tag-teal">TC BPF</span></div>
   <div class="cp-body">
-    <p>TC (traffic control) eBPF programs run later in the stack than XDP — after sk_buff allocation. This gives them access to richer metadata: conntrack state, socket information, routing decisions, VLAN tags. They can also generate new packets and redirect to sockets.</p>
-<div class="cb"><pre><span class="cm">/* TC BPF key differences from XDP */</span>
- 
+<p>TC (traffic control) eBPF programs run later in the stack than XDP — after sk_buff allocation. This gives them access to richer metadata: conntrack state, socket information, routing decisions, VLAN tags. They can also generate new packets and redirect to sockets.</p>
+
+
+```python
+/* TC BPF key differences from XDP */
+
 Access to sk_buff → can read:
   - skb->mark, skb->priority (for QoS)
   - skb->sk (associated socket — if known)
   - conntrack state (via helper bpf_skb_get_tunnel_key)
   - Full packet headers (same as XDP) + can modify them
   - Can call bpf_sk_lookup_tcp() to find socket
- 
+
 Return values (different from XDP!):
   TC_ACT_OK (0):       pass to next TC filter/action
   TC_ACT_SHOT (2):     drop packet
   TC_ACT_REDIRECT (7): redirect to another interface or socket
   TC_ACT_STOLEN (4):   take ownership (used for skb→socket delivery)
- 
-<span class="cm">/* TC BPF for packet marking (QoS) */</span>
-SEC(<span class="cs">"tc"</span>)
-<span class="ck">int</span> mark_voip(<span class="ck">struct</span> __sk_buff *skb) {
-    <span class="ck">void</span> *data_end = (void *)(long)skb->data_end;
-    <span class="ck">void</span> *data     = (void *)(long)skb->data;
-    <span class="ck">struct</span> iphdr *iph = data + sizeof(<span class="ck">struct</span> ethhdr);
-    <span class="ck">if</span> ((__u8 *)iph + sizeof(*iph) > (__u8 *)data_end)
+
+/* TC BPF for packet marking (QoS) */
+SEC("tc")
+int mark_voip(struct __sk_buff *skb) {
+    void *data_end = (void *)(long)skb->data_end;
+    void *data     = (void *)(long)skb->data;
+    struct iphdr *iph = data + sizeof(struct ethhdr);
+    if ((__u8 *)iph + sizeof(*iph) > (__u8 *)data_end)
         return TC_ACT_OK;
-    <span class="ck">struct</span> udphdr *udp = (<span class="ck">void</span> *)iph + iph->ihl * 4;
-    <span class="ck">if</span> ((__u8 *)udp + sizeof(*udp) > (__u8 *)data_end)
+    struct udphdr *udp = (void *)iph + iph->ihl * 4;
+    if ((__u8 *)udp + sizeof(*udp) > (__u8 *)data_end)
         return TC_ACT_OK;
-    <span class="cm">/* Mark SIP (UDP 5060) and RTP (ports 10000-20000) for EF DSCP */</span>
+    /* Mark SIP (UDP 5060) and RTP (ports 10000-20000) for EF DSCP */
     __u16 dport = bpf_ntohs(udp->dest);
-    <span class="ck">if</span> (iph->protocol == IPPROTO_UDP &&
-        (dport == 5060 || (dport >= 10000 && dport <= 20000))) {
-        bpf_skb_store_bytes(skb, offsetof(<span class="ck">struct</span> ethhdr, h_dest) +
-                            sizeof(<span class="ck">struct</span> ethhdr) + 1,
-                            &(<span class="ck">__u8</span>){0xB8}, 1, 0);  <span class="cm">/* DSCP EF = 46 << 2 */</span>
+    if (iph->protocol == IPPROTO_UDP &&
+        (dport == 5060 || (dport >= 10000 && dport struct ethhdr, h_dest) +
+                            sizeof(struct ethhdr) + 1,
+                            &(__u8){0xB8}, 1, 0);  /* DSCP EF = 46 
     }
     return TC_ACT_OK;
 }
- 
-<span class="cm">/* Attach TC eBPF */</span>
-<span class="cm"># tc qdisc add dev eth0 clsact</span>
-<span class="cm"># tc filter add dev eth0 ingress bpf obj tc_qos.o sec tc direct-action</span>
-<span class="cm"># tc filter show dev eth0 ingress</span></pre></div>
+
+/* Attach TC eBPF */
+# tc qdisc add dev eth0 clsact
+# tc filter add dev eth0 ingress bpf obj tc_qos.o sec tc direct-action
+# tc filter show dev eth0 ingress
+```
+
+
   </div>
 </div>
 </div>
@@ -386,7 +411,7 @@ SEC(<span class="cs">"tc"</span>)
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>AF_XDP Architecture</h3><span class="tag tag-green">AF_XDP</span></div>
   <div class="cp-body">
-    <p>AF_XDP is a socket type that allows userspace applications to receive and send packets directly from/to NIC memory with zero kernel copies. Unlike DPDK, AF_XDP keeps the NIC under kernel control — only selected packet queues are redirected to userspace.</p>
+<p>AF_XDP is a socket type that allows userspace applications to receive and send packets directly from/to NIC memory with zero kernel copies. Unlike DPDK, AF_XDP keeps the NIC under kernel control — only selected packet queues are redirected to userspace.</p>
 <div class="cb"><pre><span class="cm">/* AF_XDP architecture */</span>
  
 NIC Queue N → [XDP program runs in driver] → XDP_REDIRECT → AF_XDP socket
@@ -444,47 +469,57 @@ SEC(<span class="cs">"xdp_sock"</span>)
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Essential eBPF Tools</h3><span class="tag tag-amber">TOOLING</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* bpftool — Swiss Army knife for eBPF */</span>
-<span class="cm"># List all loaded eBPF programs</span>
+
+
+```c
+/* bpftool — Swiss Army knife for eBPF */
+
+# List all loaded eBPF programs
 bpftool prog list
 bpftool prog show id 42
- 
-<span class="cm"># Dump eBPF bytecode (disassemble)</span>
+
+# Dump eBPF bytecode (disassemble)
 bpftool prog dump xlated id 42
- 
-<span class="cm"># Show JIT-compiled machine code</span>
+
+# Show JIT-compiled machine code
 bpftool prog dump jited id 42
- 
-<span class="cm"># List all BPF maps</span>
+
+# List all BPF maps
 bpftool map list
-bpftool map dump id 7         <span class="cm"># dump all entries</span>
-bpftool map lookup id 7 key 0x01 0x02 0x03 0x04   <span class="cm"># lookup specific key</span>
-bpftool map update id 7 key 0x01 0x02 0x03 0x04 value 0x01  <span class="cm"># add to blocklist</span>
-<span class="cm"># Show XDP programs attached to interfaces</span>
+bpftool map dump id 7         # dump all entries
+bpftool map lookup id 7 key 0x01 0x02 0x03 0x04   # lookup specific key
+bpftool map update id 7 key 0x01 0x02 0x03 0x04 value 0x01  # add to blocklist
+
+# Show XDP programs attached to interfaces
 bpftool net list
-ip link show  <span class="cm"># also shows "xdp" flag if XDP is attached</span>
-<span class="cm"># Perf output from bpf_trace_printk()</span>
+ip link show  # also shows "xdp" flag if XDP is attached
+
+# Perf output from bpf_trace_printk()
 cat /sys/kernel/debug/tracing/trace_pipe
- 
-<span class="cm">/* bpftrace — high-level eBPF tracing language */</span>
-<span class="cm"># Trace every TCP connection</span>
+
+/* bpftrace — high-level eBPF tracing language */
+
+# Trace every TCP connection
 bpftrace -e 'kprobe:tcp_connect { printf("connect: pid=%d\n", pid); }'
- 
-<span class="cm"># Count packets by protocol</span>
+
+# Count packets by protocol
 bpftrace -e 'tracepoint:net:netif_receive_skb { @[args->protocol] = count(); }'
- 
-<span class="cm"># Track kernel networking function latency</span>
+
+# Track kernel networking function latency
 bpftrace -e '
 kprobe:ip_rcv { @start[tid] = nsecs; }
 kretprobe:ip_rcv /@start[tid]/ {
   @latency = hist(nsecs - @start[tid]);
   delete(@start[tid]);
 }'
- 
-<span class="cm">/* Cilium's eBPF-based Kubernetes networking */</span>
-<span class="cm"># cilium status — health of eBPF programs</span>
-<span class="cm"># cilium monitor — real-time packet events</span>
-<span class="cm"># cilium bpf ct list global — connection tracking table</span></pre></div>
+
+/* Cilium's eBPF-based Kubernetes networking */
+# cilium status — health of eBPF programs
+# cilium monitor — real-time packet events
+# cilium bpf ct list global — connection tracking table
+```
+
+
   </div>
 </div>
 </div>
@@ -493,20 +528,20 @@ kretprobe:ip_rcv /@start[tid]/ {
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Write and Load Your First XDP Program</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Write a functional XDP program that counts packets per source IP and drops packets from a blocklist.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install prerequisites: <code>sudo apt install clang llvm libbpf-dev linux-headers-$(uname -r) bpftool</code>. Verify: <code>clang --version</code> (need 10+) and <code>bpftool version</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Write <code>xdp_counter.c</code> with the BPF_MAP_TYPE_PERCPU_HASH for per-IP counters. Implement the XDP program to increment the counter for each source IP. Compile: <code>clang -O2 -target bpf -c xdp_counter.c -o xdp_counter.o</code>.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Attach to a test interface (use veth from M14 Lab 2): <code>sudo ip link set veth0 xdp obj xdp_counter.o sec xdp</code>. Verify attachment: <code>ip link show veth0</code> should show "xdp" flag. Generate traffic (ping) and read counters: <code>sudo bpftool map dump name pkt_count</code>.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add a blocklist map. Write a userspace control program (C with libbpf) that: opens the loaded BPF object, finds the blocklist map by name, inserts a test IP, verifies pings from that IP are dropped. Use <code>bpftool map update</code> as an alternative.</div></div>
+<p><strong>Objective:</strong> Write a functional XDP program that counts packets per source IP and drops packets from a blocklist.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install prerequisites: <code>sudo apt install clang llvm libbpf-dev linux-headers-$(uname -r) bpftool</code>. Verify: <code>clang --version</code> (need 10+) and <code>bpftool version</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Write <code>xdp_counter.c</code> with the BPF_MAP_TYPE_PERCPU_HASH for per-IP counters. Implement the XDP program to increment the counter for each source IP. Compile: <code>clang -O2 -target bpf -c xdp_counter.c -o xdp_counter.o</code>.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Attach to a test interface (use veth from M14 Lab 2): <code>sudo ip link set veth0 xdp obj xdp_counter.o sec xdp</code>. Verify attachment: <code>ip link show veth0</code> should show "xdp" flag. Generate traffic (ping) and read counters: <code>sudo bpftool map dump name pkt_count</code>.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add a blocklist map. Write a userspace control program (C with libbpf) that: opens the loaded BPF object, finds the blocklist map by name, inserts a test IP, verifies pings from that IP are dropped. Use <code>bpftool map update</code> as an alternative.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>bpftrace Network Observability</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Use bpftrace to instrument the kernel network stack without writing eBPF C code.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install bpftrace: <code>sudo apt install bpftrace</code>. Run the one-liner to count packets by protocol: <code>sudo bpftrace -e 'tracepoint:net:netif_receive_skb { @[args->skbaddr] = count(); }'</code>. While running, generate traffic and observe the output.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Trace TCP connection lifecycle: <code>sudo bpftrace -e 'kprobe:tcp_connect { printf("pid=%d comm=%s\n", pid, comm); }'</code>. Open several websites in a browser — you should see a connect event for each. Extend to also trace tcp_close.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Measure ip_rcv latency histogram: use the kprobe/kretprobe pattern from Tab 6. Run while doing iperf3. Output the latency histogram. Identify the median and 99th percentile kernel processing time per packet.</div></div>
+<p><strong>Objective:</strong> Use bpftrace to instrument the kernel network stack without writing eBPF C code.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install bpftrace: <code>sudo apt install bpftrace</code>. Run the one-liner to count packets by protocol: <code>sudo bpftrace -e 'tracepoint:net:netif_receive_skb { @[args->skbaddr] = count(); }'</code>. While running, generate traffic and observe the output.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Trace TCP connection lifecycle: <code>sudo bpftrace -e 'kprobe:tcp_connect { printf("pid=%d comm=%s\n", pid, comm); }'</code>. Open several websites in a browser — you should see a connect event for each. Extend to also trace tcp_close.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Measure ip_rcv latency histogram: use the kprobe/kretprobe pattern from Tab 6. Run while doing iperf3. Output the latency histogram. Identify the median and 99th percentile kernel processing time per packet.</div></div>
   </div>
 </div>
 </div>

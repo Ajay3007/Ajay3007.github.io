@@ -104,10 +104,10 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
   <div class="mod-title">Failure Handling in Agents</div>
   <div class="mod-subtitle">Loops, stuck states, hallucinated tool calls, runaway costs — and how to handle all of them</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟠 Intermediate–Advanced</span>
-    <span class="mod-pill">🔧 LangGraph · Tenacity · Structlog</span>
-    <span class="mod-pill">📋 Prerequisite: P6-M20</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟠 Intermediate–Advanced</span>
+<span class="mod-pill">🔧 LangGraph · Tenacity · Structlog</span>
+<span class="mod-pill">📋 Prerequisite: P6-M20</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -128,15 +128,15 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-violet">Production Hardening</span></div>
   <div class="cp-body">
-    <p>Agents fail in ways chains never do. They can loop forever, call tools that don't exist, spend your entire monthly API budget in 10 minutes, or get stuck unable to make progress. This module gives you the tools to detect, contain, and recover from every major agent failure mode.</p>
-    <ul>
-      <li><strong>Failure taxonomy</strong> — the 5 agent failure modes and how to recognise each</li>
-      <li><strong>Loop detection</strong> — detecting infinite loops, repeated tool calls, lack of progress</li>
-      <li><strong>Guardrails</strong> — output validation, tool call validation, scope enforcement</li>
-      <li><strong>Cost circuit breakers</strong> — hard spending limits that stop runaway agents</li>
-      <li><strong>Structured agent logging</strong> — capturing every decision for debugging and audit</li>
-      <li><strong>Recovery patterns</strong> — graceful degradation, fallback to human, partial result return</li>
-    </ul>
+<p>Agents fail in ways chains never do. They can loop forever, call tools that don't exist, spend your entire monthly API budget in 10 minutes, or get stuck unable to make progress. This module gives you the tools to detect, contain, and recover from every major agent failure mode.</p>
+<ul>
+<li><strong>Failure taxonomy</strong> — the 5 agent failure modes and how to recognise each</li>
+<li><strong>Loop detection</strong> — detecting infinite loops, repeated tool calls, lack of progress</li>
+<li><strong>Guardrails</strong> — output validation, tool call validation, scope enforcement</li>
+<li><strong>Cost circuit breakers</strong> — hard spending limits that stop runaway agents</li>
+<li><strong>Structured agent logging</strong> — capturing every decision for debugging and audit</li>
+<li><strong>Recovery patterns</strong> — graceful degradation, fallback to human, partial result return</li>
+</ul>
   </div>
 </div>
 </div>
@@ -145,33 +145,33 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>The 5 Agent Failure Modes</h3><span class="tag tag-red">Know These</span></div>
   <div class="cp-body">
-    <div class="fm-grid">
-      <div class="fm fm-loop">
-        <h4>Infinite Loop</h4>
-        <p>Agent calls the same tool repeatedly with same args, never making progress. max_turns doesn't help if the loop is subtle.</p>
-        <div class="fix">Fix: tool call history deduplication, progress detection</div>
-      </div>
-      <div class="fm fm-stuck">
-        <h4>Stuck State</h4>
-        <p>Agent keeps trying a failing approach, can't recover. Tool returns error, agent retries with same args, same error.</p>
-        <div class="fix">Fix: error escalation counter, alternative strategy prompt</div>
-      </div>
-      <div class="fm fm-halluc">
-        <h4>Hallucinated Tool Calls</h4>
-        <p>Agent invents tool names that don't exist, or calls real tools with nonsensical arguments.</p>
-        <div class="fix">Fix: strict tool registry validation, argument schema enforcement</div>
-      </div>
-      <div class="fm fm-cost">
-        <h4>Runaway Cost</h4>
-        <p>Agent spawns subagents, each calling expensive tools in loops. $0.01 task becomes $100 task.</p>
-        <div class="fix">Fix: cost circuit breaker, per-session spending cap</div>
-      </div>
-      <div class="fm fm-partial">
-        <h4>Silent Partial Failure</h4>
-        <p>Agent completes but with incorrect results. It said it succeeded but actually failed midway. No error raised.</p>
-        <div class="fix">Fix: result validation, structured completion checks, audit log</div>
-      </div>
-    </div>
+<div class="fm-grid">
+<div class="fm fm-loop">
+<h4>Infinite Loop</h4>
+<p>Agent calls the same tool repeatedly with same args, never making progress. max_turns doesn't help if the loop is subtle.</p>
+<div class="fix">Fix: tool call history deduplication, progress detection</div>
+</div>
+<div class="fm fm-stuck">
+<h4>Stuck State</h4>
+<p>Agent keeps trying a failing approach, can't recover. Tool returns error, agent retries with same args, same error.</p>
+<div class="fix">Fix: error escalation counter, alternative strategy prompt</div>
+</div>
+<div class="fm fm-halluc">
+<h4>Hallucinated Tool Calls</h4>
+<p>Agent invents tool names that don't exist, or calls real tools with nonsensical arguments.</p>
+<div class="fix">Fix: strict tool registry validation, argument schema enforcement</div>
+</div>
+<div class="fm fm-cost">
+<h4>Runaway Cost</h4>
+<p>Agent spawns subagents, each calling expensive tools in loops. $0.01 task becomes $100 task.</p>
+<div class="fix">Fix: cost circuit breaker, per-session spending cap</div>
+</div>
+<div class="fm fm-partial">
+<h4>Silent Partial Failure</h4>
+<p>Agent completes but with incorrect results. It said it succeeded but actually failed midway. No error raised.</p>
+<div class="fix">Fix: result validation, structured completion checks, audit log</div>
+</div>
+</div>
   </div>
 </div>
 </div><!-- end t1 -->
@@ -180,99 +180,106 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Loop Detection and Progress Tracking</h3><span class="tag tag-violet">Critical</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import hashlib, json
+    
+
+```python
+import hashlib, json
 from collections import defaultdict, Counter
 from dataclasses import dataclass, field
 from typing import Any
- 
+
 @dataclass
 class AgentGuardian:
     """Monitors agent execution for failure patterns."""
-    max_turns:         int   = <span class="cv">20</span>
-    max_repeated_calls: int  = <span class="cv">3</span>     <span class="ck"># same tool+args N times = loop</span>
-    max_errors:        int   = <span class="cv">5</span>     <span class="ck"># 5 consecutive errors = stuck</span>
-    max_cost_usd:      float = <span class="cv">1.0</span>   <span class="ck"># hard spending limit</span>
- 
-    turn_count:        int   = <span class="cv">0</span>
-    error_count:       int   = <span class="cv">0</span>
-    total_cost_usd:    float = <span class="cv">0.0</span>
+    max_turns:         int   = 20
+    max_repeated_calls: int  = 3     # same tool+args N times = loop
+    max_errors:        int   = 5     # 5 consecutive errors = stuck
+    max_cost_usd:      float = 1.0   # hard spending limit
+
+    turn_count:        int   = 0
+    error_count:       int   = 0
+    total_cost_usd:    float = 0.0
     tool_call_log:     list  = field(default_factory=list)
     call_counts:       dict  = field(default_factory=lambda: Counter())
- 
+
     def _call_fingerprint(self, tool_name: str, args: dict) -> str:
         """Hash of tool name + sorted args — detects repeated identical calls."""
-        key = json.dumps({<span class="cs">"tool"</span>: tool_name, <span class="cs">"args"</span>: args}, sort_keys=<span class="cv">True</span>)
+        key = json.dumps({"tool": tool_name, "args": args}, sort_keys=True)
         return hashlib.md5(key.encode()).hexdigest()[:8]
- 
+
     def record_tool_call(self, tool_name: str, args: dict,
-                         result: Any, tokens_used: int = <span class="cv">0</span>) -> None:
+                         result: Any, tokens_used: int = 0) -> None:
         fp = self._call_fingerprint(tool_name, args)
-        self.call_counts[fp] += <span class="cv">1</span>
+        self.call_counts[fp] += 1
         self.tool_call_log.append({
-            <span class="cs">"turn"</span>:    self.turn_count,
-            <span class="cs">"tool"</span>:    tool_name,
-            <span class="cs">"args"</span>:    args,
-            <span class="cs">"fp"</span>:      fp,
-            <span class="cs">"success"</span>: <span class="cs">"error"</span> not in str(result).lower(),
+            "turn":    self.turn_count,
+            "tool":    tool_name,
+            "args":    args,
+            "fp":      fp,
+            "success": "error" not in str(result).lower(),
         })
-        if isinstance(result, dict) and not result.get(<span class="cs">"ok"</span>, <span class="cv">True</span>):
-            self.error_count += <span class="cv">1</span>
+        if isinstance(result, dict) and not result.get("ok", True):
+            self.error_count += 1
         else:
-            self.error_count = <span class="cv">0</span>   <span class="ck"># reset on success</span>
-        cost = tokens_used * (<span class="cv">3.00</span> / <span class="cv">1_000_000</span>)
+            self.error_count = 0   # reset on success
+        cost = tokens_used * (3.00 / 1_000_000)
         self.total_cost_usd += cost
- 
+
     def check(self) -> tuple[bool, str]:
         """Returns (should_stop, reason). Call before each turn."""
-        self.turn_count += <span class="cv">1</span>
- 
+        self.turn_count += 1
+
         if self.turn_count > self.max_turns:
-            return <span class="cv">True</span>, <span class="cs">f"Max turns exceeded ({self.max_turns})"</span>
- 
+            return True, f"Max turns exceeded ({self.max_turns})"
+
         if self.total_cost_usd > self.max_cost_usd:
-            return <span class="cv">True</span>, <span class="cs">f"Cost limit exceeded: ${self.total_cost_usd:.4f} > ${self.max_cost_usd}"</span>
- 
+            return True, f"Cost limit exceeded: ${self.total_cost_usd:.4f} > ${self.max_cost_usd}"
+
         if self.error_count >= self.max_errors:
-            return <span class="cv">True</span>, <span class="cs">f"Stuck: {self.error_count} consecutive errors"</span>
- 
+            return True, f"Stuck: {self.error_count} consecutive errors"
+
         for fp, count in self.call_counts.items():
             if count >= self.max_repeated_calls:
-                recent = [c for c in self.tool_call_log if c[<span class="cs">"fp"</span>] == fp][-<span class="cv">1</span>]
-                return <span class="cv">True</span>, <span class="cs">f"Loop detected: {recent['tool']} called {count}x with same args"</span>
- 
-        return <span class="cv">False</span>, <span class="cs">""</span>
-<span class="ck"># Usage inside agent loop</span>
+                recent = [c for c in self.tool_call_log if c["fp"] == fp][-1]
+                return True, f"Loop detected: {recent['tool']} called {count}x with same args"
+
+        return False, ""
+
+# Usage inside agent loop
 def guarded_agent(user_message: str) -> dict:
-    guardian = AgentGuardian(max_turns=<span class="cv">15</span>, max_cost_usd=<span class="cv">0.50</span>)
-    messages  = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
- 
-    while <span class="cv">True</span>:
+    guardian = AgentGuardian(max_turns=15, max_cost_usd=0.50)
+    messages  = [{"role": "user", "content": user_message}]
+
+    while True:
         should_stop, reason = guardian.check()
         if should_stop:
-            return {<span class="cs">"status"</span>: <span class="cs">"stopped"</span>, <span class="cs">"reason"</span>: reason,
-                    <span class="cs">"partial_result"</span>: extract_partial_result(messages),
-                    <span class="cs">"turns_used"</span>: guardian.turn_count,
-                    <span class="cs">"cost_usd"</span>: guardian.total_cost_usd}
- 
-        response = client.messages.create(model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-                                           max_tokens=<span class="cv">4096</span>, tools=TOOLS, messages=messages)
- 
-        if response.stop_reason == <span class="cs">"end_turn"</span>:
-            return {<span class="cs">"status"</span>: <span class="cs">"completed"</span>,
-                    <span class="cs">"answer"</span>: response.content[<span class="cv">0</span>].text,
-                    <span class="cs">"turns_used"</span>: guardian.turn_count,
-                    <span class="cs">"cost_usd"</span>: guardian.total_cost_usd}
- 
-        messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
+            return {"status": "stopped", "reason": reason,
+                    "partial_result": extract_partial_result(messages),
+                    "turns_used": guardian.turn_count,
+                    "cost_usd": guardian.total_cost_usd}
+
+        response = client.messages.create(model="claude-3-5-sonnet-20241022",
+                                           max_tokens=4096, tools=TOOLS, messages=messages)
+
+        if response.stop_reason == "end_turn":
+            return {"status": "completed",
+                    "answer": response.content[0].text,
+                    "turns_used": guardian.turn_count,
+                    "cost_usd": guardian.total_cost_usd}
+
+        messages.append({"role": "assistant", "content": response.content})
         tool_results = []
         for block in response.content:
-            if block.type == <span class="cs">"tool_use"</span>:
+            if block.type == "tool_use":
                 result = execute_tool(block.name, block.input)
                 guardian.record_tool_call(block.name, block.input, result,
                                           tokens_used=response.usage.output_tokens)
-                tool_results.append({<span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
-                                      <span class="cs">"tool_use_id"</span>: block.id, <span class="cs">"content"</span>: str(result)})
-        messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})</pre></div>
+                tool_results.append({"type": "tool_result",
+                                      "tool_use_id": block.id, "content": str(result)})
+        messages.append({"role": "user", "content": tool_results})
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -281,66 +288,72 @@ def guarded_agent(user_message: str) -> dict:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🛡</span><h3>Input and Output Guardrails</h3><span class="tag tag-violet">Validation Layer</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># ── Tool call validation ──────────────────────────────</span>
+    
+
+```python
+# ── Tool call validation ──────────────────────────────
 def validate_tool_call(tool_name: str, args: dict) -> tuple[bool, str]:
     """Validate before executing. Returns (is_valid, error_message)."""
     if tool_name not in TOOL_REGISTRY:
-        return <span class="cv">False</span>, <span class="cs">f"Tool {tool_name!r} does not exist. Available: {list(TOOL_REGISTRY)}"</span>
- 
-    tool_schema = next(t for t in TOOLS if t[<span class="cs">"name"</span>] == tool_name)
-    required = tool_schema[<span class="cs">"input_schema"</span>].get(<span class="cs">"required"</span>, [])
-    properties = tool_schema[<span class="cs">"input_schema"</span>].get(<span class="cs">"properties"</span>, {})
- 
+        return False, f"Tool {tool_name!r} does not exist. Available: {list(TOOL_REGISTRY)}"
+
+    tool_schema = next(t for t in TOOLS if t["name"] == tool_name)
+    required = tool_schema["input_schema"].get("required", [])
+    properties = tool_schema["input_schema"].get("properties", {})
+
     for req_field in required:
         if req_field not in args:
-            return <span class="cv">False</span>, <span class="cs">f"Missing required field: {req_field!r}"</span>
- 
+            return False, f"Missing required field: {req_field!r}"
+
     for field_name, field_val in args.items():
         if field_name not in properties:
-            return <span class="cv">False</span>, <span class="cs">f"Unknown field: {field_name!r}"</span>
-        expected_type = properties[field_name].get(<span class="cs">"type"</span>)
-        if expected_type == <span class="cs">"string"</span> and not isinstance(field_val, str):
-            return <span class="cv">False</span>, <span class="cs">f"{field_name} must be a string, got {type(field_val).__name__}"</span>
-        if expected_type == <span class="cs">"integer"</span> and not isinstance(field_val, int):
-            return <span class="cv">False</span>, <span class="cs">f"{field_name} must be an integer"</span>
- 
-    return <span class="cv">True</span>, <span class="cs">""</span>
- 
+            return False, f"Unknown field: {field_name!r}"
+        expected_type = properties[field_name].get("type")
+        if expected_type == "string" and not isinstance(field_val, str):
+            return False, f"{field_name} must be a string, got {type(field_val).__name__}"
+        if expected_type == "integer" and not isinstance(field_val, int):
+            return False, f"{field_name} must be an integer"
+
+    return True, ""
+
 def execute_tool_safe(tool_name: str, args: dict) -> dict:
     is_valid, error = validate_tool_call(tool_name, args)
     if not is_valid:
-        return {<span class="cs">"ok"</span>: <span class="cv">False</span>, <span class="cs">"error"</span>: <span class="cs">"INVALID_TOOL_CALL"</span>, <span class="cs">"message"</span>: error,
-                <span class="cs">"suggestion"</span>: <span class="cs">"Check the tool name and argument types before calling again."</span>}
+        return {"ok": False, "error": "INVALID_TOOL_CALL", "message": error,
+                "suggestion": "Check the tool name and argument types before calling again."}
     try:
         result = TOOL_REGISTRY[tool_name](**args)
-        return result if isinstance(result, dict) else {<span class="cs">"ok"</span>: <span class="cv">True</span>, <span class="cs">"result"</span>: result}
+        return result if isinstance(result, dict) else {"ok": True, "result": result}
     except Exception as e:
-        return {<span class="cs">"ok"</span>: <span class="cv">False</span>, <span class="cs">"error"</span>: <span class="cs">"TOOL_EXECUTION_ERROR"</span>, <span class="cs">"message"</span>: str(e)}
- 
-<span class="ck"># ── Output guardrail ──────────────────────────────────</span>
-<span class="ck"># Validate the agent's final answer before returning to user</span>
+        return {"ok": False, "error": "TOOL_EXECUTION_ERROR", "message": str(e)}
+
+# ── Output guardrail ──────────────────────────────────
+# Validate the agent's final answer before returning to user
 from pydantic import BaseModel
 from typing import Optional
- 
+
 class AgentOutputGuardrail(BaseModel):
     is_complete: bool
     has_answer:  bool
     is_on_topic: bool
     issues:      list[str] = []
- 
+
 def validate_agent_output(original_goal: str, output: str) -> AgentOutputGuardrail:
     return instructor_client.messages.create(
-        model=<span class="cs">"claude-3-haiku-20240307"</span>,
-        max_tokens=<span class="cv">200</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>:
-            <span class="cs">f"""Validate this agent output against the original goal.
- 
+        model="claude-3-haiku-20240307",
+        max_tokens=200,
+        messages=[{"role": "user", "content":
+            f"""Validate this agent output against the original goal.
+
 Goal: {original_goal}
 Output: {output}
- 
-Check: Is the goal addressed? Is there a clear answer? Is it on topic?"""</span>}],
+
+Check: Is the goal addressed? Is there a clear answer? Is it on topic?"""}],
         response_model=AgentOutputGuardrail
-    )</pre></div>
+    )
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -349,57 +362,63 @@ Check: Is the goal addressed? Is there a clear answer? Is it on topic?"""</span>
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">💰</span><h3>Cost Circuit Breakers</h3><span class="tag tag-violet">Financial Safety</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import sqlite3
+    
+
+```python
+import sqlite3
 from datetime import datetime
- 
+
 MODEL_COSTS = {
-    <span class="cs">"claude-3-5-sonnet-20241022"</span>: {<span class="cs">"input"</span>: <span class="cv">3.0</span>/<span class="cv">1e6</span>, <span class="cs">"output"</span>: <span class="cv">15.0</span>/<span class="cv">1e6</span>},
-    <span class="cs">"claude-3-haiku-20240307"</span>:    {<span class="cs">"input"</span>: <span class="cv">0.25</span>/<span class="cv">1e6</span>, <span class="cs">"output"</span>: <span class="cv">1.25</span>/<span class="cv">1e6</span>},
+    "claude-3-5-sonnet-20241022": {"input": 3.0/1e6, "output": 15.0/1e6},
+    "claude-3-haiku-20240307":    {"input": 0.25/1e6, "output": 1.25/1e6},
 }
- 
+
 class AgentCostCircuitBreaker:
     """Hard spending limits for agent sessions."""
-    def __init__(self, session_limit_usd: float = <span class="cv">1.0</span>,
-                 daily_limit_usd: float = <span class="cv">10.0</span>,
-                 per_tool_call_limit_usd: float = <span class="cv">0.10</span>):
+    def __init__(self, session_limit_usd: float = 1.0,
+                 daily_limit_usd: float = 10.0,
+                 per_tool_call_limit_usd: float = 0.10):
         self.session_limit      = session_limit_usd
         self.daily_limit        = daily_limit_usd
         self.per_tool_call_limit = per_tool_call_limit_usd
-        self.session_spend      = <span class="cv">0.0</span>
+        self.session_spend      = 0.0
         self.session_id         = datetime.utcnow().isoformat()
- 
+
     def _compute_cost(self, model: str, input_tok: int, output_tok: int) -> float:
-        prices = MODEL_COSTS.get(model, MODEL_COSTS[<span class="cs">"claude-3-5-sonnet-20241022"</span>])
-        return input_tok * prices[<span class="cs">"input"</span>] + output_tok * prices[<span class="cs">"output"</span>]
- 
+        prices = MODEL_COSTS.get(model, MODEL_COSTS["claude-3-5-sonnet-20241022"])
+        return input_tok * prices["input"] + output_tok * prices["output"]
+
     def _get_daily_spend(self) -> float:
-        today = datetime.utcnow().strftime(<span class="cs">"%Y-%m-%d"</span>)
-        with sqlite3.connect(<span class="cs">"agent_costs.db"</span>) as conn:
-            conn.execute(<span class="cs">"CREATE TABLE IF NOT EXISTS costs (ts TEXT, session TEXT, cost REAL)"</span>)
+        today = datetime.utcnow().strftime("%Y-%m-%d")
+        with sqlite3.connect("agent_costs.db") as conn:
+            conn.execute("CREATE TABLE IF NOT EXISTS costs (ts TEXT, session TEXT, cost REAL)")
             row = conn.execute(
-                <span class="cs">"SELECT SUM(cost) FROM costs WHERE ts LIKE ?"</span>, (f<span class="cs">"{today}%"</span>,)).fetchone()
-        return row[<span class="cv">0</span>] or <span class="cv">0.0</span>
- 
+                "SELECT SUM(cost) FROM costs WHERE ts LIKE ?", (f"{today}%",)).fetchone()
+        return row[0] or 0.0
+
     def record_and_check(self, model: str, input_tok: int,
                          output_tok: int) -> tuple[float, bool, str]:
         cost  = self._compute_cost(model, input_tok, output_tok)
         self.session_spend += cost
- 
-        with sqlite3.connect(<span class="cs">"agent_costs.db"</span>) as conn:
-            conn.execute(<span class="cs">"INSERT INTO costs VALUES (?,?,?)"</span>,
+
+        with sqlite3.connect("agent_costs.db") as conn:
+            conn.execute("INSERT INTO costs VALUES (?,?,?)",
                          (datetime.utcnow().isoformat(), self.session_id, cost))
- 
+
         daily = self._get_daily_spend()
- 
+
         if cost > self.per_tool_call_limit:
-            return cost, <span class="cv">True</span>, <span class="cs">f"Single call cost ${cost:.4f} exceeds per-call limit"</span>
+            return cost, True, f"Single call cost ${cost:.4f} exceeds per-call limit"
         if self.session_spend > self.session_limit:
-            return cost, <span class="cv">True</span>, <span class="cs">f"Session spend ${self.session_spend:.4f} exceeds session limit"</span>
+            return cost, True, f"Session spend ${self.session_spend:.4f} exceeds session limit"
         if daily > self.daily_limit:
-            return cost, <span class="cv">True</span>, <span class="cs">f"Daily spend ${daily:.4f} exceeds daily limit"</span>
- 
-        return cost, <span class="cv">False</span>, <span class="cs">""</span></pre></div>
-    <div class="warn"><p>⚠️ <strong>Always set a session cost limit for any agent that can spawn subagents or loop.</strong> A misconfigured agent that recursively calls expensive tools can exhaust a $100 budget in minutes. The circuit breaker pattern is not optional — it is the difference between a manageable incident and a billing nightmare.</p></div>
+            return cost, True, f"Daily spend ${daily:.4f} exceeds daily limit"
+
+        return cost, False, ""
+```
+
+
+<div class="warn"><p>⚠️ <strong>Always set a session cost limit for any agent that can spawn subagents or loop.</strong> A misconfigured agent that recursively calls expensive tools can exhaust a $100 budget in minutes. The circuit breaker pattern is not optional — it is the difference between a manageable incident and a billing nightmare.</p></div>
   </div>
 </div>
 </div><!-- end t4 -->
@@ -408,61 +427,67 @@ class AgentCostCircuitBreaker:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Structured Agent Logging</h3><span class="tag tag-violet">Audit & Debug</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install structlog
- 
+    
+
+```python
+pip install structlog
+
 import structlog, time
 from datetime import datetime
- 
-<span class="ck"># Configure structlog for JSON output</span>
+
+# Configure structlog for JSON output
 structlog.configure(
     processors=[
         structlog.contextvars.merge_contextvars,
         structlog.processors.add_log_level,
-        structlog.processors.TimeStamper(fmt=<span class="cs">"iso"</span>),
+        structlog.processors.TimeStamper(fmt="iso"),
         structlog.processors.JSONRenderer()
     ]
 )
 logger = structlog.get_logger()
- 
+
 class AgentLogger:
     """Structured logging for agent execution."""
     def __init__(self, session_id: str, goal: str):
         self.session_id = session_id
         self.goal       = goal
-        self.turn       = <span class="cv">0</span>
+        self.turn       = 0
         self.start_time = time.time()
-        logger.info(<span class="cs">"agent_started"</span>, session_id=session_id, goal=goal)
- 
+        logger.info("agent_started", session_id=session_id, goal=goal)
+
     def log_turn(self, stop_reason: str, tools_called: list):
-        self.turn += <span class="cv">1</span>
-        logger.info(<span class="cs">"agent_turn"</span>, session_id=self.session_id,
+        self.turn += 1
+        logger.info("agent_turn", session_id=self.session_id,
                     turn=self.turn, stop_reason=stop_reason,
                     tools_called=tools_called)
- 
+
     def log_tool_call(self, tool_name: str, args: dict, result: dict,
                       latency_ms: float, cost_usd: float):
-        success = result.get(<span class="cs">"ok"</span>, <span class="cv">True</span>)
-        logger.info(<span class="cs">"tool_call"</span>, session_id=self.session_id, turn=self.turn,
+        success = result.get("ok", True)
+        logger.info("tool_call", session_id=self.session_id, turn=self.turn,
                     tool=tool_name, success=success,
-                    latency_ms=round(latency_ms, <span class="cv">1</span>), cost_usd=round(cost_usd, <span class="cv">6</span>),
-                    error=result.get(<span class="cs">"error"</span>) if not success else None)
- 
-    def log_completion(self, status: str, total_cost_usd: float, answer: str = <span class="cs">""</span>):
-        elapsed = round(time.time() - self.start_time, <span class="cv">2</span>)
-        logger.info(<span class="cs">"agent_completed"</span>, session_id=self.session_id,
+                    latency_ms=round(latency_ms, 1), cost_usd=round(cost_usd, 6),
+                    error=result.get("error") if not success else None)
+
+    def log_completion(self, status: str, total_cost_usd: float, answer: str = ""):
+        elapsed = round(time.time() - self.start_time, 2)
+        logger.info("agent_completed", session_id=self.session_id,
                     status=status, total_turns=self.turn,
-                    elapsed_sec=elapsed, total_cost_usd=round(total_cost_usd, <span class="cv">6</span>),
+                    elapsed_sec=elapsed, total_cost_usd=round(total_cost_usd, 6),
                     answer_length=len(answer))
- 
-    def log_failure(self, reason: str, last_tool: str = <span class="cs">""</span>):
-        logger.error(<span class="cs">"agent_failed"</span>, session_id=self.session_id,
+
+    def log_failure(self, reason: str, last_tool: str = ""):
+        logger.error("agent_failed", session_id=self.session_id,
                      turn=self.turn, reason=reason, last_tool=last_tool)
- 
-<span class="ck"># Example output (one JSON line per event):</span>
-<span class="ck"># {"event":"agent_started","session_id":"abc123","goal":"Analyse Q3 sales","level":"info","timestamp":"2024-..."}</span>
-<span class="ck"># {"event":"tool_call","tool":"search_sales_db","success":true,"latency_ms":124.3,"cost_usd":0.000045,...}</span>
-<span class="ck"># {"event":"agent_failed","reason":"Loop detected: search_sales_db called 3x with same args",...}</span></pre></div>
-    <div class="ins"><p>💡 <strong>Structured logs are queryable.</strong> When you have 10,000 agent runs in production and one fails, you need to find: which session, which turn, which tool, what the exact args were. JSON logs let you grep, jq-filter, and aggregate across millions of events. Unstructured print() statements do not.</p></div>
+
+# Example output (one JSON line per event):
+# {"event":"agent_started","session_id":"abc123","goal":"Analyse Q3 sales","level":"info","timestamp":"2024-..."}
+# {"event":"tool_call","tool":"search_sales_db","success":true,"latency_ms":124.3,"cost_usd":0.000045,...}
+# {"event":"agent_failed","reason":"Loop detected: search_sales_db called 3x with same args",...}
+```
+
+
+<div class="ins"><p>💡 <strong>Structured logs are queryable.</strong> When you have 10,000 agent runs in production and one fails, you need to find: which session, which turn, which tool, what the exact args were. JSON logs let you grep, jq-filter, and aggregate across millions of events. Unstructured print() statements do not.</p></div>
   </div>
 </div>
 </div><!-- end t5 -->
@@ -471,81 +496,87 @@ class AgentLogger:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔁</span><h3>Recovery and Graceful Degradation</h3><span class="tag tag-violet">Resilience</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># ── Pattern 1: Alternative strategy prompt ────────────</span>
-<span class="ck"># When tool fails N times, inject a prompt asking the agent to try differently</span>
- 
-STUCK_RECOVERY_MSG = <span class="cs">"""You have encountered repeated errors with {tool_name}.
+    
+
+```python
+# ── Pattern 1: Alternative strategy prompt ────────────
+# When tool fails N times, inject a prompt asking the agent to try differently
+
+STUCK_RECOVERY_MSG = """You have encountered repeated errors with {tool_name}.
 The error was: {error_message}
- 
+
 Please try a different approach:
 - Use a different tool if available
 - Simplify your query or arguments
 - If you cannot complete this subtask, explain what you found so far and skip it
- 
-Do NOT call {tool_name} again with the same arguments."""</span>
- 
+
+Do NOT call {tool_name} again with the same arguments."""
+
 def inject_recovery_hint(messages: list, tool_name: str, error: str) -> list:
     recovery = STUCK_RECOVERY_MSG.format(tool_name=tool_name, error_message=error)
     messages.append({
-        <span class="cs">"role"</span>: <span class="cs">"user"</span>,
-        <span class="cs">"content"</span>: [{<span class="cs">"type"</span>: <span class="cs">"text"</span>, <span class="cs">"text"</span>: recovery}]
+        "role": "user",
+        "content": [{"type": "text", "text": recovery}]
     })
     return messages
- 
-<span class="ck"># ── Pattern 2: Partial result extraction ─────────────</span>
-<span class="ck"># When agent hits limit, extract what it learned before stopping</span>
- 
+
+# ── Pattern 2: Partial result extraction ─────────────
+# When agent hits limit, extract what it learned before stopping
+
 def extract_partial_result(messages: list) -> str:
-    if len(messages) < <span class="cv">2</span>:
-        return <span class="cs">"No results gathered before timeout."</span>
- 
+    if len(messages) 2:
+        return "No results gathered before timeout."
+
     response = client.messages.create(
-        model=<span class="cs">"claude-3-haiku-20240307"</span>,
-        max_tokens=<span class="cv">512</span>,
+        model="claude-3-haiku-20240307",
+        max_tokens=512,
         messages=[
             *messages,
-            {<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>:
-             <span class="cs">"Summarise what you have found so far, even if incomplete. Be honest about what's missing."</span>}
+            {"role": "user", "content":
+             "Summarise what you have found so far, even if incomplete. Be honest about what's missing."}
         ]
     )
-    return response.content[<span class="cv">0</span>].text
- 
-<span class="ck"># ── Pattern 3: Fallback to human ─────────────────────</span>
-<span class="ck"># When agent cannot proceed, escalate with full context</span>
- 
+    return response.content[0].text
+
+# ── Pattern 3: Fallback to human ─────────────────────
+# When agent cannot proceed, escalate with full context
+
 def escalate_to_human(session_id: str, goal: str, messages: list,
                       failure_reason: str) -> dict:
     partial = extract_partial_result(messages)
     ticket  = {
-        <span class="cs">"session_id"</span>:      session_id,
-        <span class="cs">"original_goal"</span>:   goal,
-        <span class="cs">"failure_reason"</span>:  failure_reason,
-        <span class="cs">"partial_result"</span>:  partial,
-        <span class="cs">"turns_completed"</span>: len([m for m in messages if m[<span class="cs">"role"</span>] == <span class="cs">"assistant"</span>]),
-        <span class="cs">"escalated_at"</span>:    datetime.utcnow().isoformat(),
-        <span class="cs">"priority"</span>:        <span class="cs">"high"</span> if <span class="cs">"cost"</span> in failure_reason.lower() else <span class="cs">"normal"</span>
+        "session_id":      session_id,
+        "original_goal":   goal,
+        "failure_reason":  failure_reason,
+        "partial_result":  partial,
+        "turns_completed": len([m for m in messages if m["role"] == "assistant"]),
+        "escalated_at":    datetime.utcnow().isoformat(),
+        "priority":        "high" if "cost" in failure_reason.lower() else "normal"
     }
-    create_human_task(ticket)   <span class="ck"># your ticketing system</span>
-    return {<span class="cs">"status"</span>: <span class="cs">"escalated"</span>, <span class="cs">"ticket_id"</span>: ticket[<span class="cs">"session_id"</span>],
-            <span class="cs">"message"</span>: <span class="cs">"A human agent will continue this task."</span>}
- 
-<span class="ck"># ── Pattern 4: Checkpoint and resume ─────────────────</span>
-<span class="ck"># Save progress periodically — resume if agent crashes</span>
- 
+    create_human_task(ticket)   # your ticketing system
+    return {"status": "escalated", "ticket_id": ticket["session_id"],
+            "message": "A human agent will continue this task."}
+
+# ── Pattern 4: Checkpoint and resume ─────────────────
+# Save progress periodically — resume if agent crashes
+
 import pickle, pathlib
- 
+
 def save_checkpoint(session_id: str, messages: list, state: dict):
-    path = pathlib.Path(<span class="cs">f".checkpoints/{session_id}.pkl"</span>)
-    path.parent.mkdir(exist_ok=<span class="cv">True</span>)
-    with open(path, <span class="cs">"wb"</span>) as f:
-        pickle.dump({<span class="cs">"messages"</span>: messages, <span class="cs">"state"</span>: state}, f)
- 
+    path = pathlib.Path(f".checkpoints/{session_id}.pkl")
+    path.parent.mkdir(exist_ok=True)
+    with open(path, "wb") as f:
+        pickle.dump({"messages": messages, "state": state}, f)
+
 def load_checkpoint(session_id: str) -> dict | None:
-    path = pathlib.Path(<span class="cs">f".checkpoints/{session_id}.pkl"</span>)
+    path = pathlib.Path(f".checkpoints/{session_id}.pkl")
     if not path.exists():
         return None
-    with open(path, <span class="cs">"rb"</span>) as f:
-        return pickle.load(f)</pre></div>
+    with open(path, "rb") as f:
+        return pickle.load(f)
+```
+
+
   </div>
 </div>
 </div><!-- end t6 -->
@@ -555,9 +586,9 @@ def load_checkpoint(session_id: str) -> dict | None:
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Article</td><td><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents — anthropic.com/research</a></td><td>Covers agent failure modes and the importance of minimal footprint and human oversight.</td></tr>
-    <tr><td class="res-type">Library</td><td><a href="https://www.structlog.org/" target="_blank" rel="noopener">structlog — structlog.org — structured logging for Python</a></td><td>The standard library for structured JSON logging in Python. Read the Getting Started guide.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/low_level/" target="_blank" rel="noopener">LangGraph: Checkpointing — langchain-ai.github.io/langgraph</a></td><td>LangGraph's built-in checkpoint system for agent state persistence and recovery.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents — anthropic.com/research</a></td><td>Covers agent failure modes and the importance of minimal footprint and human oversight.</td></tr>
+<tr><td class="res-type">Library</td><td><a href="https://www.structlog.org/" target="_blank" rel="noopener">structlog — structlog.org — structured logging for Python</a></td><td>The standard library for structured JSON logging in Python. Read the Getting Started guide.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/low_level/" target="_blank" rel="noopener">LangGraph: Checkpointing — langchain-ai.github.io/langgraph</a></td><td>LangGraph's built-in checkpoint system for agent state persistence and recovery.</td></tr>
   </tbody>
 </table>
 </div>
@@ -565,28 +596,28 @@ def load_checkpoint(session_id: str) -> dict | None:
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Hardened Agent with Full Failure Handling</span>
-    <span class="proj-dur">[Advanced] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Hardened Agent with Full Failure Handling</span>
+<span class="proj-dur">[Advanced] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Take your M19 research agent and add the full production hardening layer from this module.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>AgentGuardian</strong> — loop detection via tool call fingerprinting, max_turns, consecutive error counter</li>
-      <li><strong>AgentCostCircuitBreaker</strong> — session limit ($1), daily limit ($10), per-call limit ($0.10)</li>
-      <li><strong>Tool validation</strong> — validate all tool names and arg types before execution</li>
-      <li><strong>Structured logging</strong> — every turn, tool call, failure, and completion logged as JSON</li>
-      <li><strong>Recovery hints</strong> — inject alternative strategy prompt after 3 consecutive tool errors</li>
-      <li><strong>Partial result extraction</strong> — on any stop (limit/loop/cost), extract and return what was learned</li>
-      <li><strong>Checkpoint/resume</strong> — save state after each turn, auto-resume if session_id provided</li>
-    </ul>
-    <h4>Testing</h4>
-    <ul>
-      <li>Trigger every failure mode deliberately and verify each guard works</li>
-      <li>Run 10 real tasks and review the structured logs — identify any unexpected failure patterns</li>
-    </ul>
-    <p><strong>Skills:</strong> AgentGuardian, cost circuit breaker, tool validation, structlog, recovery patterns, checkpoint/resume</p>
+<p>Take your M19 research agent and add the full production hardening layer from this module.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>AgentGuardian</strong> — loop detection via tool call fingerprinting, max_turns, consecutive error counter</li>
+<li><strong>AgentCostCircuitBreaker</strong> — session limit ($1), daily limit ($10), per-call limit ($0.10)</li>
+<li><strong>Tool validation</strong> — validate all tool names and arg types before execution</li>
+<li><strong>Structured logging</strong> — every turn, tool call, failure, and completion logged as JSON</li>
+<li><strong>Recovery hints</strong> — inject alternative strategy prompt after 3 consecutive tool errors</li>
+<li><strong>Partial result extraction</strong> — on any stop (limit/loop/cost), extract and return what was learned</li>
+<li><strong>Checkpoint/resume</strong> — save state after each turn, auto-resume if session_id provided</li>
+</ul>
+<h4>Testing</h4>
+<ul>
+<li>Trigger every failure mode deliberately and verify each guard works</li>
+<li>Run 10 real tasks and review the structured logs — identify any unexpected failure patterns</li>
+</ul>
+<p><strong>Skills:</strong> AgentGuardian, cost circuit breaker, tool validation, structlog, recovery patterns, checkpoint/resume</p>
   </div>
 </div>
 </div>
@@ -595,33 +626,33 @@ def load_checkpoint(session_id: str) -> dict | None:
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Trigger and Detect Every Failure Mode</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Deliberately trigger all 5 failure modes and verify the AgentGuardian catches each one.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Build an agent with AgentGuardian (max_turns=10, max_repeated_calls=3, max_errors=4, max_cost=$0.50).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Trigger <strong>Infinite Loop</strong>: make a tool that always returns "retry" and never changes state. Verify guardian catches it at 3 repeated calls.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Trigger <strong>Stuck State</strong>: make a tool always return an error dict. Verify guardian catches it at 4 consecutive errors.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Trigger <strong>Hallucinated Tool</strong>: remove a tool from the registry but leave it in the description. Verify execute_tool_safe catches and returns structured error.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Trigger <strong>Runaway Cost</strong>: set max_cost=$0.001 and run any real query. Verify circuit breaker fires after first turn.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div>For each triggered failure: verify the agent returns a useful partial_result, not a Python exception. Document the structured log output for each.</div></div>
+<p><strong>Objective:</strong> Deliberately trigger all 5 failure modes and verify the AgentGuardian catches each one.</p>
+<div class="lab-step"><div class="sn">1</div><div>Build an agent with AgentGuardian (max_turns=10, max_repeated_calls=3, max_errors=4, max_cost=$0.50).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Trigger <strong>Infinite Loop</strong>: make a tool that always returns "retry" and never changes state. Verify guardian catches it at 3 repeated calls.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Trigger <strong>Stuck State</strong>: make a tool always return an error dict. Verify guardian catches it at 4 consecutive errors.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Trigger <strong>Hallucinated Tool</strong>: remove a tool from the registry but leave it in the description. Verify execute_tool_safe catches and returns structured error.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Trigger <strong>Runaway Cost</strong>: set max_cost=$0.001 and run any real query. Verify circuit breaker fires after first turn.</div></div>
+<div class="lab-step"><div class="sn">6</div><div>For each triggered failure: verify the agent returns a useful partial_result, not a Python exception. Document the structured log output for each.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Structured Log Analysis</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Practice querying structured logs to diagnose agent failures post-hoc.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Run your hardened agent on 20 different tasks. All logs go to a file agent.jsonl (one JSON object per line).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Write Python to parse agent.jsonl and compute: (a) total sessions, (b) success rate, (c) most called tools, (d) most common failure reason, (e) avg turns per successful session.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Find all sessions where a specific tool failed. Print: session_id, turn number, args passed, error message. This is the debugging workflow you'd use in production.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Identify the most expensive session. Reconstruct its full tool call sequence from the logs. What did it do that cost the most?</div></div>
+<p><strong>Objective:</strong> Practice querying structured logs to diagnose agent failures post-hoc.</p>
+<div class="lab-step"><div class="sn">1</div><div>Run your hardened agent on 20 different tasks. All logs go to a file agent.jsonl (one JSON object per line).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Write Python to parse agent.jsonl and compute: (a) total sessions, (b) success rate, (c) most called tools, (d) most common failure reason, (e) avg turns per successful session.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Find all sessions where a specific tool failed. Print: session_id, turn number, args passed, error message. This is the debugging workflow you'd use in production.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Identify the most expensive session. Reconstruct its full tool call sequence from the logs. What did it do that cost the most?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Checkpoint and Resume</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Verify that checkpointing allows agent recovery from crashes without losing work.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add checkpoint saving after every tool call in your agent. Use session_id as filename.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Start a long-running 10-turn task. After turn 5, forcefully kill the process (Ctrl+C or sys.exit()).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Restart the agent with the same session_id. Verify it loads from the checkpoint and continues from turn 6 — it should not redo turns 1-5.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Verify the final answer matches what you would have gotten without the interruption. Compare cost: checkpoint run should cost ~50% of a full restart.</div></div>
+<p><strong>Objective:</strong> Verify that checkpointing allows agent recovery from crashes without losing work.</p>
+<div class="lab-step"><div class="sn">1</div><div>Add checkpoint saving after every tool call in your agent. Use session_id as filename.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Start a long-running 10-turn task. After turn 5, forcefully kill the process (Ctrl+C or sys.exit()).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Restart the agent with the same session_id. Verify it loads from the checkpoint and continues from turn 6 — it should not redo turns 1-5.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Verify the final answer matches what you would have gotten without the interruption. Compare cost: checkpoint run should cost ~50% of a full restart.</div></div>
   </div>
 </div>
 </div><!-- end t9 -->

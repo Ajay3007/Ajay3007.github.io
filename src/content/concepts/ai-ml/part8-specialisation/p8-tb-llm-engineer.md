@@ -57,9 +57,9 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
   <div class="mod-title">Track B — Applied ML / LLM Engineer</div>
   <div class="mod-subtitle">Fine-tune models, build rigorous evals, and work at the model layer</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2–3 Weeks</span>
-    <span class="mod-pill">🔴 Advanced</span>
-    <span class="mod-pill">🔧 Unsloth · HuggingFace · PEFT · vLLM</span>
+<span class="mod-pill">⏱ 2–3 Weeks</span>
+<span class="mod-pill">🔴 Advanced</span>
+<span class="mod-pill">🔧 Unsloth · HuggingFace · PEFT · vLLM</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -75,16 +75,16 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Track Overview</h3><span class="tag">Specialisation B</span></div>
   <div class="cp-body">
-    <p>Go deep on the model layer: fine-tuning open-source LLMs, building rigorous eval frameworks, and serving models in production. This track is for engineers who want to work at AI labs, research teams, or companies that run their own models rather than using third-party APIs.</p>
-    <h4>Skills You Will Build</h4>
-    <ul>
-      <li>HuggingFace ecosystem: datasets, transformers, hub, evaluate</li>
-      <li>QLoRA fine-tuning with Unsloth — 2x faster, 70% less VRAM</li>
-      <li>PEFT LoRA — train 0.1% of parameters, get 80% of the quality gain</li>
-      <li>vLLM for high-throughput PagedAttention-based model serving</li>
-      <li>GGUF quantisation for local CPU deployment with llama.cpp</li>
-      <li>Rigorous LLM evaluation: domain accuracy, fluency, cost comparison</li>
-    </ul>
+<p>Go deep on the model layer: fine-tuning open-source LLMs, building rigorous eval frameworks, and serving models in production. This track is for engineers who want to work at AI labs, research teams, or companies that run their own models rather than using third-party APIs.</p>
+<h4>Skills You Will Build</h4>
+<ul>
+<li>HuggingFace ecosystem: datasets, transformers, hub, evaluate</li>
+<li>QLoRA fine-tuning with Unsloth — 2x faster, 70% less VRAM</li>
+<li>PEFT LoRA — train 0.1% of parameters, get 80% of the quality gain</li>
+<li>vLLM for high-throughput PagedAttention-based model serving</li>
+<li>GGUF quantisation for local CPU deployment with llama.cpp</li>
+<li>Rigorous LLM evaluation: domain accuracy, fluency, cost comparison</li>
+</ul>
   </div>
 </div>
 </div>
@@ -195,7 +195,7 @@ merged.save_pretrained("merged_model")</pre></div>
 <div class="cp">
   <div class="cp-hdr"><span class="ico">📊</span><h3>PEFT & LoRA — The Math That Matters</h3><span class="tag">Concepts</span></div>
   <div class="cp-body">
-    <p>LoRA adds small trainable matrices to frozen model weights. Instead of training W (d x d, billions of params), you train A (d x r) and B (r x d) where r is typically 8-64. The effective weight update is A times B, which is added to the frozen W.</p>
+<p>LoRA adds small trainable matrices to frozen model weights. Instead of training W (d x d, billions of params), you train A (d x r) and B (r x d) where r is typically 8-64. The effective weight update is A times B, which is added to the frozen W.</p>
     <div class="cb"><pre># LoRA: W_update = A x B, where rank r &lt;&lt; d
 # At r=16 on a 7B model: 0.1% of parameters trained
 # Quality: typically 80-95% of full fine-tune quality at 1% the cost
@@ -284,22 +284,22 @@ def eval_model(questions: list[str], answers: list[str]) -> dict:
 <div id="t5" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Capstone: Domain Fine-Tuned Model with Evaluation Report</span>
-    <span class="proj-dur">2–3 weeks</span>
+<span>🛠</span>
+<span class="proj-title">Capstone: Domain Fine-Tuned Model with Evaluation Report</span>
+<span class="proj-dur">2–3 weeks</span>
   </div>
   <div class="proj-body">
-    <p>Fine-tune a 3B parameter open-source model on a domain-specific dataset from your professional area (DPDK documentation, network engineering, telecom). Evaluate it rigorously and serve it in production.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Build a dataset of 200+ Q&A pairs from your domain</li>
-      <li>Fine-tune using Unsloth QLoRA on Google Colab T4 (free) or local GPU</li>
-      <li>Serve the merged model with vLLM on a $5/mo cloud VM</li>
-      <li>Evaluation report on 50 domain questions: fine-tuned vs base model vs Claude-3-Haiku</li>
-      <li>Metrics: accuracy (LLM-judged), latency, cost per query</li>
-      <li>GGUF version for local deployment — verify it runs on CPU</li>
-    </ul>
-    <p>Push dataset, training code, evaluation results, and model to HuggingFace Hub.</p>
+<p>Fine-tune a 3B parameter open-source model on a domain-specific dataset from your professional area (DPDK documentation, network engineering, telecom). Evaluate it rigorously and serve it in production.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Build a dataset of 200+ Q&A pairs from your domain</li>
+<li>Fine-tune using Unsloth QLoRA on Google Colab T4 (free) or local GPU</li>
+<li>Serve the merged model with vLLM on a $5/mo cloud VM</li>
+<li>Evaluation report on 50 domain questions: fine-tuned vs base model vs Claude-3-Haiku</li>
+<li>Metrics: accuracy (LLM-judged), latency, cost per query</li>
+<li>GGUF version for local deployment — verify it runs on CPU</li>
+</ul>
+<p>Push dataset, training code, evaluation results, and model to HuggingFace Hub.</p>
   </div>
 </div>
 </div>

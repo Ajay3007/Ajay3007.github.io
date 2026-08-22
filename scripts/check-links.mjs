@@ -103,7 +103,36 @@ for (const page of pages) {
   }
 }
 
+/**
+ * Render invariant: markup must never end up inside a code block.
+ *
+ * Indented HTML becomes an *indented code block* the moment it stops being
+ * inside an HTML block, so a callout can silently render as its own source.
+ * That happened while converting hand-rolled code blocks to fences, and it is
+ * invisible to a link check — the page is valid, it just shows the wrong thing.
+ */
+const markupInCode = [];
+for (const page of pages) {
+  const html = readFileSync(page, 'utf8');
+  for (const m of html.matchAll(/<pre[^>]*><code[^>]*>([\s\S]{0,400}?)<\/code>/g)) {
+    // Shiki escapes '<' as &#x3C;, not &lt; — matching only the latter is why
+    // the first version of this check silently passed on a page that had the bug.
+    const opensTag = /&(?:lt|#x3C|#60);(div|section|aside)[\s&]/i;
+    if (opensTag.test(m[1])) {
+      markupInCode.push([relative(DIST, page), m[1].replace(/\s+/g, ' ').slice(0, 70)]);
+      break;
+    }
+  }
+}
+
 console.log(`checked ${checked} internal links across ${pages.length} pages`);
+
+if (markupInCode.length) {
+  console.log(`\n${markupInCode.length} page(s) render HTML markup as code:`);
+  for (const [p, sample] of markupInCode.slice(0, 8)) console.log(`  ✗ ${p}\n      ${sample}…`);
+  console.log('\nFAILED');
+  process.exit(1);
+}
 
 /**
  * Three Jekyll URLs are files rather than directories (/about.html,

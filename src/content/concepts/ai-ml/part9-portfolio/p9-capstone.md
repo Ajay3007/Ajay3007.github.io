@@ -79,10 +79,10 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
   <div class="mod-title">Capstone, Portfolio &amp; Job-Readiness</div>
   <div class="mod-subtitle">Package everything you've built into a portfolio that gets you hired as an AI engineer</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2–4 Weeks</span>
-    <span class="mod-pill">🏆 Capstone</span>
-    <span class="mod-pill">📂 GitHub Portfolio · Resume · LinkedIn · Outreach</span>
-    <span class="mod-pill">🎯 Goal: AI Engineering Job</span>
+<span class="mod-pill">⏱ 2–4 Weeks</span>
+<span class="mod-pill">🏆 Capstone</span>
+<span class="mod-pill">📂 GitHub Portfolio · Resume · LinkedIn · Outreach</span>
+<span class="mod-pill">🎯 Goal: AI Engineering Job</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -100,17 +100,17 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What Part 9 Is About</h3><span class="tag">Final Stage</span></div>
   <div class="cp-body">
-    <p>You have built everything. Parts 1–8 gave you 27 modules of AI engineering skills — RAG systems, agents, production APIs, prompt engineering, containerisation, observability, and a specialisation track. Now you need to make those skills visible to employers.</p>
-    <p>Most engineers underinvest in the presentation layer. They build great things privately and expect recruiters to read their minds. This module teaches you to build the signal that gets you conversations: a curated GitHub portfolio, a metrics-driven resume, targeted outreach, and the ability to talk through your work technically.</p>
-    <h4>The Job Search Stack</h4>
-    <ul>
-      <li><strong>Portfolio</strong> — 3 public GitHub repos with excellent READMEs and live demos</li>
-      <li><strong>Resume</strong> — quantified impact, AI keywords, 1 page unless 10+ years experience</li>
-      <li><strong>LinkedIn</strong> — posts showcasing what you built, searchable by recruiters</li>
-      <li><strong>Outreach</strong> — warm DMs to engineers at target companies, not cold applications</li>
-      <li><strong>Technical interview prep</strong> — system design for AI, coding, and ML fundamentals</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>Three deployed projects beat fifty tutorial certificates.</strong> Employers in AI engineering hire for demonstrated capability. A live RAG API, a deployed SaaS app, and a fine-tuned model on HuggingFace Hub signal more than any course completion badge.</p></div>
+<p>You have built everything. Parts 1–8 gave you 27 modules of AI engineering skills — RAG systems, agents, production APIs, prompt engineering, containerisation, observability, and a specialisation track. Now you need to make those skills visible to employers.</p>
+<p>Most engineers underinvest in the presentation layer. They build great things privately and expect recruiters to read their minds. This module teaches you to build the signal that gets you conversations: a curated GitHub portfolio, a metrics-driven resume, targeted outreach, and the ability to talk through your work technically.</p>
+<h4>The Job Search Stack</h4>
+<ul>
+<li><strong>Portfolio</strong> — 3 public GitHub repos with excellent READMEs and live demos</li>
+<li><strong>Resume</strong> — quantified impact, AI keywords, 1 page unless 10+ years experience</li>
+<li><strong>LinkedIn</strong> — posts showcasing what you built, searchable by recruiters</li>
+<li><strong>Outreach</strong> — warm DMs to engineers at target companies, not cold applications</li>
+<li><strong>Technical interview prep</strong> — system design for AI, coding, and ML fundamentals</li>
+</ul>
+<div class="ins"><p>💡 <strong>Three deployed projects beat fifty tutorial certificates.</strong> Employers in AI engineering hire for demonstrated capability. A live RAG API, a deployed SaaS app, and a fine-tuned model on HuggingFace Hub signal more than any course completion badge.</p></div>
   </div>
 </div>
 </div>
@@ -119,33 +119,33 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">📂</span><h3>Your Portfolio: 3 Pinned Projects</h3><span class="tag">Selection</span></div>
   <div class="cp-body">
-    <p>GitHub lets you pin 6 repos. Pin 3 AI engineering projects. Everything else is secondary. Each pinned project should demonstrate a different layer of the stack.</p>
-    <div class="proj-grid">
-      <div class="proj-card tc-blue">
-        <h4>Project 1 — Production RAG API</h4>
-        <p>Your M18 "Chat With Your Docs" built to production standard: ChromaDB + Cohere reranker + grounded answers + citations + streaming FastAPI.</p>
-        <div class="tags"><span class="tag">RAG</span><span class="tag">FastAPI</span><span class="tag">Anthropic</span><span class="tag">Deployed</span></div>
-      </div>
-      <div class="proj-card tc-purple">
-        <h4>Project 2 — Agent System</h4>
-        <p>Your M21 hardened research agent: LangGraph, human-in-the-loop, cost circuit breaker, structured logging. Or your track specialisation capstone.</p>
-        <div class="tags"><span class="tag">LangGraph</span><span class="tag">Agents</span><span class="tag">Production</span></div>
-      </div>
-      <div class="proj-card tc-amber">
-        <h4>Project 3 — Your Track Capstone</h4>
-        <p>Track A: deployed SaaS with Stripe. Track B: fine-tuned model + eval report. Track C: enterprise automation. Track D: analysis pipeline with report generation.</p>
-        <div class="tags"><span class="tag">Specialisation</span><span class="tag">Deployed</span><span class="tag">Domain</span></div>
-      </div>
-    </div>
-    <h4>What Makes a Project Portfolio-Ready</h4>
-    <ul>
-      <li><strong>Deployed and live</strong> — a URL you can click during an interview. Not "see the screenshots."</li>
-      <li><strong>Excellent README</strong> — architecture diagram, problem statement, demo GIF or screenshot, tech stack badges (see Tab 2)</li>
-      <li><strong>Quantified results</strong> — "RAG faithfulness: 0.91 on 30-question eval set" beats "good accuracy"</li>
-      <li><strong>Production code quality</strong> — type hints, tests, .env.example, no hardcoded API keys, no 500-line main.py</li>
-      <li><strong>Commit history</strong> — evidence of iteration, not a single "initial commit + everything"</li>
-    </ul>
-    <div class="warn"><p>⚠️ <strong>Never put real API keys, credentials, or personal data in a public repo.</strong> Use a .env.example file showing required environment variables. Add .env to .gitignore before your first commit — it is very difficult to remove secrets from git history after the fact.</p></div>
+<p>GitHub lets you pin 6 repos. Pin 3 AI engineering projects. Everything else is secondary. Each pinned project should demonstrate a different layer of the stack.</p>
+<div class="proj-grid">
+<div class="proj-card tc-blue">
+<h4>Project 1 — Production RAG API</h4>
+<p>Your M18 "Chat With Your Docs" built to production standard: ChromaDB + Cohere reranker + grounded answers + citations + streaming FastAPI.</p>
+<div class="tags"><span class="tag">RAG</span><span class="tag">FastAPI</span><span class="tag">Anthropic</span><span class="tag">Deployed</span></div>
+</div>
+<div class="proj-card tc-purple">
+<h4>Project 2 — Agent System</h4>
+<p>Your M21 hardened research agent: LangGraph, human-in-the-loop, cost circuit breaker, structured logging. Or your track specialisation capstone.</p>
+<div class="tags"><span class="tag">LangGraph</span><span class="tag">Agents</span><span class="tag">Production</span></div>
+</div>
+<div class="proj-card tc-amber">
+<h4>Project 3 — Your Track Capstone</h4>
+<p>Track A: deployed SaaS with Stripe. Track B: fine-tuned model + eval report. Track C: enterprise automation. Track D: analysis pipeline with report generation.</p>
+<div class="tags"><span class="tag">Specialisation</span><span class="tag">Deployed</span><span class="tag">Domain</span></div>
+</div>
+</div>
+<h4>What Makes a Project Portfolio-Ready</h4>
+<ul>
+<li><strong>Deployed and live</strong> — a URL you can click during an interview. Not "see the screenshots."</li>
+<li><strong>Excellent README</strong> — architecture diagram, problem statement, demo GIF or screenshot, tech stack badges (see Tab 2)</li>
+<li><strong>Quantified results</strong> — "RAG faithfulness: 0.91 on 30-question eval set" beats "good accuracy"</li>
+<li><strong>Production code quality</strong> — type hints, tests, .env.example, no hardcoded API keys, no 500-line main.py</li>
+<li><strong>Commit history</strong> — evidence of iteration, not a single "initial commit + everything"</li>
+</ul>
+<div class="warn"><p>⚠️ <strong>Never put real API keys, credentials, or personal data in a public repo.</strong> Use a .env.example file showing required environment variables. Add .env to .gitignore before your first commit — it is very difficult to remove secrets from git history after the fact.</p></div>
   </div>
 </div>
 </div><!-- end t1 -->
@@ -154,10 +154,10 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Writing READMEs That Get You Interviews</h3><span class="tag">Signal</span></div>
   <div class="cp-body">
-    <p>The README is your project's cover letter. Most engineers write one paragraph. A great README takes 2 hours and generates 10x more recruiter interest.</p>
-    <div class="readme-box">
-      <div class="readme-hdr">📄 README.md — Template Structure</div>
-      <div class="readme-body">
+<p>The README is your project's cover letter. Most engineers write one paragraph. A great README takes 2 hours and generates 10x more recruiter interest.</p>
+<div class="readme-box">
+<div class="readme-hdr">📄 README.md — Template Structure</div>
+<div class="readme-body">
 <pre style="font-family:monospace;font-size:.83rem;line-height:1.8;color:var(--text-color,#222);white-space:pre-wrap">
 # Project Name — One-Line Value Proposition
  
@@ -202,8 +202,8 @@ docker compose up
 - Chose ChromaDB over Pinecone for self-hosting cost control at this scale
 - Added Anthropic prompt caching for system prompt (90% cost reduction on repeated queries)
 </pre>
-      </div>
-    </div>
+</div>
+</div>
     <div class="cb"><pre># Generate a demo GIF with terminalizer or vhs
 pip install terminalizer
 terminalizer record demo
@@ -229,15 +229,15 @@ asciinema upload demo.cast  # get a shareable URL
 <div class="cp">
   <div class="cp-hdr"><span class="ico">📄</span><h3>AI Engineering Resume — Principles</h3><span class="tag">Job Search</span></div>
   <div class="cp-body">
-    <h4>Structure (1 page, no exceptions under 10 years experience)</h4>
-    <ul>
-      <li><strong>Name + contact</strong> — email, GitHub URL, LinkedIn URL, portfolio/demo URL</li>
-      <li><strong>Summary</strong> (2 sentences) — role target + top 3 skills + years experience</li>
-      <li><strong>Skills</strong> — grouped: LLM APIs (Anthropic, OpenAI) | Frameworks (FastAPI, LangGraph, LlamaIndex) | Infrastructure (Docker, Redis, Prometheus) | Languages (Python, TypeScript)</li>
-      <li><strong>Projects</strong> — 3 bullet points each. Lead with impact, not description.</li>
-      <li><strong>Experience</strong> — reverse chronological. Reframe existing work using AI engineering language.</li>
-    </ul>
-    <h4>The STAR-Metric Formula for Each Bullet</h4>
+<h4>Structure (1 page, no exceptions under 10 years experience)</h4>
+<ul>
+<li><strong>Name + contact</strong> — email, GitHub URL, LinkedIn URL, portfolio/demo URL</li>
+<li><strong>Summary</strong> (2 sentences) — role target + top 3 skills + years experience</li>
+<li><strong>Skills</strong> — grouped: LLM APIs (Anthropic, OpenAI) | Frameworks (FastAPI, LangGraph, LlamaIndex) | Infrastructure (Docker, Redis, Prometheus) | Languages (Python, TypeScript)</li>
+<li><strong>Projects</strong> — 3 bullet points each. Lead with impact, not description.</li>
+<li><strong>Experience</strong> — reverse chronological. Reframe existing work using AI engineering language.</li>
+</ul>
+<h4>The STAR-Metric Formula for Each Bullet</h4>
     <div class="cb"><pre># BAD — describes what you did
 "Built a RAG system using ChromaDB and the Anthropic API"
  
@@ -259,8 +259,8 @@ manual research time by 60% for 3 team members"
 # GOOD — specific AI engineering context
 "Led migration of 4 microservices to async FastAPI with LLM integration;
 added Prometheus metrics and Grafana dashboards reducing MTTD from 2h to 8min"</pre></div>
-    <h4>Keywords That Get Past ATS Filters</h4>
-    <p>Include these naturally in your bullets and skills section:</p>
+<h4>Keywords That Get Past ATS Filters</h4>
+<p>Include these naturally in your bullets and skills section:</p>
     <div class="cb"><pre># AI/LLM keywords (pick the ones you actually know)
 RAG · Retrieval-Augmented Generation · LLM · Large Language Models
 Anthropic Claude · OpenAI GPT · prompt engineering · fine-tuning
@@ -283,15 +283,15 @@ SHAP · model evaluation · evals · DeepEval · Ragas</pre></div>
 <div class="cp">
   <div class="cp-hdr"><span class="ico">💼</span><h3>LinkedIn Content That Generates Inbound</h3><span class="tag">Visibility</span></div>
   <div class="cp-body">
-    <p>Post 2–3 times per week during your job search. Share what you built, what you learned, what failed. AI engineering content gets 3–5x more engagement than generic tech content right now. One viral post generates more recruiter messages than 100 cold applications.</p>
-    <h4>Content Formats That Work</h4>
-    <ul>
-      <li><strong>Build in public</strong> — "Built a production RAG system this week. Here's what surprised me about chunking..." [screenshot]</li>
-      <li><strong>Lessons learned</strong> — "3 things I got wrong in my first agent loop and how I fixed them"</li>
-      <li><strong>Quantified results</strong> — "Compared Cohere reranker vs no reranker on my test set. Faithfulness went from 0.65 to 0.91. Chart:"</li>
-      <li><strong>Technical takes</strong> — "Agents are overused. 70% of 'agent' use cases I've seen would be better as simple chains. Here's the decision framework I use..."</li>
-    </ul>
-    <h4>Warm Outreach Template (DM to AI engineer at target company)</h4>
+<p>Post 2–3 times per week during your job search. Share what you built, what you learned, what failed. AI engineering content gets 3–5x more engagement than generic tech content right now. One viral post generates more recruiter messages than 100 cold applications.</p>
+<h4>Content Formats That Work</h4>
+<ul>
+<li><strong>Build in public</strong> — "Built a production RAG system this week. Here's what surprised me about chunking..." [screenshot]</li>
+<li><strong>Lessons learned</strong> — "3 things I got wrong in my first agent loop and how I fixed them"</li>
+<li><strong>Quantified results</strong> — "Compared Cohere reranker vs no reranker on my test set. Faithfulness went from 0.65 to 0.91. Chart:"</li>
+<li><strong>Technical takes</strong> — "Agents are overused. 70% of 'agent' use cases I've seen would be better as simple chains. Here's the decision framework I use..."</li>
+</ul>
+<h4>Warm Outreach Template (DM to AI engineer at target company)</h4>
     <div class="cb"><pre>Hi [Name],
  
 I've been following [Company]'s work on [specific thing — blog post, open source project, paper].
@@ -305,15 +305,15 @@ I'd love to hear how [Company] is approaching [specific technical problem they w
 Happy to share what I've learned from my production RAG work if that's useful.
  
 [Name]</pre></div>
-    <div class="ins"><p>💡 <strong>Warm outreach (specific, researched DM) converts 10-20% of the time. Cold applications convert 1-3%.</strong> Find engineers at target companies on LinkedIn. Read what they post. Comment thoughtfully for a week before DM-ing. When you DM, reference something specific about their work — not a generic "I'm interested in your company."</p></div>
-    <h4>Job Boards That Work for AI Engineering</h4>
-    <ul>
-      <li>Anthropic Careers (careers.anthropic.com)</li>
-      <li>AIJobs.net — AI-specific job board</li>
-      <li>Levels.fyi — for compensation research before negotiating</li>
-      <li>LinkedIn Jobs filtered by "AI Engineer" + "LLM" + location</li>
-      <li>Twitter/X "hiring AI engineer" — many startups hire this way</li>
-    </ul>
+<div class="ins"><p>💡 <strong>Warm outreach (specific, researched DM) converts 10-20% of the time. Cold applications convert 1-3%.</strong> Find engineers at target companies on LinkedIn. Read what they post. Comment thoughtfully for a week before DM-ing. When you DM, reference something specific about their work — not a generic "I'm interested in your company."</p></div>
+<h4>Job Boards That Work for AI Engineering</h4>
+<ul>
+<li>Anthropic Careers (careers.anthropic.com)</li>
+<li>AIJobs.net — AI-specific job board</li>
+<li>Levels.fyi — for compensation research before negotiating</li>
+<li>LinkedIn Jobs filtered by "AI Engineer" + "LLM" + location</li>
+<li>Twitter/X "hiring AI engineer" — many startups hire this way</li>
+</ul>
   </div>
 </div>
 </div><!-- end t4 -->
@@ -322,14 +322,14 @@ Happy to share what I've learned from my production RAG work if that's useful.
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎙</span><h3>AI Engineering Interview Preparation</h3><span class="tag">Get Hired</span></div>
   <div class="cp-body">
-    <h4>System Design for AI — Common Questions</h4>
-    <ul>
-      <li>"Design a document Q&A system for 10 million documents" → talk about chunking, vector DB selection, retrieval quality, caching, cost</li>
-      <li>"Design an AI customer support system" → routing, RAG, escalation, human handoff, evaluation</li>
-      <li>"How would you reduce LLM API costs by 50%?" → model routing, prompt caching, response caching, batching, smaller max_tokens</li>
-      <li>"How do you evaluate a RAG system?" → faithfulness, context recall, hit rate, LLM-as-judge, eval datasets</li>
-      <li>"How do you handle an agent that gets stuck in a loop?" → fingerprinting, max_turns, circuit breaker, structured recovery</li>
-    </ul>
+<h4>System Design for AI — Common Questions</h4>
+<ul>
+<li>"Design a document Q&A system for 10 million documents" → talk about chunking, vector DB selection, retrieval quality, caching, cost</li>
+<li>"Design an AI customer support system" → routing, RAG, escalation, human handoff, evaluation</li>
+<li>"How would you reduce LLM API costs by 50%?" → model routing, prompt caching, response caching, batching, smaller max_tokens</li>
+<li>"How do you evaluate a RAG system?" → faithfulness, context recall, hit rate, LLM-as-judge, eval datasets</li>
+<li>"How do you handle an agent that gets stuck in a loop?" → fingerprinting, max_turns, circuit breaker, structured recovery</li>
+</ul>
     <div class="cb"><pre># Framework for AI system design answers:
  
 # 1. Clarify requirements
@@ -349,20 +349,20 @@ Happy to share what I've learned from my production RAG work if that's useful.
  
 # 5. Evaluation
 # "I'd run Ragas on a 50-question ground truth set. Monitor faithfulness drift in prod."</pre></div>
-    <h4>Coding Questions You'll Actually See</h4>
-    <ul>
-      <li>Implement a retry decorator with exponential backoff and jitter</li>
-      <li>Write a sliding window rate limiter</li>
-      <li>Implement a simple embedding cache with LRU eviction</li>
-      <li>Write async code: asyncio.gather for parallel API calls, return_exceptions=True</li>
-      <li>Implement cosine similarity and explain why it's used for embeddings</li>
-    </ul>
-    <h4>Behavioural Questions with AI Framing</h4>
-    <ul>
-      <li>"Tell me about a time you had to make a tradeoff between accuracy and cost in an AI system" — your cost monitoring and model routing work</li>
-      <li>"How do you keep up with the rapidly changing AI landscape?" — your learning journal, the roadmap you built</li>
-      <li>"Describe a production issue you've diagnosed" — your observability work, structured logging, Grafana alerts</li>
-    </ul>
+<h4>Coding Questions You'll Actually See</h4>
+<ul>
+<li>Implement a retry decorator with exponential backoff and jitter</li>
+<li>Write a sliding window rate limiter</li>
+<li>Implement a simple embedding cache with LRU eviction</li>
+<li>Write async code: asyncio.gather for parallel API calls, return_exceptions=True</li>
+<li>Implement cosine similarity and explain why it's used for embeddings</li>
+</ul>
+<h4>Behavioural Questions with AI Framing</h4>
+<ul>
+<li>"Tell me about a time you had to make a tradeoff between accuracy and cost in an AI system" — your cost monitoring and model routing work</li>
+<li>"How do you keep up with the rapidly changing AI landscape?" — your learning journal, the roadmap you built</li>
+<li>"Describe a production issue you've diagnosed" — your observability work, structured logging, Grafana alerts</li>
+</ul>
   </div>
 </div>
 </div><!-- end t5 -->
@@ -371,31 +371,31 @@ Happy to share what I've learned from my production RAG work if that's useful.
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>The Grand Capstone — Your Signature Project</h3><span class="tag">Showpiece</span></div>
   <div class="cp-body">
-    <p>Your grand capstone is a project that combines multiple Parts of this roadmap into one cohesive system specific to your professional domain. For you, that means networking / DPDK / telecom infrastructure — the domain where you have 4+ years of professional experience and can build something genuinely useful.</p>
-    <h4>Suggested Capstone: Intelligent DPDK/VPP Documentation Assistant</h4>
-    <p>A production AI system that lets network engineers query DPDK and VPP documentation, analyze configurations, and get code-level advice.</p>
-    <ul>
-      <li><strong>RAG backend</strong> — index official DPDK/VPP docs, DPDK programmer's guide, API references, community mailing list archives</li>
-      <li><strong>Agent layer</strong> — research agent that can search docs, retrieve code examples, compare versions, generate configuration snippets</li>
-      <li><strong>Production API</strong> — FastAPI with auth, rate limiting, streaming, Prometheus metrics, Grafana dashboard</li>
-      <li><strong>CI/CD</strong> — GitHub Actions: lint → eval → Docker build → deploy on push to main</li>
-      <li><strong>Evaluation</strong> — 30-question eval set covering mempool, ring buffer, PMD, DPDK EAL, VPP node graph</li>
-      <li><strong>Cost monitoring</strong> — per-query cost tracking, prompt caching for large doc system prompt</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>Domain expertise is your moat.</strong> A generic "chat with PDFs" app has 10,000 competitors. An AI assistant for DPDK/VPP network engineers, built by someone who works professionally with these systems, has almost none. Your 4+ years of distributed systems and DPDK experience makes your AI product qualitatively better than anything a generalist could build.</p></div>
-    <h4>Alternative Capstone Ideas</h4>
-    <ul>
-      <li>Network configuration assistant: parse and explain complex DPDK/VPP configs with error detection</li>
-      <li>Performance analysis pipeline: ingest benchmark results, generate reports, suggest optimisations via AI</li>
-      <li>Telecom infrastructure knowledge base: RAG over 3GPP specs, ITU documents, and vendor documentation</li>
-    </ul>
-    <h4>Capstone Deliverables</h4>
-    <ul>
-      <li>Public GitHub repo with excellent README, architecture diagram, and eval results</li>
-      <li>Live demo URL (Railway, Render, or DigitalOcean — all have free/cheap tiers)</li>
-      <li>Blog post or LinkedIn series: "How I built a production AI assistant for network engineers"</li>
-      <li>HuggingFace Space demo (if Track B — fine-tuned model)</li>
-    </ul>
+<p>Your grand capstone is a project that combines multiple Parts of this roadmap into one cohesive system specific to your professional domain. For you, that means networking / DPDK / telecom infrastructure — the domain where you have 4+ years of professional experience and can build something genuinely useful.</p>
+<h4>Suggested Capstone: Intelligent DPDK/VPP Documentation Assistant</h4>
+<p>A production AI system that lets network engineers query DPDK and VPP documentation, analyze configurations, and get code-level advice.</p>
+<ul>
+<li><strong>RAG backend</strong> — index official DPDK/VPP docs, DPDK programmer's guide, API references, community mailing list archives</li>
+<li><strong>Agent layer</strong> — research agent that can search docs, retrieve code examples, compare versions, generate configuration snippets</li>
+<li><strong>Production API</strong> — FastAPI with auth, rate limiting, streaming, Prometheus metrics, Grafana dashboard</li>
+<li><strong>CI/CD</strong> — GitHub Actions: lint → eval → Docker build → deploy on push to main</li>
+<li><strong>Evaluation</strong> — 30-question eval set covering mempool, ring buffer, PMD, DPDK EAL, VPP node graph</li>
+<li><strong>Cost monitoring</strong> — per-query cost tracking, prompt caching for large doc system prompt</li>
+</ul>
+<div class="ins"><p>💡 <strong>Domain expertise is your moat.</strong> A generic "chat with PDFs" app has 10,000 competitors. An AI assistant for DPDK/VPP network engineers, built by someone who works professionally with these systems, has almost none. Your 4+ years of distributed systems and DPDK experience makes your AI product qualitatively better than anything a generalist could build.</p></div>
+<h4>Alternative Capstone Ideas</h4>
+<ul>
+<li>Network configuration assistant: parse and explain complex DPDK/VPP configs with error detection</li>
+<li>Performance analysis pipeline: ingest benchmark results, generate reports, suggest optimisations via AI</li>
+<li>Telecom infrastructure knowledge base: RAG over 3GPP specs, ITU documents, and vendor documentation</li>
+</ul>
+<h4>Capstone Deliverables</h4>
+<ul>
+<li>Public GitHub repo with excellent README, architecture diagram, and eval results</li>
+<li>Live demo URL (Railway, Render, or DigitalOcean — all have free/cheap tiers)</li>
+<li>Blog post or LinkedIn series: "How I built a production AI assistant for network engineers"</li>
+<li>HuggingFace Space demo (if Track B — fine-tuned model)</li>
+</ul>
   </div>
 </div>
 </div><!-- end t6 -->
@@ -453,22 +453,22 @@ Happy to share what I've learned from my production RAG work if that's useful.
   <h2>🎉 AI/ML Roadmap Complete</h2>
   <p>You have built the complete AI engineering skill stack — from Python fundamentals to production-grade RAG systems, agents, and deployment. You are ready to build real AI products and compete for senior AI engineering roles.</p>
   <div class="complete-stats">
-    <div class="cs-box">
-      <div class="num">9</div>
-      <div class="label">Parts completed</div>
-    </div>
-    <div class="cs-box">
-      <div class="num">28</div>
-      <div class="label">Modules built</div>
-    </div>
-    <div class="cs-box">
-      <div class="num">3+</div>
-      <div class="label">Deployed projects</div>
-    </div>
-    <div class="cs-box">
-      <div class="num">1</div>
-      <div class="label">Specialisation track</div>
-    </div>
+<div class="cs-box">
+<div class="num">9</div>
+<div class="label">Parts completed</div>
+</div>
+<div class="cs-box">
+<div class="num">28</div>
+<div class="label">Modules built</div>
+</div>
+<div class="cs-box">
+<div class="num">3+</div>
+<div class="label">Deployed projects</div>
+</div>
+<div class="cs-box">
+<div class="num">1</div>
+<div class="label">Specialisation track</div>
+</div>
   </div>
 </div>
 <div class="mod-nav">

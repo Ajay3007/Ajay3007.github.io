@@ -83,10 +83,10 @@ url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
   <div class="mod-title">Classification: Decision Trees, Random Forest &amp; SVM</div>
   <div class="mod-subtitle">Predict discrete categories — algorithms, metrics, thresholds, and imbalanced data</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2 Weeks</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 scikit-learn · imbalanced-learn · shap</span>
-    <span class="mod-pill">📋 Prerequisite: P3-M07</span>
+<span class="mod-pill">⏱ 2 Weeks</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 scikit-learn · imbalanced-learn · shap</span>
+<span class="mod-pill">📋 Prerequisite: P3-M07</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -106,16 +106,16 @@ url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3</span></div>
   <div class="cp-body">
-    <p>Classification predicts which discrete category an input belongs to: spam or not spam, disease or healthy, which product category. This module covers the most important classical classification algorithms and — critically — how to evaluate them correctly.</p>
-    <ul>
-      <li><strong>Decision Trees</strong> — splitting logic, Gini vs entropy, depth control, overfitting</li>
-      <li><strong>Random Forest</strong> — bagging, feature subsampling, out-of-bag score, tuning</li>
-      <li><strong>SVM (Support Vector Machine)</strong> — maximum margin classifier, kernels, C parameter</li>
-      <li><strong>Classification metrics</strong> — accuracy, precision, recall, F1, ROC-AUC, confusion matrix</li>
-      <li><strong>Imbalanced data</strong> — class weights, SMOTE, threshold tuning, F1 vs accuracy</li>
-      <li><strong>Feature importance</strong> — tree-based, permutation importance, SHAP values</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>Accuracy is almost never the right metric.</strong> If 99% of transactions are legitimate and 1% are fraud, a model that predicts "legitimate" for everything gets 99% accuracy — and catches zero fraud. Use precision, recall, F1, and ROC-AUC for imbalanced problems.</p></div>
+<p>Classification predicts which discrete category an input belongs to: spam or not spam, disease or healthy, which product category. This module covers the most important classical classification algorithms and — critically — how to evaluate them correctly.</p>
+<ul>
+<li><strong>Decision Trees</strong> — splitting logic, Gini vs entropy, depth control, overfitting</li>
+<li><strong>Random Forest</strong> — bagging, feature subsampling, out-of-bag score, tuning</li>
+<li><strong>SVM (Support Vector Machine)</strong> — maximum margin classifier, kernels, C parameter</li>
+<li><strong>Classification metrics</strong> — accuracy, precision, recall, F1, ROC-AUC, confusion matrix</li>
+<li><strong>Imbalanced data</strong> — class weights, SMOTE, threshold tuning, F1 vs accuracy</li>
+<li><strong>Feature importance</strong> — tree-based, permutation importance, SHAP values</li>
+</ul>
+<div class="ins"><p>💡 <strong>Accuracy is almost never the right metric.</strong> If 99% of transactions are legitimate and 1% are fraud, a model that predicts "legitimate" for everything gets 99% accuracy — and catches zero fraud. Use precision, recall, F1, and ROC-AUC for imbalanced problems.</p></div>
   </div>
 </div>
 </div>
@@ -178,7 +178,7 @@ plt.title("Decision Tree: Depth vs Accuracy (Bias-Variance Tradeoff)")
 plt.legend()
 plt.axvline(depths[np.argmax(test_scores)], color="red", linestyle="--",
             label=f"Best depth={depths[np.argmax(test_scores)]}")</pre></div>
-    <div class="ins"><p>💡 <strong>Decision trees with no depth limit overfit perfectly.</strong> They memorise every training example. The tree depth is the primary bias-variance dial: shallow = high bias (underfitting), deep = high variance (overfitting). max_depth=4 is a good starting point. Always compare train vs test accuracy — a gap of more than 5% suggests overfitting.</p></div>
+<div class="ins"><p>💡 <strong>Decision trees with no depth limit overfit perfectly.</strong> They memorise every training example. The tree depth is the primary bias-variance dial: shallow = high bias (underfitting), deep = high variance (overfitting). max_depth=4 is a good starting point. Always compare train vs test accuracy — a gap of more than 5% suggests overfitting.</p></div>
   </div>
 </div>
 </div>
@@ -233,7 +233,7 @@ gs = GridSearchCV(RandomForestClassifier(random_state=42, n_jobs=-1),
 gs.fit(X_train, y_train)
 print(f"Best params: {gs.best_params_}")
 print(f"Best CV F1:  {gs.best_score_:.4f}")</pre></div>
-    <div class="ins"><p>💡 <strong>oob_score=True gives you a free validation score.</strong> Each tree in the forest is trained on ~63% of rows (bootstrap sample). The remaining ~37% (out-of-bag samples) are used to evaluate that tree's predictions — without any held-out set. The OOB score is a reliable estimate of generalisation performance and is fast to compute.</p></div>
+<div class="ins"><p>💡 <strong>oob_score=True gives you a free validation score.</strong> Each tree in the forest is trained on ~63% of rows (bootstrap sample). The remaining ~37% (out-of-bag samples) are used to evaluate that tree's predictions — without any held-out set. The OOB score is a reliable estimate of generalisation performance and is fast to compute.</p></div>
   </div>
 </div>
 </div>
@@ -285,7 +285,7 @@ rs.fit(X_train, y_train)
 print(f"Best C:     {rs.best_params_['svm__C']:.4f}")
 print(f"Best gamma: {rs.best_params_['svm__gamma']:.6f}")
 print(f"Best CV F1: {rs.best_score_:.4f}")</pre></div>
-    <div class="ins"><p>💡 <strong>SVM with RBF kernel is often competitive with Random Forest on small-to-medium datasets.</strong> It is a strong default when: dataset &lt; 10,000 rows, features are dense (tabular), you need probabilistic outputs. Its weakness: does not scale well to large datasets (O(n²) memory), slow to tune. For &gt;50,000 rows, use tree-based models.</p></div>
+<div class="ins"><p>💡 <strong>SVM with RBF kernel is often competitive with Random Forest on small-to-medium datasets.</strong> It is a strong default when: dataset &lt; 10,000 rows, features are dense (tabular), you need probabilistic outputs. Its weakness: does not scale well to large datasets (O(n²) memory), slow to tune. For &gt;50,000 rows, use tree-based models.</p></div>
   </div>
 </div>
 </div>
@@ -349,7 +349,7 @@ for t in thresholds:
     print(f"t={t:.1f}: precision={precision_score(y_test, y_t):.3f}, "
           f"recall={recall_score(y_test, y_t):.3f}, "
           f"f1={f1_score(y_test, y_t):.3f}")</pre></div>
-    <div class="warn"><p>⚠️ <strong>When to use each metric:</strong> Accuracy — only for balanced classes. Precision — when false positives are costly (spam filter: don't block real emails). Recall — when false negatives are costly (cancer screening: don't miss actual cancer). F1 — when both FP and FN matter. ROC-AUC — when you need threshold-independent comparison across models.</p></div>
+<div class="warn"><p>⚠️ <strong>When to use each metric:</strong> Accuracy — only for balanced classes. Precision — when false positives are costly (spam filter: don't block real emails). Recall — when false negatives are costly (cancer screening: don't miss actual cancer). F1 — when both FP and FN matter. ROC-AUC — when you need threshold-independent comparison across models.</p></div>
   </div>
 </div>
 </div>
@@ -471,11 +471,11 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — Decision Trees, Random Forest, ROC-AUC (YouTube)</a></td><td>Best visual explanation of how trees split, bagging works, and what ROC-AUC measures.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/machine-learning-explainability" target="_blank" rel="noopener">Kaggle ML Explainability Course — kaggle.com/learn/machine-learning-explainability</a></td><td>SHAP values, permutation importance, partial dependence plots. Free, interactive.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/supervised_learning.html" target="_blank" rel="noopener">Scikit-learn Supervised Learning — scikit-learn.org/stable/supervised_learning.html</a></td><td>Complete parameters for all classifiers. Authoritative reference.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">Heart Disease Dataset — UCI ML Repository</a></td><td>Binary classification, medical features, real clinical relevance. Great for recall/precision analysis.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/c/titanic" target="_blank" rel="noopener">Titanic — Kaggle</a></td><td>Classic binary classification benchmark with a well-documented competitive leaderboard.</td></tr>
+<tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — Decision Trees, Random Forest, ROC-AUC (YouTube)</a></td><td>Best visual explanation of how trees split, bagging works, and what ROC-AUC measures.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/machine-learning-explainability" target="_blank" rel="noopener">Kaggle ML Explainability Course — kaggle.com/learn/machine-learning-explainability</a></td><td>SHAP values, permutation importance, partial dependence plots. Free, interactive.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/supervised_learning.html" target="_blank" rel="noopener">Scikit-learn Supervised Learning — scikit-learn.org/stable/supervised_learning.html</a></td><td>Complete parameters for all classifiers. Authoritative reference.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://archive.ics.uci.edu/dataset/45/heart+disease" target="_blank" rel="noopener">Heart Disease Dataset — UCI ML Repository</a></td><td>Binary classification, medical features, real clinical relevance. Great for recall/precision analysis.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/c/titanic" target="_blank" rel="noopener">Titanic — Kaggle</a></td><td>Classic binary classification benchmark with a well-documented competitive leaderboard.</td></tr>
   </tbody>
 </table>
 </div>
@@ -483,18 +483,18 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Heart Disease Classifier with SHAP Analysis</span><span class="proj-dur">[Intermediate] 5–6 days</span></div>
   <div class="proj-body">
-    <p>Build a medical classification pipeline with full interpretability.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>EDA</strong> — class balance, feature distributions by class, correlation matrix</li>
-      <li><strong>Baseline</strong> — Logistic Regression with StandardScaler. Report accuracy, precision, recall, F1, ROC-AUC.</li>
-      <li><strong>Decision Tree</strong> — tune max_depth with cross-validation. Visualise tree with plot_tree.</li>
-      <li><strong>Random Forest</strong> — tune n_estimators, max_features. Use oob_score. Report feature importances.</li>
-      <li><strong>Class imbalance</strong> — apply class_weight="balanced". Compare F1 with and without.</li>
-      <li><strong>SHAP analysis</strong> — summary plot, waterfall plot for a correctly and incorrectly classified patient</li>
-      <li><strong>Results table</strong> — compare all models on accuracy, F1, ROC-AUC</li>
-    </ul>
-    <p><strong>Goal:</strong> Achieve ROC-AUC &gt; 0.90. What clinical insight do the SHAP values provide?</p>
+<p>Build a medical classification pipeline with full interpretability.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>EDA</strong> — class balance, feature distributions by class, correlation matrix</li>
+<li><strong>Baseline</strong> — Logistic Regression with StandardScaler. Report accuracy, precision, recall, F1, ROC-AUC.</li>
+<li><strong>Decision Tree</strong> — tune max_depth with cross-validation. Visualise tree with plot_tree.</li>
+<li><strong>Random Forest</strong> — tune n_estimators, max_features. Use oob_score. Report feature importances.</li>
+<li><strong>Class imbalance</strong> — apply class_weight="balanced". Compare F1 with and without.</li>
+<li><strong>SHAP analysis</strong> — summary plot, waterfall plot for a correctly and incorrectly classified patient</li>
+<li><strong>Results table</strong> — compare all models on accuracy, F1, ROC-AUC</li>
+</ul>
+<p><strong>Goal:</strong> Achieve ROC-AUC &gt; 0.90. What clinical insight do the SHAP values provide?</p>
   </div>
 </div>
 </div>
@@ -502,16 +502,16 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Classification Metrics Deep Dive</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Build a Random Forest on Titanic. Calculate TP, FP, FN, TN manually from the confusion matrix. Verify they match precision_score() and recall_score() outputs.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Plot the ROC curve. What does the curve represent? Where is the point corresponding to threshold=0.5? Try threshold=0.3 and 0.7 — add those points to the ROC plot.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Using the precision-recall curve, find the threshold that maximises F1. How does this threshold differ from 0.5? In a medical context (predicting disease), would you prefer higher precision or recall?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Build a Random Forest on Titanic. Calculate TP, FP, FN, TN manually from the confusion matrix. Verify they match precision_score() and recall_score() outputs.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Plot the ROC curve. What does the curve represent? Where is the point corresponding to threshold=0.5? Try threshold=0.3 and 0.7 — add those points to the ROC plot.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Using the precision-recall curve, find the threshold that maximises F1. How does this threshold differ from 0.5? In a medical context (predicting disease), would you prefer higher precision or recall?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Bias-Variance with Decision Trees</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Train Decision Trees at depths 1, 2, 3, 5, 10, 20, None on Heart Disease. Plot train F1 and test F1 vs depth. Identify the elbow — what depth gives best bias-variance tradeoff?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>For the best depth, visualise the tree with plot_tree. Can you explain a single prediction path in plain English? ("For a 65-year-old male with chest pain type X...")</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Train Decision Trees at depths 1, 2, 3, 5, 10, 20, None on Heart Disease. Plot train F1 and test F1 vs depth. Identify the elbow — what depth gives best bias-variance tradeoff?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>For the best depth, visualise the tree with plot_tree. Can you explain a single prediction path in plain English? ("For a 65-year-old male with chest pain type X...")</div></div>
   </div>
 </div>
 </div>

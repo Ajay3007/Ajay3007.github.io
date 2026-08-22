@@ -72,7 +72,7 @@ url: /learning/backend/m04-grpc/
 <div class="mod-header">
   <h1>M04 — gRPC &amp; Protocol Buffers Deep Dive</h1>
   <div class="sub">
-    <span class="phase-tag">Phase 1</span>
+<span class="phase-tag">Phase 1</span>
     Proto3 syntax &amp; field encoding · Wire types &amp; varint · 4 streaming modes · gRPC error model · Interceptors &amp; middleware · gRPC-Gateway · Health checking · Schema evolution &amp; field rules
   </div>
 </div>
@@ -104,30 +104,30 @@ url: /learning/backend/m04-grpc/
 </div>
 <div class="two-col">
   <div class="cp p-indigo">
-    <div class="cp-hdr">✅ Use gRPC When…</div>
-    <div class="cp-body">
-      <ul>
-        <li>Internal microservice-to-microservice calls</li>
-        <li>You need server or bidirectional streaming</li>
-        <li>Latency &lt; 5 ms is a hard requirement</li>
-        <li>Strong contract (IDL) enforcement matters</li>
-        <li>Polyglot services (generated clients in 12 languages)</li>
-        <li>Mobile apps — smaller payload = less battery</li>
-      </ul>
-    </div>
+<div class="cp-hdr">✅ Use gRPC When…</div>
+<div class="cp-body">
+<ul>
+<li>Internal microservice-to-microservice calls</li>
+<li>You need server or bidirectional streaming</li>
+<li>Latency &lt; 5 ms is a hard requirement</li>
+<li>Strong contract (IDL) enforcement matters</li>
+<li>Polyglot services (generated clients in 12 languages)</li>
+<li>Mobile apps — smaller payload = less battery</li>
+</ul>
+</div>
   </div>
   <div class="cp p-orange">
-    <div class="cp-hdr">🚫 Prefer REST When…</div>
-    <div class="cp-body">
-      <ul>
-        <li>Public API consumed by unknown clients</li>
-        <li>Browser JS front-ends (gRPC-Web workaround exists)</li>
-        <li>Simple CRUD with low traffic</li>
-        <li>Team unfamiliar with Protobuf toolchain</li>
-        <li>You need human-readable request/response in logs</li>
-        <li>Firewall/CDN doesn't pass HTTP/2 trailers</li>
-      </ul>
-    </div>
+<div class="cp-hdr">🚫 Prefer REST When…</div>
+<div class="cp-body">
+<ul>
+<li>Public API consumed by unknown clients</li>
+<li>Browser JS front-ends (gRPC-Web workaround exists)</li>
+<li>Simple CRUD with low traffic</li>
+<li>Team unfamiliar with Protobuf toolchain</li>
+<li>You need human-readable request/response in logs</li>
+<li>Firewall/CDN doesn't pass HTTP/2 trailers</li>
+</ul>
+</div>
   </div>
 </div>
 <div class="cp p-blue">
@@ -157,14 +157,14 @@ url: /learning/backend/m04-grpc/
 <table class="t-table">
   <thead><tr><th>Feature</th><th>REST / JSON</th><th>gRPC / Protobuf</th></tr></thead>
   <tbody>
-    <tr><td>Transport</td><td>HTTP/1.1 or HTTP/2</td><td>HTTP/2 only</td></tr>
-    <tr><td>Payload format</td><td>JSON (text)</td><td>Protobuf (binary)</td></tr>
-    <tr><td>Schema</td><td>Optional (OpenAPI)</td><td>Mandatory (.proto IDL)</td></tr>
-    <tr><td>Streaming</td><td>SSE / WebSocket (ad-hoc)</td><td>4 built-in modes</td></tr>
-    <tr><td>Code generation</td><td>Optional (openapi-generator)</td><td>Core requirement (protoc)</td></tr>
-    <tr><td>Browser support</td><td>Native</td><td>gRPC-Web proxy needed</td></tr>
-    <tr><td>Payload size (typical)</td><td>~3–10× larger</td><td>Baseline</td></tr>
-    <tr><td>Error model</td><td>HTTP status + body</td><td>Status code + rich details</td></tr>
+<tr><td>Transport</td><td>HTTP/1.1 or HTTP/2</td><td>HTTP/2 only</td></tr>
+<tr><td>Payload format</td><td>JSON (text)</td><td>Protobuf (binary)</td></tr>
+<tr><td>Schema</td><td>Optional (OpenAPI)</td><td>Mandatory (.proto IDL)</td></tr>
+<tr><td>Streaming</td><td>SSE / WebSocket (ad-hoc)</td><td>4 built-in modes</td></tr>
+<tr><td>Code generation</td><td>Optional (openapi-generator)</td><td>Core requirement (protoc)</td></tr>
+<tr><td>Browser support</td><td>Native</td><td>gRPC-Web proxy needed</td></tr>
+<tr><td>Payload size (typical)</td><td>~3–10× larger</td><td>Baseline</td></tr>
+<tr><td>Error model</td><td>HTTP status + body</td><td>Status code + rich details</td></tr>
   </tbody>
 </table>
 </div><!-- /t-overview -->
@@ -195,8 +195,8 @@ url: /learning/backend/m04-grpc/
   google.protobuf.<span class="ck">Timestamp</span> created_at = <span class="cn">5</span>;<br>
   <span class="ck">repeated</span> <span class="ck">string</span> tags = <span class="cn">6</span>;  <span class="cm">// list field</span><br>
   <span class="ck">oneof</span> contact {              <span class="cm">// only one field set at a time</span><br>
-    <span class="ck">string</span> phone = <span class="cn">7</span>;<br>
-    <span class="ck">string</span> slack = <span class="cn">8</span>;<br>
+<span class="ck">string</span> phone = <span class="cn">7</span>;<br>
+<span class="ck">string</span> slack = <span class="cn">8</span>;<br>
   }<br>
 }<br>
 <br>
@@ -227,18 +227,18 @@ url: /learning/backend/m04-grpc/
 <table class="t-table">
   <thead><tr><th>Proto Type</th><th>Wire Type</th><th>C/C++ Mapping</th><th>Notes</th></tr></thead>
   <tbody>
-    <tr><td>double</td><td>1 (64-bit)</td><td>double</td><td>IEEE 754 little-endian</td></tr>
-    <tr><td>float</td><td>5 (32-bit)</td><td>float</td><td></td></tr>
-    <tr><td>int32 / int64</td><td>0 (varint)</td><td>int32_t / int64_t</td><td>Negative values cost 10 bytes; use sint32 instead</td></tr>
-    <tr><td>uint32 / uint64</td><td>0 (varint)</td><td>uint32_t / uint64_t</td><td></td></tr>
-    <tr><td>sint32 / sint64</td><td>0 (varint)</td><td>int32_t / int64_t</td><td>ZigZag-encoded; efficient for negatives</td></tr>
-    <tr><td>fixed32 / sfixed32</td><td>5 (32-bit)</td><td>uint32_t / int32_t</td><td>Always 4 bytes; efficient if values > 2²⁸</td></tr>
-    <tr><td>fixed64 / sfixed64</td><td>1 (64-bit)</td><td>uint64_t / int64_t</td><td>Always 8 bytes</td></tr>
-    <tr><td>bool</td><td>0 (varint)</td><td>bool</td><td>0 = false, 1 = true</td></tr>
-    <tr><td>string</td><td>2 (length-delimited)</td><td>char* / std::string</td><td>Must be valid UTF-8</td></tr>
-    <tr><td>bytes</td><td>2 (length-delimited)</td><td>uint8_t* + len</td><td>Arbitrary binary</td></tr>
-    <tr><td>message (nested)</td><td>2 (length-delimited)</td><td>struct pointer</td><td>Encoded as its own byte sequence</td></tr>
-    <tr><td>enum</td><td>0 (varint)</td><td>int32_t</td><td>Unknown values preserved in proto3</td></tr>
+<tr><td>double</td><td>1 (64-bit)</td><td>double</td><td>IEEE 754 little-endian</td></tr>
+<tr><td>float</td><td>5 (32-bit)</td><td>float</td><td></td></tr>
+<tr><td>int32 / int64</td><td>0 (varint)</td><td>int32_t / int64_t</td><td>Negative values cost 10 bytes; use sint32 instead</td></tr>
+<tr><td>uint32 / uint64</td><td>0 (varint)</td><td>uint32_t / uint64_t</td><td></td></tr>
+<tr><td>sint32 / sint64</td><td>0 (varint)</td><td>int32_t / int64_t</td><td>ZigZag-encoded; efficient for negatives</td></tr>
+<tr><td>fixed32 / sfixed32</td><td>5 (32-bit)</td><td>uint32_t / int32_t</td><td>Always 4 bytes; efficient if values > 2²⁸</td></tr>
+<tr><td>fixed64 / sfixed64</td><td>1 (64-bit)</td><td>uint64_t / int64_t</td><td>Always 8 bytes</td></tr>
+<tr><td>bool</td><td>0 (varint)</td><td>bool</td><td>0 = false, 1 = true</td></tr>
+<tr><td>string</td><td>2 (length-delimited)</td><td>char* / std::string</td><td>Must be valid UTF-8</td></tr>
+<tr><td>bytes</td><td>2 (length-delimited)</td><td>uint8_t* + len</td><td>Arbitrary binary</td></tr>
+<tr><td>message (nested)</td><td>2 (length-delimited)</td><td>struct pointer</td><td>Encoded as its own byte sequence</td></tr>
+<tr><td>enum</td><td>0 (varint)</td><td>int32_t</td><td>Unknown values preserved in proto3</td></tr>
   </tbody>
 </table>
   </div>
@@ -248,24 +248,24 @@ url: /learning/backend/m04-grpc/
   <div class="cp-body">
 <div class="two-col">
   <div>
-    <strong style="color:#15803d">✅ Safe Changes</strong>
-    <ul>
-      <li>Add a new field (new number)</li>
-      <li>Remove a field (mark number as <code>reserved</code>)</li>
-      <li>Add a value to an enum</li>
-      <li>Change a singular to <code>repeated</code></li>
-      <li>Change <code>string</code> to <code>bytes</code> (compatible wire type)</li>
-    </ul>
+<strong style="color:#15803d">✅ Safe Changes</strong>
+<ul>
+<li>Add a new field (new number)</li>
+<li>Remove a field (mark number as <code>reserved</code>)</li>
+<li>Add a value to an enum</li>
+<li>Change a singular to <code>repeated</code></li>
+<li>Change <code>string</code> to <code>bytes</code> (compatible wire type)</li>
+</ul>
   </div>
   <div>
-    <strong style="color:#be123c">❌ Breaking Changes</strong>
-    <ul>
-      <li>Reuse a field number with a different type</li>
-      <li>Rename a field (breaks JSON mapping)</li>
-      <li>Change a field number</li>
-      <li>Remove the first enum value (changes default)</li>
-      <li>Move a field out of / into a <code>oneof</code></li>
-    </ul>
+<strong style="color:#be123c">❌ Breaking Changes</strong>
+<ul>
+<li>Reuse a field number with a different type</li>
+<li>Rename a field (breaks JSON mapping)</li>
+<li>Change a field number</li>
+<li>Remove the first enum value (changes default)</li>
+<li>Move a field out of / into a <code>oneof</code></li>
+</ul>
   </div>
 </div>
 <div class="cb">
@@ -296,12 +296,12 @@ url: /learning/backend/m04-grpc/
 <table class="t-table">
   <thead><tr><th>Wire Type</th><th>Meaning</th><th>Used For</th></tr></thead>
   <tbody>
-    <tr><td>0</td><td>Varint</td><td>int32/64, uint32/64, sint32/64, bool, enum</td></tr>
-    <tr><td>1</td><td>64-bit</td><td>fixed64, sfixed64, double</td></tr>
-    <tr><td>2</td><td>Length-delimited</td><td>string, bytes, embedded messages, packed repeated</td></tr>
-    <tr><td>3</td><td>Start group (deprecated)</td><td>Legacy — do not use</td></tr>
-    <tr><td>4</td><td>End group (deprecated)</td><td>Legacy — do not use</td></tr>
-    <tr><td>5</td><td>32-bit</td><td>fixed32, sfixed32, float</td></tr>
+<tr><td>0</td><td>Varint</td><td>int32/64, uint32/64, sint32/64, bool, enum</td></tr>
+<tr><td>1</td><td>64-bit</td><td>fixed64, sfixed64, double</td></tr>
+<tr><td>2</td><td>Length-delimited</td><td>string, bytes, embedded messages, packed repeated</td></tr>
+<tr><td>3</td><td>Start group (deprecated)</td><td>Legacy — do not use</td></tr>
+<tr><td>4</td><td>End group (deprecated)</td><td>Legacy — do not use</td></tr>
+<tr><td>5</td><td>32-bit</td><td>fixed32, sfixed32, float</td></tr>
   </tbody>
 </table>
   </div>
@@ -335,7 +335,7 @@ url: /learning/backend/m04-grpc/
   <span class="ck">uint64_t</span> result = <span class="cn">0</span>;<br>
   <span class="ck">int</span> shift = <span class="cn">0</span>;<br>
   <span class="ck">do</span> {<br>
-    <span class="ck">if</span> (shift >= <span class="cn">64</span>) <span class="ck">return</span> <span class="cv">NULL</span>;  <span class="cm">// malformed</span><br>
+<span class="ck">if</span> (shift >= <span class="cn">64</span>) <span class="ck">return</span> <span class="cv">NULL</span>;  <span class="cm">// malformed</span><br>
     result |= (<span class="ck">uint64_t</span>)(*buf &amp; <span class="cn">0x7F</span>) &lt;&lt; shift;<br>
     shift += <span class="cn">7</span>;<br>
   } <span class="ck">while</span> (*buf++ &amp; <span class="cn">0x80</span>);<br>
@@ -418,11 +418,11 @@ url: /learning/backend/m04-grpc/
   <div class="cp-hdr">⚙️ HTTP/2 Mechanics Under the Hood</div>
   <div class="cp-body">
     Each gRPC call maps to one HTTP/2 stream (unique stream ID). The request uses:
-    <ul>
-      <li><strong>HEADERS frame</strong> — <code>:method POST</code>, <code>:path /pkg.Service/Method</code>, <code>content-type: application/grpc</code>, <code>grpc-timeout</code>, custom metadata as headers</li>
-      <li><strong>DATA frames</strong> — 5-byte length-prefix + Protobuf bytes. First byte is compression flag (0=none, 1=compressed); next 4 bytes are message length big-endian.</li>
-      <li><strong>TRAILERS (HTTP/2 HEADERS with END_STREAM)</strong> — <code>grpc-status</code> (int) + <code>grpc-message</code> (percent-encoded string) + optional <code>grpc-status-details-bin</code></li>
-    </ul>
+<ul>
+<li><strong>HEADERS frame</strong> — <code>:method POST</code>, <code>:path /pkg.Service/Method</code>, <code>content-type: application/grpc</code>, <code>grpc-timeout</code>, custom metadata as headers</li>
+<li><strong>DATA frames</strong> — 5-byte length-prefix + Protobuf bytes. First byte is compression flag (0=none, 1=compressed); next 4 bytes are message length big-endian.</li>
+<li><strong>TRAILERS (HTTP/2 HEADERS with END_STREAM)</strong> — <code>grpc-status</code> (int) + <code>grpc-message</code> (percent-encoded string) + optional <code>grpc-status-details-bin</code></li>
+</ul>
 <div class="cb">
 <span class="cm">/* gRPC length-prefix framing — hand-decode a DATA payload */</span><br>
 <span class="ck">typedef struct</span> {<br>
@@ -450,11 +450,11 @@ url: /learning/backend/m04-grpc/
   <div class="cp-hdr">⏱ Deadlines &amp; Cancellation</div>
   <div class="cp-body">
     gRPC propagates deadlines automatically. The client sets <code>grpc-timeout</code> in the HEADERS frame; every hop decrements the remaining budget. If the deadline expires mid-stream:
-    <ul>
-      <li>Client sends RST_STREAM with error code CANCEL</li>
-      <li>Server receives context cancellation; I/O operations return error</li>
-      <li>All open streams on the RPC are torn down</li>
-    </ul>
+<ul>
+<li>Client sends RST_STREAM with error code CANCEL</li>
+<li>Server receives context cancellation; I/O operations return error</li>
+<li>All open streams on the RPC are torn down</li>
+</ul>
     This enables <strong>deadline propagation</strong>: a 200 ms end-to-end budget shrinks as it passes through each service, preventing cascading timeouts where upstream services pile up waiting for a dead downstream.
 <div class="cb">
 <span class="cm">// gRPC timeout header format: ASCII integer + unit suffix</span><br>
@@ -476,23 +476,23 @@ url: /learning/backend/m04-grpc/
 <table class="t-table">
   <thead><tr><th>Code</th><th>Name</th><th>HTTP ≈</th><th>When to Use</th></tr></thead>
   <tbody>
-    <tr><td>0</td><td>OK</td><td>200</td><td>Success</td></tr>
-    <tr><td>1</td><td>CANCELLED</td><td>499</td><td>Client cancelled (RST_STREAM)</td></tr>
-    <tr><td>2</td><td>UNKNOWN</td><td>500</td><td>Unknown server error</td></tr>
-    <tr><td>3</td><td>INVALID_ARGUMENT</td><td>400</td><td>Bad request field values</td></tr>
-    <tr><td>4</td><td>DEADLINE_EXCEEDED</td><td>504</td><td>Timeout expired</td></tr>
-    <tr><td>5</td><td>NOT_FOUND</td><td>404</td><td>Resource not found</td></tr>
-    <tr><td>6</td><td>ALREADY_EXISTS</td><td>409</td><td>Create of existing resource</td></tr>
-    <tr><td>7</td><td>PERMISSION_DENIED</td><td>403</td><td>Authenticated but not authorised</td></tr>
-    <tr><td>8</td><td>RESOURCE_EXHAUSTED</td><td>429</td><td>Quota / rate limit exceeded</td></tr>
-    <tr><td>9</td><td>FAILED_PRECONDITION</td><td>400</td><td>Precondition not met (e.g., non-empty bucket before delete)</td></tr>
-    <tr><td>10</td><td>ABORTED</td><td>409</td><td>Concurrency conflict (optimistic lock failed)</td></tr>
-    <tr><td>11</td><td>OUT_OF_RANGE</td><td>400</td><td>Value out of valid range (e.g., seek past end)</td></tr>
-    <tr><td>12</td><td>UNIMPLEMENTED</td><td>501</td><td>Method not implemented</td></tr>
-    <tr><td>13</td><td>INTERNAL</td><td>500</td><td>Internal invariant broken</td></tr>
-    <tr><td>14</td><td>UNAVAILABLE</td><td>503</td><td>Server temporarily unavailable — safe to retry</td></tr>
-    <tr><td>15</td><td>DATA_LOSS</td><td>500</td><td>Unrecoverable data corruption</td></tr>
-    <tr><td>16</td><td>UNAUTHENTICATED</td><td>401</td><td>Missing / invalid credentials</td></tr>
+<tr><td>0</td><td>OK</td><td>200</td><td>Success</td></tr>
+<tr><td>1</td><td>CANCELLED</td><td>499</td><td>Client cancelled (RST_STREAM)</td></tr>
+<tr><td>2</td><td>UNKNOWN</td><td>500</td><td>Unknown server error</td></tr>
+<tr><td>3</td><td>INVALID_ARGUMENT</td><td>400</td><td>Bad request field values</td></tr>
+<tr><td>4</td><td>DEADLINE_EXCEEDED</td><td>504</td><td>Timeout expired</td></tr>
+<tr><td>5</td><td>NOT_FOUND</td><td>404</td><td>Resource not found</td></tr>
+<tr><td>6</td><td>ALREADY_EXISTS</td><td>409</td><td>Create of existing resource</td></tr>
+<tr><td>7</td><td>PERMISSION_DENIED</td><td>403</td><td>Authenticated but not authorised</td></tr>
+<tr><td>8</td><td>RESOURCE_EXHAUSTED</td><td>429</td><td>Quota / rate limit exceeded</td></tr>
+<tr><td>9</td><td>FAILED_PRECONDITION</td><td>400</td><td>Precondition not met (e.g., non-empty bucket before delete)</td></tr>
+<tr><td>10</td><td>ABORTED</td><td>409</td><td>Concurrency conflict (optimistic lock failed)</td></tr>
+<tr><td>11</td><td>OUT_OF_RANGE</td><td>400</td><td>Value out of valid range (e.g., seek past end)</td></tr>
+<tr><td>12</td><td>UNIMPLEMENTED</td><td>501</td><td>Method not implemented</td></tr>
+<tr><td>13</td><td>INTERNAL</td><td>500</td><td>Internal invariant broken</td></tr>
+<tr><td>14</td><td>UNAVAILABLE</td><td>503</td><td>Server temporarily unavailable — safe to retry</td></tr>
+<tr><td>15</td><td>DATA_LOSS</td><td>500</td><td>Unrecoverable data corruption</td></tr>
+<tr><td>16</td><td>UNAUTHENTICATED</td><td>401</td><td>Missing / invalid credentials</td></tr>
   </tbody>
 </table>
   </div>
@@ -543,7 +543,7 @@ url: /learning/backend/m04-grpc/
 <span class="ck">func</span> AuthInterceptor(ctx, req, info, handler) (resp, err) {<br>
   token := metadata.FromIncomingContext(ctx)[<span class="cv">"authorization"</span>]<br>
   <span class="ck">if</span> !validate_jwt(token) {<br>
-    <span class="ck">return</span> nil, status.Error(UNAUTHENTICATED, <span class="cv">"invalid token"</span>)<br>
+<span class="ck">return</span> nil, status.Error(UNAUTHENTICATED, <span class="cv">"invalid token"</span>)<br>
   }<br>
   <span class="ck">return</span> handler(ctx_with_claims, req)<span class="cm">// pass enriched context</span><br>
 }<br>
@@ -562,13 +562,13 @@ url: /learning/backend/m04-grpc/
 <span class="cm">// Service config JSON snippet for retry policy:</span><br>
 {<br>
   <span class="cv">"methodConfig"</span>: [{<br>
-    <span class="cv">"name"</span>: [{ <span class="cv">"service"</span>: <span class="cv">"user.v1.UserService"</span>, <span class="cv">"method"</span>: <span class="cv">"GetUser"</span> }],<br>
-    <span class="cv">"retryPolicy"</span>: {<br>
-      <span class="cv">"maxAttempts"</span>: <span class="cn">4</span>,<br>
-      <span class="cv">"initialBackoff"</span>: <span class="cv">"0.1s"</span>,<br>
-      <span class="cv">"maxBackoff"</span>: <span class="cv">"1s"</span>,<br>
-      <span class="cv">"backoffMultiplier"</span>: <span class="cn">2</span>,<br>
-      <span class="cv">"retryableStatusCodes"</span>: [<span class="cv">"UNAVAILABLE"</span>]<br>
+<span class="cv">"name"</span>: [{ <span class="cv">"service"</span>: <span class="cv">"user.v1.UserService"</span>, <span class="cv">"method"</span>: <span class="cv">"GetUser"</span> }],<br>
+<span class="cv">"retryPolicy"</span>: {<br>
+<span class="cv">"maxAttempts"</span>: <span class="cn">4</span>,<br>
+<span class="cv">"initialBackoff"</span>: <span class="cv">"0.1s"</span>,<br>
+<span class="cv">"maxBackoff"</span>: <span class="cv">"1s"</span>,<br>
+<span class="cv">"backoffMultiplier"</span>: <span class="cn">2</span>,<br>
+<span class="cv">"retryableStatusCodes"</span>: [<span class="cv">"UNAVAILABLE"</span>]<br>
     }<br>
   }]<br>
 }
@@ -606,23 +606,23 @@ url: /learning/backend/m04-grpc/
 <br>
 <span class="ck">service</span> <span class="cf">UserService</span> {<br>
   <span class="ck">rpc</span> GetUser (<span class="cf">GetUserRequest</span>) <span class="ck">returns</span> (<span class="cf">User</span>) {<br>
-    <span class="ck">option</span> (google.api.http) = {<br>
+<span class="ck">option</span> (google.api.http) = {<br>
       get: <span class="cv">"/v1/users/{user_id}"</span>      <span class="cm">// user_id binds from path</span><br>
     };<br>
   }<br>
   <span class="ck">rpc</span> CreateUser (<span class="cf">User</span>) <span class="ck">returns</span> (<span class="cf">User</span>) {<br>
-    <span class="ck">option</span> (google.api.http) = {<br>
+<span class="ck">option</span> (google.api.http) = {<br>
       post: <span class="cv">"/v1/users"</span><br>
       body: <span class="cv">"*"</span>                      <span class="cm">// entire JSON body maps to User</span><br>
     };<br>
   }<br>
   <span class="ck">rpc</span> ListUsers (<span class="cf">ListUsersRequest</span>) <span class="ck">returns</span> (<span class="cf">ListUsersResponse</span>) {<br>
-    <span class="ck">option</span> (google.api.http) = {<br>
+<span class="ck">option</span> (google.api.http) = {<br>
       get: <span class="cv">"/v1/users"</span>               <span class="cm">// page_size, page_token become query params</span><br>
     };<br>
   }<br>
   <span class="ck">rpc</span> UpdateUser (<span class="cf">UpdateUserRequest</span>) <span class="ck">returns</span> (<span class="cf">User</span>) {<br>
-    <span class="ck">option</span> (google.api.http) = {<br>
+<span class="ck">option</span> (google.api.http) = {<br>
       patch: <span class="cv">"/v1/users/{user.id}"</span><br>
       body: <span class="cv">"user"</span>                  <span class="cm">// only "user" sub-message from body</span><br>
     };<br>
@@ -687,7 +687,7 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
 <div class="cp p-blue">
   <div class="cp-hdr">🔧 protobuf-c: Using Protocol Buffers in C</div>
   <div class="cp-body">
-    <code>protobuf-c</code> is the official C runtime for Protobuf. The <code>protoc-gen-c</code> plugin generates a <code>.pb-c.h</code> / <code>.pb-c.c</code> pair from each <code>.proto</code> file.
+<code>protobuf-c</code> is the official C runtime for Protobuf. The <code>protoc-gen-c</code> plugin generates a <code>.pb-c.h</code> / <code>.pb-c.c</code> pair from each <code>.proto</code> file.
 <div class="cb">
 <span class="cm">/* Install: sudo apt install libprotobuf-c-dev protobuf-c-compiler */</span><br>
 <span class="cm">/* Generate: protoc --c_out=. user.proto */</span><br>
@@ -768,15 +768,15 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     grpc_call_details_init(&amp;details);<br>
     grpc_metadata_array_init(&amp;req_meta);<br>
 <br>
-    <span class="cm">/* request the next incoming call */</span><br>
+<span class="cm">/* request the next incoming call */</span><br>
     grpc_server_request_call(server, &amp;call, &amp;details, &amp;req_meta, cq, cq, (<span class="ck">void</span>*)<span class="cn">1</span>);<br>
     grpc_event ev = grpc_completion_queue_next(<br>
         cq, gpr_inf_future(GPR_CLOCK_REALTIME), <span class="cv">NULL</span>);<br>
-    <span class="ck">if</span> (ev.type != GRPC_OP_COMPLETE) <span class="ck">continue</span>;<br>
+<span class="ck">if</span> (ev.type != GRPC_OP_COMPLETE) <span class="ck">continue</span>;<br>
 <br>
     gpr_log(GPR_INFO, <span class="cv">"RPC: %s"</span>, grpc_slice_to_c_string(details.method));<br>
 <br>
-    <span class="cm">/* receive request message */</span><br>
+<span class="cm">/* receive request message */</span><br>
     grpc_byte_buffer *recv_buf = <span class="cv">NULL</span>;<br>
     grpc_op recv_ops[<span class="cn">1</span>] = {{<br>
       .op = GRPC_OP_RECV_MESSAGE, .data.recv_message.recv_message = &amp;recv_buf<br>
@@ -784,26 +784,26 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     grpc_call_start_batch(call, recv_ops, <span class="cn">1</span>, (<span class="ck">void</span>*)<span class="cn">2</span>, <span class="cv">NULL</span>);<br>
     grpc_completion_queue_next(cq, gpr_inf_future(GPR_CLOCK_REALTIME), <span class="cv">NULL</span>);<br>
 <br>
-    <span class="cm">/* decode request protobuf */</span><br>
+<span class="cm">/* decode request protobuf */</span><br>
     grpc_byte_buffer_reader rdr;<br>
     grpc_byte_buffer_reader_init(&amp;rdr, recv_buf);<br>
     grpc_slice req_slice = grpc_byte_buffer_reader_readall(&amp;rdr);<br>
     UserV1__GetUserRequest *req = user__v1__get_user_request__unpack(<br>
-        <span class="cv">NULL</span>, GRPC_SLICE_LENGTH(req_slice),<br>
+<span class="cv">NULL</span>, GRPC_SLICE_LENGTH(req_slice),<br>
         (<span class="ck">const</span> <span class="ck">uint8_t</span>*)GRPC_SLICE_START_PTR(req_slice));<br>
 <br>
-    <span class="cm">/* build response */</span><br>
+<span class="cm">/* build response */</span><br>
     UserV1__User resp;<br>
     user__v1__user__init(&amp;resp);<br>
     resp.id    = req ? req->user_id : <span class="cv">"unknown"</span>;<br>
     resp.email = <span class="cv">"alice@example.com"</span>;<br>
 <br>
-    <span class="ck">size_t</span> resp_len = user__v1__user__get_packed_size(&amp;resp);<br>
-    <span class="ck">uint8_t</span> *resp_buf = malloc(resp_len);<br>
+<span class="ck">size_t</span> resp_len = user__v1__user__get_packed_size(&amp;resp);<br>
+<span class="ck">uint8_t</span> *resp_buf = malloc(resp_len);<br>
     user__v1__user__pack(&amp;resp, resp_buf);<br>
 <br>
-    <span class="cm">/* gRPC length-prefix framing: 1 byte flag + 4 bytes length */</span><br>
-    <span class="ck">uint8_t</span> frame_hdr[<span class="cn">5</span>] = {<span class="cn">0</span>};<br>
+<span class="cm">/* gRPC length-prefix framing: 1 byte flag + 4 bytes length */</span><br>
+<span class="ck">uint8_t</span> frame_hdr[<span class="cn">5</span>] = {<span class="cn">0</span>};<br>
     frame_hdr[<span class="cn">1</span>] = (resp_len >> <span class="cn">24</span>) &amp; <span class="cn">0xFF</span>;<br>
     frame_hdr[<span class="cn">2</span>] = (resp_len >> <span class="cn">16</span>) &amp; <span class="cn">0xFF</span>;<br>
     frame_hdr[<span class="cn">3</span>] = (resp_len >>  <span class="cn">8</span>) &amp; <span class="cn">0xFF</span>;<br>
@@ -815,7 +815,7 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     };<br>
     grpc_byte_buffer *send_buf = grpc_raw_byte_buffer_create(slices, <span class="cn">2</span>);<br>
 <br>
-    <span class="cm">/* send response + trailers */</span><br>
+<span class="cm">/* send response + trailers */</span><br>
     grpc_metadata trailing_meta[<span class="cn">1</span>];<br>
     memset(trailing_meta, <span class="cn">0</span>, <span class="ck">sizeof</span>(trailing_meta));<br>
     grpc_op send_ops[<span class="cn">3</span>] = {<br>
@@ -830,7 +830,7 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     grpc_call_start_batch(call, send_ops, <span class="cn">3</span>, (<span class="ck">void</span>*)<span class="cn">3</span>, <span class="cv">NULL</span>);<br>
     grpc_completion_queue_next(cq, gpr_inf_future(GPR_CLOCK_REALTIME), <span class="cv">NULL</span>);<br>
 <br>
-    <span class="cm">/* cleanup */</span><br>
+<span class="cm">/* cleanup */</span><br>
     free(resp_buf);<br>
     if (req) user__v1__get_user_request__free_unpacked(req, <span class="cv">NULL</span>);<br>
     grpc_byte_buffer_destroy(recv_buf);<br>
@@ -851,63 +851,63 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
   <div class="lab-hdr">🧪 Lab 1 — Build a Protobuf Serialiser from Scratch</div>
   <div class="lab-body">
     Understand wire encoding at the byte level by writing a minimal varint + length-delimited encoder without using any Protobuf library.
-    <div class="lab-step"><span class="sn">1</span>Define a simple 3-field message in a <code>.proto</code> file: <code>string name = 1; int32 age = 2; bool active = 3;</code></div>
-    <div class="lab-step"><span class="sn">2</span>Write <code>encode_varint()</code> and <code>decode_varint()</code> in C (target: handle up to 64-bit values).</div>
-    <div class="lab-step"><span class="sn">3</span>Write <code>encode_field(field_num, wire_type, value)</code> that emits the key varint followed by the value.</div>
-    <div class="lab-step"><span class="sn">4</span>Encode a test struct (name="Bob", age=30, active=true) into a byte buffer manually.</div>
-    <div class="lab-step"><span class="sn">5</span>Cross-verify: use <code>protoc --encode</code> to encode the same values and compare bytes with <code>xxd</code>.</div>
-    <div class="lab-step"><span class="sn">6</span>Benchmark: encode 1 million structs — hand-coded C vs protobuf-c library. Record ns/op.</div>
-    <p><strong>Expected outcome:</strong> Your manual encoding matches protobuf-c output byte-for-byte. Performance within 20% of library.</p>
+<div class="lab-step"><span class="sn">1</span>Define a simple 3-field message in a <code>.proto</code> file: <code>string name = 1; int32 age = 2; bool active = 3;</code></div>
+<div class="lab-step"><span class="sn">2</span>Write <code>encode_varint()</code> and <code>decode_varint()</code> in C (target: handle up to 64-bit values).</div>
+<div class="lab-step"><span class="sn">3</span>Write <code>encode_field(field_num, wire_type, value)</code> that emits the key varint followed by the value.</div>
+<div class="lab-step"><span class="sn">4</span>Encode a test struct (name="Bob", age=30, active=true) into a byte buffer manually.</div>
+<div class="lab-step"><span class="sn">5</span>Cross-verify: use <code>protoc --encode</code> to encode the same values and compare bytes with <code>xxd</code>.</div>
+<div class="lab-step"><span class="sn">6</span>Benchmark: encode 1 million structs — hand-coded C vs protobuf-c library. Record ns/op.</div>
+<p><strong>Expected outcome:</strong> Your manual encoding matches protobuf-c output byte-for-byte. Performance within 20% of library.</p>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Bidirectional Streaming Chat Service</div>
   <div class="lab-body">
     Implement a bidirectional streaming gRPC service that simulates a chat session, exercising flow control and concurrent send/receive.
-    <div class="lab-step"><span class="sn">1</span>Define <code>ChatService</code> with <code>rpc Chat(stream ChatMessage) returns (stream ChatMessage)</code>. Messages: <code>string sender=1; string text=2; int64 timestamp=3;</code></div>
-    <div class="lab-step"><span class="sn">2</span>Implement a Go (or Python) server that echoes each message back prefixed with "Echo: " after a 50 ms artificial delay.</div>
-    <div class="lab-step"><span class="sn">3</span>Write a client that sends 100 messages and receives 100 replies, measuring P50/P99 RTT per message.</div>
-    <div class="lab-step"><span class="sn">4</span>Add server-side deadline enforcement: cancel the stream if the client sends nothing for 5 seconds.</div>
-    <div class="lab-step"><span class="sn">5</span>Test cancellation: have the client hang after sending 50 messages; verify server receives context cancellation.</div>
-    <div class="lab-step"><span class="sn">6</span>Add a logging interceptor on the server that prints sender + text length for every message.</div>
-    <p><strong>Expected outcome:</strong> P99 RTT &lt; 10 ms on localhost. Cancellation visible in server logs within 100 ms of client hang.</p>
+<div class="lab-step"><span class="sn">1</span>Define <code>ChatService</code> with <code>rpc Chat(stream ChatMessage) returns (stream ChatMessage)</code>. Messages: <code>string sender=1; string text=2; int64 timestamp=3;</code></div>
+<div class="lab-step"><span class="sn">2</span>Implement a Go (or Python) server that echoes each message back prefixed with "Echo: " after a 50 ms artificial delay.</div>
+<div class="lab-step"><span class="sn">3</span>Write a client that sends 100 messages and receives 100 replies, measuring P50/P99 RTT per message.</div>
+<div class="lab-step"><span class="sn">4</span>Add server-side deadline enforcement: cancel the stream if the client sends nothing for 5 seconds.</div>
+<div class="lab-step"><span class="sn">5</span>Test cancellation: have the client hang after sending 50 messages; verify server receives context cancellation.</div>
+<div class="lab-step"><span class="sn">6</span>Add a logging interceptor on the server that prints sender + text length for every message.</div>
+<p><strong>Expected outcome:</strong> P99 RTT &lt; 10 ms on localhost. Cancellation visible in server logs within 100 ms of client hang.</p>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — Schema Evolution &amp; gRPC-Gateway</div>
   <div class="lab-body">
     Practice backward-compatible schema evolution and expose your gRPC service as REST using gRPC-Gateway.
-    <div class="lab-step"><span class="sn">1</span>Start with <code>UserService v1</code>: fields id, email, username (field numbers 1–3).</div>
-    <div class="lab-step"><span class="sn">2</span>Serialize 100 User objects with v1. Save bytes to disk.</div>
-    <div class="lab-step"><span class="sn">3</span>Add a new field <code>string department = 4</code> and an enum <code>Role role = 5</code> — creating <code>user_v2.proto</code>.</div>
-    <div class="lab-step"><span class="sn">4</span>Deserialize the v1 bytes using the v2 schema. Verify: old fields intact, new fields at defaults.</div>
-    <div class="lab-step"><span class="sn">5</span>Try a breaking change: reuse field number 2 with a different type. Document the corruption you see.</div>
-    <div class="lab-step"><span class="sn">6</span>Add gRPC-Gateway annotations to <code>GetUser</code> and <code>ListUsers</code>. Run the gateway. Test with <code>curl</code>.</div>
-    <div class="lab-step"><span class="sn">7</span>Compare JSON payload size vs Protobuf payload size for the same 100-user list.</div>
-    <p><strong>Expected outcome:</strong> v1→v2 migration is seamless. REST endpoints work with curl. JSON ≈ 3–5× larger than Protobuf.</p>
+<div class="lab-step"><span class="sn">1</span>Start with <code>UserService v1</code>: fields id, email, username (field numbers 1–3).</div>
+<div class="lab-step"><span class="sn">2</span>Serialize 100 User objects with v1. Save bytes to disk.</div>
+<div class="lab-step"><span class="sn">3</span>Add a new field <code>string department = 4</code> and an enum <code>Role role = 5</code> — creating <code>user_v2.proto</code>.</div>
+<div class="lab-step"><span class="sn">4</span>Deserialize the v1 bytes using the v2 schema. Verify: old fields intact, new fields at defaults.</div>
+<div class="lab-step"><span class="sn">5</span>Try a breaking change: reuse field number 2 with a different type. Document the corruption you see.</div>
+<div class="lab-step"><span class="sn">6</span>Add gRPC-Gateway annotations to <code>GetUser</code> and <code>ListUsers</code>. Run the gateway. Test with <code>curl</code>.</div>
+<div class="lab-step"><span class="sn">7</span>Compare JSON payload size vs Protobuf payload size for the same 100-user list.</div>
+<p><strong>Expected outcome:</strong> v1→v2 migration is seamless. REST endpoints work with curl. JSON ≈ 3–5× larger than Protobuf.</p>
   </div>
 </div>
 <div class="sep">— Concept Checklist —</div>
 <div class="cp p-blue">
   <div class="cp-hdr">✅ Phase 1 gRPC Mastery Checklist</div>
   <div class="cp-body">
-    <ul class="cl">
-      <li>Can write a <code>.proto</code> file with messages, enums, <code>oneof</code>, <code>repeated</code>, and <code>map</code> fields</li>
-      <li>Explain field number vs field name and why numbers are the stable API contract</li>
-      <li>Decode a varint by hand: given <code>0xAC 0x02</code>, produce 300</li>
-      <li>Know all 6 wire types; identify which one <code>string</code> and <code>int32</code> use</li>
-      <li>Describe ZigZag encoding and when to prefer <code>sint32</code> over <code>int32</code></li>
-      <li>Implement all 4 streaming modes: unary, server-stream, client-stream, bidirectional</li>
-      <li>Explain how deadlines propagate through a gRPC call chain</li>
-      <li>Map gRPC status codes to HTTP equivalents for at least 8 codes</li>
-      <li>Use <code>google.rpc.Status</code> with rich error details (BadRequest field violations)</li>
-      <li>Write a server-side unary interceptor for JWT auth validation</li>
-      <li>Add HTTP annotations to a proto and run gRPC-Gateway transcoding</li>
-      <li>Implement the gRPC health check protocol; wire it to a Kubernetes liveness probe</li>
-      <li>List 3 safe and 3 breaking schema changes; always <code>reserved</code> deleted field numbers</li>
-      <li>Use <code>grpcurl</code> with server reflection to list services and call methods</li>
-      <li>Encode and decode a Protobuf message using <code>protobuf-c</code> in C</li>
-    </ul>
+<ul class="cl">
+<li>Can write a <code>.proto</code> file with messages, enums, <code>oneof</code>, <code>repeated</code>, and <code>map</code> fields</li>
+<li>Explain field number vs field name and why numbers are the stable API contract</li>
+<li>Decode a varint by hand: given <code>0xAC 0x02</code>, produce 300</li>
+<li>Know all 6 wire types; identify which one <code>string</code> and <code>int32</code> use</li>
+<li>Describe ZigZag encoding and when to prefer <code>sint32</code> over <code>int32</code></li>
+<li>Implement all 4 streaming modes: unary, server-stream, client-stream, bidirectional</li>
+<li>Explain how deadlines propagate through a gRPC call chain</li>
+<li>Map gRPC status codes to HTTP equivalents for at least 8 codes</li>
+<li>Use <code>google.rpc.Status</code> with rich error details (BadRequest field violations)</li>
+<li>Write a server-side unary interceptor for JWT auth validation</li>
+<li>Add HTTP annotations to a proto and run gRPC-Gateway transcoding</li>
+<li>Implement the gRPC health check protocol; wire it to a Kubernetes liveness probe</li>
+<li>List 3 safe and 3 breaking schema changes; always <code>reserved</code> deleted field numbers</li>
+<li>Use <code>grpcurl</code> with server reflection to list services and call methods</li>
+<li>Encode and decode a Protobuf message using <code>protobuf-c</code> in C</li>
+</ul>
   </div>
 </div>
 <div class="mod-nav">

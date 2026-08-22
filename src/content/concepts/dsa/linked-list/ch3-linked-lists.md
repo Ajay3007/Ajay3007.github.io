@@ -13,20 +13,20 @@ url: /learning/dsa/linked-list/ch3-linked-lists/
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
-    <div class="ch-hero-breadcrumb">
-      <a href="/roadmap/">All Roadmaps</a> ›
-      <a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
+<div class="ch-hero-breadcrumb">
+<a href="/roadmap/">All Roadmaps</a> ›
+<a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
       Chapter 3
-    </div>
-    <div class="chapter-num-badge">Chapter 3 · Intermediate · Prereq: Chapter 2</div>
-    <h1>Linked Lists</h1>
-    <p class="chapter-hero-sub">Singly & Doubly Linked · Fast & Slow Pointers · Reversal · Merge · Cycle Detection — pointer manipulation patterns that appear in 30% of interview problems.</p>
-    <div class="chapter-meta-row">
-      <span class="ch-meta-pill teal">11 Sections</span>
-      <span class="ch-meta-pill">11 Practice Problems</span>
-      <span class="ch-meta-pill">Intermediate</span>
-      <a href="/learning/dsa/dsa-roadmap/#ch3" class="ch-nav-btn">← Back to Roadmap</a>
-    </div>
+</div>
+<div class="chapter-num-badge">Chapter 3 · Intermediate · Prereq: Chapter 2</div>
+<h1>Linked Lists</h1>
+<p class="chapter-hero-sub">Singly & Doubly Linked · Fast & Slow Pointers · Reversal · Merge · Cycle Detection — pointer manipulation patterns that appear in 30% of interview problems.</p>
+<div class="chapter-meta-row">
+<span class="ch-meta-pill teal">11 Sections</span>
+<span class="ch-meta-pill">11 Practice Problems</span>
+<span class="ch-meta-pill">Intermediate</span>
+<a href="/learning/dsa/dsa-roadmap/#ch3" class="ch-nav-btn">← Back to Roadmap</a>
+</div>
   </div>
 </div>
 <div class="chapter-content">
@@ -58,11 +58,11 @@ struct DListNode {
 <h3 class="section-subheading">1.2 — Complexity vs Arrays</h3>
 <div class="insight-box">
   <ul>
-    <li><strong>Access by index:</strong> O(n) — must traverse from head. (Arrays: O(1))</li>
-    <li><strong>Search:</strong> O(n) — both structures</li>
-    <li><strong>Insert/Delete at known position:</strong> O(1) — just rewire pointers. (Arrays: O(n) — must shift)</li>
-    <li><strong>Insert/Delete at unknown position:</strong> O(n) — must find position first</li>
-    <li><strong>Memory:</strong> Extra pointer per node. No wasted capacity like dynamic arrays.</li>
+<li><strong>Access by index:</strong> O(n) — must traverse from head. (Arrays: O(1))</li>
+<li><strong>Search:</strong> O(n) — both structures</li>
+<li><strong>Insert/Delete at known position:</strong> O(1) — just rewire pointers. (Arrays: O(n) — must shift)</li>
+<li><strong>Insert/Delete at unknown position:</strong> O(n) — must find position first</li>
+<li><strong>Memory:</strong> Extra pointer per node. No wasted capacity like dynamic arrays.</li>
   </ul>
   <strong>Use Linked List when:</strong> frequent insert/delete at known positions, implementing stacks, queues, or adjacency lists. Not for random access.
 </div>
@@ -223,17 +223,17 @@ void reorderList(ListNode* head) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td><a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank">876. Middle of the Linked List</a></td><td>Fast/Slow</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>2</td><td><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/" target="_blank">83. Remove Duplicates from Sorted List</a></td><td>Traversal + pointer redirect</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>3</td><td><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">206. Reverse Linked List</a></td><td>Reversal (iterative)</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>4</td><td><a href="https://leetcode.com/problems/reverse-linked-list-ii/" target="_blank">92. Reverse Linked List II</a></td><td>Reversal (sublist)</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>5</td><td><a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank">141. Linked List Cycle</a></td><td>Fast/Slow cycle detection</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>6</td><td><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank">21. Merge Two Sorted Lists</a></td><td>Merge + dummy node</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>7</td><td><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank">19. Remove Nth Node From End of List</a></td><td>Dummy + two-pointer gap</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>8</td><td><a href="https://leetcode.com/problems/add-two-numbers/" target="_blank">2. Add Two Numbers</a></td><td>Simultaneous traversal + carry</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>9</td><td><a href="https://leetcode.com/problems/reorder-list/" target="_blank">143. Reorder List</a></td><td>Three-part: mid + reverse + merge</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>10</td><td><a href="https://leetcode.com/problems/lru-cache/" target="_blank">146. LRU Cache</a></td><td>Doubly linked list + HashMap</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>11</td><td><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank">23. Merge K Sorted Lists</a></td><td>K-way merge (min-heap)</td><td class="diff-hard">Hard</td></tr>
+<tr><td>1</td><td><a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank">876. Middle of the Linked List</a></td><td>Fast/Slow</td><td class="diff-easy">Easy</td></tr>
+<tr><td>2</td><td><a href="https://leetcode.com/problems/remove-duplicates-from-sorted-list/" target="_blank">83. Remove Duplicates from Sorted List</a></td><td>Traversal + pointer redirect</td><td class="diff-easy">Easy</td></tr>
+<tr><td>3</td><td><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">206. Reverse Linked List</a></td><td>Reversal (iterative)</td><td class="diff-easy">Easy</td></tr>
+<tr><td>4</td><td><a href="https://leetcode.com/problems/reverse-linked-list-ii/" target="_blank">92. Reverse Linked List II</a></td><td>Reversal (sublist)</td><td class="diff-medium">Medium</td></tr>
+<tr><td>5</td><td><a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank">141. Linked List Cycle</a></td><td>Fast/Slow cycle detection</td><td class="diff-easy">Easy</td></tr>
+<tr><td>6</td><td><a href="https://leetcode.com/problems/merge-two-sorted-lists/" target="_blank">21. Merge Two Sorted Lists</a></td><td>Merge + dummy node</td><td class="diff-easy">Easy</td></tr>
+<tr><td>7</td><td><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/" target="_blank">19. Remove Nth Node From End of List</a></td><td>Dummy + two-pointer gap</td><td class="diff-medium">Medium</td></tr>
+<tr><td>8</td><td><a href="https://leetcode.com/problems/add-two-numbers/" target="_blank">2. Add Two Numbers</a></td><td>Simultaneous traversal + carry</td><td class="diff-medium">Medium</td></tr>
+<tr><td>9</td><td><a href="https://leetcode.com/problems/reorder-list/" target="_blank">143. Reorder List</a></td><td>Three-part: mid + reverse + merge</td><td class="diff-medium">Medium</td></tr>
+<tr><td>10</td><td><a href="https://leetcode.com/problems/lru-cache/" target="_blank">146. LRU Cache</a></td><td>Doubly linked list + HashMap</td><td class="diff-medium">Medium</td></tr>
+<tr><td>11</td><td><a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank">23. Merge K Sorted Lists</a></td><td>K-way merge (min-heap)</td><td class="diff-hard">Hard</td></tr>
   </tbody>
 </table>
 </div>

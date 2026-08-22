@@ -13,20 +13,20 @@ url: /learning/dsa/stacks/ch4-stacks-queues/
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
-    <div class="ch-hero-breadcrumb">
-      <a href="/roadmap/">All Roadmaps</a> ›
-      <a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
+<div class="ch-hero-breadcrumb">
+<a href="/roadmap/">All Roadmaps</a> ›
+<a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
       Chapter 4
-    </div>
-    <div class="chapter-num-badge">Chapter 4 · Intermediate · Prereq: Chapter 3</div>
-    <h1>Stacks & Queues</h1>
-    <p class="chapter-hero-sub">LIFO vs FIFO · Bracket Matching · Monotonic Stacks · Deque Sliding Window — the patterns that eliminate O(n²) loops with elegant O(n) stack-based sweeps.</p>
-    <div class="chapter-meta-row">
-      <span class="ch-meta-pill teal">11 Sections</span>
-      <span class="ch-meta-pill">13 Practice Problems</span>
-      <span class="ch-meta-pill">Intermediate</span>
-      <a href="/learning/dsa/dsa-roadmap/#ch4" class="ch-nav-btn">← Back to Roadmap</a>
-    </div>
+</div>
+<div class="chapter-num-badge">Chapter 4 · Intermediate · Prereq: Chapter 3</div>
+<h1>Stacks & Queues</h1>
+<p class="chapter-hero-sub">LIFO vs FIFO · Bracket Matching · Monotonic Stacks · Deque Sliding Window — the patterns that eliminate O(n²) loops with elegant O(n) stack-based sweeps.</p>
+<div class="chapter-meta-row">
+<span class="ch-meta-pill teal">11 Sections</span>
+<span class="ch-meta-pill">13 Practice Problems</span>
+<span class="ch-meta-pill">Intermediate</span>
+<a href="/learning/dsa/dsa-roadmap/#ch4" class="ch-nav-btn">← Back to Roadmap</a>
+</div>
   </div>
 </div>
 <div class="chapter-content">
@@ -37,10 +37,10 @@ url: /learning/dsa/stacks/ch4-stacks-queues/
 <div class="insight-box">
   <span class="insight-label">Real-World Stack Analogies</span>
   <ul>
-    <li><strong>Function call stack:</strong> OS pushes a stack frame on each function call, pops on return. Stack overflow = too deep recursion.</li>
-    <li><strong>Browser history:</strong> Back button pops the last visited URL. Forward button uses a second stack.</li>
-    <li><strong>Undo/Redo:</strong> Text editors push changes; undo pops the last change.</li>
-    <li><strong>Expression evaluator:</strong> Compilers evaluate infix/postfix math using stacks.</li>
+<li><strong>Function call stack:</strong> OS pushes a stack frame on each function call, pops on return. Stack overflow = too deep recursion.</li>
+<li><strong>Browser history:</strong> Back button pops the last visited URL. Forward button uses a second stack.</li>
+<li><strong>Undo/Redo:</strong> Text editors push changes; undo pops the last change.</li>
+<li><strong>Expression evaluator:</strong> Compilers evaluate infix/postfix math using stacks.</li>
   </ul>
 </div>
 <h3 class="section-subheading">1.1 — Stack Operations in C++</h3>
@@ -108,9 +108,9 @@ dq.front();        dq.back();
 <div class="insight-box">
   <span class="insight-label">Algorithm — Valid Parentheses</span>
   <ul>
-    <li>Opening bracket <code>( [ {</code> → <strong>push</strong> onto stack</li>
-    <li>Closing bracket <code>) ] }</code> → check if stack top is the matching opener; if yes <strong>pop</strong>, if no → <strong>invalid</strong></li>
-    <li>At the end: stack must be <strong>empty</strong> (all openers matched)</li>
+<li>Opening bracket <code>( [ {</code> → <strong>push</strong> onto stack</li>
+<li>Closing bracket <code>) ] }</code> → check if stack top is the matching opener; if yes <strong>pop</strong>, if no → <strong>invalid</strong></li>
+<li>At the end: stack must be <strong>empty</strong> (all openers matched)</li>
   </ul>
   Common mistake: returning <code>true</code> at end without checking <code>st.empty()</code>. Input <code>((( </code> is invalid but stack is non-empty!
 </div>
@@ -174,10 +174,10 @@ public:
 <div class="insight-box">
   <span class="insight-label">Two-Stack Queue — Amortised O(1)</span>
   <ul>
-    <li><strong>inbox</strong> stack: receives all push() calls — O(1)</li>
-    <li><strong>outbox</strong> stack: serves all pop()/peek() calls</li>
-    <li>When outbox is empty, transfer ALL elements from inbox to outbox (single reversal gives FIFO order)</li>
-    <li>Each element moves at most once: inbox→outbox. Total work across n operations = O(n) → <strong>amortised O(1) per operation</strong></li>
+<li><strong>inbox</strong> stack: receives all push() calls — O(1)</li>
+<li><strong>outbox</strong> stack: serves all pop()/peek() calls</li>
+<li>When outbox is empty, transfer ALL elements from inbox to outbox (single reversal gives FIFO order)</li>
+<li>Each element moves at most once: inbox→outbox. Total work across n operations = O(n) → <strong>amortised O(1) per operation</strong></li>
   </ul>
 </div>
 <div class="ch-code-wrap">
@@ -204,10 +204,10 @@ public:
 <div class="insight-box">
   <span class="insight-label">Two Monotonic Stack Variants</span>
   <ul>
-    <li><strong>Decreasing stack</strong> (top is smallest): pop when new element is <em>greater</em>. Answers: Next Greater Element, Daily Temperatures.</li>
-    <li><strong>Increasing stack</strong> (top is largest): pop when new element is <em>smaller</em>. Answers: Next Smaller Element, Histogram.</li>
-    <li><strong>Always store INDICES, not values</strong> — you need indices to compute distances and record answers at the right position.</li>
-    <li>Each element is pushed once and popped at most once → <strong>O(n) amortised total</strong>.</li>
+<li><strong>Decreasing stack</strong> (top is smallest): pop when new element is <em>greater</em>. Answers: Next Greater Element, Daily Temperatures.</li>
+<li><strong>Increasing stack</strong> (top is largest): pop when new element is <em>smaller</em>. Answers: Next Smaller Element, Histogram.</li>
+<li><strong>Always store INDICES, not values</strong> — you need indices to compute distances and record answers at the right position.</li>
+<li>Each element is pushed once and popped at most once → <strong>O(n) amortised total</strong>.</li>
   </ul>
 </div>
 <h3 class="section-subheading">6.1 — Next Greater Element</h3>
@@ -240,16 +240,16 @@ for (int i = 0; i < 2*n; i++) {
 <h3 class="section-subheading">6.2 — Daily Temperatures Trace (arr = [73,74,75,71,69,72,76,73])</h3>
 <div class="dsa-pattern-box">
   <ul>
-    <li><strong>i=0, temp=73:</strong> stack empty → push 0. Stack:[0]</li>
-    <li><strong>i=1, temp=74:</strong> 74 > 73 → pop 0, ans[0]=1–0=1; push 1. Stack:[1]</li>
-    <li><strong>i=2, temp=75:</strong> 75 > 74 → pop 1, ans[1]=2–1=1; push 2. Stack:[2]</li>
-    <li><strong>i=3, temp=71:</strong> 71 < 75 → push 3. Stack:[2,3]</li>
-    <li><strong>i=4, temp=69:</strong> 69 < 71 → push 4. Stack:[2,3,4]</li>
-    <li><strong>i=5, temp=72:</strong> 72>69 pop 4 ans[4]=1; 72>71 pop 3 ans[3]=2; push 5. Stack:[2,5]</li>
-    <li><strong>i=6, temp=76:</strong> 76>72 pop 5 ans[5]=1; 76>75 pop 2 ans[2]=4; push 6. Stack:[6]</li>
-    <li><strong>i=7, temp=73:</strong> 73 < 76 → push 7. Stack:[6,7]</li>
-    <li><strong>END:</strong> idx 6,7 remain → no warmer day → ans[6]=0, ans[7]=0</li>
-    <li><strong>Final: ans = [1, 1, 4, 2, 1, 1, 0, 0]</strong> ✓</li>
+<li><strong>i=0, temp=73:</strong> stack empty → push 0. Stack:[0]</li>
+<li><strong>i=1, temp=74:</strong> 74 > 73 → pop 0, ans[0]=1–0=1; push 1. Stack:[1]</li>
+<li><strong>i=2, temp=75:</strong> 75 > 74 → pop 1, ans[1]=2–1=1; push 2. Stack:[2]</li>
+<li><strong>i=3, temp=71:</strong> 71 < 75 → push 3. Stack:[2,3]</li>
+<li><strong>i=4, temp=69:</strong> 69 < 71 → push 4. Stack:[2,3,4]</li>
+<li><strong>i=5, temp=72:</strong> 72>69 pop 4 ans[4]=1; 72>71 pop 3 ans[3]=2; push 5. Stack:[2,5]</li>
+<li><strong>i=6, temp=76:</strong> 76>72 pop 5 ans[5]=1; 76>75 pop 2 ans[2]=4; push 6. Stack:[6]</li>
+<li><strong>i=7, temp=73:</strong> 73 < 76 → push 7. Stack:[6,7]</li>
+<li><strong>END:</strong> idx 6,7 remain → no warmer day → ans[6]=0, ans[7]=0</li>
+<li><strong>Final: ans = [1, 1, 4, 2, 1, 1, 0, 0]</strong> ✓</li>
   </ul>
 </div>
 <h3 class="section-subheading">6.3 — Largest Rectangle in Histogram</h3>
@@ -279,9 +279,9 @@ int largestRectangleArea(vector<int>& heights) {
 <p>For a fixed-size sliding window of size k, maintain a <strong>monotonic decreasing deque of indices</strong>. The front always holds the index of the maximum element in the current window.</p>
 <div class="dsa-pattern-box">
   <ul>
-    <li>Remove from front if the front index is out of the current window (index &lt; i–k+1)</li>
-    <li>Remove from back while the back element is ≤ new element (smaller elements can never be the window max)</li>
-    <li>Push new index to back; front of deque = index of the window maximum</li>
+<li>Remove from front if the front index is out of the current window (index &lt; i–k+1)</li>
+<li>Remove from back while the back element is ≤ new element (smaller elements can never be the window max)</li>
+<li>Push new index to back; front of deque = index of the window maximum</li>
   </ul>
 </div>
 <div class="ch-code-wrap">
@@ -321,11 +321,11 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 <div class="insight-box">
   <span class="insight-label">Edge Cases to Test</span>
   <ul>
-    <li>Empty string for bracket matching → return <code>true</code></li>
-    <li>Single bracket <code>'('</code> → invalid</li>
-    <li>Temperatures all equal [5,5,5,5] → strictly greater condition never fires → all answers = 0</li>
-    <li>k=1 for sliding window → each element is its own window max</li>
-    <li>k=n for sliding window → single result = global maximum</li>
+<li>Empty string for bracket matching → return <code>true</code></li>
+<li>Single bracket <code>'('</code> → invalid</li>
+<li>Temperatures all equal [5,5,5,5] → strictly greater condition never fires → all answers = 0</li>
+<li>k=1 for sliding window → each element is its own window max</li>
+<li>k=n for sliding window → single result = global maximum</li>
   </ul>
 </div>
 </div>
@@ -337,11 +337,11 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank">20. Valid Parentheses</a></td><td>Bracket matching</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>2</td><td><a href="https://leetcode.com/problems/min-stack/" target="_blank">155. Min Stack</a></td><td>Auxiliary min-tracking stack</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>3</td><td><a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank">150. Evaluate Reverse Polish Notation</a></td><td>Postfix expression evaluation</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>4</td><td><a href="https://leetcode.com/problems/decode-string/" target="_blank">394. Decode String</a></td><td>Nested encoding — two stacks</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>5</td><td><a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank">232. Implement Queue using Stacks</a></td><td>Two stacks + lazy transfer</td><td class="diff-easy">Easy</td></tr>
+<tr><td>1</td><td><a href="https://leetcode.com/problems/valid-parentheses/" target="_blank">20. Valid Parentheses</a></td><td>Bracket matching</td><td class="diff-easy">Easy</td></tr>
+<tr><td>2</td><td><a href="https://leetcode.com/problems/min-stack/" target="_blank">155. Min Stack</a></td><td>Auxiliary min-tracking stack</td><td class="diff-medium">Medium</td></tr>
+<tr><td>3</td><td><a href="https://leetcode.com/problems/evaluate-reverse-polish-notation/" target="_blank">150. Evaluate Reverse Polish Notation</a></td><td>Postfix expression evaluation</td><td class="diff-medium">Medium</td></tr>
+<tr><td>4</td><td><a href="https://leetcode.com/problems/decode-string/" target="_blank">394. Decode String</a></td><td>Nested encoding — two stacks</td><td class="diff-medium">Medium</td></tr>
+<tr><td>5</td><td><a href="https://leetcode.com/problems/implement-queue-using-stacks/" target="_blank">232. Implement Queue using Stacks</a></td><td>Two stacks + lazy transfer</td><td class="diff-easy">Easy</td></tr>
   </tbody>
 </table>
 </div>
@@ -350,11 +350,11 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
   <tbody>
-    <tr><td>6</td><td><a href="https://leetcode.com/problems/daily-temperatures/" target="_blank">739. Daily Temperatures</a></td><td>Decreasing stack (days to wait)</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>7</td><td><a href="https://leetcode.com/problems/next-greater-element-i/" target="_blank">496. Next Greater Element I</a></td><td>Monotonic stack + hash map</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>8</td><td><a href="https://leetcode.com/problems/next-greater-element-ii/" target="_blank">503. Next Greater Element II</a></td><td>Circular array — scan 2n</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>9</td><td><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">84. Largest Rectangle in Histogram</a></td><td>Increasing stack + sentinel</td><td class="diff-hard">Hard</td></tr>
-    <tr><td>10</td><td><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">42. Trapping Rain Water</a></td><td>Monotonic stack or two-pointer</td><td class="diff-hard">Hard</td></tr>
+<tr><td>6</td><td><a href="https://leetcode.com/problems/daily-temperatures/" target="_blank">739. Daily Temperatures</a></td><td>Decreasing stack (days to wait)</td><td class="diff-medium">Medium</td></tr>
+<tr><td>7</td><td><a href="https://leetcode.com/problems/next-greater-element-i/" target="_blank">496. Next Greater Element I</a></td><td>Monotonic stack + hash map</td><td class="diff-easy">Easy</td></tr>
+<tr><td>8</td><td><a href="https://leetcode.com/problems/next-greater-element-ii/" target="_blank">503. Next Greater Element II</a></td><td>Circular array — scan 2n</td><td class="diff-medium">Medium</td></tr>
+<tr><td>9</td><td><a href="https://leetcode.com/problems/largest-rectangle-in-histogram/" target="_blank">84. Largest Rectangle in Histogram</a></td><td>Increasing stack + sentinel</td><td class="diff-hard">Hard</td></tr>
+<tr><td>10</td><td><a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank">42. Trapping Rain Water</a></td><td>Monotonic stack or two-pointer</td><td class="diff-hard">Hard</td></tr>
   </tbody>
 </table>
 </div>
@@ -363,9 +363,9 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
   <tbody>
-    <tr><td>11</td><td><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">239. Sliding Window Maximum</a></td><td>Monotonic deque — O(n)</td><td class="diff-hard">Hard</td></tr>
-    <tr><td>12</td><td><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">102. Binary Tree Level Order Traversal</a></td><td>BFS with queue</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>13</td><td><a href="https://leetcode.com/problems/rotting-oranges/" target="_blank">994. Rotting Oranges</a></td><td>Multi-source BFS with queue</td><td class="diff-medium">Medium</td></tr>
+<tr><td>11</td><td><a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank">239. Sliding Window Maximum</a></td><td>Monotonic deque — O(n)</td><td class="diff-hard">Hard</td></tr>
+<tr><td>12</td><td><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">102. Binary Tree Level Order Traversal</a></td><td>BFS with queue</td><td class="diff-medium">Medium</td></tr>
+<tr><td>13</td><td><a href="https://leetcode.com/problems/rotting-oranges/" target="_blank">994. Rotting Oranges</a></td><td>Multi-source BFS with queue</td><td class="diff-medium">Medium</td></tr>
   </tbody>
 </table>
 </div>

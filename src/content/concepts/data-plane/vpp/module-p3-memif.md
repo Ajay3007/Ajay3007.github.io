@@ -79,10 +79,10 @@ url: /learning/data-plane/vpp/module-p3-memif/
   <div class="mod-title">🔗 memif - Shared Memory Interface</div>
   <div class="mod-subtitle">Server/client roles · Unix socket control path · Zero-copy shared memory · libmemif · DPDK net_memif PMD</div>
   <div class="mod-pills">
-    <span class="mod-pill">src/plugins/memif/</span>
-    <span class="mod-pill">extras/libmemif/</span>
-    <span class="mod-pill">net_memif PMD</span>
-    <span class="mod-pill">Project 5</span>
+<span class="mod-pill">src/plugins/memif/</span>
+<span class="mod-pill">extras/libmemif/</span>
+<span class="mod-pill">net_memif PMD</span>
+<span class="mod-pill">Project 5</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -99,14 +99,17 @@ url: /learning/data-plane/vpp/module-p3-memif/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🧩</span><h3>memif Design - Control Plane vs Data Plane</h3><span class="tag tag-purple">ARCHITECTURE</span></div>
   <div class="cp-body">
-    <p>memif (memory interface) is a shared-memory, zero-copy interface for connecting two processes - most commonly two VPP instances or VPP + a DPDK application. It is the highest-performance inter-process interface available for container-to-container packet forwarding.</p>
-    <p>memif has a strict two-plane design:</p>
-    <ul>
-      <li><strong>Control plane (Unix socket):</strong> Used once during connection setup. A <em>server</em> listens on a Unix socket; a <em>client</em> connects. They exchange memif_msg_t messages to negotiate region count, queue count, ring size, and buffer size. After handshake, the socket is idle.</li>
-      <li><strong>Data plane (shared memory):</strong> After handshake, both sides mmap the same physical memory regions. TX/RX rings (ring buffers of memif_desc_t descriptors) in this shared memory allow zero-copy packet passing - no copies, no system calls, no kernel involvement.</li>
-    </ul>
-<div class="cb"><pre><span class="cm">/* memif topology */</span>
- 
+<p>memif (memory interface) is a shared-memory, zero-copy interface for connecting two processes - most commonly two VPP instances or VPP + a DPDK application. It is the highest-performance inter-process interface available for container-to-container packet forwarding.</p>
+<p>memif has a strict two-plane design:</p>
+<ul>
+<li><strong>Control plane (Unix socket):</strong> Used once during connection setup. A <em>server</em> listens on a Unix socket; a <em>client</em> connects. They exchange memif_msg_t messages to negotiate region count, queue count, ring size, and buffer size. After handshake, the socket is idle.</li>
+<li><strong>Data plane (shared memory):</strong> After handshake, both sides mmap the same physical memory regions. TX/RX rings (ring buffers of memif_desc_t descriptors) in this shared memory allow zero-copy packet passing - no copies, no system calls, no kernel involvement.</li>
+</ul>
+
+
+```yaml
+/* memif topology */
+
 Process A (VPP master)              Process B (VPP slave / DPDK app)
 ┌──────────────────────┐            ┌──────────────────────┐
 │  memif server        │            │  memif client        │
@@ -116,12 +119,15 @@ Process A (VPP master)              Process B (VPP slave / DPDK app)
 │  TX ring (A→B)       │            │  RX ring (reads A→B) │
 │  RX ring (B→A)       │            │  TX ring (writes B→A)│
 └──────────────────────┘            └──────────────────────┘
- 
-<span class="cm">/* Key properties */</span>
+
+/* Key properties */
 Zero copies:   packet data never leaves shared memory
 No syscalls:   data path uses only memory reads/writes
 Interrupt mode: optionally signal peer via eventfd (avoids busy poll)
-Blocking:      VPP always uses polling (same as DPDK)</pre></div>
+Blocking:      VPP always uses polling (same as DPDK)
+```
+
+
   </div>
 </div>
 </div>
@@ -160,14 +166,14 @@ Region 1+: Data - packet buffers
 <span class="cm">/* TX side: advance head after filling descriptors */</span>
 <span class="cm">/* RX side: read from tail, advance tail after processing */</span>
 <span class="cm">/* ring is full when (head - tail) == ring_size */</span></pre></div>
-    <div class="dpdk-box">
-      <div class="dh">⚙️ DPDK PARALLEL - rte_ring vs memif ring</div>
-      <ul>
-        <li><strong>memif ring</strong> is semantically equivalent to an <code>rte_ring</code> of buffer descriptors shared between two processes. The key difference: rte_ring uses atomic CAS operations; memif uses plain memory reads/writes (single producer single consumer per queue - no atomics needed)</li>
-        <li>memif is designed for <strong>SPSC (single producer single consumer)</strong> per queue - each queue pair has exactly one writer and one reader. For multi-queue, create multiple queue pairs</li>
-        <li>memif's zero-copy model means the packet bytes sit in the shared region and are never copied between peers - analogous to what you'd achieve with DPDK's <code>rte_ring</code> of <code>rte_mbuf</code> pointers, but without the IPC overhead of separate mempools</li>
-      </ul>
-    </div>
+<div class="dpdk-box">
+<div class="dh">⚙️ DPDK PARALLEL - rte_ring vs memif ring</div>
+<ul>
+<li><strong>memif ring</strong> is semantically equivalent to an <code>rte_ring</code> of buffer descriptors shared between two processes. The key difference: rte_ring uses atomic CAS operations; memif uses plain memory reads/writes (single producer single consumer per queue - no atomics needed)</li>
+<li>memif is designed for <strong>SPSC (single producer single consumer)</strong> per queue - each queue pair has exactly one writer and one reader. For multi-queue, create multiple queue pairs</li>
+<li>memif's zero-copy model means the packet bytes sit in the shared region and are never copied between peers - analogous to what you'd achieve with DPDK's <code>rte_ring</code> of <code>rte_mbuf</code> pointers, but without the IPC overhead of separate mempools</li>
+</ul>
+</div>
   </div>
 </div>
 </div>
@@ -176,50 +182,59 @@ Region 1+: Data - packet buffers
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Complete memif CLI Reference</h3><span class="tag tag-teal">CLI</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm"># ── VPP INSTANCE A: server (master) ──</span>
-<span class="cm"># Create a memif socket (path to Unix socket file)</span>
+
+
+```python
+# ── VPP INSTANCE A: server (master) ──
+
+# Create a memif socket (path to Unix socket file)
 create memif socket id 1 filename /run/vpp/memif-a.sock
- 
-<span class="cm"># Create memif interface in server (master) mode</span>
+
+# Create memif interface in server (master) mode
 create interface memif id 0 socket-id 1 master rx-queues 2 tx-queues 2 \
   ring-size 1024 buffer-size 2048
- 
-<span class="cm"># Bring up and configure</span>
+
+# Bring up and configure
 set interface state memif0/0 up
 set interface ip address memif0/0 10.10.0.1/30
- 
-<span class="cm"># ── VPP INSTANCE B: client (slave) ──</span>
+
+# ── VPP INSTANCE B: client (slave) ──
 create memif socket id 1 filename /run/vpp/memif-a.sock
 create interface memif id 0 socket-id 1 slave rx-queues 2 tx-queues 2 \
   ring-size 1024 buffer-size 2048
 set interface state memif0/0 up
 set interface ip address memif0/0 10.10.0.2/30
- 
-<span class="cm"># Verify connection status</span>
+
+# Verify connection status
 show memif
-<span class="cm"># Should show: id 0, socket memif-a.sock, state connected, role master</span>
- 
+# Should show: id 0, socket memif-a.sock, state connected, role master
+
 show interface memif0/0
-<span class="cm"># Should show: link-up, rx/tx packet counters</span>
-<span class="cm"># ── Zero-copy mode (VPP ↔ VPP only) ──</span>
-<span class="cm"># Both sides must use VPP's memif plugin</span>
-<span class="cm"># Add 'zero-copy' to the create command:</span>
+# Should show: link-up, rx/tx packet counters
+
+# ── Zero-copy mode (VPP ↔ VPP only) ──
+# Both sides must use VPP's memif plugin
+# Add 'zero-copy' to the create command:
 create interface memif id 1 socket-id 1 master zero-copy
- 
-<span class="cm"># ── L2 bridge use case (two memif ports in a VPP bridge domain) ──</span>
+
+# ── L2 bridge use case (two memif ports in a VPP bridge domain) ──
 create bridge-domain 10 learn 1 forward 1 flood 1
 set interface l2 bridge memif0/0 10
-set interface l2 bridge memif0/1 10</pre></div>
-    <table class="api-table">
-      <thead><tr><th>CLI Command</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><code>show memif</code></td><td>All memif interfaces with socket path, role, connection state</td></tr>
-        <tr><td><code>show memif socket</code></td><td>All registered memif sockets</td></tr>
-        <tr><td><code>show memif &lt;if&gt;</code></td><td>Detailed: queue count, ring size, buffer size, descriptor counts</td></tr>
-        <tr><td><code>delete memif &lt;if&gt;</code></td><td>Remove a memif interface (disconnects peer)</td></tr>
-        <tr><td><code>delete memif socket id N</code></td><td>Remove a memif socket (must have no interfaces using it)</td></tr>
-      </tbody>
-    </table>
+set interface l2 bridge memif0/1 10
+```
+
+
+
+<table class="api-table">
+<thead><tr><th>CLI Command</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>show memif</code></td><td>All memif interfaces with socket path, role, connection state</td></tr>
+<tr><td><code>show memif socket</code></td><td>All registered memif sockets</td></tr>
+<tr><td><code>show memif &lt;if&gt;</code></td><td>Detailed: queue count, ring size, buffer size, descriptor counts</td></tr>
+<tr><td><code>delete memif &lt;if&gt;</code></td><td>Remove a memif interface (disconnects peer)</td></tr>
+<tr><td><code>delete memif socket id N</code></td><td>Remove a memif socket (must have no interfaces using it)</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -228,7 +243,7 @@ set interface l2 bridge memif0/1 10</pre></div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📚</span><h3>libmemif API - Connect Any Process to VPP</h3><span class="tag tag-blue">LIBRARY</span></div>
   <div class="cp-body">
-    <p>libmemif (<code>extras/libmemif/</code>) is a standalone C library that implements the memif protocol. Any process - DPDK app, Python via ctypes, Go via cgo - can use it to create a memif peer that connects to VPP without running a full VPP instance.</p>
+<p>libmemif (<code>extras/libmemif/</code>) is a standalone C library that implements the memif protocol. Any process - DPDK app, Python via ctypes, Go via cgo - can use it to create a memif peer that connects to VPP without running a full VPP instance.</p>
 <div class="cb"><pre><span class="cm">/* Include */</span>
 <span class="cs">#include "libmemif.h"</span>
 <span class="cm">/* Step 1: Initialise the library */</span>
@@ -280,7 +295,7 @@ memif_rx_burst(conn, 0, rx_bufs, 256, &n_rx);
     process_packet(rx_bufs[i].data, rx_bufs[i].len);
 }
 memif_refill_queue(conn, 0, n_rx, 0);</pre></div>
-    <p>libmemif also has Python bindings via ctypes: <code>extras/libmemif/python/libmemif.py</code>. This is what you use in Project 5 to build the Python control-plane client.</p>
+<p>libmemif also has Python bindings via ctypes: <code>extras/libmemif/python/libmemif.py</code>. This is what you use in Project 5 to build the Python control-plane client.</p>
   </div>
 </div>
 </div>
@@ -289,13 +304,16 @@ memif_refill_queue(conn, 0, n_rx, 0);</pre></div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>net_memif PMD - testpmd ↔ VPP</h3><span class="tag tag-orange">DPDK INTEGRATION</span></div>
   <div class="cp-body">
-    <p>DPDK's <code>net_memif</code> PMD (<code>drivers/net/memif/</code>) implements the memif protocol as a DPDK poll-mode driver. This means testpmd, your DPDK forwarding application, or any DPDK-based app can connect directly to VPP as a memif peer - without running a second VPP instance.</p>
-<div class="cb"><pre><span class="cm"># ── VPP side: set up as master ──</span>
+<p>DPDK's <code>net_memif</code> PMD (<code>drivers/net/memif/</code>) implements the memif protocol as a DPDK poll-mode driver. This means testpmd, your DPDK forwarding application, or any DPDK-based app can connect directly to VPP as a memif peer - without running a second VPP instance.</p>
+
+
+```bash
+# ── VPP side: set up as master ──
 create memif socket id 1 filename /run/vpp/memif-dpdk.sock
 create interface memif id 0 socket-id 1 master rx-queues 1 tx-queues 1
 set interface state memif0/0 up
- 
-<span class="cm"># ── DPDK testpmd side: connect as slave ──</span>
+
+# ── DPDK testpmd side: connect as slave ──
 dpdk-testpmd \
   --vdev="net_memif,socket=/run/vpp/memif-dpdk.sock,id=0,role=slave" \
   --no-pci \
@@ -303,26 +321,30 @@ dpdk-testpmd \
      --port-topology=chained \
      --rxq=1 --txq=1 \
      --nb-cores=1
- 
-<span class="cm"># ── In testpmd interactive shell ──</span>
+
+# ── In testpmd interactive shell ──
 testpmd> set fwd txonly
 testpmd> start
-<span class="cm"># Now VPP receives packets on memif0/0</span>
-<span class="cm"># Check: vppctl show interface memif0/0</span>
-<span class="cm"># ── For zero-copy (DPDK side must match VPP buffer layout) ──</span>
+# Now VPP receives packets on memif0/0
+# Check: vppctl show interface memif0/0
+
+# ── For zero-copy (DPDK side must match VPP buffer layout) ──
 --vdev="net_memif,socket=/run/vpp/memif-dpdk.sock,id=0,role=slave,zero-copy=yes"
-<span class="cm"># zero-copy requires DPDK mbufs sized to match VPP's buffer-size (2048)</span></pre></div>
-    <table class="api-table">
-      <thead><tr><th>net_memif PMD Option</th><th>Description</th><th>Must Match VPP</th></tr></thead>
-      <tbody>
-        <tr><td><code>socket</code></td><td>Path to Unix socket file</td><td>Yes - exact path</td></tr>
-        <tr><td><code>id</code></td><td>memif interface ID</td><td>Yes - must match VPP's <code>id N</code></td></tr>
-        <tr><td><code>role=slave</code></td><td>Client role (VPP is master)</td><td>Yes - roles must be opposite</td></tr>
-        <tr><td><code>ring-size</code></td><td>Ring descriptor count</td><td>No - negotiated during handshake</td></tr>
-        <tr><td><code>pkt-buffer-size</code></td><td>Buffer size in bytes</td><td>Recommended: match VPP's buffer-size</td></tr>
-        <tr><td><code>zero-copy</code></td><td>Enable zero-copy mode</td><td>Both sides must agree</td></tr>
-      </tbody>
-    </table>
+# zero-copy requires DPDK mbufs sized to match VPP's buffer-size (2048)
+```
+
+
+<table class="api-table">
+<thead><tr><th>net_memif PMD Option</th><th>Description</th><th>Must Match VPP</th></tr></thead>
+<tbody>
+<tr><td><code>socket</code></td><td>Path to Unix socket file</td><td>Yes - exact path</td></tr>
+<tr><td><code>id</code></td><td>memif interface ID</td><td>Yes - must match VPP's <code>id N</code></td></tr>
+<tr><td><code>role=slave</code></td><td>Client role (VPP is master)</td><td>Yes - roles must be opposite</td></tr>
+<tr><td><code>ring-size</code></td><td>Ring descriptor count</td><td>No - negotiated during handshake</td></tr>
+<tr><td><code>pkt-buffer-size</code></td><td>Buffer size in bytes</td><td>Recommended: match VPP's buffer-size</td></tr>
+<tr><td><code>zero-copy</code></td><td>Enable zero-copy mode</td><td>Both sides must agree</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -330,13 +352,13 @@ testpmd> start
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 5</span><h4>memif vSwitch - 3-Container Topology</h4></div>
   <div class="proj-body">
-    <p><strong>Objective:</strong> Build a 3-container virtual switch using VPP as the central switch with memif interfaces. Container A and Container C are DPDK testpmd instances connected to VPP via memif. A Python libmemif client from Container B monitors traffic on a third memif interface (mirror port).</p>
-    <div class="ps"><div class="sn">1</div><div>Container A: run testpmd with net_memif PMD as slave connected to <code>/run/shared/memif-a.sock</code>. Container C: testpmd as slave on <code>/run/shared/memif-c.sock</code>. Use Docker volumes to share the socket directory.</div></div>
-    <div class="ps"><div class="sn">2</div><div>VPP (Container B): create two memif sockets, create memif interfaces in master mode for each socket, create a bridge domain, add both interfaces as L2 bridge members. Verify connectivity A→C with testpmd txonly/rxonly.</div></div>
-    <div class="ps"><div class="sn">3</div><div>Add a third memif interface to VPP as a "mirror port". Use a feature arc or a custom tap-output node to copy each forwarded packet's metadata (src MAC, dst MAC, length) to the mirror memif.</div></div>
-    <div class="ps"><div class="sn">4</div><div>Write a Python script using libmemif Python bindings that connects to the mirror memif socket and prints per-second packet counts, unique source MACs seen, and bytes forwarded. Run it while A→C traffic is flowing.</div></div>
-    <div class="ps"><div class="sn">5</div><div>Benchmark: send at increasing rates (100Kpps → 1Mpps → 5Mpps) from testpmd. Record the maximum forwarding rate VPP sustains without packet drops (check <code>show error</code> for drops). Note the VPP CPU utilisation at each rate.</div></div>
-    <div class="ps"><div class="sn">6</div><div>Test zero-copy mode: enable <code>zero-copy</code> on all memif interfaces (both VPP and testpmd sides). Re-run the benchmark. Compare peak throughput and CPU usage with and without zero-copy.</div></div>
+<p><strong>Objective:</strong> Build a 3-container virtual switch using VPP as the central switch with memif interfaces. Container A and Container C are DPDK testpmd instances connected to VPP via memif. A Python libmemif client from Container B monitors traffic on a third memif interface (mirror port).</p>
+<div class="ps"><div class="sn">1</div><div>Container A: run testpmd with net_memif PMD as slave connected to <code>/run/shared/memif-a.sock</code>. Container C: testpmd as slave on <code>/run/shared/memif-c.sock</code>. Use Docker volumes to share the socket directory.</div></div>
+<div class="ps"><div class="sn">2</div><div>VPP (Container B): create two memif sockets, create memif interfaces in master mode for each socket, create a bridge domain, add both interfaces as L2 bridge members. Verify connectivity A→C with testpmd txonly/rxonly.</div></div>
+<div class="ps"><div class="sn">3</div><div>Add a third memif interface to VPP as a "mirror port". Use a feature arc or a custom tap-output node to copy each forwarded packet's metadata (src MAC, dst MAC, length) to the mirror memif.</div></div>
+<div class="ps"><div class="sn">4</div><div>Write a Python script using libmemif Python bindings that connects to the mirror memif socket and prints per-second packet counts, unique source MACs seen, and bytes forwarded. Run it while A→C traffic is flowing.</div></div>
+<div class="ps"><div class="sn">5</div><div>Benchmark: send at increasing rates (100Kpps → 1Mpps → 5Mpps) from testpmd. Record the maximum forwarding rate VPP sustains without packet drops (check <code>show error</code> for drops). Note the VPP CPU utilisation at each rate.</div></div>
+<div class="ps"><div class="sn">6</div><div>Test zero-copy mode: enable <code>zero-copy</code> on all memif interfaces (both VPP and testpmd sides). Re-run the benchmark. Compare peak throughput and CPU usage with and without zero-copy.</div></div>
   </div>
 </div>
 </div>

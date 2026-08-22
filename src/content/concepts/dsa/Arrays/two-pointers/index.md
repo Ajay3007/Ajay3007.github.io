@@ -112,23 +112,23 @@ Two pointers is a general approach where you use two indices (or iterators) to t
 <div class="problems-grid">
 <!-- Valid Palindrome -->
 <div class="problem-card-easy">
-    <span class="problem-number">125</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Valid Palindrome</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="https://leetcode.com/problems/valid-palindrome/solutions/7386854/efficient-on-palindrome-check-using-two-yt59z/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+<span class="problem-number">125</span>
+<span class="problem-status solved">✓ Solved</span>
+<h3>Valid Palindrome</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/valid-palindrome/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="https://leetcode.com/problems/valid-palindrome/solutions/7386854/efficient-on-palindrome-check-using-two-yt59z/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+</div>
 </div>
 <!-- Remove Duplicates from Sorted Array -->
 <div class="problem-card-easy">
-    <span class="problem-number">26</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Remove Duplicates from Sorted Array</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/solutions/7389802/remove-duplicates-from-sorted-array-in-p-jar9/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+<span class="problem-number">26</span>
+<span class="problem-status solved">✓ Solved</span>
+<h3>Remove Duplicates from Sorted Array</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/solutions/7389802/remove-duplicates-from-sorted-array-in-p-jar9/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+</div>
 </div>
 </div>
 
@@ -137,43 +137,43 @@ Two pointers is a general approach where you use two indices (or iterators) to t
 <div class="problems-grid">
 <!-- Two Sum II - Input Array Is Sorted -->
 <div class="problem-card-medium">
-    <span class="problem-number">167</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <h3>Two Sum II - Input Array Is Sorted</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="/learning/dsa/Arrays/two-pointers/leetcode-167.pdf" class="problem-btn-link btn-solution">💻 PDF Solution</a>
-    </div>
+<span class="problem-number">167</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<h3>Two Sum II - Input Array Is Sorted</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="/learning/dsa/Arrays/two-pointers/leetcode-167.pdf" class="problem-btn-link btn-solution">💻 PDF Solution</a>
+</div>
 </div>
 <!-- 3Sum -->
 <div class="problem-card-medium">
-    <span class="problem-number">15</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>3Sum</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="https://leetcode.com/problems/3sum/solutions/7388635/three-sum-using-sorting-two-pointers-c-o-r6ta/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+<span class="problem-number">15</span>
+<span class="problem-status solved">✓ Solved</span>
+<h3>3Sum</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/3sum/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="https://leetcode.com/problems/3sum/solutions/7388635/three-sum-using-sorting-two-pointers-c-o-r6ta/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+</div>
 </div>
 <!-- Container With Most Water -->
 <div class="problem-card-medium">
-    <span class="problem-number">11</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Container With Most Water</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="https://leetcode.com/problems/container-with-most-water/solutions/7388718/container-with-most-water-two-pointer-op-k9im/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+<span class="problem-number">11</span>
+<span class="problem-status solved">✓ Solved</span>
+<h3>Container With Most Water</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/container-with-most-water/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="https://leetcode.com/problems/container-with-most-water/solutions/7388718/container-with-most-water-two-pointer-op-k9im/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+</div>
 </div>
 <!-- Next Permutation -->
 <div class="problem-card-medium">
-    <span class="problem-number">31</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Next Permutation</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/next-permutation/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="https://leetcode.com/problems/next-permutation/solutions/7389967/next-permutation-pivot-swap-reverse-on-o-ggbj/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
-    </div>
+<span class="problem-number">31</span>
+<span class="problem-status solved">✓ Solved</span>
+<h3>Next Permutation</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/next-permutation/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="https://leetcode.com/problems/next-permutation/solutions/7389967/next-permutation-pivot-swap-reverse-on-o-ggbj/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
+</div>
 </div>
 </div>
 
@@ -182,14 +182,14 @@ Two pointers is a general approach where you use two indices (or iterators) to t
 <div class="problems-grid">
 <!-- Trapping Rain Water -->
 <div class="problem-card-hard">
-    <span class="problem-number">42</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <h3>Trapping Rain Water</h3>
-    <div class="problem-buttons">
-        <a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="https://leetcode.com/problems/trapping-rain-water/solutions/7388828/trapping-rain-water-prefixsuffix-max-app-zatc/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Prefix/Suffix Max Solution</a>
-        <a href="https://leetcode.com/problems/trapping-rain-water/solutions/7389700/trapping-rain-water-optimal-o1-space-two-snbg/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 O(1) Space Two-Pointer</a>
-    </div>
+<span class="problem-number">42</span>
+<span class="problem-status solved">✓ Solved</span>
+<h3>Trapping Rain Water</h3>
+<div class="problem-buttons">
+<a href="https://leetcode.com/problems/trapping-rain-water/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
+<a href="https://leetcode.com/problems/trapping-rain-water/solutions/7388828/trapping-rain-water-prefixsuffix-max-app-zatc/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Prefix/Suffix Max Solution</a>
+<a href="https://leetcode.com/problems/trapping-rain-water/solutions/7389700/trapping-rain-water-optimal-o1-space-two-snbg/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 O(1) Space Two-Pointer</a>
+</div>
 </div>
 </div>
 

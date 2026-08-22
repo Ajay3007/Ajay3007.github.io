@@ -57,9 +57,9 @@ url: /learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/
   <div class="mod-title">Track A — AI Product Engineer</div>
   <div class="mod-subtitle">Build and ship polished AI-powered user-facing products that people pay for</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2–3 Weeks</span>
-    <span class="mod-pill">🟠 Advanced</span>
-    <span class="mod-pill">🔧 Next.js · Vercel AI SDK · Stripe · Auth.js</span>
+<span class="mod-pill">⏱ 2–3 Weeks</span>
+<span class="mod-pill">🟠 Advanced</span>
+<span class="mod-pill">🔧 Next.js · Vercel AI SDK · Stripe · Auth.js</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -75,18 +75,18 @@ url: /learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Track Overview</h3><span class="tag">Specialisation A</span></div>
   <div class="cp-body">
-    <p>Build polished, user-facing AI products that people actually pay for. This track bridges AI engineering with product and frontend skills — the combination that commands the highest salaries in the current market. You will build a complete SaaS AI product from landing page to payment to cancellation.</p>
-    <h4>Skills You Will Build</h4>
-    <ul>
-      <li>Streaming chat UI with Vercel AI SDK useChat() hook — token-by-token rendering</li>
-      <li>Next.js App Router server actions and route handlers for AI backends</li>
-      <li>Auth.js for multi-provider authentication (Google, GitHub, email)</li>
-      <li>Stripe subscriptions: checkout session, webhooks, tier enforcement</li>
-      <li>Per-user usage limits enforced via Next.js middleware</li>
-      <li>Usage tracking in Redis with daily expiry</li>
-      <li>Deploy to Vercel with GitHub Actions CI/CD</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>Pick ONE track.</strong> Each track is a 2-3 week deep dive. Choose the one that matches your target role. All tracks build on the same Part 1-7 foundation.</p></div>
+<p>Build polished, user-facing AI products that people actually pay for. This track bridges AI engineering with product and frontend skills — the combination that commands the highest salaries in the current market. You will build a complete SaaS AI product from landing page to payment to cancellation.</p>
+<h4>Skills You Will Build</h4>
+<ul>
+<li>Streaming chat UI with Vercel AI SDK useChat() hook — token-by-token rendering</li>
+<li>Next.js App Router server actions and route handlers for AI backends</li>
+<li>Auth.js for multi-provider authentication (Google, GitHub, email)</li>
+<li>Stripe subscriptions: checkout session, webhooks, tier enforcement</li>
+<li>Per-user usage limits enforced via Next.js middleware</li>
+<li>Usage tracking in Redis with daily expiry</li>
+<li>Deploy to Vercel with GitHub Actions CI/CD</li>
+</ul>
+<div class="ins"><p>💡 <strong>Pick ONE track.</strong> Each track is a 2-3 week deep dive. Choose the one that matches your target role. All tracks build on the same Part 1-7 foundation.</p></div>
   </div>
 </div>
 </div>
@@ -94,7 +94,7 @@ url: /learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎨</span><h3>AI UX Patterns That Convert</h3><span class="tag">Frontend</span></div>
   <div class="cp-body">
-    <p>Good AI UX solves three problems: streaming makes responses feel fast, skeleton states manage user expectations, and error recovery keeps users when the LLM fails.</p>
+<p>Good AI UX solves three problems: streaming makes responses feel fast, skeleton states manage user expectations, and error recovery keeps users when the LLM fails.</p>
     <div class="cb"><pre>// app/components/chat.tsx — streaming chat with skeleton loader
 "use client"
 import { useChat } from "ai/react"
@@ -318,24 +318,24 @@ export const config = {
 <div id="t5" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Capstone: Document Q&A SaaS with Payments</span>
-    <span class="proj-dur">2–3 weeks</span>
+<span>🛠</span>
+<span class="proj-title">Capstone: Document Q&A SaaS with Payments</span>
+<span class="proj-dur">2–3 weeks</span>
   </div>
   <div class="proj-body">
-    <p>Build a complete SaaS AI product: a document Q&A app that users pay for.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Landing page with feature highlights and pricing (Free / Pro)</li>
-      <li>Google + GitHub auth via Auth.js — session includes tier</li>
-      <li>Free tier: 10 queries/day, Pro tier: 500 queries/day</li>
-      <li>Stripe Pro subscription at $19/month — working checkout and webhook</li>
-      <li>Streaming chat UI with skeleton loader and error recovery</li>
-      <li>RAG backend from M18 — user can upload and query their own documents</li>
-      <li>Usage dashboard showing: queries today, tier, days until renewal</li>
-      <li>Deployed to Vercel (frontend) + Railway or Render (FastAPI backend)</li>
-    </ul>
-    <p><strong>This is your primary portfolio piece for AI product engineer roles.</strong> A working, deployed, paying-customer-capable product beats any tutorial project.</p>
+<p>Build a complete SaaS AI product: a document Q&A app that users pay for.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Landing page with feature highlights and pricing (Free / Pro)</li>
+<li>Google + GitHub auth via Auth.js — session includes tier</li>
+<li>Free tier: 10 queries/day, Pro tier: 500 queries/day</li>
+<li>Stripe Pro subscription at $19/month — working checkout and webhook</li>
+<li>Streaming chat UI with skeleton loader and error recovery</li>
+<li>RAG backend from M18 — user can upload and query their own documents</li>
+<li>Usage dashboard showing: queries today, tier, days until renewal</li>
+<li>Deployed to Vercel (frontend) + Railway or Render (FastAPI backend)</li>
+</ul>
+<p><strong>This is your primary portfolio piece for AI product engineer roles.</strong> A working, deployed, paying-customer-capable product beats any tutorial project.</p>
   </div>
 </div>
 </div>

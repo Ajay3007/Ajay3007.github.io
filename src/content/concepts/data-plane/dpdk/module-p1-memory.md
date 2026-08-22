@@ -70,11 +70,11 @@ url: /learning/data-plane/dpdk/module-p1-memory/
   <div class="mod-title">Hugepages, mempool &amp; mbuf</div>
   <div class="mod-subtitle">Hugepage memory model · IOVA · rte_mempool internals · rte_mbuf anatomy · chained mbufs</div>
   <div class="mod-pills">
-    <span class="mod-pill">Ch 4 — Hugepages &amp; Memory</span>
-    <span class="mod-pill">Ch 5 — rte_mempool</span>
-    <span class="mod-pill">Ch 6 — rte_mbuf</span>
-    <span class="mod-pill">C · DMA · NUMA</span>
-    <span class="mod-pill">Weeks 3–5</span>
+<span class="mod-pill">Ch 4 — Hugepages &amp; Memory</span>
+<span class="mod-pill">Ch 5 — rte_mempool</span>
+<span class="mod-pill">Ch 6 — rte_mbuf</span>
+<span class="mod-pill">C · DMA · NUMA</span>
+<span class="mod-pill">Weeks 3–5</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -199,15 +199,15 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
 </ul>
 <div class="cb"><span class="cm">// Create a packet mempool</span>
 <span class="ck">struct</span> rte_mempool *mbuf_pool = <span class="cf">rte_pktmbuf_pool_create</span>(
-    <span class="cs">"MBUF_POOL"</span>,              <span class="cm">// unique name</span>
-    <span class="cn">8192</span>,                      <span class="cm">// total number of mbufs</span>
-    <span class="cn">256</span>,                       <span class="cm">// per-lcore cache size (objects)</span>
-    <span class="cn">0</span>,                         <span class="cm">// private data size per element</span>
-    <span class="cn">RTE_MBUF_DEFAULT_BUF_SIZE</span>, <span class="cm">// data buffer size (2048 bytes)</span>
-    <span class="cf">rte_eth_dev_socket_id</span>(port_id)  <span class="cm">// NUMA socket — MUST match NIC</span>
+<span class="cs">"MBUF_POOL"</span>,              <span class="cm">// unique name</span>
+<span class="cn">8192</span>,                      <span class="cm">// total number of mbufs</span>
+<span class="cn">256</span>,                       <span class="cm">// per-lcore cache size (objects)</span>
+<span class="cn">0</span>,                         <span class="cm">// private data size per element</span>
+<span class="cn">RTE_MBUF_DEFAULT_BUF_SIZE</span>, <span class="cm">// data buffer size (2048 bytes)</span>
+<span class="cf">rte_eth_dev_socket_id</span>(port_id)  <span class="cm">// NUMA socket — MUST match NIC</span>
 );
 <span class="ck">if</span> (!mbuf_pool)
-    <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Cannot create mbuf pool\n"</span>);
+<span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Cannot create mbuf pool\n"</span>);
 
 <span class="cm">// Manual get/put (for non-packet objects)</span>
 <span class="ck">void</span> *obj;
@@ -266,14 +266,14 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
 <span class="cm">// Expands to: (type)(mbuf-&gt;buf_addr + mbuf-&gt;data_off) — direct pointer into hugepage</span>
 <span class="cm">// Access packet at byte offset</span>
 <span class="ck">struct</span> rte_ipv4_hdr *ip = <span class="cf">rte_pktmbuf_mtod_offset</span>(mbuf, <span class="ck">struct</span> rte_ipv4_hdr *,
-                                                   <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
+<span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
 
 <span class="cm">// Packet length</span>
 <span class="co">uint32_t</span> total_len  = mbuf-&gt;pkt_len;   <span class="cm">// total bytes across all segments</span>
 <span class="co">uint16_t</span> seg_len    = mbuf-&gt;data_len;  <span class="cm">// bytes in this segment only</span>
 <span class="cm">// Prepend a header (uses headroom)</span>
 <span class="ck">struct</span> rte_ether_hdr *eth = (<span class="ck">struct</span> rte_ether_hdr *)
-    <span class="cf">rte_pktmbuf_prepend</span>(mbuf, <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
+<span class="cf">rte_pktmbuf_prepend</span>(mbuf, <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
 <span class="cm">// Returns NULL if no headroom available</span>
 <span class="cm">// Append to tail</span>
 <span class="ck">char</span> *tail = <span class="cf">rte_pktmbuf_append</span>(mbuf, <span class="cn">4</span>);  <span class="cm">// add 4 bytes at end</span>
@@ -315,12 +315,12 @@ A single mbuf data buffer is 2048 bytes by default. Jumbo frames (up to 9000 byt
    Total: 1920 + 1920 + 1160 = 5000 bytes</div>
 <div class="cb"><span class="cm">// Check if mbuf is chained</span>
 <span class="ck">if</span> (mbuf-&gt;nb_segs &gt; <span class="cn">1</span>) {
-    <span class="cm">// Walk the chain</span>
-    <span class="ck">struct</span> rte_mbuf *seg = mbuf;
-    <span class="ck">while</span> (seg != NULL) {
-        <span class="co">uint8_t</span> *data = <span class="cf">rte_pktmbuf_mtod</span>(seg, <span class="co">uint8_t</span> *);
-        <span class="co">uint16_t</span> len  = seg-&gt;data_len;
-        <span class="cm">/* process this segment */</span>
+<span class="cm">// Walk the chain</span>
+<span class="ck">struct</span> rte_mbuf *seg = mbuf;
+<span class="ck">while</span> (seg != NULL) {
+<span class="co">uint8_t</span> *data = <span class="cf">rte_pktmbuf_mtod</span>(seg, <span class="co">uint8_t</span> *);
+<span class="co">uint16_t</span> len  = seg-&gt;data_len;
+<span class="cm">/* process this segment */</span>
         seg = seg-&gt;next;
     }
 }

@@ -204,19 +204,19 @@ url: /learning/data-plane/vpp/
 </style>
 <div class="vpp-hero">
   <div class="vpp-hero-badge">
-    <span class="vpp-badge">DATA PLANE</span>
-    <span class="vpp-badge">FD.io VPP</span>
-    <span class="vpp-badge">DPDK</span>
-    <span class="vpp-badge">3–4 MONTHS</span>
-    <span class="vpp-badge">5 PHASES · 9 PROJECTS</span>
+<span class="vpp-badge">DATA PLANE</span>
+<span class="vpp-badge">FD.io VPP</span>
+<span class="vpp-badge">DPDK</span>
+<span class="vpp-badge">3–4 MONTHS</span>
+<span class="vpp-badge">5 PHASES · 9 PROJECTS</span>
   </div>
   <h1>⚡ VPP Mastery</h1>
   <p>A structured, hands-on curriculum for engineers who want to go deep on <strong>FD.io Vector Packet Processor</strong> - from core architecture through plugin development and control-plane automation. Built for engineers with DPDK background, running on Docker + AMD + Mellanox.</p>
   <div class="vpp-stats">
-    <div class="vpp-stat"><span class="vpp-stat-num">5</span><span class="vpp-stat-lbl">Phases</span></div>
-    <div class="vpp-stat"><span class="vpp-stat-num">10</span><span class="vpp-stat-lbl">Modules</span></div>
-    <div class="vpp-stat"><span class="vpp-stat-num">9</span><span class="vpp-stat-lbl">Projects</span></div>
-    <div class="vpp-stat"><span class="vpp-stat-num">3–4</span><span class="vpp-stat-lbl">Months</span></div>
+<div class="vpp-stat"><span class="vpp-stat-num">5</span><span class="vpp-stat-lbl">Phases</span></div>
+<div class="vpp-stat"><span class="vpp-stat-num">10</span><span class="vpp-stat-lbl">Modules</span></div>
+<div class="vpp-stat"><span class="vpp-stat-num">9</span><span class="vpp-stat-lbl">Projects</span></div>
+<div class="vpp-stat"><span class="vpp-stat-num">3–4</span><span class="vpp-stat-lbl">Months</span></div>
   </div>
   <a href="/learning/data-plane/vpp/vpp-roadmap/" class="vpp-cta">🗺️ View Full Roadmap →</a>
 </div>
@@ -237,124 +237,124 @@ url: /learning/data-plane/vpp/
 <p class="hub-section-title">LEARNING PHASES</p>
 <div class="phase-grid">
   <div class="phase-card">
-    <div class="phase-card-header">
-      <div class="phase-num" style="background:#2e6da4;">1</div>
-      <div>
-        <h3>Foundation &amp; Environment</h3>
-        <div class="phase-meta">WEEKS 1–3 · 1 MODULE</div>
-      </div>
-    </div>
-    <div class="phase-card-body">
-      <p>Scalar vs vector processing, VPP layer taxonomy, build from source, Docker + Mellanox setup, startup.conf, vppctl CLI, first packet trace.</p>
-      <div class="module-links">
-        <a class="module-link" href="/learning/data-plane/vpp/module-p1-foundation/">
-          <span class="ml-icon">⚡</span>
-          <span class="ml-text">Foundation &amp; Environment</span>
-          <span class="ml-tag">P1</span>
-        </a>
-      </div>
-    </div>
+<div class="phase-card-header">
+<div class="phase-num" style="background:#2e6da4;">1</div>
+<div>
+<h3>Foundation &amp; Environment</h3>
+<div class="phase-meta">WEEKS 1–3 · 1 MODULE</div>
+</div>
+</div>
+<div class="phase-card-body">
+<p>Scalar vs vector processing, VPP layer taxonomy, build from source, Docker + Mellanox setup, startup.conf, vppctl CLI, first packet trace.</p>
+<div class="module-links">
+<a class="module-link" href="/learning/data-plane/vpp/module-p1-foundation/">
+<span class="ml-icon">⚡</span>
+<span class="ml-text">Foundation &amp; Environment</span>
+<span class="ml-tag">P1</span>
+</a>
+</div>
+</div>
   </div>
   <div class="phase-card">
-    <div class="phase-card-header">
-      <div class="phase-num" style="background:#1a7a6e;">2</div>
-      <div>
-        <h3>Core VPP Internals</h3>
-        <div class="phase-meta">WEEKS 4–8 · 3 MODULES</div>
-      </div>
-    </div>
-    <div class="phase-card-body">
-      <p>vppinfra data structures, vlib dispatch loop and buffers, vnet interface abstraction, FIB, feature arcs, multi-threading.</p>
-      <div class="module-links">
-        <a class="module-link" href="/learning/data-plane/vpp/module-p2-vppinfra/">
-          <span class="ml-icon">🧱</span>
-          <span class="ml-text">vppinfra - Core Library</span>
-          <span class="ml-tag">P2A</span>
-        </a>
-        <a class="module-link" href="/learning/data-plane/vpp/module-p2-vlib/">
-          <span class="ml-icon">⚙️</span>
-          <span class="ml-text">vlib - Graph Dispatcher</span>
-          <span class="ml-tag">P2B</span>
-        </a>
-        <a class="module-link" href="/learning/data-plane/vpp/module-p2-vnet/">
-          <span class="ml-icon">🌐</span>
-          <span class="ml-text">vnet - Networking Layer</span>
-          <span class="ml-tag">P2C</span>
-        </a>
-      </div>
-    </div>
+<div class="phase-card-header">
+<div class="phase-num" style="background:#1a7a6e;">2</div>
+<div>
+<h3>Core VPP Internals</h3>
+<div class="phase-meta">WEEKS 4–8 · 3 MODULES</div>
+</div>
+</div>
+<div class="phase-card-body">
+<p>vppinfra data structures, vlib dispatch loop and buffers, vnet interface abstraction, FIB, feature arcs, multi-threading.</p>
+<div class="module-links">
+<a class="module-link" href="/learning/data-plane/vpp/module-p2-vppinfra/">
+<span class="ml-icon">🧱</span>
+<span class="ml-text">vppinfra - Core Library</span>
+<span class="ml-tag">P2A</span>
+</a>
+<a class="module-link" href="/learning/data-plane/vpp/module-p2-vlib/">
+<span class="ml-icon">⚙️</span>
+<span class="ml-text">vlib - Graph Dispatcher</span>
+<span class="ml-tag">P2B</span>
+</a>
+<a class="module-link" href="/learning/data-plane/vpp/module-p2-vnet/">
+<span class="ml-icon">🌐</span>
+<span class="ml-text">vnet - Networking Layer</span>
+<span class="ml-tag">P2C</span>
+</a>
+</div>
+</div>
   </div>
   <div class="phase-card">
-    <div class="phase-card-header">
-      <div class="phase-num" style="background:#c05e1b;">3</div>
-      <div>
-        <h3>Interface Technologies</h3>
-        <div class="phase-meta">WEEKS 9–13 · 3 MODULES</div>
-      </div>
-    </div>
-    <div class="phase-card-body">
-      <p>DPDK plugin internals, memif zero-copy shared memory, TAP v2, linux-cp, vhost-user, AF_XDP, AF_PACKET - every VPP interface type.</p>
-      <div class="module-links">
-        <a class="module-link" href="/learning/data-plane/vpp/module-p3-dpdk/">
-          <span class="ml-icon">🔌</span>
-          <span class="ml-text">DPDK Plugin Deep Dive</span>
-          <span class="ml-tag">P3A</span>
-        </a>
-        <a class="module-link" href="/learning/data-plane/vpp/module-p3-memif/">
-          <span class="ml-icon">🔗</span>
-          <span class="ml-text">memif &amp; Shared Memory</span>
-          <span class="ml-tag">P3B</span>
-        </a>
-        <a class="module-link" href="/learning/data-plane/vpp/module-p3-tap-afxdp/">
-          <span class="ml-icon">🐧</span>
-          <span class="ml-text">TAP · AF_XDP · vhost-user</span>
-          <span class="ml-tag">P3C</span>
-        </a>
-      </div>
-    </div>
+<div class="phase-card-header">
+<div class="phase-num" style="background:#c05e1b;">3</div>
+<div>
+<h3>Interface Technologies</h3>
+<div class="phase-meta">WEEKS 9–13 · 3 MODULES</div>
+</div>
+</div>
+<div class="phase-card-body">
+<p>DPDK plugin internals, memif zero-copy shared memory, TAP v2, linux-cp, vhost-user, AF_XDP, AF_PACKET - every VPP interface type.</p>
+<div class="module-links">
+<a class="module-link" href="/learning/data-plane/vpp/module-p3-dpdk/">
+<span class="ml-icon">🔌</span>
+<span class="ml-text">DPDK Plugin Deep Dive</span>
+<span class="ml-tag">P3A</span>
+</a>
+<a class="module-link" href="/learning/data-plane/vpp/module-p3-memif/">
+<span class="ml-icon">🔗</span>
+<span class="ml-text">memif &amp; Shared Memory</span>
+<span class="ml-tag">P3B</span>
+</a>
+<a class="module-link" href="/learning/data-plane/vpp/module-p3-tap-afxdp/">
+<span class="ml-icon">🐧</span>
+<span class="ml-text">TAP · AF_XDP · vhost-user</span>
+<span class="ml-tag">P3C</span>
+</a>
+</div>
+</div>
   </div>
   <div class="phase-card">
-    <div class="phase-card-header">
-      <div class="phase-num" style="background:#5b3a8c;">4</div>
-      <div>
-        <h3>Plugin Development</h3>
-        <div class="phase-meta">WEEKS 14–18 · 1 MODULE</div>
-      </div>
-    </div>
-    <div class="phase-card-body">
-      <p>Writing graph nodes, dual/quad-loop pattern, binary API (.api files), CLI commands, feature arc registration, VPP test framework.</p>
-      <div class="module-links">
-        <a class="module-link" href="/learning/data-plane/vpp/module-p4-plugin-dev/">
-          <span class="ml-icon">🔨</span>
-          <span class="ml-text">Plugin Development</span>
-          <span class="ml-tag">P4</span>
-        </a>
-      </div>
-    </div>
+<div class="phase-card-header">
+<div class="phase-num" style="background:#5b3a8c;">4</div>
+<div>
+<h3>Plugin Development</h3>
+<div class="phase-meta">WEEKS 14–18 · 1 MODULE</div>
+</div>
+</div>
+<div class="phase-card-body">
+<p>Writing graph nodes, dual/quad-loop pattern, binary API (.api files), CLI commands, feature arc registration, VPP test framework.</p>
+<div class="module-links">
+<a class="module-link" href="/learning/data-plane/vpp/module-p4-plugin-dev/">
+<span class="ml-icon">🔨</span>
+<span class="ml-text">Plugin Development</span>
+<span class="ml-tag">P4</span>
+</a>
+</div>
+</div>
   </div>
   <div class="phase-card">
-    <div class="phase-card-header">
-      <div class="phase-num" style="background:#1e6b3c;">5</div>
-      <div>
-        <h3>Control Plane &amp; Advanced</h3>
-        <div class="phase-meta">WEEKS 19–22+ · 2 MODULES</div>
-      </div>
-    </div>
-    <div class="phase-card-body">
-      <p>GoVPP binary API client, Stats API, vpp_papi Python bindings, observability, performance tuning, NUMA awareness, production patterns. Bonus: VPP Host Stack — TCP/Session layer, VCL, application namespaces.</p>
-      <div class="module-links">
-        <a class="module-link" href="/learning/data-plane/vpp/module-p5-controlplane/">
-          <span class="ml-icon">🎛️</span>
-          <span class="ml-text">Control Plane &amp; GoVPP</span>
-          <span class="ml-tag">P5A</span>
-        </a>
-        <a class="module-link" href="/learning/data-plane/vpp/module-hoststack/">
-          <span class="ml-icon">🌐</span>
-          <span class="ml-text">Host Stack — TCP &amp; Session Layers</span>
-          <span class="ml-tag">P5B · Bonus</span>
-        </a>
-      </div>
-    </div>
+<div class="phase-card-header">
+<div class="phase-num" style="background:#1e6b3c;">5</div>
+<div>
+<h3>Control Plane &amp; Advanced</h3>
+<div class="phase-meta">WEEKS 19–22+ · 2 MODULES</div>
+</div>
+</div>
+<div class="phase-card-body">
+<p>GoVPP binary API client, Stats API, vpp_papi Python bindings, observability, performance tuning, NUMA awareness, production patterns. Bonus: VPP Host Stack — TCP/Session layer, VCL, application namespaces.</p>
+<div class="module-links">
+<a class="module-link" href="/learning/data-plane/vpp/module-p5-controlplane/">
+<span class="ml-icon">🎛️</span>
+<span class="ml-text">Control Plane &amp; GoVPP</span>
+<span class="ml-tag">P5A</span>
+</a>
+<a class="module-link" href="/learning/data-plane/vpp/module-hoststack/">
+<span class="ml-icon">🌐</span>
+<span class="ml-text">Host Stack — TCP &amp; Session Layers</span>
+<span class="ml-tag">P5B · Bonus</span>
+</a>
+</div>
+</div>
   </div>
 </div>
 <p class="hub-section-title">MINI-PROJECTS OVERVIEW</p>

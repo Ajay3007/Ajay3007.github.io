@@ -90,10 +90,10 @@ url: /learning/networking-mastery/m26-policy-capstone/
   <div class="mod-title">🏆 Policy Engine and NGFW Capstone</div>
   <div class="mod-subtitle">Rule compiler · Policy evaluation pipeline · First-match vs best-match · Zone-based policy · Logging and SIEM integration · Complete NGFW architecture · Capstone project</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M23–M25</span>
-    <span class="mod-pill">Curriculum Final Module</span>
-    <span class="mod-pill">Capstone Project</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M23–M25</span>
+<span class="mod-pill">Curriculum Final Module</span>
+<span class="mod-pill">Capstone Project</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -113,39 +113,39 @@ url: /learning/networking-mastery/m26-policy-capstone/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏛️</span><h3>What a Policy Engine Does</h3><span class="tag tag-blue">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>The policy engine translates human-readable security rules into machine-executable lookup structures that can classify millions of packets per second. It is the authoritative decision-maker for every packet: permit, deny, inspect, rate-limit, NAT, or log.</p>
-    <p>Policy engines face a fundamental tension: rules are specified in human terms (zones, users, applications, threat levels) that are rich and overlapping, but packet processing requires O(1) or O(log n) decisions per packet. The policy compiler's job is to resolve this tension by pre-computing decision structures at rule-load time, not at packet-time.</p>
-    <div class="two-col">
-      <div>
-        <h4>Policy Inputs (Rule Fields)</h4>
-        <ul>
-          <li>Source zone / interface</li>
-          <li>Destination zone / interface</li>
-          <li>Source IP / prefix / address-object</li>
-          <li>Destination IP / prefix / address-object</li>
-          <li>Application (app_id from DPI)</li>
-          <li>Service (port, protocol)</li>
-          <li>User / user-group (from AD/LDAP)</li>
-          <li>URL category (from URL filter DB)</li>
-          <li>Threat level (from IPS score)</li>
-          <li>Time-of-day / schedule</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Policy Actions</h4>
-        <ul>
-          <li><strong>permit</strong> — forward without further inspection</li>
-          <li><strong>deny</strong> — drop packet (silent)</li>
-          <li><strong>reject</strong> — drop + send TCP RST or ICMP unreachable</li>
-          <li><strong>inspect</strong> — continue to IPS + DLP engine</li>
-          <li><strong>ssl-decrypt</strong> — force TLS inspection</li>
-          <li><strong>nat</strong> — apply NAT rule</li>
-          <li><strong>rate-limit</strong> — traffic shaping</li>
-          <li><strong>log</strong> — record to SIEM</li>
-          <li><strong>quarantine</strong> — redirect to captive portal</li>
-        </ul>
-      </div>
-    </div>
+<p>The policy engine translates human-readable security rules into machine-executable lookup structures that can classify millions of packets per second. It is the authoritative decision-maker for every packet: permit, deny, inspect, rate-limit, NAT, or log.</p>
+<p>Policy engines face a fundamental tension: rules are specified in human terms (zones, users, applications, threat levels) that are rich and overlapping, but packet processing requires O(1) or O(log n) decisions per packet. The policy compiler's job is to resolve this tension by pre-computing decision structures at rule-load time, not at packet-time.</p>
+<div class="two-col">
+<div>
+<h4>Policy Inputs (Rule Fields)</h4>
+<ul>
+<li>Source zone / interface</li>
+<li>Destination zone / interface</li>
+<li>Source IP / prefix / address-object</li>
+<li>Destination IP / prefix / address-object</li>
+<li>Application (app_id from DPI)</li>
+<li>Service (port, protocol)</li>
+<li>User / user-group (from AD/LDAP)</li>
+<li>URL category (from URL filter DB)</li>
+<li>Threat level (from IPS score)</li>
+<li>Time-of-day / schedule</li>
+</ul>
+</div>
+<div>
+<h4>Policy Actions</h4>
+<ul>
+<li><strong>permit</strong> — forward without further inspection</li>
+<li><strong>deny</strong> — drop packet (silent)</li>
+<li><strong>reject</strong> — drop + send TCP RST or ICMP unreachable</li>
+<li><strong>inspect</strong> — continue to IPS + DLP engine</li>
+<li><strong>ssl-decrypt</strong> — force TLS inspection</li>
+<li><strong>nat</strong> — apply NAT rule</li>
+<li><strong>rate-limit</strong> — traffic shaping</li>
+<li><strong>log</strong> — record to SIEM</li>
+<li><strong>quarantine</strong> — redirect to captive portal</li>
+</ul>
+</div>
+</div>
   </div>
 </div>
 </div>
@@ -237,7 +237,7 @@ uint8_t policy_lookup(policy_table_t *pt, session_t *s) {
     }
     return ACTION_DEFAULT_DENY;  /* implicit deny at end of rule list */
 }</pre></div>
-    <div class="ins"><p>💡 <strong>Rule compilation is triggered by every policy change.</strong> The compilation step can take 100ms–10s depending on rule complexity. During this time, packets continue using the old policy table. The atomic pointer swap (same pattern as threat intel updates) ensures zero-disruption policy updates — critical for carrier-grade NGFWs.</p></div>
+<div class="ins"><p>💡 <strong>Rule compilation is triggered by every policy change.</strong> The compilation step can take 100ms–10s depending on rule complexity. During this time, packets continue using the old policy table. The atomic pointer swap (same pattern as threat intel updates) ensures zero-disruption policy updates — critical for carrier-grade NGFWs.</p></div>
   </div>
 </div>
 </div>
@@ -643,20 +643,20 @@ numastat -m                                /* NUMA memory access */</pre></div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏆</span><h3>Design Document: Jio NGFW — Capstone Project</h3><span class="tag tag-blue">CAPSTONE</span></div>
   <div class="cp-body">
-    <p>Your capstone project is to produce a detailed technical design document for your team's NGFW, incorporating all the knowledge from this curriculum. This document should be usable as the actual technical specification for your R&D work.</p>
-    <h4>Capstone Deliverable Structure</h4>
-    <ol>
-      <li><strong>Executive Summary</strong> — What the NGFW must do; performance targets; technology stack choices and rationale (VPP + DPDK + Mellanox ConnectX)</li>
-      <li><strong>Data Plane Architecture</strong> — Complete VPP graph node pipeline diagram; all processing nodes, their order, and inter-node interfaces; how M18 VPP knowledge is applied</li>
-      <li><strong>Connection Tracking Design</strong> — Session table implementation: hash table choice, session_t struct fields, timer wheel, per-protocol state machines; sizing for your expected traffic profile</li>
-      <li><strong>NAT Implementation</strong> — Which NAT types required; NAPT pool sizing; DNAT rules for published services; hairpinning strategy; VPP NAT44-ED configuration</li>
-      <li><strong>DPI Engine</strong> — Pattern matching library choice (Hyperscan); initial signature set; protocol dissectors; app ID signals; per-flow state allocation strategy; memory budget</li>
-      <li><strong>Threat Detection</strong> — IPS integration (Suricata vs custom); threat intel feeds; beacon detection; DNS monitoring; alert thresholds and scoring</li>
-      <li><strong>Policy Engine</strong> — Zone model (which zones, trust levels); rule schema; compilation strategy; first-match vs best-match decision; shadow rule detection</li>
-      <li><strong>SSL Inspection</strong> — Which flows to inspect; CA hierarchy; certificate generation and caching; bypass list; ECH roadmap</li>
-      <li><strong>Performance Model</strong> — Expected throughput per subsystem; CPU core allocation; memory budget; NUMA topology; Mellanox offload utilisation (XFRM, checksum, TSO)</li>
-      <li><strong>Logging and Observability</strong> — Log schema; ring buffer sizing; SIEM target; operational metrics to expose</li>
-    </ol>
+<p>Your capstone project is to produce a detailed technical design document for your team's NGFW, incorporating all the knowledge from this curriculum. This document should be usable as the actual technical specification for your R&D work.</p>
+<h4>Capstone Deliverable Structure</h4>
+<ol>
+<li><strong>Executive Summary</strong> — What the NGFW must do; performance targets; technology stack choices and rationale (VPP + DPDK + Mellanox ConnectX)</li>
+<li><strong>Data Plane Architecture</strong> — Complete VPP graph node pipeline diagram; all processing nodes, their order, and inter-node interfaces; how M18 VPP knowledge is applied</li>
+<li><strong>Connection Tracking Design</strong> — Session table implementation: hash table choice, session_t struct fields, timer wheel, per-protocol state machines; sizing for your expected traffic profile</li>
+<li><strong>NAT Implementation</strong> — Which NAT types required; NAPT pool sizing; DNAT rules for published services; hairpinning strategy; VPP NAT44-ED configuration</li>
+<li><strong>DPI Engine</strong> — Pattern matching library choice (Hyperscan); initial signature set; protocol dissectors; app ID signals; per-flow state allocation strategy; memory budget</li>
+<li><strong>Threat Detection</strong> — IPS integration (Suricata vs custom); threat intel feeds; beacon detection; DNS monitoring; alert thresholds and scoring</li>
+<li><strong>Policy Engine</strong> — Zone model (which zones, trust levels); rule schema; compilation strategy; first-match vs best-match decision; shadow rule detection</li>
+<li><strong>SSL Inspection</strong> — Which flows to inspect; CA hierarchy; certificate generation and caching; bypass list; ECH roadmap</li>
+<li><strong>Performance Model</strong> — Expected throughput per subsystem; CPU core allocation; memory budget; NUMA topology; Mellanox offload utilisation (XFRM, checksum, TSO)</li>
+<li><strong>Logging and Observability</strong> — Log schema; ring buffer sizing; SIEM target; operational metrics to expose</li>
+</ol>
 <div class="cb"><pre>/* Capstone: suggested technology stack for Jio NGFW */
 /*
   Data Plane:        FD.io VPP 23.x on DPDK 23.x
@@ -688,34 +688,34 @@ numastat -m                                /* NUMA memory access */</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Policy Engine with Rule Compiler</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a policy engine that compiles human-readable rules into a fast lookup structure. Implement shadow rule detection and a zone matrix.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Define a YAML rule format with fields: id, from-zone, to-zone, src, dst, app, service, time, action, log. Write a parser that reads 50 test rules and produces compiled_rule_t structs. Verify by printing each compiled rule — check that address-objects resolve to IP ranges correctly.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Implement shadow rule detection: for each rule pair (i, j) where i &lt; j, determine if rule i matches a superset of rule j's traffic. Use interval overlap for IP ranges and port ranges. Test with intentional shadowed rules: a /24 rule that blocks a host whose /32 PERMIT comes later.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Build the zone-pair index: sort all compiled rules into buckets by (src_zone, dst_zone). For each zone pair, sort rules by specificity (/32 &gt; /24 &gt; /16 &gt; /0). Implement <code>policy_lookup()</code> as shown in Tab 1. Benchmark: 100K lookups against a 500-rule policy table. Target &lt;1µs per lookup.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add the exact-match cache layer: after a slow-path lookup succeeds, cache (five-tuple → action) for fast future lookups. Use a fixed-size LRU cache (hash + doubly-linked list). Benchmark the cache hit rate for realistic traffic: simulate 10K active flows with 1M packets. What cache size gives >95% hit rate?</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Implement zero-downtime policy update: compile the new policy in a background thread, then atomically swap the policy pointer used by the forwarding threads. Test by updating the policy 100 times while traffic flows through. Verify: no packet is processed with an inconsistent partial state; traffic forwarded correctly after each update.</div></div>
+<p><strong>Objective:</strong> Build a policy engine that compiles human-readable rules into a fast lookup structure. Implement shadow rule detection and a zone matrix.</p>
+<div class="lab-step"><div class="sn">1</div><div>Define a YAML rule format with fields: id, from-zone, to-zone, src, dst, app, service, time, action, log. Write a parser that reads 50 test rules and produces compiled_rule_t structs. Verify by printing each compiled rule — check that address-objects resolve to IP ranges correctly.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Implement shadow rule detection: for each rule pair (i, j) where i &lt; j, determine if rule i matches a superset of rule j's traffic. Use interval overlap for IP ranges and port ranges. Test with intentional shadowed rules: a /24 rule that blocks a host whose /32 PERMIT comes later.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Build the zone-pair index: sort all compiled rules into buckets by (src_zone, dst_zone). For each zone pair, sort rules by specificity (/32 &gt; /24 &gt; /16 &gt; /0). Implement <code>policy_lookup()</code> as shown in Tab 1. Benchmark: 100K lookups against a 500-rule policy table. Target &lt;1µs per lookup.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add the exact-match cache layer: after a slow-path lookup succeeds, cache (five-tuple → action) for fast future lookups. Use a fixed-size LRU cache (hash + doubly-linked list). Benchmark the cache hit rate for realistic traffic: simulate 10K active flows with 1M packets. What cache size gives >95% hit rate?</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Implement zero-downtime policy update: compile the new policy in a background thread, then atomically swap the policy pointer used by the forwarding threads. Test by updating the policy 100 times while traffic flows through. Verify: no packet is processed with an inconsistent partial state; traffic forwarded correctly after each update.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Structured Logging and SIEM Integration</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a high-throughput logging pipeline from your NGFW data plane to Elasticsearch. Handle log ring overflow gracefully.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the session log record struct and the ring-buffer-based logger from Tab 4. Test the ring buffer: producer writes at 100K records/second; consumer reads at 80K/second. Verify: ring eventually fills; overflow counter increments; producer does not block. Tune ring size so overflow &lt;0.1% at 2× expected rate.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Write a JSON serialiser for ngfw_log_record_t that produces valid CEF-compatible JSON. Include all fields: timestamps, five-tuple, policy, application, bytes, threat info. Test with jq to verify structure. Benchmark: how many records/second can your serialiser produce? Is it the bottleneck?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Set up a local Elasticsearch + Kibana stack with Docker. Write log records to Elasticsearch via the HTTP bulk API. Create a Kibana dashboard showing: top source IPs by bytes, top blocked destinations, alert count by severity over time, application distribution pie chart. Use your simulated traffic from earlier labs as input data.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Implement log filtering: not every session needs a full log entry. Define three log levels: (a) security events (threats, policy denies) — always log, (b) inspection events (SSL inspected, DPI result) — log if enabled per rule, (c) routine flows — log on close only if bytes > 1MB. Verify that log volume reduces by >80% for routine traffic while preserving all security events.</div></div>
+<p><strong>Objective:</strong> Build a high-throughput logging pipeline from your NGFW data plane to Elasticsearch. Handle log ring overflow gracefully.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the session log record struct and the ring-buffer-based logger from Tab 4. Test the ring buffer: producer writes at 100K records/second; consumer reads at 80K/second. Verify: ring eventually fills; overflow counter increments; producer does not block. Tune ring size so overflow &lt;0.1% at 2× expected rate.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Write a JSON serialiser for ngfw_log_record_t that produces valid CEF-compatible JSON. Include all fields: timestamps, five-tuple, policy, application, bytes, threat info. Test with jq to verify structure. Benchmark: how many records/second can your serialiser produce? Is it the bottleneck?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Set up a local Elasticsearch + Kibana stack with Docker. Write log records to Elasticsearch via the HTTP bulk API. Create a Kibana dashboard showing: top source IPs by bytes, top blocked destinations, alert count by severity over time, application distribution pie chart. Use your simulated traffic from earlier labs as input data.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Implement log filtering: not every session needs a full log entry. Define three log levels: (a) security events (threats, policy denies) — always log, (b) inspection events (SSL inspected, DPI result) — log if enabled per rule, (c) routine flows — log on close only if bytes > 1MB. Verify that log volume reduces by >80% for routine traffic while preserving all security events.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">CAPSTONE</span><h4>End-to-End NGFW Integration Test</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Wire together all components built across M23–M26 into a single test harness. Verify the complete packet processing pipeline handles all scenarios correctly.</p>
-    <div class="lab-step"><div class="sn">1</div><div><strong>Build integration harness:</strong> create a test driver that feeds raw packets into your pipeline (session table → policy engine → DPI → threat intel check → logging) and collects decisions and logs. Use pcap files from previous labs as input. For each packet, record the decision made and verify it matches your expected security policy.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div><strong>Scenario: SQL injection attack:</strong> feed HTTP traffic containing SQL injection strings. Verify: (a) conntrack creates session, (b) HTTP dissector parses the request, (c) Hyperscan/AC matches SQL injection signature, (d) session risk_score elevated, (e) policy engine blocks the session, (f) log record created with threat details. End-to-end from raw bytes to blocked session + SIEM alert.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div><strong>Scenario: DNS tunnelling:</strong> generate high-entropy DNS queries to a single parent domain at high rate. Verify: (a) DNS dissector extracts FQDN and query type, (b) entropy analyser scores it suspicious, (c) rate counter exceeds threshold, (d) alert generated, (e) subsequent queries from same source optionally blocked. Tune: what threshold minimises false positives for legitimate CDN queries?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div><strong>Scenario: NAPT + policy + logging together:</strong> generate HTTP traffic from 100 internal clients through your NAPT. Verify: each client gets a NAT port; policy permits HTTP to external; DPI identifies HTTP; logs show pre-NAT and post-NAT IPs; all 100 clients can access simultaneously without port exhaustion. This is the most common production NGFW configuration.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Performance baseline:</strong> with all components active (conntrack + NAT + DPI + policy + logging), measure: maximum packets per second through your combined pipeline, latency for first packet of new session vs established session, memory usage with 10K sessions, CPU profile showing time in each component. This is your baseline for the capstone design document.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Write your capstone design document</strong> following the structure in Tab 7. This should be a real document you can share with your team and use for the actual R&D planning. Include your measured performance numbers from step 5 as the baseline, and project how they scale with hardware (more cores, faster NICs, hardware crypto offload).</div></div>
+<p><strong>Objective:</strong> Wire together all components built across M23–M26 into a single test harness. Verify the complete packet processing pipeline handles all scenarios correctly.</p>
+<div class="lab-step"><div class="sn">1</div><div><strong>Build integration harness:</strong> create a test driver that feeds raw packets into your pipeline (session table → policy engine → DPI → threat intel check → logging) and collects decisions and logs. Use pcap files from previous labs as input. For each packet, record the decision made and verify it matches your expected security policy.</div></div>
+<div class="lab-step"><div class="sn">2</div><div><strong>Scenario: SQL injection attack:</strong> feed HTTP traffic containing SQL injection strings. Verify: (a) conntrack creates session, (b) HTTP dissector parses the request, (c) Hyperscan/AC matches SQL injection signature, (d) session risk_score elevated, (e) policy engine blocks the session, (f) log record created with threat details. End-to-end from raw bytes to blocked session + SIEM alert.</div></div>
+<div class="lab-step"><div class="sn">3</div><div><strong>Scenario: DNS tunnelling:</strong> generate high-entropy DNS queries to a single parent domain at high rate. Verify: (a) DNS dissector extracts FQDN and query type, (b) entropy analyser scores it suspicious, (c) rate counter exceeds threshold, (d) alert generated, (e) subsequent queries from same source optionally blocked. Tune: what threshold minimises false positives for legitimate CDN queries?</div></div>
+<div class="lab-step"><div class="sn">4</div><div><strong>Scenario: NAPT + policy + logging together:</strong> generate HTTP traffic from 100 internal clients through your NAPT. Verify: each client gets a NAT port; policy permits HTTP to external; DPI identifies HTTP; logs show pre-NAT and post-NAT IPs; all 100 clients can access simultaneously without port exhaustion. This is the most common production NGFW configuration.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Performance baseline:</strong> with all components active (conntrack + NAT + DPI + policy + logging), measure: maximum packets per second through your combined pipeline, latency for first packet of new session vs established session, memory usage with 10K sessions, CPU profile showing time in each component. This is your baseline for the capstone design document.</div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Write your capstone design document</strong> following the structure in Tab 7. This should be a real document you can share with your team and use for the actual R&D planning. Include your measured performance numbers from step 5 as the baseline, and project how they scale with hardware (more cores, faster NICs, hardware crypto offload).</div></div>
   </div>
 </div>
 </div>
@@ -751,10 +751,10 @@ numastat -m                                /* NUMA memory access */</pre></div>
 <div class="curriculum-complete">
   <h2>🎓 Networking Mastery Curriculum Complete</h2>
   <div class="stats">
-    <div class="stat"><span class="n">26</span><span class="l">Modules</span></div>
-    <div class="stat"><span class="n">6</span><span class="l">Phases</span></div>
-    <div class="stat"><span class="n">26</span><span class="l">Weeks</span></div>
-    <div class="stat"><span class="n">70+</span><span class="l">Labs</span></div>
+<div class="stat"><span class="n">26</span><span class="l">Modules</span></div>
+<div class="stat"><span class="n">6</span><span class="l">Phases</span></div>
+<div class="stat"><span class="n">26</span><span class="l">Weeks</span></div>
+<div class="stat"><span class="n">70+</span><span class="l">Labs</span></div>
   </div>
   <p>You have completed the full Networking Mastery curriculum — from OSI fundamentals through to a production NGFW data plane design. The journey covered: TCP/IP foundations, routing protocols, Linux networking, kernel bypass (eBPF, DPDK, VPP), security protocols (TLS, IPsec, PKI), and NGFW development (conntrack, NAT, DPI, IDS/IPS, policy engine).</p>
   <p>Your capstone project is the synthesis: a complete technical design for your team's NGFW that applies every technique from every module. Use it to guide your R&amp;D work. Update it as your team learns. Share it with colleagues joining the project.</p>

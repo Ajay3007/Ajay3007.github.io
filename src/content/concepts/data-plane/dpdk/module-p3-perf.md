@@ -66,11 +66,11 @@ url: /learning/data-plane/dpdk/module-p3-perf/
   <div class="mod-title">Packet Patterns, Tuning &amp; Debugging</div>
   <div class="mod-subtitle">Prefetching · batching · CPU isolation · hugepage sizing · benchmarking · pitfall diagnosis</div>
   <div class="mod-pills">
-    <span class="mod-pill">Ch 16 — Packet Processing Patterns</span>
-    <span class="mod-pill">Ch 17 — Performance Tuning</span>
-    <span class="mod-pill">Ch 18 — Debugging &amp; Pitfalls</span>
-    <span class="mod-pill">C · perf · pktgen · SASE-DP</span>
-    <span class="mod-pill">Weeks 13–14+</span>
+<span class="mod-pill">Ch 16 — Packet Processing Patterns</span>
+<span class="mod-pill">Ch 17 — Performance Tuning</span>
+<span class="mod-pill">Ch 18 — Debugging &amp; Pitfalls</span>
+<span class="mod-pill">C · perf · pktgen · SASE-DP</span>
+<span class="mod-pill">Weeks 13–14+</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -92,22 +92,22 @@ The simplest pattern. Each lcore handles one or more NIC queues. Good for statel
 </div>
 <div class="cb"><span class="cm">// Pattern 1: Basic receive-process-transmit</span>
 <span class="ck">static</span> <span class="co">int</span> <span class="cf">lcore_main</span>(<span class="ck">void</span> *arg) {
-    <span class="co">uint16_t</span> port = (<span class="co">uintptr_t</span>)arg;
-    <span class="co">uint16_t</span> queue = <span class="cf">rte_lcore_id</span>();
-    <span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SIZE</span>];
+<span class="co">uint16_t</span> port = (<span class="co">uintptr_t</span>)arg;
+<span class="co">uint16_t</span> queue = <span class="cf">rte_lcore_id</span>();
+<span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SIZE</span>];
 
-    <span class="ck">while</span> (<span class="cn">1</span>) {
-        <span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, queue, pkts, <span class="cn">BURST_SIZE</span>);
-        <span class="ck">if</span> (<span class="cf">unlikely</span>(nb_rx == <span class="cn">0</span>)) <span class="ck">continue</span>;
+<span class="ck">while</span> (<span class="cn">1</span>) {
+<span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, queue, pkts, <span class="cn">BURST_SIZE</span>);
+<span class="ck">if</span> (<span class="cf">unlikely</span>(nb_rx == <span class="cn">0</span>)) <span class="ck">continue</span>;
 
-        <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++)
-            <span class="cf">process_packet</span>(pkts[i]);
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++)
+<span class="cf">process_packet</span>(pkts[i]);
 
-        <span class="co">uint16_t</span> nb_tx = <span class="cf">rte_eth_tx_burst</span>(port ^ <span class="cn">1</span>, queue, pkts, nb_rx);
-        <span class="ck">for</span> (<span class="co">uint16_t</span> i = nb_tx; i &lt; nb_rx; i++)
-            <span class="cf">rte_pktmbuf_free</span>(pkts[i]);  <span class="cm">// free unsent</span>
+<span class="co">uint16_t</span> nb_tx = <span class="cf">rte_eth_tx_burst</span>(port ^ <span class="cn">1</span>, queue, pkts, nb_rx);
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = nb_tx; i &lt; nb_rx; i++)
+<span class="cf">rte_pktmbuf_free</span>(pkts[i]);  <span class="cm">// free unsent</span>
     }
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
 <div class="p-teal">
 <h4>Pattern 2: Batch Processing with Classification</h4>
@@ -118,11 +118,11 @@ Classify the entire burst first, then process each category. Better cache utiliz
 <span class="co">uint16_t</span> nb_tcp = <span class="cn">0</span>, nb_udp = <span class="cn">0</span>, nb_other = <span class="cn">0</span>;
 
 <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++) {
-    <span class="ck">struct</span> rte_ipv4_hdr *ip = <span class="cf">rte_pktmbuf_mtod_offset</span>(pkts[i], <span class="ck">struct</span> rte_ipv4_hdr *,
-                                                       <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
-    <span class="ck">if</span>      (ip-&gt;next_proto_id == <span class="cn">IPPROTO_TCP</span>) tcp_pkts[nb_tcp++] = pkts[i];
-    <span class="ck">else if</span> (ip-&gt;next_proto_id == <span class="cn">IPPROTO_UDP</span>) udp_pkts[nb_udp++] = pkts[i];
-    <span class="ck">else</span>                                         other[nb_other++]   = pkts[i];
+<span class="ck">struct</span> rte_ipv4_hdr *ip = <span class="cf">rte_pktmbuf_mtod_offset</span>(pkts[i], <span class="ck">struct</span> rte_ipv4_hdr *,
+<span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
+<span class="ck">if</span>      (ip-&gt;next_proto_id == <span class="cn">IPPROTO_TCP</span>) tcp_pkts[nb_tcp++] = pkts[i];
+<span class="ck">else if</span> (ip-&gt;next_proto_id == <span class="cn">IPPROTO_UDP</span>) udp_pkts[nb_udp++] = pkts[i];
+<span class="ck">else</span>                                         other[nb_other++]   = pkts[i];
 }
 
 <span class="cf">process_tcp_batch</span>(tcp_pkts, nb_tcp);    <span class="cm">// one code path, warm I-cache</span>
@@ -138,13 +138,13 @@ At 100G/64B, CPU has ~6.7 ns per packet. An L3 cache miss costs ~40 cycles (~13 
 <div class="note">&#128204; <strong>Prefetch distance:</strong> Typically 4 packets ahead. Too small = cache miss still hurts. Too large = cache pollution (prefetched data evicted before used). 4 is the DPDK convention validated across Intel E810, i40e, and mlx5.</div>
 <div class="cb"><span class="cm">// 4-packet prefetch pattern — the DPDK standard technique</span>
 <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++) {
-    <span class="cm">/* Prefetch 4 packets ahead: fetch the mbuf header */</span>
-    <span class="ck">if</span> (i + <span class="cn">4</span> &lt; nb_rx)
-        <span class="cf">rte_prefetch0</span>(<span class="cf">rte_pktmbuf_mtod</span>(pkts[i + <span class="cn">4</span>], <span class="ck">void</span> *));
+<span class="cm">/* Prefetch 4 packets ahead: fetch the mbuf header */</span>
+<span class="ck">if</span> (i + <span class="cn">4</span> &lt; nb_rx)
+<span class="cf">rte_prefetch0</span>(<span class="cf">rte_pktmbuf_mtod</span>(pkts[i + <span class="cn">4</span>], <span class="ck">void</span> *));
 
-    <span class="cm">/* Process current packet — prefetch for i+4 is in flight */</span>
-    <span class="ck">struct</span> rte_ether_hdr *eth = <span class="cf">rte_pktmbuf_mtod</span>(pkts[i], <span class="ck">struct</span> rte_ether_hdr *);
-    <span class="cm">/* ... process packet[i] ... */</span>
+<span class="cm">/* Process current packet — prefetch for i+4 is in flight */</span>
+<span class="ck">struct</span> rte_ether_hdr *eth = <span class="cf">rte_pktmbuf_mtod</span>(pkts[i], <span class="ck">struct</span> rte_ether_hdr *);
+<span class="cm">/* ... process packet[i] ... */</span>
 }
 
 <span class="cm">// rte_prefetch0 = prefetch to L1 cache (highest priority)</span>
@@ -243,12 +243,12 @@ perf stat -C 4,5,6,7 -e cycles,instructions,cache-misses,LLC-load-misses \
 </div>
 <div class="cb"><span class="cm">// Mbuf accounting helper — call periodically</span>
 <span class="ck">void</span> <span class="cf">check_pool_health</span>(<span class="ck">struct</span> rte_mempool *pool, <span class="ck">const</span> <span class="ck">char</span> *tag) {
-    <span class="co">unsigned</span> avail = <span class="cf">rte_mempool_avail_count</span>(pool);
-    <span class="co">unsigned</span> total = <span class="cf">rte_mempool_in_use_count</span>(pool) + avail;
-    <span class="co">float</span>    used_pct = (<span class="co">float</span>)(total - avail) * <span class="cn">100.0</span>f / total;
-    <span class="cf">printf</span>(<span class="cs">"[%s] Pool avail: %u/%u (%.1f%% in use)\n"</span>, tag, avail, total, used_pct);
-    <span class="ck">if</span> (used_pct &gt; <span class="cn">90.0</span>f)
-        <span class="cf">RTE_LOG</span>(<span class="cn">WARNING</span>, USER1, <span class="cs">"Pool nearly exhausted — check for mbuf leaks!\n"</span>);
+<span class="co">unsigned</span> avail = <span class="cf">rte_mempool_avail_count</span>(pool);
+<span class="co">unsigned</span> total = <span class="cf">rte_mempool_in_use_count</span>(pool) + avail;
+<span class="co">float</span>    used_pct = (<span class="co">float</span>)(total - avail) * <span class="cn">100.0</span>f / total;
+<span class="cf">printf</span>(<span class="cs">"[%s] Pool avail: %u/%u (%.1f%% in use)\n"</span>, tag, avail, total, used_pct);
+<span class="ck">if</span> (used_pct &gt; <span class="cn">90.0</span>f)
+<span class="cf">RTE_LOG</span>(<span class="cn">WARNING</span>, USER1, <span class="cs">"Pool nearly exhausted — check for mbuf leaks!\n"</span>);
 }</div>
 <p class="sep">DPDK LOGGING</p>
 <div class="cb"><span class="cm">// Log levels: EMERG(1) ALERT(2) CRIT(3) ERR(4) WARNING(5) NOTICE(6) INFO(7) DEBUG(8)</span>

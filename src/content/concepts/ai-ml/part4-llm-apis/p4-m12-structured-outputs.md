@@ -104,10 +104,10 @@ url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
   <div class="mod-title">Structured Outputs &amp; Tool Calling</div>
   <div class="mod-subtitle">Get typed Python objects back from LLMs — and make them call your functions</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 Pydantic · Instructor · OpenAI · Anthropic</span>
-    <span class="mod-pill">📋 Prerequisite: P4-M11</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 Pydantic · Instructor · OpenAI · Anthropic</span>
+<span class="mod-pill">📋 Prerequisite: P4-M11</span>
   </div>
 </div>
 <!-- ── TAB BAR ── -->
@@ -127,36 +127,43 @@ url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-indigo">Core AI Engineering</span></div>
   <div class="cp-body">
-    <p>In real applications you almost never want raw text from an LLM — you want structured data you can parse, store, validate, and use in your code. This module covers two critical techniques for getting reliable structure out of LLMs:</p>
-    <ul>
-      <li><strong>Structured outputs</strong> — forcing the model to return data that matches a Pydantic schema you define. Never parse free-text JSON again.</li>
-      <li><strong>Tool calling (function calling)</strong> — giving the model the ability to call your Python functions. This is what transforms an LLM from a text generator into a system that can take real actions.</li>
-    </ul>
-    <p>These two techniques are the foundation of agents, RAG pipelines, and any AI system that needs to interact with the real world. Master them here before building anything complex.</p>
+<p>In real applications you almost never want raw text from an LLM — you want structured data you can parse, store, validate, and use in your code. This module covers two critical techniques for getting reliable structure out of LLMs:</p>
+<ul>
+<li><strong>Structured outputs</strong> — forcing the model to return data that matches a Pydantic schema you define. Never parse free-text JSON again.</li>
+<li><strong>Tool calling (function calling)</strong> — giving the model the ability to call your Python functions. This is what transforms an LLM from a text generator into a system that can take real actions.</li>
+</ul>
+<p>These two techniques are the foundation of agents, RAG pipelines, and any AI system that needs to interact with the real world. Master them here before building anything complex.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Why Structured Outputs Matter</h3><span class="tag tag-blue">Motivation</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># The problem with raw text output</span>
-response = call_claude(<span class="cs">"Extract the name, age, and city from: 'John is 28, lives in Mumbai'"</span>)
-<span class="ck"># Response might be:</span>
-<span class="ck">#   "The name is John, he is 28 years old, and he lives in Mumbai."</span>
-<span class="ck">#   "Name: John
+    
+
+```python
+# The problem with raw text output
+response = call_claude("Extract the name, age, and city from: 'John is 28, lives in Mumbai'")
+# Response might be:
+#   "The name is John, he is 28 years old, and he lives in Mumbai."
+#   "Name: John
 Age: 28
-City: Mumbai"</span>
-<span class="ck">#   {"name": "John", "age": "28", "city": "Mumbai"}  ← age is a string, not int!</span>
-<span class="ck">#   {"name": "John", "age": 28}  ← city missing!</span>
-<span class="ck"># You cannot reliably parse any of these</span>
-<span class="ck"># With structured outputs (Pydantic + Instructor)</span>
+City: Mumbai"
+#   {"name": "John", "age": "28", "city": "Mumbai"}  ← age is a string, not int!
+#   {"name": "John", "age": 28}  ← city missing!
+# You cannot reliably parse any of these
+
+# With structured outputs (Pydantic + Instructor)
 class Person(BaseModel):
     name: str
     age:  int
     city: str
- 
+
 person = extract(text, Person)
-print(person.age + <span class="cv">1</span>)   <span class="ck"># 29 — it's always an int. Always present.</span></pre></div>
-    <div class="ins"><p>💡 <strong>Structured outputs solve three problems at once:</strong> type safety (age is always an int), completeness (required fields are always present), and consistency (same schema every time, regardless of how the model phrases its response).</p></div>
+print(person.age + 1)   # 29 — it's always an int. Always present.
+```
+
+
+<div class="ins"><p>💡 <strong>Structured outputs solve three problems at once:</strong> type safety (age is always an int), completeness (required fields are always present), and consistency (same schema every time, regardless of how the model phrases its response).</p></div>
   </div>
 </div>
 </div><!-- end t0 -->
@@ -165,110 +172,130 @@ print(person.age + <span class="cv">1</span>)   <span class="ck"># 29 — it's a
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">📐</span><h3>OpenAI Native Structured Outputs</h3><span class="tag tag-indigo">OpenAI Only</span></div>
   <div class="cp-body">
-    <p>OpenAI (gpt-4o and later) supports native structured outputs via <code>response_format</code> with a JSON schema. The model is guaranteed to return valid JSON matching your schema — it cannot deviate.</p>
-    <div class="cb"><pre>from openai import OpenAI
+<p>OpenAI (gpt-4o and later) supports native structured outputs via <code>response_format</code> with a JSON schema. The model is guaranteed to return valid JSON matching your schema — it cannot deviate.</p>
+    
+
+```python
+from openai import OpenAI
 from pydantic import BaseModel
 from typing import List, Optional
- 
+
 client = OpenAI()
- 
+
 class CalendarEvent(BaseModel):
     name:       str
-    date:       str         <span class="ck"># ISO format: YYYY-MM-DD</span>
+    date:       str         # ISO format: YYYY-MM-DD
     participants: List[str]
     location:   Optional[str] = None
- 
-<span class="ck"># Method 1: parse() helper — simplest approach</span>
+
+# Method 1: parse() helper — simplest approach
 completion = client.beta.chat.completions.parse(
-    model=<span class="cs">"gpt-4o-2024-08-06"</span>,
+    model="gpt-4o-2024-08-06",
     messages=[{
-        <span class="cs">"role"</span>: <span class="cs">"user"</span>,
-        <span class="cs">"content"</span>: <span class="cs">"Extract event: 'Meeting with Alice and Bob on 2024-03-15 at Bangalore office'"</span>
+        "role": "user",
+        "content": "Extract event: 'Meeting with Alice and Bob on 2024-03-15 at Bangalore office'"
     }],
     response_format=CalendarEvent,
 )
- 
-event = completion.choices[<span class="cv">0</span>].message.parsed
-print(event.name)           <span class="ck"># "Meeting"</span>
-print(event.participants)   <span class="ck"># ["Alice", "Bob"]</span>
-print(event.date)           <span class="ck"># "2024-03-15"</span>
-print(type(event))          <span class="ck"># &lt;class 'CalendarEvent'&gt; — a real Python object</span>
-<span class="ck"># Handle refusal (model refuses to comply with the request)</span>
-if completion.choices[<span class="cv">0</span>].message.refusal:
-    print(<span class="cs">f"Model refused: {completion.choices[0].message.refusal}"</span>)</pre></div>
+
+event = completion.choices[0].message.parsed
+print(event.name)           # "Meeting"
+print(event.participants)   # ["Alice", "Bob"]
+print(event.date)           # "2024-03-15"
+print(type(event))          # <class 'CalendarEvent'> — a real Python object
+
+# Handle refusal (model refuses to comply with the request)
+if completion.choices[0].message.refusal:
+    print(f"Model refused: {completion.choices[0].message.refusal}")
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>JSON Mode vs Structured Outputs</h3><span class="tag tag-blue">Know the Difference</span></div>
   <div class="cp-body">
-    <table style="width:100%;border-collapse:collapse;font-size:.85rem;margin:.8rem 0">
-      <thead><tr style="background:#1e1a3a;color:#e0e7ff"><th style="padding:.6rem .9rem;text-align:left">Feature</th><th style="padding:.6rem .9rem">JSON Mode</th><th style="padding:.6rem .9rem">Structured Outputs</th></tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Guarantees</td><td style="padding:.6rem .9rem">Valid JSON only — no schema enforcement</td><td style="padding:.6rem .9rem">Valid JSON matching exact schema</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Missing fields</td><td style="padding:.6rem .9rem">Can still omit required fields</td><td style="padding:.6rem .9rem">Required fields always present</td></tr>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Wrong types</td><td style="padding:.6rem .9rem">age can be "28" (string)</td><td style="padding:.6rem .9rem">age is always int</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Extra fields</td><td style="padding:.6rem .9rem">Can add unexpected fields</td><td style="padding:.6rem .9rem">Only schema fields returned</td></tr>
-        <tr><td style="padding:.6rem .9rem">Use when</td><td style="padding:.6rem .9rem">Quick prototyping, flexible schema</td><td style="padding:.6rem .9rem">Production — any time you parse the output</td></tr>
-      </tbody>
-    </table>
-    <div class="cb"><pre><span class="ck"># JSON mode — just ensures valid JSON, not schema compliance</span>
+<table style="width:100%;border-collapse:collapse;font-size:.85rem;margin:.8rem 0">
+<thead><tr style="background:#1e1a3a;color:#e0e7ff"><th style="padding:.6rem .9rem;text-align:left">Feature</th><th style="padding:.6rem .9rem">JSON Mode</th><th style="padding:.6rem .9rem">Structured Outputs</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Guarantees</td><td style="padding:.6rem .9rem">Valid JSON only — no schema enforcement</td><td style="padding:.6rem .9rem">Valid JSON matching exact schema</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Missing fields</td><td style="padding:.6rem .9rem">Can still omit required fields</td><td style="padding:.6rem .9rem">Required fields always present</td></tr>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Wrong types</td><td style="padding:.6rem .9rem">age can be "28" (string)</td><td style="padding:.6rem .9rem">age is always int</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.6rem .9rem">Extra fields</td><td style="padding:.6rem .9rem">Can add unexpected fields</td><td style="padding:.6rem .9rem">Only schema fields returned</td></tr>
+<tr><td style="padding:.6rem .9rem">Use when</td><td style="padding:.6rem .9rem">Quick prototyping, flexible schema</td><td style="padding:.6rem .9rem">Production — any time you parse the output</td></tr>
+</tbody>
+</table>
+    
+
+```bash
+# JSON mode — just ensures valid JSON, not schema compliance
 response = client.chat.completions.create(
-    model=<span class="cs">"gpt-4o"</span>,
-    response_format={<span class="cs">"type"</span>: <span class="cs">"json_object"</span>},   <span class="ck"># JSON mode</span>
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Extract name and age as JSON"</span>}]
+    model="gpt-4o",
+    response_format={"type": "json_object"},   # JSON mode
+    messages=[{"role": "user", "content": "Extract name and age as JSON"}]
 )
-data = json.loads(response.choices[<span class="cv">0</span>].message.content)
-<span class="ck"># data["age"] might be "28" or 28 — you don't know</span></pre></div>
+data = json.loads(response.choices[0].message.content)
+# data["age"] might be "28" or 28 — you don't know
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧩</span><h3>Complex Pydantic Schemas</h3><span class="tag tag-teal">Real-World Patterns</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from pydantic import BaseModel, Field
+    
+
+```python
+from pydantic import BaseModel, Field
 from typing import List, Optional, Literal
 from enum import Enum
- 
-<span class="ck"># Nested models</span>
+
+# Nested models
 class Address(BaseModel):
     street: str
     city:   str
     country: str
     postal_code: Optional[str] = None
- 
+
 class Contact(BaseModel):
     name:    str
     email:   str
     phone:   Optional[str] = None
-    address: Optional[Address] = None   <span class="ck"># nested model</span>
-<span class="ck"># Enums for controlled vocabularies</span>
+    address: Optional[Address] = None   # nested model
+
+# Enums for controlled vocabularies
 class Priority(str, Enum):
-    LOW    = <span class="cs">"low"</span>
-    MEDIUM = <span class="cs">"medium"</span>
-    HIGH   = <span class="cs">"high"</span>
-    URGENT = <span class="cs">"urgent"</span>
- 
+    LOW    = "low"
+    MEDIUM = "medium"
+    HIGH   = "high"
+    URGENT = "urgent"
+
 class Ticket(BaseModel):
     title:    str
-    priority: Priority               <span class="ck"># must be one of 4 values</span>
+    priority: Priority               # must be one of 4 values
     tags:     List[str] = []
     assignee: Optional[Contact] = None
- 
-<span class="ck"># Discriminated unions — different schema per type</span>
+
+# Discriminated unions — different schema per type
 class TextContent(BaseModel):
-    type: Literal[<span class="cs">"text"</span>]
+    type: Literal["text"]
     text: str
- 
+
 class ImageContent(BaseModel):
-    type: Literal[<span class="cs">"image"</span>]
+    type: Literal["image"]
     url:  str
     alt:  Optional[str] = None
- 
+
 from typing import Union, Annotated
-Content = Annotated[Union[TextContent, ImageContent], Field(discriminator=<span class="cs">"type"</span>)]
- 
+Content = Annotated[Union[TextContent, ImageContent], Field(discriminator="type")]
+
 class Post(BaseModel):
     title:    str
-    contents: List[Content]   <span class="ck"># can be text or image blocks</span></pre></div>
+    contents: List[Content]   # can be text or image blocks
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -277,115 +304,132 @@ class Post(BaseModel):
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Instructor — Structured Outputs for Every Provider</h3><span class="tag tag-indigo">Production Standard</span></div>
   <div class="cp-body">
-    <p>Instructor is the cleanest way to get structured outputs from any LLM provider using Pydantic models. It works with OpenAI, Anthropic, Google, HuggingFace, and 15+ others using the same code interface — and adds automatic retries when validation fails.</p>
-    <div class="cb"><pre>pip install instructor anthropic openai
- 
+<p>Instructor is the cleanest way to get structured outputs from any LLM provider using Pydantic models. It works with OpenAI, Anthropic, Google, HuggingFace, and 15+ others using the same code interface — and adds automatic retries when validation fails.</p>
+    
+
+```python
+pip install instructor anthropic openai
+
 import instructor
 import anthropic
 from openai import OpenAI
 from pydantic import BaseModel
 from typing import List
- 
-<span class="ck"># ── With Anthropic (Claude) ────────────────────────────</span>
+
+# ── With Anthropic (Claude) ────────────────────────────
 claude_client = instructor.from_anthropic(anthropic.Anthropic())
- 
+
 class MovieReview(BaseModel):
     title:       str
-    rating:      float   <span class="ck"># 1.0 to 10.0</span>
+    rating:      float   # 1.0 to 10.0
     pros:        List[str]
     cons:        List[str]
     recommended: bool
- 
+
 review = claude_client.messages.create(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">1024</span>,
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1024,
     messages=[{
-        <span class="cs">"role"</span>: <span class="cs">"user"</span>,
-        <span class="cs">"content"</span>: <span class="cs">"Review the movie Interstellar"</span>
+        "role": "user",
+        "content": "Review the movie Interstellar"
     }],
-    response_model=MovieReview,   <span class="ck"># ← Pydantic model as schema</span>
+    response_model=MovieReview,   # ← Pydantic model as schema
 )
- 
-print(review.title)       <span class="ck"># "Interstellar"</span>
-print(review.rating)      <span class="ck"># 9.2  — always a float</span>
-print(review.recommended) <span class="ck"># True — always a bool</span>
-<span class="ck"># ── With OpenAI (GPT-4o) ───────────────────────────────</span>
+
+print(review.title)       # "Interstellar"
+print(review.rating)      # 9.2  — always a float
+print(review.recommended) # True — always a bool
+
+# ── With OpenAI (GPT-4o) ───────────────────────────────
 oai_client = instructor.from_openai(OpenAI())
- 
+
 review = oai_client.chat.completions.create(
-    model=<span class="cs">"gpt-4o"</span>,
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Review Interstellar"</span>}],
-    response_model=MovieReview,   <span class="ck"># ← exact same code</span>
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Review Interstellar"}],
+    response_model=MovieReview,   # ← exact same code
 )
-<span class="ck"># Same API regardless of provider — easy to switch</span></pre></div>
+# Same API regardless of provider — easy to switch
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Automatic Retries and Partial Extraction</h3><span class="tag tag-blue">Reliability</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import instructor
+    
+
+```python
+import instructor
 from instructor import Mode
 from pydantic import BaseModel, field_validator
- 
-<span class="ck"># Instructor retries automatically when validation fails</span>
+
+# Instructor retries automatically when validation fails
 client = instructor.from_anthropic(
     anthropic.Anthropic(),
     mode=Mode.ANTHROPIC_JSON,
-    max_retries=<span class="cv">3</span>   <span class="ck"># retry up to 3 times if schema not satisfied</span>
+    max_retries=3   # retry up to 3 times if schema not satisfied
 )
- 
+
 class StrictRating(BaseModel):
     score: float
     label: str
- 
-    @field_validator(<span class="cs">"score"</span>)
+
+    @field_validator("score")
     @classmethod
     def must_be_in_range(cls, v: float) -> float:
-        if not (<span class="cv">1.0</span> <= v <= <span class="cv">10.0</span>):
-            raise ValueError(<span class="cs">f"Score {v} must be between 1.0 and 10.0"</span>)
-        return round(v, <span class="cv">1</span>)
- 
-    @field_validator(<span class="cs">"label"</span>)
+        if not (1.0 10.0):
+            raise ValueError(f"Score {v} must be between 1.0 and 10.0")
+        return round(v, 1)
+
+    @field_validator("label")
     @classmethod
     def must_be_valid_label(cls, v: str) -> str:
-        valid = {<span class="cs">"excellent"</span>, <span class="cs">"good"</span>, <span class="cs">"average"</span>, <span class="cs">"poor"</span>}
+        valid = {"excellent", "good", "average", "poor"}
         if v.lower() not in valid:
-            raise ValueError(<span class="cs">f"Label must be one of {valid}"</span>)
+            raise ValueError(f"Label must be one of {valid}")
         return v.lower()
- 
-<span class="ck"># If model returns score=11.0, Instructor catches the validation error,</span>
-<span class="ck"># tells the model what went wrong, and asks it to try again</span>
-<span class="ck"># Partial extraction — stream partial objects as they are generated</span>
+
+# If model returns score=11.0, Instructor catches the validation error,
+# tells the model what went wrong, and asks it to try again
+
+# Partial extraction — stream partial objects as they are generated
 from instructor import Partial
- 
+
 class LargeReport(BaseModel):
     executive_summary: str
     key_findings:      List[str]
     recommendations:   List[str]
     conclusion:        str
- 
-<span class="ck"># Stream partial object — UI can update progressively</span>
+
+# Stream partial object — UI can update progressively
 for partial_report in client.messages.create_partial(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">4096</span>,
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Generate a quarterly report"</span>}],
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=4096,
+    messages=[{"role": "user", "content": "Generate a quarterly report"}],
     response_model=Partial[LargeReport],
 ):
     if partial_report.executive_summary:
-        print(partial_report.executive_summary, end=<span class="cs">""</span>)</pre></div>
-    <div class="ins"><p>💡 <strong>Automatic retries are Instructor's killer feature.</strong> When a field validator raises a ValueError, Instructor sends the model a message saying "Your previous response failed validation: [error]. Please fix and try again." The model almost always succeeds on the second attempt. This makes structured extraction production-ready.</p></div>
+        print(partial_report.executive_summary, end="")
+```
+
+
+<div class="ins"><p>💡 <strong>Automatic retries are Instructor's killer feature.</strong> When a field validator raises a ValueError, Instructor sends the model a message saying "Your previous response failed validation: [error]. Please fix and try again." The model almost always succeeds on the second attempt. This makes structured extraction production-ready.</p></div>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏭</span><h3>Real-World Extraction Patterns</h3><span class="tag tag-teal">Production Use Cases</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># 1. Invoice parser</span>
+    
+
+```python
+# 1. Invoice parser
 class LineItem(BaseModel):
     description: str
     quantity:    int
     unit_price:  float
     total:       float
- 
+
 class Invoice(BaseModel):
     invoice_number: str
     vendor:         str
@@ -393,21 +437,22 @@ class Invoice(BaseModel):
     subtotal:       float
     tax_rate:       float
     total:          float
-    due_date:       str   <span class="ck"># YYYY-MM-DD</span>
-<span class="ck"># 2. Meeting notes → action items</span>
+    due_date:       str   # YYYY-MM-DD
+
+# 2. Meeting notes → action items
 class ActionItem(BaseModel):
     task:      str
     owner:     str
     due_date:  Optional[str]
-    priority:  Literal[<span class="cs">"high"</span>, <span class="cs">"medium"</span>, <span class="cs">"low"</span>]
- 
+    priority:  Literal["high", "medium", "low"]
+
 class MeetingNotes(BaseModel):
     summary:     str
     decisions:   List[str]
     action_items: List[ActionItem]
     next_meeting: Optional[str]
- 
-<span class="ck"># 3. Job description parser</span>
+
+# 3. Job description parser
 class JobDescription(BaseModel):
     role:             str
     company:          str
@@ -418,14 +463,17 @@ class JobDescription(BaseModel):
     preferred_skills: List[str]
     years_experience: Optional[int]
     remote:           bool
- 
-<span class="ck"># 4. Support ticket classifier</span>
+
+# 4. Support ticket classifier
 class SupportTicket(BaseModel):
-    category:    Literal[<span class="cs">"billing"</span>, <span class="cs">"technical"</span>, <span class="cs">"account"</span>, <span class="cs">"general"</span>]
-    priority:    Literal[<span class="cs">"p1"</span>, <span class="cs">"p2"</span>, <span class="cs">"p3"</span>]
-    sentiment:   Literal[<span class="cs">"frustrated"</span>, <span class="cs">"neutral"</span>, <span class="cs">"positive"</span>]
+    category:    Literal["billing", "technical", "account", "general"]
+    priority:    Literal["p1", "p2", "p3"]
+    sentiment:   Literal["frustrated", "neutral", "positive"]
     summary:     str
-    needs_human: bool</pre></div>
+    needs_human: bool
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -434,207 +482,231 @@ class SupportTicket(BaseModel):
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Tool Calling — The Mental Model</h3><span class="tag tag-indigo">Critical Concept</span></div>
   <div class="cp-body">
-    <p>Tool calling is what transforms an LLM from a text generator into something that can <strong>take actions</strong> — search the web, query a database, call your API, run code. Before writing any code, understand what actually happens:</p>
-    <div class="tool-flow">
-      <div class="tf-box tf-you">You define tools<br>(JSON schemas)</div>
-      <div class="tf-arrow">→</div>
-      <div class="tf-box tf-llm">LLM decides<br>which tool to call</div>
-      <div class="tf-arrow">→</div>
-      <div class="tf-box tf-you">LLM returns<br>tool_call object</div>
-      <div class="tf-arrow">→</div>
-      <div class="tf-box tf-exec">YOUR code executes<br>the actual function</div>
-      <div class="tf-arrow">→</div>
-      <div class="tf-box tf-llm">LLM sees result,<br>generates response</div>
-    </div>
-    <div class="warn"><p>⚠️ <strong>The model does NOT execute your functions.</strong> It only returns a structured object saying "I want to call get_weather with city='Mumbai'". Your code reads that object and actually calls the function. This distinction is critical for security — you control what runs.</p></div>
-    <div class="cb"><pre><span class="ck"># What a tool call response looks like (Anthropic)</span>
+<p>Tool calling is what transforms an LLM from a text generator into something that can <strong>take actions</strong> — search the web, query a database, call your API, run code. Before writing any code, understand what actually happens:</p>
+<div class="tool-flow">
+<div class="tf-box tf-you">You define tools<br>(JSON schemas)</div>
+<div class="tf-arrow">→</div>
+<div class="tf-box tf-llm">LLM decides<br>which tool to call</div>
+<div class="tf-arrow">→</div>
+<div class="tf-box tf-you">LLM returns<br>tool_call object</div>
+<div class="tf-arrow">→</div>
+<div class="tf-box tf-exec">YOUR code executes<br>the actual function</div>
+<div class="tf-arrow">→</div>
+<div class="tf-box tf-llm">LLM sees result,<br>generates response</div>
+</div>
+<div class="warn"><p>⚠️ <strong>The model does NOT execute your functions.</strong> It only returns a structured object saying "I want to call get_weather with city='Mumbai'". Your code reads that object and actually calls the function. This distinction is critical for security — you control what runs.</p></div>
+    
+
+```bash
+# What a tool call response looks like (Anthropic)
 {
-    <span class="cs">"type"</span>: <span class="cs">"tool_use"</span>,
-    <span class="cs">"id"</span>:   <span class="cs">"toolu_01A09q90qw90lq917835lq9"</span>,
-    <span class="cs">"name"</span>: <span class="cs">"get_weather"</span>,
-    <span class="cs">"input"</span>: {
-        <span class="cs">"city"</span>: <span class="cs">"Mumbai"</span>,
-        <span class="cs">"units"</span>: <span class="cs">"celsius"</span>
+    "type": "tool_use",
+    "id":   "toolu_01A09q90qw90lq917835lq9",
+    "name": "get_weather",
+    "input": {
+        "city": "Mumbai",
+        "units": "celsius"
     }
 }
-<span class="ck"># YOUR code then calls: get_weather(city="Mumbai", units="celsius")</span></pre></div>
+# YOUR code then calls: get_weather(city="Mumbai", units="celsius")
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Defining Tools — The 5-Step Pattern</h3><span class="tag tag-blue">Core Pattern</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import anthropic
+    
+
+```python
+import anthropic
 import json
- 
+
 client = anthropic.Anthropic()
- 
-<span class="ck"># STEP 1: Define your Python functions</span>
-def get_weather(city: str, units: str = <span class="cs">"celsius"</span>) -> dict:
-    <span class="ck"># In production: call a real weather API</span>
-    return {<span class="cs">"city"</span>: city, <span class="cs">"temp"</span>: <span class="cv">28</span>, <span class="cs">"condition"</span>: <span class="cs">"sunny"</span>, <span class="cs">"units"</span>: units}
- 
+
+# STEP 1: Define your Python functions
+def get_weather(city: str, units: str = "celsius") -> dict:
+    # In production: call a real weather API
+    return {"city": city, "temp": 28, "condition": "sunny", "units": units}
+
 def calculate(expression: str) -> dict:
     try:
-        result = eval(expression, {<span class="cs">"__builtins__"</span>: {}})  <span class="ck"># safe eval</span>
-        return {<span class="cs">"result"</span>: result, <span class="cs">"expression"</span>: expression}
+        result = eval(expression, {"__builtins__": {}})  # safe eval
+        return {"result": result, "expression": expression}
     except Exception as e:
-        return {<span class="cs">"error"</span>: str(e)}
- 
-<span class="ck"># STEP 2: Describe the tools in JSON Schema</span>
+        return {"error": str(e)}
+
+# STEP 2: Describe the tools in JSON Schema
 tools = [
     {
-        <span class="cs">"name"</span>: <span class="cs">"get_weather"</span>,
-        <span class="cs">"description"</span>: <span class="cs">"Get the current weather for a specific city. Use this when the user asks about weather, temperature, or conditions in a location."</span>,
-        <span class="cs">"input_schema"</span>: {
-            <span class="cs">"type"</span>: <span class="cs">"object"</span>,
-            <span class="cs">"properties"</span>: {
-                <span class="cs">"city"</span>: {
-                    <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                    <span class="cs">"description"</span>: <span class="cs">"The city name, e.g. 'Mumbai', 'Delhi', 'Bangalore'"</span>
+        "name": "get_weather",
+        "description": "Get the current weather for a specific city. Use this when the user asks about weather, temperature, or conditions in a location.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "description": "The city name, e.g. 'Mumbai', 'Delhi', 'Bangalore'"
                 },
-                <span class="cs">"units"</span>: {
-                    <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                    <span class="cs">"enum"</span>: [<span class="cs">"celsius"</span>, <span class="cs">"fahrenheit"</span>],
-                    <span class="cs">"description"</span>: <span class="cs">"Temperature unit. Default: celsius"</span>
+                "units": {
+                    "type": "string",
+                    "enum": ["celsius", "fahrenheit"],
+                    "description": "Temperature unit. Default: celsius"
                 }
             },
-            <span class="cs">"required"</span>: [<span class="cs">"city"</span>]
+            "required": ["city"]
         }
     },
     {
-        <span class="cs">"name"</span>: <span class="cs">"calculate"</span>,
-        <span class="cs">"description"</span>: <span class="cs">"Evaluate a mathematical expression. Use this for any arithmetic, percentage, or numeric calculation. Do NOT use this for non-math questions."</span>,
-        <span class="cs">"input_schema"</span>: {
-            <span class="cs">"type"</span>: <span class="cs">"object"</span>,
-            <span class="cs">"properties"</span>: {
-                <span class="cs">"expression"</span>: {
-                    <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                    <span class="cs">"description"</span>: <span class="cs">"A valid Python math expression, e.g. '(100 * 1.15) + 50'"</span>
+        "name": "calculate",
+        "description": "Evaluate a mathematical expression. Use this for any arithmetic, percentage, or numeric calculation. Do NOT use this for non-math questions.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "expression": {
+                    "type": "string",
+                    "description": "A valid Python math expression, e.g. '(100 * 1.15) + 50'"
                 }
             },
-            <span class="cs">"required"</span>: [<span class="cs">"expression"</span>]
+            "required": ["expression"]
         }
     }
 ]
- 
-<span class="ck"># STEP 3: Send request with tools</span>
+
+# STEP 3: Send request with tools
 response = client.messages.create(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">1024</span>,
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1024,
     tools=tools,
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"What's the weather in Mumbai? Also, what is 15% of 2500?"</span>}]
+    messages=[{"role": "user", "content": "What's the weather in Mumbai? Also, what is 15% of 2500?"}]
 )
- 
-<span class="ck"># STEP 4: Execute the tool calls</span>
+
+# STEP 4: Execute the tool calls
 tool_results = []
 for block in response.content:
-    if block.type == <span class="cs">"tool_use"</span>:
-        if block.name == <span class="cs">"get_weather"</span>:
+    if block.type == "tool_use":
+        if block.name == "get_weather":
             result = get_weather(**block.input)
-        elif block.name == <span class="cs">"calculate"</span>:
+        elif block.name == "calculate":
             result = calculate(**block.input)
         tool_results.append({
-            <span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
-            <span class="cs">"tool_use_id"</span>: block.id,
-            <span class="cs">"content"</span>: json.dumps(result)
+            "type": "tool_result",
+            "tool_use_id": block.id,
+            "content": json.dumps(result)
         })
- 
-<span class="ck"># STEP 5: Send results back to get final response</span>
+
+# STEP 5: Send results back to get final response
 final_response = client.messages.create(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">1024</span>,
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1024,
     tools=tools,
     messages=[
-        {<span class="cs">"role"</span>: <span class="cs">"user"</span>,      <span class="cs">"content"</span>: <span class="cs">"What's the weather in Mumbai? Also, 15% of 2500?"</span>},
-        {<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content},
-        {<span class="cs">"role"</span>: <span class="cs">"user"</span>,      <span class="cs">"content"</span>: tool_results}
+        {"role": "user",      "content": "What's the weather in Mumbai? Also, 15% of 2500?"},
+        {"role": "assistant", "content": response.content},
+        {"role": "user",      "content": tool_results}
     ]
 )
-print(final_response.content[<span class="cv">0</span>].text)</pre></div>
+print(final_response.content[0].text)
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Writing Tool Descriptions That Work</h3><span class="tag tag-teal">Critical Skill</span></div>
   <div class="cp-body">
-    <p>The tool description is the model's user manual. A vague description leads to wrong tool selection. Be explicit about <em>when</em> to use the tool, not just <em>what</em> it does.</p>
-    <div class="cb"><pre><span class="ck"># BAD tool description — vague</span>
+<p>The tool description is the model's user manual. A vague description leads to wrong tool selection. Be explicit about <em>when</em> to use the tool, not just <em>what</em> it does.</p>
+    
+
+```python
+# BAD tool description — vague
 {
-    <span class="cs">"name"</span>: <span class="cs">"search"</span>,
-    <span class="cs">"description"</span>: <span class="cs">"Search for information"</span>,
-    <span class="cs">"input_schema"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>, <span class="cs">"properties"</span>: {<span class="cs">"query"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>}}}
+    "name": "search",
+    "description": "Search for information",
+    "input_schema": {"type": "object", "properties": {"query": {"type": "string"}}}
 }
- 
-<span class="ck"># GOOD tool description — specific when/what/not</span>
+
+# GOOD tool description — specific when/what/not
 {
-    <span class="cs">"name"</span>: <span class="cs">"search_knowledge_base"</span>,
-    <span class="cs">"description"</span>: <span class="cs">"""Search the internal company knowledge base for product documentation,
+    "name": "search_knowledge_base",
+    "description": """Search the internal company knowledge base for product documentation,
 FAQs, and policy documents. Use this when the user asks about:
 - Product features or specifications
 - Company policies or procedures
 - Troubleshooting steps
- 
+
 Do NOT use this for: general knowledge questions, math calculations,
-or anything not related to company products and policies."""</span>,
-    <span class="cs">"input_schema"</span>: {
-        <span class="cs">"type"</span>: <span class="cs">"object"</span>,
-        <span class="cs">"properties"</span>: {
-            <span class="cs">"query"</span>: {
-                <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                <span class="cs">"description"</span>: <span class="cs">"Natural language search query, e.g. 'How do I reset my password?'"</span>
+or anything not related to company products and policies.""",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+                "description": "Natural language search query, e.g. 'How do I reset my password?'"
             },
-            <span class="cs">"category"</span>: {
-                <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                <span class="cs">"enum"</span>: [<span class="cs">"products"</span>, <span class="cs">"policies"</span>, <span class="cs">"support"</span>],
-                <span class="cs">"description"</span>: <span class="cs">"Filter results by category. Optional."</span>
+            "category": {
+                "type": "string",
+                "enum": ["products", "policies", "support"],
+                "description": "Filter results by category. Optional."
             }
         },
-        <span class="cs">"required"</span>: [<span class="cs">"query"</span>]
+        "required": ["query"]
     }
-}</pre></div>
-    <ul>
-      <li><strong>Name</strong> — self-explanatory verb: <code>search_knowledge_base</code> not <code>search</code></li>
-      <li><strong>Description</strong> — explain WHEN to call (not just what), give examples, and state when NOT to use it</li>
-      <li><strong>Parameters</strong> — include examples in descriptions: <code>"e.g. 'Mumbai', 'Delhi'"</code></li>
-      <li><strong>Required vs optional</strong> — mark truly optional params as optional with sensible defaults</li>
-    </ul>
+}
+```
+
+
+<ul>
+<li><strong>Name</strong> — self-explanatory verb: <code>search_knowledge_base</code> not <code>search</code></li>
+<li><strong>Description</strong> — explain WHEN to call (not just what), give examples, and state when NOT to use it</li>
+<li><strong>Parameters</strong> — include examples in descriptions: <code>"e.g. 'Mumbai', 'Delhi'"</code></li>
+<li><strong>Required vs optional</strong> — mark truly optional params as optional with sensible defaults</li>
+</ul>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>OpenAI Tool Calling</h3><span class="tag tag-orange">Syntax Differences</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from openai import OpenAI
+    
+
+```python
+from openai import OpenAI
 client = OpenAI()
- 
-<span class="ck"># OpenAI uses slightly different field names</span>
+
+# OpenAI uses slightly different field names
 tools = [{
-    <span class="cs">"type"</span>: <span class="cs">"function"</span>,                <span class="ck"># required wrapper</span>
-    <span class="cs">"function"</span>: {
-        <span class="cs">"name"</span>: <span class="cs">"get_weather"</span>,
-        <span class="cs">"description"</span>: <span class="cs">"Get current weather for a city"</span>,
-        <span class="cs">"parameters"</span>: {              <span class="ck"># "parameters" not "input_schema"</span>
-            <span class="cs">"type"</span>: <span class="cs">"object"</span>,
-            <span class="cs">"properties"</span>: {
-                <span class="cs">"city"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>}
+    "type": "function",                # required wrapper
+    "function": {
+        "name": "get_weather",
+        "description": "Get current weather for a city",
+        "parameters": {              # "parameters" not "input_schema"
+            "type": "object",
+            "properties": {
+                "city": {"type": "string"}
             },
-            <span class="cs">"required"</span>: [<span class="cs">"city"</span>]
+            "required": ["city"]
         }
     }
 }]
- 
+
 response = client.chat.completions.create(
-    model=<span class="cs">"gpt-4o"</span>,
+    model="gpt-4o",
     tools=tools,
-    tool_choice=<span class="cs">"auto"</span>,     <span class="ck"># "auto" | "required" | "none" | specific tool</span>
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Weather in Mumbai?"</span>}]
+    tool_choice="auto",     # "auto" | "required" | "none" | specific tool
+    messages=[{"role": "user", "content": "Weather in Mumbai?"}]
 )
- 
-<span class="ck"># Parse tool calls</span>
-message = response.choices[<span class="cv">0</span>].message
+
+# Parse tool calls
+message = response.choices[0].message
 if message.tool_calls:
     for tool_call in message.tool_calls:
         name = tool_call.function.name
         args = json.loads(tool_call.function.arguments)
-        <span class="ck"># Execute function based on name...</span></pre></div>
+        # Execute function based on name...
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -643,129 +715,151 @@ if message.tool_calls:
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🔁</span><h3>The Complete Tool Loop — Production Pattern</h3><span class="tag tag-indigo">Production</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import anthropic, json
+    
+
+```python
+import anthropic, json
 from typing import Any
- 
+
 client = anthropic.Anthropic()
- 
-<span class="ck"># Tool registry — maps name → function</span>
+
+# Tool registry — maps name → function
 TOOL_REGISTRY = {
-    <span class="cs">"get_weather"</span>:    get_weather,
-    <span class="cs">"calculate"</span>:      calculate,
-    <span class="cs">"search_notes"</span>:   search_notes,
+    "get_weather":    get_weather,
+    "calculate":      calculate,
+    "search_notes":   search_notes,
 }
- 
-def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="cv">10</span>) -> str:
+
+def run_tool_loop(user_message: str, tools: list, max_turns: int = 10) -> str:
     """Run a complete tool loop until the model produces a final text response."""
-    messages = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
- 
+    messages = [{"role": "user", "content": user_message}]
+
     for turn in range(max_turns):
         response = client.messages.create(
-            model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-            max_tokens=<span class="cv">4096</span>,
+            model="claude-3-5-sonnet-20241022",
+            max_tokens=4096,
             tools=tools,
             messages=messages
         )
- 
-        <span class="ck"># Check stop reason</span>
-        if response.stop_reason == <span class="cs">"end_turn"</span>:
-            <span class="ck"># Model finished — return text response</span>
+
+        # Check stop reason
+        if response.stop_reason == "end_turn":
+            # Model finished — return text response
             for block in response.content:
-                if hasattr(block, <span class="cs">"text"</span>):
+                if hasattr(block, "text"):
                     return block.text
-            return <span class="cs">""</span>
- 
-        if response.stop_reason != <span class="cs">"tool_use"</span>:
-            break   <span class="ck"># unexpected stop reason</span>
-        <span class="ck"># Append assistant message</span>
-        messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
- 
-        <span class="ck"># Execute all tool calls</span>
+            return ""
+
+        if response.stop_reason != "tool_use":
+            break   # unexpected stop reason
+
+        # Append assistant message
+        messages.append({"role": "assistant", "content": response.content})
+
+        # Execute all tool calls
         tool_results = []
         for block in response.content:
-            if block.type != <span class="cs">"tool_use"</span>:
+            if block.type != "tool_use":
                 continue
- 
+
             func = TOOL_REGISTRY.get(block.name)
             if func is None:
-                result = {<span class="cs">"error"</span>: <span class="cs">f"Unknown tool: {block.name}"</span>}
+                result = {"error": f"Unknown tool: {block.name}"}
             else:
                 try:
                     result = func(**block.input)
                 except Exception as e:
-                    result = {<span class="cs">"error"</span>: str(e), <span class="cs">"tool"</span>: block.name}
- 
+                    result = {"error": str(e), "tool": block.name}
+
             tool_results.append({
-                <span class="cs">"type"</span>:        <span class="cs">"tool_result"</span>,
-                <span class="cs">"tool_use_id"</span>: block.id,
-                <span class="cs">"content"</span>:     json.dumps(result)
+                "type":        "tool_result",
+                "tool_use_id": block.id,
+                "content":     json.dumps(result)
             })
- 
-        messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
- 
-    return <span class="cs">"Max turns reached without final response"</span>
-<span class="ck"># Usage</span>
+
+        messages.append({"role": "user", "content": tool_results})
+
+    return "Max turns reached without final response"
+
+# Usage
 answer = run_tool_loop(
-    <span class="cs">"What's the weather in Mumbai and Delhi? Which city is warmer?"</span>,
+    "What's the weather in Mumbai and Delhi? Which city is warmer?",
     tools=tools
 )
-print(answer)</pre></div>
+print(answer)
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>tool_choice — Controlling Which Tool Gets Called</h3><span class="tag tag-blue">Control</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Anthropic tool_choice options</span>
-<span class="ck"># "auto" (default) — model decides whether to use a tool or respond directly</span>
-tool_choice={<span class="cs">"type"</span>: <span class="cs">"auto"</span>}
- 
-<span class="ck"># "any" — model MUST call a tool (useful to force structured extraction)</span>
-tool_choice={<span class="cs">"type"</span>: <span class="cs">"any"</span>}
- 
-<span class="ck"># Specific tool — model MUST call this exact tool</span>
-tool_choice={<span class="cs">"type"</span>: <span class="cs">"tool"</span>, <span class="cs">"name"</span>: <span class="cs">"extract_invoice"</span>}
- 
-<span class="ck"># When to use each:</span>
-<span class="ck"># "auto"     — conversational agents where tool use is optional</span>
-<span class="ck"># "any"      — when you always need structured output (extraction pipelines)</span>
-<span class="ck"># specific   — when you know exactly which tool to force (single-purpose endpoints)</span>
-<span class="ck"># OpenAI equivalents</span>
-tool_choice = <span class="cs">"auto"</span>       <span class="ck"># let model decide</span>
-tool_choice = <span class="cs">"required"</span>   <span class="ck"># must use a tool (= Anthropic "any")</span>
-tool_choice = <span class="cs">"none"</span>       <span class="ck"># never use tools</span>
-tool_choice = {<span class="cs">"type"</span>: <span class="cs">"function"</span>, <span class="cs">"function"</span>: {<span class="cs">"name"</span>: <span class="cs">"get_weather"</span>}}  <span class="ck"># force specific</span></pre></div>
+    
+
+```python
+# Anthropic tool_choice options
+
+# "auto" (default) — model decides whether to use a tool or respond directly
+tool_choice={"type": "auto"}
+
+# "any" — model MUST call a tool (useful to force structured extraction)
+tool_choice={"type": "any"}
+
+# Specific tool — model MUST call this exact tool
+tool_choice={"type": "tool", "name": "extract_invoice"}
+
+# When to use each:
+# "auto"     — conversational agents where tool use is optional
+# "any"      — when you always need structured output (extraction pipelines)
+# specific   — when you know exactly which tool to force (single-purpose endpoints)
+
+# OpenAI equivalents
+tool_choice = "auto"       # let model decide
+tool_choice = "required"   # must use a tool (= Anthropic "any")
+tool_choice = "none"       # never use tools
+tool_choice = {"type": "function", "function": {"name": "get_weather"}}  # force specific
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Parallel Tool Calls</h3><span class="tag tag-teal">Performance</span></div>
   <div class="cp-body">
-    <p>Modern models can call multiple tools in a single turn. This is dramatically faster than sequential calls — instead of 3 round trips to the API, you do 1.</p>
-    <div class="cb"><pre><span class="ck"># The model may return multiple tool_use blocks in one response</span>
+<p>Modern models can call multiple tools in a single turn. This is dramatically faster than sequential calls — instead of 3 round trips to the API, you do 1.</p>
+    
+
+```python
+# The model may return multiple tool_use blocks in one response
 response = client.messages.create(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">1024</span>,
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1024,
     tools=tools,
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>,
-               <span class="cs">"content"</span>: <span class="cs">"Get weather for Mumbai, Delhi, and Bangalore"</span>}]
+    messages=[{"role": "user",
+               "content": "Get weather for Mumbai, Delhi, and Bangalore"}]
 )
- 
-<span class="ck"># response.content may contain 3 tool_use blocks simultaneously</span>
-<span class="ck"># Execute all of them, then send all results back at once</span>
- 
+
+# response.content may contain 3 tool_use blocks simultaneously
+# Execute all of them, then send all results back at once
+
 import asyncio
- 
+
 async def execute_tool_calls_parallel(tool_calls: list) -> list:
     """Execute multiple tool calls concurrently."""
     async def execute_one(block) -> dict:
         func = TOOL_REGISTRY.get(block.name)
         result = await asyncio.to_thread(func, **block.input)
         return {
-            <span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
-            <span class="cs">"tool_use_id"</span>: block.id,
-            <span class="cs">"content"</span>: json.dumps(result)
+            "type": "tool_result",
+            "tool_use_id": block.id,
+            "content": json.dumps(result)
         }
-    return await asyncio.gather(*[execute_one(b) for b in tool_calls])</pre></div>
-    <div class="ins"><p>💡 <strong>Parallel tool calls matter for agents.</strong> An agent researching 5 topics simultaneously via search tools is 5× faster than one that searches sequentially. Always process all tool_use blocks in a single response together, not one by one.</p></div>
+    return await asyncio.gather(*[execute_one(b) for b in tool_calls])
+```
+
+
+<div class="ins"><p>💡 <strong>Parallel tool calls matter for agents.</strong> An agent researching 5 topics simultaneously via search tools is 5× faster than one that searches sequentially. Always process all tool_use blocks in a single response together, not one by one.</p></div>
   </div>
 </div>
 </div><!-- end t4 -->
@@ -775,11 +869,11 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://platform.openai.com/docs/guides/structured-outputs" target="_blank" rel="noopener">OpenAI Structured Outputs Guide — platform.openai.com</a></td><td>Covers the feature that ensures models always generate responses adhering to your JSON Schema.</td></tr>
-    <tr><td class="res-type">Library</td><td><a href="https://python.useinstructor.com/" target="_blank" rel="noopener">Instructor library — python.useinstructor.com</a></td><td>The cleanest way to get structured outputs from any LLM provider. Production standard.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://platform.openai.com/docs/guides/function-calling" target="_blank" rel="noopener">OpenAI Function Calling Guide — platform.openai.com</a></td><td>Definitive reference for tool calling with OpenAI models.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use" target="_blank" rel="noopener">Anthropic Tool Use Docs — docs.anthropic.com</a></td><td>Anthropic's complete guide to tool calling with Claude.</td></tr>
-    <tr><td class="res-type">Notebook</td><td><a href="https://github.com/openai/openai-cookbook/blob/main/examples/How_to_call_functions_with_chat_models.ipynb" target="_blank" rel="noopener">OpenAI Cookbook: How to Call Functions — github.com/openai/openai-cookbook</a></td><td>Complete runnable notebook walking through the full tool-calling loop with real examples.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://platform.openai.com/docs/guides/structured-outputs" target="_blank" rel="noopener">OpenAI Structured Outputs Guide — platform.openai.com</a></td><td>Covers the feature that ensures models always generate responses adhering to your JSON Schema.</td></tr>
+<tr><td class="res-type">Library</td><td><a href="https://python.useinstructor.com/" target="_blank" rel="noopener">Instructor library — python.useinstructor.com</a></td><td>The cleanest way to get structured outputs from any LLM provider. Production standard.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://platform.openai.com/docs/guides/function-calling" target="_blank" rel="noopener">OpenAI Function Calling Guide — platform.openai.com</a></td><td>Definitive reference for tool calling with OpenAI models.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use" target="_blank" rel="noopener">Anthropic Tool Use Docs — docs.anthropic.com</a></td><td>Anthropic's complete guide to tool calling with Claude.</td></tr>
+<tr><td class="res-type">Notebook</td><td><a href="https://github.com/openai/openai-cookbook/blob/main/examples/How_to_call_functions_with_chat_models.ipynb" target="_blank" rel="noopener">OpenAI Cookbook: How to Call Functions — github.com/openai/openai-cookbook</a></td><td>Complete runnable notebook walking through the full tool-calling loop with real examples.</td></tr>
   </tbody>
 </table>
 </div><!-- end t5 -->
@@ -788,27 +882,27 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
 <p class="sep">MILESTONE PROJECT</p>
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Invoice Parser + 3-Tool Assistant</span>
-    <span class="proj-dur">[Intermediate] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Invoice Parser + 3-Tool Assistant</span>
+<span class="proj-dur">[Intermediate] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p><strong>Part A — Invoice Parser:</strong> Use Instructor to extract structured data from raw invoice text.</p>
-    <ul>
-      <li>Define a full Invoice Pydantic model: invoice_number, vendor, line_items (list), subtotal, tax_rate, total, due_date</li>
-      <li>Test on 5 different invoice text formats (different layouts, missing fields, different currencies)</li>
-      <li>Add field validators: total must equal subtotal * (1 + tax_rate), due_date must be valid ISO date</li>
-      <li>Observe Instructor's automatic retry behaviour when validation fails</li>
-    </ul>
-    <p><strong>Part B — 3-Tool Assistant:</strong> Build a conversational assistant with three callable tools.</p>
-    <ul>
-      <li><code>get_weather(city)</code> — calls Open-Meteo API (no key needed)</li>
-      <li><code>calculate(expression)</code> — evaluates math expressions safely</li>
-      <li><code>search_notes(query)</code> — searches a hardcoded dict of notes by keyword</li>
-      <li>Implement the full 5-step tool loop with parallel execution</li>
-      <li>Test with: "What's the weather in Mumbai?", "What is 15% of 8500?", "Find notes about Python", "What's the weather in Delhi and Mumbai, and which is warmer?" (parallel)</li>
-    </ul>
-    <p><strong>Skills:</strong> Pydantic, Instructor, field validators, Anthropic/OpenAI SDK, tool calling loop, parallel tool execution</p>
+<p><strong>Part A — Invoice Parser:</strong> Use Instructor to extract structured data from raw invoice text.</p>
+<ul>
+<li>Define a full Invoice Pydantic model: invoice_number, vendor, line_items (list), subtotal, tax_rate, total, due_date</li>
+<li>Test on 5 different invoice text formats (different layouts, missing fields, different currencies)</li>
+<li>Add field validators: total must equal subtotal * (1 + tax_rate), due_date must be valid ISO date</li>
+<li>Observe Instructor's automatic retry behaviour when validation fails</li>
+</ul>
+<p><strong>Part B — 3-Tool Assistant:</strong> Build a conversational assistant with three callable tools.</p>
+<ul>
+<li><code>get_weather(city)</code> — calls Open-Meteo API (no key needed)</li>
+<li><code>calculate(expression)</code> — evaluates math expressions safely</li>
+<li><code>search_notes(query)</code> — searches a hardcoded dict of notes by keyword</li>
+<li>Implement the full 5-step tool loop with parallel execution</li>
+<li>Test with: "What's the weather in Mumbai?", "What is 15% of 8500?", "Find notes about Python", "What's the weather in Delhi and Mumbai, and which is warmer?" (parallel)</li>
+</ul>
+<p><strong>Skills:</strong> Pydantic, Instructor, field validators, Anthropic/OpenAI SDK, tool calling loop, parallel tool execution</p>
   </div>
 </div>
 </div><!-- end t6 -->
@@ -817,34 +911,34 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Structured Extraction — Compare JSON Mode vs Instructor</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Directly observe what structured outputs guarantee vs what JSON mode does not.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Build a Contact extractor: name (str), email (str), phone (Optional[str]), company (Optional[str]). Use the same 10 test inputs: some with all fields, some with missing fields, one with malformed email, one with phone in different formats.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div><strong>Version A:</strong> JSON mode only — parse the response text with json.loads(). Run all 10 inputs. Count: how many parsed successfully? How many had wrong types? How many were missing required fields?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div><strong>Version B:</strong> Instructor with Pydantic model. Run the same 10 inputs. Count the same metrics. Compare.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add a validator that normalises phone numbers to E.164 format (+91XXXXXXXXXX). Watch Instructor retry when the model returns "9876543210" (not E.164). Count how many retries occurred across all 10 inputs.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> What failure modes did JSON mode have that Instructor caught? When is JSON mode "good enough"?</div></div>
+<p><strong>Objective:</strong> Directly observe what structured outputs guarantee vs what JSON mode does not.</p>
+<div class="lab-step"><div class="sn">1</div><div>Build a Contact extractor: name (str), email (str), phone (Optional[str]), company (Optional[str]). Use the same 10 test inputs: some with all fields, some with missing fields, one with malformed email, one with phone in different formats.</div></div>
+<div class="lab-step"><div class="sn">2</div><div><strong>Version A:</strong> JSON mode only — parse the response text with json.loads(). Run all 10 inputs. Count: how many parsed successfully? How many had wrong types? How many were missing required fields?</div></div>
+<div class="lab-step"><div class="sn">3</div><div><strong>Version B:</strong> Instructor with Pydantic model. Run the same 10 inputs. Count the same metrics. Compare.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add a validator that normalises phone numbers to E.164 format (+91XXXXXXXXXX). Watch Instructor retry when the model returns "9876543210" (not E.164). Count how many retries occurred across all 10 inputs.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> What failure modes did JSON mode have that Instructor caught? When is JSON mode "good enough"?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Tool Description Quality — See How It Affects Selection</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Empirically measure how tool description quality affects which tool the model selects.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create 3 tools: get_weather, search_docs, calculate. Write <strong>Version A</strong> with minimal descriptions (just the tool name and one line).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Test 10 ambiguous messages that could fit multiple tools: "How much is 28 degrees in Fahrenheit?", "Find information about temperature limits in the docs", "What is the current temperature in Mumbai?" Record which tool was selected each time.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Write <strong>Version B</strong> with full descriptions including "Use when:", "Do NOT use when:", examples in parameter descriptions. Run the same 10 messages.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Compare selections. How many changed? Which changes were improvements? Document the 3 most impactful improvements you made to descriptions.</div></div>
+<p><strong>Objective:</strong> Empirically measure how tool description quality affects which tool the model selects.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create 3 tools: get_weather, search_docs, calculate. Write <strong>Version A</strong> with minimal descriptions (just the tool name and one line).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Test 10 ambiguous messages that could fit multiple tools: "How much is 28 degrees in Fahrenheit?", "Find information about temperature limits in the docs", "What is the current temperature in Mumbai?" Record which tool was selected each time.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Write <strong>Version B</strong> with full descriptions including "Use when:", "Do NOT use when:", examples in parameter descriptions. Run the same 10 messages.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Compare selections. How many changed? Which changes were improvements? Document the 3 most impactful improvements you made to descriptions.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Build and Test the Complete Tool Loop</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build the complete production tool loop and test every edge case.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the <code>run_tool_loop()</code> function from Tab 4 with the 3 tools (weather, calculate, search_notes).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Test happy path: "What's 20% tip on a ₹2400 bill?" — should call calculate and return a clear answer.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Test no-tool path: "What is the capital of France?" — model should answer directly without calling any tool. Verify stop_reason == "end_turn" on the first turn.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test parallel calls: "What is the weather in Mumbai, Delhi, and Bangalore?" — should trigger 3 simultaneous tool_use blocks in one response. Verify all 3 are executed before the next API call.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Test error handling: make get_weather() raise an exception for "InvalidCity". Does the model gracefully handle the error in the tool_result? What does it tell the user?</div></div>
-    <div class="lab-step"><div class="sn">6</div><div>Test max_turns: give the model a tool that always returns "try again" and verify the loop terminates at max_turns rather than running forever.</div></div>
+<p><strong>Objective:</strong> Build the complete production tool loop and test every edge case.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the <code>run_tool_loop()</code> function from Tab 4 with the 3 tools (weather, calculate, search_notes).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Test happy path: "What's 20% tip on a ₹2400 bill?" — should call calculate and return a clear answer.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Test no-tool path: "What is the capital of France?" — model should answer directly without calling any tool. Verify stop_reason == "end_turn" on the first turn.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test parallel calls: "What is the weather in Mumbai, Delhi, and Bangalore?" — should trigger 3 simultaneous tool_use blocks in one response. Verify all 3 are executed before the next API call.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Test error handling: make get_weather() raise an exception for "InvalidCity". Does the model gracefully handle the error in the tool_result? What does it tell the user?</div></div>
+<div class="lab-step"><div class="sn">6</div><div>Test max_turns: give the model a tool that always returns "try again" and verify the loop terminates at max_turns rather than running forever.</div></div>
   </div>
 </div>
 </div><!-- end t7 -->

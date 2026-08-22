@@ -83,10 +83,10 @@ url: /learning/networking-mastery/m24-dpi/
   <div class="mod-title">🔬 Deep Packet Inspection and Application Identification</div>
   <div class="mod-subtitle">DPI architecture · Pattern matching engines · Aho-Corasick · TLS fingerprinting · App identification · Evasion techniques · Hyperscan · Per-flow DPI state</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M23 Conntrack</span>
-    <span class="mod-pill">Core NGFW Differentiator</span>
-    <span class="mod-pill">3 Labs</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M23 Conntrack</span>
+<span class="mod-pill">Core NGFW Differentiator</span>
+<span class="mod-pill">3 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -107,17 +107,17 @@ url: /learning/networking-mastery/m24-dpi/
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>What DPI Is and Why It Matters</h3><span class="tag tag-green">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>Deep Packet Inspection (DPI) is the analysis of packet payloads beyond the IP/TCP/UDP headers — examining application-layer content. Where conntrack tracks flow state, DPI understands what application is running inside the flow and what it's doing. DPI is what separates a "next-generation" firewall from a traditional stateful firewall.</p>
-    <p><strong>What DPI enables that conntrack alone cannot:</strong></p>
-    <ul>
-      <li><strong>Application identification</strong> — distinguish Netflix vs YouTube vs general HTTPS, BitTorrent vs FTP, Zoom vs generic UDP</li>
-      <li><strong>URL filtering with path accuracy</strong> — block example.com/malware.exe while allowing example.com/homepage</li>
-      <li><strong>Malware payload detection</strong> — match signatures of known malware C2 protocols, exploit payloads, backdoor communication patterns</li>
-      <li><strong>Data Loss Prevention (DLP)</strong> — detect credit card numbers, NIN/PAN, source code patterns, confidential keywords in cleartext traffic</li>
-      <li><strong>Protocol anomaly detection</strong> — DNS over HTTPS that isn't really DNS, tunnelling in legitimate protocol wrappers (DNS tunnelling, ICMP tunnelling)</li>
-      <li><strong>Bandwidth management</strong> — rate-limit P2P, throttle video streaming, prioritise VoIP — but only if you can tell them apart</li>
-    </ul>
-    <p><strong>DPI challenges:</strong> inspecting every byte of every packet at line rate (10–100 Gbps) while maintaining per-flow reassembled context is computationally expensive. The key is making the common case (established, known-good, classified flow) as fast as possible — and only doing deep work on new or suspicious flows.</p>
+<p>Deep Packet Inspection (DPI) is the analysis of packet payloads beyond the IP/TCP/UDP headers — examining application-layer content. Where conntrack tracks flow state, DPI understands what application is running inside the flow and what it's doing. DPI is what separates a "next-generation" firewall from a traditional stateful firewall.</p>
+<p><strong>What DPI enables that conntrack alone cannot:</strong></p>
+<ul>
+<li><strong>Application identification</strong> — distinguish Netflix vs YouTube vs general HTTPS, BitTorrent vs FTP, Zoom vs generic UDP</li>
+<li><strong>URL filtering with path accuracy</strong> — block example.com/malware.exe while allowing example.com/homepage</li>
+<li><strong>Malware payload detection</strong> — match signatures of known malware C2 protocols, exploit payloads, backdoor communication patterns</li>
+<li><strong>Data Loss Prevention (DLP)</strong> — detect credit card numbers, NIN/PAN, source code patterns, confidential keywords in cleartext traffic</li>
+<li><strong>Protocol anomaly detection</strong> — DNS over HTTPS that isn't really DNS, tunnelling in legitimate protocol wrappers (DNS tunnelling, ICMP tunnelling)</li>
+<li><strong>Bandwidth management</strong> — rate-limit P2P, throttle video streaming, prioritise VoIP — but only if you can tell them apart</li>
+</ul>
+<p><strong>DPI challenges:</strong> inspecting every byte of every packet at line rate (10–100 Gbps) while maintaining per-flow reassembled context is computationally expensive. The key is making the common case (established, known-good, classified flow) as fast as possible — and only doing deep work on new or suspicious flows.</p>
   </div>
 </div>
 <div class="cp p-blue">
@@ -178,18 +178,18 @@ typedef struct dpi_state {
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>String Matching Algorithms Compared</h3><span class="tag tag-blue">ALGORITHMS</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Algorithm</th><th>Time Complexity</th><th>Best For</th><th>NGFW Use</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Naive search</strong></td><td>O(n × m) per pattern</td><td>Single pattern, prototyping</td><td>Never — too slow at scale</td></tr>
-        <tr><td><strong>Boyer-Moore-Horspool</strong></td><td>O(n/m) average, O(nm) worst</td><td>Single pattern, long patterns</td><td>Useful for specific long strings (file headers)</td></tr>
-        <tr><td><strong>Aho-Corasick</strong></td><td>O(n + m + z) total (n=text, m=patterns, z=matches)</td><td>Multiple patterns simultaneously</td><td>Core of most open-source IDS (Snort, Suricata)</td></tr>
-        <tr><td><strong>Wu-Manber</strong></td><td>O(n × B/m) typical</td><td>Many short patterns with same prefix</td><td>Virus scanning engines</td></tr>
-        <tr><td><strong>Hyperscan (Intel)</strong></td><td>O(n) with SIMD acceleration</td><td>Large regex rule sets, SIMD parallelism</td><td>State-of-the-art for NGFW — Snort 3, VPP</td></tr>
-        <tr><td><strong>RE2 / PCRE2</strong></td><td>O(n) RE2, O(2^n) worst PCRE</td><td>Complex regex — RE2 is linear guaranteed</td><td>Complex patterns; avoid PCRE in hot path</td></tr>
-        <tr><td><strong>Bloom filter pre-filter</strong></td><td>O(1) per byte — probabilistic</td><td>Fast elimination of non-matching flows</td><td>First stage: if bloom says no-match, skip Aho-Corasick entirely</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Algorithm</th><th>Time Complexity</th><th>Best For</th><th>NGFW Use</th></tr></thead>
+<tbody>
+<tr><td><strong>Naive search</strong></td><td>O(n × m) per pattern</td><td>Single pattern, prototyping</td><td>Never — too slow at scale</td></tr>
+<tr><td><strong>Boyer-Moore-Horspool</strong></td><td>O(n/m) average, O(nm) worst</td><td>Single pattern, long patterns</td><td>Useful for specific long strings (file headers)</td></tr>
+<tr><td><strong>Aho-Corasick</strong></td><td>O(n + m + z) total (n=text, m=patterns, z=matches)</td><td>Multiple patterns simultaneously</td><td>Core of most open-source IDS (Snort, Suricata)</td></tr>
+<tr><td><strong>Wu-Manber</strong></td><td>O(n × B/m) typical</td><td>Many short patterns with same prefix</td><td>Virus scanning engines</td></tr>
+<tr><td><strong>Hyperscan (Intel)</strong></td><td>O(n) with SIMD acceleration</td><td>Large regex rule sets, SIMD parallelism</td><td>State-of-the-art for NGFW — Snort 3, VPP</td></tr>
+<tr><td><strong>RE2 / PCRE2</strong></td><td>O(n) RE2, O(2^n) worst PCRE</td><td>Complex regex — RE2 is linear guaranteed</td><td>Complex patterns; avoid PCRE in hot path</td></tr>
+<tr><td><strong>Bloom filter pre-filter</strong></td><td>O(1) per byte — probabilistic</td><td>Fast elimination of non-matching flows</td><td>First stage: if bloom says no-match, skip Aho-Corasick entirely</td></tr>
+</tbody>
+</table>
 <div class="cb"><pre>/* Why Aho-Corasick is the standard for multi-pattern matching */
  
 Problem: we have 50,000 signatures. For each packet payload:
@@ -313,7 +313,7 @@ void dpi_process_segment(dpi_state_t *dpi, const uint8_t *data, size_t len) {
     ac_search_stateful(&dpi->ac_state, data, len, match_cb, dpi);
     /* dpi->ac_state is preserved between calls */
 }</pre></div>
-    <div class="ins"><p>💡 <strong>Carrying automaton state across TCP segments is essential for NGFW DPI.</strong> An attacker can split a signature like <code>SELECT * FROM users</code> across two TCP segments with the split in the middle — segment 1 ends with "SELECT * FR" and segment 2 starts with "OM users". A DPI engine that only inspects individual packets never sees the complete signature. The correct approach: save the automaton state at the end of each segment and restore it at the start of the next segment of the same flow.</p></div>
+<div class="ins"><p>💡 <strong>Carrying automaton state across TCP segments is essential for NGFW DPI.</strong> An attacker can split a signature like <code>SELECT * FROM users</code> across two TCP segments with the split in the middle — segment 1 ends with "SELECT * FR" and segment 2 starts with "OM users". A DPI engine that only inspects individual packets never sees the complete signature. The correct approach: save the automaton state at the end of each segment and restore it at the start of the next segment of the same flow.</p></div>
   </div>
 </div>
 </div>
@@ -322,7 +322,7 @@ void dpi_process_segment(dpi_state_t *dpi, const uint8_t *data, size_t len) {
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Hyperscan Architecture and NGFW Integration</h3><span class="tag tag-purple">HYPERSCAN</span></div>
   <div class="cp-body">
-    <p>Hyperscan (open-sourced by Intel in 2015, now a Linux Foundation project as Vectorscan) is the most advanced pattern matching library for network security. It compiles regular expressions and string patterns into SIMD-accelerated finite automata that run at near-memory-bandwidth speed.</p>
+<p>Hyperscan (open-sourced by Intel in 2015, now a Linux Foundation project as Vectorscan) is the most advanced pattern matching library for network security. It compiles regular expressions and string patterns into SIMD-accelerated finite automata that run at near-memory-bandwidth speed.</p>
 <div class="cb"><pre>/* Hyperscan: key features */
 - Compiles regex patterns to SIMD automata at startup
 - Uses SSE4.2 / AVX2 / AVX-512 to match 16/32/64 bytes per cycle
@@ -622,19 +622,19 @@ known_malware_ja3 = {
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>How Attackers Evade DPI</h3><span class="tag tag-red">EVASION</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Evasion Technique</th><th>How It Works</th><th>Countermeasure</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Signature splitting</strong></td><td>Split a known signature across two TCP segments so no single packet contains the full match: "SELECT * FR" + "OM users --"</td><td>TCP stream reassembly before pattern matching. Carry Aho-Corasick/Hyperscan state across segments.</td></tr>
-        <tr><td><strong>Fragmentation</strong></td><td>Split signature across IP fragments. DPI engine only sees fragments, not reassembled payload.</td><td>IP reassembly before DPI. Track fragment IDs; buffer until complete packet.</td></tr>
-        <tr><td><strong>Encoding variations</strong></td><td>URL-encode (%41 = A), double-encode, Unicode normalisation. "SELECT" → "%53ELECT" → not matched by literal signature.</td><td>Normalise payload before matching: URL-decode, HTML-decode, Unicode normalise. Multi-layer decode loop.</td></tr>
-        <tr><td><strong>Case variations</strong></td><td>"sElEcT * fRoM" — case-insensitive matching not applied.</td><td>Use case-insensitive flags in all pattern matches. HYPERSCAN: HS_FLAG_CASELESS.</td></tr>
-        <tr><td><strong>Insertion attacks</strong></td><td>Send a packet with bad checksum or TTL=1 between the split signature — DPI engine sees the bad packet; the endpoint ignores it and reassembles the signature cleanly.</td><td>Normalise TTL (set consistent value), validate checksums before DPI. Drop or ignore bad-checksum packets before inspection.</td></tr>
-        <tr><td><strong>Tunnelling</strong></td><td>Wrap C2 traffic in allowed protocol (DNS, HTTPS, ICMP). DPI sees allowed outer protocol, not C2 inner content.</td><td>Behavioural analysis: query frequency, label entropy (DNS tunnelling), timing patterns. Without SSL inspection: JA3 + certificate analysis.</td></tr>
-        <tr><td><strong>Protocol switching</strong></td><td>Use a port or protocol the NGFW treats as trusted: port 443, HTTP/2, QUIC. Hope inspection is less thorough or disabled.</td><td>Apply same DPI rules regardless of port. Force HTTPS inspection. Block QUIC UDP 443 if inspection not available.</td></tr>
-        <tr><td><strong>Polymorphic payload</strong></td><td>Malware generates unique C2 protocol per infection using a cryptographic key. No fixed signature exists.</td><td>Behavioural detection: beacon timing analysis, connection frequency, data volume patterns, ML anomaly detection.</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Evasion Technique</th><th>How It Works</th><th>Countermeasure</th></tr></thead>
+<tbody>
+<tr><td><strong>Signature splitting</strong></td><td>Split a known signature across two TCP segments so no single packet contains the full match: "SELECT * FR" + "OM users --"</td><td>TCP stream reassembly before pattern matching. Carry Aho-Corasick/Hyperscan state across segments.</td></tr>
+<tr><td><strong>Fragmentation</strong></td><td>Split signature across IP fragments. DPI engine only sees fragments, not reassembled payload.</td><td>IP reassembly before DPI. Track fragment IDs; buffer until complete packet.</td></tr>
+<tr><td><strong>Encoding variations</strong></td><td>URL-encode (%41 = A), double-encode, Unicode normalisation. "SELECT" → "%53ELECT" → not matched by literal signature.</td><td>Normalise payload before matching: URL-decode, HTML-decode, Unicode normalise. Multi-layer decode loop.</td></tr>
+<tr><td><strong>Case variations</strong></td><td>"sElEcT * fRoM" — case-insensitive matching not applied.</td><td>Use case-insensitive flags in all pattern matches. HYPERSCAN: HS_FLAG_CASELESS.</td></tr>
+<tr><td><strong>Insertion attacks</strong></td><td>Send a packet with bad checksum or TTL=1 between the split signature — DPI engine sees the bad packet; the endpoint ignores it and reassembles the signature cleanly.</td><td>Normalise TTL (set consistent value), validate checksums before DPI. Drop or ignore bad-checksum packets before inspection.</td></tr>
+<tr><td><strong>Tunnelling</strong></td><td>Wrap C2 traffic in allowed protocol (DNS, HTTPS, ICMP). DPI sees allowed outer protocol, not C2 inner content.</td><td>Behavioural analysis: query frequency, label entropy (DNS tunnelling), timing patterns. Without SSL inspection: JA3 + certificate analysis.</td></tr>
+<tr><td><strong>Protocol switching</strong></td><td>Use a port or protocol the NGFW treats as trusted: port 443, HTTP/2, QUIC. Hope inspection is less thorough or disabled.</td><td>Apply same DPI rules regardless of port. Force HTTPS inspection. Block QUIC UDP 443 if inspection not available.</td></tr>
+<tr><td><strong>Polymorphic payload</strong></td><td>Malware generates unique C2 protocol per infection using a cryptographic key. No fixed signature exists.</td><td>Behavioural detection: beacon timing analysis, connection frequency, data volume patterns, ML anomaly detection.</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -728,33 +728,33 @@ void dpi_session_destroy(session_t *s) {
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Aho-Corasick Multi-Pattern Matching Engine</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a complete Aho-Corasick engine from scratch. Test it against a realistic DPI signature set. Verify cross-segment matching works correctly.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the trie insertion and failure link computation (BFS) as shown in Tab 2. Use a flat array of ac_node_t structs with pre-allocated pool — avoid dynamic allocation per node. Test with a simple set: patterns "he", "she", "his", "hers". Verify they match correctly in "ushers": matches at positions 1(she), 2(he), 5(hers).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add 100 real NGFW-style patterns: SQL injection keywords, XSS patterns, file headers (PE: MZ\x90, ELF: \x7fELF, PDF: %PDF), and common malware strings. Load them into your AC engine. Run on a 1MB HTTP log file and count match frequencies per signature.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Implement stateful cross-segment matching: split a known SQL injection string "UNION SELECT password FROM users" into 8 random-length chunks. Verify that processing all chunks sequentially with the saved automaton state produces the same match as processing the full string. Then test with a signature that starts at the end of chunk 3 and ends at the start of chunk 4 — this is the critical evasion scenario.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Benchmark: build AC trie for 1000 patterns (varying lengths 5–30 bytes). Process 10MB of mixed HTTP/DNS/TLS traffic at maximum speed. Measure: throughput in MB/s, average matches per KB, memory usage for the trie. Then compare with a naive multi-pattern search (nested loops) — document the speedup.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Evasion test:</strong> take 5 known signatures and create evaded variants: (a) URL-encode one character, (b) split across two segments, (c) change case, (d) insert extra whitespace. Which evasions bypass your current engine? What changes would detect each? Implement URL decode as a pre-processing step and rerun.</div></div>
+<p><strong>Objective:</strong> Build a complete Aho-Corasick engine from scratch. Test it against a realistic DPI signature set. Verify cross-segment matching works correctly.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the trie insertion and failure link computation (BFS) as shown in Tab 2. Use a flat array of ac_node_t structs with pre-allocated pool — avoid dynamic allocation per node. Test with a simple set: patterns "he", "she", "his", "hers". Verify they match correctly in "ushers": matches at positions 1(she), 2(he), 5(hers).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add 100 real NGFW-style patterns: SQL injection keywords, XSS patterns, file headers (PE: MZ\x90, ELF: \x7fELF, PDF: %PDF), and common malware strings. Load them into your AC engine. Run on a 1MB HTTP log file and count match frequencies per signature.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Implement stateful cross-segment matching: split a known SQL injection string "UNION SELECT password FROM users" into 8 random-length chunks. Verify that processing all chunks sequentially with the saved automaton state produces the same match as processing the full string. Then test with a signature that starts at the end of chunk 3 and ends at the start of chunk 4 — this is the critical evasion scenario.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Benchmark: build AC trie for 1000 patterns (varying lengths 5–30 bytes). Process 10MB of mixed HTTP/DNS/TLS traffic at maximum speed. Measure: throughput in MB/s, average matches per KB, memory usage for the trie. Then compare with a naive multi-pattern search (nested loops) — document the speedup.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Evasion test:</strong> take 5 known signatures and create evaded variants: (a) URL-encode one character, (b) split across two segments, (c) change case, (d) insert extra whitespace. Which evasions bypass your current engine? What changes would detect each? Implement URL decode as a pre-processing step and rerun.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>HTTP and DNS Protocol Dissector</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build production-quality HTTP and DNS dissectors. Integrate with your M23 session table. Test on real captured traffic.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the HTTP/1.1 request dissector from Tab 4. Test exhaustively: normal GET/POST, chunked encoding, headers split across packets, 100-continue handshake, pipelining (multiple requests in one TCP segment). For each case, verify the dissector correctly extracts method, URL, Host, User-Agent, Content-Type.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add HTTP response dissection: parse status code, Content-Type, Content-Length, Set-Cookie, Location (for redirects). Test on responses to your requests from Lab 2. For a 301 redirect, verify the Location header is parsed and the dissector could follow it (implement redirect tracking in session).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Implement the DNS dissector from Tab 4. Handle: A, AAAA, CNAME, MX, TXT queries; label compression pointers (RFC 1035 §4.1.4); truncated responses (TC=1 flag); EDNS0 OPT pseudo-RR; DNSSEC-related record types. Test against a 10,000-packet DNS capture from a real network.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>DLP rule: scan HTTP POST bodies for patterns matching credit card numbers (Luhn algorithm), Indian PAN numbers (ABCDE1234F format), and Aadhaar numbers (12-digit). Generate test HTTP traffic that contains these patterns. Verify detection. Implement the Luhn checksum verifier to reduce false positives.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Integrate with your M23 session table: when the HTTP dissector identifies an application (Host header → known service), update session->app_id. When DNS reveals a new domain being queried, look it up in a threat intel database (use a simple in-memory hash of known-bad domains). Log a threat if found.</div></div>
+<p><strong>Objective:</strong> Build production-quality HTTP and DNS dissectors. Integrate with your M23 session table. Test on real captured traffic.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the HTTP/1.1 request dissector from Tab 4. Test exhaustively: normal GET/POST, chunked encoding, headers split across packets, 100-continue handshake, pipelining (multiple requests in one TCP segment). For each case, verify the dissector correctly extracts method, URL, Host, User-Agent, Content-Type.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add HTTP response dissection: parse status code, Content-Type, Content-Length, Set-Cookie, Location (for redirects). Test on responses to your requests from Lab 2. For a 301 redirect, verify the Location header is parsed and the dissector could follow it (implement redirect tracking in session).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Implement the DNS dissector from Tab 4. Handle: A, AAAA, CNAME, MX, TXT queries; label compression pointers (RFC 1035 §4.1.4); truncated responses (TC=1 flag); EDNS0 OPT pseudo-RR; DNSSEC-related record types. Test against a 10,000-packet DNS capture from a real network.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>DLP rule: scan HTTP POST bodies for patterns matching credit card numbers (Luhn algorithm), Indian PAN numbers (ABCDE1234F format), and Aadhaar numbers (12-digit). Generate test HTTP traffic that contains these patterns. Verify detection. Implement the Luhn checksum verifier to reduce false positives.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Integrate with your M23 session table: when the HTTP dissector identifies an application (Host header → known service), update session->app_id. When DNS reveals a new domain being queried, look it up in a threat intel database (use a simple in-memory hash of known-bad domains). Log a threat if found.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>TLS Fingerprinting and JA3 Calculator</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Implement JA3 fingerprinting from raw TLS ClientHello packets. Build a database of known fingerprints and test against real traffic.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a TLS ClientHello parser: given the raw bytes of a TLS record (type=22, msg_type=1), extract all the fields needed for JA3: SSL version, cipher suites list, extension type list, supported groups, EC point formats. Handle: extensions in any order, missing extensions (set to empty string), GREASE values (0x?A?A) which must be excluded from JA3.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Implement JA3 string construction and MD5 hashing. Verify your implementation against known test vectors: capture a ClientHello from Chrome, Firefox, and curl. Compute JA3 hashes. Compare with online JA3 calculators (ja3er.com or Wireshark's ja3 dissector plugin) to verify correctness.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Build a JA3 threat database: download the ja3-fingerprints.csv from a public repository (GitHub: salesforce/ja3). Load into a hash table. Process a 100,000-packet TLS pcap. For each ClientHello, compute JA3 and look up in your database. Report: how many distinct JA3 hashes? How many match known malware families? How many are unrecognised?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Also extract JA3S (server fingerprint) from ServerHello packets. Track JA3+JA3S pairs per connection. Look for anomalies: the same JA3 (same client) connecting to many different servers — could be a malware scanner. Implement a simple anomaly score: JA3s with >100 unique server contacts in 1 hour get flagged.</div></div>
+<p><strong>Objective:</strong> Implement JA3 fingerprinting from raw TLS ClientHello packets. Build a database of known fingerprints and test against real traffic.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write a TLS ClientHello parser: given the raw bytes of a TLS record (type=22, msg_type=1), extract all the fields needed for JA3: SSL version, cipher suites list, extension type list, supported groups, EC point formats. Handle: extensions in any order, missing extensions (set to empty string), GREASE values (0x?A?A) which must be excluded from JA3.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Implement JA3 string construction and MD5 hashing. Verify your implementation against known test vectors: capture a ClientHello from Chrome, Firefox, and curl. Compute JA3 hashes. Compare with online JA3 calculators (ja3er.com or Wireshark's ja3 dissector plugin) to verify correctness.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Build a JA3 threat database: download the ja3-fingerprints.csv from a public repository (GitHub: salesforce/ja3). Load into a hash table. Process a 100,000-packet TLS pcap. For each ClientHello, compute JA3 and look up in your database. Report: how many distinct JA3 hashes? How many match known malware families? How many are unrecognised?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Also extract JA3S (server fingerprint) from ServerHello packets. Track JA3+JA3S pairs per connection. Look for anomalies: the same JA3 (same client) connecting to many different servers — could be a malware scanner. Implement a simple anomaly score: JA3s with >100 unique server contacts in 1 hour get flagged.</div></div>
   </div>
 </div>
 </div>

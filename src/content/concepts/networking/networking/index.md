@@ -25,7 +25,7 @@ url: /learning/networking/
 </div>
 <div style="text-align:center;margin-top:2.5rem;">
   <a href="/" class="btn-crosslink">
-    <span style="font-size:1.3rem;">🏠</span> Back to Home
+<span style="font-size:1.3rem;">🏠</span> Back to Home
   </a>
 </div>
 

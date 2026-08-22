@@ -83,10 +83,10 @@ url: /learning/networking-mastery/m25-ids-ips/
   <div class="mod-title">🚨 IDS/IPS and Threat Detection</div>
   <div class="mod-subtitle">IDS vs IPS · Snort rule syntax · Suricata architecture · Anomaly detection · Beacon detection · Threat intelligence · Network anomaly scoring · Alert tuning</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M24 DPI</span>
-    <span class="mod-pill">Defensive Security Core</span>
-    <span class="mod-pill">3 Labs</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M24 DPI</span>
+<span class="mod-pill">Defensive Security Core</span>
+<span class="mod-pill">3 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -106,41 +106,41 @@ url: /learning/networking-mastery/m25-ids-ips/
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>IDS, IPS, and Their Role in NGFW</h3><span class="tag tag-red">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>An IDS (Intrusion Detection System) observes network traffic and generates alerts when suspicious patterns are found — it does not block. An IPS (Intrusion Prevention System) sits inline and can drop, reset, or redirect traffic in real time. Modern NGFWs incorporate IPS as a feature — the same engine that does conntrack and NAT also applies IPS rules inline.</p>
-    <div class="two-col">
-      <div>
-        <h4>IDS (Detection Only)</h4>
-        <ul>
-          <li>Passive tap or SPAN port — not in traffic path</li>
-          <li>No impact on network performance or availability</li>
-          <li>Cannot block — only alert</li>
-          <li>False positives: annoying but not disruptive</li>
-          <li>Use: visibility and logging, SOC analytics</li>
-          <li>Tools: Zeek (Bro), Suricata in IDS mode</li>
-        </ul>
-      </div>
-      <div>
-        <h4>IPS (Prevention Inline)</h4>
-        <ul>
-          <li>Inline in traffic path — all packets traverse it</li>
-          <li>Can block, reset connections, quarantine</li>
-          <li>False positives = blocking legitimate traffic (critical)</li>
-          <li>False negatives = missed attacks (also critical)</li>
-          <li>Performance matters: adds latency if slow</li>
-          <li>Tools: Snort 3, Suricata in IPS mode, NGFW built-in IPS</li>
-        </ul>
-      </div>
-    </div>
-    <h4>Detection Methods — Complementary Approaches</h4>
-    <table class="t-table">
-      <thead><tr><th>Method</th><th>Detects</th><th>Misses</th><th>False Positive Rate</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Signature-based</strong></td><td>Known malware, known exploits, known C2 protocols</td><td>Zero-day, novel variants, obfuscated/encrypted threats</td><td>Low (if signatures well-maintained)</td></tr>
-        <tr><td><strong>Anomaly-based</strong></td><td>Novel attacks that deviate from baseline behaviour</td><td>Attacks that mimic normal traffic patterns</td><td>High (requires careful tuning)</td></tr>
-        <tr><td><strong>Heuristic / behavioural</strong></td><td>Patterns of suspicious behaviour: port scans, beacons, lateral movement</td><td>Slow/stealthy attackers that stay under thresholds</td><td>Medium</td></tr>
-        <tr><td><strong>Threat intelligence (IoC)</strong></td><td>Known bad IPs, domains, hashes, URLs</td><td>New IoCs not yet in feeds, fast-flux infrastructure</td><td>Very low (IoCs are highly specific)</td></tr>
-      </tbody>
-    </table>
+<p>An IDS (Intrusion Detection System) observes network traffic and generates alerts when suspicious patterns are found — it does not block. An IPS (Intrusion Prevention System) sits inline and can drop, reset, or redirect traffic in real time. Modern NGFWs incorporate IPS as a feature — the same engine that does conntrack and NAT also applies IPS rules inline.</p>
+<div class="two-col">
+<div>
+<h4>IDS (Detection Only)</h4>
+<ul>
+<li>Passive tap or SPAN port — not in traffic path</li>
+<li>No impact on network performance or availability</li>
+<li>Cannot block — only alert</li>
+<li>False positives: annoying but not disruptive</li>
+<li>Use: visibility and logging, SOC analytics</li>
+<li>Tools: Zeek (Bro), Suricata in IDS mode</li>
+</ul>
+</div>
+<div>
+<h4>IPS (Prevention Inline)</h4>
+<ul>
+<li>Inline in traffic path — all packets traverse it</li>
+<li>Can block, reset connections, quarantine</li>
+<li>False positives = blocking legitimate traffic (critical)</li>
+<li>False negatives = missed attacks (also critical)</li>
+<li>Performance matters: adds latency if slow</li>
+<li>Tools: Snort 3, Suricata in IPS mode, NGFW built-in IPS</li>
+</ul>
+</div>
+</div>
+<h4>Detection Methods — Complementary Approaches</h4>
+<table class="t-table">
+<thead><tr><th>Method</th><th>Detects</th><th>Misses</th><th>False Positive Rate</th></tr></thead>
+<tbody>
+<tr><td><strong>Signature-based</strong></td><td>Known malware, known exploits, known C2 protocols</td><td>Zero-day, novel variants, obfuscated/encrypted threats</td><td>Low (if signatures well-maintained)</td></tr>
+<tr><td><strong>Anomaly-based</strong></td><td>Novel attacks that deviate from baseline behaviour</td><td>Attacks that mimic normal traffic patterns</td><td>High (requires careful tuning)</td></tr>
+<tr><td><strong>Heuristic / behavioural</strong></td><td>Patterns of suspicious behaviour: port scans, beacons, lateral movement</td><td>Slow/stealthy attackers that stay under thresholds</td><td>Medium</td></tr>
+<tr><td><strong>Threat intelligence (IoC)</strong></td><td>Known bad IPs, domains, hashes, URLs</td><td>New IoCs not yet in feeds, fast-flux infrastructure</td><td>Very low (IoCs are highly specific)</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -388,7 +388,7 @@ float ewma_update(float prev_avg, float new_val, float alpha) {
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Detecting Periodic C2 Callbacks</h3><span class="tag tag-red">BEACON DETECTION</span></div>
   <div class="cp-body">
-    <p>Modern malware (Cobalt Strike, Metasploit, many RATs) uses periodic "beaconing" — the implant calls home to the C2 server on a fixed schedule. A Cobalt Strike beacon with a 60-second sleep plus 30% jitter will call home every 42–78 seconds. This regularity is detectable statistically.</p>
+<p>Modern malware (Cobalt Strike, Metasploit, many RATs) uses periodic "beaconing" — the implant calls home to the C2 server on a fixed schedule. A Cobalt Strike beacon with a 60-second sleep plus 30% jitter will call home every 42–78 seconds. This regularity is detectable statistically.</p>
 <div class="cb"><pre>/* Beacon detection algorithm */
 /* For each (src_ip, dst_ip, dst_port) tuple that has multiple connections: */
 /* Compute the inter-arrival times (IAT) between connection attempts */
@@ -709,32 +709,32 @@ void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Suricata IDS/IPS Deployment and Tuning</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Deploy Suricata in IDS mode, then IPS mode. Write custom rules. Tune false positives using real traffic.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install Suricata: <code>sudo apt install suricata</code>. Configure to listen on your network interface in AF_PACKET mode. Enable EVE JSON logging to <code>/var/log/suricata/eve.json</code>. Download Emerging Threats Community rules: <code>sudo suricata-update</code>. Start in IDS mode: <code>sudo suricata -i eth0 --af-packet -D</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Generate test traffic against a local web server: run nikto, sqlmap, and dirb against your test nginx. Monitor <code>tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'</code>. Count alerts per rule category. Identify which rules fired: are they true positives (the tools triggered them) or false positives?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Write 3 custom rules: (a) detect SSH login attempts (alert on "Failed password" string in SSH response — use content matching), (b) detect DNS queries for known-DGA-looking domains (use pcre for high-length low-vowel patterns), (c) detect HTTP exfiltration via large POST bodies (alert on Content-Length > 1MB to external). Add them to <code>/etc/suricata/rules/custom.rules</code>. Test each works.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Switch to IPS mode using NFQUEUE: <code>iptables -A FORWARD -j NFQUEUE --queue-num 0</code>. Restart Suricata with <code>-q 0</code>. Set one rule to "drop" instead of "alert". Verify traffic is blocked: <code>curl</code> to the blocked destination should fail. Verify legitimate traffic still flows. Observe latency impact: <code>ping</code> RTT before vs after enabling IPS.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Tune false positives: run normal office traffic through Suricata for 1 hour. Count FPs. Suppress the top 3 noisy rules for known-good sources. Add threshold to the next 3 highest-volume rules. Document before/after alert volume. Achieve <100 alerts/hour from normal traffic.</div></div>
+<p><strong>Objective:</strong> Deploy Suricata in IDS mode, then IPS mode. Write custom rules. Tune false positives using real traffic.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install Suricata: <code>sudo apt install suricata</code>. Configure to listen on your network interface in AF_PACKET mode. Enable EVE JSON logging to <code>/var/log/suricata/eve.json</code>. Download Emerging Threats Community rules: <code>sudo suricata-update</code>. Start in IDS mode: <code>sudo suricata -i eth0 --af-packet -D</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Generate test traffic against a local web server: run nikto, sqlmap, and dirb against your test nginx. Monitor <code>tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'</code>. Count alerts per rule category. Identify which rules fired: are they true positives (the tools triggered them) or false positives?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Write 3 custom rules: (a) detect SSH login attempts (alert on "Failed password" string in SSH response — use content matching), (b) detect DNS queries for known-DGA-looking domains (use pcre for high-length low-vowel patterns), (c) detect HTTP exfiltration via large POST bodies (alert on Content-Length > 1MB to external). Add them to <code>/etc/suricata/rules/custom.rules</code>. Test each works.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Switch to IPS mode using NFQUEUE: <code>iptables -A FORWARD -j NFQUEUE --queue-num 0</code>. Restart Suricata with <code>-q 0</code>. Set one rule to "drop" instead of "alert". Verify traffic is blocked: <code>curl</code> to the blocked destination should fail. Verify legitimate traffic still flows. Observe latency impact: <code>ping</code> RTT before vs after enabling IPS.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Tune false positives: run normal office traffic through Suricata for 1 hour. Count FPs. Suppress the top 3 noisy rules for known-good sources. Add threshold to the next 3 highest-volume rules. Document before/after alert volume. Achieve <100 alerts/hour from normal traffic.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Beacon Detection Engine</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a beacon detection engine that can identify Cobalt Strike default beacons in captured traffic, and test it against both real and simulated beacon traffic.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the IAT (inter-arrival time) tracking structure from Tab 4. Process a pcap file: for each unique (src_ip, dst_ip, dst_port) tuple, record TCP SYN timestamps. Compute IAT statistics: mean, stddev, coefficient of variation. Print the top 10 most periodic flows.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Simulate a Cobalt Strike beacon: write a Python script that sends an HTTP GET to a local server every 60 seconds with 20% random jitter. Also send random non-beacon HTTP requests at variable intervals. Run your detector on the captured traffic. Does it correctly identify the periodic flow and ignore the random ones?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Test against a free Cobalt Strike beacon pcap from a public malware pcap repository (e.g., malware-traffic-analysis.net). Extract connection timing. Does your detector identify the beacon? What is the minimum number of observations needed for reliable detection? Test with 5, 10, 20 observations.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add evasion testing: modify the simulated beacon to use random sleep times (exponential distribution with same mean) instead of fixed interval with jitter. Does your detector still trigger? What statistical test (Kolmogorov-Smirnov, runs test) would better distinguish exponential-random from uniform-with-jitter? Implement one and compare.</div></div>
+<p><strong>Objective:</strong> Build a beacon detection engine that can identify Cobalt Strike default beacons in captured traffic, and test it against both real and simulated beacon traffic.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the IAT (inter-arrival time) tracking structure from Tab 4. Process a pcap file: for each unique (src_ip, dst_ip, dst_port) tuple, record TCP SYN timestamps. Compute IAT statistics: mean, stddev, coefficient of variation. Print the top 10 most periodic flows.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Simulate a Cobalt Strike beacon: write a Python script that sends an HTTP GET to a local server every 60 seconds with 20% random jitter. Also send random non-beacon HTTP requests at variable intervals. Run your detector on the captured traffic. Does it correctly identify the periodic flow and ignore the random ones?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Test against a free Cobalt Strike beacon pcap from a public malware pcap repository (e.g., malware-traffic-analysis.net). Extract connection timing. Does your detector identify the beacon? What is the minimum number of observations needed for reliable detection? Test with 5, 10, 20 observations.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add evasion testing: modify the simulated beacon to use random sleep times (exponential distribution with same mean) instead of fixed interval with jitter. Does your detector still trigger? What statistical test (Kolmogorov-Smirnov, runs test) would better distinguish exponential-random from uniform-with-jitter? Implement one and compare.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Threat Intelligence Pipeline</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build an automated threat intel ingestion pipeline. Ingest IoCs from multiple feeds, deduplicate, and integrate with your session table for real-time checking.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Download and parse the Feodo Tracker C2 blocklist (abuse.ch). Parse the CSV format (IP, port, malware family, first/last seen). Load into an in-memory hash table. Measure: how many entries? What's the lookup latency? How often should it be refreshed (check feed update frequency)?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add domain-based IoC from URLhaus. Build a trie (or use a sorted array with binary search) for domain matching that handles: exact match ("evil.com"), subdomain wildcard match ("*.evil.com"), and TLD wildcard ("evil.*"). Test with 10K domains and 100K lookups.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Implement live feed update with zero downtime: build the new table in a background thread while the foreground thread continues using the old table. Use an atomic pointer swap to cut over. Verify: during the update cycle, no lookups fail. Measure update latency (time from feed download to active in production).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Integrate with your M23 session table: in the session creation path, check the destination IP and port against your threat intel database. If found: log a detailed alert including threat type, malware family, and confidence score. If confidence > 80: set session action to BLOCK. Test by creating a session to a known-bad IP and verifying it's blocked.</div></div>
+<p><strong>Objective:</strong> Build an automated threat intel ingestion pipeline. Ingest IoCs from multiple feeds, deduplicate, and integrate with your session table for real-time checking.</p>
+<div class="lab-step"><div class="sn">1</div><div>Download and parse the Feodo Tracker C2 blocklist (abuse.ch). Parse the CSV format (IP, port, malware family, first/last seen). Load into an in-memory hash table. Measure: how many entries? What's the lookup latency? How often should it be refreshed (check feed update frequency)?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add domain-based IoC from URLhaus. Build a trie (or use a sorted array with binary search) for domain matching that handles: exact match ("evil.com"), subdomain wildcard match ("*.evil.com"), and TLD wildcard ("evil.*"). Test with 10K domains and 100K lookups.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Implement live feed update with zero downtime: build the new table in a background thread while the foreground thread continues using the old table. Use an atomic pointer swap to cut over. Verify: during the update cycle, no lookups fail. Measure update latency (time from feed download to active in production).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Integrate with your M23 session table: in the session creation path, check the destination IP and port against your threat intel database. If found: log a detailed alert including threat type, malware family, and confidence score. If confidence > 80: set session action to BLOCK. Test by creating a session to a known-bad IP and verifying it's blocked.</div></div>
   </div>
 </div>
 </div>

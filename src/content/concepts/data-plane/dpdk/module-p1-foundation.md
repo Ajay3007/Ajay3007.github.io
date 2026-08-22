@@ -72,11 +72,11 @@ url: /learning/data-plane/dpdk/module-p1-foundation/
   <div class="mod-title">Foundation, Architecture &amp; EAL</div>
   <div class="mod-subtitle">Why DPDK exists · Full software stack · Environment Abstraction Layer · PCIe device binding</div>
   <div class="mod-pills">
-    <span class="mod-pill">Ch 1 — Why DPDK</span>
-    <span class="mod-pill">Ch 2 — Architecture</span>
-    <span class="mod-pill">Ch 3 — EAL Deep Dive</span>
-    <span class="mod-pill">C · Linux · PCIe · VFIO</span>
-    <span class="mod-pill">Weeks 1–2</span>
+<span class="mod-pill">Ch 1 — Why DPDK</span>
+<span class="mod-pill">Ch 2 — Architecture</span>
+<span class="mod-pill">Ch 3 — EAL Deep Dive</span>
+<span class="mod-pill">C · Linux · PCIe · VFIO</span>
+<span class="mod-pill">Weeks 1–2</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -196,17 +196,17 @@ Application processes packets (modify headers, lookup, forward)
 <span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SZ</span>];
 
 <span class="ck">while</span> (<span class="cn">1</span>) {
-    <span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, queue, pkts, <span class="cn">BURST_SZ</span>);
+<span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, queue, pkts, <span class="cn">BURST_SZ</span>);
 
-    <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++) {
-        <span class="cf">process_packet</span>(pkts[i]);   <span class="cm">// modify, forward, drop</span>
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++) {
+<span class="cf">process_packet</span>(pkts[i]);   <span class="cm">// modify, forward, drop</span>
     }
 
-    <span class="co">uint16_t</span> nb_tx = <span class="cf">rte_eth_tx_burst</span>(port, queue, pkts, nb_rx);
+<span class="co">uint16_t</span> nb_tx = <span class="cf">rte_eth_tx_burst</span>(port, queue, pkts, nb_rx);
 
-    <span class="cm">// Free any packets the Tx ring couldn't accept</span>
-    <span class="ck">for</span> (<span class="co">uint16_t</span> i = nb_tx; i &lt; nb_rx; i++)
-        <span class="cf">rte_pktmbuf_free</span>(pkts[i]);
+<span class="cm">// Free any packets the Tx ring couldn't accept</span>
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = nb_tx; i &lt; nb_rx; i++)
+<span class="cf">rte_pktmbuf_free</span>(pkts[i]);
 }</div>
 <div class="p-blue">
 <h4>When NOT to Use DPDK</h4>
@@ -266,22 +266,22 @@ EAL is the foundation of every DPDK application. It must be the <strong>first ca
 </div>
 <div class="cb"><span class="cm">// Minimal EAL initialization</span>
 <span class="ck">int</span> <span class="cf">main</span>(<span class="ck">int</span> argc, <span class="ck">char</span> *argv[]) {
-    <span class="ck">int</span> ret = <span class="cf">rte_eal_init</span>(argc, argv);
-    <span class="ck">if</span> (ret &lt; <span class="cn">0</span>)
-        <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"EAL init failed\n"</span>);
+<span class="ck">int</span> ret = <span class="cf">rte_eal_init</span>(argc, argv);
+<span class="ck">if</span> (ret &lt; <span class="cn">0</span>)
+<span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"EAL init failed\n"</span>);
 
     argc -= ret;   <span class="cm">// EAL consumes its own args; remaining go to app</span>
     argv += ret;
 
-    <span class="co">unsigned</span> nb_ports = <span class="cf">rte_eth_dev_count_avail</span>();
-    <span class="cf">printf</span>(<span class="cs">"Available NIC ports: %u\n"</span>, nb_ports);
+<span class="co">unsigned</span> nb_ports = <span class="cf">rte_eth_dev_count_avail</span>();
+<span class="cf">printf</span>(<span class="cs">"Available NIC ports: %u\n"</span>, nb_ports);
 
-    <span class="co">unsigned</span> nb_lcores = <span class="cf">rte_lcore_count</span>();
-    <span class="cf">printf</span>(<span class="cs">"Configured lcores: %u\n"</span>, nb_lcores);
+<span class="co">unsigned</span> nb_lcores = <span class="cf">rte_lcore_count</span>();
+<span class="cf">printf</span>(<span class="cs">"Configured lcores: %u\n"</span>, nb_lcores);
 
-    <span class="cm">// ... rest of application</span>
-    <span class="cf">rte_eal_cleanup</span>();
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="cm">// ... rest of application</span>
+<span class="cf">rte_eal_cleanup</span>();
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
 <p class="sep">KEY EAL COMMAND-LINE FLAGS</p>
 <table class="t-table">
@@ -305,14 +305,14 @@ An <strong>lcore</strong> is DPDK's logical core — maps 1:1 to a hardware CPU 
 <div class="cb"><span class="cm">// Enumerate and query lcores</span>
 <span class="co">unsigned</span> lcore_id;
 <span class="cf">RTE_LCORE_FOREACH_WORKER</span>(lcore_id) {
-    <span class="co">unsigned</span> socket = <span class="cf">rte_lcore_to_socket_id</span>(lcore_id);
-    <span class="co">unsigned</span> cpu    = <span class="cf">rte_lcore_to_cpu_id</span>(lcore_id);
-    <span class="cf">printf</span>(<span class="cs">"lcore %u → CPU %u on socket %u\n"</span>, lcore_id, cpu, socket);
+<span class="co">unsigned</span> socket = <span class="cf">rte_lcore_to_socket_id</span>(lcore_id);
+<span class="co">unsigned</span> cpu    = <span class="cf">rte_lcore_to_cpu_id</span>(lcore_id);
+<span class="cf">printf</span>(<span class="cs">"lcore %u → CPU %u on socket %u\n"</span>, lcore_id, cpu, socket);
 }
 
 <span class="cm">// Launch worker function on each lcore</span>
 <span class="cf">RTE_LCORE_FOREACH_WORKER</span>(lcore_id) {
-    <span class="cf">rte_eal_remote_launch</span>(worker_loop, NULL, lcore_id);
+<span class="cf">rte_eal_remote_launch</span>(worker_loop, NULL, lcore_id);
 }
 <span class="cf">rte_eal_mp_wait_lcore</span>();  <span class="cm">// wait for all workers to finish</span></div>
 </div><!-- /t-eal -->

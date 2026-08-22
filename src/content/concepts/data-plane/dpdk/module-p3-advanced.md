@@ -66,11 +66,11 @@ url: /learning/data-plane/dpdk/module-p3-advanced/
   <div class="mod-title">Multi-Process, rte_flow &amp; NUMA</div>
   <div class="mod-subtitle">Primary/secondary model · shared resources · hardware flow classification · NUMA-aware allocation</div>
   <div class="mod-pills">
-    <span class="mod-pill">Ch 13 — Multi-Process</span>
-    <span class="mod-pill">Ch 14 — rte_flow</span>
-    <span class="mod-pill">Ch 15 — Multi-Core &amp; NUMA</span>
-    <span class="mod-pill">C · VFIO · FDIR · Cache-Line</span>
-    <span class="mod-pill">Weeks 11–13</span>
+<span class="mod-pill">Ch 13 — Multi-Process</span>
+<span class="mod-pill">Ch 14 — rte_flow</span>
+<span class="mod-pill">Ch 15 — Multi-Core &amp; NUMA</span>
+<span class="mod-pill">C · VFIO · FDIR · Cache-Line</span>
+<span class="mod-pill">Weeks 11–13</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -138,11 +138,11 @@ Mobility secondary handles queues 4-7 (5G/SCEF policy).</div>
 <div class="cb"><span class="cm">// Secondary process — find shared pool created by primary</span>
 <span class="ck">struct</span> rte_mempool *pool = <span class="cf">rte_mempool_lookup</span>(<span class="cs">"MBUF_POOL"</span>);
 <span class="ck">if</span> (!pool)
-    <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Cannot find mempool — is primary running?\n"</span>);
+<span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Cannot find mempool — is primary running?\n"</span>);
 
 <span class="ck">struct</span> rte_ring *ring = <span class="cf">rte_ring_lookup</span>(<span class="cs">"WORK_RING"</span>);
 <span class="ck">if</span> (!ring)
-    <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Cannot find ring\n"</span>);
+<span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Cannot find ring\n"</span>);
 
 <span class="cm">// Find a custom data structure placed in a named memzone by primary</span>
 <span class="ck">const</span> <span class="ck">struct</span> rte_memzone *mz = <span class="cf">rte_memzone_lookup</span>(<span class="cs">"FLOW_TABLE"</span>);
@@ -227,7 +227,7 @@ Example: steer all traffic from enterprise VPN subnet → queue 0 (enterprise se
 <span class="cm">// Create (programs the NIC hardware)</span>
 <span class="ck">struct</span> rte_flow *flow = <span class="cf">rte_flow_create</span>(port_id, &amp;attr, pattern, actions, &amp;err);
 <span class="ck">if</span> (!flow)
-    <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Flow create failed: %s\n"</span>, err.message);
+<span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Flow create failed: %s\n"</span>, err.message);
 
 <span class="cm">// Destroy when no longer needed</span>
 <span class="cf">rte_flow_destroy</span>(port_id, flow, &amp;err);</div>
@@ -275,16 +275,16 @@ In multi-socket servers, each CPU socket has local RAM. Accessing memory on the 
 <div class="cb"><span class="cm">// NUMA-correct mempool creation</span>
 <span class="co">int</span> nic_socket = <span class="cf">rte_eth_dev_socket_id</span>(port_id);
 <span class="ck">struct</span> rte_mempool *pool = <span class="cf">rte_pktmbuf_pool_create</span>(
-    <span class="cs">"MBUF_POOL"</span>, N_MBUFS, CACHE_SZ, <span class="cn">0</span>, <span class="cn">RTE_MBUF_DEFAULT_BUF_SIZE</span>,
+<span class="cs">"MBUF_POOL"</span>, N_MBUFS, CACHE_SZ, <span class="cn">0</span>, <span class="cn">RTE_MBUF_DEFAULT_BUF_SIZE</span>,
     nic_socket   <span class="cm">// MUST match NIC's socket</span>
 );
 
 <span class="cm">// Check lcore-to-socket alignment</span>
 <span class="co">unsigned</span> lcore_id;
 <span class="cf">RTE_LCORE_FOREACH_WORKER</span>(lcore_id) {
-    <span class="co">unsigned</span> lcore_socket = <span class="cf">rte_lcore_to_socket_id</span>(lcore_id);
-    <span class="ck">if</span> (lcore_socket != nic_socket)
-        <span class="cf">printf</span>(<span class="cs">"WARNING: lcore %u on socket %u, NIC on socket %u — cross-NUMA!\n"</span>,
+<span class="co">unsigned</span> lcore_socket = <span class="cf">rte_lcore_to_socket_id</span>(lcore_id);
+<span class="ck">if</span> (lcore_socket != nic_socket)
+<span class="cf">printf</span>(<span class="cs">"WARNING: lcore %u on socket %u, NIC on socket %u — cross-NUMA!\n"</span>,
                lcore_id, lcore_socket, nic_socket);
 }</div>
 <p class="sep">CACHE-LINE ALIGNMENT & FALSE SHARING</p>
@@ -294,16 +294,16 @@ When two different variables on the <strong>same cache line (64 bytes)</strong> 
 </div>
 <div class="cb"><span class="cm">// WRONG — counter and flag on same cache line → false sharing</span>
 <span class="ck">struct</span> per_core_data {
-    <span class="co">uint64_t</span> rx_count;    <span class="cm">// 8 bytes</span>
-    <span class="co">uint64_t</span> tx_count;    <span class="cm">// 8 bytes</span>
-    <span class="co">int</span>      running;     <span class="cm">// 4 bytes — on same 64-byte line!</span>
+<span class="co">uint64_t</span> rx_count;    <span class="cm">// 8 bytes</span>
+<span class="co">uint64_t</span> tx_count;    <span class="cm">// 8 bytes</span>
+<span class="co">int</span>      running;     <span class="cm">// 4 bytes — on same 64-byte line!</span>
 } cores[RTE_MAX_LCORE];   <span class="cm">// core 0 and core 1 share a cache line</span>
 <span class="cm">// CORRECT — pad each entry to a full cache line</span>
 <span class="ck">struct</span> per_core_data {
-    <span class="co">uint64_t</span> rx_count;
-    <span class="co">uint64_t</span> tx_count;
-    <span class="co">int</span>      running;
-    <span class="co">uint8_t</span>  _pad[<span class="cn">64</span> - <span class="ck">sizeof</span>(<span class="co">uint64_t</span>)*<span class="cn">2</span> - <span class="ck">sizeof</span>(<span class="co">int</span>)];  <span class="cm">// pad to 64 bytes</span>
+<span class="co">uint64_t</span> rx_count;
+<span class="co">uint64_t</span> tx_count;
+<span class="co">int</span>      running;
+<span class="co">uint8_t</span>  _pad[<span class="cn">64</span> - <span class="ck">sizeof</span>(<span class="co">uint64_t</span>)*<span class="cn">2</span> - <span class="ck">sizeof</span>(<span class="co">int</span>)];  <span class="cm">// pad to 64 bytes</span>
 } __rte_cache_aligned cores[RTE_MAX_LCORE];  <span class="cm">// each core gets its own cache line</span></div>
 <div class="note">&#128204; <strong>__rte_cache_aligned</strong> is a DPDK macro that expands to <code>__attribute__((aligned(RTE_CACHE_LINE_SIZE)))</code>. Always use it for per-lcore data structures to prevent false sharing.</div>
 </div><!-- /t-numa -->

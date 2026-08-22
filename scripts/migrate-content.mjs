@@ -117,6 +117,94 @@ function convertLiquid(body) {
 }
 
 /**
+ * Converts hand-rolled code blocks into fenced code blocks.
+ *
+ * 18,666 of the 51,895 presentational tags in the corpus — 36% — are hand-typed
+ * syntax highlighting inside <pre>: <span class="kw">, "str", "ck" and so on,
+ * coloured by a per-page stylesheet. Shiki produces all of it from a plain
+ * fence, in both themes, with no CSS of its own.
+ *
+ * Deliberately conservative: a block is only converted when the language can be
+ * identified with confidence. Converting an unrecognised block would strip the
+ * colour it has today and give nothing back, so those are left exactly as they
+ * are and reported.
+ */
+const LANGUAGE_TESTS = [
+  ['python',     /^\s*(def |class |import |from \w+ import|print\()|:\s*$|f"|elif /m],
+  ['cpp',        /#include\s*<|std::|template\s*<|nullptr|cout\s*<</],
+  ['c',          /#include\s*<\w+\.h>|\bprintf\(|\bmalloc\(|struct \w+\s*\{/],
+  ['java',       /\b(public|private)\s+(static\s+)?(final\s+)?(class|void|int|String)\b|System\.out\./],
+  ['sql',        /\b(SELECT|INSERT INTO|CREATE TABLE|UPDATE|DELETE FROM)\b/i],
+  ['bash',       /^\s*[$#]\s|\b(sudo|apt-get|chmod|grep|curl|docker|git)\s/m],
+  ['yaml',       /^\s*[\w-]+:\s*($|[^\/])/m],
+  ['json',       /^\s*\{[\s\S]*"[\w-]+"\s*:/],
+  ['javascript', /\b(const|let|function|=>)\b.*[;{]|console\.log\(/],
+  ['go',         /\bfunc\s+\w+\(|\bpackage main\b/],
+];
+
+function decodeEntities(t) {
+  return t
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&');
+}
+
+function detectLanguage(code) {
+  for (const [lang, test] of LANGUAGE_TESTS) if (test.test(code)) return lang;
+  return null;
+}
+
+function convertCodeBlocks(body) {
+  return body.replace(
+    /(?:<div class="cb">\s*)?<pre[^>]*>([\s\S]*?)<\/pre>(?:\s*<\/div>)?/g,
+    (whole, inner) => {
+      // Only blocks whose content is hand-highlighted; plain <pre> is left alone.
+      if (!/<span class="(ck|cm|cs|cv|cn|kw|str|fn|cls|co|nt|c-comment|sql-kw)"/.test(inner)) {
+        return whole;
+      }
+      const code = decodeEntities(inner.replace(/<[^>]+>/g, '')).replace(/\s+$/, '');
+      const lang = detectLanguage(code);
+      if (!lang) {
+        report.codeBlocksSkipped.push(code.slice(0, 40).replace(/\n/g, ' '));
+        return whole;
+      }
+      // A fence cannot sit inside an HTML block, so it needs blank lines around it.
+      report.codeBlocksConverted.push(lang);
+      return `\n\n\`\`\`${lang}\n${code}\n\`\`\`\n\n`;
+    },
+  );
+}
+
+/**
+ * Removes block-level indentation from HTML lines.
+ *
+ * The corpus indents its markup for readability, which is harmless while the
+ * whole region is one HTML block. Replacing a <pre> with a fence ends that
+ * block, and four spaces of indentation then makes the next <div> an *indented
+ * code block* — so a callout renders as its own source. Same failure as the
+ * blank-line case, reached a different way.
+ *
+ * Only lines that are unambiguously markup are touched, and never inside a
+ * <pre> or a fence, where whitespace is content.
+ */
+function deindentHtml(body) {
+  const lines = body.split('\n');
+  let inPre = false;
+  let inFence = false;
+  return lines
+    .map((line) => {
+      if (/^\s*```/.test(line)) { inFence = !inFence; return line; }
+      if (inFence) return line;
+      if (/<pre[\s>]/.test(line)) inPre = true;
+      const wasPre = inPre;
+      if (/<\/pre>/.test(line)) inPre = false;
+      if (wasPre) return line;
+      return /^ {4,}</.test(line) ? line.replace(/^\s+/, '') : line;
+    })
+    .join('\n');
+}
+
+/**
  * Corrects the casing of links to static files under /learning/.
  *
  * The Jekyll tree mixes folder casing, and several pages link to a sibling
@@ -382,7 +470,7 @@ const assetIndex = new Map();
   if (existsSync(base)) walkAll(base);
 }
 
-const report = { migrated: [], skipped: [], autoDescription: [], liquidLeft: [], noTrack: [], tracks: [], placeholderImages: [], assetCaseFixes: [] };
+const report = { migrated: [], skipped: [], autoDescription: [], liquidLeft: [], noTrack: [], tracks: [], placeholderImages: [], assetCaseFixes: [], codeBlocksConverted: [], codeBlocksSkipped: [] };
 const roadmapFiles = [];
 const modulesSeen = new Map();
 
@@ -424,7 +512,7 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
   const url = data.permalink ?? '/' + file.replace(/^_/, '').replace(/\/index\.md$/, '/').replace(/\.md$/, '/');
   const { body: liquidFixed, remaining } = convertLiquid(fm[2]);
   const body = fixAssetLinkCase(
-    joinHtmlBlocks(sealPreBlocks(fixRelativeImages(liquidFixed, file))),
+    joinHtmlBlocks(deindentHtml(sealPreBlocks(convertCodeBlocks(fixRelativeImages(liquidFixed, file))))),
     assetIndex,
   );
   if (remaining) report.liquidLeft.push([file, remaining]);
@@ -519,6 +607,14 @@ console.log(`${pad(modulesSeen.size)}  modules discovered`);
 console.log(`${pad(report.tracks.length)}  tracks written`);
 console.log(`${pad(report.placeholderImages.length)}  placeholder image paths kept as literal text`);
 console.log(`${pad(report.assetCaseFixes.length)}  mis-cased asset links corrected`);
+console.log(`${pad(report.codeBlocksConverted.length)}  code blocks converted to fences`);
+console.log(`${pad(report.codeBlocksSkipped.length)}  code blocks left alone (language not identified)`);
+{
+  const byLang = {};
+  for (const l of report.codeBlocksConverted) byLang[l] = (byLang[l] ?? 0) + 1;
+  const top = Object.entries(byLang).sort((a, b) => b[1] - a[1]);
+  if (top.length) console.log('    ' + top.map(([l, n]) => `${l} ${n}`).join(' · '));
+}
 
 const bySkip = {};
 for (const [, s] of report.skipped) bySkip[s] = (bySkip[s] ?? 0) + 1;

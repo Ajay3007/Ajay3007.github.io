@@ -13,23 +13,23 @@ url: /learning/system-design/lld/module-a6-notes/
 
 <div class="chapter-hero" style="--ch-1:#7c6fff;--ch-2:#ff6b9d;">
   <div class="breadcrumb">
-    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/">LLD Hub</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/module-a6-case-studies/">Module A6</a>
-    <span class="separator">›</span>
-    <span class="current">Full Notes</span>
+<a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/">LLD Hub</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/module-a6-case-studies/">Module A6</a>
+<span class="separator">›</span>
+<span class="current">Full Notes</span>
   </div>
   <h1>Module A6 — LLD Case Studies</h1>
   <p class="ch-subtitle">Complete reference notes · Track A: LLD · Weeks 9–10 · FINAL LLD MODULE</p>
   <div class="hero-stats">
-    <span class="stat-badge">Chess Game</span>
-    <span class="stat-badge">Elevator System</span>
-    <span class="stat-badge">Library Management</span>
-    <span class="stat-badge">Food Ordering</span>
-    <span class="stat-badge">ATM Machine</span>
-    <span class="stat-badge">Hotel Booking</span>
+<span class="stat-badge">Chess Game</span>
+<span class="stat-badge">Elevator System</span>
+<span class="stat-badge">Library Management</span>
+<span class="stat-badge">Food Ordering</span>
+<span class="stat-badge">ATM Machine</span>
+<span class="stat-badge">Hotel Booking</span>
   </div>
 </div>
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">

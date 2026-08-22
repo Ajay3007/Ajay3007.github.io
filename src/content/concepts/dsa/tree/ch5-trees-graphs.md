@@ -13,20 +13,20 @@ url: /learning/dsa/tree/ch5-trees-graphs/
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
-    <div class="ch-hero-breadcrumb">
-      <a href="/roadmap/">All Roadmaps</a> ›
-      <a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
+<div class="ch-hero-breadcrumb">
+<a href="/roadmap/">All Roadmaps</a> ›
+<a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
       Chapter 5
-    </div>
-    <div class="chapter-num-badge">Chapter 5 · Intermediate → Advanced · Prereq: Chapter 4</div>
-    <h1>Trees & Graphs</h1>
-    <p class="chapter-hero-sub">DFS · BFS · Binary Trees · BST Validation · Diameter · LCA · Graph Traversal · Union-Find · Topological Sort — the most structurally rich chapter, unlocking the widest range of interview problems.</p>
-    <div class="chapter-meta-row">
-      <span class="ch-meta-pill teal">11 Sections</span>
-      <span class="ch-meta-pill">16 Practice Problems</span>
-      <span class="ch-meta-pill">Intermediate → Advanced</span>
-      <a href="/learning/dsa/dsa-roadmap/#ch5" class="ch-nav-btn">← Back to Roadmap</a>
-    </div>
+</div>
+<div class="chapter-num-badge">Chapter 5 · Intermediate → Advanced · Prereq: Chapter 4</div>
+<h1>Trees & Graphs</h1>
+<p class="chapter-hero-sub">DFS · BFS · Binary Trees · BST Validation · Diameter · LCA · Graph Traversal · Union-Find · Topological Sort — the most structurally rich chapter, unlocking the widest range of interview problems.</p>
+<div class="chapter-meta-row">
+<span class="ch-meta-pill teal">11 Sections</span>
+<span class="ch-meta-pill">16 Practice Problems</span>
+<span class="ch-meta-pill">Intermediate → Advanced</span>
+<a href="/learning/dsa/dsa-roadmap/#ch5" class="ch-nav-btn">← Back to Roadmap</a>
+</div>
   </div>
 </div>
 <div class="chapter-content">
@@ -56,12 +56,12 @@ subtree: node + all descendants (subtree at 2: {2,4,5,7})
 <div class="insight-box">
   <span class="insight-label">Key Graph Concepts</span>
   <ul>
-    <li><strong>Vertices (V):</strong> the nodes; <strong>Edges (E):</strong> the connections.</li>
-    <li><strong>Directed (Digraph):</strong> edges have direction (arrows); <strong>Undirected:</strong> edges are bidirectional.</li>
-    <li><strong>Cycle:</strong> path that starts and ends at the same vertex.</li>
-    <li><strong>DAG:</strong> Directed Acyclic Graph — no cycles; used for dependency ordering (topological sort).</li>
-    <li><strong>Connected:</strong> every vertex reachable from every other (undirected graphs).</li>
-    <li><strong>Tree vs Graph:</strong> a tree is a connected, acyclic, undirected graph with exactly V–1 edges.</li>
+<li><strong>Vertices (V):</strong> the nodes; <strong>Edges (E):</strong> the connections.</li>
+<li><strong>Directed (Digraph):</strong> edges have direction (arrows); <strong>Undirected:</strong> edges are bidirectional.</li>
+<li><strong>Cycle:</strong> path that starts and ends at the same vertex.</li>
+<li><strong>DAG:</strong> Directed Acyclic Graph — no cycles; used for dependency ordering (topological sort).</li>
+<li><strong>Connected:</strong> every vertex reachable from every other (undirected graphs).</li>
+<li><strong>Tree vs Graph:</strong> a tree is a connected, acyclic, undirected graph with exactly V–1 edges.</li>
   </ul>
 </div>
 <h3 class="section-subheading">1.3 — Graph Representations in C++</h3>
@@ -221,9 +221,9 @@ TreeNode* lcaGeneral(TreeNode* root, TreeNode* p, TreeNode* q) {
 <div class="insight-box">
   <span class="insight-label">DFS vs BFS — When to Use Each</span>
   <ul>
-    <li><strong>DFS:</strong> exploring as far as possible then backtrack. Use for: cycle detection, topological sort, connected components, path existence, tree height/diameter.</li>
-    <li><strong>BFS:</strong> level-by-level exploration. Use for: <strong>shortest path in unweighted graph</strong>, level-order traversal, multi-source problems (Rotting Oranges).</li>
-    <li><strong>Key BFS rule:</strong> mark nodes visited when <em>enqueued</em>, not when processed. Marking later causes the same node to be enqueued multiple times.</li>
+<li><strong>DFS:</strong> exploring as far as possible then backtrack. Use for: cycle detection, topological sort, connected components, path existence, tree height/diameter.</li>
+<li><strong>BFS:</strong> level-by-level exploration. Use for: <strong>shortest path in unweighted graph</strong>, level-order traversal, multi-source problems (Rotting Oranges).</li>
+<li><strong>Key BFS rule:</strong> mark nodes visited when <em>enqueued</em>, not when processed. Marking later causes the same node to be enqueued multiple times.</li>
   </ul>
 </div>
 <div class="ch-code-wrap">
@@ -260,10 +260,10 @@ void bfs(int start, vector<vector<int>>& adj) {
 <p>Treat a 2D grid as a graph where each cell is a vertex with up to 4 neighbors (up, down, left, right). DFS from each unvisited land cell, sinking the island as you go.</p>
 <div class="dsa-pattern-box">
   <ul>
-    <li>Outer loop: iterate all cells (r,c). If cell is '1' → increment islands, start DFS</li>
-    <li>DFS: mark cell '0' (sink it) then recurse into 4 neighbors</li>
-    <li>Always check bounds AND that cell is '1' before recursing</li>
-    <li>Each cell visited at most twice → <strong>O(m×n)</strong> total</li>
+<li>Outer loop: iterate all cells (r,c). If cell is '1' → increment islands, start DFS</li>
+<li>DFS: mark cell '0' (sink it) then recurse into 4 neighbors</li>
+<li>Always check bounds AND that cell is '1' before recursing</li>
+<li>Each cell visited at most twice → <strong>O(m×n)</strong> total</li>
   </ul>
 </div>
 <div class="ch-code-wrap">
@@ -368,11 +368,11 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
 <div class="insight-box">
   <span class="insight-label">Edge Cases to Test</span>
   <ul>
-    <li>Empty tree (<code>root = null</code>): return 0 depth, empty list for traversal, 0 diameter</li>
-    <li>Single node tree: depth = 1, diameter = 0, it is both root and leaf</li>
-    <li>Skewed tree (all left children): DFS depth = n — risk of stack overflow for n = 10^5. Use iterative DFS.</li>
-    <li>Grid with all water → 0 islands; grid with all land → 1 island</li>
-    <li>Disconnected graph: BFS/DFS from one node does NOT reach all nodes. Iterate over ALL unvisited nodes.</li>
+<li>Empty tree (<code>root = null</code>): return 0 depth, empty list for traversal, 0 diameter</li>
+<li>Single node tree: depth = 1, diameter = 0, it is both root and leaf</li>
+<li>Skewed tree (all left children): DFS depth = n — risk of stack overflow for n = 10^5. Use iterative DFS.</li>
+<li>Grid with all water → 0 islands; grid with all land → 1 island</li>
+<li>Disconnected graph: BFS/DFS from one node does NOT reach all nodes. Iterate over ALL unvisited nodes.</li>
   </ul>
 </div>
 </div>
@@ -384,14 +384,14 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank">104. Maximum Depth of Binary Tree</a></td><td>Postorder DFS</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>2</td><td><a href="https://leetcode.com/problems/diameter-of-binary-tree/" target="_blank">543. Diameter of Binary Tree</a></td><td>Global max during height DFS</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>3</td><td><a href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank">110. Balanced Binary Tree</a></td><td>Return -1 if unbalanced</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>4</td><td><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank">235. LCA of BST</a></td><td>Exploit BST property</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>5</td><td><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank">236. LCA of Binary Tree</a></td><td>Postorder DFS — both sides</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>6</td><td><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">102. Binary Tree Level Order Traversal</a></td><td>BFS with level size snapshot</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>7</td><td><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank">98. Validate Binary Search Tree</a></td><td>DFS with (min, max) bounds</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>8</td><td><a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank">230. Kth Smallest Element in BST</a></td><td>Inorder traversal, kth element</td><td class="diff-medium">Medium</td></tr>
+<tr><td>1</td><td><a href="https://leetcode.com/problems/maximum-depth-of-binary-tree/" target="_blank">104. Maximum Depth of Binary Tree</a></td><td>Postorder DFS</td><td class="diff-easy">Easy</td></tr>
+<tr><td>2</td><td><a href="https://leetcode.com/problems/diameter-of-binary-tree/" target="_blank">543. Diameter of Binary Tree</a></td><td>Global max during height DFS</td><td class="diff-easy">Easy</td></tr>
+<tr><td>3</td><td><a href="https://leetcode.com/problems/balanced-binary-tree/" target="_blank">110. Balanced Binary Tree</a></td><td>Return -1 if unbalanced</td><td class="diff-easy">Easy</td></tr>
+<tr><td>4</td><td><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/" target="_blank">235. LCA of BST</a></td><td>Exploit BST property</td><td class="diff-medium">Medium</td></tr>
+<tr><td>5</td><td><a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank">236. LCA of Binary Tree</a></td><td>Postorder DFS — both sides</td><td class="diff-medium">Medium</td></tr>
+<tr><td>6</td><td><a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank">102. Binary Tree Level Order Traversal</a></td><td>BFS with level size snapshot</td><td class="diff-medium">Medium</td></tr>
+<tr><td>7</td><td><a href="https://leetcode.com/problems/validate-binary-search-tree/" target="_blank">98. Validate Binary Search Tree</a></td><td>DFS with (min, max) bounds</td><td class="diff-medium">Medium</td></tr>
+<tr><td>8</td><td><a href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/" target="_blank">230. Kth Smallest Element in BST</a></td><td>Inorder traversal, kth element</td><td class="diff-medium">Medium</td></tr>
   </tbody>
 </table>
 </div>
@@ -400,14 +400,14 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
   <tbody>
-    <tr><td>9</td><td><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">200. Number of Islands</a></td><td>Grid DFS — sink land cells</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>10</td><td><a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">695. Max Area of Island</a></td><td>DFS returns island size</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>11</td><td><a href="https://leetcode.com/problems/clone-graph/" target="_blank">133. Clone Graph</a></td><td>BFS/DFS + hash map for clones</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>12</td><td><a href="https://leetcode.com/problems/course-schedule/" target="_blank">207. Course Schedule</a></td><td>Cycle detection — Kahn's</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>13</td><td><a href="https://leetcode.com/problems/course-schedule-ii/" target="_blank">210. Course Schedule II</a></td><td>Topological sort order</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>14</td><td><a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">417. Pacific Atlantic Water Flow</a></td><td>Reverse BFS from both oceans</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>15</td><td><a href="https://leetcode.com/problems/redundant-connection/" target="_blank">684. Redundant Connection</a></td><td>Union-Find cycle detection</td><td class="diff-medium">Medium</td></tr>
-    <tr><td>16</td><td><a href="https://leetcode.com/problems/word-ladder/" target="_blank">127. Word Ladder</a></td><td>BFS shortest path — implicit graph</td><td class="diff-hard">Hard</td></tr>
+<tr><td>9</td><td><a href="https://leetcode.com/problems/number-of-islands/" target="_blank">200. Number of Islands</a></td><td>Grid DFS — sink land cells</td><td class="diff-medium">Medium</td></tr>
+<tr><td>10</td><td><a href="https://leetcode.com/problems/max-area-of-island/" target="_blank">695. Max Area of Island</a></td><td>DFS returns island size</td><td class="diff-medium">Medium</td></tr>
+<tr><td>11</td><td><a href="https://leetcode.com/problems/clone-graph/" target="_blank">133. Clone Graph</a></td><td>BFS/DFS + hash map for clones</td><td class="diff-medium">Medium</td></tr>
+<tr><td>12</td><td><a href="https://leetcode.com/problems/course-schedule/" target="_blank">207. Course Schedule</a></td><td>Cycle detection — Kahn's</td><td class="diff-medium">Medium</td></tr>
+<tr><td>13</td><td><a href="https://leetcode.com/problems/course-schedule-ii/" target="_blank">210. Course Schedule II</a></td><td>Topological sort order</td><td class="diff-medium">Medium</td></tr>
+<tr><td>14</td><td><a href="https://leetcode.com/problems/pacific-atlantic-water-flow/" target="_blank">417. Pacific Atlantic Water Flow</a></td><td>Reverse BFS from both oceans</td><td class="diff-medium">Medium</td></tr>
+<tr><td>15</td><td><a href="https://leetcode.com/problems/redundant-connection/" target="_blank">684. Redundant Connection</a></td><td>Union-Find cycle detection</td><td class="diff-medium">Medium</td></tr>
+<tr><td>16</td><td><a href="https://leetcode.com/problems/word-ladder/" target="_blank">127. Word Ladder</a></td><td>BFS shortest path — implicit graph</td><td class="diff-hard">Hard</td></tr>
   </tbody>
 </table>
 </div>

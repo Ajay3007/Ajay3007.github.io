@@ -146,13 +146,13 @@ url: /learning/backend/m01-dns-tcp-tls/
   <div class="mod-title">DNS, TCP &amp; TLS Deep Dive</div>
   <div class="mod-subtitle">Every HTTP request starts with three invisible handshakes — understand them end-to-end before writing a single line of server code.</div>
   <div class="mod-pills">
-    <span class="mod-pill">DNS Resolution</span>
-    <span class="mod-pill">TCP 3-Way Handshake</span>
-    <span class="mod-pill">TCP State Machine</span>
-    <span class="mod-pill">TLS 1.3</span>
-    <span class="mod-pill">POSIX Sockets</span>
-    <span class="mod-pill">OpenSSL</span>
-    <span class="mod-pill">C/C++</span>
+<span class="mod-pill">DNS Resolution</span>
+<span class="mod-pill">TCP 3-Way Handshake</span>
+<span class="mod-pill">TCP State Machine</span>
+<span class="mod-pill">TLS 1.3</span>
+<span class="mod-pill">POSIX Sockets</span>
+<span class="mod-pill">OpenSSL</span>
+<span class="mod-pill">C/C++</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -170,8 +170,8 @@ url: /learning/backend/m01-dns-tcp-tls/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>The Hidden Cost of "Hello, Server"</h3><span class="tag tag-teal">MENTAL MODEL</span></div>
   <div class="cp-body">
-    <p>Before your code sends a single byte of application data, the OS and network stack silently complete three distinct protocol exchanges. A backend engineer who doesn't understand these layers will misdiagnose latency, misconfig TLS, and write servers that break under load.</p>
-    <p>This module gives you full mental ownership of the connection lifecycle — from the moment a hostname is typed to the moment encrypted application data flows.</p>
+<p>Before your code sends a single byte of application data, the OS and network stack silently complete three distinct protocol exchanges. A backend engineer who doesn't understand these layers will misdiagnose latency, misconfig TLS, and write servers that break under load.</p>
+<p>This module gives you full mental ownership of the connection lifecycle — from the moment a hostname is typed to the moment encrypted application data flows.</p>
   </div>
 </div>
 <h3>Connection Lifecycle: Cold Start</h3>
@@ -196,11 +196,11 @@ url: /learning/backend/m01-dns-tcp-tls/
 <table class="t-table">
   <thead><tr><th>Phase</th><th>Cold start</th><th>Warm (cached/reused)</th><th>Where saved</th></tr></thead>
   <tbody>
-    <tr><td>DNS resolution</td><td>20–100 ms</td><td>0 ms</td><td>OS/stub resolver TTL cache</td></tr>
-    <tr><td>TCP handshake</td><td>1 × RTT</td><td>0 (connection pool)</td><td>Connection pooling / keep-alive</td></tr>
-    <tr><td>TLS 1.3 handshake</td><td>1 × RTT</td><td>0 (0-RTT resumption)</td><td>Session tickets / PSK</td></tr>
-    <tr><td>First byte of response</td><td>1 × RTT</td><td>1 × RTT</td><td>Always paid</td></tr>
-    <tr><td><strong>Total cold</strong></td><td colspan="3"><strong>≈ 3–4 RTT + DNS. On 50 ms RTT link: ~200 ms before any data.</strong></td></tr>
+<tr><td>DNS resolution</td><td>20–100 ms</td><td>0 ms</td><td>OS/stub resolver TTL cache</td></tr>
+<tr><td>TCP handshake</td><td>1 × RTT</td><td>0 (connection pool)</td><td>Connection pooling / keep-alive</td></tr>
+<tr><td>TLS 1.3 handshake</td><td>1 × RTT</td><td>0 (0-RTT resumption)</td><td>Session tickets / PSK</td></tr>
+<tr><td>First byte of response</td><td>1 × RTT</td><td>1 × RTT</td><td>Always paid</td></tr>
+<tr><td><strong>Total cold</strong></td><td colspan="3"><strong>≈ 3–4 RTT + DNS. On 50 ms RTT link: ~200 ms before any data.</strong></td></tr>
   </tbody>
 </table>
 <div class="ins"><p><strong>Key insight:</strong> TLS 1.3 reduced handshake cost from 2 RTT (TLS 1.2) to 1 RTT — and 0-RTT resumption eliminates it entirely for repeat connections. This is why upgrading TLS version has measurable user-facing impact.</p></div>
@@ -216,7 +216,7 @@ url: /learning/backend/m01-dns-tcp-tls/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>DNS Architecture</h3><span class="tag tag-blue">DISTRIBUTED SYSTEM</span></div>
   <div class="cp-body">
-    <p>DNS is a globally distributed, hierarchical, eventually-consistent key-value store. It is the largest distributed database on the internet. Understanding its resolution chain is essential for diagnosing outages and designing resilient services.</p>
+<p>DNS is a globally distributed, hierarchical, eventually-consistent key-value store. It is the largest distributed database on the internet. Understanding its resolution chain is essential for diagnosing outages and designing resilient services.</p>
   </div>
 </div>
 <h3>Recursive Resolution Chain</h3>
@@ -239,33 +239,33 @@ url: /learning/backend/m01-dns-tcp-tls/
 <table class="t-table">
   <thead><tr><th>Type</th><th>Purpose</th><th>Example value</th><th>Backend use</th></tr></thead>
   <tbody>
-    <tr><td><span class="rec-type">A</span></td><td>IPv4 address</td><td><code>1.2.3.4</code></td><td>Server IP resolution</td></tr>
-    <tr><td><span class="rec-type">AAAA</span></td><td>IPv6 address</td><td><code>2001:db8::1</code></td><td>Dual-stack support</td></tr>
-    <tr><td><span class="rec-type">CNAME</span></td><td>Canonical alias</td><td><code>api.io → lb-123.aws.com</code></td><td>CDN, load balancer aliasing</td></tr>
-    <tr><td><span class="rec-type">MX</span></td><td>Mail exchange</td><td><code>10 mail.api.io</code></td><td>Email routing</td></tr>
-    <tr><td><span class="rec-type">TXT</span></td><td>Arbitrary text</td><td><code>v=spf1 include:...</code></td><td>SPF/DKIM, ownership proof</td></tr>
-    <tr><td><span class="rec-type">SRV</span></td><td>Service location</td><td><code>_http._tcp 80 host</code></td><td>Service discovery (gRPC/K8s)</td></tr>
-    <tr><td><span class="rec-type">PTR</span></td><td>Reverse lookup</td><td><code>4.3.2.1.in-addr.arpa</code></td><td>Log enrichment, spam checks</td></tr>
-    <tr><td><span class="rec-type">NS</span></td><td>Authoritative nameservers</td><td><code>ns1.cloudflare.com</code></td><td>Delegation chain</td></tr>
-    <tr><td><span class="rec-type">SOA</span></td><td>Zone authority</td><td>Serial, refresh, retry, expire</td><td>Zone transfer, negative TTL</td></tr>
+<tr><td><span class="rec-type">A</span></td><td>IPv4 address</td><td><code>1.2.3.4</code></td><td>Server IP resolution</td></tr>
+<tr><td><span class="rec-type">AAAA</span></td><td>IPv6 address</td><td><code>2001:db8::1</code></td><td>Dual-stack support</td></tr>
+<tr><td><span class="rec-type">CNAME</span></td><td>Canonical alias</td><td><code>api.io → lb-123.aws.com</code></td><td>CDN, load balancer aliasing</td></tr>
+<tr><td><span class="rec-type">MX</span></td><td>Mail exchange</td><td><code>10 mail.api.io</code></td><td>Email routing</td></tr>
+<tr><td><span class="rec-type">TXT</span></td><td>Arbitrary text</td><td><code>v=spf1 include:...</code></td><td>SPF/DKIM, ownership proof</td></tr>
+<tr><td><span class="rec-type">SRV</span></td><td>Service location</td><td><code>_http._tcp 80 host</code></td><td>Service discovery (gRPC/K8s)</td></tr>
+<tr><td><span class="rec-type">PTR</span></td><td>Reverse lookup</td><td><code>4.3.2.1.in-addr.arpa</code></td><td>Log enrichment, spam checks</td></tr>
+<tr><td><span class="rec-type">NS</span></td><td>Authoritative nameservers</td><td><code>ns1.cloudflare.com</code></td><td>Delegation chain</td></tr>
+<tr><td><span class="rec-type">SOA</span></td><td>Zone authority</td><td>Serial, refresh, retry, expire</td><td>Zone transfer, negative TTL</td></tr>
   </tbody>
 </table>
 <h3>DNS Message Format</h3>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Wire Format (RFC 1035)</h3><span class="tag tag-teal">BINARY PROTOCOL</span></div>
   <div class="cp-body">
-    <p>DNS messages are binary, typically UDP (port 53), falling back to TCP for responses > 512 bytes or zone transfers. Each message has a fixed 12-byte header followed by variable sections.</p>
-    <table class="t-table">
-      <thead><tr><th>Section</th><th>Size</th><th>Content</th></tr></thead>
-      <tbody>
-        <tr><td>Header</td><td>12 bytes</td><td>ID (2B), Flags (2B), QDCOUNT, ANCOUNT, NSCOUNT, ARCOUNT (2B each)</td></tr>
-        <tr><td>Question</td><td>variable</td><td>QNAME (label encoding), QTYPE (2B), QCLASS (2B)</td></tr>
-        <tr><td>Answer</td><td>variable</td><td>NAME, TYPE, CLASS, TTL (4B), RDLENGTH, RDATA</td></tr>
-        <tr><td>Authority</td><td>variable</td><td>NS records for zone delegation</td></tr>
-        <tr><td>Additional</td><td>variable</td><td>Glue records (A for the NS itself)</td></tr>
-      </tbody>
-    </table>
-    <p><strong>Label encoding:</strong> <code>api.io</code> becomes <code>\x03api\x02io\x00</code> — each label prefixed with its length byte, terminated with zero byte. DNS uses pointer compression (2-byte offset) to avoid repeating names.</p>
+<p>DNS messages are binary, typically UDP (port 53), falling back to TCP for responses > 512 bytes or zone transfers. Each message has a fixed 12-byte header followed by variable sections.</p>
+<table class="t-table">
+<thead><tr><th>Section</th><th>Size</th><th>Content</th></tr></thead>
+<tbody>
+<tr><td>Header</td><td>12 bytes</td><td>ID (2B), Flags (2B), QDCOUNT, ANCOUNT, NSCOUNT, ARCOUNT (2B each)</td></tr>
+<tr><td>Question</td><td>variable</td><td>QNAME (label encoding), QTYPE (2B), QCLASS (2B)</td></tr>
+<tr><td>Answer</td><td>variable</td><td>NAME, TYPE, CLASS, TTL (4B), RDLENGTH, RDATA</td></tr>
+<tr><td>Authority</td><td>variable</td><td>NS records for zone delegation</td></tr>
+<tr><td>Additional</td><td>variable</td><td>Glue records (A for the NS itself)</td></tr>
+</tbody>
+</table>
+<p><strong>Label encoding:</strong> <code>api.io</code> becomes <code>\x03api\x02io\x00</code> — each label prefixed with its length byte, terminated with zero byte. DNS uses pointer compression (2-byte offset) to avoid repeating names.</p>
   </div>
 </div>
 <h3>TTL and Caching Behaviour</h3>
@@ -279,52 +279,61 @@ url: /learning/backend/m01-dns-tcp-tls/
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Kaminsky Attack (2008)</h3><span class="tag tag-red">ATTACK VECTOR</span></div>
   <div class="cp-body">
-    <p>An attacker can inject forged DNS responses by racing the legitimate response. Classic UDP DNS used predictable transaction IDs (16-bit, ~65K space) — an attacker sending spoofed responses for all 65K IDs had a good chance of winning the race.</p>
-    <h4>Defences</h4>
-    <ul>
-      <li><strong>Source port randomisation</strong> — expands guessing space from 65K to 65K × 65K ≈ 4 billion</li>
-      <li><strong>DNSSEC</strong> — cryptographic signatures on DNS records; validates chain of trust from root to zone</li>
-      <li><strong>DNS-over-HTTPS (DoH) / DNS-over-TLS (DoT)</strong> — prevents on-path eavesdropping and tampering</li>
-      <li><strong>0x20 encoding</strong> — randomise case in query name; attacker must match exact case in response</li>
-    </ul>
+<p>An attacker can inject forged DNS responses by racing the legitimate response. Classic UDP DNS used predictable transaction IDs (16-bit, ~65K space) — an attacker sending spoofed responses for all 65K IDs had a good chance of winning the race.</p>
+<h4>Defences</h4>
+<ul>
+<li><strong>Source port randomisation</strong> — expands guessing space from 65K to 65K × 65K ≈ 4 billion</li>
+<li><strong>DNSSEC</strong> — cryptographic signatures on DNS records; validates chain of trust from root to zone</li>
+<li><strong>DNS-over-HTTPS (DoH) / DNS-over-TLS (DoT)</strong> — prevents on-path eavesdropping and tampering</li>
+<li><strong>0x20 encoding</strong> — randomise case in query name; attacker must match exact case in response</li>
+</ul>
   </div>
 </div>
 <h3>C Code: <code>getaddrinfo()</code></h3>
-<div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/types.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;netdb.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;arpa/inet.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-<span class="cm">/* Resolve hostname → IP(s), prefer IPv4 */</span>
-<span class="ck">int</span> resolve_host(<span class="ck">const char</span> *host, <span class="ck">char</span> out_ip[<span class="cv">INET6_ADDRSTRLEN</span>]) {
-    <span class="ck">struct</span> addrinfo hints, *res, *rp;
-    <span class="ck">memset</span>(&amp;hints, <span class="cv">0</span>, <span class="ck">sizeof</span>(hints));
-    hints.ai_family   = AF_UNSPEC;    <span class="cm">/* IPv4 or IPv6 */</span>
-    hints.ai_socktype = SOCK_STREAM;  <span class="cm">/* TCP */</span>
-    <span class="ck">int</span> rc = getaddrinfo(host, <span class="cs">NULL</span>, &amp;hints, &amp;res);
-    <span class="ck">if</span> (rc != <span class="cv">0</span>) {
-        fprintf(stderr, <span class="cs">"getaddrinfo: %s\n"</span>, gai_strerror(rc));
-        <span class="ck">return</span> -<span class="cv">1</span>;
+
+
+```cpp
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <string.h>
+
+/* Resolve hostname → IP(s), prefer IPv4 */
+int resolve_host(const char *host, char out_ip[INET6_ADDRSTRLEN]) {
+    struct addrinfo hints, *res, *rp;
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family   = AF_UNSPEC;    /* IPv4 or IPv6 */
+    hints.ai_socktype = SOCK_STREAM;  /* TCP */
+
+    int rc = getaddrinfo(host, NULL, &hints, &res);
+    if (rc != 0) {
+        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rc));
+        return -1;
     }
- 
-    <span class="ck">for</span> (rp = res; rp != <span class="cs">NULL</span>; rp = rp->ai_next) {
-        <span class="ck">void</span> *addr;
-        <span class="ck">if</span> (rp->ai_family == AF_INET) {
-            <span class="ck">struct</span> sockaddr_in *ipv4 = (<span class="ck">struct</span> sockaddr_in *)rp->ai_addr;
-            addr = &amp;ipv4->sin_addr;
-        } <span class="ck">else</span> {
-            <span class="ck">struct</span> sockaddr_in6 *ipv6 = (<span class="ck">struct</span> sockaddr_in6 *)rp->ai_addr;
-            addr = &amp;ipv6->sin6_addr;
+
+    for (rp = res; rp != NULL; rp = rp->ai_next) {
+        void *addr;
+        if (rp->ai_family == AF_INET) {
+            struct sockaddr_in *ipv4 = (struct sockaddr_in *)rp->ai_addr;
+            addr = &ipv4->sin_addr;
+        } else {
+            struct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)rp->ai_addr;
+            addr = &ipv6->sin6_addr;
         }
         inet_ntop(rp->ai_family, addr, out_ip, INET6_ADDRSTRLEN);
-        printf(<span class="cs">"Resolved %s → %s\n"</span>, host, out_ip);
-        <span class="ck">break</span>;  <span class="cm">/* take first result */</span>
+        printf("Resolved %s → %s\n", host, out_ip);
+        break;  /* take first result */
     }
- 
+
     freeaddrinfo(res);
-    <span class="ck">return</span> <span class="cv">0</span>;
-}</pre></div>
+    return 0;
+}
+```
+
+
+
 <div class="warn"><p>⚠️ <strong>Never call <code>gethostbyname()</code></strong> — it is not thread-safe (returns pointer to static buffer), doesn't support IPv6, and is deprecated in POSIX.1-2008. Always use <code>getaddrinfo()</code>.</p></div>
 </div>
 <!-- ══════════════════════════════════════════════════════ t2 TCP Handshake -->
@@ -332,8 +341,8 @@ url: /learning/backend/m01-dns-tcp-tls/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Why a 3-Way Handshake?</h3><span class="tag tag-teal">RELIABILITY</span></div>
   <div class="cp-body">
-    <p>TCP is connection-oriented: both sides must agree on initial sequence numbers (ISNs) before data can flow. The 3-way handshake achieves this with the minimum number of round trips needed to confirm bidirectional reachability and synchronise state.</p>
-    <p>A 2-way handshake would suffice for the client to know the server is reachable — but the server wouldn't know the client received the SYN-ACK. The third ACK closes this gap.</p>
+<p>TCP is connection-oriented: both sides must agree on initial sequence numbers (ISNs) before data can flow. The 3-way handshake achieves this with the minimum number of round trips needed to confirm bidirectional reachability and synchronise state.</p>
+<p>A 2-way handshake would suffice for the client to know the server is reachable — but the server wouldn't know the client received the SYN-ACK. The third ACK closes this gap.</p>
   </div>
 </div>
 <h3>3-Way Handshake in Detail</h3>
@@ -355,24 +364,24 @@ url: /learning/backend/m01-dns-tcp-tls/
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🎲</span><h3>Why ISNs Must Be Random</h3><span class="tag tag-orange">SECURITY</span></div>
   <div class="cp-body">
-    <p>Early TCP implementations used predictable ISNs (incrementing counters). This allowed <strong>TCP session hijacking</strong>: an attacker who could predict the server's ISN could forge an ACK and inject data into a connection without being on the network path.</p>
-    <p>Modern kernels (Linux, BSD) use ISNs derived from a keyed hash of the 4-tuple (src-ip, src-port, dst-ip, dst-port) plus a secret key and timestamp — making ISNs unpredictable while still monotonically increasing within a connection.</p>
+<p>Early TCP implementations used predictable ISNs (incrementing counters). This allowed <strong>TCP session hijacking</strong>: an attacker who could predict the server's ISN could forge an ACK and inject data into a connection without being on the network path.</p>
+<p>Modern kernels (Linux, BSD) use ISNs derived from a keyed hash of the 4-tuple (src-ip, src-port, dst-ip, dst-port) plus a secret key and timestamp — making ISNs unpredictable while still monotonically increasing within a connection.</p>
   </div>
 </div>
 <h3>TCP Options Negotiated During Handshake</h3>
 <table class="t-table">
   <thead><tr><th>Option</th><th>Kind</th><th>Purpose</th><th>Default if absent</th></tr></thead>
   <tbody>
-    <tr><td><strong>MSS</strong></td><td>2</td><td>Maximum Segment Size — largest payload per segment, usually 1460 on Ethernet (1500 MTU − 40B IP+TCP)</td><td>536 bytes (safe minimum)</td></tr>
-    <tr><td><strong>SACK</strong></td><td>4/5</td><td>Selective Acknowledgement — receiver tells sender exactly which segments arrived; avoids retransmitting already-received data</td><td>Go-Back-N (retransmit from gap)</td></tr>
-    <tr><td><strong>Window Scale</strong></td><td>3</td><td>Shifts the 16-bit window field left by N bits, allowing windows up to 1 GB. Essential for high-bandwidth long-distance links (bandwidth-delay product)</td><td>64 KB max window</td></tr>
-    <tr><td><strong>Timestamps</strong></td><td>8</td><td>RTT measurement + PAWS (Protection Against Wrapped Sequence numbers). Also mitigates blind RST injection</td><td>No RTT measurement from headers</td></tr>
+<tr><td><strong>MSS</strong></td><td>2</td><td>Maximum Segment Size — largest payload per segment, usually 1460 on Ethernet (1500 MTU − 40B IP+TCP)</td><td>536 bytes (safe minimum)</td></tr>
+<tr><td><strong>SACK</strong></td><td>4/5</td><td>Selective Acknowledgement — receiver tells sender exactly which segments arrived; avoids retransmitting already-received data</td><td>Go-Back-N (retransmit from gap)</td></tr>
+<tr><td><strong>Window Scale</strong></td><td>3</td><td>Shifts the 16-bit window field left by N bits, allowing windows up to 1 GB. Essential for high-bandwidth long-distance links (bandwidth-delay product)</td><td>64 KB max window</td></tr>
+<tr><td><strong>Timestamps</strong></td><td>8</td><td>RTT measurement + PAWS (Protection Against Wrapped Sequence numbers). Also mitigates blind RST injection</td><td>No RTT measurement from headers</td></tr>
   </tbody>
 </table>
 <h3>Connection Teardown: FIN vs RST</h3>
 <div class="two-col">
   <div>
-    <h4>Graceful: FIN (4-way)</h4>
+<h4>Graceful: FIN (4-way)</h4>
     <div class="seq-diagram"><pre>
   Active closer          Passive closer
       │                       │
@@ -385,89 +394,97 @@ url: /learning/backend/m01-dns-tcp-tls/
       │── ACK ────────────────▶│ [CLOSED]
       │  (wait 2×MSL)          │
       │  [CLOSED]              │</pre></div>
-    <p style="font-size:.82rem;color:var(--text-color,#555)">Half-close allows server to finish sending before closing.</p>
+<p style="font-size:.82rem;color:var(--text-color,#555)">Half-close allows server to finish sending before closing.</p>
   </div>
   <div>
-    <h4>Abortive: RST</h4>
-    <div class="cp p-red" style="margin:0">
-      <div class="cp-body">
-        <p>RST immediately terminates connection — no graceful drain. Caused by:</p>
-        <ul>
-          <li>Port not listening (<code>Connection refused</code>)</li>
-          <li><code>SO_LINGER</code> with <code>l_linger=0</code></li>
-          <li>Out-of-window segment received</li>
-          <li>Application crash without <code>close()</code></li>
-          <li>Firewall/middlebox injecting RST</li>
-        </ul>
-        <p>RST causes <code>ECONNRESET</code> on the peer's next read/write.</p>
-      </div>
-    </div>
+<h4>Abortive: RST</h4>
+<div class="cp p-red" style="margin:0">
+<div class="cp-body">
+<p>RST immediately terminates connection — no graceful drain. Caused by:</p>
+<ul>
+<li>Port not listening (<code>Connection refused</code>)</li>
+<li><code>SO_LINGER</code> with <code>l_linger=0</code></li>
+<li>Out-of-window segment received</li>
+<li>Application crash without <code>close()</code></li>
+<li>Firewall/middlebox injecting RST</li>
+</ul>
+<p>RST causes <code>ECONNRESET</code> on the peer's next read/write.</p>
+</div>
+</div>
   </div>
 </div>
 <h3>Key Socket Options</h3>
 <table class="t-table">
   <thead><tr><th>Option</th><th>Level</th><th>Effect</th><th>When to use</th></tr></thead>
   <tbody>
-    <tr><td><code>SO_REUSEADDR</code></td><td>SOL_SOCKET</td><td>Allows bind to a port in TIME_WAIT state. Essential for servers that restart quickly</td><td>Always set on server sockets</td></tr>
-    <tr><td><code>SO_REUSEPORT</code></td><td>SOL_SOCKET</td><td>Multiple sockets can bind same port; kernel load-balances incoming connections across them</td><td>Multi-process/multi-thread servers</td></tr>
-    <tr><td><code>TCP_NODELAY</code></td><td>IPPROTO_TCP</td><td>Disables Nagle's algorithm — sends small packets immediately rather than buffering</td><td>Interactive protocols (SSH, Redis), latency-sensitive RPCs</td></tr>
-    <tr><td><code>SO_KEEPALIVE</code></td><td>SOL_SOCKET</td><td>OS sends keepalive probes after idle period to detect dead peers</td><td>Long-lived connections (DB pools)</td></tr>
-    <tr><td><code>TCP_FASTOPEN</code></td><td>IPPROTO_TCP</td><td>Send data in SYN packet on repeat connections — saves 1 RTT</td><td>Latency-critical repeat connections</td></tr>
-    <tr><td><code>SO_LINGER</code></td><td>SOL_SOCKET</td><td>Controls close() behaviour: wait for drain vs send RST immediately</td><td>Set <code>l_linger=0</code> only when intentionally aborting</td></tr>
+<tr><td><code>SO_REUSEADDR</code></td><td>SOL_SOCKET</td><td>Allows bind to a port in TIME_WAIT state. Essential for servers that restart quickly</td><td>Always set on server sockets</td></tr>
+<tr><td><code>SO_REUSEPORT</code></td><td>SOL_SOCKET</td><td>Multiple sockets can bind same port; kernel load-balances incoming connections across them</td><td>Multi-process/multi-thread servers</td></tr>
+<tr><td><code>TCP_NODELAY</code></td><td>IPPROTO_TCP</td><td>Disables Nagle's algorithm — sends small packets immediately rather than buffering</td><td>Interactive protocols (SSH, Redis), latency-sensitive RPCs</td></tr>
+<tr><td><code>SO_KEEPALIVE</code></td><td>SOL_SOCKET</td><td>OS sends keepalive probes after idle period to detect dead peers</td><td>Long-lived connections (DB pools)</td></tr>
+<tr><td><code>TCP_FASTOPEN</code></td><td>IPPROTO_TCP</td><td>Send data in SYN packet on repeat connections — saves 1 RTT</td><td>Latency-critical repeat connections</td></tr>
+<tr><td><code>SO_LINGER</code></td><td>SOL_SOCKET</td><td>Controls close() behaviour: wait for drain vs send RST immediately</td><td>Set <code>l_linger=0</code> only when intentionally aborting</td></tr>
   </tbody>
 </table>
 <h3>C: TCP Server Skeleton</h3>
-<div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;netinet/in.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;netinet/tcp.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-<span class="ck">int</span> main(<span class="ck">void</span>) {
-    <span class="cm">/* 1. Create socket */</span>
-    <span class="ck">int</span> server_fd = socket(AF_INET, SOCK_STREAM, <span class="cv">0</span>);
- 
-    <span class="cm">/* 2. Allow port reuse (survive TIME_WAIT on restart) */</span>
-    <span class="ck">int</span> opt = <span class="cv">1</span>;
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="ck">sizeof</span>(opt));
-    setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &amp;opt, <span class="ck">sizeof</span>(opt));
- 
-    <span class="cm">/* 3. Bind to port 8080, all interfaces */</span>
-    <span class="ck">struct</span> sockaddr_in addr = {
+
+
+```cpp
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(void) {
+    /* 1. Create socket */
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    /* 2. Allow port reuse (survive TIME_WAIT on restart) */
+    int opt = 1;
+    setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
+
+    /* 3. Bind to port 8080, all interfaces */
+    struct sockaddr_in addr = {
         .sin_family      = AF_INET,
-        .sin_port        = htons(<span class="cv">8080</span>),
+        .sin_port        = htons(8080),
         .sin_addr.s_addr = INADDR_ANY
     };
-    bind(server_fd, (<span class="ck">struct</span> sockaddr *)&amp;addr, <span class="ck">sizeof</span>(addr));
- 
-    <span class="cm">/* 4. Mark as passive; backlog=128 = max pending SYNs in accept queue */</span>
-    listen(server_fd, <span class="cv">128</span>);
-    printf(<span class="cs">"Listening on :8080\n"</span>);
- 
-    <span class="ck">while</span> (<span class="cv">1</span>) {
-        <span class="cm">/* 5. Accept — blocks until 3-way handshake completes */</span>
-        <span class="ck">struct</span> sockaddr_in client_addr;
-        socklen_t client_len = <span class="ck">sizeof</span>(client_addr);
-        <span class="ck">int</span> conn_fd = accept(server_fd,
-                             (<span class="ck">struct</span> sockaddr *)&amp;client_addr,
-                             &amp;client_len);
- 
-        <span class="cm">/* 6. Disable Nagle for low-latency responses */</span>
-        setsockopt(conn_fd, IPPROTO_TCP, TCP_NODELAY, &amp;opt, <span class="ck">sizeof</span>(opt));
- 
-        <span class="cm">/* 7. Read request (simplified — real code loops until \r\n\r\n) */</span>
-        <span class="ck">char</span> buf[<span class="cv">4096</span>];
-        ssize_t n = recv(conn_fd, buf, <span class="ck">sizeof</span>(buf) - <span class="cv">1</span>, <span class="cv">0</span>);
-        buf[n] = <span class="cv">'\0'</span>;
- 
-        <span class="cm">/* 8. Send response */</span>
-        <span class="ck">const char</span> *resp = <span class="cs">"HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello"</span>;
-        send(conn_fd, resp, strlen(resp), <span class="cv">0</span>);
- 
-        <span class="cm">/* 9. Graceful close — sends FIN, drains */</span>
+    bind(server_fd, (struct sockaddr *)&addr, sizeof(addr));
+
+    /* 4. Mark as passive; backlog=128 = max pending SYNs in accept queue */
+    listen(server_fd, 128);
+    printf("Listening on :8080\n");
+
+    while (1) {
+        /* 5. Accept — blocks until 3-way handshake completes */
+        struct sockaddr_in client_addr;
+        socklen_t client_len = sizeof(client_addr);
+        int conn_fd = accept(server_fd,
+                             (struct sockaddr *)&client_addr,
+                             &client_len);
+
+        /* 6. Disable Nagle for low-latency responses */
+        setsockopt(conn_fd, IPPROTO_TCP, TCP_NODELAY, &opt, sizeof(opt));
+
+        /* 7. Read request (simplified — real code loops until \r\n\r\n) */
+        char buf[4096];
+        ssize_t n = recv(conn_fd, buf, sizeof(buf) - 1, 0);
+        buf[n] = '\0';
+
+        /* 8. Send response */
+        const char *resp = "HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello";
+        send(conn_fd, resp, strlen(resp), 0);
+
+        /* 9. Graceful close — sends FIN, drains */
         close(conn_fd);
     }
-}</pre></div>
+}
+```
+
+
+
 <div class="note"><p><strong>accept() backlog:</strong> The backlog parameter to <code>listen()</code> limits the number of completed-but-not-yet-accepted connections in the kernel's accept queue. Under SYN flood, the incomplete SYN queue fills first. Set <code>net.ipv4.tcp_syncookies=1</code> to handle SYN floods without dropping legitimate connections.</p></div>
 </div>
 <!-- ══════════════════════════════════════════════════════ t3 TCP States -->
@@ -475,112 +492,112 @@ url: /learning/backend/m01-dns-tcp-tls/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>TCP State Machine</h3><span class="tag tag-teal">11 STATES</span></div>
   <div class="cp-body">
-    <p>TCP is a finite state machine. Each connection independently transitions through states based on segments received and API calls made. Knowing these states helps you diagnose stuck connections, TIME_WAIT accumulation, and FIN_WAIT_2 leaks using <code>ss</code> or <code>netstat</code>.</p>
+<p>TCP is a finite state machine. Each connection independently transitions through states based on segments received and API calls made. Knowing these states helps you diagnose stuck connections, TIME_WAIT accumulation, and FIN_WAIT_2 leaks using <code>ss</code> or <code>netstat</code>.</p>
   </div>
 </div>
 <div class="states-grid">
   <div class="state-box">
-    <div class="st-name">CLOSED</div>
-    <div class="st-desc">Initial state. No connection. No resources allocated.</div>
+<div class="st-name">CLOSED</div>
+<div class="st-desc">Initial state. No connection. No resources allocated.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">LISTEN</div>
-    <div class="st-desc">Server waiting for SYN. Socket bound and listening.</div>
+<div class="st-name">LISTEN</div>
+<div class="st-desc">Server waiting for SYN. Socket bound and listening.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">SYN_SENT</div>
-    <div class="st-desc">Client sent SYN, waiting for SYN-ACK.</div>
+<div class="st-name">SYN_SENT</div>
+<div class="st-desc">Client sent SYN, waiting for SYN-ACK.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">SYN_RCVD</div>
-    <div class="st-desc">Server received SYN, sent SYN-ACK, waiting for ACK.</div>
+<div class="st-name">SYN_RCVD</div>
+<div class="st-desc">Server received SYN, sent SYN-ACK, waiting for ACK.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">ESTABLISHED</div>
-    <div class="st-desc">Handshake complete. Data can flow in both directions.</div>
+<div class="st-name">ESTABLISHED</div>
+<div class="st-desc">Handshake complete. Data can flow in both directions.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">FIN_WAIT_1</div>
-    <div class="st-desc">Sent FIN. Waiting for ACK or FIN from peer.</div>
+<div class="st-name">FIN_WAIT_1</div>
+<div class="st-desc">Sent FIN. Waiting for ACK or FIN from peer.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">FIN_WAIT_2</div>
-    <div class="st-desc">Received ACK for our FIN. Waiting for peer's FIN.</div>
+<div class="st-name">FIN_WAIT_2</div>
+<div class="st-desc">Received ACK for our FIN. Waiting for peer's FIN.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">CLOSE_WAIT</div>
-    <div class="st-desc">Received peer's FIN. App must now call close().</div>
+<div class="st-name">CLOSE_WAIT</div>
+<div class="st-desc">Received peer's FIN. App must now call close().</div>
   </div>
   <div class="state-box">
-    <div class="st-name">CLOSING</div>
-    <div class="st-desc">Simultaneous close: both sides sent FIN. Rare.</div>
+<div class="st-name">CLOSING</div>
+<div class="st-desc">Simultaneous close: both sides sent FIN. Rare.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">LAST_ACK</div>
-    <div class="st-desc">Passive closer sent FIN. Waiting for final ACK.</div>
+<div class="st-name">LAST_ACK</div>
+<div class="st-desc">Passive closer sent FIN. Waiting for final ACK.</div>
   </div>
   <div class="state-box">
-    <div class="st-name">TIME_WAIT</div>
-    <div class="st-desc">Active closer waits 2×MSL (≈60s) before CLOSED.</div>
+<div class="st-name">TIME_WAIT</div>
+<div class="st-desc">Active closer waits 2×MSL (≈60s) before CLOSED.</div>
   </div>
 </div>
 <h3>Diagnosing with <code>ss</code></h3>
 <table class="t-table">
   <thead><tr><th>Command</th><th>Shows</th></tr></thead>
   <tbody>
-    <tr><td><code>ss -tan</code></td><td>All TCP sockets with state (numeric addresses)</td></tr>
-    <tr><td><code>ss -tan state established</code></td><td>Only ESTABLISHED connections</td></tr>
-    <tr><td><code>ss -tan state time-wait | wc -l</code></td><td>Count of TIME_WAIT sockets</td></tr>
-    <tr><td><code>ss -tlnp</code></td><td>Listening servers with PID</td></tr>
-    <tr><td><code>ss -s</code></td><td>Summary statistics per state</td></tr>
+<tr><td><code>ss -tan</code></td><td>All TCP sockets with state (numeric addresses)</td></tr>
+<tr><td><code>ss -tan state established</code></td><td>Only ESTABLISHED connections</td></tr>
+<tr><td><code>ss -tan state time-wait | wc -l</code></td><td>Count of TIME_WAIT sockets</td></tr>
+<tr><td><code>ss -tlnp</code></td><td>Listening servers with PID</td></tr>
+<tr><td><code>ss -s</code></td><td>Summary statistics per state</td></tr>
   </tbody>
 </table>
 <h3>TIME_WAIT Deep Dive</h3>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>Why TIME_WAIT Exists and Why It Matters</h3><span class="tag tag-orange">COMMON ISSUE</span></div>
   <div class="cp-body">
-    <h4>Purpose of TIME_WAIT (2 × MSL ≈ 60 seconds)</h4>
-    <ol>
-      <li><strong>Ensure the final ACK reaches the peer</strong> — if the peer's FIN is not ACK'd it will retransmit; TIME_WAIT allows us to re-ACK it.</li>
-      <li><strong>Prevent old segments from corrupting new connections</strong> — a new connection on the same 4-tuple must not see segments from the old connection (MSL = Maximum Segment Lifetime).</li>
-    </ol>
-    <h4>When TIME_WAIT Becomes a Problem</h4>
-    <p>Each TIME_WAIT socket holds a 4-tuple (src-ip, src-port, dst-ip, dst-port). A server making many short outbound connections (HTTP/1.0 clients, aggressive connection teardown) can exhaust the ephemeral port range (~28K ports by default on Linux).</p>
-    <h4>Solutions</h4>
-    <ul>
-      <li><strong>HTTP keep-alive / connection pooling</strong> — reuse connections, avoid teardown</li>
-      <li><code>net.ipv4.tcp_tw_reuse=1</code> — allows reuse of TIME_WAIT connections for outbound; safe for clients</li>
-      <li><code>SO_REUSEADDR</code> — allows server to bind to a port that has TIME_WAIT connections</li>
-      <li>Increase ephemeral port range: <code>net.ipv4.ip_local_port_range = 1024 65535</code></li>
-    </ul>
-    <div class="warn"><p>⚠️ <strong>Do NOT set <code>tcp_tw_recycle</code></strong> — it was removed in Linux 4.12 because it breaks clients behind NAT (multiple clients appear to have same IP, causing packets to be dropped).</p></div>
+<h4>Purpose of TIME_WAIT (2 × MSL ≈ 60 seconds)</h4>
+<ol>
+<li><strong>Ensure the final ACK reaches the peer</strong> — if the peer's FIN is not ACK'd it will retransmit; TIME_WAIT allows us to re-ACK it.</li>
+<li><strong>Prevent old segments from corrupting new connections</strong> — a new connection on the same 4-tuple must not see segments from the old connection (MSL = Maximum Segment Lifetime).</li>
+</ol>
+<h4>When TIME_WAIT Becomes a Problem</h4>
+<p>Each TIME_WAIT socket holds a 4-tuple (src-ip, src-port, dst-ip, dst-port). A server making many short outbound connections (HTTP/1.0 clients, aggressive connection teardown) can exhaust the ephemeral port range (~28K ports by default on Linux).</p>
+<h4>Solutions</h4>
+<ul>
+<li><strong>HTTP keep-alive / connection pooling</strong> — reuse connections, avoid teardown</li>
+<li><code>net.ipv4.tcp_tw_reuse=1</code> — allows reuse of TIME_WAIT connections for outbound; safe for clients</li>
+<li><code>SO_REUSEADDR</code> — allows server to bind to a port that has TIME_WAIT connections</li>
+<li>Increase ephemeral port range: <code>net.ipv4.ip_local_port_range = 1024 65535</code></li>
+</ul>
+<div class="warn"><p>⚠️ <strong>Do NOT set <code>tcp_tw_recycle</code></strong> — it was removed in Linux 4.12 because it breaks clients behind NAT (multiple clients appear to have same IP, causing packets to be dropped).</p></div>
   </div>
 </div>
 <h3>CLOSE_WAIT Accumulation: A Common Bug</h3>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🐛</span><h3>CLOSE_WAIT Leak</h3><span class="tag tag-red">BUG PATTERN</span></div>
   <div class="cp-body">
-    <p>If <code>ss</code> shows many <strong>CLOSE_WAIT</strong> sockets, the peer has sent FIN but your application has not called <code>close()</code> on the socket. This is almost always a resource leak — your code received EOF but didn't clean up.</p>
-    <p><strong>Root causes:</strong> forgetting to close the fd in error paths, connection not removed from a pool on EOF, async handler not calling close() after reading 0 bytes from recv().</p>
-    <p><strong>Diagnosis:</strong> <code>ss -tanp state close-wait</code> to find which process, then check the source for missing <code>close()</code> calls after <code>recv() == 0</code>.</p>
+<p>If <code>ss</code> shows many <strong>CLOSE_WAIT</strong> sockets, the peer has sent FIN but your application has not called <code>close()</code> on the socket. This is almost always a resource leak — your code received EOF but didn't clean up.</p>
+<p><strong>Root causes:</strong> forgetting to close the fd in error paths, connection not removed from a pool on EOF, async handler not calling close() after reading 0 bytes from recv().</p>
+<p><strong>Diagnosis:</strong> <code>ss -tanp state close-wait</code> to find which process, then check the source for missing <code>close()</code> calls after <code>recv() == 0</code>.</p>
   </div>
 </div>
 <h3>Half-Open Connections and Keepalive</h3>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">💤</span><h3>Dead Peer Detection</h3><span class="tag tag-blue">RELIABILITY</span></div>
   <div class="cp-body">
-    <p>A <strong>half-open connection</strong> occurs when one side crashes without sending FIN (power loss, kernel panic, network cable unplugged). The surviving side believes the connection is ESTABLISHED but the peer is gone.</p>
-    <p>Without keepalive, this connection stays ESTABLISHED forever — wasting file descriptors and thread/process resources.</p>
-    <h4>TCP Keepalive Settings (Linux)</h4>
-    <table class="t-table">
-      <thead><tr><th>Sysctl</th><th>Default</th><th>Meaning</th></tr></thead>
-      <tbody>
-        <tr><td><code>tcp_keepalive_time</code></td><td>7200s</td><td>Idle time before first probe</td></tr>
-        <tr><td><code>tcp_keepalive_intvl</code></td><td>75s</td><td>Interval between probes</td></tr>
-        <tr><td><code>tcp_keepalive_probes</code></td><td>9</td><td>Probes before giving up</td></tr>
-      </tbody>
-    </table>
-    <p>Per-socket override (much faster than system defaults):</p>
+<p>A <strong>half-open connection</strong> occurs when one side crashes without sending FIN (power loss, kernel panic, network cable unplugged). The surviving side believes the connection is ESTABLISHED but the peer is gone.</p>
+<p>Without keepalive, this connection stays ESTABLISHED forever — wasting file descriptors and thread/process resources.</p>
+<h4>TCP Keepalive Settings (Linux)</h4>
+<table class="t-table">
+<thead><tr><th>Sysctl</th><th>Default</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>tcp_keepalive_time</code></td><td>7200s</td><td>Idle time before first probe</td></tr>
+<tr><td><code>tcp_keepalive_intvl</code></td><td>75s</td><td>Interval between probes</td></tr>
+<tr><td><code>tcp_keepalive_probes</code></td><td>9</td><td>Probes before giving up</td></tr>
+</tbody>
+</table>
+<p>Per-socket override (much faster than system defaults):</p>
     <div class="cb"><pre><span class="ck">int</span> idle = <span class="cv">10</span>, intvl = <span class="cv">5</span>, cnt = <span class="cv">3</span>;
 setsockopt(fd, SOL_SOCKET, SO_KEEPALIVE, &amp;(<span class="ck">int</span>){<span class="cv">1</span>}, <span class="ck">sizeof</span>(<span class="ck">int</span>));
 setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &amp;idle,  <span class="ck">sizeof</span>(idle));
@@ -595,18 +612,18 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>TLS 1.3: Why It Matters</h3><span class="tag tag-teal">RFC 8446</span></div>
   <div class="cp-body">
-    <p>TLS 1.3 (2018) is a ground-up redesign of TLS 1.2. It removes legacy cruft (RSA key exchange, CBC mode ciphers, compression, renegotiation), cuts handshake latency from 2 RTT to 1 RTT, and mandates forward secrecy on every connection.</p>
-    <table class="t-table">
-      <thead><tr><th>Property</th><th>TLS 1.2</th><th>TLS 1.3</th></tr></thead>
-      <tbody>
-        <tr><td>Handshake RTTs</td><td>2 RTT</td><td><strong>1 RTT</strong> (0-RTT for resumption)</td></tr>
-        <tr><td>Key exchange</td><td>RSA (static) or ECDHE</td><td><strong>ECDHE only</strong> (forward secrecy mandatory)</td></tr>
-        <tr><td>Cipher suites</td><td>37+ (many weak)</td><td><strong>5</strong> (all AEAD: AES-GCM, ChaCha20-Poly1305)</td></tr>
-        <tr><td>Certificate encryption</td><td>No</td><td><strong>Yes</strong> (cert sent after key exchange)</td></tr>
-        <tr><td>Renegotiation</td><td>Supported (CVE source)</td><td><strong>Removed</strong></td></tr>
-        <tr><td>Compression</td><td>Optional (CRIME attack)</td><td><strong>Removed</strong></td></tr>
-      </tbody>
-    </table>
+<p>TLS 1.3 (2018) is a ground-up redesign of TLS 1.2. It removes legacy cruft (RSA key exchange, CBC mode ciphers, compression, renegotiation), cuts handshake latency from 2 RTT to 1 RTT, and mandates forward secrecy on every connection.</p>
+<table class="t-table">
+<thead><tr><th>Property</th><th>TLS 1.2</th><th>TLS 1.3</th></tr></thead>
+<tbody>
+<tr><td>Handshake RTTs</td><td>2 RTT</td><td><strong>1 RTT</strong> (0-RTT for resumption)</td></tr>
+<tr><td>Key exchange</td><td>RSA (static) or ECDHE</td><td><strong>ECDHE only</strong> (forward secrecy mandatory)</td></tr>
+<tr><td>Cipher suites</td><td>37+ (many weak)</td><td><strong>5</strong> (all AEAD: AES-GCM, ChaCha20-Poly1305)</td></tr>
+<tr><td>Certificate encryption</td><td>No</td><td><strong>Yes</strong> (cert sent after key exchange)</td></tr>
+<tr><td>Renegotiation</td><td>Supported (CVE source)</td><td><strong>Removed</strong></td></tr>
+<tr><td>Compression</td><td>Optional (CRIME attack)</td><td><strong>Removed</strong></td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <h3>TLS 1.3 Handshake: 1-RTT</h3>
@@ -643,10 +660,10 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔑</span><h3>Ephemeral Diffie-Hellman (ECDHE)</h3><span class="tag tag-purple">FORWARD SECRECY</span></div>
   <div class="cp-body">
-    <p>In old RSA key exchange, the client encrypted the session key with the server's public RSA key. If the server's private key was later stolen, all past recorded traffic could be decrypted.</p>
-    <p>ECDHE generates <strong>fresh key pairs per connection</strong>. Both sides exchange their ephemeral public keys; each derives the shared secret using their own private key and the peer's public key. The private key is never transmitted and is discarded after the handshake.</p>
-    <p><strong>Result:</strong> Compromising the server's long-term certificate key cannot decrypt past sessions — each session's secret was derived from ephemeral keys that no longer exist.</p>
-    <div class="note"><p><strong>Common curves in TLS 1.3:</strong> X25519 (preferred, fast, safe), P-256, P-384. X25519 is a modern curve with better performance and simpler implementation than NIST curves.</p></div>
+<p>In old RSA key exchange, the client encrypted the session key with the server's public RSA key. If the server's private key was later stolen, all past recorded traffic could be decrypted.</p>
+<p>ECDHE generates <strong>fresh key pairs per connection</strong>. Both sides exchange their ephemeral public keys; each derives the shared secret using their own private key and the peer's public key. The private key is never transmitted and is discarded after the handshake.</p>
+<p><strong>Result:</strong> Compromising the server's long-term certificate key cannot decrypt past sessions — each session's secret was derived from ephemeral keys that no longer exist.</p>
+<div class="note"><p><strong>Common curves in TLS 1.3:</strong> X25519 (preferred, fast, safe), P-256, P-384. X25519 is a modern curve with better performance and simpler implementation than NIST curves.</p></div>
   </div>
 </div>
 <h3>Certificate Chain Validation</h3>
@@ -661,237 +678,269 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <h3>SNI and ALPN</h3>
 <div class="two-col">
   <div class="cp p-blue" style="margin:0">
-    <div class="cp-hdr"><span class="ico">🏷️</span><h3>SNI</h3><span class="tag tag-blue">SERVER NAME INDICATION</span></div>
-    <div class="cp-body">
-      <p>SNI allows a single server IP to host multiple TLS domains. The client sends the desired hostname in ClientHello <em>before</em> the server has selected a certificate — so the server can return the right cert.</p>
-      <p>In TLS 1.3, SNI is encrypted (via Encrypted Client Hello / ECH) to prevent observers from seeing which domain you're connecting to.</p>
-    </div>
+<div class="cp-hdr"><span class="ico">🏷️</span><h3>SNI</h3><span class="tag tag-blue">SERVER NAME INDICATION</span></div>
+<div class="cp-body">
+<p>SNI allows a single server IP to host multiple TLS domains. The client sends the desired hostname in ClientHello <em>before</em> the server has selected a certificate — so the server can return the right cert.</p>
+<p>In TLS 1.3, SNI is encrypted (via Encrypted Client Hello / ECH) to prevent observers from seeing which domain you're connecting to.</p>
+</div>
   </div>
   <div class="cp p-green" style="margin:0">
-    <div class="cp-hdr"><span class="ico">📋</span><h3>ALPN</h3><span class="tag tag-green">APPLICATION LAYER PROTOCOL NEGOTIATION</span></div>
-    <div class="cp-body">
-      <p>ALPN lets the client advertise which application protocols it supports (<code>h2</code>, <code>http/1.1</code>, <code>h3</code>) in ClientHello. The server picks one and includes it in ServerHello.</p>
-      <p>This is how a single port 443 server can serve both HTTP/1.1 and HTTP/2 connections without a separate port per protocol.</p>
-    </div>
+<div class="cp-hdr"><span class="ico">📋</span><h3>ALPN</h3><span class="tag tag-green">APPLICATION LAYER PROTOCOL NEGOTIATION</span></div>
+<div class="cp-body">
+<p>ALPN lets the client advertise which application protocols it supports (<code>h2</code>, <code>http/1.1</code>, <code>h3</code>) in ClientHello. The server picks one and includes it in ServerHello.</p>
+<p>This is how a single port 443 server can serve both HTTP/1.1 and HTTP/2 connections without a separate port per protocol.</p>
+</div>
   </div>
 </div>
 <h3>0-RTT Session Resumption</h3>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>0-RTT (Early Data)</h3><span class="tag tag-amber">PERFORMANCE vs SECURITY</span></div>
   <div class="cp-body">
-    <p>After a 1-RTT handshake, the server sends a <strong>session ticket</strong> — a blob the client can present in the next ClientHello to skip the handshake entirely and send application data immediately.</p>
-    <h4>Mechanism</h4>
-    <p>Server encrypts a PSK (Pre-Shared Key) with its own ticket key and sends it in a <code>NewSessionTicket</code> message. On reconnect, the client sends this ticket + early data in the first message.</p>
-    <h4>Security Trade-off: Replay Attacks</h4>
-    <p>0-RTT data has <strong>no replay protection</strong>. An attacker who captures the first flight can replay it to a different server. Therefore:</p>
-    <ul>
-      <li>Never allow 0-RTT for non-idempotent operations (POST, DELETE, payments)</li>
-      <li>Safe for: GET requests, read-only operations, connection warm-up</li>
-      <li>Servers should use single-use tickets or replay caches to mitigate</li>
-    </ul>
+<p>After a 1-RTT handshake, the server sends a <strong>session ticket</strong> — a blob the client can present in the next ClientHello to skip the handshake entirely and send application data immediately.</p>
+<h4>Mechanism</h4>
+<p>Server encrypts a PSK (Pre-Shared Key) with its own ticket key and sends it in a <code>NewSessionTicket</code> message. On reconnect, the client sends this ticket + early data in the first message.</p>
+<h4>Security Trade-off: Replay Attacks</h4>
+<p>0-RTT data has <strong>no replay protection</strong>. An attacker who captures the first flight can replay it to a different server. Therefore:</p>
+<ul>
+<li>Never allow 0-RTT for non-idempotent operations (POST, DELETE, payments)</li>
+<li>Safe for: GET requests, read-only operations, connection warm-up</li>
+<li>Servers should use single-use tickets or replay caches to mitigate</li>
+</ul>
   </div>
 </div>
 <h3>Common TLS Mistakes</h3>
 <table class="t-table">
   <thead><tr><th>Mistake</th><th>Risk</th><th>Fix</th></tr></thead>
   <tbody>
-    <tr><td>Disabling cert verification (<code>SSL_VERIFY_NONE</code>)</td><td>MITM attacks, impersonation</td><td>Always verify in production; use <code>SSL_VERIFY_PEER</code></td></tr>
-    <tr><td>Allowing TLS 1.0/1.1</td><td>POODLE, BEAST, other protocol attacks</td><td>Set minimum to TLS 1.2; prefer TLS 1.3 only</td></tr>
-    <tr><td>Not checking hostname in SAN</td><td>Any cert from any CA accepted</td><td>Use <code>SSL_set_hostflags + SSL_set1_host</code> or verify via library</td></tr>
-    <tr><td>Hardcoded cipher suites with RC4/DES/3DES</td><td>Brute-forceable in hours</td><td>Use <code>TLS_AES_128_GCM_SHA256</code> / <code>TLS_CHACHA20_POLY1305_SHA256</code></td></tr>
-    <tr><td>Ignoring cert expiry in automation</td><td>Outages when cert expires (famous ones every year)</td><td>Set up auto-renewal (certbot), alert at 30 days</td></tr>
-    <tr><td>Using self-signed certs in prod</td><td>Clients reject or users click through warnings</td><td>Use Let's Encrypt (free, 90-day, automatable)</td></tr>
+<tr><td>Disabling cert verification (<code>SSL_VERIFY_NONE</code>)</td><td>MITM attacks, impersonation</td><td>Always verify in production; use <code>SSL_VERIFY_PEER</code></td></tr>
+<tr><td>Allowing TLS 1.0/1.1</td><td>POODLE, BEAST, other protocol attacks</td><td>Set minimum to TLS 1.2; prefer TLS 1.3 only</td></tr>
+<tr><td>Not checking hostname in SAN</td><td>Any cert from any CA accepted</td><td>Use <code>SSL_set_hostflags + SSL_set1_host</code> or verify via library</td></tr>
+<tr><td>Hardcoded cipher suites with RC4/DES/3DES</td><td>Brute-forceable in hours</td><td>Use <code>TLS_AES_128_GCM_SHA256</code> / <code>TLS_CHACHA20_POLY1305_SHA256</code></td></tr>
+<tr><td>Ignoring cert expiry in automation</td><td>Outages when cert expires (famous ones every year)</td><td>Set up auto-renewal (certbot), alert at 30 days</td></tr>
+<tr><td>Using self-signed certs in prod</td><td>Clients reject or users click through warnings</td><td>Use Let's Encrypt (free, 90-day, automatable)</td></tr>
   </tbody>
 </table>
 </div>
 <!-- ══════════════════════════════════════════════════════ t5 C Implementation -->
 <div id="t5" class="tab-pane">
 <h3>TCP Client (C)</h3>
-<div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;netdb.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;errno.h&gt;</span>
-<span class="ck">int</span> tcp_connect(<span class="ck">const char</span> *host, <span class="ck">const char</span> *port) {
-    <span class="ck">struct</span> addrinfo hints = {
+
+
+```cpp
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+
+int tcp_connect(const char *host, const char *port) {
+    struct addrinfo hints = {
         .ai_family   = AF_UNSPEC,
         .ai_socktype = SOCK_STREAM
     };
-    <span class="ck">struct</span> addrinfo *res;
- 
-    <span class="ck">int</span> rc = getaddrinfo(host, port, &amp;hints, &amp;res);
-    <span class="ck">if</span> (rc) { fprintf(stderr, <span class="cs">"DNS: %s\n"</span>, gai_strerror(rc)); <span class="ck">return</span> -<span class="cv">1</span>; }
- 
-    <span class="ck">int</span> fd = -<span class="cv">1</span>;
-    <span class="ck">for</span> (<span class="ck">struct</span> addrinfo *rp = res; rp; rp = rp->ai_next) {
+    struct addrinfo *res;
+
+    int rc = getaddrinfo(host, port, &hints, &res);
+    if (rc) { fprintf(stderr, "DNS: %s\n", gai_strerror(rc)); return -1; }
+
+    int fd = -1;
+    for (struct addrinfo *rp = res; rp; rp = rp->ai_next) {
         fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
-        <span class="ck">if</span> (fd < <span class="cv">0</span>) <span class="ck">continue</span>;
-        <span class="ck">if</span> (connect(fd, rp->ai_addr, rp->ai_addrlen) == <span class="cv">0</span>) <span class="ck">break</span>;
-        close(fd); fd = -<span class="cv">1</span>;
+        if (fd 0) continue;
+        if (connect(fd, rp->ai_addr, rp->ai_addrlen) == 0) break;
+        close(fd); fd = -1;
     }
     freeaddrinfo(res);
-    <span class="ck">if</span> (fd < <span class="cv">0</span>) perror(<span class="cs">"connect"</span>);
-    <span class="ck">return</span> fd;
+    if (fd 0) perror("connect");
+    return fd;
 }
- 
-<span class="ck">int</span> main(<span class="ck">void</span>) {
-    <span class="ck">int</span> fd = tcp_connect(<span class="cs">"httpbin.org"</span>, <span class="cs">"80"</span>);
-    <span class="ck">if</span> (fd < <span class="cv">0</span>) <span class="ck">return</span> <span class="cv">1</span>;
- 
-    <span class="ck">const char</span> *req = <span class="cs">"GET /get HTTP/1.1\r\nHost: httpbin.org\r\nConnection: close\r\n\r\n"</span>;
+
+int main(void) {
+    int fd = tcp_connect("httpbin.org", "80");
+    if (fd 0) return 1;
+
+    const char *req = "GET /get HTTP/1.1\r\nHost: httpbin.org\r\nConnection: close\r\n\r\n";
     write(fd, req, strlen(req));
- 
-    <span class="ck">char</span> buf[<span class="cv">4096</span>];
+
+    char buf[4096];
     ssize_t n;
-    <span class="ck">while</span> ((n = read(fd, buf, <span class="ck">sizeof</span>(buf))) > <span class="cv">0</span>)
-        fwrite(buf, <span class="cv">1</span>, n, stdout);
- 
+    while ((n = read(fd, buf, sizeof(buf))) > 0)
+        fwrite(buf, 1, n, stdout);
+
     close(fd);
-}</pre></div>
+}
+```
+
+
+
 <h3>TLS Client with OpenSSL</h3>
-<div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;openssl/ssl.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;openssl/err.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;netdb.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-<span class="cm">/* Compile: gcc tls_client.c -lssl -lcrypto -o tls_client */</span>
-<span class="ck">static int</span> tcp_connect_fd(<span class="ck">const char</span> *host, <span class="ck">const char</span> *port);  <span class="cm">/* as above */</span>
-<span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> **argv) {
-    <span class="ck">const char</span> *host = argc > <span class="cv">1</span> ? argv[<span class="cv">1</span>] : <span class="cs">"example.com"</span>;
- 
-    <span class="cm">/* 1. Init OpenSSL */</span>
+
+
+```python
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+#include <sys/socket.h>
+#include <netdb.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+/* Compile: gcc tls_client.c -lssl -lcrypto -o tls_client */
+
+static int tcp_connect_fd(const char *host, const char *port);  /* as above */
+
+int main(int argc, char **argv) {
+    const char *host = argc > 1 ? argv[1] : "example.com";
+
+    /* 1. Init OpenSSL */
     SSL_library_init();
     SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
- 
-    <span class="cm">/* 2. Create TLS context — prefer TLS 1.3 */</span>
+
+    /* 2. Create TLS context — prefer TLS 1.3 */
     SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
     SSL_CTX_set_min_proto_version(ctx, TLS1_2_VERSION);
- 
-    <span class="cm">/* 3. Load system CA bundle for cert verification */</span>
+
+    /* 3. Load system CA bundle for cert verification */
     SSL_CTX_set_default_verify_paths(ctx);
     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL);
- 
-    <span class="cm">/* 4. TCP connect */</span>
-    <span class="ck">int</span> fd = tcp_connect_fd(host, <span class="cs">"443"</span>);
-    <span class="ck">if</span> (fd < <span class="cv">0</span>) { SSL_CTX_free(ctx); <span class="ck">return</span> <span class="cv">1</span>; }
- 
-    <span class="cm">/* 5. Wrap socket in SSL */</span>
+
+    /* 4. TCP connect */
+    int fd = tcp_connect_fd(host, "443");
+    if (fd 0) { SSL_CTX_free(ctx); return 1; }
+
+    /* 5. Wrap socket in SSL */
     SSL *ssl = SSL_new(ctx);
     SSL_set_fd(ssl, fd);
- 
-    <span class="cm">/* 6. Set SNI so server returns correct cert */</span>
+
+    /* 6. Set SNI so server returns correct cert */
     SSL_set_tlsext_host_name(ssl, host);
- 
-    <span class="cm">/* 7. Set hostname for cert validation */</span>
+
+    /* 7. Set hostname for cert validation */
     SSL_set_hostflags(ssl, X509_CHECK_FLAG_NO_PARTIAL_WILDCARDS);
     SSL_set1_host(ssl, host);
- 
-    <span class="cm">/* 8. TLS handshake */</span>
-    <span class="ck">int</span> err = SSL_connect(ssl);
-    <span class="ck">if</span> (err != <span class="cv">1</span>) {
+
+    /* 8. TLS handshake */
+    int err = SSL_connect(ssl);
+    if (err != 1) {
         ERR_print_errors_fp(stderr);
-        <span class="ck">goto</span> cleanup;
+        goto cleanup;
     }
- 
-    <span class="cm">/* 9. Print negotiated cipher and protocol */</span>
-    printf(<span class="cs">"TLS version : %s\n"</span>, SSL_get_version(ssl));
-    printf(<span class="cs">"Cipher suite: %s\n"</span>, SSL_get_cipher(ssl));
- 
-    <span class="cm">/* 10. Print server cert info */</span>
+
+    /* 9. Print negotiated cipher and protocol */
+    printf("TLS version : %s\n", SSL_get_version(ssl));
+    printf("Cipher suite: %s\n", SSL_get_cipher(ssl));
+
+    /* 10. Print server cert info */
     X509 *cert = SSL_get_peer_certificate(ssl);
-    <span class="ck">if</span> (cert) {
-        <span class="ck">char</span> buf[<span class="cv">256</span>];
-        X509_NAME_oneline(X509_get_subject_name(cert), buf, <span class="ck">sizeof</span>(buf));
-        printf(<span class="cs">"Cert subject: %s\n"</span>, buf);
-        X509_NAME_oneline(X509_get_issuer_name(cert), buf, <span class="ck">sizeof</span>(buf));
-        printf(<span class="cs">"Cert issuer : %s\n"</span>, buf);
+    if (cert) {
+        char buf[256];
+        X509_NAME_oneline(X509_get_subject_name(cert), buf, sizeof(buf));
+        printf("Cert subject: %s\n", buf);
+        X509_NAME_oneline(X509_get_issuer_name(cert), buf, sizeof(buf));
+        printf("Cert issuer : %s\n", buf);
         X509_free(cert);
     }
- 
-    <span class="cm">/* 11. Send HTTP request */</span>
-    <span class="ck">char</span> req[<span class="cv">512</span>];
-    snprintf(req, <span class="ck">sizeof</span>(req),
-             <span class="cs">"GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n"</span>, host);
+
+    /* 11. Send HTTP request */
+    char req[512];
+    snprintf(req, sizeof(req),
+             "GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n", host);
     SSL_write(ssl, req, strlen(req));
- 
-    <span class="cm">/* 12. Read response */</span>
-    <span class="ck">char</span> rbuf[<span class="cv">4096</span>];
-    <span class="ck">int</span> n;
-    <span class="ck">while</span> ((n = SSL_read(ssl, rbuf, <span class="ck">sizeof</span>(rbuf))) > <span class="cv">0</span>)
-        fwrite(rbuf, <span class="cv">1</span>, n, stdout);
- 
+
+    /* 12. Read response */
+    char rbuf[4096];
+    int n;
+    while ((n = SSL_read(ssl, rbuf, sizeof(rbuf))) > 0)
+        fwrite(rbuf, 1, n, stdout);
+
 cleanup:
     SSL_shutdown(ssl);
     SSL_free(ssl);
     close(fd);
     SSL_CTX_free(ctx);
-    <span class="ck">return</span> <span class="cv">0</span>;
-}</pre></div>
-<h3>TCP Server with Concurrent Connections (pthreads)</h3>
-<div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;netinet/in.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;pthread.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
-<span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-<span class="ck">static void</span> *handle_client(<span class="ck">void</span> *arg) {
-    <span class="ck">int</span> fd = (<span class="ck">int</span>)(intptr_t)arg;
-    pthread_detach(pthread_self());  <span class="cm">/* auto-reclaim resources */</span>
-    <span class="ck">char</span> buf[<span class="cv">4096</span>];
-    ssize_t n;
-    <span class="ck">while</span> ((n = recv(fd, buf, <span class="ck">sizeof</span>(buf), <span class="cv">0</span>)) > <span class="cv">0</span>) {
-        <span class="cm">/* Echo back */</span>
-        send(fd, buf, n, <span class="cv">0</span>);
-    }
-    <span class="cm">/* n == 0: peer closed; n < 0: error */</span>
-    close(fd);
-    <span class="ck">return</span> <span class="cs">NULL</span>;
+    return 0;
 }
- 
-<span class="ck">int</span> main(<span class="ck">void</span>) {
-    <span class="ck">int</span> srv = socket(AF_INET, SOCK_STREAM, <span class="cv">0</span>);
-    setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, &amp;(<span class="ck">int</span>){<span class="cv">1</span>}, <span class="ck">sizeof</span>(<span class="ck">int</span>));
- 
-    <span class="ck">struct</span> sockaddr_in a = {AF_INET, htons(<span class="cv">8080</span>), .sin_addr.s_addr=INADDR_ANY};
-    bind(srv, (<span class="ck">struct</span> sockaddr *)&amp;a, <span class="ck">sizeof</span>(a));
-    listen(srv, <span class="cv">128</span>);
-    printf(<span class="cs">"Echo server :8080\n"</span>);
- 
-    <span class="ck">while</span> (<span class="cv">1</span>) {
-        <span class="ck">int</span> conn = accept(srv, <span class="cs">NULL</span>, <span class="cs">NULL</span>);
-        <span class="ck">if</span> (conn < <span class="cv">0</span>) { perror(<span class="cs">"accept"</span>); <span class="ck">continue</span>; }
-        pthread_t t;
-        pthread_create(&amp;t, <span class="cs">NULL</span>, handle_client, (<span class="ck">void</span> *)(intptr_t)conn);
-        <span class="cm">/* thread detached inside handle_client */</span>
+```
+
+
+
+<h3>TCP Server with Concurrent Connections (pthreads)</h3>
+
+
+```cpp
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdio.h>
+
+static void *handle_client(void *arg) {
+    int fd = (int)(intptr_t)arg;
+    pthread_detach(pthread_self());  /* auto-reclaim resources */
+
+    char buf[4096];
+    ssize_t n;
+    while ((n = recv(fd, buf, sizeof(buf), 0)) > 0) {
+        /* Echo back */
+        send(fd, buf, n, 0);
     }
-}</pre></div>
+    /* n == 0: peer closed; n 
+    close(fd);
+    return NULL;
+}
+
+int main(void) {
+    int srv = socket(AF_INET, SOCK_STREAM, 0);
+    setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, &(int){1}, sizeof(int));
+
+    struct sockaddr_in a = {AF_INET, htons(8080), .sin_addr.s_addr=INADDR_ANY};
+    bind(srv, (struct sockaddr *)&a, sizeof(a));
+    listen(srv, 128);
+    printf("Echo server :8080\n");
+
+    while (1) {
+        int conn = accept(srv, NULL, NULL);
+        if (conn 0) { perror("accept"); continue; }
+        pthread_t t;
+        pthread_create(&t, NULL, handle_client, (void *)(intptr_t)conn);
+        /* thread detached inside handle_client */
+    }
+}
+```
+
+
+
 <div class="warn"><p>⚠️ <strong>Thread-per-connection</strong> doesn't scale beyond a few thousand connections — each thread uses ~8 MB stack by default. For high concurrency, use <strong>epoll + event loop</strong> (covered in Phase 4 — I/O Multiplexing). This example is correct for understanding the basic model.</p></div>
 <h3>Error Handling Patterns</h3>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Handling EINTR, EAGAIN, Partial Reads/Writes</h3><span class="tag tag-orange">RELIABILITY</span></div>
   <div class="cp-body">
-    <h4>EINTR — Interrupted System Call</h4>
-    <p>Signal delivery can interrupt blocking I/O. Always restart on EINTR:</p>
+<h4>EINTR — Interrupted System Call</h4>
+<p>Signal delivery can interrupt blocking I/O. Always restart on EINTR:</p>
     <div class="cb"><pre><span class="ck">ssize_t</span> safe_read(<span class="ck">int</span> fd, <span class="ck">void</span> *buf, <span class="ck">size_t</span> len) {
     <span class="ck">ssize_t</span> n;
     <span class="ck">do</span> { n = read(fd, buf, len); } <span class="ck">while</span> (n == -<span class="cv">1</span> &amp;&amp; errno == EINTR);
     <span class="ck">return</span> n;
 }</pre></div>
-    <h4>Partial Reads/Writes on TCP</h4>
-    <p>TCP is a byte stream — <code>send()</code> may transfer fewer bytes than requested. Always loop:</p>
-    <div class="cb"><pre><span class="ck">ssize_t</span> send_all(<span class="ck">int</span> fd, <span class="ck">const void</span> *buf, <span class="ck">size_t</span> len) {
-    <span class="ck">size_t</span> sent = <span class="cv">0</span>;
-    <span class="ck">while</span> (sent < len) {
-        <span class="ck">ssize_t</span> n = send(fd, (<span class="ck">const char</span>*)buf + sent, len - sent, MSG_NOSIGNAL);
-        <span class="ck">if</span> (n <= <span class="cv">0</span>) <span class="ck">return</span> n;
+<h4>Partial Reads/Writes on TCP</h4>
+<p>TCP is a byte stream — <code>send()</code> may transfer fewer bytes than requested. Always loop:</p>
+    
+
+```javascript
+ssize_t send_all(int fd, const void *buf, size_t len) {
+    size_t sent = 0;
+    while (sent ssize_t n = send(fd, (const char*)buf + sent, len - sent, MSG_NOSIGNAL);
+        if (n 0) return n;
         sent += n;
     }
-    <span class="ck">return</span> sent;
+    return sent;
 }
-<span class="cm">/* MSG_NOSIGNAL: don't raise SIGPIPE on broken pipe — return EPIPE instead */</span></pre></div>
+/* MSG_NOSIGNAL: don't raise SIGPIPE on broken pipe — return EPIPE instead */
+```
+
+
   </div>
 </div>
 </div>
@@ -899,63 +948,63 @@ cleanup:
 <div id="t6" class="tab-pane">
 <div class="lab-box">
   <div class="lab-hdr">
-    <h3>🔬 Lab 1 — Wireshark: Observe DNS + TCP + TLS</h3>
-    <span class="lab-tag">TOOLS: Wireshark · curl</span>
+<h3>🔬 Lab 1 — Wireshark: Observe DNS + TCP + TLS</h3>
+<span class="lab-tag">TOOLS: Wireshark · curl</span>
   </div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Capture and annotate all three protocol phases for a single HTTPS request. See the latency budget with your own eyes.</p>
-    <div class="lab-step"><span class="sn">1</span><span>Install Wireshark. Start a capture on your active interface (en0/eth0). Apply display filter: <code>dns or tcp.port == 443</code></span></div>
-    <div class="lab-step"><span class="sn">2</span><span>In another terminal, flush DNS cache and make a request: <br><code>sudo systemd-resolve --flush-caches &amp;&amp; curl -v https://example.com 2&gt;&amp;1 | head -40</code></span></div>
-    <div class="lab-step"><span class="sn">3</span><span>Stop capture. In Wireshark, find the DNS query/response pair. Note the TTL in the answer section. Measure the DNS latency (time between query and response).</span></div>
-    <div class="lab-step"><span class="sn">4</span><span>Find the TCP SYN, SYN-ACK, ACK sequence. Measure the RTT (time between SYN and SYN-ACK). Note the TCP options in the SYN (MSS, SACK permitted, Window Scale, Timestamps).</span></div>
-    <div class="lab-step"><span class="sn">5</span><span>Find the TLS ClientHello. Right-click → Follow → TLS Stream. Identify: supported TLS versions, client key share (X25519), cipher suites offered, SNI extension, ALPN extension.</span></div>
-    <div class="lab-step"><span class="sn">6</span><span>Find ServerHello. Note: selected TLS version (should be TLS 1.3), selected cipher, server key share. Count the total RTTs from SYN to first application data.</span></div>
-    <p><strong>Expected findings:</strong> DNS: ~20–100 ms. TCP: 1 RTT. TLS 1.3: 1 RTT. Total before first byte ≈ DNS + 2 RTTs. TLS ClientHello and Certificate records are visible; application data is opaque (encrypted).</p>
+<p><strong>Goal:</strong> Capture and annotate all three protocol phases for a single HTTPS request. See the latency budget with your own eyes.</p>
+<div class="lab-step"><span class="sn">1</span><span>Install Wireshark. Start a capture on your active interface (en0/eth0). Apply display filter: <code>dns or tcp.port == 443</code></span></div>
+<div class="lab-step"><span class="sn">2</span><span>In another terminal, flush DNS cache and make a request: <br><code>sudo systemd-resolve --flush-caches &amp;&amp; curl -v https://example.com 2&gt;&amp;1 | head -40</code></span></div>
+<div class="lab-step"><span class="sn">3</span><span>Stop capture. In Wireshark, find the DNS query/response pair. Note the TTL in the answer section. Measure the DNS latency (time between query and response).</span></div>
+<div class="lab-step"><span class="sn">4</span><span>Find the TCP SYN, SYN-ACK, ACK sequence. Measure the RTT (time between SYN and SYN-ACK). Note the TCP options in the SYN (MSS, SACK permitted, Window Scale, Timestamps).</span></div>
+<div class="lab-step"><span class="sn">5</span><span>Find the TLS ClientHello. Right-click → Follow → TLS Stream. Identify: supported TLS versions, client key share (X25519), cipher suites offered, SNI extension, ALPN extension.</span></div>
+<div class="lab-step"><span class="sn">6</span><span>Find ServerHello. Note: selected TLS version (should be TLS 1.3), selected cipher, server key share. Count the total RTTs from SYN to first application data.</span></div>
+<p><strong>Expected findings:</strong> DNS: ~20–100 ms. TCP: 1 RTT. TLS 1.3: 1 RTT. Total before first byte ≈ DNS + 2 RTTs. TLS ClientHello and Certificate records are visible; application data is opaque (encrypted).</p>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">
-    <h3>🔬 Lab 2 — TCP Echo Server in C</h3>
-    <span class="lab-tag">TOOLS: gcc · telnet · netcat · ss</span>
+<h3>🔬 Lab 2 — TCP Echo Server in C</h3>
+<span class="lab-tag">TOOLS: gcc · telnet · netcat · ss</span>
   </div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Build and test the echo server, then observe TCP state transitions in real time.</p>
-    <div class="lab-step"><span class="sn">1</span><span>Copy the "TCP Server with pthreads" code from the Implementation tab. Save as <code>echo.c</code>. Compile: <code>gcc echo.c -lpthread -o echo</code></span></div>
-    <div class="lab-step"><span class="sn">2</span><span>Run: <code>./echo &amp;</code>. Check it's listening: <code>ss -tlnp | grep 8080</code></span></div>
-    <div class="lab-step"><span class="sn">3</span><span>Connect with netcat: <code>nc localhost 8080</code>. Type lines — each should echo back. In another terminal: <code>ss -tan | grep 8080</code>. Observe ESTABLISHED state.</span></div>
-    <div class="lab-step"><span class="sn">4</span><span>Close nc (Ctrl+C). Immediately run <code>ss -tan | grep 8080</code> multiple times. Observe TIME_WAIT appearing then disappearing after ~60s.</span></div>
-    <div class="lab-step"><span class="sn">5</span><span>Kill the echo server: <code>kill %1</code>. Try to restart immediately. Does it fail with "Address already in use"? Why? Now add <code>SO_REUSEADDR</code> if not present and retry.</span></div>
-    <div class="lab-step"><span class="sn">6</span><span><strong>Challenge:</strong> Modify the server to print the client IP and port for each connection using <code>inet_ntop()</code> on the <code>sockaddr_in</code> returned by <code>accept()</code>.</span></div>
+<p><strong>Goal:</strong> Build and test the echo server, then observe TCP state transitions in real time.</p>
+<div class="lab-step"><span class="sn">1</span><span>Copy the "TCP Server with pthreads" code from the Implementation tab. Save as <code>echo.c</code>. Compile: <code>gcc echo.c -lpthread -o echo</code></span></div>
+<div class="lab-step"><span class="sn">2</span><span>Run: <code>./echo &amp;</code>. Check it's listening: <code>ss -tlnp | grep 8080</code></span></div>
+<div class="lab-step"><span class="sn">3</span><span>Connect with netcat: <code>nc localhost 8080</code>. Type lines — each should echo back. In another terminal: <code>ss -tan | grep 8080</code>. Observe ESTABLISHED state.</span></div>
+<div class="lab-step"><span class="sn">4</span><span>Close nc (Ctrl+C). Immediately run <code>ss -tan | grep 8080</code> multiple times. Observe TIME_WAIT appearing then disappearing after ~60s.</span></div>
+<div class="lab-step"><span class="sn">5</span><span>Kill the echo server: <code>kill %1</code>. Try to restart immediately. Does it fail with "Address already in use"? Why? Now add <code>SO_REUSEADDR</code> if not present and retry.</span></div>
+<div class="lab-step"><span class="sn">6</span><span><strong>Challenge:</strong> Modify the server to print the client IP and port for each connection using <code>inet_ntop()</code> on the <code>sockaddr_in</code> returned by <code>accept()</code>.</span></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">
-    <h3>🔬 Lab 3 — TLS Client: Connect, Print Cert Chain &amp; Cipher</h3>
-    <span class="lab-tag">TOOLS: gcc · OpenSSL · openssl CLI</span>
+<h3>🔬 Lab 3 — TLS Client: Connect, Print Cert Chain &amp; Cipher</h3>
+<span class="lab-tag">TOOLS: gcc · OpenSSL · openssl CLI</span>
   </div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Build the OpenSSL TLS client, connect to a real server, and examine the full certificate chain.</p>
-    <div class="lab-step"><span class="sn">1</span><span>Install OpenSSL dev headers: <code>sudo apt install libssl-dev</code> (Debian/Ubuntu) or <code>brew install openssl</code> (macOS).</span></div>
-    <div class="lab-step"><span class="sn">2</span><span>Save the "TLS Client with OpenSSL" code as <code>tls_client.c</code>. Add the <code>tcp_connect_fd()</code> implementation (from the TCP Client section). Compile: <code>gcc tls_client.c -lssl -lcrypto -o tls_client</code></span></div>
-    <div class="lab-step"><span class="sn">3</span><span>Run: <code>./tls_client github.com</code>. You should see TLS version (TLS 1.3), cipher suite (e.g. TLS_AES_128_GCM_SHA256), subject, and issuer.</span></div>
-    <div class="lab-step"><span class="sn">4</span><span>Print the full certificate chain. Add a loop: <code>STACK_OF(X509) *chain = SSL_get_peer_cert_chain(ssl); for(int i=0; i&lt;sk_X509_num(chain); i++) { ... }</code></span></div>
-    <div class="lab-step"><span class="sn">5</span><span>Cross-check with the CLI: <code>openssl s_client -connect github.com:443 -showcerts</code>. Compare cert subjects, cipher, and protocol with your client's output.</span></div>
-    <div class="lab-step"><span class="sn">6</span><span><strong>Challenge:</strong> Add SNI for a server that hosts multiple domains (try <code>cloudflare.com</code>). Then intentionally connect to a server with an expired/self-signed cert — observe the verification error. Handle it gracefully.</span></div>
-    <div class="lab-step"><span class="sn">7</span><span><strong>Stretch:</strong> Add TLS 1.3 session resumption. After first connection, call <code>SSL_SESSION_print_fp()</code> to inspect the session ticket. Store it and present it on reconnect. Measure latency difference.</span></div>
+<p><strong>Goal:</strong> Build the OpenSSL TLS client, connect to a real server, and examine the full certificate chain.</p>
+<div class="lab-step"><span class="sn">1</span><span>Install OpenSSL dev headers: <code>sudo apt install libssl-dev</code> (Debian/Ubuntu) or <code>brew install openssl</code> (macOS).</span></div>
+<div class="lab-step"><span class="sn">2</span><span>Save the "TLS Client with OpenSSL" code as <code>tls_client.c</code>. Add the <code>tcp_connect_fd()</code> implementation (from the TCP Client section). Compile: <code>gcc tls_client.c -lssl -lcrypto -o tls_client</code></span></div>
+<div class="lab-step"><span class="sn">3</span><span>Run: <code>./tls_client github.com</code>. You should see TLS version (TLS 1.3), cipher suite (e.g. TLS_AES_128_GCM_SHA256), subject, and issuer.</span></div>
+<div class="lab-step"><span class="sn">4</span><span>Print the full certificate chain. Add a loop: <code>STACK_OF(X509) *chain = SSL_get_peer_cert_chain(ssl); for(int i=0; i&lt;sk_X509_num(chain); i++) { ... }</code></span></div>
+<div class="lab-step"><span class="sn">5</span><span>Cross-check with the CLI: <code>openssl s_client -connect github.com:443 -showcerts</code>. Compare cert subjects, cipher, and protocol with your client's output.</span></div>
+<div class="lab-step"><span class="sn">6</span><span><strong>Challenge:</strong> Add SNI for a server that hosts multiple domains (try <code>cloudflare.com</code>). Then intentionally connect to a server with an expired/self-signed cert — observe the verification error. Handle it gracefully.</span></div>
+<div class="lab-step"><span class="sn">7</span><span><strong>Stretch:</strong> Add TLS 1.3 session resumption. After first connection, call <code>SSL_SESSION_print_fp()</code> to inspect the session ticket. Store it and present it on reconnect. Measure latency difference.</span></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">
-    <h3>🔬 Lab 4 — DNS Deep Dive with dig</h3>
-    <span class="lab-tag">TOOLS: dig · tcpdump · host</span>
+<h3>🔬 Lab 4 — DNS Deep Dive with dig</h3>
+<span class="lab-tag">TOOLS: dig · tcpdump · host</span>
   </div>
   <div class="lab-body">
-    <p><strong>Goal:</strong> Walk the DNS resolution chain manually and understand TTLs, record types, and DNSSEC.</p>
-    <div class="lab-step"><span class="sn">1</span><span>Full recursive trace: <code>dig +trace github.com A</code>. Observe: root nameservers → .com TLD → github.com authoritative. Note TTL at each level.</span></div>
-    <div class="lab-step"><span class="sn">2</span><span>Check all record types: <code>dig github.com ANY</code>. List A, AAAA, MX, NS, TXT records. What TXT records exist? (SPF? DKIM selectors?)</span></div>
-    <div class="lab-step"><span class="sn">3</span><span>Test negative caching: <code>dig nonexistent.github.com A</code>. Note NXDOMAIN and the negative TTL in the SOA record's MINIMUM field.</span></div>
-    <div class="lab-step"><span class="sn">4</span><span>Check DNSSEC: <code>dig +dnssec cloudflare.com A</code>. Do you see RRSIG records? What key tag is used?</span></div>
-    <div class="lab-step"><span class="sn">5</span><span>Measure DNS latency over time: <code>for i in $(seq 10); do dig +stats github.com A | grep "Query time"; done</code>. First query is cold; subsequent should be fast (cached by resolver). Note the caching effect.</span></div>
+<p><strong>Goal:</strong> Walk the DNS resolution chain manually and understand TTLs, record types, and DNSSEC.</p>
+<div class="lab-step"><span class="sn">1</span><span>Full recursive trace: <code>dig +trace github.com A</code>. Observe: root nameservers → .com TLD → github.com authoritative. Note TTL at each level.</span></div>
+<div class="lab-step"><span class="sn">2</span><span>Check all record types: <code>dig github.com ANY</code>. List A, AAAA, MX, NS, TXT records. What TXT records exist? (SPF? DKIM selectors?)</span></div>
+<div class="lab-step"><span class="sn">3</span><span>Test negative caching: <code>dig nonexistent.github.com A</code>. Note NXDOMAIN and the negative TTL in the SOA record's MINIMUM field.</span></div>
+<div class="lab-step"><span class="sn">4</span><span>Check DNSSEC: <code>dig +dnssec cloudflare.com A</code>. Do you see RRSIG records? What key tag is used?</span></div>
+<div class="lab-step"><span class="sn">5</span><span>Measure DNS latency over time: <code>for i in $(seq 10); do dig +stats github.com A | grep "Query time"; done</code>. First query is cold; subsequent should be fast (cached by resolver). Note the caching effect.</span></div>
   </div>
 </div>
 </div>
@@ -964,7 +1013,7 @@ cleanup:
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">✅</span><h3>Module Mastery Checklist</h3><span class="tag tag-teal">M01 COMPLETE</span></div>
   <div class="cp-body">
-    <p>You have mastered this module when you can check off every item below without referring to notes.</p>
+<p>You have mastered this module when you can check off every item below without referring to notes.</p>
   </div>
 </div>
 <h3>DNS</h3>

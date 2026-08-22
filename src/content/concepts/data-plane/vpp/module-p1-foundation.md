@@ -381,11 +381,11 @@ url: /learning/data-plane/vpp/module-p1-foundation/
   <div class="mod-title">⚡ Foundation &amp; Environment</div>
   <div class="mod-subtitle">Scalar vs Vector · VPP Layers · Build · Docker + Mellanox · startup.conf · CLI · First Packet</div>
   <div class="mod-pills">
-    <span class="mod-pill">Docker</span>
-    <span class="mod-pill">AMD + Mellanox</span>
-    <span class="mod-pill">DPDK Background</span>
-    <span class="mod-pill">vppctl</span>
-    <span class="mod-pill">1 Mini-Project</span>
+<span class="mod-pill">Docker</span>
+<span class="mod-pill">AMD + Mellanox</span>
+<span class="mod-pill">DPDK Background</span>
+<span class="mod-pill">vppctl</span>
+<span class="mod-pill">1 Mini-Project</span>
   </div>
 </div>
 <!-- TAB BAR -->
@@ -403,55 +403,62 @@ url: /learning/data-plane/vpp/module-p1-foundation/
 <p class="section-sep">THE FUNDAMENTAL SHIFT</p>
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr">
-    <span class="icon">🧠</span>
-    <h3>Scalar vs Vector Packet Processing</h3>
-    <span class="tag tag-blue">CORE CONCEPT</span>
+<span class="icon">🧠</span>
+<h3>Scalar vs Vector Packet Processing</h3>
+<span class="tag tag-blue">CORE CONCEPT</span>
   </div>
   <div class="concept-panel-body">
-    <p><strong>Scalar (traditional stacks):</strong> One packet enters the stack, traverses all processing stages, exits. Then the next packet starts. Every packet re-warms the CPU instruction cache from scratch.</p>
-    <p><strong>Vector (VPP's model):</strong> A <em>batch</em> of packets - the vector - enters a single graph node together. That node processes all N packets before any packet moves to the next node. The first packet in the batch warms the I-cache; every subsequent packet in the batch benefits at zero cost.</p>
-<div class="code-block"><pre><span class="c-comment">// Scalar processing - per-packet cache thrash</span>
-<span class="c-key">for</span> each packet:
-  ip4_lookup(pkt)     <span class="c-comment">// I-cache warm</span>
-  ip4_rewrite(pkt)    <span class="c-comment">// I-cache cold again</span>
+<p><strong>Scalar (traditional stacks):</strong> One packet enters the stack, traverses all processing stages, exits. Then the next packet starts. Every packet re-warms the CPU instruction cache from scratch.</p>
+<p><strong>Vector (VPP's model):</strong> A <em>batch</em> of packets - the vector - enters a single graph node together. That node processes all N packets before any packet moves to the next node. The first packet in the batch warms the I-cache; every subsequent packet in the batch benefits at zero cost.</p>
+<div class="code-block">
+
+```python
+// Scalar processing - per-packet cache thrash
+for each packet:
+  ip4_lookup(pkt)     // I-cache warm
+  ip4_rewrite(pkt)    // I-cache cold again
   ethernet_output(pkt)
- 
-<span class="c-comment">// Vector processing - VPP's model</span>
-ip4_lookup(<span class="c-val">pkt[0..255]</span>)     <span class="c-comment">// warm once, amortised over 256 pkts</span>
-ip4_rewrite(<span class="c-val">pkt[0..255]</span>)    <span class="c-comment">// warm once, amortised over 256 pkts</span>
-ethernet_output(<span class="c-val">pkt[0..255]</span>) <span class="c-comment">// warm once, amortised over 256 pkts</span></pre></div>
-    <p>This single architectural decision - processing a vector of packets per node invocation - gives VPP its performance edge. It enables prefetching, SIMD vectorisation, and cache-efficient branch prediction that simply cannot happen one packet at a time.</p>
+
+// Vector processing - VPP's model
+ip4_lookup(pkt[0..255])     // warm once, amortised over 256 pkts
+ip4_rewrite(pkt[0..255])    // warm once, amortised over 256 pkts
+ethernet_output(pkt[0..255]) // warm once, amortised over 256 pkts
+```
+
+
+
+<p>This single architectural decision - processing a vector of packets per node invocation - gives VPP its performance edge. It enables prefetching, SIMD vectorisation, and cache-efficient branch prediction that simply cannot happen one packet at a time.</p>
   </div>
 </div>
 <div class="dpdk-box">
   <div class="dpdk-hdr">⚙️ DPDK PARALLEL - What You Already Know</div>
   <ul>
-    <li><strong>rte_eth_rx_burst()</strong> is VPP's equivalent of "get a vector of packets" - you already use burst RX for the same reason</li>
-    <li><strong>PMD poll loop</strong> maps to VPP's INPUT node polling: both spin on hardware without interrupts</li>
-    <li><strong>rte_mbuf** array from rx_burst</strong> ≈ VPP's <code>vlib_frame_t</code> of buffer indices - a batch of packet references processed together</li>
-    <li>VPP generalises the single DPDK burst loop into a <em>chain</em> of N graph nodes, each processing the same batch</li>
+<li><strong>rte_eth_rx_burst()</strong> is VPP's equivalent of "get a vector of packets" - you already use burst RX for the same reason</li>
+<li><strong>PMD poll loop</strong> maps to VPP's INPUT node polling: both spin on hardware without interrupts</li>
+<li><strong>rte_mbuf** array from rx_burst</strong> ≈ VPP's <code>vlib_frame_t</code> of buffer indices - a batch of packet references processed together</li>
+<li>VPP generalises the single DPDK burst loop into a <em>chain</em> of N graph nodes, each processing the same batch</li>
   </ul>
 </div>
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr">
-    <span class="icon">📊</span>
-    <h3>The Packet Processing Graph - Core Mental Model</h3>
-    <span class="tag tag-teal">ARCHITECTURE</span>
+<span class="icon">📊</span>
+<h3>The Packet Processing Graph - Core Mental Model</h3>
+<span class="tag tag-teal">ARCHITECTURE</span>
   </div>
   <div class="concept-panel-body">
-    <p>VPP's dataplane is a <strong>directed graph</strong> of processing nodes. Each node is a C function. Packets (as buffer indices) flow along graph edges. A single packet traversal from RX to TX typically looks like:</p>
+<p>VPP's dataplane is a <strong>directed graph</strong> of processing nodes. Each node is a C function. Packets (as buffer indices) flow along graph edges. A single packet traversal from RX to TX typically looks like:</p>
 <div class="code-block"><pre><span class="c-key">dpdk-input</span>
   → <span class="c-key">ethernet-input</span>
     → <span class="c-key">ip4-input</span>
       → <span class="c-key">ip4-lookup</span>       <span class="c-comment">(FIB lookup → next-hop)</span>
         → <span class="c-key">ip4-rewrite</span>    <span class="c-comment">(rewrite L2 header)</span>
           → <span class="c-key">dpdk-output</span>  <span class="c-comment">(TX to NIC)</span></pre></div>
-    <p>The graph is <strong>not acyclic</strong> - a packet can re-visit ip4-lookup multiple times (e.g., MPLS label push/pop). Each node's output is a <em>next index</em> that selects the outgoing edge.</p>
-    <ul>
-      <li>Nodes communicate via <code>vlib_frame_t</code>: arrays of <strong>u32 buffer indices</strong>, not pointers</li>
-      <li>All nodes for a given phase run to completion before the next phase begins</li>
-      <li>The graph dispatcher (<code>vlib_main_loop</code>) drives everything - you never write a main loop</li>
-    </ul>
+<p>The graph is <strong>not acyclic</strong> - a packet can re-visit ip4-lookup multiple times (e.g., MPLS label push/pop). Each node's output is a <em>next index</em> that selects the outgoing edge.</p>
+<ul>
+<li>Nodes communicate via <code>vlib_frame_t</code>: arrays of <strong>u32 buffer indices</strong>, not pointers</li>
+<li>All nodes for a given phase run to completion before the next phase begins</li>
+<li>The graph dispatcher (<code>vlib_main_loop</code>) drives everything - you never write a main loop</li>
+</ul>
   </div>
 </div>
 <div class="insight-box">
@@ -463,45 +470,45 @@ ethernet_output(<span class="c-val">pkt[0..255]</span>) <span class="c-comment">
 <p class="section-sep">IMPLEMENTATION TAXONOMY</p>
 <div class="layer-stack">
   <div class="layer-box" style="background:#e8f1f9; border: 1.5px solid #b0ccec;">
-    <div class="layer-label" style="color:#1a3a5c;">VPP</div>
-    <div>
-      <p><strong>Container application</strong> - the <code>vpp</code> binary itself. Ties all layers together, runs the main loop, loads plugins. Source: <code>src/vpp/</code></p>
-    </div>
+<div class="layer-label" style="color:#1a3a5c;">VPP</div>
+<div>
+<p><strong>Container application</strong> - the <code>vpp</code> binary itself. Ties all layers together, runs the main loop, loads plugins. Source: <code>src/vpp/</code></p>
+</div>
   </div>
   <div class="layer-box" style="background:#faeee4; border: 1.5px solid #e8b890;">
-    <div class="layer-label" style="color:#c05e1b;">Plugins</div>
-    <div>
-      <p><strong>Shared libraries loaded at startup.</strong> DPDK, memif, NAT, ACL, GTP, QUIC - all plugins. Your own features go here. Source: <code>src/plugins/</code></p>
-      <p>Key plugins: <code>dpdk_plugin.so</code>, <code>memif_plugin.so</code>, <code>nat_plugin.so</code>, <code>acl_plugin.so</code>, <code>af_xdp_plugin.so</code></p>
-    </div>
+<div class="layer-label" style="color:#c05e1b;">Plugins</div>
+<div>
+<p><strong>Shared libraries loaded at startup.</strong> DPDK, memif, NAT, ACL, GTP, QUIC - all plugins. Your own features go here. Source: <code>src/plugins/</code></p>
+<p>Key plugins: <code>dpdk_plugin.so</code>, <code>memif_plugin.so</code>, <code>nat_plugin.so</code>, <code>acl_plugin.so</code>, <code>af_xdp_plugin.so</code></p>
+</div>
   </div>
   <div class="layer-box" style="background:#e2f0e8; border: 1.5px solid #8ec8a8;">
-    <div class="layer-label" style="color:#1e6b3c;">VNET</div>
-    <div>
-      <p><strong>Networking layer.</strong> L2/L3/L4 graph nodes, interface abstraction (sw_if_index), FIB, ARP, neighbour tables, session layer. Source: <code>src/vnet/</code></p>
-      <p>Key subdirs: <code>src/vnet/ip/</code>, <code>src/vnet/ethernet/</code>, <code>src/vnet/fib/</code>, <code>src/vnet/devices/</code></p>
-    </div>
+<div class="layer-label" style="color:#1e6b3c;">VNET</div>
+<div>
+<p><strong>Networking layer.</strong> L2/L3/L4 graph nodes, interface abstraction (sw_if_index), FIB, ARP, neighbour tables, session layer. Source: <code>src/vnet/</code></p>
+<p>Key subdirs: <code>src/vnet/ip/</code>, <code>src/vnet/ethernet/</code>, <code>src/vnet/fib/</code>, <code>src/vnet/devices/</code></p>
+</div>
   </div>
   <div class="layer-box" style="background:#e0f0ee; border: 1.5px solid #80c0b8;">
-    <div class="layer-label" style="color:#1a7a6e;">VLIB</div>
-    <div>
-      <p><strong>Vector processing library.</strong> Graph node scheduler, buffer management, cooperative threads (process nodes), CLI, packet tracing, counters. Source: <code>src/vlib/</code></p>
-      <p>Key files: <code>src/vlib/main.c</code> (dispatch loop), <code>src/vlib/node.h</code>, <code>src/vlib/buffer.h</code></p>
-    </div>
+<div class="layer-label" style="color:#1a7a6e;">VLIB</div>
+<div>
+<p><strong>Vector processing library.</strong> Graph node scheduler, buffer management, cooperative threads (process nodes), CLI, packet tracing, counters. Source: <code>src/vlib/</code></p>
+<p>Key files: <code>src/vlib/main.c</code> (dispatch loop), <code>src/vlib/node.h</code>, <code>src/vlib/buffer.h</code></p>
+</div>
   </div>
   <div class="layer-box" style="background:#ede8f5; border: 1.5px solid #c0a8e8;">
-    <div class="layer-label" style="color:#5b3a8c;">VPPInfra</div>
-    <div>
-      <p><strong>Core library - VPP's libc.</strong> Memory allocators, vectors, pools, hash tables, ring buffers, format/unformat, timers. Everything is built on top of this. Source: <code>src/vppinfra/</code></p>
-      <p>Key files: <code>pool.h</code>, <code>vec.h</code>, <code>hash.h</code>, <code>bihash_8_8.h</code>, <code>clib.h</code>, <code>format.h</code></p>
-    </div>
+<div class="layer-label" style="color:#5b3a8c;">VPPInfra</div>
+<div>
+<p><strong>Core library - VPP's libc.</strong> Memory allocators, vectors, pools, hash tables, ring buffers, format/unformat, timers. Everything is built on top of this. Source: <code>src/vppinfra/</code></p>
+<p>Key files: <code>pool.h</code>, <code>vec.h</code>, <code>hash.h</code>, <code>bihash_8_8.h</code>, <code>clib.h</code>, <code>format.h</code></p>
+</div>
   </div>
 </div>
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr">
-    <span class="icon">📁</span>
-    <h3>Source Repository Layout</h3>
-    <span class="tag tag-blue">CODEBASE MAP</span>
+<span class="icon">📁</span>
+<h3>Source Repository Layout</h3>
+<span class="tag tag-blue">CODEBASE MAP</span>
   </div>
   <div class="concept-panel-body">
 <div class="code-block"><pre>github.com/FDio/vpp
@@ -514,7 +521,7 @@ ethernet_output(<span class="c-val">pkt[0..255]</span>) <span class="c-comment">
 ├── <span class="c-key">src/svm/</span>          <span class="c-comment"># Shared virtual memory</span>
 ├── <span class="c-key">src/examples/</span>    <span class="c-comment"># Sample plugin, handoff demo</span>
 └── <span class="c-key">test/</span>             <span class="c-comment"># Python test framework: test_*.py</span></pre></div>
-    <p>When you explore a new VPP subsystem, start by reading the <code>.h</code> file - it contains the data structures and macro definitions. The <code>.c</code> file contains the implementations. API definitions live in <code>.api</code> files alongside each plugin.</p>
+<p>When you explore a new VPP subsystem, start by reading the <code>.h</code> file - it contains the data structures and macro definitions. The <code>.c</code> file contains the implementations. API definitions live in <code>.api</code> files alongside each plugin.</p>
   </div>
 </div>
 </div>
@@ -523,62 +530,72 @@ ethernet_output(<span class="c-val">pkt[0..255]</span>) <span class="c-comment">
 <p class="section-sep">BUILD FROM SOURCE</p>
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr">
-    <span class="icon">🔨</span>
-    <h3>Building VPP</h3>
-    <span class="tag tag-teal">HANDS-ON</span>
+<span class="icon">🔨</span>
+<h3>Building VPP</h3>
+<span class="tag tag-teal">HANDS-ON</span>
   </div>
   <div class="concept-panel-body">
-    <p>Always build from source for development. Binary packages hide important details. The VPP build system is CMake-based with a convenience Makefile wrapper.</p>
-<div class="code-block"><pre><span class="c-comment"># Clone the repo</span>
+<p>Always build from source for development. Binary packages hide important details. The VPP build system is CMake-based with a convenience Makefile wrapper.</p>
+<div class="code-block">
+
+```bash
+# Clone the repo
 git clone https://github.com/FDio/vpp.git && cd vpp
- 
-<span class="c-comment"># Install build dependencies (Ubuntu 22.04)</span>
+
+# Install build dependencies (Ubuntu 22.04)
 make install-dep
- 
-<span class="c-comment"># Debug build - has symbols, ASAN-compatible, slower</span>
+
+# Debug build - has symbols, ASAN-compatible, slower
 make build
- 
-<span class="c-comment"># Release/optimised build - production performance</span>
+
+# Release/optimised build - production performance
 make build-release
- 
-<span class="c-comment"># Run debug VPP interactively (reads /etc/vpp/startup.conf)</span>
+
+# Run debug VPP interactively (reads /etc/vpp/startup.conf)
 make run
- 
-<span class="c-comment"># Run under GDB for debugging</span>
+
+# Run under GDB for debugging
 make run-gdb
- 
-<span class="c-comment"># Run full test suite</span>
+
+# Run full test suite
 make test
- 
-<span class="c-comment"># Run a specific test</span>
-make test TEST=test_nat</pre></div>
-    <ul>
-      <li>Debug binary lives at: <code>build-root/install-vpp_debug-native/vpp/bin/vpp</code></li>
-      <li>Release binary: <code>build-root/install-vpp-native/vpp/bin/vpp</code></li>
-      <li>Plugins: compiled as <code>.so</code> files, loaded from the plugin directory at startup</li>
-    </ul>
+
+# Run a specific test
+make test TEST=test_nat
+```
+
+
+
+<ul>
+<li>Debug binary lives at: <code>build-root/install-vpp_debug-native/vpp/bin/vpp</code></li>
+<li>Release binary: <code>build-root/install-vpp-native/vpp/bin/vpp</code></li>
+<li>Plugins: compiled as <code>.so</code> files, loaded from the plugin directory at startup</li>
+</ul>
   </div>
 </div>
 <p class="section-sep">DOCKER + AMD + MELLANOX SETUP</p>
 <div class="concept-panel panel-orange">
   <div class="concept-panel-hdr">
-    <span class="icon">🐳</span>
-    <h3>Container Setup for Mellanox Ports</h3>
-    <span class="tag tag-orange">YOUR ENV</span>
+<span class="icon">🐳</span>
+<h3>Container Setup for Mellanox Ports</h3>
+<span class="tag tag-orange">YOUR ENV</span>
   </div>
   <div class="concept-panel-body">
-    <p>Your environment: Docker containers on AMD server with Mellanox Ethernet ports. VPP needs privileged access to hugepages, VFIO devices, and the PCI bus. The following setup gives VPP everything it needs.</p>
-<div class="code-block"><pre><span class="c-comment"># Step 1: Allocate hugepages on the host (2MB pages)</span>
+<p>Your environment: Docker containers on AMD server with Mellanox Ethernet ports. VPP needs privileged access to hugepages, VFIO devices, and the PCI bus. The following setup gives VPP everything it needs.</p>
+<div class="code-block">
+
+```bash
+# Step 1: Allocate hugepages on the host (2MB pages)
 echo 2048 | sudo tee /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 sudo mkdir -p /dev/hugepages
 sudo mount -t hugetlbfs nodev /dev/hugepages
- 
-<span class="c-comment"># Step 2: Bind Mellanox port to vfio-pci (use PCI address from lspci)</span>
-sudo dpdk-devbind.py --status                     <span class="c-comment"># find PCI address</span>
+
+# Step 2: Bind Mellanox port to vfio-pci (use PCI address from lspci)
+sudo dpdk-devbind.py --status                     # find PCI address
 sudo dpdk-devbind.py --bind vfio-pci 0000:03:00.0
 sudo dpdk-devbind.py --bind vfio-pci 0000:03:00.1
- 
-<span class="c-comment"># Step 3: Run VPP container with all required resources</span>
+
+# Step 3: Run VPP container with all required resources
 docker run --privileged --network host \
   -v /dev/hugepages:/dev/hugepages \
   -v /sys/bus/pci:/sys/bus/pci \
@@ -586,16 +603,20 @@ docker run --privileged --network host \
   -v /dev/vfio:/dev/vfio \
   -v /dev/vfio/vfio:/dev/vfio/vfio \
   -v /etc/vpp:/etc/vpp \
-  -it ubuntu:22.04 /bin/bash</pre></div>
-    <div class="dpdk-box">
-      <div class="dpdk-hdr">⚙️ DPDK KNOWLEDGE - Mellanox + VFIO</div>
-      <ul>
-        <li><strong>mlx5 PMD</strong>: Mellanox ConnectX-4/5/6 use the mlx5 poll-mode driver. VPP's DPDK plugin includes mlx5 support. No separate binding needed for mlx5 - it works through the kernel <code>mlx5_core</code> + VFIO</li>
-        <li><strong>IOVA mode</strong>: For Mellanox with DPDK, use <code>--iova-mode va</code> (VA mode). Set in VPP via <code>dpdk { iova-mode va }</code> in startup.conf</li>
-        <li><strong>SR-IOV VFs</strong>: For multi-container setups, create VFs on the PF and pass one VF per container - same as standard DPDK SR-IOV workflow</li>
-        <li><strong>No KNI</strong>: VPP does not use DPDK KNI. Use TAP v2 or linux-cp for Linux kernel access</li>
-      </ul>
-    </div>
+  -it ubuntu:22.04 /bin/bash
+```
+
+
+
+<div class="dpdk-box">
+<div class="dpdk-hdr">⚙️ DPDK KNOWLEDGE - Mellanox + VFIO</div>
+<ul>
+<li><strong>mlx5 PMD</strong>: Mellanox ConnectX-4/5/6 use the mlx5 poll-mode driver. VPP's DPDK plugin includes mlx5 support. No separate binding needed for mlx5 - it works through the kernel <code>mlx5_core</code> + VFIO</li>
+<li><strong>IOVA mode</strong>: For Mellanox with DPDK, use <code>--iova-mode va</code> (VA mode). Set in VPP via <code>dpdk { iova-mode va }</code> in startup.conf</li>
+<li><strong>SR-IOV VFs</strong>: For multi-container setups, create VFs on the PF and pass one VF per container - same as standard DPDK SR-IOV workflow</li>
+<li><strong>No KNI</strong>: VPP does not use DPDK KNI. Use TAP v2 or linux-cp for Linux kernel access</li>
+</ul>
+</div>
   </div>
 </div>
 </div>
@@ -604,12 +625,12 @@ docker run --privileged --network host \
 <p class="section-sep">STARTUP CONFIGURATION</p>
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr">
-    <span class="icon">⚙️</span>
-    <h3>startup.conf - Every Stanza Explained</h3>
-    <span class="tag tag-blue">CONFIGURATION</span>
+<span class="icon">⚙️</span>
+<h3>startup.conf - Every Stanza Explained</h3>
+<span class="tag tag-blue">CONFIGURATION</span>
   </div>
   <div class="concept-panel-body">
-    <p><code>startup.conf</code> is VPP's single configuration file, read at launch. It controls process behaviour, CPU pinning, DPDK ports, buffer pools, and plugin loading. Here is a production-annotated example for your environment:</p>
+<p><code>startup.conf</code> is VPP's single configuration file, read at launch. It controls process behaviour, CPU pinning, DPDK ports, buffer pools, and plugin loading. Here is a production-annotated example for your environment:</p>
 <div class="conf-block"><pre><span class="conf-section">unix</span> {
   <span class="conf-key">nodaemon</span>                          <span class="conf-comment"># run in foreground (good for containers)</span>
   <span class="conf-key">log</span> <span class="conf-val">/var/log/vpp/vpp.log</span>
@@ -663,13 +684,13 @@ docker run --privileged --network host \
   <span class="conf-key">size</span> <span class="conf-val">128m</span>                         <span class="conf-comment"># stats segment size</span>
   <span class="conf-key">per-node-counters</span> <span class="conf-val">on</span>
 }</pre></div>
-    <p><strong>Key rules:</strong></p>
-    <ul>
-      <li><code>corelist-workers</code> count must equal total RX queues across all interfaces for full utilisation</li>
-      <li><code>socket-mem</code> uses hugepages - must be pre-allocated on host before container starts</li>
-      <li><code>buffers-per-numa</code> - if you see buffer allocation failures in logs, increase this</li>
-      <li><code>startup-config</code> - put CLI commands here (set interface state, add routes) for auto-config at boot</li>
-    </ul>
+<p><strong>Key rules:</strong></p>
+<ul>
+<li><code>corelist-workers</code> count must equal total RX queues across all interfaces for full utilisation</li>
+<li><code>socket-mem</code> uses hugepages - must be pre-allocated on host before container starts</li>
+<li><code>buffers-per-numa</code> - if you see buffer allocation failures in logs, increase this</li>
+<li><code>startup-config</code> - put CLI commands here (set interface state, add routes) for auto-config at boot</li>
+</ul>
   </div>
 </div>
 </div>
@@ -678,12 +699,12 @@ docker run --privileged --network host \
 <p class="section-sep">ESSENTIAL CLI COMMANDS</p>
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr">
-    <span class="icon">💻</span>
-    <h3>vppctl - Your Primary Interface</h3>
-    <span class="tag tag-teal">CLI REFERENCE</span>
+<span class="icon">💻</span>
+<h3>vppctl - Your Primary Interface</h3>
+<span class="tag tag-teal">CLI REFERENCE</span>
   </div>
   <div class="concept-panel-body">
-    <p><code>vppctl</code> connects to VPP's Unix socket (<code>/run/vpp/cli.sock</code>) and sends CLI commands. You can use it interactively or pipe commands:</p>
+<p><code>vppctl</code> connects to VPP's Unix socket (<code>/run/vpp/cli.sock</code>) and sends CLI commands. You can use it interactively or pipe commands:</p>
 <div class="code-block"><pre>vppctl                      <span class="c-comment"># interactive shell</span>
 vppctl show version         <span class="c-comment"># single command</span>
 echo "show run" | vppctl    <span class="c-comment"># pipe</span></pre></div>
@@ -692,25 +713,25 @@ echo "show run" | vppctl    <span class="c-comment"># pipe</span></pre></div>
 <table class="cli-table">
   <thead><tr><th>Command</th><th>What It Shows / Does</th><th>Use When</th></tr></thead>
   <tbody>
-    <tr><td><code>show version</code></td><td>VPP version, build date, plugins loaded</td><td>First thing after starting VPP</td></tr>
-    <tr><td><code>show plugins</code></td><td>All loaded plugins with versions</td><td>Verify dpdk_plugin, memif_plugin loaded</td></tr>
-    <tr><td><code>show interface</code></td><td>All interfaces: state, RX/TX packet+byte counters, error counts</td><td>Check interface is up, count packets</td></tr>
-    <tr><td><code>show run</code></td><td>Per-node stats: calls, vectors processed, suspends, <strong>clocks/vector</strong></td><td>Most important perf view - check vectors/call</td></tr>
-    <tr><td><code>show buffers</code></td><td>Buffer pool utilisation per NUMA node</td><td>Check for buffer starvation (free &lt; 20%)</td></tr>
-    <tr><td><code>show error</code></td><td>Error counter table: which nodes are dropping and why</td><td>Debug drops - e.g. "ip4 source lookup miss"</td></tr>
-    <tr><td><code>show ip fib</code></td><td>FIB routing table: all prefixes and their DPO chains</td><td>Verify routes are programmed correctly</td></tr>
-    <tr><td><code>show ip neighbors</code></td><td>ARP/ND neighbour table</td><td>Check ARP resolution</td></tr>
-    <tr><td><code>trace add dpdk-input 100</code></td><td>Capture next 100 packets entering from DPDK input</td><td>Start trace before sending test traffic</td></tr>
-    <tr><td><code>show trace</code></td><td>Full per-packet trace: every node the packet visited with timestamps</td><td>After trace capture - shows complete packet path</td></tr>
-    <tr><td><code>clear trace</code></td><td>Clear the trace buffer</td><td>Before new capture</td></tr>
-    <tr><td><code>show interface rx-placement</code></td><td>Which worker thread handles which interface RX queue</td><td>Verify NUMA-local queue assignments</td></tr>
-    <tr><td><code>set interface rx-placement &lt;if&gt; queue 0 worker 0</code></td><td>Assign interface queue to specific worker</td><td>Manual NUMA-aware pinning</td></tr>
-    <tr><td><code>set interface state &lt;if&gt; up</code></td><td>Bring interface up</td><td>After creating interface</td></tr>
-    <tr><td><code>set interface ip address &lt;if&gt; 10.0.0.1/24</code></td><td>Assign IP address</td><td>Configure L3 interface</td></tr>
-    <tr><td><code>show dpdk interface</code></td><td>DPDK-specific interface info: queues, link speed, driver</td><td>Verify mlx5 link is up at correct speed</td></tr>
-    <tr><td><code>show dpdk interface xstats &lt;if&gt;</code></td><td>Extended NIC statistics from the DPDK ethdev layer</td><td>Deep NIC-level counters</td></tr>
-    <tr><td><code>show log</code></td><td>VPP internal log messages</td><td>Troubleshoot startup and plugin errors</td></tr>
-    <tr><td><code>event-logger on</code></td><td>Enable high-resolution event logger</td><td>Timing analysis - use with g2 viewer</td></tr>
+<tr><td><code>show version</code></td><td>VPP version, build date, plugins loaded</td><td>First thing after starting VPP</td></tr>
+<tr><td><code>show plugins</code></td><td>All loaded plugins with versions</td><td>Verify dpdk_plugin, memif_plugin loaded</td></tr>
+<tr><td><code>show interface</code></td><td>All interfaces: state, RX/TX packet+byte counters, error counts</td><td>Check interface is up, count packets</td></tr>
+<tr><td><code>show run</code></td><td>Per-node stats: calls, vectors processed, suspends, <strong>clocks/vector</strong></td><td>Most important perf view - check vectors/call</td></tr>
+<tr><td><code>show buffers</code></td><td>Buffer pool utilisation per NUMA node</td><td>Check for buffer starvation (free &lt; 20%)</td></tr>
+<tr><td><code>show error</code></td><td>Error counter table: which nodes are dropping and why</td><td>Debug drops - e.g. "ip4 source lookup miss"</td></tr>
+<tr><td><code>show ip fib</code></td><td>FIB routing table: all prefixes and their DPO chains</td><td>Verify routes are programmed correctly</td></tr>
+<tr><td><code>show ip neighbors</code></td><td>ARP/ND neighbour table</td><td>Check ARP resolution</td></tr>
+<tr><td><code>trace add dpdk-input 100</code></td><td>Capture next 100 packets entering from DPDK input</td><td>Start trace before sending test traffic</td></tr>
+<tr><td><code>show trace</code></td><td>Full per-packet trace: every node the packet visited with timestamps</td><td>After trace capture - shows complete packet path</td></tr>
+<tr><td><code>clear trace</code></td><td>Clear the trace buffer</td><td>Before new capture</td></tr>
+<tr><td><code>show interface rx-placement</code></td><td>Which worker thread handles which interface RX queue</td><td>Verify NUMA-local queue assignments</td></tr>
+<tr><td><code>set interface rx-placement &lt;if&gt; queue 0 worker 0</code></td><td>Assign interface queue to specific worker</td><td>Manual NUMA-aware pinning</td></tr>
+<tr><td><code>set interface state &lt;if&gt; up</code></td><td>Bring interface up</td><td>After creating interface</td></tr>
+<tr><td><code>set interface ip address &lt;if&gt; 10.0.0.1/24</code></td><td>Assign IP address</td><td>Configure L3 interface</td></tr>
+<tr><td><code>show dpdk interface</code></td><td>DPDK-specific interface info: queues, link speed, driver</td><td>Verify mlx5 link is up at correct speed</td></tr>
+<tr><td><code>show dpdk interface xstats &lt;if&gt;</code></td><td>Extended NIC statistics from the DPDK ethdev layer</td><td>Deep NIC-level counters</td></tr>
+<tr><td><code>show log</code></td><td>VPP internal log messages</td><td>Troubleshoot startup and plugin errors</td></tr>
+<tr><td><code>event-logger on</code></td><td>Enable high-resolution event logger</td><td>Timing analysis - use with g2 viewer</td></tr>
   </tbody>
 </table>
 <div class="insight-box">
@@ -721,24 +742,24 @@ echo "show run" | vppctl    <span class="c-comment"># pipe</span></pre></div>
 <div id="t-proj" class="tab-pane">
 <div class="project-box">
   <div class="project-box-hdr">
-    <span class="pnum">PROJECT 1</span>
-    <h4>VPP Container Lab - First Packet</h4>
+<span class="pnum">PROJECT 1</span>
+<h4>VPP Container Lab - First Packet</h4>
   </div>
   <div class="project-box-body">
-    <p><strong>Objective:</strong> Spin up a VPP instance inside Docker with Mellanox ports, configure two interfaces, send traffic, and fully trace the packet path through the graph.</p>
-    <div class="project-step"><div class="step-n">1</div><div>Pull or build a VPP Docker image with DPDK support for Mellanox mlx5. Verify with <code>show plugins</code> that <code>dpdk_plugin.so</code> is loaded.</div></div>
-    <div class="project-step"><div class="step-n">2</div><div>Write a <code>startup.conf</code> with your Mellanox PCI addresses, 1 GB hugepages per socket, and 2 worker threads pinned to non-overlapping cores.</div></div>
-    <div class="project-step"><div class="step-n">3</div><div>Start VPP and run <code>show interface</code>. Both Mellanox ports should appear as <code>GigabitEthernet</code> or <code>Ethernet</code> devices. Bring them up: <code>set interface state &lt;if&gt; up</code>.</div></div>
-    <div class="project-step"><div class="step-n">4</div><div>Assign IP addresses to both DPDK interfaces. Add a static route between them: <code>ip route add 192.168.2.0/24 via 192.168.1.2</code>.</div></div>
-    <div class="project-step"><div class="step-n">5</div><div>From a peer container or host, start a trace: <code>trace add dpdk-input 100</code>. Then send 10 ICMP pings to VPP's interface IP.</div></div>
-    <div class="project-step"><div class="step-n">6</div><div>Run <code>show trace</code>. For each captured packet, identify every graph node it visited and the time spent (in clock ticks) at each node.</div></div>
-    <div class="project-step"><div class="step-n">7</div><div>Run <code>show run</code>. Record: vectors/call for dpdk-input, clocks/vector for ip4-lookup and ip4-rewrite. This is your baseline performance fingerprint.</div></div>
-    <div class="project-step"><div class="step-n">8</div><div>Experiment: change worker threads from 2 to 4 in startup.conf, restart, and compare <code>show run</code> output. Does throughput scale linearly?</div></div>
-    <div class="project-step"><div class="step-n">9</div><div>Run <code>show error</code> and verify there are no unexpected drops. If there are, trace a dropped packet and identify the error node.</div></div>
-    <div class="project-meta">
-      <span class="project-meta-item pm-docker">🐳 Docker --privileged + /dev/hugepages + /dev/vfio bind-mounted</span>
-      <span class="project-meta-item pm-code">📂 src/plugins/dpdk/device/node.c · src/vnet/ip/ip4_forward.c</span>
-    </div>
+<p><strong>Objective:</strong> Spin up a VPP instance inside Docker with Mellanox ports, configure two interfaces, send traffic, and fully trace the packet path through the graph.</p>
+<div class="project-step"><div class="step-n">1</div><div>Pull or build a VPP Docker image with DPDK support for Mellanox mlx5. Verify with <code>show plugins</code> that <code>dpdk_plugin.so</code> is loaded.</div></div>
+<div class="project-step"><div class="step-n">2</div><div>Write a <code>startup.conf</code> with your Mellanox PCI addresses, 1 GB hugepages per socket, and 2 worker threads pinned to non-overlapping cores.</div></div>
+<div class="project-step"><div class="step-n">3</div><div>Start VPP and run <code>show interface</code>. Both Mellanox ports should appear as <code>GigabitEthernet</code> or <code>Ethernet</code> devices. Bring them up: <code>set interface state &lt;if&gt; up</code>.</div></div>
+<div class="project-step"><div class="step-n">4</div><div>Assign IP addresses to both DPDK interfaces. Add a static route between them: <code>ip route add 192.168.2.0/24 via 192.168.1.2</code>.</div></div>
+<div class="project-step"><div class="step-n">5</div><div>From a peer container or host, start a trace: <code>trace add dpdk-input 100</code>. Then send 10 ICMP pings to VPP's interface IP.</div></div>
+<div class="project-step"><div class="step-n">6</div><div>Run <code>show trace</code>. For each captured packet, identify every graph node it visited and the time spent (in clock ticks) at each node.</div></div>
+<div class="project-step"><div class="step-n">7</div><div>Run <code>show run</code>. Record: vectors/call for dpdk-input, clocks/vector for ip4-lookup and ip4-rewrite. This is your baseline performance fingerprint.</div></div>
+<div class="project-step"><div class="step-n">8</div><div>Experiment: change worker threads from 2 to 4 in startup.conf, restart, and compare <code>show run</code> output. Does throughput scale linearly?</div></div>
+<div class="project-step"><div class="step-n">9</div><div>Run <code>show error</code> and verify there are no unexpected drops. If there are, trace a dropped packet and identify the error node.</div></div>
+<div class="project-meta">
+<span class="project-meta-item pm-docker">🐳 Docker --privileged + /dev/hugepages + /dev/vfio bind-mounted</span>
+<span class="project-meta-item pm-code">📂 src/plugins/dpdk/device/node.c · src/vnet/ip/ip4_forward.c</span>
+</div>
   </div>
 </div>
 </div>

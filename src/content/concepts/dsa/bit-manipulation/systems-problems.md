@@ -38,12 +38,12 @@ url: /learning/dsa/bit-manipulation/systems-problems/
   <div class="mod-title">&#9881;&#65039; Systems Bit Manipulation Problems</div>
   <div class="mod-subtitle">Fully-worked problems from real systems engineering — IPv4 · Subnets · Packet Headers · MAC · Memory Alignment</div>
   <div class="mod-pills">
-    <span class="mod-pill">IPv4 Encoding</span>
-    <span class="mod-pill">Subnet / CIDR</span>
-    <span class="mod-pill">VLAN / TCP / DSCP</span>
-    <span class="mod-pill">MAC Address</span>
-    <span class="mod-pill">Aligned Allocator</span>
-    <span class="mod-pill">Ring Buffer</span>
+<span class="mod-pill">IPv4 Encoding</span>
+<span class="mod-pill">Subnet / CIDR</span>
+<span class="mod-pill">VLAN / TCP / DSCP</span>
+<span class="mod-pill">MAC Address</span>
+<span class="mod-pill">Aligned Allocator</span>
+<span class="mod-pill">Ring Buffer</span>
   </div>
 </div>
 <div style="background:#1a1060;border-radius:0 0 8px 8px;padding:.7rem 1.5rem;color:#a78bfa;font-size:.82rem;font-family:monospace;margin-bottom:2rem;">
@@ -59,18 +59,18 @@ Bit: 31..24  23..16  15..8   7..0
      [ 192 ][ 168  ][  10  ][  5  ]
 result = (192&lt;&lt;24)|(168&lt;&lt;16)|(10&lt;&lt;8)|5 = 0xC0A80A05</div>
 <div class="cb"><span class="co">uint32_t</span> <span class="cf">ipv4_to_uint32</span>(<span class="ck">const</span> <span class="ck">char</span>* ip) {
-    <span class="co">uint32_t</span> result = <span class="cn">0</span>;
-    <span class="ck">int</span> octet = <span class="cn">0</span>, shift = <span class="cn">24</span>;
-    <span class="ck">while</span> (*ip) {
-        <span class="ck">if</span> (*ip == <span class="cs">'.'</span>) { result |= (<span class="co">uint32_t</span>)octet &lt;&lt; shift; shift -= <span class="cn">8</span>; octet = <span class="cn">0</span>; }
-        <span class="ck">else</span> { octet = octet * <span class="cn">10</span> + (*ip - <span class="cs">'0'</span>); }
+<span class="co">uint32_t</span> result = <span class="cn">0</span>;
+<span class="ck">int</span> octet = <span class="cn">0</span>, shift = <span class="cn">24</span>;
+<span class="ck">while</span> (*ip) {
+<span class="ck">if</span> (*ip == <span class="cs">'.'</span>) { result |= (<span class="co">uint32_t</span>)octet &lt;&lt; shift; shift -= <span class="cn">8</span>; octet = <span class="cn">0</span>; }
+<span class="ck">else</span> { octet = octet * <span class="cn">10</span> + (*ip - <span class="cs">'0'</span>); }
         ip++;
     }
-    <span class="ck">return</span> result | (<span class="co">uint32_t</span>)octet;
+<span class="ck">return</span> result | (<span class="co">uint32_t</span>)octet;
 }
 
 <span class="ck">void</span> <span class="cf">uint32_to_ipv4</span>(<span class="co">uint32_t</span> ip, <span class="ck">char</span>* buf) {
-    <span class="cf">sprintf</span>(buf, <span class="cs">"%u.%u.%u.%u"</span>,
+<span class="cf">sprintf</span>(buf, <span class="cs">"%u.%u.%u.%u"</span>,
         (ip &gt;&gt; <span class="cn">24</span>) &amp; <span class="cn">0xFF</span>, (ip &gt;&gt; <span class="cn">16</span>) &amp; <span class="cn">0xFF</span>,
         (ip &gt;&gt;  <span class="cn">8</span>) &amp; <span class="cn">0xFF</span>,  ip &amp; <span class="cn">0xFF</span>);
 }</div>
@@ -82,9 +82,9 @@ Does IP belong to the given subnet? E.g. <code>isValidIP("192.168.10.5","192.168
 <div class="diagram-box">192.168.10.5 &amp; mask(/28=0xFFFFFFF0) = 0xC0A80A00
 192.168.10.0 &amp; mask(/28=0xFFFFFFF0) = 0xC0A80A00  &rarr; match &#10003;</div>
 <div class="cb"><span class="ck">bool</span> <span class="cf">isValidIP</span>(<span class="ck">char</span>* ip, <span class="ck">char</span>* netId, <span class="ck">int</span> prefix) {
-    <span class="co">uint32_t</span> a = <span class="cf">ipv4_to_uint32</span>(ip),  b = <span class="cf">ipv4_to_uint32</span>(netId);
-    <span class="co">uint32_t</span> mask = (prefix == <span class="cn">0</span>) ? <span class="cn">0</span> : ~((<span class="cn">1U</span> &lt;&lt; (<span class="cn">32</span>-prefix)) - <span class="cn">1</span>);
-    <span class="ck">return</span> (a &amp; mask) == (b &amp; mask);
+<span class="co">uint32_t</span> a = <span class="cf">ipv4_to_uint32</span>(ip),  b = <span class="cf">ipv4_to_uint32</span>(netId);
+<span class="co">uint32_t</span> mask = (prefix == <span class="cn">0</span>) ? <span class="cn">0</span> : ~((<span class="cn">1U</span> &lt;&lt; (<span class="cn">32</span>-prefix)) - <span class="cn">1</span>);
+<span class="ck">return</span> (a &amp; mask) == (b &amp; mask);
 }
 
 <span class="co">uint32_t</span> <span class="cf">networkAddr</span> (<span class="co">uint32_t</span> ip, <span class="ck">int</span> p) { <span class="ck">return</span> ip &amp; ~((<span class="cn">1U</span>&lt;&lt;(<span class="cn">32</span>-p))-<span class="cn">1</span>); }
@@ -118,11 +118,11 @@ ECN  =  tos &amp; 0x03</div>
 <span class="cv">#define TCP_PSH 0x08</span>
 <span class="cv">#define TCP_ACK 0x10</span>
 <span class="ck">const</span> <span class="ck">char</span>* <span class="cf">tcpState</span>(<span class="co">uint8_t</span> f) {
-    <span class="ck">if</span> ((f &amp; <span class="cn">0x12</span>) == <span class="cn">0x02</span>) <span class="ck">return</span> <span class="cs">"SYN"</span>;
-    <span class="ck">if</span> ((f &amp; <span class="cn">0x12</span>) == <span class="cn">0x12</span>) <span class="ck">return</span> <span class="cs">"SYN+ACK"</span>;
-    <span class="ck">if</span>  (f &amp; <span class="cn">0x04</span>)            <span class="ck">return</span> <span class="cs">"RST"</span>;
-    <span class="ck">if</span>  (f &amp; <span class="cn">0x01</span>)            <span class="ck">return</span> <span class="cs">"FIN"</span>;
-    <span class="ck">return</span> <span class="cs">"ACK/data"</span>;
+<span class="ck">if</span> ((f &amp; <span class="cn">0x12</span>) == <span class="cn">0x02</span>) <span class="ck">return</span> <span class="cs">"SYN"</span>;
+<span class="ck">if</span> ((f &amp; <span class="cn">0x12</span>) == <span class="cn">0x12</span>) <span class="ck">return</span> <span class="cs">"SYN+ACK"</span>;
+<span class="ck">if</span>  (f &amp; <span class="cn">0x04</span>)            <span class="ck">return</span> <span class="cs">"RST"</span>;
+<span class="ck">if</span>  (f &amp; <span class="cn">0x01</span>)            <span class="ck">return</span> <span class="cs">"FIN"</span>;
+<span class="ck">return</span> <span class="cs">"ACK/data"</span>;
 }</div>
 <p class="sep">PROBLEM SET 4 &mdash; MAC ADDRESS OPERATIONS</p>
 <div class="p-orange">
@@ -133,32 +133,32 @@ Pack/unpack 6-byte MAC into uint64_t. Detect multicast, broadcast, extract OUI.
 I/G bit (bit 0 of byte[0]) = 1 means multicast
 Broadcast = 0x0000FFFFFFFFFFFFULL</div>
 <div class="cb"><span class="co">uint64_t</span> <span class="cf">mac_to_uint64</span>(<span class="ck">const</span> <span class="co">uint8_t</span> m[<span class="cn">6</span>]) {
-    <span class="co">uint64_t</span> r=<span class="cn">0</span>; <span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">0</span>;i&lt;<span class="cn">6</span>;i++) r=(r&lt;&lt;<span class="cn">8</span>)|m[i]; <span class="ck">return</span> r; }
+<span class="co">uint64_t</span> r=<span class="cn">0</span>; <span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">0</span>;i&lt;<span class="cn">6</span>;i++) r=(r&lt;&lt;<span class="cn">8</span>)|m[i]; <span class="ck">return</span> r; }
 <span class="ck">void</span> <span class="cf">uint64_to_mac</span>(<span class="co">uint64_t</span> v, <span class="co">uint8_t</span> m[<span class="cn">6</span>]) {
-    <span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">5</span>;i&gt;=<span class="cn">0</span>;i--){m[i]=v&amp;<span class="cn">0xFF</span>;v&gt;&gt;=<span class="cn">8</span>;} }
+<span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">5</span>;i&gt;=<span class="cn">0</span>;i--){m[i]=v&amp;<span class="cn">0xFF</span>;v&gt;&gt;=<span class="cn">8</span>;} }
 <span class="ck">bool</span> <span class="cf">isMulticast</span>(<span class="ck">const</span> <span class="co">uint8_t</span> m[<span class="cn">6</span>]) { <span class="ck">return</span> (m[<span class="cn">0</span>]&amp;<span class="cn">1</span>)!=<span class="cn">0</span>; }
 <span class="co">uint32_t</span> <span class="cf">getOUI</span>(<span class="ck">const</span> <span class="co">uint8_t</span> m[<span class="cn">6</span>]) {
-    <span class="ck">return</span> ((<span class="co">uint32_t</span>)m[<span class="cn">0</span>]&lt;&lt;<span class="cn">16</span>)|((<span class="co">uint32_t</span>)m[<span class="cn">1</span>]&lt;&lt;<span class="cn">8</span>)|m[<span class="cn">2</span>]; }</div>
+<span class="ck">return</span> ((<span class="co">uint32_t</span>)m[<span class="cn">0</span>]&lt;&lt;<span class="cn">16</span>)|((<span class="co">uint32_t</span>)m[<span class="cn">1</span>]&lt;&lt;<span class="cn">8</span>)|m[<span class="cn">2</span>]; }</div>
 <p class="sep">PROBLEM SET 5 &mdash; GENERAL &amp; INTERVIEW PROBLEMS</p>
 <div class="p-slate">
 <h4>P5.1 &mdash; Binary Palindrome <span class="badge medium">Medium</span> &nbsp; P5.2 &mdash; Generate All Subsets <span class="badge medium">Medium</span></h4>
 </div>
 <div class="cb"><span class="cm">// P5.1: Is 32-bit integer a binary palindrome?</span>
 <span class="ck">bool</span> <span class="cf">isBinPalindrome</span>(<span class="co">uint32_t</span> x) {
-    <span class="co">uint32_t</span> r=x;
+<span class="co">uint32_t</span> r=x;
     r=((r&amp;<span class="cn">0xFFFF0000</span>)&gt;&gt;<span class="cn">16</span>)|((r&amp;<span class="cn">0x0000FFFF</span>)&lt;&lt;<span class="cn">16</span>);
     r=((r&amp;<span class="cn">0xFF00FF00</span>)&gt;&gt; <span class="cn">8</span>)|((r&amp;<span class="cn">0x00FF00FF</span>)&lt;&lt; <span class="cn">8</span>);
     r=((r&amp;<span class="cn">0xF0F0F0F0</span>)&gt;&gt; <span class="cn">4</span>)|((r&amp;<span class="cn">0x0F0F0F0F</span>)&lt;&lt; <span class="cn">4</span>);
     r=((r&amp;<span class="cn">0xCCCCCCCC</span>)&gt;&gt; <span class="cn">2</span>)|((r&amp;<span class="cn">0x33333333</span>)&lt;&lt; <span class="cn">2</span>);
     r=((r&amp;<span class="cn">0xAAAAAAAA</span>)&gt;&gt; <span class="cn">1</span>)|((r&amp;<span class="cn">0x55555555</span>)&lt;&lt; <span class="cn">1</span>);
-    <span class="ck">return</span> x==r;
+<span class="ck">return</span> x==r;
 }
 
 <span class="cm">// P5.2: All subsets using bitmask enumeration</span>
 <span class="ck">void</span> <span class="cf">allSubsets</span>(<span class="ck">int</span>* a, <span class="ck">int</span> n) {
-    <span class="ck">for</span>(<span class="ck">int</span> mask=<span class="cn">0</span>; mask&lt;(<span class="cn">1</span>&lt;&lt;n); mask++) {
-        <span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">0</span>; i&lt;n; i++) <span class="ck">if</span>(mask&amp;(<span class="cn">1</span>&lt;&lt;i)) <span class="cf">printf</span>(<span class="cs">"%d "</span>,a[i]);
-        <span class="cf">printf</span>(<span class="cs">"\n"</span>);
+<span class="ck">for</span>(<span class="ck">int</span> mask=<span class="cn">0</span>; mask&lt;(<span class="cn">1</span>&lt;&lt;n); mask++) {
+<span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">0</span>; i&lt;n; i++) <span class="ck">if</span>(mask&amp;(<span class="cn">1</span>&lt;&lt;i)) <span class="cf">printf</span>(<span class="cs">"%d "</span>,a[i]);
+<span class="cf">printf</span>(<span class="cs">"\n"</span>);
     }
 }</div>
 <div class="p-slate">
@@ -166,10 +166,10 @@ Broadcast = 0x0000FFFFFFFFFFFFULL</div>
 Key insight: <code>XOR(i..j) = prefixXOR[j] ^ prefixXOR[i-1]</code>. Use prefix XOR + hash map.
 </div>
 <div class="cb"><span class="ck">int</span> <span class="cf">countXOR</span>(<span class="ck">int</span>* nums, <span class="ck">int</span> n, <span class="ck">int</span> k) {
-    <span class="ck">int</span> freq[<span class="cn">1024</span>]={<span class="cn">0</span>}; freq[<span class="cn">0</span>]=<span class="cn">1</span>;
-    <span class="ck">int</span> pre=<span class="cn">0</span>, cnt=<span class="cn">0</span>;
-    <span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">0</span>;i&lt;n;i++) { pre^=nums[i]; cnt+=freq[pre^k]; freq[pre]++; }
-    <span class="ck">return</span> cnt;
+<span class="ck">int</span> freq[<span class="cn">1024</span>]={<span class="cn">0</span>}; freq[<span class="cn">0</span>]=<span class="cn">1</span>;
+<span class="ck">int</span> pre=<span class="cn">0</span>, cnt=<span class="cn">0</span>;
+<span class="ck">for</span>(<span class="ck">int</span> i=<span class="cn">0</span>;i&lt;n;i++) { pre^=nums[i]; cnt+=freq[pre^k]; freq[pre]++; }
+<span class="ck">return</span> cnt;
 }</div>
 <p class="sep">PROBLEM SET 6 &mdash; MEMORY ALIGNMENT &amp; ALLOCATOR TRICKS</p>
 <div class="p-blue">
@@ -180,13 +180,13 @@ Over-allocate, adjust pointer forward to alignment boundary, store original poin
 aligned_malloc(100, 64): raw=malloc(172) &rarr; aligned=alignUp(raw+8,64) &rarr; store raw &rarr; return aligned
 aligned_free(ptr): raw = ((void**)ptr)[-1]; free(raw);</div>
 <div class="cb"><span class="ck">void</span>* <span class="cf">aligned_malloc</span>(<span class="ck">size_t</span> sz, <span class="ck">size_t</span> al) {
-    <span class="ck">if</span>(!al||(al&amp;(al-<span class="cn">1</span>))) <span class="ck">return</span> <span class="cn">NULL</span>;
-    <span class="ck">void</span>* raw = <span class="cf">malloc</span>(sz + al + <span class="ck">sizeof</span>(<span class="ck">void</span>*));
-    <span class="ck">if</span>(!raw) <span class="ck">return</span> <span class="cn">NULL</span>;
-    <span class="co">uintptr_t</span> adj = (<span class="co">uintptr_t</span>)raw + <span class="ck">sizeof</span>(<span class="ck">void</span>*);
-    <span class="co">uintptr_t</span> aln = (adj + al - <span class="cn">1</span>) &amp; ~(al - <span class="cn">1</span>);
+<span class="ck">if</span>(!al||(al&amp;(al-<span class="cn">1</span>))) <span class="ck">return</span> <span class="cn">NULL</span>;
+<span class="ck">void</span>* raw = <span class="cf">malloc</span>(sz + al + <span class="ck">sizeof</span>(<span class="ck">void</span>*));
+<span class="ck">if</span>(!raw) <span class="ck">return</span> <span class="cn">NULL</span>;
+<span class="co">uintptr_t</span> adj = (<span class="co">uintptr_t</span>)raw + <span class="ck">sizeof</span>(<span class="ck">void</span>*);
+<span class="co">uintptr_t</span> aln = (adj + al - <span class="cn">1</span>) &amp; ~(al - <span class="cn">1</span>);
     ((<span class="ck">void</span>**)aln)[-<span class="cn">1</span>] = raw;
-    <span class="ck">return</span> (<span class="ck">void</span>*)aln;
+<span class="ck">return</span> (<span class="ck">void</span>*)aln;
 }
 <span class="ck">void</span> <span class="cf">aligned_free</span>(<span class="ck">void</span>* p) { <span class="ck">if</span>(p) <span class="cf">free</span>(((<span class="ck">void</span>**)p)[-<span class="cn">1</span>]); }</div>
 <div class="p-blue">
@@ -196,12 +196,12 @@ Use <code>(idx+1) &amp; mask</code> instead of <code>% size</code> for index wra
 <div class="cb"><span class="ck">typedef</span> <span class="ck">struct</span> { <span class="co">uint32_t</span>* data; <span class="co">uint32_t</span> mask,head,tail; } ring_t;
 
 <span class="ck">bool</span> <span class="cf">push</span>(ring_t* r, <span class="co">uint32_t</span> v) {
-    <span class="co">uint32_t</span> n=(r-&gt;head+<span class="cn">1</span>)&amp;r-&gt;mask;
-    <span class="ck">if</span>(n==r-&gt;tail) <span class="ck">return</span> <span class="cn">false</span>;
+<span class="co">uint32_t</span> n=(r-&gt;head+<span class="cn">1</span>)&amp;r-&gt;mask;
+<span class="ck">if</span>(n==r-&gt;tail) <span class="ck">return</span> <span class="cn">false</span>;
     r-&gt;data[r-&gt;head]=v; r-&gt;head=n; <span class="ck">return</span> <span class="cn">true</span>;
 }
 <span class="ck">bool</span> <span class="cf">pop</span>(ring_t* r, <span class="co">uint32_t</span>* v) {
-    <span class="ck">if</span>(r-&gt;head==r-&gt;tail) <span class="ck">return</span> <span class="cn">false</span>;
+<span class="ck">if</span>(r-&gt;head==r-&gt;tail) <span class="ck">return</span> <span class="cn">false</span>;
     *v=r-&gt;data[r-&gt;tail]; r-&gt;tail=(r-&gt;tail+<span class="cn">1</span>)&amp;r-&gt;mask; <span class="ck">return</span> <span class="cn">true</span>;
 }
 <span class="cm">// DPDK rte_ring uses exactly this pattern.</span></div>

@@ -83,10 +83,10 @@ url: /learning/networking-mastery/m19-cryptography/
   <div class="mod-title">🔐 Cryptography Foundations</div>
   <div class="mod-subtitle">Symmetric encryption · Asymmetric crypto · Hash functions · MACs · Key exchange · PKI · Random numbers</div>
   <div class="mod-pills">
-    <span class="mod-pill">Intermediate → Advanced</span>
-    <span class="mod-pill">Prerequisite: M05 TCP</span>
-    <span class="mod-pill">Essential for TLS and IPsec</span>
-    <span class="mod-pill">2 Labs</span>
+<span class="mod-pill">Intermediate → Advanced</span>
+<span class="mod-pill">Prerequisite: M05 TCP</span>
+<span class="mod-pill">Essential for TLS and IPsec</span>
+<span class="mod-pill">2 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -106,13 +106,13 @@ url: /learning/networking-mastery/m19-cryptography/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>Confidentiality, Integrity, and Authentication</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>Every cryptographic protocol in networking — TLS, IPsec, SSH, WireGuard — provides some combination of three fundamental properties. Understanding what each primitive provides (and what it doesn't) is how you reason about security protocols.</p>
-    <ul>
-      <li><strong>Confidentiality</strong> — only the intended recipient can read the data. Provided by encryption (AES, ChaCha20). Does NOT guarantee the data wasn't modified.</li>
-      <li><strong>Integrity</strong> — the data was not modified in transit. Provided by MACs (HMAC-SHA256) or AEAD ciphers (AES-GCM). Does NOT tell you who sent it.</li>
-      <li><strong>Authentication</strong> — you are communicating with who you think you are. Provided by digital signatures (RSA, ECDSA) + PKI. Does NOT keep data confidential.</li>
-    </ul>
-    <p>Most protocols combine all three: TLS uses asymmetric crypto for authentication + key exchange, then symmetric AEAD for confidentiality + integrity of the data stream. IPsec uses IKE for authentication + key exchange, then ESP for confidentiality + integrity.</p>
+<p>Every cryptographic protocol in networking — TLS, IPsec, SSH, WireGuard — provides some combination of three fundamental properties. Understanding what each primitive provides (and what it doesn't) is how you reason about security protocols.</p>
+<ul>
+<li><strong>Confidentiality</strong> — only the intended recipient can read the data. Provided by encryption (AES, ChaCha20). Does NOT guarantee the data wasn't modified.</li>
+<li><strong>Integrity</strong> — the data was not modified in transit. Provided by MACs (HMAC-SHA256) or AEAD ciphers (AES-GCM). Does NOT tell you who sent it.</li>
+<li><strong>Authentication</strong> — you are communicating with who you think you are. Provided by digital signatures (RSA, ECDSA) + PKI. Does NOT keep data confidential.</li>
+</ul>
+<p>Most protocols combine all three: TLS uses asymmetric crypto for authentication + key exchange, then symmetric AEAD for confidentiality + integrity of the data stream. IPsec uses IKE for authentication + key exchange, then ESP for confidentiality + integrity.</p>
   </div>
 </div>
 </div>
@@ -122,46 +122,54 @@ url: /learning/networking-mastery/m19-cryptography/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔑</span><h3>AES and ChaCha20 — Modern Symmetric Ciphers</h3><span class="tag tag-blue">SYMMETRIC</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* Symmetric encryption: same key encrypts and decrypts */</span>
-<span class="cm">/* Problem: how do two parties share the key securely? → Key Exchange (Tab 4) */</span>
-<span class="cm">/* AES (Advanced Encryption Standard) */</span>
+
+
+```python
+/* Symmetric encryption: same key encrypts and decrypts */
+/* Problem: how do two parties share the key securely? → Key Exchange (Tab 4) */
+
+/* AES (Advanced Encryption Standard) */
 Block cipher: processes 128-bit (16-byte) blocks
 Key sizes:    128, 192, or 256 bits (AES-128, AES-192, AES-256)
 Structure:    10/12/14 rounds of SubBytes + ShiftRows + MixColumns + AddRoundKey
 Hardware:     AES-NI CPU instructions (x86 since 2010) — ~1 cycle/byte on modern CPUs
- 
-<span class="cm">/* Block cipher modes — how to encrypt more than 16 bytes */</span>
+
+/* Block cipher modes — how to encrypt more than 16 bytes */
 ECB (Electronic Codebook):  Same plaintext → same ciphertext. NEVER USE.
 CBC (Cipher Block Chaining): XOR with previous ciphertext block. Needs IV. Padding required.
 CTR (Counter):              Turns AES into a stream cipher. Parallelisable. No padding.
 GCM (Galois/Counter Mode):  CTR + GHASH authentication tag. AEAD. Standard for TLS 1.3.
- 
-<span class="cm">/* AEAD — Authenticated Encryption with Associated Data */</span>
-<span class="cm">/* Single primitive providing both confidentiality AND integrity */</span>
+
+/* AEAD — Authenticated Encryption with Associated Data */
+/* Single primitive providing both confidentiality AND integrity */
 AES-128-GCM:  AES-CTR encryption + GHASH-128 authentication tag (16 bytes)
 AES-256-GCM:  Same with 256-bit key
 ChaCha20-Poly1305: ChaCha20 stream cipher + Poly1305 MAC
               No AES-NI needed — fast on mobile/ARM/embedded
- 
-<span class="cm">/* AEAD inputs and outputs */</span>
+
+/* AEAD inputs and outputs */
 Encrypt:
   Input:  key, nonce (12 bytes), plaintext, AAD (additional auth data)
   Output: ciphertext (same length as plaintext) + auth_tag (16 bytes)
- 
+
 Decrypt:
   Input:  key, nonce, ciphertext, auth_tag, AAD
   Output: plaintext (if tag verifies) OR reject (if tag fails)
- 
-<span class="cm">/* Critical: nonce MUST be unique per (key, message) */</span>
-<span class="cm">/* Nonce reuse with AES-GCM → catastrophic key recovery possible */</span>
-<span class="cm">/* TLS 1.3 uses XOR of static IV with sequence number as nonce */</span>
-<span class="cm">/* OpenSSL AEAD in C */</span>
+
+/* Critical: nonce MUST be unique per (key, message) */
+/* Nonce reuse with AES-GCM → catastrophic key recovery possible */
+/* TLS 1.3 uses XOR of static IV with sequence number as nonce */
+
+/* OpenSSL AEAD in C */
 EVP_AEAD_CTX *ctx = EVP_AEAD_CTX_new(EVP_aead_aes_128_gcm(),
     key, 16, EVP_AEAD_DEFAULT_TAG_LENGTH);
 EVP_AEAD_CTX_seal(ctx, ciphertext, &clen, max_out,
     nonce, 12, plaintext, plen, aad, aad_len);
 EVP_AEAD_CTX_open(ctx, plaintext, &plen, max_out,
-    nonce, 12, ciphertext, clen, aad, aad_len);</pre></div>
+    nonce, 12, ciphertext, clen, aad, aad_len);
+```
+
+
   </div>
 </div>
 </div>
@@ -171,20 +179,24 @@ EVP_AEAD_CTX_open(ctx, plaintext, &plen, max_out,
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>RSA and Elliptic Curve Cryptography</h3><span class="tag tag-purple">ASYMMETRIC</span></div>
   <div class="cp-body">
-    <p>Asymmetric (public-key) cryptography uses a mathematically linked key pair: the public key is freely distributed, the private key is secret. Operations with one key can only be verified/reversed with the other. This solves the key distribution problem — you can publish your public key to the world without compromising security.</p>
-<div class="cb"><pre><span class="cm">/* RSA — Rivest-Shamir-Adleman */</span>
+<p>Asymmetric (public-key) cryptography uses a mathematically linked key pair: the public key is freely distributed, the private key is secret. Operations with one key can only be verified/reversed with the other. This solves the key distribution problem — you can publish your public key to the world without compromising security.</p>
+
+
+```python
+/* RSA — Rivest-Shamir-Adleman */
 Based on: hardness of factoring large integers (n = p × q)
 Key sizes: 2048 bits minimum (currently safe), 4096 for long-term
 Use cases: digital signatures, key encapsulation (encrypting a small key)
 NOT used for: bulk data encryption (too slow — 1000× slower than AES)
 Performance: ~1ms per RSA-2048 sign, ~0.1ms verify on modern CPU
- 
-<span class="cm">/* RSA signature */</span>
+
+/* RSA signature */
 Sign:   sig = m^d mod n    (private key d)
 Verify: m   = sig^e mod n  (public key e)
-<span class="cm">/* In practice: sign H(message) not message itself */</span>
-<span class="cm">/* Padding: PKCS#1 v1.5 (legacy) or PSS (modern, recommended) */</span>
-<span class="cm">/* Elliptic Curve Cryptography (ECC) */</span>
+/* In practice: sign H(message) not message itself */
+/* Padding: PKCS#1 v1.5 (legacy) or PSS (modern, recommended) */
+
+/* Elliptic Curve Cryptography (ECC) */
 Based on:  hardness of ECDLP (Elliptic Curve Discrete Logarithm Problem)
 Key sizes: 256-bit ECC ≈ 3072-bit RSA security
            384-bit ECC ≈ 7680-bit RSA security
@@ -194,16 +206,20 @@ Curves:
   P-384 (secp384r1):             Higher security, government use
   X25519 (Curve25519):           Bernstein curve, fastest, used in TLS 1.3 + WireGuard
   Ed25519:                        EdDSA signatures — fast, no random nonce needed
- 
-<span class="cm">/* ECDSA — Elliptic Curve Digital Signature Algorithm */</span>
-<span class="cm">/* Standard for TLS certificates (alongside RSA) */</span>
-<span class="cm">/* WARNING: ECDSA requires a unique random nonce per signature */</span>
-<span class="cm">/* Nonce reuse → private key recovery (PS3 hack, Bitcoin theft) */</span>
-<span class="cm">/* Solution: use Ed25519 (EdDSA) which derives nonce deterministically */</span>
-<span class="cm">/* Key generation with OpenSSL */</span>
+
+/* ECDSA — Elliptic Curve Digital Signature Algorithm */
+/* Standard for TLS certificates (alongside RSA) */
+/* WARNING: ECDSA requires a unique random nonce per signature */
+/* Nonce reuse → private key recovery (PS3 hack, Bitcoin theft) */
+/* Solution: use Ed25519 (EdDSA) which derives nonce deterministically */
+
+/* Key generation with OpenSSL */
 openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 -out ec_key.pem
 openssl pkey -in ec_key.pem -pubout -out ec_pub.pem
-openssl genpkey -algorithm Ed25519 -out ed_key.pem</pre></div>
+openssl genpkey -algorithm Ed25519 -out ed_key.pem
+```
+
+
   </div>
 </div>
 </div>
@@ -213,46 +229,55 @@ openssl genpkey -algorithm Ed25519 -out ed_key.pem</pre></div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧮</span><h3>Cryptographic Hash Functions</h3><span class="tag tag-teal">HASH</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* Cryptographic hash function properties */</span>
+
+
+```yaml
+/* Cryptographic hash function properties */
 1. Deterministic:     same input → always same output
 2. One-way:           given H(x), computationally infeasible to find x
 3. Collision resistant: hard to find x≠y such that H(x) = H(y)
 4. Avalanche effect:  one bit change in input → ~50% output bits change
- 
-<span class="cm">/* Hash algorithms — current recommendations */</span>
+
+/* Hash algorithms — current recommendations */
 SHA-256:   256-bit output, 64 rounds. Standard for most uses.
 SHA-384:   384-bit output, truncated SHA-512. Faster on 64-bit.
 SHA-512:   512-bit output, 80 rounds. Higher collision resistance.
 SHA-3:     Different construction (Keccak sponge). Backup if SHA-2 broken.
 BLAKE3:    Modern, faster than SHA-256, used in WireGuard, Bao.
- 
+
 MD5, SHA-1: BROKEN — do not use for security. Still used for checksums.
- 
-<span class="cm">/* HMAC — Hash-based Message Authentication Code */</span>
+
+/* HMAC — Hash-based Message Authentication Code */
 HMAC-K(m) = H( (K ⊕ opad) || H( (K ⊕ ipad) || m ) )
-<span class="cm">/* Provides: integrity + authentication (proves sender has key K) */</span>
-<span class="cm">/* Does NOT provide: confidentiality */</span>
- 
+/* Provides: integrity + authentication (proves sender has key K) */
+/* Does NOT provide: confidentiality */
+
 HMAC-SHA256: 256-bit authentication tag
 HMAC-SHA384: 384-bit tag (used in IPsec/IKEv2 PRF)
- 
-<span class="cm">/* HKDF — HMAC-based Key Derivation Function (RFC 5869) */</span>
-<span class="cm">/* Extract-then-Expand: derive multiple keys from one master secret */</span>
-<span class="cm">/* Extract phase */</span>
-prk = HMAC-SHA256(salt, ikm)    <span class="cm">/* input keying material → pseudorandom key */</span>
-<span class="cm">/* Expand phase */</span>
+
+/* HKDF — HMAC-based Key Derivation Function (RFC 5869) */
+/* Extract-then-Expand: derive multiple keys from one master secret */
+
+/* Extract phase */
+prk = HMAC-SHA256(salt, ikm)    /* input keying material → pseudorandom key */
+
+/* Expand phase */
 OKM = T(1) || T(2) || ... where T(i) = HMAC-SHA256(prk, T(i-1) || info || i)
- 
-<span class="cm">/* TLS 1.3 uses HKDF to derive all session keys from the master secret */</span>
-<span class="cm">/* IPsec uses PRF (usually HMAC-SHA256 or AES-XCBC) similarly */</span>
-<span class="cm">/* OpenSSL hash in C */</span>
+
+/* TLS 1.3 uses HKDF to derive all session keys from the master secret */
+/* IPsec uses PRF (usually HMAC-SHA256 or AES-XCBC) similarly */
+
+/* OpenSSL hash in C */
 unsigned char digest[SHA256_DIGEST_LENGTH];
 SHA256((unsigned char *)msg, msg_len, digest);
- 
-<span class="cm">/* HMAC in C */</span>
+
+/* HMAC in C */
 unsigned char hmac[32];
 unsigned int hlen;
-HMAC(EVP_sha256(), key, key_len, data, data_len, hmac, &hlen);</pre></div>
+HMAC(EVP_sha256(), key, key_len, data, data_len, hmac, &hlen);
+```
+
+
   </div>
 </div>
 </div>
@@ -262,49 +287,56 @@ HMAC(EVP_sha256(), key, key_len, data, data_len, hmac, &hlen);</pre></div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Diffie-Hellman and ECDH</h3><span class="tag tag-green">KEY EXCHANGE</span></div>
   <div class="cp-body">
-    <p>Key exchange protocols allow two parties to derive the same shared secret over a completely public, observable channel — without ever transmitting the secret. This solves the fundamental problem of symmetric cryptography: how to agree on a key when you have no pre-shared secret.</p>
-<div class="cb"><pre><span class="cm">/* Diffie-Hellman Key Exchange — conceptual */</span>
+<p>Key exchange protocols allow two parties to derive the same shared secret over a completely public, observable channel — without ever transmitting the secret. This solves the fundamental problem of symmetric cryptography: how to agree on a key when you have no pre-shared secret.</p>
+
+
+```python
+/* Diffie-Hellman Key Exchange — conceptual */
 Public parameters: prime p, generator g (both public, known to attacker)
- 
+
 Alice chooses secret a, sends A = g^a mod p  (public)
 Bob   chooses secret b, sends B = g^b mod p  (public)
- 
+
 Alice computes: S = B^a mod p = (g^b)^a mod p = g^(ab) mod p
 Bob   computes: S = A^b mod p = (g^a)^b mod p = g^(ab) mod p
- 
+
 Both arrive at S = g^(ab) mod p without ever transmitting a or b.
 Attacker sees: g, p, A, B — but computing a from A = g^a mod p is the
 discrete logarithm problem — computationally infeasible for large p.
- 
-<span class="cm">/* ECDH — Elliptic Curve Diffie-Hellman */</span>
+
+/* ECDH — Elliptic Curve Diffie-Hellman */
 Same concept on elliptic curves. X25519 is the modern standard:
   - Curve25519 points, 255-bit coordinates
   - Used in TLS 1.3, WireGuard, Signal Protocol
   - 32-byte keys, ~100µs per key exchange on modern CPU
   - Immune to timing attacks (constant-time implementation)
- 
-<span class="cm">/* Forward Secrecy (Perfect Forward Secrecy) */</span>
+
+/* Forward Secrecy (Perfect Forward Secrecy) */
 Key property: even if long-term private key is compromised later,
 past session keys cannot be recovered.
- 
+
 Achieved by: ephemeral key exchange (generate new DH keypair per session)
 TLS 1.3: ECDHE (Ephemeral) — mandatory forward secrecy
 TLS 1.2: may use static RSA key exchange — no forward secrecy!
           "RSA key exchange": client encrypts premaster secret with server cert public key
           If server private key leaked → all past recorded sessions decryptable.
- 
-<span class="cm">/* ECDH in OpenSSL C */</span>
+
+/* ECDH in OpenSSL C */
 EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, NULL);
 EVP_PKEY_keygen_init(ctx);
 EVP_PKEY *pkey = NULL;
-EVP_PKEY_keygen(ctx, &pkey);   <span class="cm">/* generate ephemeral keypair */</span>
-<span class="cm">/* After receiving peer's public key: */</span>
+EVP_PKEY_keygen(ctx, &pkey);   /* generate ephemeral keypair */
+
+/* After receiving peer's public key: */
 EVP_PKEY_CTX *dctx = EVP_PKEY_CTX_new(pkey, NULL);
 EVP_PKEY_derive_init(dctx);
 EVP_PKEY_derive_set_peer(dctx, peer_pubkey);
 size_t slen;
-EVP_PKEY_derive(dctx, shared_secret, &slen);  <span class="cm">/* 32-byte X25519 secret */</span></pre></div>
-    <div class="ins"><p>💡 <strong>Forward secrecy is non-negotiable for modern security.</strong> Without it, an adversary who records encrypted traffic today and later compromises your server's private key can decrypt everything retroactively. This is why TLS 1.3 mandates ECDHE and removed static RSA key exchange. IPsec IKEv2 also uses ephemeral DH for the same reason.</p></div>
+EVP_PKEY_derive(dctx, shared_secret, &slen);  /* 32-byte X25519 secret */
+```
+
+
+<div class="ins"><p>💡 <strong>Forward secrecy is non-negotiable for modern security.</strong> Without it, an adversary who records encrypted traffic today and later compromises your server's private key can decrypt everything retroactively. This is why TLS 1.3 mandates ECDHE and removed static RSA key exchange. IPsec IKEv2 also uses ephemeral DH for the same reason.</p></div>
   </div>
 </div>
 </div>
@@ -314,8 +346,11 @@ EVP_PKEY_derive(dctx, shared_secret, &slen);  <span class="cm">/* 32-byte X25519
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🏛️</span><h3>X.509 Certificates and the CA Trust Chain</h3><span class="tag tag-orange">PKI</span></div>
   <div class="cp-body">
-    <p>A public key alone doesn't tell you who it belongs to. PKI binds a public key to an identity (domain name, organisation) via a digitally signed certificate. Trust is established through a chain of signatures from a trusted root CA.</p>
-<div class="cb"><pre><span class="cm">/* X.509 certificate key fields */</span>
+<p>A public key alone doesn't tell you who it belongs to. PKI binds a public key to an identity (domain name, organisation) via a digitally signed certificate. Trust is established through a chain of signatures from a trusted root CA.</p>
+
+
+```python
+/* X.509 certificate key fields */
 Version:          3 (current standard)
 Serial Number:    unique per CA (used for revocation)
 Issuer:           who signed this cert (CA name)
@@ -328,34 +363,38 @@ Extensions:
   Extended Key Usage: TLS server auth, TLS client auth, code signing
   Basic Constraints: is this a CA cert? (isCA=true/false, path length)
 Signature:        CA's signature over everything above
- 
-<span class="cm">/* Chain of trust */</span>
+
+/* Chain of trust */
 Root CA (self-signed, in browser/OS trust store)
   → Intermediate CA (signed by Root CA)
       → Leaf certificate (signed by Intermediate CA, has your domain)
- 
-<span class="cm">/* Certificate validation */</span>
+
+/* Certificate validation */
 1. Verify leaf cert signature using intermediate CA's public key
 2. Verify intermediate CA signature using root CA's public key
 3. Root CA is self-signed — trust must come from trust store
 4. Check validity period (not expired)
 5. Check Subject Alt Names — does CN/SAN match the domain?
 6. Check revocation (CRL or OCSP)
- 
-<span class="cm">/* OpenSSL certificate inspection */</span>
-openssl x509 -in cert.pem -text -noout   <span class="cm"># full cert details</span>
-openssl x509 -in cert.pem -dates         <span class="cm"># validity period</span>
-openssl s_client -connect google.com:443 -showcerts  <span class="cm"># live cert chain</span>
+
+/* OpenSSL certificate inspection */
+openssl x509 -in cert.pem -text -noout   # full cert details
+openssl x509 -in cert.pem -dates         # validity period
+openssl s_client -connect google.com:443 -showcerts  # live cert chain
 openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
- 
-<span class="cm">/* Certificate transparency (CT) */</span>
-<span class="cm"># All public TLS certs must be logged to CT logs</span>
-<span class="cm"># Browsers require SCT (Signed Certificate Timestamp) in TLS handshake</span>
-<span class="cm"># Enables detection of mis-issued certs (NGFW relevance: detect rogue CAs)</span>
-<span class="cm">/* OCSP Stapling */</span>
-<span class="cm"># Server fetches OCSP response (revocation status) from CA</span>
-<span class="cm"># Staples it to TLS handshake — client doesn't need to query CA separately</span>
-<span class="cm"># NGFW: inspect OCSP status of presented certificates</span></pre></div>
+
+/* Certificate transparency (CT) */
+# All public TLS certs must be logged to CT logs
+# Browsers require SCT (Signed Certificate Timestamp) in TLS handshake
+# Enables detection of mis-issued certs (NGFW relevance: detect rogue CAs)
+
+/* OCSP Stapling */
+# Server fetches OCSP response (revocation status) from CA
+# Staples it to TLS handshake — client doesn't need to query CA separately
+# NGFW: inspect OCSP status of presented certificates
+```
+
+
   </div>
 </div>
 </div>
@@ -365,28 +404,28 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Current Best-Practice Algorithm Choices</h3><span class="tag tag-blue">REFERENCE</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Purpose</th><th>Recommended (2024+)</th><th>Acceptable</th><th>Avoid</th></tr></thead>
-      <tbody>
-        <tr><td>Symmetric encryption</td><td>AES-256-GCM, ChaCha20-Poly1305</td><td>AES-128-GCM</td><td>AES-CBC, AES-ECB, 3DES, RC4</td></tr>
-        <tr><td>Hash / digest</td><td>SHA-256, SHA-384, BLAKE3</td><td>SHA-512</td><td>MD5, SHA-1 (security), SHA-224</td></tr>
-        <tr><td>MAC / HMAC</td><td>HMAC-SHA256, Poly1305</td><td>HMAC-SHA384</td><td>HMAC-MD5, HMAC-SHA1</td></tr>
-        <tr><td>Key exchange</td><td>X25519, ECDH P-256</td><td>FFDHE-3072</td><td>Static RSA, DH-1024/2048, ECDH P-192</td></tr>
-        <tr><td>Digital signatures</td><td>Ed25519, ECDSA P-256</td><td>RSA-PSS-2048</td><td>ECDSA with bad RNG, RSA-PKCS1-1.5, DSA</td></tr>
-        <tr><td>Password hashing</td><td>Argon2id, bcrypt(cost≥12)</td><td>scrypt</td><td>SHA-256(password), MD5(password)</td></tr>
-        <tr><td>Random numbers</td><td>getrandom(), /dev/urandom</td><td>CSPRNG from OpenSSL</td><td>rand(), srand(time()), /dev/random blocking</td></tr>
-        <tr><td>Post-quantum (future)</td><td>CRYSTALS-Kyber (KEM), CRYSTALS-Dilithium (sig)</td><td>Hybrid classical+PQ</td><td>Pure classical for PQ-sensitive data</td></tr>
-      </tbody>
-    </table>
-    <h4>Key Sizes — Security Level Reference</h4>
-    <table class="t-table">
-      <thead><tr><th>Security Level</th><th>Symmetric</th><th>RSA/DH</th><th>ECC</th><th>Good Until</th></tr></thead>
-      <tbody>
-        <tr><td>128-bit</td><td>AES-128</td><td>3072 bits</td><td>P-256 / X25519</td><td>2030+</td></tr>
-        <tr><td>192-bit</td><td>AES-192</td><td>7680 bits</td><td>P-384</td><td>2040+</td></tr>
-        <tr><td>256-bit</td><td>AES-256</td><td>15360 bits</td><td>P-521</td><td>2050+</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Purpose</th><th>Recommended (2024+)</th><th>Acceptable</th><th>Avoid</th></tr></thead>
+<tbody>
+<tr><td>Symmetric encryption</td><td>AES-256-GCM, ChaCha20-Poly1305</td><td>AES-128-GCM</td><td>AES-CBC, AES-ECB, 3DES, RC4</td></tr>
+<tr><td>Hash / digest</td><td>SHA-256, SHA-384, BLAKE3</td><td>SHA-512</td><td>MD5, SHA-1 (security), SHA-224</td></tr>
+<tr><td>MAC / HMAC</td><td>HMAC-SHA256, Poly1305</td><td>HMAC-SHA384</td><td>HMAC-MD5, HMAC-SHA1</td></tr>
+<tr><td>Key exchange</td><td>X25519, ECDH P-256</td><td>FFDHE-3072</td><td>Static RSA, DH-1024/2048, ECDH P-192</td></tr>
+<tr><td>Digital signatures</td><td>Ed25519, ECDSA P-256</td><td>RSA-PSS-2048</td><td>ECDSA with bad RNG, RSA-PKCS1-1.5, DSA</td></tr>
+<tr><td>Password hashing</td><td>Argon2id, bcrypt(cost≥12)</td><td>scrypt</td><td>SHA-256(password), MD5(password)</td></tr>
+<tr><td>Random numbers</td><td>getrandom(), /dev/urandom</td><td>CSPRNG from OpenSSL</td><td>rand(), srand(time()), /dev/random blocking</td></tr>
+<tr><td>Post-quantum (future)</td><td>CRYSTALS-Kyber (KEM), CRYSTALS-Dilithium (sig)</td><td>Hybrid classical+PQ</td><td>Pure classical for PQ-sensitive data</td></tr>
+</tbody>
+</table>
+<h4>Key Sizes — Security Level Reference</h4>
+<table class="t-table">
+<thead><tr><th>Security Level</th><th>Symmetric</th><th>RSA/DH</th><th>ECC</th><th>Good Until</th></tr></thead>
+<tbody>
+<tr><td>128-bit</td><td>AES-128</td><td>3072 bits</td><td>P-256 / X25519</td><td>2030+</td></tr>
+<tr><td>192-bit</td><td>AES-192</td><td>7680 bits</td><td>P-384</td><td>2040+</td></tr>
+<tr><td>256-bit</td><td>AES-256</td><td>15360 bits</td><td>P-521</td><td>2050+</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -395,21 +434,21 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Hands-On Cryptographic Primitives with OpenSSL</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Implement and test each primitive: AEAD encrypt/decrypt, HMAC, HKDF, ECDH key exchange, and certificate parsing.</p>
-    <div class="lab-step"><div class="sn">1</div><div>AEAD: Write a C program that AES-128-GCM encrypts a test message. Verify: (a) decryption recovers plaintext, (b) flipping one byte of ciphertext causes authentication failure, (c) changing the nonce causes failure. Document what "authentication tag" bytes look like in the output.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>HMAC: Compute HMAC-SHA256 of "Hello, World" with key "secret". Verify with: <code>echo -n "Hello, World" | openssl dgst -sha256 -hmac "secret"</code>. Then implement HKDF extract+expand in Python using the hmac module. Derive 3 separate 32-byte keys from one 32-byte master secret.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>ECDH: Generate two X25519 keypairs (Alice and Bob). Compute Alice's shared secret using Bob's public key and vice versa. Verify they produce the same 32 bytes. This is exactly what TLS 1.3 does during the handshake. Time the operation — how many key exchanges per second can your CPU do?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Certificate parsing: fetch a live TLS certificate: <code>openssl s_client -connect github.com:443 2>/dev/null | openssl x509 -text -noout</code>. Identify: issuer, subject, SANs, key type and size, validity period, CT SCT extension. Verify the certificate chain: does github.com use RSA or EC? What intermediate CA signed it?</div></div>
+<p><strong>Objective:</strong> Implement and test each primitive: AEAD encrypt/decrypt, HMAC, HKDF, ECDH key exchange, and certificate parsing.</p>
+<div class="lab-step"><div class="sn">1</div><div>AEAD: Write a C program that AES-128-GCM encrypts a test message. Verify: (a) decryption recovers plaintext, (b) flipping one byte of ciphertext causes authentication failure, (c) changing the nonce causes failure. Document what "authentication tag" bytes look like in the output.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>HMAC: Compute HMAC-SHA256 of "Hello, World" with key "secret". Verify with: <code>echo -n "Hello, World" | openssl dgst -sha256 -hmac "secret"</code>. Then implement HKDF extract+expand in Python using the hmac module. Derive 3 separate 32-byte keys from one 32-byte master secret.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>ECDH: Generate two X25519 keypairs (Alice and Bob). Compute Alice's shared secret using Bob's public key and vice versa. Verify they produce the same 32 bytes. This is exactly what TLS 1.3 does during the handshake. Time the operation — how many key exchanges per second can your CPU do?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Certificate parsing: fetch a live TLS certificate: <code>openssl s_client -connect github.com:443 2>/dev/null | openssl x509 -text -noout</code>. Identify: issuer, subject, SANs, key type and size, validity period, CT SCT extension. Verify the certificate chain: does github.com use RSA or EC? What intermediate CA signed it?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a Secure Channel from Primitives</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a minimal secure channel over a TCP socket using ECDH + HKDF + AES-GCM — demonstrating how TLS-like security can be constructed from primitives.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Client and server each generate an X25519 ephemeral keypair. Exchange public keys over the TCP connection (cleartext — this simulates the TLS ClientHello/ServerHello key share exchange). Compute the shared ECDH secret on both sides.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run HKDF over the ECDH shared secret (with a fixed salt and "our-protocol-v1" as the info string). Extract two 32-byte keys: one for client→server encryption, one for server→client encryption. This is the key schedule step.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Use AES-256-GCM with the derived keys to encrypt/decrypt messages. Use a 64-bit sequence number as the nonce (zero-padded to 12 bytes). Send 5 encrypted messages each direction. Verify: each message has a unique nonce, decryption succeeds, and a tampered ciphertext is rejected.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Identify what your channel is missing compared to real TLS: (a) server authentication — no certificate, MITM possible; (b) client authentication — no mutual TLS; (c) protocol negotiation — no cipher suite selection. Document what TLS adds on top of these primitives.</div></div>
+<p><strong>Objective:</strong> Build a minimal secure channel over a TCP socket using ECDH + HKDF + AES-GCM — demonstrating how TLS-like security can be constructed from primitives.</p>
+<div class="lab-step"><div class="sn">1</div><div>Client and server each generate an X25519 ephemeral keypair. Exchange public keys over the TCP connection (cleartext — this simulates the TLS ClientHello/ServerHello key share exchange). Compute the shared ECDH secret on both sides.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run HKDF over the ECDH shared secret (with a fixed salt and "our-protocol-v1" as the info string). Extract two 32-byte keys: one for client→server encryption, one for server→client encryption. This is the key schedule step.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Use AES-256-GCM with the derived keys to encrypt/decrypt messages. Use a 64-bit sequence number as the nonce (zero-padded to 12 bytes). Send 5 encrypted messages each direction. Verify: each message has a unique nonce, decryption succeeds, and a tampered ciphertext is rejected.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Identify what your channel is missing compared to real TLS: (a) server authentication — no certificate, MITM possible; (b) client authentication — no mutual TLS; (c) protocol negotiation — no cipher suite selection. Document what TLS adds on top of these primitives.</div></div>
   </div>
 </div>
 </div>

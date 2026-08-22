@@ -79,11 +79,11 @@ url: /learning/data-plane/vpp/module-p3-dpdk/
   <div class="mod-title">🔌 DPDK Plugin Deep Dive</div>
   <div class="mod-subtitle">dpdk-input · zero-copy mbuf bridge · startup.conf DPDK stanza · Mellanox mlx5 · xstats</div>
   <div class="mod-pills">
-    <span class="mod-pill">src/plugins/dpdk/</span>
-    <span class="mod-pill">device/node.c</span>
-    <span class="mod-pill">init.c</span>
-    <span class="mod-pill">dpdk.h</span>
-    <span class="mod-pill">Mellanox mlx5</span>
+<span class="mod-pill">src/plugins/dpdk/</span>
+<span class="mod-pill">device/node.c</span>
+<span class="mod-pill">init.c</span>
+<span class="mod-pill">dpdk.h</span>
+<span class="mod-pill">Mellanox mlx5</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -100,7 +100,7 @@ url: /learning/data-plane/vpp/module-p3-dpdk/
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>How the DPDK Plugin Integrates</h3><span class="tag tag-orange">ARCHITECTURE</span></div>
   <div class="cp-body">
-    <p>The DPDK plugin (<code>dpdk_plugin.so</code>) bridges DPDK's poll-mode driver (PMD) model and VPP's graph-node model. It is responsible for: initialising DPDK EAL, binding physical ports, polling RX queues, converting mbufs to vlib buffers, and transmitting vlib buffers back through DPDK's TX burst API.</p>
+<p>The DPDK plugin (<code>dpdk_plugin.so</code>) bridges DPDK's poll-mode driver (PMD) model and VPP's graph-node model. It is responsible for: initialising DPDK EAL, binding physical ports, polling RX queues, converting mbufs to vlib buffers, and transmitting vlib buffers back through DPDK's TX burst API.</p>
 <div class="cb"><pre><span class="cm">/* Plugin source layout: src/plugins/dpdk/ */</span>
 dpdk/
 ├── device/
@@ -114,12 +114,12 @@ dpdk/
 <span class="cm">/* Key structs */</span>
 dpdk_main_t   - singleton: EAL args, device pool, per-worker tx queues
 dpdk_device_t - per-port: port_id, n_rx_queues, rx/tx descriptors, stats</pre></div>
-    <ul>
-      <li>The DPDK plugin calls <code>rte_eal_init()</code> during VPP startup - before any graph nodes run</li>
-      <li>One <code>dpdk_device_t</code> exists per physical port; stored in a vec indexed by <code>xd_index</code></li>
-      <li>Each RX queue is polled by exactly one worker thread - the assignment is in <code>dpdk_device_t.rx_queues[q].thread_index</code></li>
-      <li>TX uses per-worker tx queue buffers to avoid locking: worker N uses tx queue N exclusively</li>
-    </ul>
+<ul>
+<li>The DPDK plugin calls <code>rte_eal_init()</code> during VPP startup - before any graph nodes run</li>
+<li>One <code>dpdk_device_t</code> exists per physical port; stored in a vec indexed by <code>xd_index</code></li>
+<li>Each RX queue is polled by exactly one worker thread - the assignment is in <code>dpdk_device_t.rx_queues[q].thread_index</code></li>
+<li>TX uses per-worker tx queue buffers to avoid locking: worker N uses tx queue N exclusively</li>
+</ul>
   </div>
 </div>
 </div>
@@ -128,7 +128,7 @@ dpdk_device_t - per-port: port_id, n_rx_queues, rx/tx descriptors, stats</pre></
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>dpdk-input Node Internals</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
-    <p><code>dpdk-input</code> is a <code>VLIB_NODE_TYPE_INPUT</code> node that polls DPDK RX queues. It is the entry point for all physical network traffic in VPP. The key performance insight is that it processes <em>burst of up to DPDK_NB_RX_DESC mbufs</em> per call and converts them all to vlib buffer indices before dispatching to the next graph node.</p>
+<p><code>dpdk-input</code> is a <code>VLIB_NODE_TYPE_INPUT</code> node that polls DPDK RX queues. It is the entry point for all physical network traffic in VPP. The key performance insight is that it processes <em>burst of up to DPDK_NB_RX_DESC mbufs</em> per call and converts them all to vlib buffer indices before dispatching to the next graph node.</p>
 <div class="cb"><pre><span class="cm">/* Simplified dpdk-input hot path (src/plugins/dpdk/device/node.c) */</span>
 VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
                               vlib_frame_t *frame)
@@ -160,9 +160,9 @@ VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
 <span class="cm">/* 2. Set vlib_buffer fields: current_data, current_length, sw_if_index */</span>
 <span class="cm">/* 3. Copy DPDK offload flags to vlib_buffer flags (RSS hash, checksum) */</span>
 <span class="cm">/* 4. Enqueue u32 buffer indices to ethernet-input frame */</span></pre></div>
-    <div class="ins">
-      <p>💡 <strong>Key performance detail:</strong> <code>dpdk-input</code> does NOT call <code>vlib_buffer_alloc()</code>. Instead, vlib buffers and DPDK mbufs share the same memory pool - the vlib buffer header IS the mbuf's private data area. This zero-copy design means RX never allocates memory; the conversion from mbuf to vlib_buffer is a pointer offset calculation.</p>
-    </div>
+<div class="ins">
+<p>💡 <strong>Key performance detail:</strong> <code>dpdk-input</code> does NOT call <code>vlib_buffer_alloc()</code>. Instead, vlib buffers and DPDK mbufs share the same memory pool - the vlib buffer header IS the mbuf's private data area. This zero-copy design means RX never allocates memory; the conversion from mbuf to vlib_buffer is a pointer offset calculation.</p>
+</div>
   </div>
 </div>
 </div>
@@ -171,7 +171,7 @@ VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Shared Memory Layout</h3><span class="tag tag-blue">ZERO-COPY</span></div>
   <div class="cp-body">
-    <p>The DPDK plugin pre-allocates a single <code>rte_mempool</code> with a custom private data size large enough to hold a <code>vlib_buffer_t</code>. Each <code>rte_mbuf</code> in this pool has its <code>rte_mbuf_priv_data</code> area occupied by the <code>vlib_buffer_t</code> header. They overlap in memory.</p>
+<p>The DPDK plugin pre-allocates a single <code>rte_mempool</code> with a custom private data size large enough to hold a <code>vlib_buffer_t</code>. Each <code>rte_mbuf</code> in this pool has its <code>rte_mbuf_priv_data</code> area occupied by the <code>vlib_buffer_t</code> header. They overlap in memory.</p>
 <div class="cb"><pre><span class="cm">/* Memory layout of a DPDK+VPP buffer */</span>
  
 +──────────────────────────────────────────────────────────────────+
@@ -199,15 +199,15 @@ vnet_buffer(b)->sw_if_index[VLIB_TX] = ~0;  <span class="cm">/* unknown at RX */
 mb->data_off = b->current_data + RTE_PKTMBUF_HEADROOM;
 mb->data_len = b->current_length;
 mb->pkt_len  = b->current_length;</pre></div>
-    <div class="dpdk-box">
-      <div class="dh">⚙️ DPDK KNOWLEDGE APPLIED</div>
-      <ul>
-        <li>You know <code>rte_mempool</code> with custom private size - VPP uses exactly this to embed vlib_buffer_t in each mbuf's private data region</li>
-        <li>You know <code>rte_mbuf.data_off</code> is the offset from the mbuf start to packet data - VPP's <code>current_data</code> is the equivalent from the vlib_buffer start</li>
-        <li>RSS hash in <code>mb->hash.rss</code> is copied to <code>b->flow_id</code> - used for per-flow worker assignment in some configurations</li>
-        <li>DPDK scatter-gather (multi-segment mbufs) maps to VPP chained buffers via <code>b->next_buffer</code> - the DPDK plugin chains them during RX conversion</li>
-      </ul>
-    </div>
+<div class="dpdk-box">
+<div class="dh">⚙️ DPDK KNOWLEDGE APPLIED</div>
+<ul>
+<li>You know <code>rte_mempool</code> with custom private size - VPP uses exactly this to embed vlib_buffer_t in each mbuf's private data region</li>
+<li>You know <code>rte_mbuf.data_off</code> is the offset from the mbuf start to packet data - VPP's <code>current_data</code> is the equivalent from the vlib_buffer start</li>
+<li>RSS hash in <code>mb->hash.rss</code> is copied to <code>b->flow_id</code> - used for per-flow worker assignment in some configurations</li>
+<li>DPDK scatter-gather (multi-segment mbufs) maps to VPP chained buffers via <code>b->next_buffer</code> - the DPDK plugin chains them during RX conversion</li>
+</ul>
+</div>
   </div>
 </div>
 </div>
@@ -216,40 +216,46 @@ mb->pkt_len  = b->current_length;</pre></div>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>mlx5 PMD Specifics for VPP</h3><span class="tag tag-purple">MELLANOX</span></div>
   <div class="cp-body">
-    <p>Mellanox ConnectX-4/5/6 (mlx5 PMD) in VPP behaves differently from Intel NICs. Understanding the mlx5-specific behaviour prevents the most common VPP + Mellanox configuration issues.</p>
-    <table class="api-table">
-      <thead><tr><th>Topic</th><th>mlx5 Behaviour</th><th>Action Required</th></tr></thead>
-      <tbody>
-        <tr><td>Driver binding</td><td>mlx5 does NOT use vfio-pci as primary. Uses kernel mlx5_core + mlx5_ib alongside DPDK</td><td>Do NOT unbind from mlx5_core. DPDK mlx5 PMD works on top of it via rdma</td></tr>
-        <tr><td>IOVA mode</td><td>Requires Virtual Address (VA) IOVA mode</td><td>Set <code>iova-mode va</code> in startup.conf dpdk stanza</td></tr>
-        <tr><td>Hugepages</td><td>mlx5 uses DMA mapping - works with 2MB and 1GB pages</td><td>Both work; 1GB pages give fewer TLB misses at high load</td></tr>
-        <tr><td>Multi-queue RSS</td><td>Full RSS support: Toeplitz hash on IPv4/IPv6/TCP/UDP</td><td>Set num-rx-queues = num worker threads for full parallelism</td></tr>
-        <tr><td>Checksum offload</td><td>Full IPv4/TCP/UDP TX and RX checksum offload</td><td>Enable in dpdk stanza: <code>enable-tcp-udp-checksum</code></td></tr>
-        <tr><td>TSO (TCP Segmentation)</td><td>Supported on ConnectX-5 and later</td><td>Enable per-port in startup.conf if using TCP session layer</td></tr>
-        <tr><td>Multi-seg mbufs</td><td>mlx5 handles scatter-gather natively</td><td>Enable <code>multi-seg</code> in dpdk stanza for jumbo frames</td></tr>
-        <tr><td>VF / SR-IOV</td><td>Create VFs on the PF, each VF gets its own PMD instance</td><td>One VF per container - standard SR-IOV workflow you know from DPDK</td></tr>
-      </tbody>
-    </table>
-<div class="cb"><pre><span class="cm"># Correct startup.conf for Mellanox ConnectX-5 with VPP</span>
+<p>Mellanox ConnectX-4/5/6 (mlx5 PMD) in VPP behaves differently from Intel NICs. Understanding the mlx5-specific behaviour prevents the most common VPP + Mellanox configuration issues.</p>
+<table class="api-table">
+<thead><tr><th>Topic</th><th>mlx5 Behaviour</th><th>Action Required</th></tr></thead>
+<tbody>
+<tr><td>Driver binding</td><td>mlx5 does NOT use vfio-pci as primary. Uses kernel mlx5_core + mlx5_ib alongside DPDK</td><td>Do NOT unbind from mlx5_core. DPDK mlx5 PMD works on top of it via rdma</td></tr>
+<tr><td>IOVA mode</td><td>Requires Virtual Address (VA) IOVA mode</td><td>Set <code>iova-mode va</code> in startup.conf dpdk stanza</td></tr>
+<tr><td>Hugepages</td><td>mlx5 uses DMA mapping - works with 2MB and 1GB pages</td><td>Both work; 1GB pages give fewer TLB misses at high load</td></tr>
+<tr><td>Multi-queue RSS</td><td>Full RSS support: Toeplitz hash on IPv4/IPv6/TCP/UDP</td><td>Set num-rx-queues = num worker threads for full parallelism</td></tr>
+<tr><td>Checksum offload</td><td>Full IPv4/TCP/UDP TX and RX checksum offload</td><td>Enable in dpdk stanza: <code>enable-tcp-udp-checksum</code></td></tr>
+<tr><td>TSO (TCP Segmentation)</td><td>Supported on ConnectX-5 and later</td><td>Enable per-port in startup.conf if using TCP session layer</td></tr>
+<tr><td>Multi-seg mbufs</td><td>mlx5 handles scatter-gather natively</td><td>Enable <code>multi-seg</code> in dpdk stanza for jumbo frames</td></tr>
+<tr><td>VF / SR-IOV</td><td>Create VFs on the PF, each VF gets its own PMD instance</td><td>One VF per container - standard SR-IOV workflow you know from DPDK</td></tr>
+</tbody>
+</table>
+
+
+```bash
+# Correct startup.conf for Mellanox ConnectX-5 with VPP
 dpdk {
   dev 0000:03:00.0 {
-    name eth0                       <span class="cm"># human-readable name in VPP</span>
-    num-rx-queues 4                 <span class="cm"># = number of worker threads</span>
+    name eth0                       # human-readable name in VPP
+    num-rx-queues 4                 # = number of worker threads
     num-tx-queues 4
     num-rx-desc 2048
     num-tx-desc 2048
-    rss-fn 0x3c8                    <span class="cm"># RSS on IPv4+IPv6+TCP+UDP</span>
-    enable-tcp-udp-checksum         <span class="cm"># TX checksum offload</span>
+    rss-fn 0x3c8                    # RSS on IPv4+IPv6+TCP+UDP
+    enable-tcp-udp-checksum         # TX checksum offload
   }
-  uio-driver none                   <span class="cm"># mlx5: no vfio-pci binding needed</span>
-  iova-mode va                      <span class="cm"># REQUIRED for mlx5</span>
-  socket-mem 2048,0                 <span class="cm"># 2GB on NUMA 0, 0 on NUMA 1</span>
+  uio-driver none                   # mlx5: no vfio-pci binding needed
+  iova-mode va                      # REQUIRED for mlx5
+  socket-mem 2048,0                 # 2GB on NUMA 0, 0 on NUMA 1
   log-level notice
 }
- 
-<span class="cm"># Verify mlx5 detection</span>
-<span class="cm"># vppctl: show dpdk interface</span>
-<span class="cm"># Should show: driver mlx5_pmd, link state up</span></pre></div>
+
+# Verify mlx5 detection
+# vppctl: show dpdk interface
+# Should show: driver mlx5_pmd, link state up
+```
+
+
   </div>
 </div>
 </div>
@@ -258,23 +264,23 @@ dpdk {
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Complete startup.conf DPDK Options</h3><span class="tag tag-teal">CONFIGURATION</span></div>
   <div class="cp-body">
-    <table class="api-table">
-      <thead><tr><th>Option</th><th>Scope</th><th>Description</th><th>Recommended for AMD+mlx5</th></tr></thead>
-      <tbody>
-        <tr><td><code>dev &lt;PCI&gt; { ... }</code></td><td>Per-port</td><td>Configure a specific DPDK device by PCI address</td><td>Required for each Mellanox port</td></tr>
-        <tr><td><code>num-rx-queues N</code></td><td>Per-port</td><td>Number of RX queues. Must ≤ number of worker threads</td><td>Set equal to workers</td></tr>
-        <tr><td><code>num-tx-queues N</code></td><td>Per-port</td><td>Number of TX queues. One per worker</td><td>Set equal to workers</td></tr>
-        <tr><td><code>num-rx-desc N</code></td><td>Per-port</td><td>RX ring size. Power of 2. 1024–4096</td><td>2048 for high-throughput</td></tr>
-        <tr><td><code>num-tx-desc N</code></td><td>Per-port</td><td>TX ring size. Power of 2</td><td>2048</td></tr>
-        <tr><td><code>uio-driver vfio-pci</code></td><td>Global</td><td>Use vfio-pci for Intel/virtio. For mlx5: use <code>none</code></td><td><code>uio-driver none</code></td></tr>
-        <tr><td><code>iova-mode va</code></td><td>Global</td><td>Virtual address IOVA mode. Required for mlx5</td><td>Always set for mlx5</td></tr>
-        <tr><td><code>socket-mem N,N</code></td><td>Global</td><td>Hugepage memory per NUMA socket in MB</td><td>Match to your topology</td></tr>
-        <tr><td><code>no-multi-seg</code></td><td>Global</td><td>Disable multi-segment mbufs (faster for small packets)</td><td>Set unless using jumbo frames</td></tr>
-        <tr><td><code>enable-tcp-udp-checksum</code></td><td>Per-port</td><td>Enable HW TX checksum offload for TCP/UDP</td><td>Enable on mlx5 ConnectX-5+</td></tr>
-        <tr><td><code>log-level &lt;level&gt;</code></td><td>Global</td><td>DPDK log verbosity: debug/info/notice/warning/error</td><td><code>notice</code> in production</td></tr>
-        <tr><td><code>dev default { ... }</code></td><td>Global</td><td>Default settings applied to all DPDK devices</td><td>Use to avoid repeating per-port config</td></tr>
-      </tbody>
-    </table>
+<table class="api-table">
+<thead><tr><th>Option</th><th>Scope</th><th>Description</th><th>Recommended for AMD+mlx5</th></tr></thead>
+<tbody>
+<tr><td><code>dev &lt;PCI&gt; { ... }</code></td><td>Per-port</td><td>Configure a specific DPDK device by PCI address</td><td>Required for each Mellanox port</td></tr>
+<tr><td><code>num-rx-queues N</code></td><td>Per-port</td><td>Number of RX queues. Must ≤ number of worker threads</td><td>Set equal to workers</td></tr>
+<tr><td><code>num-tx-queues N</code></td><td>Per-port</td><td>Number of TX queues. One per worker</td><td>Set equal to workers</td></tr>
+<tr><td><code>num-rx-desc N</code></td><td>Per-port</td><td>RX ring size. Power of 2. 1024–4096</td><td>2048 for high-throughput</td></tr>
+<tr><td><code>num-tx-desc N</code></td><td>Per-port</td><td>TX ring size. Power of 2</td><td>2048</td></tr>
+<tr><td><code>uio-driver vfio-pci</code></td><td>Global</td><td>Use vfio-pci for Intel/virtio. For mlx5: use <code>none</code></td><td><code>uio-driver none</code></td></tr>
+<tr><td><code>iova-mode va</code></td><td>Global</td><td>Virtual address IOVA mode. Required for mlx5</td><td>Always set for mlx5</td></tr>
+<tr><td><code>socket-mem N,N</code></td><td>Global</td><td>Hugepage memory per NUMA socket in MB</td><td>Match to your topology</td></tr>
+<tr><td><code>no-multi-seg</code></td><td>Global</td><td>Disable multi-segment mbufs (faster for small packets)</td><td>Set unless using jumbo frames</td></tr>
+<tr><td><code>enable-tcp-udp-checksum</code></td><td>Per-port</td><td>Enable HW TX checksum offload for TCP/UDP</td><td>Enable on mlx5 ConnectX-5+</td></tr>
+<tr><td><code>log-level &lt;level&gt;</code></td><td>Global</td><td>DPDK log verbosity: debug/info/notice/warning/error</td><td><code>notice</code> in production</td></tr>
+<tr><td><code>dev default { ... }</code></td><td>Global</td><td>Default settings applied to all DPDK devices</td><td>Use to avoid repeating per-port config</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -282,12 +288,12 @@ dpdk {
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 4</span><h4>Interface Technology Comparison Lab</h4></div>
   <div class="proj-body">
-    <p><strong>Objective:</strong> Quantitatively compare DPDK, memif, and TAP throughput using identical test traffic. Understand the performance cost of each interface type.</p>
-    <div class="ps"><div class="sn">1</div><div>Set up three VPP containers: Container A (testpmd sending 64B frames), Container B (VPP with all three interface types), Container C (testpmd receiving). Create: one DPDK-to-DPDK path, one memif path, one TAP path between the same endpoints.</div></div>
-    <div class="ps"><div class="sn">2</div><div>Use testpmd's <code>txonly</code> mode to send at line rate (10 Gbps) on each path. Record: throughput (Mpps), latency (p50/p99 from dpdk-testpmd <code>rxonly</code> with timestamps), and CPU usage per worker thread.</div></div>
-    <div class="ps"><div class="sn">3</div><div>Examine <code>show run</code> on each VPP instance. Compare vectors/call and clocks/vector for dpdk-input vs memif-input vs af-packet-input. Build a table of results.</div></div>
-    <div class="ps"><div class="sn">4</div><div>Check <code>show dpdk interface xstats GigabitEthernet0/8/0</code> for hardware-level counters: rx_missed_errors, rx_no_mbuf_errors, tx_errors. These indicate buffer exhaustion or descriptor ring underflow.</div></div>
-    <div class="ps"><div class="sn">5</div><div>Identify the bottleneck in each path using the data collected. Write a 1-page analysis: when would you choose each interface type in a production deployment?</div></div>
+<p><strong>Objective:</strong> Quantitatively compare DPDK, memif, and TAP throughput using identical test traffic. Understand the performance cost of each interface type.</p>
+<div class="ps"><div class="sn">1</div><div>Set up three VPP containers: Container A (testpmd sending 64B frames), Container B (VPP with all three interface types), Container C (testpmd receiving). Create: one DPDK-to-DPDK path, one memif path, one TAP path between the same endpoints.</div></div>
+<div class="ps"><div class="sn">2</div><div>Use testpmd's <code>txonly</code> mode to send at line rate (10 Gbps) on each path. Record: throughput (Mpps), latency (p50/p99 from dpdk-testpmd <code>rxonly</code> with timestamps), and CPU usage per worker thread.</div></div>
+<div class="ps"><div class="sn">3</div><div>Examine <code>show run</code> on each VPP instance. Compare vectors/call and clocks/vector for dpdk-input vs memif-input vs af-packet-input. Build a table of results.</div></div>
+<div class="ps"><div class="sn">4</div><div>Check <code>show dpdk interface xstats GigabitEthernet0/8/0</code> for hardware-level counters: rx_missed_errors, rx_no_mbuf_errors, tx_errors. These indicate buffer exhaustion or descriptor ring underflow.</div></div>
+<div class="ps"><div class="sn">5</div><div>Identify the bottleneck in each path using the data collected. Write a 1-page analysis: when would you choose each interface type in a production deployment?</div></div>
   </div>
 </div>
 </div>

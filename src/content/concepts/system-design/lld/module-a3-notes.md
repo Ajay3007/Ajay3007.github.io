@@ -13,22 +13,22 @@ url: /learning/system-design/lld/module-a3-notes/
 
 <div class="chapter-hero" style="--ch-1:#00e5ff;--ch-2:#7c6fff;">
   <div class="breadcrumb">
-    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/module-a3-structural/">Module A3</a>
-    <span class="separator">›</span>
-    <span class="current">Full Notes</span>
+<a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/module-a3-structural/">Module A3</a>
+<span class="separator">›</span>
+<span class="current">Full Notes</span>
   </div>
   <h1>Module A3 — Structural Patterns</h1>
   <p class="ch-subtitle">Complete reference notes · Track A: LLD · Week 5</p>
   <div class="hero-stats">
-    <span class="stat-badge">Adapter</span>
-    <span class="stat-badge">Decorator</span>
-    <span class="stat-badge">Proxy</span>
-    <span class="stat-badge">Composite</span>
-    <span class="stat-badge">Facade</span>
-    <span class="stat-badge">Bridge</span>
-    <span class="stat-badge">Flyweight</span>
+<span class="stat-badge">Adapter</span>
+<span class="stat-badge">Decorator</span>
+<span class="stat-badge">Proxy</span>
+<span class="stat-badge">Composite</span>
+<span class="stat-badge">Facade</span>
+<span class="stat-badge">Bridge</span>
+<span class="stat-badge">Flyweight</span>
   </div>
 </div>
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">

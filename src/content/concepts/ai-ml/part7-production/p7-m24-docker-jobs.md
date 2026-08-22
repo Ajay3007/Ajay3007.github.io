@@ -92,10 +92,10 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
   <div class="mod-title">Docker &amp; Background Jobs</div>
   <div class="mod-subtitle">Containerise your AI app, run background workers, and orchestrate with Docker Compose</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 Docker · Celery · Redis · Docker Compose</span>
-    <span class="mod-pill">📋 Prerequisite: P7-M23</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 Docker · Celery · Redis · Docker Compose</span>
+<span class="mod-pill">📋 Prerequisite: P7-M23</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -115,15 +115,15 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-navy">Container + Queue</span></div>
   <div class="cp-body">
-    <p>Two infrastructure skills that every production AI app needs: Docker to make your app portable and reproducible, and background job queues to handle long-running AI tasks without making users wait.</p>
-    <ul>
-      <li><strong>Dockerfile</strong> — production multi-stage build for a FastAPI + AI app</li>
-      <li><strong>Docker Compose</strong> — orchestrating API + worker + Redis + vector DB as a local stack</li>
-      <li><strong>Background jobs</strong> — when to offload to a queue vs handle in-request</li>
-      <li><strong>Celery</strong> — the standard Python task queue, with Redis as broker</li>
-      <li><strong>Job status API</strong> — polling endpoint so clients can track async job progress</li>
-      <li><strong>Retry and error handling</strong> — failed task retries, dead letter queues</li>
-    </ul>
+<p>Two infrastructure skills that every production AI app needs: Docker to make your app portable and reproducible, and background job queues to handle long-running AI tasks without making users wait.</p>
+<ul>
+<li><strong>Dockerfile</strong> — production multi-stage build for a FastAPI + AI app</li>
+<li><strong>Docker Compose</strong> — orchestrating API + worker + Redis + vector DB as a local stack</li>
+<li><strong>Background jobs</strong> — when to offload to a queue vs handle in-request</li>
+<li><strong>Celery</strong> — the standard Python task queue, with Redis as broker</li>
+<li><strong>Job status API</strong> — polling endpoint so clients can track async job progress</li>
+<li><strong>Retry and error handling</strong> — failed task retries, dead letter queues</li>
+</ul>
   </div>
 </div>
 </div>
@@ -132,48 +132,58 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🐳</span><h3>Production Dockerfile — Multi-Stage Build</h3><span class="tag tag-navy">Container</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Dockerfile — production multi-stage build</span>
-<span class="ck"># ── Stage 1: dependency builder ───────────────────────</span>
+    
+
+```bash
+# Dockerfile — production multi-stage build
+
+# ── Stage 1: dependency builder ───────────────────────
 FROM python:3.12-slim AS builder
- 
+
 WORKDIR /build
 COPY requirements.txt .
- 
-<span class="ck"># Install dependencies into /install — separate from app code</span>
+
+# Install dependencies into /install — separate from app code
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
- 
-<span class="ck"># ── Stage 2: production image ─────────────────────────</span>
+
+# ── Stage 2: production image ─────────────────────────
 FROM python:3.12-slim AS production
- 
-<span class="ck"># Create non-root user — never run as root in production</span>
+
+# Create non-root user — never run as root in production
 RUN useradd --create-home --shell /bin/bash appuser
- 
+
 WORKDIR /app
- 
-<span class="ck"># Copy installed packages from builder stage</span>
+
+# Copy installed packages from builder stage
 COPY --from=builder /install /usr/local
- 
-<span class="ck"># Copy only app code — not tests, docs, or dev files</span>
+
+# Copy only app code — not tests, docs, or dev files
 COPY app/ ./app/
 COPY --chown=appuser:appuser . .
- 
-<span class="ck"># Switch to non-root user</span>
+
+# Switch to non-root user
 USER appuser
- 
-<span class="ck"># Expose port</span>
+
+# Expose port
 EXPOSE 8000
- 
-<span class="ck"># Health check — Docker monitors this</span>
+
+# Health check — Docker monitors this
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3   CMD python -c "import httpx; httpx.get('http://localhost:8000/admin/health').raise_for_status()"
- 
-<span class="ck"># Production command: gunicorn managing uvicorn workers</span>
+
+# Production command: gunicorn managing uvicorn workers
 CMD ["gunicorn", "app.main:app",
      "--worker-class", "uvicorn.workers.UvicornWorker",
      "--workers", "4",
      "--bind", "0.0.0.0:8000",
      "--timeout", "120",
-     "--graceful-timeout", "30"]</pre></div>
-    <div class="cb"><pre><span class="ck"># .dockerignore — keep image small</span>
+     "--graceful-timeout", "30"]
+```
+
+
+    
+
+```bash
+# .dockerignore — keep image small
 __pycache__/
 *.pyc
 *.pyo
@@ -183,16 +193,25 @@ __pycache__/
 .pytest_cache/
 tests/
 *.md
-chroma_db/         <span class="ck"># mount as volume, not baked in</span>
-*.log</pre></div>
-    <div class="cb"><pre><span class="ck"># Build and run</span>
+chroma_db/         # mount as volume, not baked in
+*.log
+```
+
+
+    
+
+```bash
+# Build and run
 docker build -t ai-api:latest .
 docker run -p 8000:8000   --env-file .env   -v $(pwd)/chroma_db:/app/chroma_db   ai-api:latest
- 
-<span class="ck"># Inspect image layers (find what's making it large)</span>
+
+# Inspect image layers (find what's making it large)
 docker history ai-api:latest
-<span class="ck"># Or use dive: https://github.com/wagoodman/dive</span></pre></div>
-    <div class="ins"><p>💡 <strong>Multi-stage builds keep production images small.</strong> The builder stage installs all build tools and dependencies. The production stage copies only the compiled packages — no pip, no build-essentials, no compiler. A typical FastAPI app goes from ~800MB (single stage) to ~200MB (multi-stage) with this pattern.</p></div>
+# Or use dive: https://github.com/wagoodman/dive
+```
+
+
+<div class="ins"><p>💡 <strong>Multi-stage builds keep production images small.</strong> The builder stage installs all build tools and dependencies. The production stage copies only the compiled packages — no pip, no build-essentials, no compiler. A typical FastAPI app goes from ~800MB (single stage) to ~200MB (multi-stage) with this pattern.</p></div>
   </div>
 </div>
 </div><!-- end t1 -->
@@ -201,16 +220,19 @@ docker history ai-api:latest
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🗂</span><h3>Docker Compose — Local Production Stack</h3><span class="tag tag-navy">Orchestration</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># docker-compose.yml — complete AI app stack</span>
-version: <span class="cs">"3.9"</span>
- 
+    
+
+```python
+# docker-compose.yml — complete AI app stack
+version: "3.9"
+
 services:
- 
-  <span class="ck"># ── FastAPI app ──────────────────────────────────────</span>
+
+  # ── FastAPI app ──────────────────────────────────────
   api:
     build: .
     ports:
-      - <span class="cs">"8000:8000"</span>
+      - "8000:8000"
     env_file: .env
     environment:
       REDIS_URL: redis://redis:6379
@@ -221,12 +243,12 @@ services:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: [<span class="cs">"CMD"</span>, <span class="cs">"python"</span>, <span class="cs">"-c"</span>, <span class="cs">"import httpx; httpx.get('http://localhost:8000/admin/health').raise_for_status()"</span>]
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/admin/health').raise_for_status()"]
       interval: 30s
       timeout: 10s
       retries: 3
- 
-  <span class="ck"># ── Celery worker ────────────────────────────────────</span>
+
+  # ── Celery worker ────────────────────────────────────
   worker:
     build: .
     command: celery -A app.worker.celery_app worker --loglevel=info --concurrency=4
@@ -238,8 +260,8 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
- 
-  <span class="ck"># ── Celery Beat (scheduled tasks) ────────────────────</span>
+
+  # ── Celery Beat (scheduled tasks) ────────────────────
   beat:
     build: .
     command: celery -A app.worker.celery_app beat --loglevel=info
@@ -249,31 +271,34 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
- 
-  <span class="ck"># ── Redis (message broker + result backend) ──────────</span>
+
+  # ── Redis (message broker + result backend) ──────────
   redis:
     image: redis:7-alpine
     ports:
-      - <span class="cs">"6379:6379"</span>
+      - "6379:6379"
     volumes:
       - redis_data:/data
-    command: redis-server --appendonly yes   <span class="ck"># persist to disk</span>
+    command: redis-server --appendonly yes   # persist to disk
     healthcheck:
-      test: [<span class="cs">"CMD"</span>, <span class="cs">"redis-cli"</span>, <span class="cs">"ping"</span>]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
     restart: unless-stopped
- 
+
 volumes:
   chroma_data:
   redis_data:
- 
-<span class="ck"># Commands</span>
-<span class="ck"># docker compose up --build -d    # start all services detached</span>
-<span class="ck"># docker compose logs -f api      # follow api logs</span>
-<span class="ck"># docker compose ps               # show service status</span>
-<span class="ck"># docker compose down -v          # stop and remove volumes</span></pre></div>
+
+# Commands
+# docker compose up --build -d    # start all services detached
+# docker compose logs -f api      # follow api logs
+# docker compose ps               # show service status
+# docker compose down -v          # stop and remove volumes
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -282,26 +307,32 @@ volumes:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>When to Use Background Jobs</h3><span class="tag tag-navy">Architecture Decision</span></div>
   <div class="cp-body">
-    <p>Not all AI work belongs in the request-response cycle. Background jobs handle long-running, expensive, or retry-able work without blocking the API.</p>
-    <table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
-      <thead><tr style="background:#0c1a40;color:#dbeafe"><th style="padding:.5rem .8rem;text-align:left">Handle In-Request</th><th style="padding:.5rem .8rem">Offload to Queue</th></tr></thead>
-      <tbody>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Simple Q&A (&lt; 5s)</td><td style="padding:.5rem .8rem">Document ingestion (minutes)</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Single-turn RAG query</td><td style="padding:.5rem .8rem">Batch embedding 10k documents</td></tr>
-        <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Streaming chat response</td><td style="padding:.5rem .8rem">Running evaluation harness</td></tr>
-        <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Short agent task (&lt; 30s)</td><td style="padding:.5rem .8rem">Long research agent (5+ min)</td></tr>
-        <tr><td style="padding:.5rem .8rem">Classification / routing</td><td style="padding:.5rem .8rem">Report generation, exports</td></tr>
-      </tbody>
-    </table>
-    <div class="cb"><pre><span class="ck"># The async job pattern</span>
-<span class="ck">#</span>
-<span class="ck"># 1. Client POSTs request → API returns job_id immediately (202 Accepted)</span>
-<span class="ck"># 2. Worker processes job in background</span>
-<span class="ck"># 3. Client polls GET /jobs/{job_id} → {"status": "pending" | "running" | "done" | "failed"}</span>
-<span class="ck"># 4. When done, result available in job response</span>
-<span class="ck">#</span>
-<span class="ck"># Alternative: webhooks (POST to client URL when done)</span>
-<span class="ck"># Alternative: SSE endpoint client subscribes to for job updates</span></pre></div>
+<p>Not all AI work belongs in the request-response cycle. Background jobs handle long-running, expensive, or retry-able work without blocking the API.</p>
+<table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
+<thead><tr style="background:#0c1a40;color:#dbeafe"><th style="padding:.5rem .8rem;text-align:left">Handle In-Request</th><th style="padding:.5rem .8rem">Offload to Queue</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Simple Q&A (&lt; 5s)</td><td style="padding:.5rem .8rem">Document ingestion (minutes)</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Single-turn RAG query</td><td style="padding:.5rem .8rem">Batch embedding 10k documents</td></tr>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Streaming chat response</td><td style="padding:.5rem .8rem">Running evaluation harness</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem">Short agent task (&lt; 30s)</td><td style="padding:.5rem .8rem">Long research agent (5+ min)</td></tr>
+<tr><td style="padding:.5rem .8rem">Classification / routing</td><td style="padding:.5rem .8rem">Report generation, exports</td></tr>
+</tbody>
+</table>
+    
+
+```bash
+# The async job pattern
+#
+# 1. Client POSTs request → API returns job_id immediately (202 Accepted)
+# 2. Worker processes job in background
+# 3. Client polls GET /jobs/{job_id} → {"status": "pending" | "running" | "done" | "failed"}
+# 4. When done, result available in job response
+#
+# Alternative: webhooks (POST to client URL when done)
+# Alternative: SSE endpoint client subscribes to for job updates
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -310,73 +341,80 @@ volumes:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🌿</span><h3>Celery — Distributed Task Queue</h3><span class="tag tag-navy">Standard</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install celery redis
- 
-<span class="ck"># app/worker.py — Celery app and task definitions</span>
+    
+
+```python
+pip install celery redis
+
+# app/worker.py — Celery app and task definitions
 from celery import Celery
 from celery.utils.log import get_task_logger
 import anthropic, os
- 
+
 logger = get_task_logger(__name__)
- 
-<span class="ck"># Celery app — Redis as broker AND result backend</span>
+
+# Celery app — Redis as broker AND result backend
 celery_app = Celery(
-    <span class="cs">"ai_tasks"</span>,
-    broker=os.environ.get(<span class="cs">"REDIS_URL"</span>, <span class="cs">"redis://localhost:6379/0"</span>),
-    backend=os.environ.get(<span class="cs">"REDIS_URL"</span>, <span class="cs">"redis://localhost:6379/0"</span>),
+    "ai_tasks",
+    broker=os.environ.get("REDIS_URL", "redis://localhost:6379/0"),
+    backend=os.environ.get("REDIS_URL", "redis://localhost:6379/0"),
 )
 celery_app.conf.update(
-    task_serializer=<span class="cs">"json"</span>,
-    result_serializer=<span class="cs">"json"</span>,
-    accept_content=[<span class="cs">"json"</span>],
-    result_expires=<span class="cv">3600</span>,        <span class="ck"># results expire after 1 hour</span>
-    task_soft_time_limit=<span class="cv">300</span>,   <span class="ck"># raise SoftTimeLimitExceeded after 5 min</span>
-    task_time_limit=<span class="cv">360</span>,        <span class="ck"># hard kill after 6 min</span>
-    worker_max_tasks_per_child=<span class="cv">50</span>  <span class="ck"># restart worker after 50 tasks (memory leak prevention)</span>
+    task_serializer="json",
+    result_serializer="json",
+    accept_content=["json"],
+    result_expires=3600,        # results expire after 1 hour
+    task_soft_time_limit=300,   # raise SoftTimeLimitExceeded after 5 min
+    task_time_limit=360,        # hard kill after 6 min
+    worker_max_tasks_per_child=50  # restart worker after 50 tasks (memory leak prevention)
 )
- 
-<span class="ck"># ── Task: ingest documents ────────────────────────────</span>
+
+# ── Task: ingest documents ────────────────────────────
 @celery_app.task(
-    bind=<span class="cv">True</span>,
-    max_retries=<span class="cv">3</span>,
-    default_retry_delay=<span class="cv">60</span>,      <span class="ck"># retry after 60s</span>
-    name=<span class="cs">"tasks.ingest_documents"</span>
+    bind=True,
+    max_retries=3,
+    default_retry_delay=60,      # retry after 60s
+    name="tasks.ingest_documents"
 )
 def ingest_documents(self, document_paths: list[str], collection: str) -> dict:
-    logger.info(<span class="cs">f"Ingesting {len(document_paths)} documents into {collection}"</span>)
+    logger.info(f"Ingesting {len(document_paths)} documents into {collection}")
     try:
         pipeline = DocumentIngestionPipeline(config=IngestionConfig(collection_name=collection))
         results  = pipeline.ingest_directory_files(document_paths)
-        return {<span class="cs">"status"</span>: <span class="cs">"success"</span>, <span class="cs">"chunks_added"</span>: results[<span class="cs">"chunks"</span>], <span class="cs">"files"</span>: results[<span class="cs">"files"</span>]}
+        return {"status": "success", "chunks_added": results["chunks"], "files": results["files"]}
     except Exception as exc:
-        logger.error(<span class="cs">f"Ingestion failed: {exc}"</span>)
-        raise self.retry(exc=exc, countdown=<span class="cv">60</span>)   <span class="ck"># retry with 60s delay</span>
-<span class="ck"># ── Task: run research agent ──────────────────────────</span>
+        logger.error(f"Ingestion failed: {exc}")
+        raise self.retry(exc=exc, countdown=60)   # retry with 60s delay
+
+# ── Task: run research agent ──────────────────────────
 @celery_app.task(
-    bind=<span class="cv">True</span>,
-    max_retries=<span class="cv">2</span>,
-    name=<span class="cs">"tasks.run_agent"</span>
+    bind=True,
+    max_retries=2,
+    name="tasks.run_agent"
 )
 def run_agent_task(self, goal: str, session_id: str) -> dict:
     try:
         result = guarded_agent(goal)
         return result
     except Exception as exc:
-        raise self.retry(exc=exc, countdown=<span class="cv">30</span>)
- 
-<span class="ck"># ── Scheduled tasks (beat) ────────────────────────────</span>
+        raise self.retry(exc=exc, countdown=30)
+
+# ── Scheduled tasks (beat) ────────────────────────────
 from celery.schedules import crontab
- 
+
 celery_app.conf.beat_schedule = {
-    <span class="cs">"daily-index-cleanup"</span>: {
-        <span class="cs">"task"</span>: <span class="cs">"tasks.cleanup_stale_documents"</span>,
-        <span class="cs">"schedule"</span>: crontab(hour=<span class="cv">2</span>, minute=<span class="cv">0</span>),   <span class="ck"># 2am daily</span>
+    "daily-index-cleanup": {
+        "task": "tasks.cleanup_stale_documents",
+        "schedule": crontab(hour=2, minute=0),   # 2am daily
     },
-    <span class="cs">"hourly-cache-warm"</span>: {
-        <span class="cs">"task"</span>: <span class="cs">"tasks.warm_embedding_cache"</span>,
-        <span class="cs">"schedule"</span>: crontab(minute=<span class="cv">0</span>),           <span class="ck"># every hour</span>
+    "hourly-cache-warm": {
+        "task": "tasks.warm_embedding_cache",
+        "schedule": crontab(minute=0),           # every hour
     },
-}</pre></div>
+}
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -385,31 +423,35 @@ celery_app.conf.beat_schedule = {
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">📬</span><h3>Job Status API — Async Job Pattern</h3><span class="tag tag-navy">Production Pattern</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from fastapi import APIRouter, HTTPException
+    
+
+```python
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from celery.result import AsyncResult
 from typing import Any, Optional
 import uuid
- 
-router = APIRouter(prefix=<span class="cs">"/jobs"</span>, tags=[<span class="cs">"jobs"</span>])
- 
+
+router = APIRouter(prefix="/jobs", tags=["jobs"])
+
 class JobSubmitResponse(BaseModel):
     job_id:  str
-    status:  str = <span class="cs">"queued"</span>
+    status:  str = "queued"
     message: str
- 
+
 class JobStatusResponse(BaseModel):
     job_id:   str
-    status:   str       <span class="ck"># queued | started | success | failure | revoked</span>
-    progress: Optional[float] = None   <span class="ck"># 0.0 – 1.0</span>
-    result:   Optional[Any]  = None    <span class="ck"># populated when status=success</span>
-    error:    Optional[str]  = None    <span class="ck"># populated when status=failure</span>
-<span class="ck"># ── Submit: returns job_id immediately ────────────────</span>
+    status:   str       # queued | started | success | failure | revoked
+    progress: Optional[float] = None   # 0.0 – 1.0
+    result:   Optional[Any]  = None    # populated when status=success
+    error:    Optional[str]  = None    # populated when status=failure
+
+# ── Submit: returns job_id immediately ────────────────
 class IngestRequest(BaseModel):
     document_paths: list[str]
-    collection:     str = <span class="cs">"default"</span>
- 
-@router.post(<span class="cs">"/ingest"</span>, status_code=<span class="cv">202</span>, response_model=JobSubmitResponse)
+    collection:     str = "default"
+
+@router.post("/ingest", status_code=202, response_model=JobSubmitResponse)
 async def submit_ingestion(request: IngestRequest):
     task = ingest_documents.delay(
         document_paths=request.document_paths,
@@ -417,49 +459,52 @@ async def submit_ingestion(request: IngestRequest):
     )
     return JobSubmitResponse(
         job_id=task.id,
-        status=<span class="cs">"queued"</span>,
-        message=<span class="cs">f"Ingestion job queued. Poll /jobs/{task.id} for status."</span>
+        status="queued",
+        message=f"Ingestion job queued. Poll /jobs/{task.id} for status."
     )
- 
-<span class="ck"># ── Poll: check job status ────────────────────────────</span>
-@router.get(<span class="cs">"/{job_id}"</span>, response_model=JobStatusResponse)
+
+# ── Poll: check job status ────────────────────────────
+@router.get("/{job_id}", response_model=JobStatusResponse)
 async def get_job_status(job_id: str):
     result = AsyncResult(job_id, app=celery_app)
- 
+
     match result.state:
-        case <span class="cs">"PENDING"</span>:
-            return JobStatusResponse(job_id=job_id, status=<span class="cs">"queued"</span>)
-        case <span class="cs">"STARTED"</span>:
+        case "PENDING":
+            return JobStatusResponse(job_id=job_id, status="queued")
+        case "STARTED":
             meta = result.info or {}
-            return JobStatusResponse(job_id=job_id, status=<span class="cs">"running"</span>,
-                                     progress=meta.get(<span class="cs">"progress"</span>))
-        case <span class="cs">"SUCCESS"</span>:
-            return JobStatusResponse(job_id=job_id, status=<span class="cs">"success"</span>,
+            return JobStatusResponse(job_id=job_id, status="running",
+                                     progress=meta.get("progress"))
+        case "SUCCESS":
+            return JobStatusResponse(job_id=job_id, status="success",
                                      result=result.result)
-        case <span class="cs">"FAILURE"</span>:
-            return JobStatusResponse(job_id=job_id, status=<span class="cs">"failed"</span>,
+        case "FAILURE":
+            return JobStatusResponse(job_id=job_id, status="failed",
                                      error=str(result.info))
         case _:
             return JobStatusResponse(job_id=job_id, status=result.state.lower())
- 
-<span class="ck"># ── Cancel a job ──────────────────────────────────────</span>
-@router.delete(<span class="cs">"/{job_id}"</span>)
+
+# ── Cancel a job ──────────────────────────────────────
+@router.delete("/{job_id}")
 async def cancel_job(job_id: str):
-    celery_app.control.revoke(job_id, terminate=<span class="cv">True</span>)
-    return {<span class="cs">"message"</span>: <span class="cs">f"Job {job_id} cancelled"</span>}
- 
-<span class="ck"># ── Report progress from inside a task ────────────────</span>
-@celery_app.task(bind=<span class="cv">True</span>)
+    celery_app.control.revoke(job_id, terminate=True)
+    return {"message": f"Job {job_id} cancelled"}
+
+# ── Report progress from inside a task ────────────────
+@celery_app.task(bind=True)
 def batch_embed_task(self, texts: list[str]) -> dict:
     total = len(texts)
     for i, text in enumerate(texts):
         embed_and_store(text)
-        <span class="ck"># Update progress — visible in /jobs/{id}</span>
+        # Update progress — visible in /jobs/{id}
         self.update_state(
-            state=<span class="cs">"STARTED"</span>,
-            meta={<span class="cs">"progress"</span>: (i + <span class="cv">1</span>) / total, <span class="cs">"current"</span>: i + <span class="cv">1</span>, <span class="cs">"total"</span>: total}
+            state="STARTED",
+            meta={"progress": (i + 1) / total, "current": i + 1, "total": total}
         )
-    return {<span class="cs">"embedded"</span>: total}</pre></div>
+    return {"embedded": total}
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -469,10 +514,10 @@ def batch_embed_task(self, texts: list[str]) -> dict:
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank" rel="noopener">Docker: Multi-Stage Builds — docs.docker.com</a></td><td>Official guide on multi-stage builds for smaller, secure production images.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.celeryq.dev/en/stable/getting-started/first-steps-with-celery.html" target="_blank" rel="noopener">Celery: First Steps — docs.celeryq.dev</a></td><td>Official Celery quickstart. Covers tasks, workers, beat scheduler, and result backends.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener">Docker Compose Documentation — docs.docker.com/compose</a></td><td>Complete Docker Compose reference including healthchecks, depends_on, and volumes.</td></tr>
-    <tr><td class="res-type">Article</td><td><a href="https://testdriven.io/blog/fastapi-and-celery/" target="_blank" rel="noopener">FastAPI + Celery Tutorial — testdriven.io</a></td><td>End-to-end tutorial combining FastAPI with Celery and Redis. Includes Docker Compose setup.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank" rel="noopener">Docker: Multi-Stage Builds — docs.docker.com</a></td><td>Official guide on multi-stage builds for smaller, secure production images.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.celeryq.dev/en/stable/getting-started/first-steps-with-celery.html" target="_blank" rel="noopener">Celery: First Steps — docs.celeryq.dev</a></td><td>Official Celery quickstart. Covers tasks, workers, beat scheduler, and result backends.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.docker.com/compose/" target="_blank" rel="noopener">Docker Compose Documentation — docs.docker.com/compose</a></td><td>Complete Docker Compose reference including healthchecks, depends_on, and volumes.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://testdriven.io/blog/fastapi-and-celery/" target="_blank" rel="noopener">FastAPI + Celery Tutorial — testdriven.io</a></td><td>End-to-end tutorial combining FastAPI with Celery and Redis. Includes Docker Compose setup.</td></tr>
   </tbody>
 </table>
 </div>
@@ -480,28 +525,28 @@ def batch_embed_task(self, texts: list[str]) -> dict:
 <div id="t7" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Containerised AI Stack with Async Document Ingestion</span>
-    <span class="proj-dur">[Intermediate] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Containerised AI Stack with Async Document Ingestion</span>
+<span class="proj-dur">[Intermediate] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Containerise your M23 FastAPI app and add an async document ingestion pipeline using Celery.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>Dockerfile</strong> — multi-stage build, non-root user, HEALTHCHECK, gunicorn CMD</li>
-      <li><strong>docker-compose.yml</strong> — api, worker, beat, redis services with healthchecks and volumes</li>
-      <li><strong>Celery tasks</strong> — ingest_documents task with retry logic and progress reporting</li>
-      <li><strong>Job API</strong> — POST /jobs/ingest (202), GET /jobs/{id}, DELETE /jobs/{id}</li>
-      <li><strong>Progress</strong> — task updates state with progress 0.0–1.0; client polls /jobs/{id}</li>
-      <li><strong>Scheduled task</strong> — daily cleanup of stale embeddings via Celery Beat</li>
-    </ul>
-    <h4>Test It</h4>
-    <ul>
-      <li>docker compose up, submit 50-document ingestion job, poll until complete</li>
-      <li>Kill the worker mid-job. Restart it. Verify the job retries and completes.</li>
-      <li>Verify docker compose ps shows all services healthy</li>
-    </ul>
-    <p><strong>Skills:</strong> Multi-stage Docker, Docker Compose healthchecks, Celery tasks + retries + progress, job status polling API</p>
+<p>Containerise your M23 FastAPI app and add an async document ingestion pipeline using Celery.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>Dockerfile</strong> — multi-stage build, non-root user, HEALTHCHECK, gunicorn CMD</li>
+<li><strong>docker-compose.yml</strong> — api, worker, beat, redis services with healthchecks and volumes</li>
+<li><strong>Celery tasks</strong> — ingest_documents task with retry logic and progress reporting</li>
+<li><strong>Job API</strong> — POST /jobs/ingest (202), GET /jobs/{id}, DELETE /jobs/{id}</li>
+<li><strong>Progress</strong> — task updates state with progress 0.0–1.0; client polls /jobs/{id}</li>
+<li><strong>Scheduled task</strong> — daily cleanup of stale embeddings via Celery Beat</li>
+</ul>
+<h4>Test It</h4>
+<ul>
+<li>docker compose up, submit 50-document ingestion job, poll until complete</li>
+<li>Kill the worker mid-job. Restart it. Verify the job retries and completes.</li>
+<li>Verify docker compose ps shows all services healthy</li>
+</ul>
+<p><strong>Skills:</strong> Multi-stage Docker, Docker Compose healthchecks, Celery tasks + retries + progress, job status polling API</p>
   </div>
 </div>
 </div>
@@ -510,32 +555,32 @@ def batch_embed_task(self, texts: list[str]) -> dict:
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Dockerfile — Build and Inspect</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a production Docker image and understand what's inside it.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a single-stage Dockerfile for your FastAPI app. Build it: <code>docker build -t ai-api:single .</code>. Check the size: <code>docker image ls ai-api:single</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Rewrite as a multi-stage build. Build: <code>docker build -t ai-api:multi .</code>. Compare sizes. The multi-stage version should be 30–60% smaller.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add the non-root user (RUN useradd + USER appuser). Verify: <code>docker run ai-api:multi whoami</code> → prints "appuser" not "root".</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add .dockerignore. Rebuild and verify chroma_db/, .git/, and __pycache__/ are not in the image: <code>docker run ai-api:multi ls -la</code>.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Trigger the HEALTHCHECK: start the container without the app running (override CMD). Verify <code>docker ps</code> shows "unhealthy" after 3 failed checks.</div></div>
+<p><strong>Objective:</strong> Build a production Docker image and understand what's inside it.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write a single-stage Dockerfile for your FastAPI app. Build it: <code>docker build -t ai-api:single .</code>. Check the size: <code>docker image ls ai-api:single</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Rewrite as a multi-stage build. Build: <code>docker build -t ai-api:multi .</code>. Compare sizes. The multi-stage version should be 30–60% smaller.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add the non-root user (RUN useradd + USER appuser). Verify: <code>docker run ai-api:multi whoami</code> → prints "appuser" not "root".</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add .dockerignore. Rebuild and verify chroma_db/, .git/, and __pycache__/ are not in the image: <code>docker run ai-api:multi ls -la</code>.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Trigger the HEALTHCHECK: start the container without the app running (override CMD). Verify <code>docker ps</code> shows "unhealthy" after 3 failed checks.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Docker Compose Stack</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Bring up the full multi-service stack and verify all services communicate.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write docker-compose.yml with api, worker, redis. Run: <code>docker compose up --build -d</code>. Check all services: <code>docker compose ps</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Verify service startup order: stop redis (<code>docker compose stop redis</code>). Does the api service fail to start? Verify depends_on with condition: service_healthy works.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Test volume persistence: ingest some documents. Stop and remove containers (<code>docker compose down</code> — NOT -v). Restart. Verify documents are still in ChromaDB.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Simulate a worker crash: <code>docker compose kill worker</code>. Submit an ingestion job via the API. Restart the worker: <code>docker compose start worker</code>. Verify the job eventually completes.</div></div>
+<p><strong>Objective:</strong> Bring up the full multi-service stack and verify all services communicate.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write docker-compose.yml with api, worker, redis. Run: <code>docker compose up --build -d</code>. Check all services: <code>docker compose ps</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Verify service startup order: stop redis (<code>docker compose stop redis</code>). Does the api service fail to start? Verify depends_on with condition: service_healthy works.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Test volume persistence: ingest some documents. Stop and remove containers (<code>docker compose down</code> — NOT -v). Restart. Verify documents are still in ChromaDB.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Simulate a worker crash: <code>docker compose kill worker</code>. Submit an ingestion job via the API. Restart the worker: <code>docker compose start worker</code>. Verify the job eventually completes.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Celery Task — Retry and Progress</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build and test a Celery task with retry logic and progress reporting.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a batch_embed_task that embeds 20 texts. Report progress (0.0–1.0) after each. Poll the job status endpoint every second and print the progress.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add deliberate failure on the 3rd attempt (raise Exception if self.request.retries < 2). Submit the task. Observe it fails twice then succeeds on retry 3. Check /jobs/{id} during each retry.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Test task time limit: add a deliberate time.sleep(400) in your task (beyond the 300s soft limit). Verify Celery raises SoftTimeLimitExceeded and the job shows as "failed" with a timeout error.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add Celery Beat with a task that runs every minute (for testing). Verify it fires on schedule: <code>docker compose logs beat</code> should show it enqueuing each minute.</div></div>
+<p><strong>Objective:</strong> Build and test a Celery task with retry logic and progress reporting.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write a batch_embed_task that embeds 20 texts. Report progress (0.0–1.0) after each. Poll the job status endpoint every second and print the progress.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add deliberate failure on the 3rd attempt (raise Exception if self.request.retries < 2). Submit the task. Observe it fails twice then succeeds on retry 3. Check /jobs/{id} during each retry.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Test task time limit: add a deliberate time.sleep(400) in your task (beyond the 300s soft limit). Verify Celery raises SoftTimeLimitExceeded and the job shows as "failed" with a timeout error.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add Celery Beat with a task that runs every minute (for testing). Verify it fires on schedule: <code>docker compose logs beat</code> should show it enqueuing each minute.</div></div>
   </div>
 </div>
 </div><!-- end t8 -->

@@ -83,10 +83,10 @@ url: /learning/networking-mastery/m23-conntrack-nat/
   <div class="mod-title">🔗 Connection Tracking and NAT</div>
   <div class="mod-subtitle">Stateful inspection fundamentals · Five-tuple tracking · TCP/UDP/ICMP state machines · Session table design · NAT types · NAPT mechanics · VPP NAT44-ED · SYN cookies · Attack hardening</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M05 TCP · M10 Routing</span>
-    <span class="mod-pill">NGFW Core Data Structure</span>
-    <span class="mod-pill">3 Labs</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M05 TCP · M10 Routing</span>
+<span class="mod-pill">NGFW Core Data Structure</span>
+<span class="mod-pill">3 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -107,36 +107,36 @@ url: /learning/networking-mastery/m23-conntrack-nat/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Stateless vs Stateful Packet Filtering</h3><span class="tag tag-purple">CONCEPT</span></div>
   <div class="cp-body">
-    <p>The first generation of firewalls was stateless — each packet was evaluated in isolation. A rule "allow TCP dst-port 80" permits any TCP packet with that destination port, including crafted RSTs, out-of-sequence data, and attack payloads. The attacker simply sets dst_port=80 and everything passes.</p>
-    <p>Stateful inspection tracks the state of every network flow. A packet is only forwarded if it represents a valid state transition in a known, existing connection — a SYN-ACK without a preceding SYN is dropped, a RST from a server with no known session is dropped, data from an address that hasn't completed the handshake is dropped.</p>
-    <div class="two-col">
-      <div>
-        <h4>Stateless Filter Weaknesses</h4>
-        <ul>
-          <li>Cannot distinguish new vs established connections</li>
-          <li>Cannot detect TCP sequence number anomalies</li>
-          <li>Cannot track UDP "sessions" (no inherent state)</li>
-          <li>Cannot enforce return-traffic matching</li>
-          <li>Easily evaded by packets that match rule syntax but violate protocol semantics</li>
-        </ul>
-      </div>
-      <div>
-        <h4>Stateful Inspection Advantages</h4>
-        <ul>
-          <li>Validates every packet against valid protocol state</li>
-          <li>Automatically permits return traffic for established connections</li>
-          <li>Detects SYN floods, RST injection, sequence attacks</li>
-          <li>Enables per-flow policy: inspect, permit, deny based on full session context</li>
-          <li>Foundation for all NGFW L7 features: app ID, DPI, TLS inspection, QoS</li>
-        </ul>
-      </div>
-    </div>
+<p>The first generation of firewalls was stateless — each packet was evaluated in isolation. A rule "allow TCP dst-port 80" permits any TCP packet with that destination port, including crafted RSTs, out-of-sequence data, and attack payloads. The attacker simply sets dst_port=80 and everything passes.</p>
+<p>Stateful inspection tracks the state of every network flow. A packet is only forwarded if it represents a valid state transition in a known, existing connection — a SYN-ACK without a preceding SYN is dropped, a RST from a server with no known session is dropped, data from an address that hasn't completed the handshake is dropped.</p>
+<div class="two-col">
+<div>
+<h4>Stateless Filter Weaknesses</h4>
+<ul>
+<li>Cannot distinguish new vs established connections</li>
+<li>Cannot detect TCP sequence number anomalies</li>
+<li>Cannot track UDP "sessions" (no inherent state)</li>
+<li>Cannot enforce return-traffic matching</li>
+<li>Easily evaded by packets that match rule syntax but violate protocol semantics</li>
+</ul>
+</div>
+<div>
+<h4>Stateful Inspection Advantages</h4>
+<ul>
+<li>Validates every packet against valid protocol state</li>
+<li>Automatically permits return traffic for established connections</li>
+<li>Detects SYN floods, RST injection, sequence attacks</li>
+<li>Enables per-flow policy: inspect, permit, deny based on full session context</li>
+<li>Foundation for all NGFW L7 features: app ID, DPI, TLS inspection, QoS</li>
+</ul>
+</div>
+</div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📐</span><h3>The Five-Tuple — Unique Flow Identifier</h3><span class="tag tag-blue">FIVE-TUPLE</span></div>
   <div class="cp-body">
-    <p>Every TCP/UDP flow is uniquely identified by five fields. The conntrack engine uses this five-tuple as the hash key to locate the flow's state entry in the session table.</p>
+<p>Every TCP/UDP flow is uniquely identified by five fields. The conntrack engine uses this five-tuple as the hash key to locate the flow's state entry in the session table.</p>
 <div class="cb"><pre>/* Five-tuple: the universal flow key */
 src_ip    — Source IP address       (4B IPv4, 16B IPv6)
 dst_ip    — Destination IP address
@@ -278,25 +278,25 @@ session_t *session_pool = rte_malloc_socket("sessions",
  
 /* Per-NUMA-socket pools: each socket has its own pool and hash table */
 /* Workers pinned to same socket as their NIC → zero cross-NUMA memory */</pre></div>
-    <div class="ins"><p>💡 <strong>Two critical performance design choices:</strong> (1) Use a pre-allocated memory pool indexed by integer — malloc/free per session causes heap fragmentation and cache thrashing at scale. (2) Per-NUMA-socket tables with per-CPU-core session creation — eliminate cross-socket locking entirely. VPP's clib_bihash is designed exactly for this access pattern.</p></div>
+<div class="ins"><p>💡 <strong>Two critical performance design choices:</strong> (1) Use a pre-allocated memory pool indexed by integer — malloc/free per session causes heap fragmentation and cache thrashing at scale. (2) Per-NUMA-socket tables with per-CPU-core session creation — eliminate cross-socket locking entirely. VPP's clib_bihash is designed exactly for this access pattern.</p></div>
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>Timer Wheel — O(1) Session Expiry</h3><span class="tag tag-green">TIMEOUTS</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Protocol / State</th><th>Timeout</th><th>Rationale</th></tr></thead>
-      <tbody>
-        <tr><td>TCP SYN (half-open)</td><td>10–30s</td><td>SYN flood defence — expire incomplete handshakes quickly</td></tr>
-        <tr><td>TCP ESTABLISHED</td><td>3600–86400s</td><td>Long-lived HTTP/2, SSH; keepalives refresh timeout</td></tr>
-        <tr><td>TCP FIN_WAIT / TIME_WAIT</td><td>120–240s</td><td>RFC 793 minimum 2×MSL; allow delayed packets</td></tr>
-        <tr><td>UDP generic</td><td>30–60s</td><td>Most UDP is short request-response</td></tr>
-        <tr><td>UDP DNS</td><td>10–20s</td><td>Single exchange; keep short</td></tr>
-        <tr><td>UDP QUIC</td><td>120–300s</td><td>Connection migration; mobile clients change IPs</td></tr>
-        <tr><td>ICMP Echo</td><td>10–30s</td><td>Ping timeout window</td></tr>
-        <tr><td>ICMP Error</td><td>5s</td><td>One-shot messages; no reply expected</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Protocol / State</th><th>Timeout</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td>TCP SYN (half-open)</td><td>10–30s</td><td>SYN flood defence — expire incomplete handshakes quickly</td></tr>
+<tr><td>TCP ESTABLISHED</td><td>3600–86400s</td><td>Long-lived HTTP/2, SSH; keepalives refresh timeout</td></tr>
+<tr><td>TCP FIN_WAIT / TIME_WAIT</td><td>120–240s</td><td>RFC 793 minimum 2×MSL; allow delayed packets</td></tr>
+<tr><td>UDP generic</td><td>30–60s</td><td>Most UDP is short request-response</td></tr>
+<tr><td>UDP DNS</td><td>10–20s</td><td>Single exchange; keep short</td></tr>
+<tr><td>UDP QUIC</td><td>120–300s</td><td>Connection migration; mobile clients change IPs</td></tr>
+<tr><td>ICMP Echo</td><td>10–30s</td><td>Ping timeout window</td></tr>
+<tr><td>ICMP Error</td><td>5s</td><td>One-shot messages; no reply expected</td></tr>
+</tbody>
+</table>
 <div class="cb"><pre>/* Timer wheel — O(1) insert and expire */
 /* 65536 buckets with 1-second resolution = ~18 hours of range */
 #define WHEEL_SIZE  65536
@@ -688,7 +688,7 @@ void nat_rewrite_outbound(struct iphdr *iph, struct tcphdr *th,
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Why Protocols Break NAT and How ALGs Fix Them</h3><span class="tag tag-orange">ALG</span></div>
   <div class="cp-body">
-    <p>Protocols that embed IP addresses or ports in their application payload break NAT — the outer IP header is rewritten correctly, but the embedded address in the payload still points to the private IP the remote host cannot reach. An ALG must inspect and rewrite the payload to fix this.</p>
+<p>Protocols that embed IP addresses or ports in their application payload break NAT — the outer IP header is rewritten correctly, but the embedded address in the payload still points to the private IP the remote host cannot reach. An ALG must inspect and rewrite the payload to fix this.</p>
 <div class="cb"><pre>/* Protocols requiring ALG */
 /* FTP (see M09): PORT/PASV commands contain IP:port */
 /* SIP/VoIP:       SDP body contains media IP:port    */
@@ -800,19 +800,19 @@ nat44 del session in 10.0.0.5:54321 out 203.0.113.1:12345 tcp
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Attack Taxonomy and Mitigations</h3><span class="tag tag-red">SECURITY</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Attack</th><th>Mechanism</th><th>Impact</th><th>Mitigation</th></tr></thead>
-      <tbody>
-        <tr><td><strong>SYN Flood</strong></td><td>Spoofed SYNs → half-open sessions → session table exhaustion</td><td>DoS — all new connections rejected</td><td>SYN cookies; rate limit per source; half-open session cap</td></tr>
-        <tr><td><strong>Session Table Exhaustion</strong></td><td>Many short-lived connections filling the table</td><td>New connections dropped globally</td><td>Per-source rate limit; aggressive half-open timeout; alert at 80% fill</td></tr>
-        <tr><td><strong>RST Injection</strong></td><td>Crafted RST with valid five-tuple → session torn down</td><td>Disrupts legitimate connections; BGP attacks</td><td>Sequence number validation — RST must be within window</td></tr>
-        <tr><td><strong>NAT Port Exhaustion</strong></td><td>Source opens 64K connections → port pool drained</td><td>Further outbound connections fail</td><td>Per-source connection limit; monitor port pool; alert</td></tr>
-        <tr><td><strong>NAT Slipstreaming</strong></td><td>Browser crafts HTTP request that tricks SIP/FTP ALG → arbitrary port opened</td><td>External attacker reaches internal services</td><td>Disable unused ALGs; validate ALG content; block inbound 5060/21</td></tr>
-        <tr><td><strong>IP Fragmentation Bypass</strong></td><td>Fragment 1 with no ports passes filter; fragment 2 contains attack in offset</td><td>Policy bypass</td><td>Reassemble ALL fragments before conntrack lookup</td></tr>
-        <tr><td><strong>Overlapping Fragments</strong></td><td>Send two overlapping fragments with different content — OS and NGFW reassemble differently</td><td>IDS/NGFW evasion</td><td>Drop overlapping fragments; or enforce first/last-fragment policy</td></tr>
-        <tr><td><strong>Teardrop / Tiny Fragment</strong></td><td>Fragment so small that TCP header split across two fragments</td><td>Stack crash (historical); policy bypass</td><td>Drop fragments too small to contain complete L4 header</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Attack</th><th>Mechanism</th><th>Impact</th><th>Mitigation</th></tr></thead>
+<tbody>
+<tr><td><strong>SYN Flood</strong></td><td>Spoofed SYNs → half-open sessions → session table exhaustion</td><td>DoS — all new connections rejected</td><td>SYN cookies; rate limit per source; half-open session cap</td></tr>
+<tr><td><strong>Session Table Exhaustion</strong></td><td>Many short-lived connections filling the table</td><td>New connections dropped globally</td><td>Per-source rate limit; aggressive half-open timeout; alert at 80% fill</td></tr>
+<tr><td><strong>RST Injection</strong></td><td>Crafted RST with valid five-tuple → session torn down</td><td>Disrupts legitimate connections; BGP attacks</td><td>Sequence number validation — RST must be within window</td></tr>
+<tr><td><strong>NAT Port Exhaustion</strong></td><td>Source opens 64K connections → port pool drained</td><td>Further outbound connections fail</td><td>Per-source connection limit; monitor port pool; alert</td></tr>
+<tr><td><strong>NAT Slipstreaming</strong></td><td>Browser crafts HTTP request that tricks SIP/FTP ALG → arbitrary port opened</td><td>External attacker reaches internal services</td><td>Disable unused ALGs; validate ALG content; block inbound 5060/21</td></tr>
+<tr><td><strong>IP Fragmentation Bypass</strong></td><td>Fragment 1 with no ports passes filter; fragment 2 contains attack in offset</td><td>Policy bypass</td><td>Reassemble ALL fragments before conntrack lookup</td></tr>
+<tr><td><strong>Overlapping Fragments</strong></td><td>Send two overlapping fragments with different content — OS and NGFW reassemble differently</td><td>IDS/NGFW evasion</td><td>Drop overlapping fragments; or enforce first/last-fragment policy</td></tr>
+<tr><td><strong>Teardrop / Tiny Fragment</strong></td><td>Fragment so small that TCP header split across two fragments</td><td>Stack crash (historical); policy bypass</td><td>Drop fragments too small to contain complete L4 header</td></tr>
+</tbody>
+</table>
 <div class="cb"><pre>/* SYN Cookie — no state until 3-way handshake verified */
 /* ISN = HMAC(4-tuple + timestamp) — encodes connection info */
  
@@ -860,34 +860,34 @@ int session_allow_new_syn(uint32_t src_ip) {
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>High-Performance Session Table in C</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a complete session table with five-tuple hashing, TCP state machine, timer-wheel timeout management, and SYN cookie defence. Benchmark at realistic NGFW throughput.</p>
-    <div class="lab-step"><div class="sn">1</div><div><strong>Canonical normalisation:</strong> implement <code>normalise_key()</code> and unit-test it exhaustively: verify that (A:1234→B:80,TCP) and (B:80→A:1234,TCP) produce the same canonical key. Test with IPv4 and IPv6 addresses. This is the most common conntrack bug — get it right before building anything else.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div><strong>Hash table:</strong> implement an open-addressing hash table with Robin Hood probing and a pre-allocated session pool. Target: 1M entries, load factor capped at 70%. Write a benchmark: insert 700K sessions, then perform 10M lookups (80% hits, 20% misses). Measure average lookup latency with <code>clock_gettime(CLOCK_MONOTONIC)</code>. Target: &lt;100ns average.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div><strong>TCP state machine:</strong> implement as a transition table (not if/else). Test every state×direction×flags combination. Specific tests: SYN-ACK without prior SYN → DROP; RST with out-of-window sequence → DROP (count injection attempt); FIN in ESTABLISHED → transition to FIN_WAIT_1; duplicate SYN in ESTABLISHED → log anomaly, DROP.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div><strong>Timer wheel:</strong> implement 65536-bucket timer wheel. Test: create 100K sessions with varying timeouts (5s–3600s), advance the clock second by second, verify sessions expire at exactly the right tick. Measure: how long does advancing the timer wheel take per second? Should be O(expired_sessions) not O(all_sessions).</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>SYN cookie:</strong> implement HMAC-SHA256-based SYN cookie generation and verification. Simulate a SYN flood: 500K SYNs from random spoofed IPs, no session entries created. Send SYN-ACK with cookie. Then send 1K valid ACKs — verify sessions created only for those. Measure session table depth during flood vs without cookies.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Integration:</strong> combine all components. Process a 10,000-packet pcap through your session table: create sessions on SYN, track state through handshake and data, expire on FIN/RST. Print the final session table contents and verify they match what Wireshark shows for the same pcap. Use <code>tcpdump -r test.pcap -tttt</code> to generate your test data.</div></div>
+<p><strong>Objective:</strong> Build a complete session table with five-tuple hashing, TCP state machine, timer-wheel timeout management, and SYN cookie defence. Benchmark at realistic NGFW throughput.</p>
+<div class="lab-step"><div class="sn">1</div><div><strong>Canonical normalisation:</strong> implement <code>normalise_key()</code> and unit-test it exhaustively: verify that (A:1234→B:80,TCP) and (B:80→A:1234,TCP) produce the same canonical key. Test with IPv4 and IPv6 addresses. This is the most common conntrack bug — get it right before building anything else.</div></div>
+<div class="lab-step"><div class="sn">2</div><div><strong>Hash table:</strong> implement an open-addressing hash table with Robin Hood probing and a pre-allocated session pool. Target: 1M entries, load factor capped at 70%. Write a benchmark: insert 700K sessions, then perform 10M lookups (80% hits, 20% misses). Measure average lookup latency with <code>clock_gettime(CLOCK_MONOTONIC)</code>. Target: &lt;100ns average.</div></div>
+<div class="lab-step"><div class="sn">3</div><div><strong>TCP state machine:</strong> implement as a transition table (not if/else). Test every state×direction×flags combination. Specific tests: SYN-ACK without prior SYN → DROP; RST with out-of-window sequence → DROP (count injection attempt); FIN in ESTABLISHED → transition to FIN_WAIT_1; duplicate SYN in ESTABLISHED → log anomaly, DROP.</div></div>
+<div class="lab-step"><div class="sn">4</div><div><strong>Timer wheel:</strong> implement 65536-bucket timer wheel. Test: create 100K sessions with varying timeouts (5s–3600s), advance the clock second by second, verify sessions expire at exactly the right tick. Measure: how long does advancing the timer wheel take per second? Should be O(expired_sessions) not O(all_sessions).</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>SYN cookie:</strong> implement HMAC-SHA256-based SYN cookie generation and verification. Simulate a SYN flood: 500K SYNs from random spoofed IPs, no session entries created. Send SYN-ACK with cookie. Then send 1K valid ACKs — verify sessions created only for those. Measure session table depth during flood vs without cookies.</div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Integration:</strong> combine all components. Process a 10,000-packet pcap through your session table: create sessions on SYN, track state through handshake and data, expire on FIN/RST. Print the final session table contents and verify they match what Wireshark shows for the same pcap. Use <code>tcpdump -r test.pcap -tttt</code> to generate your test data.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>NAPT Packet Rewriter</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Implement a working NAPT engine using AF_PACKET, with correct incremental checksum updates. Verify with real HTTP traffic flowing through it.</p>
-    <div class="lab-step"><div class="sn">1</div><div><strong>Port pool:</strong> implement the bitmap-based port allocator. Test: allocate 64,000 ports, verify no duplicates (use a set to check). Free 32,000 random ports. Re-allocate 32,000 — verify freed slots are reused. Benchmark: 1M allocations/second target.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div><strong>Incremental checksum:</strong> implement <code>csum_update_u32()</code> from Tab 5. Test against full checksum recalculation: for 10,000 random packets, verify that incremental update gives the same result as recalculating from scratch. Any mismatch means a bug — connections will silently break in production.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div><strong>AF_PACKET forwarder:</strong> using the namespace topology from M14 Lab 2, receive packets on the inside interface (AF_PACKET), look up the session table, rewrite headers for NAPT, and inject out the outside interface. Handle both TCP and UDP. Test with curl and ping through your NAPT.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div><strong>DNAT rule:</strong> add a static DNAT mapping: external port 8080 → internal 10.1.0.5:80. Implement as a pre-lookup check: if dst_ip == external_ip and dst_port == 8080 → rewrite before session lookup. Verify with: <code>curl http://external_ip:8080</code> reaching the internal web server.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Fragment handling:</strong> test with fragmented packets: <code>ping -s 3000 -M dont 10.2.0.2</code> (sends oversized packets that will be fragmented). Verify that your NAPT correctly handles fragment 1 (has TCP/UDP header) and fragment 2+ (no transport header — use session from fragment 1). Incorrect handling here is a common security bypass.</div></div>
+<p><strong>Objective:</strong> Implement a working NAPT engine using AF_PACKET, with correct incremental checksum updates. Verify with real HTTP traffic flowing through it.</p>
+<div class="lab-step"><div class="sn">1</div><div><strong>Port pool:</strong> implement the bitmap-based port allocator. Test: allocate 64,000 ports, verify no duplicates (use a set to check). Free 32,000 random ports. Re-allocate 32,000 — verify freed slots are reused. Benchmark: 1M allocations/second target.</div></div>
+<div class="lab-step"><div class="sn">2</div><div><strong>Incremental checksum:</strong> implement <code>csum_update_u32()</code> from Tab 5. Test against full checksum recalculation: for 10,000 random packets, verify that incremental update gives the same result as recalculating from scratch. Any mismatch means a bug — connections will silently break in production.</div></div>
+<div class="lab-step"><div class="sn">3</div><div><strong>AF_PACKET forwarder:</strong> using the namespace topology from M14 Lab 2, receive packets on the inside interface (AF_PACKET), look up the session table, rewrite headers for NAPT, and inject out the outside interface. Handle both TCP and UDP. Test with curl and ping through your NAPT.</div></div>
+<div class="lab-step"><div class="sn">4</div><div><strong>DNAT rule:</strong> add a static DNAT mapping: external port 8080 → internal 10.1.0.5:80. Implement as a pre-lookup check: if dst_ip == external_ip and dst_port == 8080 → rewrite before session lookup. Verify with: <code>curl http://external_ip:8080</code> reaching the internal web server.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Fragment handling:</strong> test with fragmented packets: <code>ping -s 3000 -M dont 10.2.0.2</code> (sends oversized packets that will be fragmented). Verify that your NAPT correctly handles fragment 1 (has TCP/UDP header) and fragment 2+ (no transport header — use session from fragment 1). Incorrect handling here is a common security bypass.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>VPP NAT44-ED Deep Inspection</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Configure VPP NAT44-ED in detail, inspect session internals, test edge cases, and compare with your Lab 1 implementation.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Configure VPP with tap interfaces as in M18. Enable NAT44-ED with 1M session table. Generate diverse traffic: HTTP, HTTPS, DNS, ICMP ping. Run <code>vppctl show nat44 sessions detail</code> — capture the output. For each session, identify: ED key fields, state, byte counters, NAT port allocation. Compare to your Lab 1 session_t layout.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Test port exhaustion: write a client that opens connections in a tight loop. Monitor <code>vppctl show nat44 addresses</code> for port pool fill level. Identify the exact error counter that increments on exhaustion (<code>show errors | grep nat44</code>). What happens to existing connections when new ones fail? Is there any prioritisation?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>DNAT + SNAT simultaneously: configure a DNAT rule so external port 80 reaches an internal server, while that server makes outbound connections that are SNAT'd. Make the server send an HTTP request while serving an incoming one. Capture on both inside and outside interfaces. Trace the four-tuple rewriting for each direction.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Hairpinning: can a host on the inside reach the published DNAT address (the external VIP) from inside? Configure appropriately and test. This requires VPP to apply DNAT for inside→inside traffic through the NAT — most NATs get this wrong. Document VPP's behaviour and how to fix it if it fails.</div></div>
+<p><strong>Objective:</strong> Configure VPP NAT44-ED in detail, inspect session internals, test edge cases, and compare with your Lab 1 implementation.</p>
+<div class="lab-step"><div class="sn">1</div><div>Configure VPP with tap interfaces as in M18. Enable NAT44-ED with 1M session table. Generate diverse traffic: HTTP, HTTPS, DNS, ICMP ping. Run <code>vppctl show nat44 sessions detail</code> — capture the output. For each session, identify: ED key fields, state, byte counters, NAT port allocation. Compare to your Lab 1 session_t layout.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Test port exhaustion: write a client that opens connections in a tight loop. Monitor <code>vppctl show nat44 addresses</code> for port pool fill level. Identify the exact error counter that increments on exhaustion (<code>show errors | grep nat44</code>). What happens to existing connections when new ones fail? Is there any prioritisation?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>DNAT + SNAT simultaneously: configure a DNAT rule so external port 80 reaches an internal server, while that server makes outbound connections that are SNAT'd. Make the server send an HTTP request while serving an incoming one. Capture on both inside and outside interfaces. Trace the four-tuple rewriting for each direction.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Hairpinning: can a host on the inside reach the published DNAT address (the external VIP) from inside? Configure appropriately and test. This requires VPP to apply DNAT for inside→inside traffic through the NAT — most NATs get this wrong. Document VPP's behaviour and how to fix it if it fails.</div></div>
   </div>
 </div>
 </div>

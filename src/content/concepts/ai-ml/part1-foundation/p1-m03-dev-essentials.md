@@ -111,10 +111,10 @@ url: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
   <div class="mod-title">Developer Essentials</div>
   <div class="mod-subtitle">Git, CLI, HTTP APIs and Async Python — the tools every AI engineer uses daily</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2 Weeks</span>
-    <span class="mod-pill">🟢 Beginner</span>
-    <span class="mod-pill">🔧 Git · Terminal · requests · httpx</span>
-    <span class="mod-pill">📋 Prerequisite: P1-M01</span>
+<span class="mod-pill">⏱ 2 Weeks</span>
+<span class="mod-pill">🟢 Beginner</span>
+<span class="mod-pill">🔧 Git · Terminal · requests · httpx</span>
+<span class="mod-pill">📋 Prerequisite: P1-M01</span>
   </div>
 </div>
 <!-- ── TAB BAR ── -->
@@ -135,15 +135,15 @@ url: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-purple">Foundation</span></div>
   <div class="cp-body">
-    <p>This module covers the developer tooling every AI engineer uses every single day — version control, terminal navigation, calling web APIs, and asynchronous Python. These are not optional extras — being slow or uncomfortable with any of them is a real bottleneck when building AI systems.</p>
-    <ul>
-      <li><strong>Git &amp; GitHub</strong> — version control, branching, merging, pushing to remote, writing good READMEs</li>
-      <li><strong>CLI / Terminal</strong> — navigation, file operations, environment variables, running scripts, PATH</li>
-      <li><strong>HTTP &amp; REST APIs</strong> — GET/POST requests, status codes, headers, API keys, JSON parsing</li>
-      <li><strong>Python requests library</strong> — calling any web API from Python with error handling</li>
-      <li><strong>JSON handling</strong> — loading, dumping, nested structures, serialisation edge cases</li>
-      <li><strong>Async/await</strong> — what coroutines are, why LLM APIs use them, how to write and run async code</li>
-    </ul>
+<p>This module covers the developer tooling every AI engineer uses every single day — version control, terminal navigation, calling web APIs, and asynchronous Python. These are not optional extras — being slow or uncomfortable with any of them is a real bottleneck when building AI systems.</p>
+<ul>
+<li><strong>Git &amp; GitHub</strong> — version control, branching, merging, pushing to remote, writing good READMEs</li>
+<li><strong>CLI / Terminal</strong> — navigation, file operations, environment variables, running scripts, PATH</li>
+<li><strong>HTTP &amp; REST APIs</strong> — GET/POST requests, status codes, headers, API keys, JSON parsing</li>
+<li><strong>Python requests library</strong> — calling any web API from Python with error handling</li>
+<li><strong>JSON handling</strong> — loading, dumping, nested structures, serialisation edge cases</li>
+<li><strong>Async/await</strong> — what coroutines are, why LLM APIs use them, how to write and run async code</li>
+</ul>
   </div>
 </div>
 <div class="skip-box">
@@ -152,12 +152,12 @@ url: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Why These Skills Matter for AI Engineering</h3><span class="tag tag-green">Context</span></div>
   <div class="cp-body">
-    <ul>
-      <li><strong>Git</strong> — every AI project lives in a repo. Your GitHub profile is your resume. Every module project from here goes on GitHub.</li>
-      <li><strong>CLI</strong> — you will run Python scripts, start servers, install packages, and manage containers entirely from the terminal. Being slow here is a daily tax on your productivity.</li>
-      <li><strong>HTTP/APIs</strong> — calling the OpenAI or Anthropic API is just an HTTP POST request. Understanding what happens under the hood makes you a better debugger when things go wrong.</li>
-      <li><strong>Async</strong> — LLM API calls are I/O-bound. The Anthropic and OpenAI Python SDKs are async-first. FastAPI (which you use in M04) runs async handlers. You cannot build production AI apps without understanding this.</li>
-    </ul>
+<ul>
+<li><strong>Git</strong> — every AI project lives in a repo. Your GitHub profile is your resume. Every module project from here goes on GitHub.</li>
+<li><strong>CLI</strong> — you will run Python scripts, start servers, install packages, and manage containers entirely from the terminal. Being slow here is a daily tax on your productivity.</li>
+<li><strong>HTTP/APIs</strong> — calling the OpenAI or Anthropic API is just an HTTP POST request. Understanding what happens under the hood makes you a better debugger when things go wrong.</li>
+<li><strong>Async</strong> — LLM API calls are I/O-bound. The Anthropic and OpenAI Python SDKs are async-first. FastAPI (which you use in M04) runs async handlers. You cannot build production AI apps without understanding this.</li>
+</ul>
   </div>
 </div>
 </div><!-- end t0 -->
@@ -166,129 +166,158 @@ url: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🌿</span><h3>Git Mental Model — What Problem It Solves</h3><span class="tag tag-purple">Concept First</span></div>
   <div class="cp-body">
-    <p>Git is confusing when you try to memorise commands before understanding the model. Understand this first: Git tracks <strong>snapshots</strong> of your project at points in time (commits). Every commit is a full snapshot, not a diff. Branches are just lightweight pointers to commits.</p>
-    <div class="git-flow">
-      <div class="gf-box">Working Directory</div><div class="gf-arrow">→ git add →</div>
-      <div class="gf-box">Staging Area</div><div class="gf-arrow">→ git commit →</div>
-      <div class="gf-box">Local Repo</div><div class="gf-arrow">→ git push →</div>
-      <div class="gf-box">Remote (GitHub)</div>
-    </div>
-    <p>The staging area is Git's unique feature — it lets you carefully choose exactly which changes to include in the next commit, even if you have made 10 unrelated changes across files.</p>
+<p>Git is confusing when you try to memorise commands before understanding the model. Understand this first: Git tracks <strong>snapshots</strong> of your project at points in time (commits). Every commit is a full snapshot, not a diff. Branches are just lightweight pointers to commits.</p>
+<div class="git-flow">
+<div class="gf-box">Working Directory</div><div class="gf-arrow">→ git add →</div>
+<div class="gf-box">Staging Area</div><div class="gf-arrow">→ git commit →</div>
+<div class="gf-box">Local Repo</div><div class="gf-arrow">→ git push →</div>
+<div class="gf-box">Remote (GitHub)</div>
+</div>
+<p>The staging area is Git's unique feature — it lets you carefully choose exactly which changes to include in the next commit, even if you have made 10 unrelated changes across files.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⌨️</span><h3>Core Git Commands</h3><span class="tag tag-blue">Daily Use</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># ── SETUP (once per machine) ──────────────────────────</span>
-git config --global user.name  <span class="cs">"Ajay Kumar Gupt"</span>
-git config --global user.email <span class="cs">"your@email.com"</span>
-git config --global core.editor <span class="cs">"code --wait"</span>  <span class="ck"># VS Code as editor</span>
-<span class="ck"># ── START A PROJECT ───────────────────────────────────</span>
-git init                        <span class="ck"># initialise new repo in current dir</span>
-git clone &lt;url&gt;                 <span class="ck"># clone existing repo from GitHub</span>
-<span class="ck"># ── DAILY WORKFLOW ────────────────────────────────────</span>
-git status                      <span class="ck"># what changed? (run this constantly)</span>
-git add .                       <span class="ck"># stage all changes</span>
-git add src/main.py             <span class="ck"># stage specific file</span>
-git commit -m <span class="cs">"feat: add streaming response handler"</span>
-git push origin main            <span class="ck"># push to GitHub</span>
-git pull origin main            <span class="ck"># get latest changes</span>
-<span class="ck"># ── HISTORY ───────────────────────────────────────────</span>
-git log --oneline               <span class="ck"># compact commit history</span>
-git log --oneline --graph       <span class="ck"># visualise branch graph</span>
-git diff                        <span class="ck"># unstaged changes</span>
-git diff --staged               <span class="ck"># staged changes (what will be committed)</span>
-<span class="ck"># ── UNDO ──────────────────────────────────────────────</span>
-git restore &lt;file&gt;              <span class="ck"># discard unstaged changes to a file</span>
-git restore --staged &lt;file&gt;     <span class="ck"># unstage a file</span>
-git revert &lt;commit-hash&gt;        <span class="ck"># undo a commit safely (creates new commit)</span></pre></div>
+    
+
+```bash
+# ── SETUP (once per machine) ──────────────────────────
+git config --global user.name  "Ajay Kumar Gupt"
+git config --global user.email "your@email.com"
+git config --global core.editor "code --wait"  # VS Code as editor
+
+# ── START A PROJECT ───────────────────────────────────
+git init                        # initialise new repo in current dir
+git clone <url>                 # clone existing repo from GitHub
+
+# ── DAILY WORKFLOW ────────────────────────────────────
+git status                      # what changed? (run this constantly)
+git add .                       # stage all changes
+git add src/main.py             # stage specific file
+git commit -m "feat: add streaming response handler"
+git push origin main            # push to GitHub
+git pull origin main            # get latest changes
+
+# ── HISTORY ───────────────────────────────────────────
+git log --oneline               # compact commit history
+git log --oneline --graph       # visualise branch graph
+git diff                        # unstaged changes
+git diff --staged               # staged changes (what will be committed)
+
+# ── UNDO ──────────────────────────────────────────────
+git restore <file>              # discard unstaged changes to a file
+git restore --staged <file>     # unstage a file
+git revert <commit-hash>        # undo a commit safely (creates new commit)
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🌳</span><h3>Branching and Merging</h3><span class="tag tag-teal">Collaboration</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Create and switch to a new branch</span>
-git checkout -b feature/add-rag-pipeline   <span class="ck"># create + switch</span>
-git switch -c feature/add-rag-pipeline     <span class="ck"># modern equivalent</span>
-<span class="ck"># List branches</span>
-git branch          <span class="ck"># local branches</span>
-git branch -a       <span class="ck"># local + remote branches</span>
-<span class="ck"># Switch between branches</span>
+    
+
+```bash
+# Create and switch to a new branch
+git checkout -b feature/add-rag-pipeline   # create + switch
+git switch -c feature/add-rag-pipeline     # modern equivalent
+
+# List branches
+git branch          # local branches
+git branch -a       # local + remote branches
+
+# Switch between branches
 git switch main
 git switch feature/add-rag-pipeline
- 
-<span class="ck"># Merge feature branch into main</span>
+
+# Merge feature branch into main
 git switch main
 git merge feature/add-rag-pipeline
- 
-<span class="ck"># Delete merged branch</span>
-git branch -d feature/add-rag-pipeline        <span class="ck"># local</span>
-git push origin --delete feature/add-rag-pipeline  <span class="ck"># remote</span>
-<span class="ck"># Push new branch to GitHub for first time</span>
-git push -u origin feature/add-rag-pipeline</pre></div>
-    <div class="ins"><p>💡 <strong>Branch naming convention for AI projects:</strong> <code>feat/rag-pipeline</code>, <code>fix/token-overflow</code>, <code>docs/module-p4</code>. Keep branch names short, lowercase, hyphenated. Delete branches after merging — a clean branch list is a healthy repo.</p></div>
+
+# Delete merged branch
+git branch -d feature/add-rag-pipeline        # local
+git push origin --delete feature/add-rag-pipeline  # remote
+
+# Push new branch to GitHub for first time
+git push -u origin feature/add-rag-pipeline
+```
+
+
+<div class="ins"><p>💡 <strong>Branch naming convention for AI projects:</strong> <code>feat/rag-pipeline</code>, <code>fix/token-overflow</code>, <code>docs/module-p4</code>. Keep branch names short, lowercase, hyphenated. Delete branches after merging — a clean branch list is a healthy repo.</p></div>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📄</span><h3>.gitignore and Repository Hygiene</h3><span class="tag tag-orange">Essential Habit</span></div>
   <div class="cp-body">
-    <p>A well-maintained .gitignore prevents secrets, large files, and generated artifacts from entering your repo.</p>
-    <div class="cb"><pre><span class="ck"># .gitignore for a Python AI project</span>
-<span class="ck"># Virtual environment</span>
+<p>A well-maintained .gitignore prevents secrets, large files, and generated artifacts from entering your repo.</p>
+    
+
+```bash
+# .gitignore for a Python AI project
+# Virtual environment
 .venv/
 venv/
 env/
- 
-<span class="ck"># Secrets — NEVER commit these</span>
+
+# Secrets — NEVER commit these
 .env
 .env.local
 *.key
 *_secret*
- 
-<span class="ck"># Python artifacts</span>
+
+# Python artifacts
 __pycache__/
 *.py[cod]
 *.egg-info/
 dist/
 build/
- 
-<span class="ck"># Jupyter</span>
+
+# Jupyter
 .ipynb_checkpoints/
-*.ipynb   <span class="ck"># optional — commit notebooks if they are documentation</span>
-<span class="ck"># Data and models — too large for Git</span>
+*.ipynb   # optional — commit notebooks if they are documentation
+
+# Data and models — too large for Git
 data/raw/
-*.csv     <span class="ck"># if large; keep small sample CSVs</span>
+*.csv     # if large; keep small sample CSVs
 *.pkl
-*.pt      <span class="ck"># PyTorch model weights</span>
-*.bin     <span class="ck"># HuggingFace model files</span>
+*.pt      # PyTorch model weights
+*.bin     # HuggingFace model files
 chroma_db/
 *.faiss
- 
-<span class="ck"># OS files</span>
+
+# OS files
 .DS_Store
-Thumbs.db</pre></div>
-    <div class="warn"><p>⚠️ <strong>If you accidentally commit a secret (API key), treat it as compromised immediately.</strong> Rotate the key with the provider. Remove it from history using <code>git filter-branch</code> or BFG Repo Cleaner. Git history is public — even after deletion, the key may have been scraped.</p></div>
+Thumbs.db
+```
+
+
+<div class="warn"><p>⚠️ <strong>If you accidentally commit a secret (API key), treat it as compromised immediately.</strong> Rotate the key with the provider. Remove it from history using <code>git filter-branch</code> or BFG Repo Cleaner. Git history is public — even after deletion, the key may have been scraped.</p></div>
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Writing a Good README</h3><span class="tag tag-green">Portfolio</span></div>
   <div class="cp-body">
-    <p>Your README is the first thing a recruiter, collaborator, or future-you sees. Every project from this roadmap needs one.</p>
-    <div class="cb"><pre><span class="ck"># README.md template for AI/ML projects</span>
- 
+<p>Your README is the first thing a recruiter, collaborator, or future-you sees. Every project from this roadmap needs one.</p>
+    
+
+```bash
+# README.md template for AI/ML projects
+
 # Project Title
 One compelling sentence describing what it does and why it matters.
- 
+
 ## Problem Statement
 What real problem does this solve? One paragraph.
- 
+
 ## Demo
 `![screenshot or gif](assets/demo.gif)`
 Live demo: https://your-deployed-app.com
- 
+
 ## Tech Stack
 Python · FastAPI · LangChain · ChromaDB · Docker
- 
+
 ## Quick Start
 ```bash
 git clone https://github.com/you/project.git
@@ -297,13 +326,13 @@ cp .env.example .env          # add your API keys
 pip install -r requirements.txt
 python main.py
 ```
- 
+
 ## Approach
 - Brief description of your methodology (3–5 bullet points)
- 
+
 ## Results
 Key metrics achieved (e.g. RAG retrieval accuracy: 87%, latency: 340ms)
- 
+
 ## Project Structure
 ```
 project/
@@ -311,7 +340,10 @@ project/
 ├── src/             # core logic
 ├── data/            # sample data only
 └── tests/           # test suite
-```</pre></div>
+```
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -320,92 +352,126 @@ project/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Essential Terminal Commands</h3><span class="tag tag-purple">Daily Use</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># ── NAVIGATION ────────────────────────────────────────</span>
-pwd                    <span class="ck"># print working directory — where am I?</span>
-ls                     <span class="ck"># list files in current directory</span>
-ls -la                 <span class="ck"># list all files including hidden, with details</span>
-cd /path/to/dir        <span class="ck"># change directory (absolute path)</span>
-cd ..                  <span class="ck"># go up one level</span>
-cd ~                   <span class="ck"># go to home directory</span>
-cd -                   <span class="ck"># go back to previous directory</span>
-<span class="ck"># ── FILES AND DIRECTORIES ─────────────────────────────</span>
-mkdir my-project       <span class="ck"># create directory</span>
-mkdir -p a/b/c         <span class="ck"># create nested dirs in one command</span>
-touch main.py          <span class="ck"># create empty file</span>
-cp source.py dest.py   <span class="ck"># copy file</span>
-mv old.py new.py       <span class="ck"># rename or move file</span>
-rm file.py             <span class="ck"># delete file (no recycle bin!)</span>
-rm -rf directory/      <span class="ck"># delete directory recursively (irreversible)</span>
-<span class="ck"># ── READING FILES ─────────────────────────────────────</span>
-cat config.py          <span class="ck"># print file contents</span>
-less large_file.log    <span class="ck"># page through large file (q to quit)</span>
-head -20 data.csv      <span class="ck"># first 20 lines</span>
-tail -50 app.log       <span class="ck"># last 50 lines (great for log monitoring)</span>
-tail -f app.log        <span class="ck"># follow — stream new lines in real time</span>
-grep "ERROR" app.log   <span class="ck"># search for pattern in file</span>
-grep -r "api_key" .    <span class="ck"># search recursively in all files</span>
-<span class="ck"># ── RUNNING PYTHON ────────────────────────────────────</span>
-python main.py                          <span class="ck"># run script</span>
-python -m uvicorn main:app --reload     <span class="ck"># run FastAPI dev server</span>
-python -c "import sys; print(sys.path)" <span class="ck"># one-liner</span>
-python -m pytest tests/                 <span class="ck"># run tests</span></pre></div>
+    
+
+```bash
+# ── NAVIGATION ────────────────────────────────────────
+pwd                    # print working directory — where am I?
+ls                     # list files in current directory
+ls -la                 # list all files including hidden, with details
+cd /path/to/dir        # change directory (absolute path)
+cd ..                  # go up one level
+cd ~                   # go to home directory
+cd -                   # go back to previous directory
+
+# ── FILES AND DIRECTORIES ─────────────────────────────
+mkdir my-project       # create directory
+mkdir -p a/b/c         # create nested dirs in one command
+touch main.py          # create empty file
+cp source.py dest.py   # copy file
+mv old.py new.py       # rename or move file
+rm file.py             # delete file (no recycle bin!)
+rm -rf directory/      # delete directory recursively (irreversible)
+
+# ── READING FILES ─────────────────────────────────────
+cat config.py          # print file contents
+less large_file.log    # page through large file (q to quit)
+head -20 data.csv      # first 20 lines
+tail -50 app.log       # last 50 lines (great for log monitoring)
+tail -f app.log        # follow — stream new lines in real time
+grep "ERROR" app.log   # search for pattern in file
+grep -r "api_key" .    # search recursively in all files
+
+# ── RUNNING PYTHON ────────────────────────────────────
+python main.py                          # run script
+python -m uvicorn main:app --reload     # run FastAPI dev server
+python -c "import sys; print(sys.path)" # one-liner
+python -m pytest tests/                 # run tests
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌍</span><h3>Environment Variables and PATH</h3><span class="tag tag-blue">Critical for AI</span></div>
   <div class="cp-body">
-    <p>Every API key you use — OpenAI, Anthropic, HuggingFace — should live in an environment variable, never in your source code. Understanding how environment variables work is non-negotiable.</p>
-    <div class="cb"><pre><span class="ck"># Set an environment variable in the shell (temporary)</span>
-export OPENAI_API_KEY=<span class="cs">"sk-proj-..."</span>
-export ANTHROPIC_API_KEY=<span class="cs">"sk-ant-..."</span>
-<span class="ck"># Read it back</span>
+<p>Every API key you use — OpenAI, Anthropic, HuggingFace — should live in an environment variable, never in your source code. Understanding how environment variables work is non-negotiable.</p>
+    
+
+```python
+# Set an environment variable in the shell (temporary)
+export OPENAI_API_KEY="sk-proj-..."
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# Read it back
 echo $OPENAI_API_KEY
- 
-<span class="ck"># Permanent — add to ~/.bashrc or ~/.zshrc</span>
+
+# Permanent — add to ~/.bashrc or ~/.zshrc
 echo 'export OPENAI_API_KEY="sk-proj-..."' >> ~/.bashrc
-source ~/.bashrc    <span class="ck"># reload without restarting terminal</span>
-<span class="ck"># In Python — the secure pattern for all AI projects</span>
+source ~/.bashrc    # reload without restarting terminal
+
+# In Python — the secure pattern for all AI projects
 import os
 from dotenv import load_dotenv
- 
-load_dotenv()   <span class="ck"># reads .env file from project root</span>
-api_key = os.environ.get(<span class="cs">"OPENAI_API_KEY"</span>)
- 
+
+load_dotenv()   # reads .env file from project root
+api_key = os.environ.get("OPENAI_API_KEY")
+
 if not api_key:
-    raise ValueError(<span class="cs">"OPENAI_API_KEY not set. Check your .env file."</span>)
- 
-<span class="ck"># .env file (in project root, never committed to Git)</span>
-<span class="ck"># OPENAI_API_KEY=sk-proj-...</span>
-<span class="ck"># ANTHROPIC_API_KEY=sk-ant-...</span>
-<span class="ck"># DATABASE_URL=postgresql://...</span></pre></div>
-    <div class="cb"><pre><span class="ck"># PATH — tells your shell where to find executables</span>
-echo $PATH     <span class="ck"># colon-separated list of directories</span>
-<span class="ck"># If 'python' command not found, your Python install dir is missing from PATH</span>
-which python   <span class="ck"># where is Python installed?</span>
-which pip      <span class="ck"># where is pip?</span>
-<span class="ck"># Add a directory to PATH (in ~/.bashrc)</span>
-export PATH=$PATH:/home/user/.local/bin</pre></div>
+    raise ValueError("OPENAI_API_KEY not set. Check your .env file.")
+
+# .env file (in project root, never committed to Git)
+# OPENAI_API_KEY=sk-proj-...
+# ANTHROPIC_API_KEY=sk-ant-...
+# DATABASE_URL=postgresql://...
+```
+
+
+    
+
+```bash
+# PATH — tells your shell where to find executables
+echo $PATH     # colon-separated list of directories
+
+# If 'python' command not found, your Python install dir is missing from PATH
+which python   # where is Python installed?
+which pip      # where is pip?
+
+# Add a directory to PATH (in ~/.bashrc)
+export PATH=$PATH:/home/user/.local/bin
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Process Management and Pipes</h3><span class="tag tag-teal">Productivity</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Run process in background</span>
-python server.py &amp;        <span class="ck"># & sends to background</span>
-jobs                      <span class="ck"># list background jobs</span>
-fg                        <span class="ck"># bring last job to foreground</span>
-Ctrl+C                    <span class="ck"># kill foreground process</span>
-Ctrl+Z                    <span class="ck"># suspend foreground process</span>
-<span class="ck"># Find and kill a process using a port (e.g. port 8000)</span>
-lsof -ti:8000             <span class="ck"># find PID using port 8000</span>
-kill -9 $(lsof -ti:8000)  <span class="ck"># kill it</span>
-<span class="ck"># Pipes — chain commands together</span>
-cat data.csv | grep <span class="cs">"2024"</span> | head -20    <span class="ck"># filter and preview</span>
-ps aux | grep python                    <span class="ck"># find Python processes</span>
-cat requirements.txt | wc -l            <span class="ck"># count dependencies</span>
-<span class="ck"># Redirect output to file</span>
-python train.py > train.log 2>&amp;1        <span class="ck"># stdout + stderr to file</span>
-python train.py 2>&amp;1 | tee train.log    <span class="ck"># write to file AND print to terminal</span></pre></div>
+    
+
+```bash
+# Run process in background
+python server.py &        # & sends to background
+jobs                      # list background jobs
+fg                        # bring last job to foreground
+Ctrl+C                    # kill foreground process
+Ctrl+Z                    # suspend foreground process
+
+# Find and kill a process using a port (e.g. port 8000)
+lsof -ti:8000             # find PID using port 8000
+kill -9 $(lsof -ti:8000)  # kill it
+
+# Pipes — chain commands together
+cat data.csv | grep "2024" | head -20    # filter and preview
+ps aux | grep python                    # find Python processes
+cat requirements.txt | wc -l            # count dependencies
+
+# Redirect output to file
+python train.py > train.log 2>&1        # stdout + stderr to file
+python train.py 2>&1 | tee train.log    # write to file AND print to terminal
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -414,131 +480,160 @@ python train.py 2>&amp;1 | tee train.log    <span class="ck"># write to file AND
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>How HTTP Works — The Mental Model</h3><span class="tag tag-purple">Concept First</span></div>
   <div class="cp-body">
-    <p>Every LLM API call is an HTTP request. Understanding the request/response cycle makes you a far better debugger when calls fail, return unexpected results, or hit rate limits.</p>
-    <div class="cb"><pre><span class="ck"># An HTTP request has:</span>
-<span class="ck"># METHOD   — what action: GET (read), POST (create/send), PUT (update), DELETE</span>
-<span class="ck"># URL      — where to send it: https://api.anthropic.com/v1/messages</span>
-<span class="ck"># HEADERS  — metadata: Content-Type, Authorization, x-api-key</span>
-<span class="ck"># BODY     — data to send (POST/PUT only): usually JSON</span>
-<span class="ck"># Example: what happens when you call the Anthropic API</span>
-<span class="ck"># POST https://api.anthropic.com/v1/messages</span>
-<span class="ck"># Headers:</span>
-<span class="ck">#   x-api-key: sk-ant-...</span>
-<span class="ck">#   anthropic-version: 2023-06-01</span>
-<span class="ck">#   content-type: application/json</span>
-<span class="ck"># Body:</span>
-<span class="ck">#   {"model":"claude-3-5-sonnet","max_tokens":1024,"messages":[...]}</span>
-<span class="ck"># An HTTP response has:</span>
-<span class="ck"># STATUS CODE — 200 OK, 400 Bad Request, 401 Unauthorised, 429 Rate Limited, 500 Server Error</span>
-<span class="ck"># HEADERS     — Content-Type, rate limit remaining, request ID</span>
-<span class="ck"># BODY        — the actual response, usually JSON</span></pre></div>
-    <div class="status-grid">
-      <div class="sc sc-2xx"><span class="code">200 OK</span><span class="meaning">Success — request processed</span></div>
-      <div class="sc sc-2xx"><span class="code">201 Created</span><span class="meaning">Resource created successfully</span></div>
-      <div class="sc sc-3xx"><span class="code">301 Moved</span><span class="meaning">Permanent redirect to new URL</span></div>
-      <div class="sc sc-4xx"><span class="code">400 Bad Request</span><span class="meaning">Malformed request — your fault</span></div>
-      <div class="sc sc-4xx"><span class="code">401 Unauthorised</span><span class="meaning">Missing or invalid API key</span></div>
-      <div class="sc sc-4xx"><span class="code">403 Forbidden</span><span class="meaning">Authenticated but not allowed</span></div>
-      <div class="sc sc-4xx"><span class="code">404 Not Found</span><span class="meaning">Resource does not exist</span></div>
-      <div class="sc sc-4xx"><span class="code">429 Too Many Requests</span><span class="meaning">Rate limit hit — back off and retry</span></div>
-      <div class="sc sc-5xx"><span class="code">500 Internal Error</span><span class="meaning">Server-side failure — not your fault</span></div>
-      <div class="sc sc-5xx"><span class="code">503 Unavailable</span><span class="meaning">Service temporarily down</span></div>
-    </div>
+<p>Every LLM API call is an HTTP request. Understanding the request/response cycle makes you a far better debugger when calls fail, return unexpected results, or hit rate limits.</p>
+    
+
+```python
+# An HTTP request has:
+# METHOD   — what action: GET (read), POST (create/send), PUT (update), DELETE
+# URL      — where to send it: https://api.anthropic.com/v1/messages
+# HEADERS  — metadata: Content-Type, Authorization, x-api-key
+# BODY     — data to send (POST/PUT only): usually JSON
+
+# Example: what happens when you call the Anthropic API
+# POST https://api.anthropic.com/v1/messages
+# Headers:
+#   x-api-key: sk-ant-...
+#   anthropic-version: 2023-06-01
+#   content-type: application/json
+# Body:
+#   {"model":"claude-3-5-sonnet","max_tokens":1024,"messages":[...]}
+
+# An HTTP response has:
+# STATUS CODE — 200 OK, 400 Bad Request, 401 Unauthorised, 429 Rate Limited, 500 Server Error
+# HEADERS     — Content-Type, rate limit remaining, request ID
+# BODY        — the actual response, usually JSON
+```
+
+
+<div class="status-grid">
+<div class="sc sc-2xx"><span class="code">200 OK</span><span class="meaning">Success — request processed</span></div>
+<div class="sc sc-2xx"><span class="code">201 Created</span><span class="meaning">Resource created successfully</span></div>
+<div class="sc sc-3xx"><span class="code">301 Moved</span><span class="meaning">Permanent redirect to new URL</span></div>
+<div class="sc sc-4xx"><span class="code">400 Bad Request</span><span class="meaning">Malformed request — your fault</span></div>
+<div class="sc sc-4xx"><span class="code">401 Unauthorised</span><span class="meaning">Missing or invalid API key</span></div>
+<div class="sc sc-4xx"><span class="code">403 Forbidden</span><span class="meaning">Authenticated but not allowed</span></div>
+<div class="sc sc-4xx"><span class="code">404 Not Found</span><span class="meaning">Resource does not exist</span></div>
+<div class="sc sc-4xx"><span class="code">429 Too Many Requests</span><span class="meaning">Rate limit hit — back off and retry</span></div>
+<div class="sc sc-5xx"><span class="code">500 Internal Error</span><span class="meaning">Server-side failure — not your fault</span></div>
+<div class="sc sc-5xx"><span class="code">503 Unavailable</span><span class="meaning">Service temporarily down</span></div>
+</div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🐍</span><h3>Python requests Library</h3><span class="tag tag-blue">Core Skill</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import requests
+    
+
+```python
+import requests
 import json
- 
-<span class="ck"># GET request — read data</span>
-response = requests.get(<span class="cs">"https://api.open-meteo.com/v1/forecast"</span>,
+
+# GET request — read data
+response = requests.get("https://api.open-meteo.com/v1/forecast",
     params={
-        <span class="cs">"latitude"</span>: <span class="cv">19.07</span>,
-        <span class="cs">"longitude"</span>: <span class="cv">72.87</span>,
-        <span class="cs">"daily"</span>: <span class="cs">"temperature_2m_max"</span>,
-        <span class="cs">"timezone"</span>: <span class="cs">"Asia/Kolkata"</span>
+        "latitude": 19.07,
+        "longitude": 72.87,
+        "daily": "temperature_2m_max",
+        "timezone": "Asia/Kolkata"
     }
 )
- 
-print(response.status_code)   <span class="ck"># 200</span>
-data = response.json()         <span class="ck"># parse JSON body</span>
-<span class="ck"># POST request — send data (how LLM APIs work)</span>
+
+print(response.status_code)   # 200
+data = response.json()         # parse JSON body
+
+# POST request — send data (how LLM APIs work)
 response = requests.post(
-    <span class="cs">"https://api.anthropic.com/v1/messages"</span>,
+    "https://api.anthropic.com/v1/messages",
     headers={
-        <span class="cs">"x-api-key"</span>: api_key,
-        <span class="cs">"anthropic-version"</span>: <span class="cs">"2023-06-01"</span>,
-        <span class="cs">"content-type"</span>: <span class="cs">"application/json"</span>,
+        "x-api-key": api_key,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
     },
-    json={   <span class="ck"># json= param auto-sets Content-Type and serialises</span>
-        <span class="cs">"model"</span>: <span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        <span class="cs">"max_tokens"</span>: <span class="cv">1024</span>,
-        <span class="cs">"messages"</span>: [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Hello!"</span>}]
+    json={   # json= param auto-sets Content-Type and serialises
+        "model": "claude-3-5-sonnet-20241022",
+        "max_tokens": 1024,
+        "messages": [{"role": "user", "content": "Hello!"}]
     }
 )
- 
-<span class="ck"># Always check status before using response</span>
-response.raise_for_status()   <span class="ck"># raises HTTPError for 4xx/5xx</span>
+
+# Always check status before using response
+response.raise_for_status()   # raises HTTPError for 4xx/5xx
 result = response.json()
-print(result[<span class="cs">"content"</span>][<span class="cv">0</span>][<span class="cs">"text"</span>])</pre></div>
-    <div class="cb"><pre><span class="ck"># Robust request with timeout and error handling</span>
+print(result["content"][0]["text"])
+```
+
+
+    
+
+```python
+# Robust request with timeout and error handling
 def call_api(url: str, payload: dict, headers: dict) -> dict:
     try:
         response = requests.post(
             url,
             json=payload,
             headers=headers,
-            timeout=<span class="cv">30</span>   <span class="ck"># always set a timeout — never wait forever</span>
+            timeout=30   # always set a timeout — never wait forever
         )
         response.raise_for_status()
         return response.json()
     except requests.exceptions.Timeout:
-        print(<span class="cs">"Request timed out after 30s"</span>)
+        print("Request timed out after 30s")
         return {}
     except requests.exceptions.HTTPError as e:
-        print(<span class="cs">f"HTTP {e.response.status_code}: {e.response.text}"</span>)
+        print(f"HTTP {e.response.status_code}: {e.response.text}")
         return {}
     except requests.exceptions.ConnectionError:
-        print(<span class="cs">"Cannot connect — check network / URL"</span>)
-        return {}</pre></div>
+        print("Cannot connect — check network / URL")
+        return {}
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📦</span><h3>JSON Deep Dive</h3><span class="tag tag-teal">Critical for LLM Responses</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import json
- 
-<span class="ck"># Serialise Python → JSON string</span>
-data = {<span class="cs">"name"</span>: <span class="cs">"Ajay"</span>, <span class="cs">"scores"</span>: [<span class="cv">85</span>, <span class="cv">92</span>], <span class="cs">"active"</span>: <span class="cv">True</span>, <span class="cs">"meta"</span>: <span class="cv">None</span>}
-json_str = json.dumps(data)              <span class="ck"># compact</span>
-json_str = json.dumps(data, indent=<span class="cv">2</span>)   <span class="ck"># pretty-printed</span>
-<span class="ck"># Deserialise JSON string → Python</span>
+    
+
+```python
+import json
+
+# Serialise Python → JSON string
+data = {"name": "Ajay", "scores": [85, 92], "active": True, "meta": None}
+json_str = json.dumps(data)              # compact
+json_str = json.dumps(data, indent=2)   # pretty-printed
+
+# Deserialise JSON string → Python
 parsed = json.loads(json_str)
- 
-<span class="ck"># File I/O</span>
-with open(<span class="cs">"data.json"</span>, <span class="cs">"w"</span>) as f:
-    json.dump(data, f, indent=<span class="cv">2</span>)
- 
-with open(<span class="cs">"data.json"</span>) as f:
+
+# File I/O
+with open("data.json", "w") as f:
+    json.dump(data, f, indent=2)
+
+with open("data.json") as f:
     loaded = json.load(f)
- 
-<span class="ck"># Python ↔ JSON type mapping</span>
-<span class="ck"># Python dict  → JSON object   {}</span>
-<span class="ck"># Python list  → JSON array    []</span>
-<span class="ck"># Python str   → JSON string   ""</span>
-<span class="ck"># Python int/float → JSON number</span>
-<span class="ck"># Python True  → JSON true</span>
-<span class="ck"># Python None  → JSON null</span>
-<span class="ck"># Navigating nested LLM API responses</span>
+
+# Python ↔ JSON type mapping
+# Python dict  → JSON object   {}
+# Python list  → JSON array    []
+# Python str   → JSON string   ""
+# Python int/float → JSON number
+# Python True  → JSON true
+# Python None  → JSON null
+
+# Navigating nested LLM API responses
 response = {
-    <span class="cs">"id"</span>: <span class="cs">"msg_01"</span>,
-    <span class="cs">"content"</span>: [{<span class="cs">"type"</span>: <span class="cs">"text"</span>, <span class="cs">"text"</span>: <span class="cs">"Hello! How can I help?"</span>}],
-    <span class="cs">"usage"</span>: {<span class="cs">"input_tokens"</span>: <span class="cv">10</span>, <span class="cs">"output_tokens"</span>: <span class="cv">8</span>}
+    "id": "msg_01",
+    "content": [{"type": "text", "text": "Hello! How can I help?"}],
+    "usage": {"input_tokens": 10, "output_tokens": 8}
 }
-text    = response[<span class="cs">"content"</span>][<span class="cv">0</span>][<span class="cs">"text"</span>]          <span class="ck"># direct access</span>
-tokens  = response.get(<span class="cs">"usage"</span>, {}).get(<span class="cs">"output_tokens"</span>, <span class="cv">0</span>)  <span class="ck"># safe get</span></pre></div>
+text    = response["content"][0]["text"]          # direct access
+tokens  = response.get("usage", {}).get("output_tokens", 0)  # safe get
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -547,140 +642,175 @@ tokens  = response.get(<span class="cs">"usage"</span>, {}).get(<span class="cs"
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Why Async — The Problem It Solves</h3><span class="tag tag-purple">Concept First</span></div>
   <div class="cp-body">
-    <p>LLM API calls take 1–10 seconds each. If you make 10 calls sequentially, you wait 10–100 seconds. Async Python lets you start all 10 calls, then handle them as they complete — total wait ≈ the slowest single call.</p>
-    <div class="cb"><pre><span class="ck"># Synchronous — sequential, blocks on each call</span>
+<p>LLM API calls take 1–10 seconds each. If you make 10 calls sequentially, you wait 10–100 seconds. Async Python lets you start all 10 calls, then handle them as they complete — total wait ≈ the slowest single call.</p>
+    
+
+```python
+# Synchronous — sequential, blocks on each call
 import time
- 
+
 def slow_api_call(n):
-    time.sleep(<span class="cv">2</span>)         <span class="ck"># simulates 2s LLM API call</span>
-    return <span class="cs">f"result_{n}"</span>
- 
+    time.sleep(2)         # simulates 2s LLM API call
+    return f"result_{n}"
+
 start = time.time()
-results = [slow_api_call(i) for i in range(<span class="cv">5</span>)]
-print(<span class="cs">f"Sync: {time.time()-start:.1f}s"</span>)  <span class="ck"># ~10.0s</span>
-<span class="ck"># Asynchronous — concurrent, all run simultaneously</span>
+results = [slow_api_call(i) for i in range(5)]
+print(f"Sync: {time.time()-start:.1f}s")  # ~10.0s
+
+# Asynchronous — concurrent, all run simultaneously
 import asyncio
- 
+
 async def slow_api_call_async(n):
-    await asyncio.sleep(<span class="cv">2</span>)   <span class="ck"># yields control while waiting</span>
-    return <span class="cs">f"result_{n}"</span>
- 
+    await asyncio.sleep(2)   # yields control while waiting
+    return f"result_{n}"
+
 async def main():
     start = time.time()
     results = await asyncio.gather(
-        *[slow_api_call_async(i) for i in range(<span class="cv">5</span>)]
+        *[slow_api_call_async(i) for i in range(5)]
     )
-    print(<span class="cs">f"Async: {time.time()-start:.1f}s"</span>)  <span class="ck"># ~2.0s</span>
+    print(f"Async: {time.time()-start:.1f}s")  # ~2.0s
     return results
- 
-asyncio.run(main())</pre></div>
-    <div class="ins"><p>💡 <strong>Async does NOT make code faster for CPU-bound work</strong> — it only helps for I/O-bound work (network calls, file reads, database queries). LLM API calls are I/O-bound. Matrix multiplications are CPU-bound. Know the difference.</p></div>
+
+asyncio.run(main())
+```
+
+
+<div class="ins"><p>💡 <strong>Async does NOT make code faster for CPU-bound work</strong> — it only helps for I/O-bound work (network calls, file reads, database queries). LLM API calls are I/O-bound. Matrix multiplications are CPU-bound. Know the difference.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Async Syntax and Patterns</h3><span class="tag tag-blue">Core Syntax</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import asyncio, httpx
- 
-<span class="ck"># async def — defines a coroutine (NOT a regular function)</span>
+    
+
+```python
+import asyncio, httpx
+
+# async def — defines a coroutine (NOT a regular function)
 async def fetch_weather(city: str) -> dict:
-    async with httpx.AsyncClient() as client:   <span class="ck"># async HTTP client</span>
+    async with httpx.AsyncClient() as client:   # async HTTP client
         response = await client.get(
-            <span class="cs">"https://api.open-meteo.com/v1/forecast"</span>,
-            params={<span class="cs">"latitude"</span>: <span class="cv">19.07</span>, <span class="cs">"longitude"</span>: <span class="cv">72.87</span>}
+            "https://api.open-meteo.com/v1/forecast",
+            params={"latitude": 19.07, "longitude": 72.87}
         )
         return response.json()
- 
-<span class="ck"># await — pauses current coroutine until awaitable completes</span>
-<span class="ck"># Can only use await INSIDE an async def function</span>
-<span class="ck"># asyncio.gather — run multiple coroutines concurrently</span>
+
+# await — pauses current coroutine until awaitable completes
+# Can only use await INSIDE an async def function
+
+# asyncio.gather — run multiple coroutines concurrently
 async def fetch_all_cities():
     results = await asyncio.gather(
-        fetch_weather(<span class="cs">"Mumbai"</span>),
-        fetch_weather(<span class="cs">"Delhi"</span>),
-        fetch_weather(<span class="cs">"Bangalore"</span>),
+        fetch_weather("Mumbai"),
+        fetch_weather("Delhi"),
+        fetch_weather("Bangalore"),
     )
     return results
- 
-<span class="ck"># asyncio.run — entry point for top-level async code</span>
-if __name__ == <span class="cs">"__main__"</span>:
-    results = asyncio.run(fetch_all_cities())</pre></div>
-    <div class="cb"><pre><span class="ck"># Async context managers — async with</span>
+
+# asyncio.run — entry point for top-level async code
+if __name__ == "__main__":
+    results = asyncio.run(fetch_all_cities())
+```
+
+
+    
+
+```python
+# Async context managers — async with
 async with httpx.AsyncClient() as client:
-    <span class="ck"># client is available here, closed automatically after block</span>
+    # client is available here, closed automatically after block
     response = await client.get(url)
- 
-<span class="ck"># Async iteration — async for</span>
+
+# Async iteration — async for
 async def stream_response():
     async with anthropic_client.messages.stream(...) as stream:
         async for text in stream.text_stream:
-            print(text, end=<span class="cs">""</span>, flush=<span class="cv">True</span>)
- 
-<span class="ck"># asyncio.create_task — fire and forget (don't wait immediately)</span>
+            print(text, end="", flush=True)
+
+# asyncio.create_task — fire and forget (don't wait immediately)
 async def main():
-    task1 = asyncio.create_task(fetch_weather(<span class="cs">"Mumbai"</span>))
-    task2 = asyncio.create_task(fetch_weather(<span class="cs">"Delhi"</span>))
-    <span class="ck"># ... do other work here ...</span>
-    result1 = await task1   <span class="ck"># now wait for results</span>
-    result2 = await task2</pre></div>
+    task1 = asyncio.create_task(fetch_weather("Mumbai"))
+    task2 = asyncio.create_task(fetch_weather("Delhi"))
+    # ... do other work here ...
+    result1 = await task1   # now wait for results
+    result2 = await task2
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>Common Async Mistakes</h3><span class="tag tag-teal">Pitfalls</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># MISTAKE 1 — forgetting await (most common)</span>
+    
+
+```python
+# MISTAKE 1 — forgetting await (most common)
 async def bad():
-    result = fetch_weather(<span class="cs">"Mumbai"</span>)   <span class="ck"># returns coroutine object, not result!</span>
-    print(result)                       <span class="ck"># prints &lt;coroutine object ...&gt;</span>
- 
+    result = fetch_weather("Mumbai")   # returns coroutine object, not result!
+    print(result)                       # prints <coroutine object ...>
+
 async def good():
-    result = await fetch_weather(<span class="cs">"Mumbai"</span>)   <span class="ck"># correct</span>
-<span class="ck"># MISTAKE 2 — calling async function without await at top level</span>
-fetch_weather(<span class="cs">"Mumbai"</span>)        <span class="ck"># creates coroutine but never runs it</span>
-asyncio.run(fetch_weather(<span class="cs">"Mumbai"</span>))   <span class="ck"># correct</span>
-<span class="ck"># MISTAKE 3 — using time.sleep instead of asyncio.sleep in async code</span>
+    result = await fetch_weather("Mumbai")   # correct
+
+# MISTAKE 2 — calling async function without await at top level
+fetch_weather("Mumbai")        # creates coroutine but never runs it
+asyncio.run(fetch_weather("Mumbai"))   # correct
+
+# MISTAKE 3 — using time.sleep instead of asyncio.sleep in async code
 async def bad_sleep():
-    time.sleep(<span class="cv">2</span>)       <span class="ck"># BLOCKS the entire event loop — kills concurrency</span>
- 
+    time.sleep(2)       # BLOCKS the entire event loop — kills concurrency
+
 async def good_sleep():
-    await asyncio.sleep(<span class="cv">2</span>)   <span class="ck"># yields control to event loop</span>
-<span class="ck"># MISTAKE 4 — using requests (sync) in async code</span>
-<span class="ck"># Use httpx.AsyncClient() or aiohttp instead of requests in async functions</span></pre></div>
-    <div class="ins"><p>💡 <strong>Rule of thumb:</strong> If you are inside an <code>async def</code> function, any blocking I/O call (requests, time.sleep, file reads with slow storage) must be replaced with its async equivalent. Mixing sync blocking calls into async code defeats the entire purpose.</p></div>
+    await asyncio.sleep(2)   # yields control to event loop
+
+# MISTAKE 4 — using requests (sync) in async code
+# Use httpx.AsyncClient() or aiohttp instead of requests in async functions
+```
+
+
+<div class="ins"><p>💡 <strong>Rule of thumb:</strong> If you are inside an <code>async def</code> function, any blocking I/O call (requests, time.sleep, file reads with slow storage) must be replaced with its async equivalent. Mixing sync blocking calls into async code defeats the entire purpose.</p></div>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Async in FastAPI and LLM SDKs — Preview</h3><span class="tag tag-orange">Month 2 Preview</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># FastAPI — all route handlers can be async</span>
+    
+
+```python
+# FastAPI — all route handlers can be async
 from fastapi import FastAPI
 app = FastAPI()
- 
-@app.get(<span class="cs">"/health"</span>)
+
+@app.get("/health")
 async def health_check():
-    return {<span class="cs">"status"</span>: <span class="cs">"ok"</span>}
- 
-@app.post(<span class="cs">"/chat"</span>)
+    return {"status": "ok"}
+
+@app.post("/chat")
 async def chat(message: str):
-    <span class="ck"># await the LLM call — non-blocking</span>
+    # await the LLM call — non-blocking
     response = await llm_client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        max_tokens=<span class="cv">1024</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: message}]
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": message}]
     )
-    return {<span class="cs">"reply"</span>: response.content[<span class="cv">0</span>].text}
- 
-<span class="ck"># Anthropic SDK — async client</span>
+    return {"reply": response.content[0].text}
+
+# Anthropic SDK — async client
 import anthropic
- 
+
 async def ask_claude(prompt: str) -> str:
-    client = anthropic.AsyncAnthropic()   <span class="ck"># async client</span>
+    client = anthropic.AsyncAnthropic()   # async client
     message = await client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        max_tokens=<span class="cv">1024</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: prompt}]
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": prompt}]
     )
-    return message.content[<span class="cv">0</span>].text</pre></div>
+    return message.content[0].text
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -690,16 +820,16 @@ async def ask_claude(prompt: str) -> str:
 <table class="wk-table">
   <thead><tr><th>Week</th><th>Topics</th><th>Daily Task / Mini-Project</th></tr></thead>
   <tbody>
-    <tr>
-      <td class="wk-num">Week 1<br><em>Git + CLI</em></td>
-      <td>Install Git. Configure user.name and user.email. git init, add, commit, push, pull. Branching and merging. .gitignore for Python/AI projects. Terminal navigation: pwd, ls, cd, mkdir, rm, cp, mv. cat, less, grep, head, tail. Environment variables and .env files. Running Python scripts from terminal.</td>
-      <td>Day 1: Push all previous module projects to GitHub with proper READMEs. Day 2–3: Create a feature branch, make changes, merge back — practice the full branch→PR→merge workflow. Day 4–5: Write a shell one-liner that finds all Python files modified in the last 24 hours. Day 6–7: Set up .env file and load API keys using python-dotenv in a test script.</td>
-    </tr>
-    <tr>
-      <td class="wk-num">Week 2<br><em>APIs + Async</em></td>
-      <td>HTTP fundamentals: GET vs POST, status codes, headers, request/response structure. Python requests library: GET, POST, params, json=, headers, timeout, error handling. JSON: json.loads/dumps, nested navigation, file I/O. Async/await: asyncio.run, asyncio.gather, asyncio.sleep. httpx.AsyncClient for async HTTP. Common async mistakes.</td>
-      <td>Day 1–2: Write a weather CLI tool using Open-Meteo API (no key needed) — print 7-day forecast formatted nicely. Day 3–4: Rewrite the weather tool using async httpx to fetch 5 cities simultaneously. Day 5–7: Milestone project — Public API Script (see Projects tab).</td>
-    </tr>
+<tr>
+<td class="wk-num">Week 1<br><em>Git + CLI</em></td>
+<td>Install Git. Configure user.name and user.email. git init, add, commit, push, pull. Branching and merging. .gitignore for Python/AI projects. Terminal navigation: pwd, ls, cd, mkdir, rm, cp, mv. cat, less, grep, head, tail. Environment variables and .env files. Running Python scripts from terminal.</td>
+<td>Day 1: Push all previous module projects to GitHub with proper READMEs. Day 2–3: Create a feature branch, make changes, merge back — practice the full branch→PR→merge workflow. Day 4–5: Write a shell one-liner that finds all Python files modified in the last 24 hours. Day 6–7: Set up .env file and load API keys using python-dotenv in a test script.</td>
+</tr>
+<tr>
+<td class="wk-num">Week 2<br><em>APIs + Async</em></td>
+<td>HTTP fundamentals: GET vs POST, status codes, headers, request/response structure. Python requests library: GET, POST, params, json=, headers, timeout, error handling. JSON: json.loads/dumps, nested navigation, file I/O. Async/await: asyncio.run, asyncio.gather, asyncio.sleep. httpx.AsyncClient for async HTTP. Common async mistakes.</td>
+<td>Day 1–2: Write a weather CLI tool using Open-Meteo API (no key needed) — print 7-day forecast formatted nicely. Day 3–4: Rewrite the weather tool using async httpx to fetch 5 cities simultaneously. Day 5–7: Milestone project — Public API Script (see Projects tab).</td>
+</tr>
   </tbody>
 </table>
 </div><!-- end t5 -->
@@ -709,13 +839,13 @@ async def ask_claude(prompt: str) -> str:
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Interactive</td><td><a href="https://skills.github.com/" target="_blank" rel="noopener">GitHub Skills — skills.github.com</a></td><td>Official interactive Git courses built inside GitHub. Start here for Git.</td></tr>
-    <tr><td class="res-type">Interactive</td><td><a href="https://learngitbranching.js.org/" target="_blank" rel="noopener">Learn Git Branching — learngitbranching.js.org</a></td><td>Best visual tool for understanding branches and merges. Do all levels.</td></tr>
-    <tr><td class="res-type">Book</td><td><a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">Pro Git Book (Free online) — git-scm.com</a></td><td>Comprehensive reference. Read Ch 1–3 then use as lookup.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" rel="noopener">MDN Web Docs: HTTP Overview</a></td><td>Best explanation of how HTTP requests and responses work.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://requests.readthedocs.io/" target="_blank" rel="noopener">Python requests library docs — requests.readthedocs.io</a></td><td>Comprehensive reference for calling web APIs in Python.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://realpython.com/async-io-python/" target="_blank" rel="noopener">Real Python: Async IO in Python — realpython.com</a></td><td>Best async/await tutorial. Read after Week 2 Day 3.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://missing.csail.mit.edu/" target="_blank" rel="noopener">MIT Missing Semester — missing.csail.mit.edu</a></td><td>Shell scripting, terminal tools, and CLI fluency. Best for experienced engineers.</td></tr>
+<tr><td class="res-type">Interactive</td><td><a href="https://skills.github.com/" target="_blank" rel="noopener">GitHub Skills — skills.github.com</a></td><td>Official interactive Git courses built inside GitHub. Start here for Git.</td></tr>
+<tr><td class="res-type">Interactive</td><td><a href="https://learngitbranching.js.org/" target="_blank" rel="noopener">Learn Git Branching — learngitbranching.js.org</a></td><td>Best visual tool for understanding branches and merges. Do all levels.</td></tr>
+<tr><td class="res-type">Book</td><td><a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">Pro Git Book (Free online) — git-scm.com</a></td><td>Comprehensive reference. Read Ch 1–3 then use as lookup.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" rel="noopener">MDN Web Docs: HTTP Overview</a></td><td>Best explanation of how HTTP requests and responses work.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://requests.readthedocs.io/" target="_blank" rel="noopener">Python requests library docs — requests.readthedocs.io</a></td><td>Comprehensive reference for calling web APIs in Python.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://realpython.com/async-io-python/" target="_blank" rel="noopener">Real Python: Async IO in Python — realpython.com</a></td><td>Best async/await tutorial. Read after Week 2 Day 3.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://missing.csail.mit.edu/" target="_blank" rel="noopener">MIT Missing Semester — missing.csail.mit.edu</a></td><td>Shell scripting, terminal tools, and CLI fluency. Best for experienced engineers.</td></tr>
   </tbody>
 </table>
 </div><!-- end t6 -->
@@ -724,50 +854,56 @@ async def ask_claude(prompt: str) -> str:
 <p class="sep">MILESTONE PROJECT</p>
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Public API Script — Weather + Async</span>
-    <span class="proj-dur">[Beginner] 2–3 days · Week 2</span>
+<span>🛠</span>
+<span class="proj-title">Public API Script — Weather + Async</span>
+<span class="proj-dur">[Beginner] 2–3 days · Week 2</span>
   </div>
   <div class="proj-body">
-    <p>Build a Python script that calls real public APIs, handles errors robustly, uses async for concurrent requests, and is pushed to GitHub as a proper project.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Calls the Open-Meteo API to fetch a 7-day weather forecast (no API key needed)</li>
-      <li>Accepts a list of 5 cities as input — fetches all 5 concurrently using asyncio.gather</li>
-      <li>Parses the JSON response and formats output as a clean table (city, date, max temp, min temp)</li>
-      <li>Handles errors: invalid city, timeout (30s), HTTP errors — never crashes</li>
-      <li>Saves raw JSON responses to a <code>data/</code> folder with timestamp in filename</li>
-      <li>Proper .gitignore, .env.example, requirements.txt, and README</li>
-    </ul>
-    <h4>Stretch Goals</h4>
-    <ul>
-      <li>Add a <code>--cache</code> flag that reads from saved JSON if file is less than 1 hour old</li>
-      <li>Accept cities as CLI arguments using argparse</li>
-      <li>Add a simple retry mechanism: if a request fails, retry up to 3 times with 1s backoff</li>
-    </ul>
-    <div class="cb"><pre><span class="ck"># Starter structure</span>
+<p>Build a Python script that calls real public APIs, handles errors robustly, uses async for concurrent requests, and is pushed to GitHub as a proper project.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Calls the Open-Meteo API to fetch a 7-day weather forecast (no API key needed)</li>
+<li>Accepts a list of 5 cities as input — fetches all 5 concurrently using asyncio.gather</li>
+<li>Parses the JSON response and formats output as a clean table (city, date, max temp, min temp)</li>
+<li>Handles errors: invalid city, timeout (30s), HTTP errors — never crashes</li>
+<li>Saves raw JSON responses to a <code>data/</code> folder with timestamp in filename</li>
+<li>Proper .gitignore, .env.example, requirements.txt, and README</li>
+</ul>
+<h4>Stretch Goals</h4>
+<ul>
+<li>Add a <code>--cache</code> flag that reads from saved JSON if file is less than 1 hour old</li>
+<li>Accept cities as CLI arguments using argparse</li>
+<li>Add a simple retry mechanism: if a request fails, retry up to 3 times with 1s backoff</li>
+</ul>
+    
+
+```python
+# Starter structure
 import asyncio, httpx, json
 from pathlib import Path
 from datetime import datetime
- 
-BASE_URL = <span class="cs">"https://api.open-meteo.com/v1/forecast"</span>
+
+BASE_URL = "https://api.open-meteo.com/v1/forecast"
 CITIES = {
-    <span class="cs">"Mumbai"</span>:    (<span class="cv">19.07</span>, <span class="cv">72.87</span>),
-    <span class="cs">"Delhi"</span>:     (<span class="cv">28.67</span>, <span class="cv">77.22</span>),
-    <span class="cs">"Bangalore"</span>: (<span class="cv">12.97</span>, <span class="cv">77.59</span>),
-    <span class="cs">"Chennai"</span>:   (<span class="cv">13.08</span>, <span class="cv">80.27</span>),
-    <span class="cs">"Kolkata"</span>:   (<span class="cv">22.57</span>, <span class="cv">88.36</span>),
+    "Mumbai":    (19.07, 72.87),
+    "Delhi":     (28.67, 77.22),
+    "Bangalore": (12.97, 77.59),
+    "Chennai":   (13.08, 80.27),
+    "Kolkata":   (22.57, 88.36),
 }
- 
+
 async def fetch_city(client: httpx.AsyncClient, city: str, lat: float, lon: float) -> dict:
-    <span class="ck"># Your implementation here</span>
-    ...</pre></div>
+    # Your implementation here
+    ...
+```
+
+
   </div>
 </div>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">GitHub Portfolio Push</span><span class="proj-dur">1 day · Week 1</span></div>
   <div class="proj-body">
-    <p>Push all three projects from P1-M01 and P1-M02 to GitHub. Each must have: a proper README (problem, tech stack, how to run, example output), requirements.txt, .gitignore, and at least 3 commits with meaningful commit messages (not just "update" or "fix"). This is your portfolio foundation — start it right.</p>
+<p>Push all three projects from P1-M01 and P1-M02 to GitHub. Each must have: a proper README (problem, tech stack, how to run, example output), requirements.txt, .gitignore, and at least 3 commits with meaningful commit messages (not just "update" or "fix"). This is your portfolio foundation — start it right.</p>
   </div>
 </div>
 </div><!-- end t7 -->
@@ -776,37 +912,37 @@ async def fetch_city(client: httpx.AsyncClient, city: str, lat: float, lon: floa
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Git — The Full Branch, Conflict, and Merge Workflow</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Experience a real merge conflict and resolve it — this is something every developer encounters and many find intimidating the first time.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create a new repo: <code>mkdir git-lab && cd git-lab && git init</code>. Create <code>main.py</code> with one function. Add, commit with message "feat: initial main function".</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Create two branches from main: <code>git checkout -b feature-a</code>. Edit line 3 of main.py to say "Version A". Commit. Switch back to main: <code>git switch main</code>.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Create <code>git checkout -b feature-b</code>. Edit the SAME line 3 to say "Version B". Commit. Switch back to main: <code>git switch main</code>.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Merge feature-a into main: <code>git merge feature-a</code>. Then try to merge feature-b: <code>git merge feature-b</code>. Git reports a conflict.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Open main.py — you will see conflict markers: <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-b</code>. Edit the file to keep the version you want (or combine both). Remove all conflict markers.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><code>git add main.py</code> then <code>git commit -m "merge: resolve conflict between feature-a and feature-b"</code>. Run <code>git log --oneline --graph</code> to see the merge commit in the branch graph.</div></div>
-    <div class="lab-step"><div class="sn">7</div><div><strong>Bonus:</strong> Push this repo to GitHub. Create a Pull Request from feature-b into main on GitHub instead of merging locally. Review the PR diff UI.</div></div>
+<p><strong>Objective:</strong> Experience a real merge conflict and resolve it — this is something every developer encounters and many find intimidating the first time.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create a new repo: <code>mkdir git-lab && cd git-lab && git init</code>. Create <code>main.py</code> with one function. Add, commit with message "feat: initial main function".</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Create two branches from main: <code>git checkout -b feature-a</code>. Edit line 3 of main.py to say "Version A". Commit. Switch back to main: <code>git switch main</code>.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Create <code>git checkout -b feature-b</code>. Edit the SAME line 3 to say "Version B". Commit. Switch back to main: <code>git switch main</code>.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Merge feature-a into main: <code>git merge feature-a</code>. Then try to merge feature-b: <code>git merge feature-b</code>. Git reports a conflict.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Open main.py — you will see conflict markers: <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-b</code>. Edit the file to keep the version you want (or combine both). Remove all conflict markers.</div></div>
+<div class="lab-step"><div class="sn">6</div><div><code>git add main.py</code> then <code>git commit -m "merge: resolve conflict between feature-a and feature-b"</code>. Run <code>git log --oneline --graph</code> to see the merge commit in the branch graph.</div></div>
+<div class="lab-step"><div class="sn">7</div><div><strong>Bonus:</strong> Push this repo to GitHub. Create a Pull Request from feature-b into main on GitHub instead of merging locally. Review the PR diff UI.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>HTTP Debugging — Inspect Every Layer of an API Call</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> See exactly what bytes travel over the network when you call an API — building intuition for debugging production failures.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install httpie: <code>pip install httpie</code>. Run: <code>http GET "https://api.open-meteo.com/v1/forecast?latitude=19.07&longitude=72.87&daily=temperature_2m_max&timezone=Asia/Kolkata"</code>. Observe: status line, response headers, JSON body.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Now trigger each error code intentionally: (a) 404: request a non-existent endpoint. (b) 400: send invalid parameters. (c) Use <code>httpbin.org/status/429</code> to see a rate limit response. Document the full response for each.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Write a Python script using requests that calls the Open-Meteo API. Before processing the response, print: <code>response.status_code</code>, <code>response.headers["Content-Type"]</code>, <code>len(response.content)</code> (bytes), and <code>response.elapsed.total_seconds()</code> (latency).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add a requests Session with retry logic: use <code>requests.adapters.HTTPAdapter</code> with <code>max_retries=3</code>. Test that it retries on connection errors by pointing to a non-existent host.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Use <code>curl -v</code> from the terminal to make the same API call. Identify: the TLS handshake, the HTTP request headers sent, and the response headers received. Compare with what requests sends.</div></div>
+<p><strong>Objective:</strong> See exactly what bytes travel over the network when you call an API — building intuition for debugging production failures.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install httpie: <code>pip install httpie</code>. Run: <code>http GET "https://api.open-meteo.com/v1/forecast?latitude=19.07&longitude=72.87&daily=temperature_2m_max&timezone=Asia/Kolkata"</code>. Observe: status line, response headers, JSON body.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Now trigger each error code intentionally: (a) 404: request a non-existent endpoint. (b) 400: send invalid parameters. (c) Use <code>httpbin.org/status/429</code> to see a rate limit response. Document the full response for each.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Write a Python script using requests that calls the Open-Meteo API. Before processing the response, print: <code>response.status_code</code>, <code>response.headers["Content-Type"]</code>, <code>len(response.content)</code> (bytes), and <code>response.elapsed.total_seconds()</code> (latency).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add a requests Session with retry logic: use <code>requests.adapters.HTTPAdapter</code> with <code>max_retries=3</code>. Test that it retries on connection errors by pointing to a non-existent host.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Use <code>curl -v</code> from the terminal to make the same API call. Identify: the TLS handshake, the HTTP request headers sent, and the response headers received. Compare with what requests sends.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Async Concurrency — Measure Real Speedup</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Empirically measure the async speedup on real network requests — so the performance benefit is concrete, not theoretical.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Install httpx: <code>pip install httpx</code>. Create a list of 10 different city coordinates for the Open-Meteo API.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Write a <strong>synchronous</strong> version using requests: loop over all 10 cities, make one request at a time. Time the total with <code>time.perf_counter()</code>.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Write an <strong>async</strong> version using httpx.AsyncClient and asyncio.gather. Run all 10 requests concurrently. Time it the same way.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Print both times and compute the speedup ratio. Record: (a) sync time, (b) async time, (c) ratio, (d) individual request latency.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Now deliberately add <code>await asyncio.sleep(0)</code> inside the async function to simulate yielding. Does performance change? Why or why not?</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Bonus:</strong> Add error handling: if any city request fails, continue with the others and report which cities succeeded vs failed. Use <code>asyncio.gather(..., return_exceptions=True)</code>.</div></div>
+<p><strong>Objective:</strong> Empirically measure the async speedup on real network requests — so the performance benefit is concrete, not theoretical.</p>
+<div class="lab-step"><div class="sn">1</div><div>Install httpx: <code>pip install httpx</code>. Create a list of 10 different city coordinates for the Open-Meteo API.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Write a <strong>synchronous</strong> version using requests: loop over all 10 cities, make one request at a time. Time the total with <code>time.perf_counter()</code>.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Write an <strong>async</strong> version using httpx.AsyncClient and asyncio.gather. Run all 10 requests concurrently. Time it the same way.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Print both times and compute the speedup ratio. Record: (a) sync time, (b) async time, (c) ratio, (d) individual request latency.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Now deliberately add <code>await asyncio.sleep(0)</code> inside the async function to simulate yielding. Does performance change? Why or why not?</div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Bonus:</strong> Add error handling: if any city request fails, continue with the others and report which cities succeeded vs failed. Use <code>asyncio.gather(..., return_exceptions=True)</code>.</div></div>
   </div>
 </div>
 </div><!-- end t8 -->

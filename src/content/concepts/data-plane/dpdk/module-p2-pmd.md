@@ -67,11 +67,11 @@ url: /learning/data-plane/dpdk/module-p2-pmd/
   <div class="mod-title">Poll Mode Drivers &amp; Port Config</div>
   <div class="mod-subtitle">PMD internals · NIC descriptor rings · rx_burst / tx_burst hot path · RSS · Port configuration sequence</div>
   <div class="mod-pills">
-    <span class="mod-pill">Ch 7 — PMD Deep Dive</span>
-    <span class="mod-pill">Ch 8 — Port Configuration</span>
-    <span class="mod-pill">Ch 9 — RSS Deep Dive</span>
-    <span class="mod-pill">C · ixgbe · mlx5 · Toeplitz</span>
-    <span class="mod-pill">Weeks 6–8</span>
+<span class="mod-pill">Ch 7 — PMD Deep Dive</span>
+<span class="mod-pill">Ch 8 — Port Configuration</span>
+<span class="mod-pill">Ch 9 — RSS Deep Dive</span>
+<span class="mod-pill">C · ixgbe · mlx5 · Toeplitz</span>
+<span class="mod-pill">Weeks 6–8</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -148,18 +148,18 @@ Flow:
 <p class="sep">RX_BURST — THE HOT PATH FUNCTION</p>
 <div class="cb"><span class="cm">// rte_eth_rx_burst signature</span>
 <span class="co">uint16_t</span> <span class="cf">rte_eth_rx_burst</span>(
-    <span class="co">uint16_t</span>          port_id,    <span class="cm">// which NIC port</span>
-    <span class="co">uint16_t</span>          queue_id,   <span class="cm">// which Rx queue on that port</span>
-    <span class="ck">struct</span> rte_mbuf **rx_pkts,    <span class="cm">// output: array of received mbufs</span>
-    <span class="co">uint16_t</span>          nb_pkts     <span class="cm">// max mbufs to receive (burst size)</span>
+<span class="co">uint16_t</span>          port_id,    <span class="cm">// which NIC port</span>
+<span class="co">uint16_t</span>          queue_id,   <span class="cm">// which Rx queue on that port</span>
+<span class="ck">struct</span> rte_mbuf **rx_pkts,    <span class="cm">// output: array of received mbufs</span>
+<span class="co">uint16_t</span>          nb_pkts     <span class="cm">// max mbufs to receive (burst size)</span>
 );
 <span class="cm">// Returns: actual number of mbufs received (0 to nb_pkts)</span>
 <span class="cm">// Canonical polling loop</span>
 <span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SIZE</span>];
 <span class="ck">while</span> (<span class="cn">1</span>) {
-    <span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, queue, pkts, <span class="cn">BURST_SIZE</span>);
-    <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++)
-        <span class="cf">process_packet</span>(pkts[i]);
+<span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, queue, pkts, <span class="cn">BURST_SIZE</span>);
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++)
+<span class="cf">process_packet</span>(pkts[i]);
 }</div>
 <p class="sep">TX_BURST — SAFE TRANSMIT PATTERN</p>
 <div class="cb"><span class="cm">// rte_eth_tx_burst — ALWAYS check return value</span>
@@ -167,8 +167,8 @@ Flow:
 
 <span class="cm">// Free unsent packets (Tx ring was full)</span>
 <span class="ck">if</span> (<span class="cf">unlikely</span>(nb_tx &lt; nb_pkts)) {
-    <span class="ck">for</span> (<span class="co">uint16_t</span> i = nb_tx; i &lt; nb_pkts; i++)
-        <span class="cf">rte_pktmbuf_free</span>(pkts[i]);
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = nb_tx; i &lt; nb_pkts; i++)
+<span class="cf">rte_pktmbuf_free</span>(pkts[i]);
 }</div>
 <p class="sep">BURST SIZE TUNING</p>
 <table class="t-table">
@@ -202,12 +202,12 @@ Flow:
     .rxmode = {
         .mtu     = <span class="cn">RTE_ETHER_MAX_LEN</span>,
         .offloads = <span class="cn">RTE_ETH_RX_OFFLOAD_CHECKSUM</span> |
-                    <span class="cn">RTE_ETH_RX_OFFLOAD_RSS_HASH</span>,
+<span class="cn">RTE_ETH_RX_OFFLOAD_RSS_HASH</span>,
     },
     .txmode = {
         .mq_mode  = <span class="cn">RTE_ETH_MQ_TX_NONE</span>,
         .offloads = <span class="cn">RTE_ETH_TX_OFFLOAD_IPV4_CKSUM</span> |
-                    <span class="cn">RTE_ETH_TX_OFFLOAD_TCP_CKSUM</span>,
+<span class="cn">RTE_ETH_TX_OFFLOAD_TCP_CKSUM</span>,
     },
     .rx_adv_conf.rss_conf = {
         .rss_key = NULL,   <span class="cm">// use default 40-byte RSS key</span>
@@ -218,12 +218,12 @@ Flow:
 <span class="cf">rte_eth_dev_configure</span>(port_id, nb_rx_queues, nb_tx_queues, &amp;port_conf);
 
 <span class="ck">for</span> (<span class="co">uint16_t</span> q = <span class="cn">0</span>; q &lt; nb_rx_queues; q++)
-    <span class="cf">rte_eth_rx_queue_setup</span>(port_id, q, <span class="cn">512</span>,   <span class="cm">// nb_rx_desc</span>
-        <span class="cf">rte_eth_dev_socket_id</span>(port_id), NULL, mbuf_pool);
+<span class="cf">rte_eth_rx_queue_setup</span>(port_id, q, <span class="cn">512</span>,   <span class="cm">// nb_rx_desc</span>
+<span class="cf">rte_eth_dev_socket_id</span>(port_id), NULL, mbuf_pool);
 
 <span class="ck">for</span> (<span class="co">uint16_t</span> q = <span class="cn">0</span>; q &lt; nb_tx_queues; q++)
-    <span class="cf">rte_eth_tx_queue_setup</span>(port_id, q, <span class="cn">512</span>,
-        <span class="cf">rte_eth_dev_socket_id</span>(port_id), NULL);
+<span class="cf">rte_eth_tx_queue_setup</span>(port_id, q, <span class="cn">512</span>,
+<span class="cf">rte_eth_dev_socket_id</span>(port_id), NULL);
 
 <span class="cf">rte_eth_dev_start</span>(port_id);
 <span class="cf">rte_eth_promiscuous_enable</span>(port_id);</div>
@@ -308,11 +308,11 @@ By default, RSS is asymmetric: <code>hash(src=A, dst=B) ≠ hash(src=B, dst=A)</
 </div>
 <div class="cb"><span class="cm">// Symmetric RSS key (Microsoft Toeplitz key)</span>
 <span class="ck">static</span> <span class="co">uint8_t</span> sym_rss_key[] = {
-    <span class="cn">0x6D</span>, <span class="cn">0x5A</span>, <span class="cn">0x56</span>, <span class="cn">0xDA</span>, <span class="cn">0x25</span>, <span class="cn">0x5B</span>, <span class="cn">0x0E</span>, <span class="cn">0xC2</span>,
-    <span class="cn">0x41</span>, <span class="cn">0x67</span>, <span class="cn">0x25</span>, <span class="cn">0x3D</span>, <span class="cn">0x43</span>, <span class="cn">0xA3</span>, <span class="cn">0x8F</span>, <span class="cn">0xB0</span>,
-    <span class="cn">0xD0</span>, <span class="cn">0xCA</span>, <span class="cn">0x2B</span>, <span class="cn">0xCB</span>, <span class="cn">0xAE</span>, <span class="cn">0x7B</span>, <span class="cn">0x30</span>, <span class="cn">0xB4</span>,
-    <span class="cn">0x77</span>, <span class="cn">0xCB</span>, <span class="cn">0x2D</span>, <span class="cn">0xA3</span>, <span class="cn">0x80</span>, <span class="cn">0x30</span>, <span class="cn">0xF2</span>, <span class="cn">0x0C</span>,
-    <span class="cn">0x6A</span>, <span class="cn">0x42</span>, <span class="cn">0xB7</span>, <span class="cn">0x3B</span>, <span class="cn">0xBE</span>, <span class="cn">0xAC</span>, <span class="cn">0x01</span>, <span class="cn">0xFA</span>,
+<span class="cn">0x6D</span>, <span class="cn">0x5A</span>, <span class="cn">0x56</span>, <span class="cn">0xDA</span>, <span class="cn">0x25</span>, <span class="cn">0x5B</span>, <span class="cn">0x0E</span>, <span class="cn">0xC2</span>,
+<span class="cn">0x41</span>, <span class="cn">0x67</span>, <span class="cn">0x25</span>, <span class="cn">0x3D</span>, <span class="cn">0x43</span>, <span class="cn">0xA3</span>, <span class="cn">0x8F</span>, <span class="cn">0xB0</span>,
+<span class="cn">0xD0</span>, <span class="cn">0xCA</span>, <span class="cn">0x2B</span>, <span class="cn">0xCB</span>, <span class="cn">0xAE</span>, <span class="cn">0x7B</span>, <span class="cn">0x30</span>, <span class="cn">0xB4</span>,
+<span class="cn">0x77</span>, <span class="cn">0xCB</span>, <span class="cn">0x2D</span>, <span class="cn">0xA3</span>, <span class="cn">0x80</span>, <span class="cn">0x30</span>, <span class="cn">0xF2</span>, <span class="cn">0x0C</span>,
+<span class="cn">0x6A</span>, <span class="cn">0x42</span>, <span class="cn">0xB7</span>, <span class="cn">0x3B</span>, <span class="cn">0xBE</span>, <span class="cn">0xAC</span>, <span class="cn">0x01</span>, <span class="cn">0xFA</span>,
 };
 <span class="cm">// Use in rss_conf.rss_key — guarantees forward/return on same lcore</span></div>
 <p class="sep">RETA IMBALANCE — THE POWER-OF-2 REQUIREMENT</p>
@@ -325,8 +325,8 @@ reta_size = dev_info.reta_size;   <span class="cm">// typically 128 or 512</span
 <span class="cf">memset</span>(reta_conf, <span class="cn">0</span>, <span class="ck">sizeof</span>(reta_conf));
 
 <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; reta_size; i++) {
-    <span class="co">uint16_t</span> grp = i / <span class="cn">RTE_ETH_RETA_GROUP_SIZE</span>;
-    <span class="co">uint16_t</span> idx = i % <span class="cn">RTE_ETH_RETA_GROUP_SIZE</span>;
+<span class="co">uint16_t</span> grp = i / <span class="cn">RTE_ETH_RETA_GROUP_SIZE</span>;
+<span class="co">uint16_t</span> idx = i % <span class="cn">RTE_ETH_RETA_GROUP_SIZE</span>;
     reta_conf[grp].mask         = <span class="cn">UINT64_MAX</span>;
     reta_conf[grp].reta[idx]    = i % nb_workers;   <span class="cm">// nb_workers must be power-of-2</span>
 }

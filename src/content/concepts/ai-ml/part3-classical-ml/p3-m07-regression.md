@@ -83,10 +83,10 @@ url: /learning/ai-ml/part3-classical-ml/p3-m07-regression/
   <div class="mod-title">Regression: Linear, Ridge, Lasso &amp; Polynomial</div>
   <div class="mod-subtitle">Predict continuous outcomes — from first principles to regularised production models</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2 Weeks</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 scikit-learn · numpy · statsmodels</span>
-    <span class="mod-pill">📋 Prerequisite: P2-M06</span>
+<span class="mod-pill">⏱ 2 Weeks</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 scikit-learn · numpy · statsmodels</span>
+<span class="mod-pill">📋 Prerequisite: P2-M06</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -106,16 +106,16 @@ url: /learning/ai-ml/part3-classical-ml/p3-m07-regression/
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3 Start</span></div>
   <div class="cp-body">
-    <p>Regression predicts a continuous output (price, temperature, sales). Linear regression is the foundation — it is interpretable, fast, and a powerful baseline. Regularised variants (Ridge, Lasso) prevent overfitting on high-dimensional data and remain competitive with tree models when features are well-engineered.</p>
-    <ul>
-      <li><strong>Linear Regression</strong> — ordinary least squares, the normal equation, assumptions, residual analysis</li>
-      <li><strong>Ridge (L2 regularisation)</strong> — shrinks coefficients, handles multicollinearity, keeps all features</li>
-      <li><strong>Lasso (L1 regularisation)</strong> — automatic feature selection, drives irrelevant features to zero</li>
-      <li><strong>Elastic Net</strong> — combines L1 and L2, best for correlated feature groups</li>
-      <li><strong>Polynomial Regression</strong> — capturing non-linear relationships with linear models</li>
-      <li><strong>Regression metrics</strong> — MAE, MSE, RMSE, R², MAPE — when to use each</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>Always start with linear regression.</strong> It is your baseline. If a linear model gets R²=0.85, you need a very good reason to use a complex model. If R²=0.40, explore feature engineering or non-linear models. Linear models are also fully interpretable — you can explain every prediction to a non-technical stakeholder.</p></div>
+<p>Regression predicts a continuous output (price, temperature, sales). Linear regression is the foundation — it is interpretable, fast, and a powerful baseline. Regularised variants (Ridge, Lasso) prevent overfitting on high-dimensional data and remain competitive with tree models when features are well-engineered.</p>
+<ul>
+<li><strong>Linear Regression</strong> — ordinary least squares, the normal equation, assumptions, residual analysis</li>
+<li><strong>Ridge (L2 regularisation)</strong> — shrinks coefficients, handles multicollinearity, keeps all features</li>
+<li><strong>Lasso (L1 regularisation)</strong> — automatic feature selection, drives irrelevant features to zero</li>
+<li><strong>Elastic Net</strong> — combines L1 and L2, best for correlated feature groups</li>
+<li><strong>Polynomial Regression</strong> — capturing non-linear relationships with linear models</li>
+<li><strong>Regression metrics</strong> — MAE, MSE, RMSE, R², MAPE — when to use each</li>
+</ul>
+<div class="ins"><p>💡 <strong>Always start with linear regression.</strong> It is your baseline. If a linear model gets R²=0.85, you need a very good reason to use a complex model. If R²=0.40, explore feature engineering or non-linear models. Linear models are also fully interpretable — you can explain every prediction to a non-technical stakeholder.</p></div>
   </div>
 </div>
 </div>
@@ -179,14 +179,14 @@ axes[0].set(xlabel="Predicted", ylabel="Residual", title="Residuals vs Fitted")
 axes[1].hist(residuals, bins=40)
 axes[1].set(xlabel="Residual", title="Residual Distribution")
 # Ideal: residuals randomly scattered around zero, normally distributed</pre></div>
-    <h4>Linear Regression Assumptions</h4>
-    <ul>
-      <li><strong>Linearity</strong> — relationship between features and target is linear</li>
-      <li><strong>Independence</strong> — observations are independent (violated in time series)</li>
-      <li><strong>Homoscedasticity</strong> — residuals have constant variance (fan-shaped residuals = violated)</li>
-      <li><strong>Normality of residuals</strong> — for inference/confidence intervals (not needed for just prediction)</li>
-      <li><strong>No perfect multicollinearity</strong> — no feature is a perfect linear combination of others</li>
-    </ul>
+<h4>Linear Regression Assumptions</h4>
+<ul>
+<li><strong>Linearity</strong> — relationship between features and target is linear</li>
+<li><strong>Independence</strong> — observations are independent (violated in time series)</li>
+<li><strong>Homoscedasticity</strong> — residuals have constant variance (fan-shaped residuals = violated)</li>
+<li><strong>Normality of residuals</strong> — for inference/confidence intervals (not needed for just prediction)</li>
+<li><strong>No perfect multicollinearity</strong> — no feature is a perfect linear combination of others</li>
+</ul>
   </div>
 </div>
 </div>
@@ -245,7 +245,7 @@ ax.set(xlabel="Alpha (log scale)", ylabel="Coefficient Value",
 ax.axvline(best_alpha, color="red", linestyle="--", label="Best alpha")
 ax.legend()
 plt.tight_layout()</pre></div>
-    <div class="ins"><p>💡 <strong>Ridge is the default choice for linear regression with many features.</strong> When your features include correlated columns (which they always do in real datasets), OLS produces unstable, high-variance coefficients. Ridge's L2 penalty distributes the coefficient weight across correlated features, producing stable predictions even when features are collinear.</p></div>
+<div class="ins"><p>💡 <strong>Ridge is the default choice for linear regression with many features.</strong> When your features include correlated columns (which they always do in real datasets), OLS produces unstable, high-variance coefficients. Ridge's L2 penalty distributes the coefficient weight across correlated features, producing stable predictions even when features are collinear.</p></div>
   </div>
 </div>
 </div>
@@ -308,19 +308,19 @@ axes[0].legend(fontsize=7)
 selected.plot(kind="barh", ax=axes[1])
 axes[1].set(title="Lasso Selected Features (non-zero coefficients)")
 plt.tight_layout()</pre></div>
-    <h4>Ridge vs Lasso: Decision Guide</h4>
-    <div style="overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;font-size:.84rem">
-        <thead><tr style="background:#0a1a30;color:#fce7f3"><th style="padding:.5rem .8rem;text-align:left">Property</th><th style="padding:.5rem .8rem">Ridge (L2)</th><th style="padding:.5rem .8rem">Lasso (L1)</th></tr></thead>
-        <tbody>
-          <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Penalty</td><td style="padding:.5rem .8rem">β² (squared)</td><td style="padding:.5rem .8rem">|β| (absolute)</td></tr>
-          <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Coefficients</td><td style="padding:.5rem .8rem">Shrink toward zero, none exactly zero</td><td style="padding:.5rem .8rem">Some become exactly zero (sparse)</td></tr>
-          <tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Feature selection</td><td style="padding:.5rem .8rem">No (keeps all features)</td><td style="padding:.5rem .8rem">Yes (automatic)</td></tr>
-          <tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Correlated features</td><td style="padding:.5rem .8rem">Shares weight across correlated group</td><td style="padding:.5rem .8rem">Picks one, zeros others</td></tr>
-          <tr><td style="padding:.5rem .8rem;font-weight:600">Best for</td><td style="padding:.5rem .8rem">All features likely relevant, multicollinearity</td><td style="padding:.5rem .8rem">Many irrelevant features, need interpretability</td></tr>
-        </tbody>
-      </table>
-    </div>
+<h4>Ridge vs Lasso: Decision Guide</h4>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-size:.84rem">
+<thead><tr style="background:#0a1a30;color:#fce7f3"><th style="padding:.5rem .8rem;text-align:left">Property</th><th style="padding:.5rem .8rem">Ridge (L2)</th><th style="padding:.5rem .8rem">Lasso (L1)</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Penalty</td><td style="padding:.5rem .8rem">β² (squared)</td><td style="padding:.5rem .8rem">|β| (absolute)</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Coefficients</td><td style="padding:.5rem .8rem">Shrink toward zero, none exactly zero</td><td style="padding:.5rem .8rem">Some become exactly zero (sparse)</td></tr>
+<tr style="border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Feature selection</td><td style="padding:.5rem .8rem">No (keeps all features)</td><td style="padding:.5rem .8rem">Yes (automatic)</td></tr>
+<tr style="background:var(--bg-color,#f8f8f8);border-bottom:1px solid var(--border-color,#e4e4e4)"><td style="padding:.5rem .8rem;font-weight:600">Correlated features</td><td style="padding:.5rem .8rem">Shares weight across correlated group</td><td style="padding:.5rem .8rem">Picks one, zeros others</td></tr>
+<tr><td style="padding:.5rem .8rem;font-weight:600">Best for</td><td style="padding:.5rem .8rem">All features likely relevant, multicollinearity</td><td style="padding:.5rem .8rem">Many irrelevant features, need interpretability</td></tr>
+</tbody>
+</table>
+</div>
   </div>
 </div>
 </div>
@@ -443,7 +443,7 @@ cv_poly = cross_val_score(
  
 print(f"Linear R²:     {cv_linear:.4f}")
 print(f"Polynomial R²: {cv_poly:.4f}")</pre></div>
-    <div class="warn"><p>⚠️ <strong>Polynomial features are a double-edged sword.</strong> Degree=2 on 50 features creates 1,325 features; degree=3 creates 23,426. This causes extreme overfitting unless you add strong regularisation (Ridge with large alpha). Always validate with cross-validation and compare to the linear baseline before committing to polynomial expansion.</p></div>
+<div class="warn"><p>⚠️ <strong>Polynomial features are a double-edged sword.</strong> Degree=2 on 50 features creates 1,325 features; degree=3 creates 23,426. This causes extreme overfitting unless you add strong regularisation (Ridge with large alpha). Always validate with cross-validation and compare to the linear baseline before committing to polynomial expansion.</p></div>
   </div>
 </div>
 </div>
@@ -513,11 +513,11 @@ MAPE: Use for business reporting when % errors matter
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — Linear Regression, Ridge, Lasso (YouTube)</a></td><td>Best visual intuition for what regularisation actually does to coefficients. Highly recommended.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" rel="noopener">Kaggle Intro to ML Course — kaggle.com/learn/intro-to-machine-learning</a></td><td>Practical sklearn regression from scratch. Includes real Kaggle competition exercises.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/supervised_learning.html" target="_blank" rel="noopener">Scikit-learn Supervised Learning Guide — scikit-learn.org/stable/supervised_learning.html</a></td><td>Complete reference for all linear models, decision trees, SVMs with parameters explained.</td></tr>
-    <tr><td class="res-type">Book</td><td><a href="https://github.com/ageron/handson-ml3" target="_blank" rel="noopener">Hands-On ML (Free Chapter 4) — github.com/ageron/handson-ml3</a></td><td>Chapter 4 covers linear regression, polynomial, regularisation with excellent visualisations.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques" target="_blank" rel="noopener">House Prices — Kaggle</a></td><td>Standard regression benchmark. Compare your model against the public leaderboard.</td></tr>
+<tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — Linear Regression, Ridge, Lasso (YouTube)</a></td><td>Best visual intuition for what regularisation actually does to coefficients. Highly recommended.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/intro-to-machine-learning" target="_blank" rel="noopener">Kaggle Intro to ML Course — kaggle.com/learn/intro-to-machine-learning</a></td><td>Practical sklearn regression from scratch. Includes real Kaggle competition exercises.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/supervised_learning.html" target="_blank" rel="noopener">Scikit-learn Supervised Learning Guide — scikit-learn.org/stable/supervised_learning.html</a></td><td>Complete reference for all linear models, decision trees, SVMs with parameters explained.</td></tr>
+<tr><td class="res-type">Book</td><td><a href="https://github.com/ageron/handson-ml3" target="_blank" rel="noopener">Hands-On ML (Free Chapter 4) — github.com/ageron/handson-ml3</a></td><td>Chapter 4 covers linear regression, polynomial, regularisation with excellent visualisations.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/c/house-prices-advanced-regression-techniques" target="_blank" rel="noopener">House Prices — Kaggle</a></td><td>Standard regression benchmark. Compare your model against the public leaderboard.</td></tr>
   </tbody>
 </table>
 </div>
@@ -525,17 +525,17 @@ MAPE: Use for business reporting when % errors matter
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">House Price Predictor — From Linear to Ridge to Lasso</span><span class="proj-dur">[Intermediate] 5–6 days</span></div>
   <div class="proj-body">
-    <p>Build a progression of regression models and compare them systematically.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>Baseline</strong> — Linear Regression with raw features. 5-fold CV R² and RMSE.</li>
-      <li><strong>Engineered features</strong> — add TotalSF, HouseAge, TotalBath, QualArea. Does CV R² improve?</li>
-      <li><strong>Ridge</strong> — use RidgeCV to find optimal alpha. Compare to baseline.</li>
-      <li><strong>Lasso</strong> — use LassoCV. How many features are zeroed? Are the zeroed features meaningful?</li>
-      <li><strong>Target transform</strong> — predict log(SalePrice), compare RMSE after expm1() inversion</li>
-      <li><strong>Results table</strong> — DataFrame comparing all models: CV R², CV RMSE, n_features used</li>
-      <li><strong>Leaderboard</strong> — submit to Kaggle and report your score</li>
-    </ul>
+<p>Build a progression of regression models and compare them systematically.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>Baseline</strong> — Linear Regression with raw features. 5-fold CV R² and RMSE.</li>
+<li><strong>Engineered features</strong> — add TotalSF, HouseAge, TotalBath, QualArea. Does CV R² improve?</li>
+<li><strong>Ridge</strong> — use RidgeCV to find optimal alpha. Compare to baseline.</li>
+<li><strong>Lasso</strong> — use LassoCV. How many features are zeroed? Are the zeroed features meaningful?</li>
+<li><strong>Target transform</strong> — predict log(SalePrice), compare RMSE after expm1() inversion</li>
+<li><strong>Results table</strong> — DataFrame comparing all models: CV R², CV RMSE, n_features used</li>
+<li><strong>Leaderboard</strong> — submit to Kaggle and report your score</li>
+</ul>
   </div>
 </div>
 </div>
@@ -543,17 +543,17 @@ MAPE: Use for business reporting when % errors matter
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Linear Regression Internals</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Implement linear regression from scratch using the normal equation β = (XᵀX)⁻¹Xᵀy with numpy. Apply to a 2-feature subset. Compare coefficients to sklearn's output.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Plot residuals vs fitted values. Do residuals show a fan shape (heteroscedasticity)? What does this mean for the validity of your p-values?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Apply log transform to SalePrice. Refit the model. Compare: raw RMSE vs RMSE after converting log predictions back to price. Which model has better absolute dollar accuracy?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Implement linear regression from scratch using the normal equation β = (XᵀX)⁻¹Xᵀy with numpy. Apply to a 2-feature subset. Compare coefficients to sklearn's output.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Plot residuals vs fitted values. Do residuals show a fan shape (heteroscedasticity)? What does this mean for the validity of your p-values?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Apply log transform to SalePrice. Refit the model. Compare: raw RMSE vs RMSE after converting log predictions back to price. Which model has better absolute dollar accuracy?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Ridge vs Lasso Comparison</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Build both RidgeCV and LassoCV models with the same 50-feature set. Compare: CV R², number of non-zero features, and the 5 most important features in each model.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Plot coefficient values for both models side-by-side on a bar chart. Which features does Lasso zero out that Ridge keeps? Are they the most correlated features (multicollinear)?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add 20 random noise features (np.random.randn) to the dataset. Refit Ridge and Lasso. Does Lasso zero out the noise features? Does Ridge shrink them or keep them?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Build both RidgeCV and LassoCV models with the same 50-feature set. Compare: CV R², number of non-zero features, and the 5 most important features in each model.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Plot coefficient values for both models side-by-side on a bar chart. Which features does Lasso zero out that Ridge keeps? Are they the most correlated features (multicollinear)?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add 20 random noise features (np.random.randn) to the dataset. Refit Ridge and Lasso. Does Lasso zero out the noise features? Does Ridge shrink them or keep them?</div></div>
   </div>
 </div>
 </div>

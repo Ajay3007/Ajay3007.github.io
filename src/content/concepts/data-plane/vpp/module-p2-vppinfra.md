@@ -105,11 +105,11 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
   <div class="mod-title">🧱 vppinfra - Core Library</div>
   <div class="mod-subtitle">vec · pool · bihash · clib_mem · format/unformat · ring buffers · timers</div>
   <div class="mod-pills">
-    <span class="mod-pill">src/vppinfra/</span>
-    <span class="mod-pill">C macros</span>
-    <span class="mod-pill">pool.h</span>
-    <span class="mod-pill">bihash_8_8.h</span>
-    <span class="mod-pill">vec.h</span>
+<span class="mod-pill">src/vppinfra/</span>
+<span class="mod-pill">C macros</span>
+<span class="mod-pill">pool.h</span>
+<span class="mod-pill">bihash_8_8.h</span>
+<span class="mod-pill">vec.h</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -126,61 +126,61 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📚</span><h3>vppinfra is VPP's Standard Library</h3><span class="tag tag-blue">FOUNDATION</span></div>
   <div class="cp-body">
-    <p>vppinfra replaces the C standard library for VPP's dataplane. It provides memory management, data structures, I/O formatting, and timers that are specifically designed for the demands of high-performance packet processing: deterministic allocation, cache-line awareness, zero-copy design, and macro-heavy APIs for maximum inlining.</p>
-    <p>Every plugin and node you write will use vppinfra primitives. Understanding these data structures deeply - not just their API but their memory layout - is what separates engineers who write correct VPP code from those who write fast, correct VPP code.</p>
+<p>vppinfra replaces the C standard library for VPP's dataplane. It provides memory management, data structures, I/O formatting, and timers that are specifically designed for the demands of high-performance packet processing: deterministic allocation, cache-line awareness, zero-copy design, and macro-heavy APIs for maximum inlining.</p>
+<p>Every plugin and node you write will use vppinfra primitives. Understanding these data structures deeply - not just their API but their memory layout - is what separates engineers who write correct VPP code from those who write fast, correct VPP code.</p>
   </div>
 </div>
 <div class="ds-grid">
   <div class="ds-card">
-    <div class="ds-card-hdr">vec - Dynamic Array · vec.h</div>
-    <div class="ds-card-body">
-      <p>Heap-allocated array with a hidden header storing length and capacity. The pointer <em>points to element 0</em>, not the header - fully compatible with C array indexing. Use everywhere you'd use <code>std::vector</code> or <code>realloc</code>-based arrays.</p>
-      <p><code>vec_add1</code> · <code>vec_add</code> · <code>vec_len</code> · <code>vec_free</code> · <code>vec_foreach</code></p>
-    </div>
+<div class="ds-card-hdr">vec - Dynamic Array · vec.h</div>
+<div class="ds-card-body">
+<p>Heap-allocated array with a hidden header storing length and capacity. The pointer <em>points to element 0</em>, not the header - fully compatible with C array indexing. Use everywhere you'd use <code>std::vector</code> or <code>realloc</code>-based arrays.</p>
+<p><code>vec_add1</code> · <code>vec_add</code> · <code>vec_len</code> · <code>vec_free</code> · <code>vec_foreach</code></p>
+</div>
   </div>
   <div class="ds-card">
-    <div class="ds-card-hdr">pool - Fixed-Size Object Allocator · pool.h</div>
-    <div class="ds-card-body">
-      <p>Pre-allocated array of fixed-size objects with a free-list bitmap. O(1) alloc/free. Objects are addressed by <em>index</em> - never store pointers to pool elements (pool can realloc). This is how sessions, interfaces, and FIB entries are stored.</p>
-      <p><code>pool_get</code> · <code>pool_put</code> · <code>pool_elt_at_index</code> · <code>pool_foreach</code></p>
-    </div>
+<div class="ds-card-hdr">pool - Fixed-Size Object Allocator · pool.h</div>
+<div class="ds-card-body">
+<p>Pre-allocated array of fixed-size objects with a free-list bitmap. O(1) alloc/free. Objects are addressed by <em>index</em> - never store pointers to pool elements (pool can realloc). This is how sessions, interfaces, and FIB entries are stored.</p>
+<p><code>pool_get</code> · <code>pool_put</code> · <code>pool_elt_at_index</code> · <code>pool_foreach</code></p>
+</div>
   </div>
   <div class="ds-card">
-    <div class="ds-card-hdr">bihash - Bounded-Index Hash · bihash_8_8.h</div>
-    <div class="ds-card-body">
-      <p>Two-level hash table with bounded worst-case lookup: a bucket array (L1) pointing to fixed-size pages (L2) of key-value pairs. Designed for concurrent read with a single writer. Used in NAT, ACL, FIB, session tables - essentially every fast-path lookup.</p>
-      <p><code>BV(clib_bihash_add_del)</code> · <code>BV(clib_bihash_search)</code></p>
-    </div>
+<div class="ds-card-hdr">bihash - Bounded-Index Hash · bihash_8_8.h</div>
+<div class="ds-card-body">
+<p>Two-level hash table with bounded worst-case lookup: a bucket array (L1) pointing to fixed-size pages (L2) of key-value pairs. Designed for concurrent read with a single writer. Used in NAT, ACL, FIB, session tables - essentially every fast-path lookup.</p>
+<p><code>BV(clib_bihash_add_del)</code> · <code>BV(clib_bihash_search)</code></p>
+</div>
   </div>
   <div class="ds-card">
-    <div class="ds-card-hdr">clib_mem - Memory Management · mem.h</div>
-    <div class="ds-card-body">
-      <p>Wrapper around dlmalloc with NUMA awareness and heap introspection. Supports multiple heaps (main heap, per-NUMA heaps). <code>clib_mem_alloc_aligned</code> guarantees cache-line alignment. Never use <code>malloc</code>/<code>free</code> in VPP code.</p>
-      <p><code>clib_mem_alloc</code> · <code>clib_mem_free</code> · <code>clib_mem_alloc_aligned</code></p>
-    </div>
+<div class="ds-card-hdr">clib_mem - Memory Management · mem.h</div>
+<div class="ds-card-body">
+<p>Wrapper around dlmalloc with NUMA awareness and heap introspection. Supports multiple heaps (main heap, per-NUMA heaps). <code>clib_mem_alloc_aligned</code> guarantees cache-line alignment. Never use <code>malloc</code>/<code>free</code> in VPP code.</p>
+<p><code>clib_mem_alloc</code> · <code>clib_mem_free</code> · <code>clib_mem_alloc_aligned</code></p>
+</div>
   </div>
   <div class="ds-card">
-    <div class="ds-card-hdr">format/unformat · format.h</div>
-    <div class="ds-card-body">
-      <p>Extensible printf/scanf replacement. <code>format</code> returns a <code>u8 *</code> vec (not a fixed buffer). Custom format functions registered via <code>%U</code>. All VPP CLI output and packet trace use this - learn it to write readable trace functions.</p>
-      <p><code>format(0, "%U", format_ip4_address, &addr)</code></p>
-    </div>
+<div class="ds-card-hdr">format/unformat · format.h</div>
+<div class="ds-card-body">
+<p>Extensible printf/scanf replacement. <code>format</code> returns a <code>u8 *</code> vec (not a fixed buffer). Custom format functions registered via <code>%U</code>. All VPP CLI output and packet trace use this - learn it to write readable trace functions.</p>
+<p><code>format(0, "%U", format_ip4_address, &addr)</code></p>
+</div>
   </div>
   <div class="ds-card">
-    <div class="ds-card-hdr">clib_fifo / clib_ring · fifo.h</div>
-    <div class="ds-card-body">
-      <p>FIFO and ring-buffer primitives built on top of vec. Used for work queues, event rings, and inter-thread communication at the framework level. Power-of-2 sized for fast modulo via bitmask.</p>
-      <p><code>clib_fifo_add1</code> · <code>clib_fifo_sub1</code> · <code>clib_ring_new</code></p>
-    </div>
+<div class="ds-card-hdr">clib_fifo / clib_ring · fifo.h</div>
+<div class="ds-card-body">
+<p>FIFO and ring-buffer primitives built on top of vec. Used for work queues, event rings, and inter-thread communication at the framework level. Power-of-2 sized for fast modulo via bitmask.</p>
+<p><code>clib_fifo_add1</code> · <code>clib_fifo_sub1</code> · <code>clib_ring_new</code></p>
+</div>
   </div>
 </div>
 <div class="dpdk-box">
   <div class="dh">⚙️ DPDK PARALLEL - Data Structure Mapping</div>
   <ul>
-    <li><strong>vec</strong> ≈ <code>rte_malloc</code> + manual realloc tracking - but with automatic growth and a type-safe foreach macro</li>
-    <li><strong>pool</strong> ≈ <code>rte_mempool</code> for fixed-size objects - but pool objects stay in-place (no dequeue/enqueue), addressed by index, not pointer. VPP sessions are stored in pools exactly like DPDK mbufs in a mempool</li>
-    <li><strong>bihash</strong> ≈ a hash table you'd build over <code>rte_hash</code> - but bihash is specifically designed for read-mostly concurrent access without locking on the read path</li>
-    <li><strong>clib_mem</strong> ≈ <code>rte_malloc</code> - both support NUMA-local allocation and cache-line alignment. VPP uses clib_mem everywhere; never mix with rte_malloc inside VPP</li>
+<li><strong>vec</strong> ≈ <code>rte_malloc</code> + manual realloc tracking - but with automatic growth and a type-safe foreach macro</li>
+<li><strong>pool</strong> ≈ <code>rte_mempool</code> for fixed-size objects - but pool objects stay in-place (no dequeue/enqueue), addressed by index, not pointer. VPP sessions are stored in pools exactly like DPDK mbufs in a mempool</li>
+<li><strong>bihash</strong> ≈ a hash table you'd build over <code>rte_hash</code> - but bihash is specifically designed for read-mostly concurrent access without locking on the read path</li>
+<li><strong>clib_mem</strong> ≈ <code>rte_malloc</code> - both support NUMA-local allocation and cache-line alignment. VPP uses clib_mem everywhere; never mix with rte_malloc inside VPP</li>
   </ul>
 </div>
 </div>
@@ -190,7 +190,7 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Memory Layout - The Hidden Header</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
-    <p>The key to understanding vec is its memory layout. The header lives <em>before</em> the data in memory, so the pointer you hold points directly to element[0]. This makes vec transparent to any C code expecting a plain array.</p>
+<p>The key to understanding vec is its memory layout. The header lives <em>before</em> the data in memory, so the pointer you hold points directly to element[0]. This makes vec transparent to any C code expecting a plain array.</p>
 <div class="cb"><pre><span class="cm">/* Memory layout of a vec_t */</span>
 +──────────────────────────────────────────────────────+
 |  vec_header_t   |  element[0]  |  element[1]  | ...  |
@@ -206,11 +206,11 @@ vec_add1(my_vec, 42);     <span class="cm">/* grows by 1, may realloc */</span>
 vec_add1(my_vec, 99);
 <span class="cm">/* my_vec[0] == 42, my_vec[1] == 99 - plain array access */</span>
 <span class="ck">u32</span> len = vec_len(my_vec); <span class="cm">/* == 2 */</span></pre></div>
-    <ul>
-      <li><strong>NULL is a valid empty vec</strong> - always initialise to 0, never to an uninitialised pointer</li>
-      <li><strong>Never hold pointers to vec elements</strong> - <code>vec_add1</code> may realloc, invalidating all element addresses. Hold indices instead</li>
-      <li><strong>vec_free does not NULL the pointer</strong> - use <code>vec_free(v); v = 0;</code> to be safe</li>
-    </ul>
+<ul>
+<li><strong>NULL is a valid empty vec</strong> - always initialise to 0, never to an uninitialised pointer</li>
+<li><strong>Never hold pointers to vec elements</strong> - <code>vec_add1</code> may realloc, invalidating all element addresses. Hold indices instead</li>
+<li><strong>vec_free does not NULL the pointer</strong> - use <code>vec_free(v); v = 0;</code> to be safe</li>
+</ul>
   </div>
 </div>
 <div class="cp p-blue">
@@ -219,22 +219,22 @@ vec_add1(my_vec, 99);
 <table class="api-table">
   <thead><tr><th>Function / Macro</th><th>Signature / Usage</th><th>Notes</th></tr></thead>
   <tbody>
-    <tr><td><code>vec_add1(v, e)</code></td><td>Append single element <code>e</code> to vec <code>v</code></td><td>May realloc. v updated in-place (macro takes address)</td></tr>
-    <tr><td><code>vec_add(v, p, n)</code></td><td>Append <code>n</code> elements from array <code>p</code></td><td>Bulk append - faster than N × vec_add1</td></tr>
-    <tr><td><code>vec_add2(v, p, n)</code></td><td>Reserve space for <code>n</code> elements, return pointer to first</td><td>Use when you want to write directly into the vec</td></tr>
-    <tr><td><code>vec_len(v)</code></td><td>Returns <code>u32</code> element count. Returns 0 for NULL vec</td><td>Safe to call on NULL - does not crash</td></tr>
-    <tr><td><code>vec_bytes(v)</code></td><td>Returns total byte size of vec data region</td><td>vec_len(v) * sizeof(v[0])</td></tr>
-    <tr><td><code>vec_free(v)</code></td><td>Free vec memory</td><td>Does NOT set v=0. Do that manually</td></tr>
-    <tr><td><code>vec_reset_length(v)</code></td><td>Set length to 0 without freeing memory</td><td>Reuse allocation - faster than free+realloc</td></tr>
-    <tr><td><code>vec_foreach(var,v)</code></td><td>Iterate: <code>vec_foreach(ep, entries) { ... }</code></td><td>var is a pointer to each element</td></tr>
-    <tr><td><code>vec_foreach_index(i,v)</code></td><td>Iterate by index: <code>i</code> goes 0..vec_len(v)-1</td><td>When you need the index inside the loop</td></tr>
-    <tr><td><code>vec_dup(v)</code></td><td>Return a copy of the vec</td><td>Heap-allocates a new vec with same content</td></tr>
-    <tr><td><code>vec_validate(v, i)</code></td><td>Ensure vec is at least <code>i+1</code> elements, zero-filling new slots</td><td>Use to grow to a known index safely</td></tr>
-    <tr><td><code>vec_validate_init_empty(v,i,val)</code></td><td>Like vec_validate but fills with <code>val</code> instead of 0</td><td>Useful for flag arrays initialised to ~0</td></tr>
-    <tr><td><code>vec_insert(v,n,i)</code></td><td>Insert <code>n</code> zero elements at position <code>i</code></td><td>O(n) - shifts elements right</td></tr>
-    <tr><td><code>vec_del1(v,i)</code></td><td>Delete element at <code>i</code>, replacing with last element</td><td>O(1) - order NOT preserved</td></tr>
-    <tr><td><code>_vec_len(v)</code></td><td>Direct header field access - no NULL check</td><td>Use only when v is guaranteed non-NULL</td></tr>
-    <tr><td><code>vec_set_len(v,n)</code></td><td>Force-set length field</td><td>Advanced: use after manual direct writes to vec memory</td></tr>
+<tr><td><code>vec_add1(v, e)</code></td><td>Append single element <code>e</code> to vec <code>v</code></td><td>May realloc. v updated in-place (macro takes address)</td></tr>
+<tr><td><code>vec_add(v, p, n)</code></td><td>Append <code>n</code> elements from array <code>p</code></td><td>Bulk append - faster than N × vec_add1</td></tr>
+<tr><td><code>vec_add2(v, p, n)</code></td><td>Reserve space for <code>n</code> elements, return pointer to first</td><td>Use when you want to write directly into the vec</td></tr>
+<tr><td><code>vec_len(v)</code></td><td>Returns <code>u32</code> element count. Returns 0 for NULL vec</td><td>Safe to call on NULL - does not crash</td></tr>
+<tr><td><code>vec_bytes(v)</code></td><td>Returns total byte size of vec data region</td><td>vec_len(v) * sizeof(v[0])</td></tr>
+<tr><td><code>vec_free(v)</code></td><td>Free vec memory</td><td>Does NOT set v=0. Do that manually</td></tr>
+<tr><td><code>vec_reset_length(v)</code></td><td>Set length to 0 without freeing memory</td><td>Reuse allocation - faster than free+realloc</td></tr>
+<tr><td><code>vec_foreach(var,v)</code></td><td>Iterate: <code>vec_foreach(ep, entries) { ... }</code></td><td>var is a pointer to each element</td></tr>
+<tr><td><code>vec_foreach_index(i,v)</code></td><td>Iterate by index: <code>i</code> goes 0..vec_len(v)-1</td><td>When you need the index inside the loop</td></tr>
+<tr><td><code>vec_dup(v)</code></td><td>Return a copy of the vec</td><td>Heap-allocates a new vec with same content</td></tr>
+<tr><td><code>vec_validate(v, i)</code></td><td>Ensure vec is at least <code>i+1</code> elements, zero-filling new slots</td><td>Use to grow to a known index safely</td></tr>
+<tr><td><code>vec_validate_init_empty(v,i,val)</code></td><td>Like vec_validate but fills with <code>val</code> instead of 0</td><td>Useful for flag arrays initialised to ~0</td></tr>
+<tr><td><code>vec_insert(v,n,i)</code></td><td>Insert <code>n</code> zero elements at position <code>i</code></td><td>O(n) - shifts elements right</td></tr>
+<tr><td><code>vec_del1(v,i)</code></td><td>Delete element at <code>i</code>, replacing with last element</td><td>O(1) - order NOT preserved</td></tr>
+<tr><td><code>_vec_len(v)</code></td><td>Direct header field access - no NULL check</td><td>Use only when v is guaranteed non-NULL</td></tr>
+<tr><td><code>vec_set_len(v,n)</code></td><td>Force-set length field</td><td>Advanced: use after manual direct writes to vec memory</td></tr>
   </tbody>
 </table>
 <div class="cb"><pre><span class="cm">/* Typical plugin usage: building a list of sw_if_index values */</span>
@@ -270,7 +270,7 @@ sw_if_indices = 0;</pre></div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏊</span><h3>Pool Memory Layout and Design</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
-    <p>A pool is a pre-allocated contiguous array of fixed-size objects. It maintains a free-list as a bitmap of free slots. Allocation (<code>pool_get</code>) finds the first free bit and marks it used - O(1). Free (<code>pool_put</code>) marks the slot free again - O(1). Crucially, <strong>object addresses are stable</strong> as long as the pool does not grow - the pool never moves existing elements on alloc.</p>
+<p>A pool is a pre-allocated contiguous array of fixed-size objects. It maintains a free-list as a bitmap of free slots. Allocation (<code>pool_get</code>) finds the first free bit and marks it used - O(1). Free (<code>pool_put</code>) marks the slot free again - O(1). Crucially, <strong>object addresses are stable</strong> as long as the pool does not grow - the pool never moves existing elements on alloc.</p>
 <div class="cb"><pre><span class="cm">/* Pool memory model */</span>
 pool = [  obj[0]  |  obj[1]  |  obj[2]  |  obj[3]  | ... ]
          (in use)    (FREE)     (in use)    (FREE)
@@ -296,19 +296,19 @@ my_session_t *session_pool = 0;   <span class="cm">/* NULL = empty pool */</span
 <table class="api-table">
   <thead><tr><th>Macro / Function</th><th>Usage</th><th>Returns / Effect</th></tr></thead>
   <tbody>
-    <tr><td><code>pool_get(P, E)</code></td><td>Allocate one element from pool P, set pointer E</td><td>E points to newly allocated element (zero-filled)</td></tr>
-    <tr><td><code>pool_get_aligned(P, E, align)</code></td><td>pool_get with alignment guarantee</td><td>Use for SIMD-aligned structs</td></tr>
-    <tr><td><code>pool_put(P, E)</code></td><td>Return element pointed to by E back to pool</td><td>Marks slot free. E still points to valid memory until next pool_get</td></tr>
-    <tr><td><code>pool_put_index(P, i)</code></td><td>Free by index rather than pointer</td><td>Equivalent to pool_put(P, pool_elt_at_index(P,i))</td></tr>
-    <tr><td><code>pool_elt_at_index(P, i)</code></td><td>Return pointer to element at index i</td><td>No bounds check - undefined if i is free</td></tr>
-    <tr><td><code>pool_is_free_index(P, i)</code></td><td>Return 1 if slot i is free</td><td>Always check before dereferencing by index</td></tr>
-    <tr><td><code>pool_elts(P)</code></td><td>Count of currently in-use elements</td><td>Returns u32</td></tr>
-    <tr><td><code>pool_len(P)</code></td><td>Capacity - total allocated slots (used + free)</td><td>Returns u32</td></tr>
-    <tr><td><code>pool_foreach(E, P)</code></td><td>Iterate over all in-use elements</td><td>E is a pointer to each live element</td></tr>
-    <tr><td><code>pool_foreach_index(i, P)</code></td><td>Iterate by index over all in-use elements</td><td>i is the index of each live element</td></tr>
-    <tr><td><code>pool_free(P)</code></td><td>Free the entire pool memory</td><td>Frees backing store, does not set P=0</td></tr>
-    <tr><td><code>pool_validate_index(P, i)</code></td><td>Assert that index i is valid (not free)</td><td>Debug helper - crashes on invalid access</td></tr>
-    <tr><td><code>pool_alloc(P, n)</code></td><td>Pre-allocate pool capacity for n objects</td><td>Avoids repeated realloc during initial population</td></tr>
+<tr><td><code>pool_get(P, E)</code></td><td>Allocate one element from pool P, set pointer E</td><td>E points to newly allocated element (zero-filled)</td></tr>
+<tr><td><code>pool_get_aligned(P, E, align)</code></td><td>pool_get with alignment guarantee</td><td>Use for SIMD-aligned structs</td></tr>
+<tr><td><code>pool_put(P, E)</code></td><td>Return element pointed to by E back to pool</td><td>Marks slot free. E still points to valid memory until next pool_get</td></tr>
+<tr><td><code>pool_put_index(P, i)</code></td><td>Free by index rather than pointer</td><td>Equivalent to pool_put(P, pool_elt_at_index(P,i))</td></tr>
+<tr><td><code>pool_elt_at_index(P, i)</code></td><td>Return pointer to element at index i</td><td>No bounds check - undefined if i is free</td></tr>
+<tr><td><code>pool_is_free_index(P, i)</code></td><td>Return 1 if slot i is free</td><td>Always check before dereferencing by index</td></tr>
+<tr><td><code>pool_elts(P)</code></td><td>Count of currently in-use elements</td><td>Returns u32</td></tr>
+<tr><td><code>pool_len(P)</code></td><td>Capacity - total allocated slots (used + free)</td><td>Returns u32</td></tr>
+<tr><td><code>pool_foreach(E, P)</code></td><td>Iterate over all in-use elements</td><td>E is a pointer to each live element</td></tr>
+<tr><td><code>pool_foreach_index(i, P)</code></td><td>Iterate by index over all in-use elements</td><td>i is the index of each live element</td></tr>
+<tr><td><code>pool_free(P)</code></td><td>Free the entire pool memory</td><td>Frees backing store, does not set P=0</td></tr>
+<tr><td><code>pool_validate_index(P, i)</code></td><td>Assert that index i is valid (not free)</td><td>Debug helper - crashes on invalid access</td></tr>
+<tr><td><code>pool_alloc(P, n)</code></td><td>Pre-allocate pool capacity for n objects</td><td>Avoids repeated realloc during initial population</td></tr>
   </tbody>
 </table>
 <div class="cb"><pre><span class="cm">/* Complete example: per-flow session pool */</span>
@@ -351,41 +351,49 @@ pool_foreach(s, sessions) {
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Bihash Architecture - Two-Level Lookup</h3><span class="tag tag-orange">INTERNALS</span></div>
   <div class="cp-body">
-    <p>Bihash is VPP's primary hash table for dataplane lookups. Its design is optimised for the read-heavy, write-rare workload of packet forwarding: millions of lookups per second with occasional control-plane insertions.</p>
-<div class="cb"><pre><span class="cm">/* Two-level structure */</span>
- 
+<p>Bihash is VPP's primary hash table for dataplane lookups. Its design is optimised for the read-heavy, write-rare workload of packet forwarding: millions of lookups per second with occasional control-plane insertions.</p>
+
+
+
+```python
+/* Two-level structure */
+
 Level 1 - Bucket Array (always in memory, fits in L2 cache):
   bucket[0]  → page pointer + lock bit
   bucket[1]  → page pointer + lock bit
   ...
   bucket[N-1]→ page pointer + lock bit
- 
+
   hash(key) & (N-1) → selects bucket index
- 
+
 Level 2 - KV Pages (per-bucket, allocated on demand):
   page = [ kvp[0] | kvp[1] | kvp[2] | kvp[3] | ... ]
          (BIHASH_KVP_PER_PAGE entries, default 4 or 8)
- 
+
 Lookup:
   1. bucket_idx = hash(key) & (N-1)          O(1) - bitmask
   2. page = bucket[bucket_idx].page           O(1) - pointer deref
-  3. linear scan page for matching key        O(1) - ≤8 compares</pre></div>
-    <p>When a bucket fills (all KVP slots taken), it <em>overflows</em> to a chain of pages. The chain length is bounded by the load factor at init time. This gives <strong>worst-case O(chain_len)</strong> lookup - not O(n) like a chaining hash table.</p>
-    <p>The lock bit in the bucket enables a <strong>single-writer, multi-reader</strong> protocol: readers spin on the lock bit; the writer sets it, modifies the page, clears it. Readers detect inconsistency via the version counter and retry.</p>
+  3. linear scan page for matching key        O(1) - ≤8 compares
+```
+
+
+
+<p>When a bucket fills (all KVP slots taken), it <em>overflows</em> to a chain of pages. The chain length is bounded by the load factor at init time. This gives <strong>worst-case O(chain_len)</strong> lookup - not O(n) like a chaining hash table.</p>
+<p>The lock bit in the bucket enables a <strong>single-writer, multi-reader</strong> protocol: readers spin on the lock bit; the writer sets it, modifies the page, clears it. Readers detect inconsistency via the version counter and retry.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Bihash Variants - Choosing the Right One</h3><span class="tag tag-blue">VARIANTS</span></div>
   <div class="cp-body">
-    <p>Bihash is a template implemented via macros. The type name encodes <code>key_size_value_size</code> in bytes:</p>
+<p>Bihash is a template implemented via macros. The type name encodes <code>key_size_value_size</code> in bytes:</p>
 <table class="api-table">
   <thead><tr><th>Type</th><th>Key</th><th>Value</th><th>Typical Use in VPP</th></tr></thead>
   <tbody>
-    <tr><td><code>bihash_8_8</code></td><td>8 bytes (u64)</td><td>8 bytes (u64)</td><td>NAT4 simple lookup, sw_if_index tables, ARP cache</td></tr>
-    <tr><td><code>bihash_16_8</code></td><td>16 bytes</td><td>8 bytes</td><td>NAT44 endpoint-dependent (src_ip+src_port+protocol+vrf)</td></tr>
-    <tr><td><code>bihash_48_8</code></td><td>48 bytes</td><td>8 bytes</td><td>NAT66, IPv6 session tables, 5-tuple flow tables</td></tr>
-    <tr><td><code>bihash_24_8</code></td><td>24 bytes</td><td>8 bytes</td><td>MPLS, L2 FIB with bridge domain</td></tr>
-    <tr><td><code>bihash_40_8</code></td><td>40 bytes</td><td>8 bytes</td><td>VXLAN tunnel tables (src+dst+vni)</td></tr>
+<tr><td><code>bihash_8_8</code></td><td>8 bytes (u64)</td><td>8 bytes (u64)</td><td>NAT4 simple lookup, sw_if_index tables, ARP cache</td></tr>
+<tr><td><code>bihash_16_8</code></td><td>16 bytes</td><td>8 bytes</td><td>NAT44 endpoint-dependent (src_ip+src_port+protocol+vrf)</td></tr>
+<tr><td><code>bihash_48_8</code></td><td>48 bytes</td><td>8 bytes</td><td>NAT66, IPv6 session tables, 5-tuple flow tables</td></tr>
+<tr><td><code>bihash_24_8</code></td><td>24 bytes</td><td>8 bytes</td><td>MPLS, L2 FIB with bridge domain</td></tr>
+<tr><td><code>bihash_40_8</code></td><td>40 bytes</td><td>8 bytes</td><td>VXLAN tunnel tables (src+dst+vni)</td></tr>
   </tbody>
 </table>
 <div class="cb"><pre><span class="cm">/* Include the specific variant you need */</span>
@@ -434,15 +442,15 @@ clib_bihash_add_del_8_8(&h, &kv, 1 <span class="cm">/* is_add */</span>);
 kv.key = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;
 kv.value = 0;                                 <span class="cm">/* value irrelevant for delete */</span>
 clib_bihash_add_del_8_8(&h, &kv, 0 <span class="cm">/* is_add=0 means delete */</span>);</pre></div>
-    <div class="dpdk-box">
-      <div class="dh">⚙️ DPDK PARALLEL - rte_hash vs bihash</div>
-      <ul>
-        <li><strong>rte_hash</strong> uses Cuckoo hashing with SIMD key comparison - excellent for fixed-size lookups but requires explicit locking for concurrent writers</li>
-        <li><strong>bihash</strong> uses a per-bucket lock bit so the <em>read path is lock-free</em> - readers never acquire a lock, they just check the version counter. This matters at 10 Mpps where lock contention would be catastrophic</li>
-        <li>Both are pre-allocated with fixed backing memory. If bihash fills beyond capacity, lookups degrade (longer page chains) but do not crash - rte_hash returns -ENOSPC</li>
-        <li>For your session table work: bihash_48_8 is the right choice for full 5-tuple IPv4 flows (src_ip 4B + dst_ip 4B + src_port 2B + dst_port 2B + proto 1B = 13B, padded to 48B for alignment)</li>
-      </ul>
-    </div>
+<div class="dpdk-box">
+<div class="dh">⚙️ DPDK PARALLEL - rte_hash vs bihash</div>
+<ul>
+<li><strong>rte_hash</strong> uses Cuckoo hashing with SIMD key comparison - excellent for fixed-size lookups but requires explicit locking for concurrent writers</li>
+<li><strong>bihash</strong> uses a per-bucket lock bit so the <em>read path is lock-free</em> - readers never acquire a lock, they just check the version counter. This matters at 10 Mpps where lock contention would be catastrophic</li>
+<li>Both are pre-allocated with fixed backing memory. If bihash fills beyond capacity, lookups degrade (longer page chains) but do not crash - rte_hash returns -ENOSPC</li>
+<li>For your session table work: bihash_48_8 is the right choice for full 5-tuple IPv4 flows (src_ip 4B + dst_ip 4B + src_port 2B + dst_port 2B + proto 1B = 13B, padded to 48B for alignment)</li>
+</ul>
+</div>
   </div>
 </div>
 </div>
@@ -452,43 +460,51 @@ clib_bihash_add_del_8_8(&h, &kv, 0 <span class="cm">/* is_add=0 means delete */<
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🖨️</span><h3>format / unformat - Extensible I/O</h3><span class="tag tag-purple">FORMAT</span></div>
   <div class="cp-body">
-    <p><code>format</code> is VPP's printf replacement. Instead of writing to a fixed buffer, it appends to a <code>u8 *</code> vec, growing as needed. The <code>%U</code> specifier allows any function with the right signature to be used as a format directive - this is how VPP achieves composable trace output.</p>
-<div class="cb"><pre><span class="cm">/* format signature: u8 *format(u8 *s, const char *fmt, ...); */</span>
-<span class="cm">/* Returns the u8-vec with formatted output appended */</span>
- 
-u8 *s = 0;   <span class="cm">/* start with empty vec */</span>
-s = format(s, <span class="cs">"Interface %d IP: %U\n"</span>,
+<p><code>format</code> is VPP's printf replacement. Instead of writing to a fixed buffer, it appends to a <code>u8 *</code> vec, growing as needed. The <code>%U</code> specifier allows any function with the right signature to be used as a format directive - this is how VPP achieves composable trace output.</p>
+
+
+
+```javascript
+/* format signature: u8 *format(u8 *s, const char *fmt, ...); */
+/* Returns the u8-vec with formatted output appended */
+
+u8 *s = 0;   /* start with empty vec */
+s = format(s, "Interface %d IP: %U\n",
            sw_if_index,
-           format_ip4_address, &my_addr);  <span class="cm">/* %U calls format_ip4_address */</span>
-vlib_cli_output(vm, <span class="cs">"%v"</span>, s);             <span class="cm">/* %v = print u8-vec */</span>
+           format_ip4_address, &my_addr);  /* %U calls format_ip4_address */
+vlib_cli_output(vm, "%v", s);             /* %v = print u8-vec */
 vec_free(s);
- 
-<span class="cm">/* Writing your own format function */</span>
-<span class="ck">static</span> u8 * format_my_flow(u8 *s, va_list *args) {
+
+/* Writing your own format function */
+static u8 * format_my_flow(u8 *s, va_list *args) {
     my_flow_t *f = va_arg(*args, my_flow_t *);
-    s = format(s, <span class="cs">"[%U:%d → %U:%d proto %d]"</span>,
+    s = format(s, "[%U:%d → %U:%d proto %d]",
                format_ip4_address, &f->src, f->src_port,
                format_ip4_address, &f->dst, f->dst_port,
                f->proto);
-    <span class="ck">return</span> s;
+    return s;
 }
- 
-<span class="cm">/* Use it anywhere */</span>
-s = format(0, <span class="cs">"Flow: %U\n"</span>, format_my_flow, &my_flow);
- 
-<span class="cm">/* unformat - parsing */</span>
+
+/* Use it anywhere */
+s = format(0, "Flow: %U\n", format_my_flow, &my_flow);
+
+/* unformat - parsing */
 unformat_input_t input;
 unformat_init_string(&input, "192.168.1.1");
 ip4_address_t addr;
-<span class="ck">if</span> (unformat(&input, <span class="cs">"%U"</span>, unformat_ip4_address, &addr))
-    vlib_cli_output(vm, <span class="cs">"Parsed: %U\n"</span>, format_ip4_address, &addr);</pre></div>
-    <ul>
-      <li><code>format(0, ...)</code> allocates a new vec - caller must <code>vec_free</code> it</li>
-      <li><code>format(existing_vec, ...)</code> appends to existing vec</li>
-      <li><code>%v</code> - print a <code>u8 *</code> vec as a string</li>
-      <li><code>%U</code> - call a custom format function</li>
-      <li><strong>Every packet trace function uses format</strong> - learn this before writing your first plugin</li>
-    </ul>
+if (unformat(&input, "%U", unformat_ip4_address, &addr))
+    vlib_cli_output(vm, "Parsed: %U\n", format_ip4_address, &addr);
+```
+
+
+
+<ul>
+<li><code>format(0, ...)</code> allocates a new vec - caller must <code>vec_free</code> it</li>
+<li><code>format(existing_vec, ...)</code> appends to existing vec</li>
+<li><code>%v</code> - print a <code>u8 *</code> vec as a string</li>
+<li><code>%U</code> - call a custom format function</li>
+<li><strong>Every packet trace function uses format</strong> - learn this before writing your first plugin</li>
+</ul>
   </div>
 </div>
 <div class="cp p-green">
@@ -508,7 +524,7 @@ f64 now = vlib_time_now(vm);  <span class="cm">/* preferred in node functions */
 <span class="cm">/* Parameters: 2 timers/object, 1 wheel, 2048 slots */</span>
 TWT(tw_timer_wheel) tw;
 tw_timer_wheel_init_2t_1w_2048sl(&tw, expired_cb, 1.0, ~0);</pre></div>
-    <p>For session timeouts in your Stateful Connection Tracker project (Mini-Project 7), use <code>tw_timer_*</code> - it handles expiry callbacks at O(1) per tick regardless of the number of active timers.</p>
+<p>For session timeouts in your Stateful Connection Tracker project (Mini-Project 7), use <code>tw_timer_*</code> - it handles expiry callbacks at O(1) per tick regardless of the number of active timers.</p>
   </div>
 </div>
 <div class="cp p-blue">
@@ -533,7 +549,7 @@ clib_mem_get_heap_usage(clib_mem_get_heap(), &usage);
 void *old_heap = clib_mem_set_heap(vm->thread_main->heap);
 <span class="cm">/* allocate on worker-local heap */</span>
 clib_mem_set_heap(old_heap);   <span class="cm">/* restore */</span></pre></div>
-    <p><strong>CLIB_CACHE_LINE_BYTES</strong> is 64 on x86_64. Always align per-worker data structures to cache lines to avoid false sharing between worker threads - a common source of hidden performance problems in multi-threaded VPP plugins.</p>
+<p><strong>CLIB_CACHE_LINE_BYTES</strong> is 64 on x86_64. Always align per-worker data structures to cache lines to avoid false sharing between worker threads - a common source of hidden performance problems in multi-threaded VPP plugins.</p>
   </div>
 </div>
 </div>

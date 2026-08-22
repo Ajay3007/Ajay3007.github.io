@@ -83,11 +83,11 @@ url: /learning/networking-mastery/m15-sockets/
   <div class="mod-title">🔌 Socket Programming</div>
   <div class="mod-subtitle">POSIX sockets · TCP/UDP patterns · Non-blocking I/O · epoll · SO_REUSEPORT · Raw sockets · Socket options</div>
   <div class="mod-pills">
-    <span class="mod-pill">Intermediate → Advanced</span>
-    <span class="mod-pill">Prerequisite: M14 Linux Stack</span>
-    <span class="mod-pill">POSIX.1-2017</span>
-    <span class="mod-pill">C / Systems Programming</span>
-    <span class="mod-pill">3 Labs</span>
+<span class="mod-pill">Intermediate → Advanced</span>
+<span class="mod-pill">Prerequisite: M14 Linux Stack</span>
+<span class="mod-pill">POSIX.1-2017</span>
+<span class="mod-pill">C / Systems Programming</span>
+<span class="mod-pill">3 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -107,40 +107,47 @@ url: /learning/networking-mastery/m15-sockets/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Socket Fundamentals</h3><span class="tag tag-blue">BASICS</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* socket() — create a socket */</span>
-<span class="ck">int</span> fd = socket(domain, type, protocol);
- 
+
+
+```c
+/* socket() — create a socket */
+int fd = socket(domain, type, protocol);
+
 domain:   AF_INET (IPv4), AF_INET6 (IPv6), AF_UNIX (local), AF_PACKET (raw L2)
 type:     SOCK_STREAM (TCP), SOCK_DGRAM (UDP), SOCK_RAW (raw IP/L2)
 protocol: Usually 0 (auto-select). IPPROTO_TCP, IPPROTO_UDP, IPPROTO_ICMP
- 
-<span class="cm">/* Address structures */</span>
-<span class="ck">struct</span> sockaddr_in {               <span class="cm">/* IPv4 */</span>
-    sa_family_t    sin_family;      <span class="cm">/* AF_INET */</span>
-    in_port_t      sin_port;        <span class="cm">/* htons(port) — network byte order! */</span>
-    struct in_addr sin_addr;        <span class="cm">/* .s_addr = htonl(INADDR_ANY) or inet_addr("1.2.3.4") */</span>
+
+/* Address structures */
+struct sockaddr_in {               /* IPv4 */
+    sa_family_t    sin_family;      /* AF_INET */
+    in_port_t      sin_port;        /* htons(port) — network byte order! */
+    struct in_addr sin_addr;        /* .s_addr = htonl(INADDR_ANY) or inet_addr("1.2.3.4") */
 };
- 
-<span class="ck">struct</span> sockaddr_in6 {              <span class="cm">/* IPv6 */</span>
-    sa_family_t     sin6_family;    <span class="cm">/* AF_INET6 */</span>
-    in_port_t       sin6_port;      <span class="cm">/* htons(port) */</span>
+
+struct sockaddr_in6 {              /* IPv6 */
+    sa_family_t     sin6_family;    /* AF_INET6 */
+    in_port_t       sin6_port;      /* htons(port) */
     uint32_t        sin6_flowinfo;
-    struct in6_addr sin6_addr;      <span class="cm">/* IPv6 address (16 bytes) */</span>
+    struct in6_addr sin6_addr;      /* IPv6 address (16 bytes) */
     uint32_t        sin6_scope_id;
 };
- 
-<span class="cm">/* Byte order — critical! */</span>
+
+/* Byte order — critical! */
 htons(x):  host-to-network short (16-bit port numbers)
 htonl(x):  host-to-network long  (32-bit IP addresses)
 ntohs(x):  network-to-host short
 ntohl(x):  network-to-host long
-<span class="cm"># Network byte order = big-endian</span>
-<span class="cm"># x86 is little-endian → ALWAYS use htons/htonl for ports/IPs in structs</span>
-<span class="cm">/* Dual-stack (IPv4+IPv6) */</span>
-<span class="ck">int</span> fd = socket(AF_INET6, SOCK_STREAM, 0);
-<span class="ck">int</span> v6only = 0;
+# Network byte order = big-endian
+# x86 is little-endian → ALWAYS use htons/htonl for ports/IPs in structs
+
+/* Dual-stack (IPv4+IPv6) */
+int fd = socket(AF_INET6, SOCK_STREAM, 0);
+int v6only = 0;
 setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
-<span class="cm">/* Binding :: (IPv6 any) now accepts IPv4-mapped IPv6 addresses (::ffff:x.x.x.x) */</span></pre></div>
+/* Binding :: (IPv6 any) now accepts IPv4-mapped IPv6 addresses (::ffff:x.x.x.x) */
+```
+
+
   </div>
 </div>
 </div>
@@ -150,63 +157,72 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🖥️</span><h3>Complete TCP Server Template</h3><span class="tag tag-green">TCP SERVER</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cs">#include &lt;sys/socket.h&gt;
-#include &lt;netinet/in.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;string.h&gt;</span>
-<span class="ck">int</span> tcp_server(<span class="ck">uint16_t</span> port) {
-    <span class="ck">int</span> lfd = socket(AF_INET6, SOCK_STREAM, 0);
- 
-    <span class="cm">/* SO_REUSEADDR: allow bind to port even if in TIME_WAIT */</span>
-    <span class="ck">int</span> opt = 1;
+
+
+```cpp
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <string.h>
+
+int tcp_server(uint16_t port) {
+    int lfd = socket(AF_INET6, SOCK_STREAM, 0);
+
+    /* SO_REUSEADDR: allow bind to port even if in TIME_WAIT */
+    int opt = 1;
     setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-    <span class="cm">/* SO_REUSEPORT: multiple processes can bind same port (load balance) */</span>
+    /* SO_REUSEPORT: multiple processes can bind same port (load balance) */
     setsockopt(lfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
- 
-    <span class="ck">struct</span> sockaddr_in6 addr = {0};
+
+    struct sockaddr_in6 addr = {0};
     addr.sin6_family = AF_INET6;
     addr.sin6_port   = htons(port);
-    addr.sin6_addr   = in6addr_any;   <span class="cm">/* :: = any interface */</span>
- 
-    bind(lfd, (<span class="ck">struct</span> sockaddr *)&addr, sizeof(addr));
-    listen(lfd, 128);  <span class="cm">/* backlog: max pending connections in accept queue */</span>
-    <span class="ck">while</span> (1) {
-        <span class="ck">struct</span> sockaddr_in6 client;
+    addr.sin6_addr   = in6addr_any;   /* :: = any interface */
+
+    bind(lfd, (struct sockaddr *)&addr, sizeof(addr));
+    listen(lfd, 128);  /* backlog: max pending connections in accept queue */
+
+    while (1) {
+        struct sockaddr_in6 client;
         socklen_t clen = sizeof(client);
-        <span class="ck">int</span> cfd = accept(lfd, (<span class="ck">struct</span> sockaddr *)&client, &clen);
-        <span class="cm">/* cfd is a NEW socket for this connection; lfd still listens */</span>
-        <span class="cm">/* Handle client — in production: fork() or thread */</span>
+        int cfd = accept(lfd, (struct sockaddr *)&client, &clen);
+        /* cfd is a NEW socket for this connection; lfd still listens */
+
+        /* Handle client — in production: fork() or thread */
         handle_client(cfd);
         close(cfd);
     }
 }
- 
-<span class="ck">void</span> handle_client(<span class="ck">int</span> fd) {
-    <span class="ck">char</span> buf[4096];
+
+void handle_client(int fd) {
+    char buf[4096];
     ssize_t n;
-    <span class="cm">/* CRITICAL: recv may return LESS than requested — MUST loop */</span>
-    <span class="ck">while</span> ((n = recv(fd, buf, sizeof(buf), 0)) > 0) {
-        <span class="cm">/* n bytes received; process buf[0..n-1] */</span>
-        send(fd, buf, n, 0);  <span class="cm">/* echo back */</span>
-        <span class="cm">/* send may also return less than n → must loop send too */</span>
+    /* CRITICAL: recv may return LESS than requested — MUST loop */
+    while ((n = recv(fd, buf, sizeof(buf), 0)) > 0) {
+        /* n bytes received; process buf[0..n-1] */
+        send(fd, buf, n, 0);  /* echo back */
+        /* send may also return less than n → must loop send too */
     }
-    <span class="cm">/* n == 0: peer closed connection (FIN received) */</span>
-    <span class="cm">/* n == -1: error (check errno: EAGAIN, ECONNRESET, etc.) */</span>
+    /* n == 0: peer closed connection (FIN received) */
+    /* n == -1: error (check errno: EAGAIN, ECONNRESET, etc.) */
 }
- 
-<span class="cm">/* TCP client */</span>
-<span class="ck">int</span> tcp_connect(<span class="ck">const char</span> *host, <span class="ck">uint16_t</span> port) {
-    <span class="ck">struct</span> addrinfo hints = {0}, *res;
+
+/* TCP client */
+int tcp_connect(const char *host, uint16_t port) {
+    struct addrinfo hints = {0}, *res;
     hints.ai_family   = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
-    <span class="ck">char</span> portstr[8]; snprintf(portstr, sizeof(portstr), <span class="cs">"%u"</span>, port);
+    char portstr[8]; snprintf(portstr, sizeof(portstr), "%u", port);
     getaddrinfo(host, portstr, &hints, &res);
- 
-    <span class="ck">int</span> fd = socket(res->ai_family, res->ai_socktype, 0);
+
+    int fd = socket(res->ai_family, res->ai_socktype, 0);
     connect(fd, res->ai_addr, res->ai_addrlen);
     freeaddrinfo(res);
-    <span class="ck">return</span> fd;
-}</pre></div>
+    return fd;
+}
+```
+
+
   </div>
 </div>
 </div>
@@ -216,45 +232,51 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📡</span><h3>UDP Socket — sendto/recvfrom</h3><span class="tag tag-teal">UDP</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* UDP server — connectionless, per-datagram source address */</span>
-<span class="ck">int</span> udp_server(<span class="ck">uint16_t</span> port) {
-    <span class="ck">int</span> fd = socket(AF_INET, SOCK_DGRAM, 0);
-    <span class="ck">struct</span> sockaddr_in addr = {0};
+
+
+```javascript
+/* UDP server — connectionless, per-datagram source address */
+int udp_server(uint16_t port) {
+    int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    struct sockaddr_in addr = {0};
     addr.sin_family = AF_INET;
     addr.sin_port   = htons(port);
     addr.sin_addr.s_addr = INADDR_ANY;
-    bind(fd, (<span class="ck">struct</span> sockaddr *)&addr, sizeof(addr));
- 
-    <span class="ck">char</span> buf[65536];  <span class="cm">/* max UDP payload */</span>
-    <span class="ck">while</span> (1) {
-        <span class="ck">struct</span> sockaddr_in client;
+    bind(fd, (struct sockaddr *)&addr, sizeof(addr));
+
+    char buf[65536];  /* max UDP payload */
+    while (1) {
+        struct sockaddr_in client;
         socklen_t clen = sizeof(client);
         ssize_t n = recvfrom(fd, buf, sizeof(buf), 0,
-                            (<span class="ck">struct</span> sockaddr *)&client, &clen);
-        <span class="cm">/* n == complete datagram size — UDP preserves message boundaries */</span>
-        <span class="cm">/* client contains source IP+port for this packet */</span>
-        sendto(fd, buf, n, 0, (<span class="ck">struct</span> sockaddr *)&client, clen);
+                            (struct sockaddr *)&client, &clen);
+        /* n == complete datagram size — UDP preserves message boundaries */
+        /* client contains source IP+port for this packet */
+        sendto(fd, buf, n, 0, (struct sockaddr *)&client, clen);
     }
 }
- 
-<span class="cm">/* UDP multicast sender */</span>
-<span class="ck">int</span> udp_multicast_send(<span class="cs">const char</span> *group, <span class="ck">uint16_t</span> port) {
-    <span class="ck">int</span> fd = socket(AF_INET, SOCK_DGRAM, 0);
-    <span class="ck">struct</span> ip_mreq mreq;
+
+/* UDP multicast sender */
+int udp_multicast_send(const char *group, uint16_t port) {
+    int fd = socket(AF_INET, SOCK_DGRAM, 0);
+    struct ip_mreq mreq;
     inet_aton(group, &mreq.imr_multiaddr);
     mreq.imr_interface.s_addr = INADDR_ANY;
     setsockopt(fd, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, sizeof(mreq));
-    <span class="cm">/* TTL for multicast (default 1 = link-local) */</span>
-    <span class="ck">unsigned char</span> ttl = 32;
+    /* TTL for multicast (default 1 = link-local) */
+    unsigned char ttl = 32;
     setsockopt(fd, IPPROTO_IP, IP_MULTICAST_TTL, &ttl, sizeof(ttl));
-    <span class="ck">struct</span> sockaddr_in dst = {0};
+    struct sockaddr_in dst = {0};
     dst.sin_family = AF_INET;
     dst.sin_port   = htons(port);
     inet_aton(group, &dst.sin_addr);
-    sendto(fd, <span class="cs">"hello multicast"</span>, 15, 0,
-           (<span class="ck">struct</span> sockaddr *)&dst, sizeof(dst));
-    <span class="ck">return</span> fd;
-}</pre></div>
+    sendto(fd, "hello multicast", 15, 0,
+           (struct sockaddr *)&dst, sizeof(dst));
+    return fd;
+}
+```
+
+
   </div>
 </div>
 </div>
@@ -264,59 +286,65 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>epoll — Scalable I/O Multiplexing</h3><span class="tag tag-purple">EPOLL</span></div>
   <div class="cp-body">
-    <p>The classic <code>select()</code> and <code>poll()</code> have O(n) scan overhead — with 10,000 fds, every call scans all 10,000 even if only 1 is ready. <code>epoll</code> maintains a kernel-side data structure and returns only the fds that are actually ready — O(1) per event, O(k) where k is ready events.</p>
-<div class="cb"><pre><span class="cs">#include &lt;sys/epoll.h&gt;
-#include &lt;fcntl.h&gt;</span>
-<span class="cm">/* Set fd to non-blocking */</span>
-<span class="ck">void</span> set_nonblocking(<span class="ck">int</span> fd) {
-    <span class="ck">int</span> flags = fcntl(fd, F_GETFL, 0);
+<p>The classic <code>select()</code> and <code>poll()</code> have O(n) scan overhead — with 10,000 fds, every call scans all 10,000 even if only 1 is ready. <code>epoll</code> maintains a kernel-side data structure and returns only the fds that are actually ready — O(1) per event, O(k) where k is ready events.</p>
+
+
+```cpp
+#include <sys/epoll.h>
+#include <fcntl.h>
+
+/* Set fd to non-blocking */
+void set_nonblocking(int fd) {
+    int flags = fcntl(fd, F_GETFL, 0);
     fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
- 
-<span class="cm">/* Create epoll instance and event loop */</span>
-<span class="ck">int</span> epoll_server(<span class="ck">int</span> lfd) {
-    <span class="ck">int</span> epfd = epoll_create1(0);
- 
-    <span class="cm">/* Add listener to epoll */</span>
-    <span class="ck">struct</span> epoll_event ev = { .events = EPOLLIN, .data.fd = lfd };
+
+/* Create epoll instance and event loop */
+int epoll_server(int lfd) {
+    int epfd = epoll_create1(0);
+
+    /* Add listener to epoll */
+    struct epoll_event ev = { .events = EPOLLIN, .data.fd = lfd };
     epoll_ctl(epfd, EPOLL_CTL_ADD, lfd, &ev);
- 
-    <span class="ck">struct</span> epoll_event events[1024];
-    <span class="ck">while</span> (1) {
-        <span class="ck">int</span> n = epoll_wait(epfd, events, 1024, -1);  <span class="cm">/* -1 = block forever */</span>
-        <span class="ck">for</span> (<span class="ck">int</span> i = 0; i < n; i++) {
-            <span class="ck">if</span> (events[i].data.fd == lfd) {
-                <span class="cm">/* New connection */</span>
-                <span class="ck">int</span> cfd = accept(lfd, NULL, NULL);
+
+    struct epoll_event events[1024];
+    while (1) {
+        int n = epoll_wait(epfd, events, 1024, -1);  /* -1 = block forever */
+        for (int i = 0; i if (events[i].data.fd == lfd) {
+                /* New connection */
+                int cfd = accept(lfd, NULL, NULL);
                 set_nonblocking(cfd);
-                <span class="ck">struct</span> epoll_event cev = {
-                    .events = EPOLLIN | EPOLLET,  <span class="cm">/* edge-triggered */</span>
+                struct epoll_event cev = {
+                    .events = EPOLLIN | EPOLLET,  /* edge-triggered */
                     .data.fd = cfd
                 };
                 epoll_ctl(epfd, EPOLL_CTL_ADD, cfd, &cev);
-            } <span class="ck">else</span> {
-                <span class="cm">/* Data ready on existing connection */</span>
-                <span class="ck">char</span> buf[4096];
+            } else {
+                /* Data ready on existing connection */
+                char buf[4096];
                 ssize_t nr;
-                <span class="cm">/* Edge-triggered: MUST read until EAGAIN */</span>
-                <span class="ck">while</span> ((nr = recv(events[i].data.fd, buf, sizeof(buf), 0)) > 0)
+                /* Edge-triggered: MUST read until EAGAIN */
+                while ((nr = recv(events[i].data.fd, buf, sizeof(buf), 0)) > 0)
                     process(buf, nr);
-                <span class="ck">if</span> (nr == 0) {  <span class="cm">/* connection closed */</span>
+                if (nr == 0) {  /* connection closed */
                     epoll_ctl(epfd, EPOLL_CTL_DEL, events[i].data.fd, NULL);
                     close(events[i].data.fd);
                 }
-                <span class="cm">/* nr == -1 && errno == EAGAIN: no more data right now */</span>
+                /* nr == -1 && errno == EAGAIN: no more data right now */
             }
         }
     }
 }
- 
-<span class="cm">/* Edge-triggered vs Level-triggered */</span>
-<span class="cm"># EPOLLET (edge): notify ONCE when state changes (unread→readable)</span>
-<span class="cm">#   Must read ALL data immediately or it won't be reported again</span>
-<span class="cm">#   Higher performance (fewer epoll_wait wakeups)</span>
-<span class="cm"># Level (default): notify every time data is available</span>
-<span class="cm">#   Easier to code correctly; acceptable for most applications</span></pre></div>
+
+/* Edge-triggered vs Level-triggered */
+# EPOLLET (edge): notify ONCE when state changes (unread→readable)
+#   Must read ALL data immediately or it won't be reported again
+#   Higher performance (fewer epoll_wait wakeups)
+# Level (default): notify every time data is available
+#   Easier to code correctly; acceptable for most applications
+```
+
+
   </div>
 </div>
 </div>
@@ -326,21 +354,21 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Critical Socket Options</h3><span class="tag tag-amber">SOCKOPTS</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Option</th><th>Level</th><th>Effect</th><th>When to Use</th></tr></thead>
-      <tbody>
-        <tr><td><code>SO_REUSEADDR</code></td><td>SOL_SOCKET</td><td>Allow bind to port in TIME_WAIT state</td><td>Always on servers — prevents "address already in use" after restart</td></tr>
-        <tr><td><code>SO_REUSEPORT</code></td><td>SOL_SOCKET</td><td>Multiple sockets bind same IP:port; kernel load-balances</td><td>Multi-process/thread servers (Nginx, high-performance servers)</td></tr>
-        <tr><td><code>SO_KEEPALIVE</code></td><td>SOL_SOCKET</td><td>Send TCP keepalive probes; detect dead connections</td><td>Long-lived connections; detect peer disappear without data</td></tr>
-        <tr><td><code>SO_RCVBUF</code></td><td>SOL_SOCKET</td><td>Set receive buffer size (kernel doubles the value)</td><td>High-bandwidth connections; increase for long fat networks</td></tr>
-        <tr><td><code>SO_SNDBUF</code></td><td>SOL_SOCKET</td><td>Set send buffer size</td><td>High-throughput senders; typically let autotuning manage</td></tr>
-        <tr><td><code>TCP_NODELAY</code></td><td>IPPROTO_TCP</td><td>Disable Nagle's algorithm — send immediately</td><td>Low-latency protocols (RPC, gaming, trading); penalises small writes</td></tr>
-        <tr><td><code>TCP_CORK</code></td><td>IPPROTO_TCP</td><td>Buffer all data until cork removed or MSS reached</td><td>HTTP/file transfers — batch headers+body into one segment</td></tr>
-        <tr><td><code>TCP_QUICKACK</code></td><td>IPPROTO_TCP</td><td>Disable delayed ACK</td><td>Latency-sensitive request-response protocols</td></tr>
-        <tr><td><code>IP_TOS</code></td><td>IPPROTO_IP</td><td>Set DSCP/TOS field in outgoing IP packets</td><td>QoS marking for VoIP, streaming, or traffic shaping</td></tr>
-        <tr><td><code>SO_TIMESTAMP</code></td><td>SOL_SOCKET</td><td>Receive hardware/kernel timestamp with each packet via cmsg</td><td>Latency measurement, PTP, network monitoring</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Option</th><th>Level</th><th>Effect</th><th>When to Use</th></tr></thead>
+<tbody>
+<tr><td><code>SO_REUSEADDR</code></td><td>SOL_SOCKET</td><td>Allow bind to port in TIME_WAIT state</td><td>Always on servers — prevents "address already in use" after restart</td></tr>
+<tr><td><code>SO_REUSEPORT</code></td><td>SOL_SOCKET</td><td>Multiple sockets bind same IP:port; kernel load-balances</td><td>Multi-process/thread servers (Nginx, high-performance servers)</td></tr>
+<tr><td><code>SO_KEEPALIVE</code></td><td>SOL_SOCKET</td><td>Send TCP keepalive probes; detect dead connections</td><td>Long-lived connections; detect peer disappear without data</td></tr>
+<tr><td><code>SO_RCVBUF</code></td><td>SOL_SOCKET</td><td>Set receive buffer size (kernel doubles the value)</td><td>High-bandwidth connections; increase for long fat networks</td></tr>
+<tr><td><code>SO_SNDBUF</code></td><td>SOL_SOCKET</td><td>Set send buffer size</td><td>High-throughput senders; typically let autotuning manage</td></tr>
+<tr><td><code>TCP_NODELAY</code></td><td>IPPROTO_TCP</td><td>Disable Nagle's algorithm — send immediately</td><td>Low-latency protocols (RPC, gaming, trading); penalises small writes</td></tr>
+<tr><td><code>TCP_CORK</code></td><td>IPPROTO_TCP</td><td>Buffer all data until cork removed or MSS reached</td><td>HTTP/file transfers — batch headers+body into one segment</td></tr>
+<tr><td><code>TCP_QUICKACK</code></td><td>IPPROTO_TCP</td><td>Disable delayed ACK</td><td>Latency-sensitive request-response protocols</td></tr>
+<tr><td><code>IP_TOS</code></td><td>IPPROTO_IP</td><td>Set DSCP/TOS field in outgoing IP packets</td><td>QoS marking for VoIP, streaming, or traffic shaping</td></tr>
+<tr><td><code>SO_TIMESTAMP</code></td><td>SOL_SOCKET</td><td>Receive hardware/kernel timestamp with each packet via cmsg</td><td>Latency measurement, PTP, network monitoring</td></tr>
+</tbody>
+</table>
 <div class="cb"><pre><span class="cm">/* Setting socket options */</span>
 <span class="ck">int</span> opt = 1;
 setsockopt(fd, SOL_SOCKET,   SO_REUSEADDR, &opt, sizeof(opt));
@@ -413,46 +441,54 @@ setsockopt(raw, IPPROTO_IP, IP_HDRINCL, &opt, sizeof(opt));
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>AF_PACKET — Capture and Inject Raw Frames</h3><span class="tag tag-blue">AF_PACKET</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* AF_PACKET — access raw Ethernet frames */</span>
-<span class="cm">/* Foundation of tcpdump, Wireshark, and custom packet generators */</span>
-<span class="cs">#include &lt;linux/if_packet.h&gt;
-#include &lt;net/ethernet.h&gt;
-#include &lt;net/if.h&gt;</span>
-<span class="cm">/* Open raw L2 socket — receives ALL Ethernet frames */</span>
-<span class="ck">int</span> fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
- 
-<span class="cm">/* Bind to specific interface */</span>
-<span class="ck">struct</span> sockaddr_ll sll = {0};
+
+
+```cpp
+/* AF_PACKET — access raw Ethernet frames */
+/* Foundation of tcpdump, Wireshark, and custom packet generators */
+#include <linux/if_packet.h>
+#include <net/ethernet.h>
+#include <net/if.h>
+
+/* Open raw L2 socket — receives ALL Ethernet frames */
+int fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+
+/* Bind to specific interface */
+struct sockaddr_ll sll = {0};
 sll.sll_family   = AF_PACKET;
-sll.sll_ifindex  = if_nametoindex(<span class="cs">"eth0"</span>);
+sll.sll_ifindex  = if_nametoindex("eth0");
 sll.sll_protocol = htons(ETH_P_ALL);
-bind(fd, (<span class="ck">struct</span> sockaddr *)&sll, sizeof(sll));
- 
-<span class="cm">/* Set promiscuous mode (receive frames not destined for us) */</span>
-<span class="ck">struct</span> packet_mreq mreq = {0};
+bind(fd, (struct sockaddr *)&sll, sizeof(sll));
+
+/* Set promiscuous mode (receive frames not destined for us) */
+struct packet_mreq mreq = {0};
 mreq.mr_ifindex = sll.sll_ifindex;
 mreq.mr_type    = PACKET_MR_PROMISC;
 setsockopt(fd, SOL_PACKET, PACKET_ADD_MEMBERSHIP, &mreq, sizeof(mreq));
- 
-<span class="cm">/* Receive raw Ethernet frame */</span>
-<span class="ck">unsigned char</span> frame[2048];
+
+/* Receive raw Ethernet frame */
+unsigned char frame[2048];
 ssize_t n = recv(fd, frame, sizeof(frame), 0);
-<span class="ck">struct</span> ethhdr *eth = (<span class="ck">struct</span> ethhdr *)frame;
-<span class="cm">/* eth->h_dest, eth->h_source, eth->h_proto */</span>
-<span class="cm">/* PACKET_MMAP — zero-copy ring buffer for high-speed capture */</span>
-<span class="cm">/* Maps NIC DMA buffers directly into process address space */</span>
-<span class="cm">/* Used by tcpdump/libpcap for high-performance capture */</span>
-<span class="ck">struct</span> tpacket_req req = {
+struct ethhdr *eth = (struct ethhdr *)frame;
+/* eth->h_dest, eth->h_source, eth->h_proto */
+
+/* PACKET_MMAP — zero-copy ring buffer for high-speed capture */
+/* Maps NIC DMA buffers directly into process address space */
+/* Used by tcpdump/libpcap for high-performance capture */
+struct tpacket_req req = {
     .tp_block_size = 4096,
     .tp_block_nr   = 64,
     .tp_frame_size = 2048,
     .tp_frame_nr   = 128
 };
 setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
-<span class="ck">void</span> *ring = mmap(NULL, req.tp_block_size * req.tp_block_nr,
+void *ring = mmap(NULL, req.tp_block_size * req.tp_block_nr,
                   PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
-<span class="cm">/* Poll ring directly — no syscall per packet */</span></pre></div>
-    <div class="ins"><p>💡 <strong>AF_PACKET is how tcpdump/libpcap work.</strong> Every packet you've ever captured with Wireshark passed through an AF_PACKET socket. The PACKET_MMAP extension maps the NIC's DMA ring into userspace for zero-copy capture — this is how Wireshark achieves high capture rates. Your DPDK knowledge directly informs why this is still slower than full kernel bypass.</p></div>
+/* Poll ring directly — no syscall per packet */
+```
+
+
+<div class="ins"><p>💡 <strong>AF_PACKET is how tcpdump/libpcap work.</strong> Every packet you've ever captured with Wireshark passed through an AF_PACKET socket. The PACKET_MMAP extension maps the NIC's DMA ring into userspace for zero-copy capture — this is how Wireshark achieves high capture rates. Your DPDK knowledge directly informs why this is still slower than full kernel bypass.</p></div>
   </div>
 </div>
 </div>
@@ -461,29 +497,29 @@ setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Multi-Connection TCP Server with epoll</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a fully functional non-blocking TCP echo server using epoll that handles 1000+ simultaneous connections without threads.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Implement the epoll event loop from the code in Tab 3. Use EPOLLET (edge-triggered) mode. Handle: new connections (accept), incoming data (read loop until EAGAIN), connection close (EPOLLHUP/recv returns 0), errors (EPOLLERR).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Set all accepted sockets to non-blocking with <code>fcntl(fd, F_SETFL, O_NONBLOCK)</code>. Set <code>TCP_NODELAY</code> and <code>SO_REUSEPORT</code>. Add a per-connection state structure (track bytes received, connection ID).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Load test with <code>ab -n 100000 -c 1000 http://localhost:8080/</code> or a custom C client. Measure: connections/second, max concurrent connections, memory per connection. Compare with a fork-per-connection server under the same load.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add SO_REUSEPORT: run 4 instances of your server on the same port (set different process IDs). Verify with <code>ss -tlnp | grep 8080</code> that all 4 are bound. Use <code>ab</code> to send 40,000 requests and verify even distribution across processes.</div></div>
+<p><strong>Objective:</strong> Build a fully functional non-blocking TCP echo server using epoll that handles 1000+ simultaneous connections without threads.</p>
+<div class="lab-step"><div class="sn">1</div><div>Implement the epoll event loop from the code in Tab 3. Use EPOLLET (edge-triggered) mode. Handle: new connections (accept), incoming data (read loop until EAGAIN), connection close (EPOLLHUP/recv returns 0), errors (EPOLLERR).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Set all accepted sockets to non-blocking with <code>fcntl(fd, F_SETFL, O_NONBLOCK)</code>. Set <code>TCP_NODELAY</code> and <code>SO_REUSEPORT</code>. Add a per-connection state structure (track bytes received, connection ID).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Load test with <code>ab -n 100000 -c 1000 http://localhost:8080/</code> or a custom C client. Measure: connections/second, max concurrent connections, memory per connection. Compare with a fork-per-connection server under the same load.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add SO_REUSEPORT: run 4 instances of your server on the same port (set different process IDs). Verify with <code>ss -tlnp | grep 8080</code> that all 4 are bound. Use <code>ab</code> to send 40,000 requests and verify even distribution across processes.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Raw Packet Craft and AF_PACKET Capture</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Write a minimal packet sniffer using AF_PACKET, then craft custom ICMP packets with raw sockets.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a packet sniffer: AF_PACKET socket, promiscuous mode, read loop. For each received frame: print timestamp, Ethernet src/dst MACs, EtherType. If EtherType=0x0800 (IPv4), also parse the IP header (src/dst IP, protocol, TTL). If protocol=ICMP, print type/code.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run your sniffer and generate traffic: ping, curl a website, start a TCP connection. Verify your sniffer correctly identifies all frame types. Compare output with tcpdump running in parallel on the same interface.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Write an ICMP ping with raw sockets (SOCK_RAW, IPPROTO_ICMP). Calculate the ICMP checksum. Send to 8.8.8.8 and receive the reply. Parse the reply to extract RTT (measure time between send and receive). Implement 5 pings and show min/avg/max RTT.</div></div>
+<p><strong>Objective:</strong> Write a minimal packet sniffer using AF_PACKET, then craft custom ICMP packets with raw sockets.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write a packet sniffer: AF_PACKET socket, promiscuous mode, read loop. For each received frame: print timestamp, Ethernet src/dst MACs, EtherType. If EtherType=0x0800 (IPv4), also parse the IP header (src/dst IP, protocol, TTL). If protocol=ICMP, print type/code.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run your sniffer and generate traffic: ping, curl a website, start a TCP connection. Verify your sniffer correctly identifies all frame types. Compare output with tcpdump running in parallel on the same interface.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Write an ICMP ping with raw sockets (SOCK_RAW, IPPROTO_ICMP). Calculate the ICMP checksum. Send to 8.8.8.8 and receive the reply. Parse the reply to extract RTT (measure time between send and receive). Implement 5 pings and show min/avg/max RTT.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Socket Performance Benchmarking</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Measure the impact of socket options on latency and throughput.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a benchmark that sends 1-byte request, receives 1-byte response, measures RTT. Test with TCP_NODELAY on vs off. Expected: TCP_NODELAY on = ~0.2ms; off = up to 40ms (Nagle delay). The 200× difference illustrates why TCP_NODELAY matters for latency-sensitive code.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Measure SO_RCVBUF impact on throughput: send 1GB over TCP with recv buffer at 4KB vs 256KB vs 4MB. Use iperf3 as reference. Explain why buffer size affects throughput on a high-latency link (BDP = bandwidth × delay).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Compare select vs poll vs epoll with 1000 file descriptors: open 1000 socket-pairs, use each API to wait for activity on all 1000. Measure time per call. Document the O(n) vs O(1) difference empirically.</div></div>
+<p><strong>Objective:</strong> Measure the impact of socket options on latency and throughput.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write a benchmark that sends 1-byte request, receives 1-byte response, measures RTT. Test with TCP_NODELAY on vs off. Expected: TCP_NODELAY on = ~0.2ms; off = up to 40ms (Nagle delay). The 200× difference illustrates why TCP_NODELAY matters for latency-sensitive code.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Measure SO_RCVBUF impact on throughput: send 1GB over TCP with recv buffer at 4KB vs 256KB vs 4MB. Use iperf3 as reference. Explain why buffer size affects throughput on a high-latency link (BDP = bandwidth × delay).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Compare select vs poll vs epoll with 1000 file descriptors: open 1000 socket-pairs, use each API to wait for activity on all 1000. Measure time per call. Document the O(n) vs O(1) difference empirically.</div></div>
   </div>
 </div>
 </div>

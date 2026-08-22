@@ -93,7 +93,7 @@ url: /learning/backend/m15-microservices/
 <div class="mod-header">
   <h1>M15 — Microservices &amp; Infrastructure</h1>
   <div class="sub">
-    <span class="phase-tag">Phase 6</span>
+<span class="phase-tag">Phase 6</span>
     Service architecture decisions · API Gateway &amp; service discovery · Circuit breaker &amp; bulkhead · Docker multi-stage builds · Kubernetes fundamentals · CI/CD pipelines · 12-Factor App
   </div>
 </div>
@@ -117,21 +117,21 @@ url: /learning/backend/m15-microservices/
   <div class="cp-hdr">🏗️ Monolith vs Microservices: The Real Decision</div>
   <div class="cp-body">
     The default answer is <strong>start with a monolith</strong> — specifically a <em>modular monolith</em> with clean internal boundaries. Split only when you have a concrete reason to, not because microservices are trendy.
-    <br><br>
-    <strong>When microservices make sense:</strong>
-    <ul>
-      <li><strong>Team topology:</strong> Conway's Law — your system architecture mirrors your communication structure. If you have 5 independent teams, a monolith creates coordination overhead; separate services let teams deploy independently.</li>
-      <li><strong>Independent scaling:</strong> one component (e.g., image processing) needs 10× more resources than others — split it to scale independently</li>
-      <li><strong>Technology heterogeneity:</strong> ML model serving needs Python, low-latency trading needs C — different services, different stacks</li>
-      <li><strong>Fault isolation:</strong> a crash in recommendations shouldn't crash checkout</li>
-    </ul>
-    <strong>Microservices costs you must accept:</strong>
-    <ul>
-      <li>Network latency and reliability in every inter-service call</li>
-      <li>Distributed tracing, log aggregation, and health monitoring for N services</li>
-      <li>Data consistency without distributed transactions (Saga, Outbox)</li>
-      <li>Deployment pipeline for each service</li>
-    </ul>
+<br><br>
+<strong>When microservices make sense:</strong>
+<ul>
+<li><strong>Team topology:</strong> Conway's Law — your system architecture mirrors your communication structure. If you have 5 independent teams, a monolith creates coordination overhead; separate services let teams deploy independently.</li>
+<li><strong>Independent scaling:</strong> one component (e.g., image processing) needs 10× more resources than others — split it to scale independently</li>
+<li><strong>Technology heterogeneity:</strong> ML model serving needs Python, low-latency trading needs C — different services, different stacks</li>
+<li><strong>Fault isolation:</strong> a crash in recommendations shouldn't crash checkout</li>
+</ul>
+<strong>Microservices costs you must accept:</strong>
+<ul>
+<li>Network latency and reliability in every inter-service call</li>
+<li>Distributed tracing, log aggregation, and health monitoring for N services</li>
+<li>Data consistency without distributed transactions (Saga, Outbox)</li>
+<li>Deployment pipeline for each service</li>
+</ul>
   </div>
 </div>
 <div class="analogy">
@@ -140,44 +140,44 @@ url: /learning/backend/m15-microservices/
 </div>
 <div class="two-col">
   <div class="cp p-green">
-    <div class="cp-hdr">🌱 Modular Monolith First</div>
-    <div class="cp-body">
+<div class="cp-hdr">🌱 Modular Monolith First</div>
+<div class="cp-body">
       Before splitting, enforce module boundaries <em>inside</em> the monolith:
-      <ul style="margin:0;padding-left:1.2rem">
-        <li>Each module has a <strong>public API</strong> (headers/interfaces) — no reaching into internals</li>
-        <li>Modules do not share database tables across boundaries</li>
-        <li>Cross-module calls are synchronous function calls — trivially refactorable to HTTP/gRPC later</li>
-        <li>Modules can be extracted one at a time (Strangler Fig)</li>
-      </ul>
-      <div class="ins" style="margin-top:.5rem">If your monolith has clean module boundaries, extracting a service is a lift-and-shift. If it's a big ball of mud, microservices just distribute the mess over a network.</div>
-    </div>
+<ul style="margin:0;padding-left:1.2rem">
+<li>Each module has a <strong>public API</strong> (headers/interfaces) — no reaching into internals</li>
+<li>Modules do not share database tables across boundaries</li>
+<li>Cross-module calls are synchronous function calls — trivially refactorable to HTTP/gRPC later</li>
+<li>Modules can be extracted one at a time (Strangler Fig)</li>
+</ul>
+<div class="ins" style="margin-top:.5rem">If your monolith has clean module boundaries, extracting a service is a lift-and-shift. If it's a big ball of mud, microservices just distribute the mess over a network.</div>
+</div>
   </div>
   <div class="cp p-blue">
-    <div class="cp-hdr">🪴 Strangler Fig Pattern</div>
-    <div class="cp-body">
+<div class="cp-hdr">🪴 Strangler Fig Pattern</div>
+<div class="cp-body">
       Incrementally replace a monolith without a big-bang rewrite:
-      <ol style="margin:0;padding-left:1.2rem">
-        <li>Identify a bounded context to extract (e.g., Notifications)</li>
-        <li>Build the new service alongside the monolith</li>
-        <li>Route specific endpoints (<code>/notify/*</code>) through the API Gateway to the new service</li>
-        <li>Monolith still handles everything else — both coexist</li>
-        <li>Once new service is stable, remove the monolith's notification module</li>
-        <li>Repeat for next module</li>
-      </ol>
-    </div>
+<ol style="margin:0;padding-left:1.2rem">
+<li>Identify a bounded context to extract (e.g., Notifications)</li>
+<li>Build the new service alongside the monolith</li>
+<li>Route specific endpoints (<code>/notify/*</code>) through the API Gateway to the new service</li>
+<li>Monolith still handles everything else — both coexist</li>
+<li>Once new service is stable, remove the monolith's notification module</li>
+<li>Repeat for next module</li>
+</ol>
+</div>
   </div>
 </div>
 <div class="cp p-amber">
   <div class="cp-hdr">📐 Phase 6 Module Map</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Module</th><th>Topic</th><th>Key Concepts</th></tr></thead>
-      <tbody>
-        <tr><td><strong>M15 (this)</strong></td><td>Microservices &amp; Infrastructure</td><td>Architecture decisions, API Gateway, circuit breaker, Docker, K8s, CI/CD</td></tr>
-        <tr><td>M16</td><td>Service Mesh &amp; Advanced Infra</td><td>Istio/Envoy, mTLS, traffic shaping, Helm, Terraform IaC</td></tr>
-      </tbody>
-    </table>
-    <div class="note" style="margin-top:.75rem">Prerequisites: Ph3 (Auth — JWT validation at the gateway), Ph5 (Event-Driven — async inter-service communication, Outbox pattern)</div>
+<table class="t-table">
+<thead><tr><th>Module</th><th>Topic</th><th>Key Concepts</th></tr></thead>
+<tbody>
+<tr><td><strong>M15 (this)</strong></td><td>Microservices &amp; Infrastructure</td><td>Architecture decisions, API Gateway, circuit breaker, Docker, K8s, CI/CD</td></tr>
+<tr><td>M16</td><td>Service Mesh &amp; Advanced Infra</td><td>Istio/Envoy, mTLS, traffic shaping, Helm, Terraform IaC</td></tr>
+</tbody>
+</table>
+<div class="note" style="margin-top:.75rem">Prerequisites: Ph3 (Auth — JWT validation at the gateway), Ph5 (Event-Driven — async inter-service communication, Outbox pattern)</div>
   </div>
 </div>
 </div><!-- /t-overview -->
@@ -188,92 +188,92 @@ url: /learning/backend/m15-microservices/
 <div class="cp p-amber">
   <div class="cp-hdr">🔗 Sync vs Async Inter-Service Communication</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Dimension</th><th>Synchronous (REST/gRPC)</th><th>Asynchronous (Events/Queues)</th></tr></thead>
-      <tbody>
-        <tr><td>Coupling</td><td>Temporal: caller blocks until callee responds</td><td>Loose: caller fires and continues</td></tr>
-        <tr><td>Latency</td><td>Fast for simple request/reply</td><td>Adds queuing delay (ms–seconds)</td></tr>
-        <tr><td>Failure propagation</td><td>Downstream failure cascades upstream</td><td>Broker buffers; caller unaffected by consumer down</td></tr>
-        <tr><td>Consistency</td><td>Immediate</td><td>Eventual</td></tr>
-        <tr><td>Observability</td><td>Easy: request trace follows call chain</td><td>Harder: events fan out; need correlation IDs</td></tr>
-        <tr><td>Best for</td><td>Queries, user-facing reads, RPC</td><td>Side effects (email, analytics, downstream processing)</td></tr>
-      </tbody>
-    </table>
-    <div class="ins"><strong>Hybrid pattern:</strong> Use sync for the user-facing response (place order → return order ID immediately), then async for all side effects (charge payment, send confirmation, update analytics) via events.</div>
+<table class="t-table">
+<thead><tr><th>Dimension</th><th>Synchronous (REST/gRPC)</th><th>Asynchronous (Events/Queues)</th></tr></thead>
+<tbody>
+<tr><td>Coupling</td><td>Temporal: caller blocks until callee responds</td><td>Loose: caller fires and continues</td></tr>
+<tr><td>Latency</td><td>Fast for simple request/reply</td><td>Adds queuing delay (ms–seconds)</td></tr>
+<tr><td>Failure propagation</td><td>Downstream failure cascades upstream</td><td>Broker buffers; caller unaffected by consumer down</td></tr>
+<tr><td>Consistency</td><td>Immediate</td><td>Eventual</td></tr>
+<tr><td>Observability</td><td>Easy: request trace follows call chain</td><td>Harder: events fan out; need correlation IDs</td></tr>
+<tr><td>Best for</td><td>Queries, user-facing reads, RPC</td><td>Side effects (email, analytics, downstream processing)</td></tr>
+</tbody>
+</table>
+<div class="ins"><strong>Hybrid pattern:</strong> Use sync for the user-facing response (place order → return order ID immediately), then async for all side effects (charge payment, send confirmation, update analytics) via events.</div>
   </div>
 </div>
 <div class="two-col">
   <div class="cp p-blue">
-    <div class="cp-hdr">🌐 REST Design for Microservices</div>
-    <div class="cp-body">
-      <ul style="margin:0;padding-left:1.2rem">
-        <li>Versioned endpoints: <code>/v1/orders</code> — never break existing consumers</li>
-        <li>Idempotency keys on POST: <code>Idempotency-Key: {uuid}</code> header</li>
-        <li>Pagination: cursor-based over offset (stable under inserts)</li>
-        <li>Timeout headers: <code>Request-Timeout: 5000</code> — avoid indefinite waits</li>
-        <li>Structured error responses: <code>{"error":"NOT_FOUND","message":"..."}</code></li>
-        <li>Health endpoints: <code>/health/live</code> (process alive), <code>/health/ready</code> (dependencies healthy)</li>
-      </ul>
-    </div>
+<div class="cp-hdr">🌐 REST Design for Microservices</div>
+<div class="cp-body">
+<ul style="margin:0;padding-left:1.2rem">
+<li>Versioned endpoints: <code>/v1/orders</code> — never break existing consumers</li>
+<li>Idempotency keys on POST: <code>Idempotency-Key: {uuid}</code> header</li>
+<li>Pagination: cursor-based over offset (stable under inserts)</li>
+<li>Timeout headers: <code>Request-Timeout: 5000</code> — avoid indefinite waits</li>
+<li>Structured error responses: <code>{"error":"NOT_FOUND","message":"..."}</code></li>
+<li>Health endpoints: <code>/health/live</code> (process alive), <code>/health/ready</code> (dependencies healthy)</li>
+</ul>
+</div>
   </div>
   <div class="cp p-teal">
-    <div class="cp-hdr">⚡ gRPC for Internal Services</div>
-    <div class="cp-body">
+<div class="cp-hdr">⚡ gRPC for Internal Services</div>
+<div class="cp-body">
       gRPC is preferred over REST for internal service-to-service calls:
-      <ul style="margin:0;padding-left:1.2rem">
-        <li><strong>Binary (Protobuf):</strong> smaller payload vs JSON, faster serialization</li>
-        <li><strong>Typed contracts:</strong> <code>.proto</code> file is the source of truth — no schema drift</li>
-        <li><strong>Streaming:</strong> server-side, client-side, and bidirectional streaming</li>
-        <li><strong>HTTP/2:</strong> multiplexed connections, header compression</li>
-        <li><strong>Code generation:</strong> auto-generated client/server stubs in any language</li>
-      </ul>
-      <div class="note" style="margin-top:.4rem">Use REST for external-facing APIs (browsers, third parties). Use gRPC for internal service mesh.</div>
-    </div>
+<ul style="margin:0;padding-left:1.2rem">
+<li><strong>Binary (Protobuf):</strong> smaller payload vs JSON, faster serialization</li>
+<li><strong>Typed contracts:</strong> <code>.proto</code> file is the source of truth — no schema drift</li>
+<li><strong>Streaming:</strong> server-side, client-side, and bidirectional streaming</li>
+<li><strong>HTTP/2:</strong> multiplexed connections, header compression</li>
+<li><strong>Code generation:</strong> auto-generated client/server stubs in any language</li>
+</ul>
+<div class="note" style="margin-top:.4rem">Use REST for external-facing APIs (browsers, third parties). Use gRPC for internal service mesh.</div>
+</div>
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr">🚪 API Gateway Responsibilities</div>
   <div class="cp-body">
     The API Gateway is the single entry point for all client traffic. It handles cross-cutting concerns so individual services don't have to:
-    <table class="t-table" style="margin-top:.5rem">
-      <thead><tr><th>Responsibility</th><th>How</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Routing</strong></td><td>Path-based: <code>/orders/*</code> → Order Service, <code>/users/*</code> → User Service</td></tr>
-        <tr><td><strong>Auth offload</strong></td><td>Validate JWT at gateway; forward <code>X-User-Id</code> header to services — services trust the header</td></tr>
-        <tr><td><strong>Rate limiting</strong></td><td>Token bucket per client IP or API key; return <code>429 Too Many Requests</code></td></tr>
-        <tr><td><strong>SSL termination</strong></td><td>HTTPS at gateway; plain HTTP on internal network (mTLS for higher security)</td></tr>
-        <tr><td><strong>Request aggregation (BFF)</strong></td><td>Backend For Frontend: gateway calls 3 services and merges response — saves mobile client from 3 round trips</td></tr>
-        <tr><td><strong>Canary routing</strong></td><td>Route 5% of traffic to new service version by header/cookie — gradual rollout</td></tr>
-        <tr><td><strong>Observability</strong></td><td>Add <code>X-Request-Id</code> header; log request/response at entry point</td></tr>
-      </tbody>
-    </table>
+<table class="t-table" style="margin-top:.5rem">
+<thead><tr><th>Responsibility</th><th>How</th></tr></thead>
+<tbody>
+<tr><td><strong>Routing</strong></td><td>Path-based: <code>/orders/*</code> → Order Service, <code>/users/*</code> → User Service</td></tr>
+<tr><td><strong>Auth offload</strong></td><td>Validate JWT at gateway; forward <code>X-User-Id</code> header to services — services trust the header</td></tr>
+<tr><td><strong>Rate limiting</strong></td><td>Token bucket per client IP or API key; return <code>429 Too Many Requests</code></td></tr>
+<tr><td><strong>SSL termination</strong></td><td>HTTPS at gateway; plain HTTP on internal network (mTLS for higher security)</td></tr>
+<tr><td><strong>Request aggregation (BFF)</strong></td><td>Backend For Frontend: gateway calls 3 services and merges response — saves mobile client from 3 round trips</td></tr>
+<tr><td><strong>Canary routing</strong></td><td>Route 5% of traffic to new service version by header/cookie — gradual rollout</td></tr>
+<tr><td><strong>Observability</strong></td><td>Add <code>X-Request-Id</code> header; log request/response at entry point</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr">🔍 Service Discovery</div>
   <div class="cp-body">
     Services are ephemeral — IPs change when containers restart. Service discovery provides stable addressing.
-    <div class="two-col" style="margin-top:.75rem">
-      <div>
-        <strong>Client-side discovery (Consul/Eureka)</strong>
-        <ul style="padding-left:1.2rem">
-          <li>Service registers itself with registry on startup</li>
-          <li>Client queries registry → gets list of healthy instances → client-side load balances (round-robin, etc.)</li>
-          <li>More control but client must implement discovery logic</li>
-        </ul>
-      </div>
-      <div>
-        <strong>Server-side discovery (AWS ALB, Kubernetes)</strong>
-        <ul style="padding-left:1.2rem">
-          <li>Client sends request to load balancer</li>
-          <li>LB queries registry and forwards to healthy instance</li>
-          <li>Client is simple; LB handles all discovery</li>
-        </ul>
-      </div>
-    </div>
-    <div style="margin-top:.5rem">
-      <strong>DNS-based (Kubernetes Services)</strong>: Kubernetes injects a DNS name for every Service (<code>orders.default.svc.cluster.local</code>). kube-proxy maintains iptables rules that load-balance across healthy Pods. Client just talks to the DNS name — no discovery library needed.
-    </div>
+<div class="two-col" style="margin-top:.75rem">
+<div>
+<strong>Client-side discovery (Consul/Eureka)</strong>
+<ul style="padding-left:1.2rem">
+<li>Service registers itself with registry on startup</li>
+<li>Client queries registry → gets list of healthy instances → client-side load balances (round-robin, etc.)</li>
+<li>More control but client must implement discovery logic</li>
+</ul>
+</div>
+<div>
+<strong>Server-side discovery (AWS ALB, Kubernetes)</strong>
+<ul style="padding-left:1.2rem">
+<li>Client sends request to load balancer</li>
+<li>LB queries registry and forwards to healthy instance</li>
+<li>Client is simple; LB handles all discovery</li>
+</ul>
+</div>
+</div>
+<div style="margin-top:.5rem">
+<strong>DNS-based (Kubernetes Services)</strong>: Kubernetes injects a DNS name for every Service (<code>orders.default.svc.cluster.local</code>). kube-proxy maintains iptables rules that load-balance across healthy Pods. Client just talks to the DNS name — no discovery library needed.
+</div>
   </div>
 </div>
 <div class="cp p-purple">
@@ -291,9 +291,9 @@ log_info(<span class="cv">"correlation_id=%s action=order_placed order_id=%s"</s
 
 <span class="cm">/* Each event published to Kafka: embed correlation_id in headers */</span>
 rd_kafka_headers_add(headers,
-    <span class="cv">"correlation_id"</span>, strlen(<span class="cv">"correlation_id"</span>),
+<span class="cv">"correlation_id"</span>, strlen(<span class="cv">"correlation_id"</span>),
     corr_id, strlen(corr_id));</div>
-    <div class="note">When debugging a production issue, search all service logs by correlation ID to reconstruct the full request timeline across service boundaries and async event chains.</div>
+<div class="note">When debugging a production issue, search all service logs by correlation ID to reconstruct the full request timeline across service boundaries and async event chains.</div>
   </div>
 </div>
 </div><!-- /t-comms -->
@@ -305,17 +305,17 @@ rd_kafka_headers_add(headers,
   <div class="cp-hdr">⚡ Why Resilience Patterns Are Necessary</div>
   <div class="cp-body">
     In a microservices system, any service call can fail or slow down. Without resilience patterns, one slow service causes a <strong>cascade failure</strong>: upstream services pile up blocked threads waiting for the slow service → thread pool exhaustion → entire system down.
-    <br><br>
+<br><br>
     The four primary resilience patterns:
-    <table class="t-table">
-      <thead><tr><th>Pattern</th><th>Problem Solved</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Timeout</strong></td><td>Don't wait forever — bound the worst case latency</td></tr>
-        <tr><td><strong>Retry</strong></td><td>Transient failures (network blip) often self-resolve — retry with backoff</td></tr>
-        <tr><td><strong>Circuit Breaker</strong></td><td>Stop calling a failing service — give it time to recover, fail fast to callers</td></tr>
-        <tr><td><strong>Bulkhead</strong></td><td>Isolate resource pools — one slow service can't exhaust all threads</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Pattern</th><th>Problem Solved</th></tr></thead>
+<tbody>
+<tr><td><strong>Timeout</strong></td><td>Don't wait forever — bound the worst case latency</td></tr>
+<tr><td><strong>Retry</strong></td><td>Transient failures (network blip) often self-resolve — retry with backoff</td></tr>
+<tr><td><strong>Circuit Breaker</strong></td><td>Stop calling a failing service — give it time to recover, fail fast to callers</td></tr>
+<tr><td><strong>Bulkhead</strong></td><td>Isolate resource pools — one slow service can't exhaust all threads</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-green">
@@ -352,67 +352,67 @@ rd_kafka_headers_add(headers,
 <div class="cp p-blue">
   <div class="cp-hdr">🔑 Circuit Breaker: Key Configuration Parameters</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Parameter</th><th>What It Controls</th><th>Guidance</th></tr></thead>
-      <tbody>
-        <tr><td><code>failure_threshold</code></td><td>N failures to trip OPEN</td><td>5–10 over a rolling window (not total)</td></tr>
-        <tr><td><code>failure_rate_threshold</code></td><td>% failure rate to trip (more robust than count)</td><td>50% failure rate over last 20 requests</td></tr>
-        <tr><td><code>open_timeout</code></td><td>How long to stay OPEN before probing</td><td>30s–60s, or exponential backoff</td></tr>
-        <tr><td><code>half_open_max_calls</code></td><td>Max probe calls in HALF-OPEN</td><td>1–3 probes; don't flood recovering service</td></tr>
-        <tr><td><code>slow_call_threshold</code></td><td>Calls slower than N ms count as failures</td><td>Set to 2× normal p99 latency</td></tr>
-        <tr><td>Fallback</td><td>What to return in OPEN state</td><td>Cached response, degraded response, or structured error</td></tr>
-      </tbody>
-    </table>
-    <div class="warn"><strong>Don't set timeouts too generously.</strong> If your circuit breaker timeout is 30s but your HTTP timeout is 60s, threads still block 30–60s before the breaker opens. Always set HTTP timeout ≤ circuit breaker slow_call_threshold.</div>
+<table class="t-table">
+<thead><tr><th>Parameter</th><th>What It Controls</th><th>Guidance</th></tr></thead>
+<tbody>
+<tr><td><code>failure_threshold</code></td><td>N failures to trip OPEN</td><td>5–10 over a rolling window (not total)</td></tr>
+<tr><td><code>failure_rate_threshold</code></td><td>% failure rate to trip (more robust than count)</td><td>50% failure rate over last 20 requests</td></tr>
+<tr><td><code>open_timeout</code></td><td>How long to stay OPEN before probing</td><td>30s–60s, or exponential backoff</td></tr>
+<tr><td><code>half_open_max_calls</code></td><td>Max probe calls in HALF-OPEN</td><td>1–3 probes; don't flood recovering service</td></tr>
+<tr><td><code>slow_call_threshold</code></td><td>Calls slower than N ms count as failures</td><td>Set to 2× normal p99 latency</td></tr>
+<tr><td>Fallback</td><td>What to return in OPEN state</td><td>Cached response, degraded response, or structured error</td></tr>
+</tbody>
+</table>
+<div class="warn"><strong>Don't set timeouts too generously.</strong> If your circuit breaker timeout is 30s but your HTTP timeout is 60s, threads still block 30–60s before the breaker opens. Always set HTTP timeout ≤ circuit breaker slow_call_threshold.</div>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr">🚢 Bulkhead Pattern</div>
   <div class="cp-body">
     Named after the watertight compartments in a ship — if one compartment floods, others are sealed off and the ship survives.
-    <br><br>
-    <strong>In microservices:</strong> instead of one shared thread pool for all downstream calls, create <em>separate thread pools per dependency</em>:
+<br><br>
+<strong>In microservices:</strong> instead of one shared thread pool for all downstream calls, create <em>separate thread pools per dependency</em>:
 <div class="cb"><span class="cm">/* Thread pool bulkhead: separate pool per downstream service */</span>
 <span class="cs">typedef struct</span> {
     pthread_t  threads[POOL_SIZE];
     work_queue_t queue;
-    <span class="cs">const char</span>  *name;         <span class="cm">/* e.g. "payment-service" */</span>
-    <span class="cs">int</span>          max_queue;     <span class="cm">/* reject if queue full */</span>
+<span class="cs">const char</span>  *name;         <span class="cm">/* e.g. "payment-service" */</span>
+<span class="cs">int</span>          max_queue;     <span class="cm">/* reject if queue full */</span>
 } bulkhead_pool_t;
 
 <span class="cm">/* Separate pools: payment can be slow without blocking inventory calls */</span>
 bulkhead_pool_t payment_pool  = { .name=<span class="cv">"payment"</span>,   .max_queue=<span class="cn">50</span> };
 bulkhead_pool_t inventory_pool = { .name=<span class="cv">"inventory"</span>, .max_queue=<span class="cn">200</span> };</div>
-    <div class="note">If Payment Service slows down and fills the payment pool queue, the system returns <code>503 Service Unavailable</code> for payment calls only. Inventory calls proceed normally — the bulkhead contains the failure.</div>
+<div class="note">If Payment Service slows down and fills the payment pool queue, the system returns <code>503 Service Unavailable</code> for payment calls only. Inventory calls proceed normally — the bulkhead contains the failure.</div>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr">🔁 Retry with Exponential Backoff + Jitter</div>
   <div class="cp-body">
     Retries are essential for transient failures, but naive retries can cause <strong>thundering herd</strong> — hundreds of services all retry at the same second and overwhelm the recovering service.
-    <br><br>
-    <strong>Solution:</strong> exponential backoff + random jitter:
+<br><br>
+<strong>Solution:</strong> exponential backoff + random jitter:
 <div class="cb"><span class="cm">/* Retry with exponential backoff and full jitter */</span>
 <span class="cs">int</span> <span class="cf">retry_with_backoff</span>(int (*fn)(<span class="cs">void</span>*), <span class="cs">void</span> *ctx,
-                          <span class="cs">int</span> max_attempts, <span class="cs">int</span> base_ms) {
-    <span class="ck">for</span> (<span class="cs">int</span> attempt = <span class="cn">0</span>; attempt &lt; max_attempts; attempt++) {
-        <span class="ck">if</span> (fn(ctx) == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">0</span>;  <span class="cm">/* success */</span>
-        <span class="ck">if</span> (attempt + <span class="cn">1</span> == max_attempts) <span class="ck">break</span>;
+<span class="cs">int</span> max_attempts, <span class="cs">int</span> base_ms) {
+<span class="ck">for</span> (<span class="cs">int</span> attempt = <span class="cn">0</span>; attempt &lt; max_attempts; attempt++) {
+<span class="ck">if</span> (fn(ctx) == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">0</span>;  <span class="cm">/* success */</span>
+<span class="ck">if</span> (attempt + <span class="cn">1</span> == max_attempts) <span class="ck">break</span>;
 
-        <span class="cm">/* Exponential: base_ms * 2^attempt, capped at 30s */</span>
-        <span class="cs">int</span> cap = base_ms * (<span class="cn">1</span> &lt;&lt; attempt);
-        <span class="ck">if</span> (cap &gt; <span class="cn">30000</span>) cap = <span class="cn">30000</span>;
+<span class="cm">/* Exponential: base_ms * 2^attempt, capped at 30s */</span>
+<span class="cs">int</span> cap = base_ms * (<span class="cn">1</span> &lt;&lt; attempt);
+<span class="ck">if</span> (cap &gt; <span class="cn">30000</span>) cap = <span class="cn">30000</span>;
 
-        <span class="cm">/* Full jitter: random in [0, cap] — spreads retries */</span>
-        <span class="cs">int</span> delay = rand() % (cap + <span class="cn">1</span>);
+<span class="cm">/* Full jitter: random in [0, cap] — spreads retries */</span>
+<span class="cs">int</span> delay = rand() % (cap + <span class="cn">1</span>);
         usleep(delay * <span class="cn">1000</span>);
     }
-    <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* all attempts failed */</span>
+<span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* all attempts failed */</span>
 }
 
 <span class="cm">/* Usage: retry up to 5 times, starting at 100ms base delay */</span>
 retry_with_backoff(call_payment_service, &amp;ctx, <span class="cn">5</span>, <span class="cn">100</span>);</div>
-    <div class="warn">Only retry <strong>idempotent</strong> operations. Never blindly retry a POST that creates a resource — you'll create duplicates. Use idempotency keys (M13) to make POSTs safe to retry.</div>
+<div class="warn">Only retry <strong>idempotent</strong> operations. Never blindly retry a POST that creates a resource — you'll create duplicates. Use idempotency keys (M13) to make POSTs safe to retry.</div>
   </div>
 </div>
 </div><!-- /t-resilience -->
@@ -478,31 +478,31 @@ retry_with_backoff(call_payment_service, &amp;ctx, <span class="cn">5</span>, <s
 </div>
 <div class="two-col">
   <div class="cp p-green">
-    <div class="cp-hdr">✅ Docker Best Practices</div>
-    <div class="cp-body">
-      <ul style="margin:0;padding-left:1.2rem">
-        <li><strong>Pin image versions:</strong> <code>debian:bookworm-slim</code> not <code>debian:latest</code> — reproducible builds</li>
-        <li><strong>Non-root user:</strong> <code>useradd -r</code> + <code>USER appuser</code> — container escape with root = host root</li>
-        <li><strong>No secrets in image:</strong> use environment variables or secrets mounts, never <code>ARG PASSWORD</code> (visible in layers)</li>
-        <li><strong>COPY specific files:</strong> <code>COPY src/ /build/src/</code> not <code>COPY . .</code> — avoids copying <code>.git</code>, local configs</li>
-        <li><strong>Read-only root filesystem:</strong> <code>--read-only</code> flag — forces explicit volume mounts for writable paths</li>
-        <li><strong>Health check:</strong> <code>HEALTHCHECK CMD curl -f http://localhost:8080/health/live || exit 1</code></li>
-      </ul>
-    </div>
+<div class="cp-hdr">✅ Docker Best Practices</div>
+<div class="cp-body">
+<ul style="margin:0;padding-left:1.2rem">
+<li><strong>Pin image versions:</strong> <code>debian:bookworm-slim</code> not <code>debian:latest</code> — reproducible builds</li>
+<li><strong>Non-root user:</strong> <code>useradd -r</code> + <code>USER appuser</code> — container escape with root = host root</li>
+<li><strong>No secrets in image:</strong> use environment variables or secrets mounts, never <code>ARG PASSWORD</code> (visible in layers)</li>
+<li><strong>COPY specific files:</strong> <code>COPY src/ /build/src/</code> not <code>COPY . .</code> — avoids copying <code>.git</code>, local configs</li>
+<li><strong>Read-only root filesystem:</strong> <code>--read-only</code> flag — forces explicit volume mounts for writable paths</li>
+<li><strong>Health check:</strong> <code>HEALTHCHECK CMD curl -f http://localhost:8080/health/live || exit 1</code></li>
+</ul>
+</div>
   </div>
   <div class="cp p-red">
-    <div class="cp-hdr">🚫 Common Docker Mistakes</div>
-    <div class="cp-body">
-      <ul style="margin:0;padding-left:1.2rem">
-        <li>Running as root (default if no USER set)</li>
-        <li>Using <code>latest</code> tag — non-deterministic; breaks reproducibility</li>
-        <li>Building in a single stage — final image carries GCC, headers, build tools</li>
-        <li>Putting secrets in environment variables that get logged</li>
-        <li>Using CMD instead of ENTRYPOINT — <code>docker stop</code> doesn't send SIGTERM to PID 1</li>
-        <li><code>apt-get update</code> without <code>&amp;&amp; apt-get install</code> in same RUN — stale layer cache</li>
-        <li>Not adding a <code>.dockerignore</code> — copies <code>node_modules/</code>, <code>.git/</code>, build artifacts</li>
-      </ul>
-    </div>
+<div class="cp-hdr">🚫 Common Docker Mistakes</div>
+<div class="cp-body">
+<ul style="margin:0;padding-left:1.2rem">
+<li>Running as root (default if no USER set)</li>
+<li>Using <code>latest</code> tag — non-deterministic; breaks reproducibility</li>
+<li>Building in a single stage — final image carries GCC, headers, build tools</li>
+<li>Putting secrets in environment variables that get logged</li>
+<li>Using CMD instead of ENTRYPOINT — <code>docker stop</code> doesn't send SIGTERM to PID 1</li>
+<li><code>apt-get update</code> without <code>&amp;&amp; apt-get install</code> in same RUN — stale layer cache</li>
+<li>Not adding a <code>.dockerignore</code> — copies <code>node_modules/</code>, <code>.git/</code>, build artifacts</li>
+</ul>
+</div>
   </div>
 </div>
 <div class="cp p-amber">
@@ -524,23 +524,23 @@ CMakeFiles/
 *.md
 docs/
 tests/</div>
-    <div class="note">Every byte in the build context is sent to the Docker daemon. Large build contexts (accidental <code>.git</code> inclusion) slow down every build. A good <code>.dockerignore</code> is as important as the Dockerfile itself.</div>
+<div class="note">Every byte in the build context is sent to the Docker daemon. Large build contexts (accidental <code>.git</code> inclusion) slow down every build. A good <code>.dockerignore</code> is as important as the Dockerfile itself.</div>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr">🔄 ENTRYPOINT vs CMD: Graceful Shutdown</div>
   <div class="cp-body">
     When Kubernetes sends SIGTERM (graceful shutdown), the signal goes to <strong>PID 1</strong> in the container. If your process is not PID 1, it never receives SIGTERM and gets hard-killed after <code>terminationGracePeriodSeconds</code>.
-    <br><br>
-    <table class="t-table">
-      <thead><tr><th>Form</th><th>Shell</th><th>PID 1</th><th>Gets SIGTERM?</th></tr></thead>
-      <tbody>
-        <tr><td><code>ENTRYPOINT ["/app/service"]</code> (exec)</td><td>No</td><td>Your binary</td><td>✅ Yes</td></tr>
-        <tr><td><code>ENTRYPOINT /app/service</code> (shell)</td><td>/bin/sh -c</td><td>sh</td><td>❌ No (sh is PID 1)</td></tr>
-        <tr><td><code>CMD ["/app/service"]</code> (exec)</td><td>No</td><td>Your binary</td><td>✅ Yes (if no ENTRYPOINT)</td></tr>
-      </tbody>
-    </table>
-    <div class="ins">Always use exec form: <code>ENTRYPOINT ["/app/service"]</code>. In your C process, register a SIGTERM handler that drains connections and exits cleanly.</div>
+<br><br>
+<table class="t-table">
+<thead><tr><th>Form</th><th>Shell</th><th>PID 1</th><th>Gets SIGTERM?</th></tr></thead>
+<tbody>
+<tr><td><code>ENTRYPOINT ["/app/service"]</code> (exec)</td><td>No</td><td>Your binary</td><td>✅ Yes</td></tr>
+<tr><td><code>ENTRYPOINT /app/service</code> (shell)</td><td>/bin/sh -c</td><td>sh</td><td>❌ No (sh is PID 1)</td></tr>
+<tr><td><code>CMD ["/app/service"]</code> (exec)</td><td>No</td><td>Your binary</td><td>✅ Yes (if no ENTRYPOINT)</td></tr>
+</tbody>
+</table>
+<div class="ins">Always use exec form: <code>ENTRYPOINT ["/app/service"]</code>. In your C process, register a SIGTERM handler that drains connections and exits cleanly.</div>
   </div>
 </div>
 </div><!-- /t-docker -->
@@ -551,18 +551,18 @@ tests/</div>
 <div class="cp p-amber">
   <div class="cp-hdr">☸️ Kubernetes Core Objects</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Object</th><th>Purpose</th><th>Key Fields</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Pod</strong></td><td>Smallest deployable unit: one or more containers sharing network/storage</td><td><code>spec.containers[].image</code>, <code>resources</code>, <code>env</code></td></tr>
-        <tr><td><strong>Deployment</strong></td><td>Declares desired state: N replicas of a Pod template; manages rolling updates and rollback</td><td><code>spec.replicas</code>, <code>spec.strategy</code>, <code>spec.template</code></td></tr>
-        <tr><td><strong>Service</strong></td><td>Stable DNS name + ClusterIP that load-balances across matching Pods (by label selector)</td><td><code>spec.selector</code>, <code>spec.ports</code>, <code>spec.type</code></td></tr>
-        <tr><td><strong>Ingress</strong></td><td>HTTP/S routing rules: hostname/path → Service; TLS termination</td><td><code>spec.rules[].host</code>, <code>spec.tls</code></td></tr>
-        <tr><td><strong>ConfigMap</strong></td><td>Non-sensitive configuration: mounted as env vars or files</td><td><code>data</code> key-value pairs</td></tr>
-        <tr><td><strong>Secret</strong></td><td>Sensitive data (passwords, tokens): base64-encoded, encrypted at rest</td><td><code>data</code> (base64), <code>type</code></td></tr>
-        <tr><td><strong>HPA</strong></td><td>Horizontal Pod Autoscaler: scales replicas based on CPU/memory/custom metrics</td><td><code>spec.minReplicas</code>, <code>spec.maxReplicas</code>, <code>spec.metrics</code></td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Object</th><th>Purpose</th><th>Key Fields</th></tr></thead>
+<tbody>
+<tr><td><strong>Pod</strong></td><td>Smallest deployable unit: one or more containers sharing network/storage</td><td><code>spec.containers[].image</code>, <code>resources</code>, <code>env</code></td></tr>
+<tr><td><strong>Deployment</strong></td><td>Declares desired state: N replicas of a Pod template; manages rolling updates and rollback</td><td><code>spec.replicas</code>, <code>spec.strategy</code>, <code>spec.template</code></td></tr>
+<tr><td><strong>Service</strong></td><td>Stable DNS name + ClusterIP that load-balances across matching Pods (by label selector)</td><td><code>spec.selector</code>, <code>spec.ports</code>, <code>spec.type</code></td></tr>
+<tr><td><strong>Ingress</strong></td><td>HTTP/S routing rules: hostname/path → Service; TLS termination</td><td><code>spec.rules[].host</code>, <code>spec.tls</code></td></tr>
+<tr><td><strong>ConfigMap</strong></td><td>Non-sensitive configuration: mounted as env vars or files</td><td><code>data</code> key-value pairs</td></tr>
+<tr><td><strong>Secret</strong></td><td>Sensitive data (passwords, tokens): base64-encoded, encrypted at rest</td><td><code>data</code> (base64), <code>type</code></td></tr>
+<tr><td><strong>HPA</strong></td><td>Horizontal Pod Autoscaler: scales replicas based on CPU/memory/custom metrics</td><td><code>spec.minReplicas</code>, <code>spec.maxReplicas</code>, <code>spec.metrics</code></td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-blue">
@@ -574,60 +574,60 @@ tests/</div>
 <span class="ck">metadata</span>:
   <span class="ck">name</span>: <span class="cv">order-service</span>
   <span class="ck">labels</span>:
-    <span class="ck">app</span>: <span class="cv">order-service</span>
+<span class="ck">app</span>: <span class="cv">order-service</span>
 <span class="ck">spec</span>:
   <span class="ck">replicas</span>: <span class="cn">3</span>
   <span class="ck">selector</span>:
-    <span class="ck">matchLabels</span>:
-      <span class="ck">app</span>: <span class="cv">order-service</span>
+<span class="ck">matchLabels</span>:
+<span class="ck">app</span>: <span class="cv">order-service</span>
   <span class="ck">strategy</span>:
-    <span class="ck">type</span>: <span class="cv">RollingUpdate</span>
-    <span class="ck">rollingUpdate</span>:
-      <span class="ck">maxUnavailable</span>: <span class="cn">1</span>      <span class="cm"># at most 1 Pod down during update</span>
-      <span class="ck">maxSurge</span>: <span class="cn">1</span>           <span class="cm"># at most 1 extra Pod during update</span>
+<span class="ck">type</span>: <span class="cv">RollingUpdate</span>
+<span class="ck">rollingUpdate</span>:
+<span class="ck">maxUnavailable</span>: <span class="cn">1</span>      <span class="cm"># at most 1 Pod down during update</span>
+<span class="ck">maxSurge</span>: <span class="cn">1</span>           <span class="cm"># at most 1 extra Pod during update</span>
   <span class="ck">template</span>:
-    <span class="ck">metadata</span>:
-      <span class="ck">labels</span>:
-        <span class="ck">app</span>: <span class="cv">order-service</span>
-    <span class="ck">spec</span>:
-      <span class="ck">containers</span>:
+<span class="ck">metadata</span>:
+<span class="ck">labels</span>:
+<span class="ck">app</span>: <span class="cv">order-service</span>
+<span class="ck">spec</span>:
+<span class="ck">containers</span>:
       - <span class="ck">name</span>: <span class="cv">order-service</span>
-        <span class="ck">image</span>: <span class="cv">registry.example.com/order-service:1.4.2</span>
-        <span class="ck">ports</span>:
+<span class="ck">image</span>: <span class="cv">registry.example.com/order-service:1.4.2</span>
+<span class="ck">ports</span>:
         - <span class="ck">containerPort</span>: <span class="cn">8080</span>
-        <span class="ck">env</span>:
+<span class="ck">env</span>:
         - <span class="ck">name</span>: <span class="cv">DATABASE_URL</span>
-          <span class="ck">valueFrom</span>:
-            <span class="ck">secretKeyRef</span>:
-              <span class="ck">name</span>: <span class="cv">order-service-secrets</span>
-              <span class="ck">key</span>: <span class="cv">database_url</span>
+<span class="ck">valueFrom</span>:
+<span class="ck">secretKeyRef</span>:
+<span class="ck">name</span>: <span class="cv">order-service-secrets</span>
+<span class="ck">key</span>: <span class="cv">database_url</span>
         - <span class="ck">name</span>: <span class="cv">KAFKA_BROKERS</span>
-          <span class="ck">valueFrom</span>:
-            <span class="ck">configMapKeyRef</span>:
-              <span class="ck">name</span>: <span class="cv">order-service-config</span>
-              <span class="ck">key</span>: <span class="cv">kafka_brokers</span>
-        <span class="ck">resources</span>:
-          <span class="ck">requests</span>:
-            <span class="ck">cpu</span>: <span class="cv">"100m"</span>     <span class="cm"># 0.1 CPU cores guaranteed</span>
-            <span class="ck">memory</span>: <span class="cv">"64Mi"</span>
-          <span class="ck">limits</span>:
-            <span class="ck">cpu</span>: <span class="cv">"500m"</span>     <span class="cm"># burst up to 0.5 CPU</span>
-            <span class="ck">memory</span>: <span class="cv">"256Mi"</span>  <span class="cm"># OOM-killed if exceeded</span>
-        <span class="ck">livenessProbe</span>:
-          <span class="ck">httpGet</span>:
-            <span class="ck">path</span>: <span class="cv">/health/live</span>
-            <span class="ck">port</span>: <span class="cn">8080</span>
-          <span class="ck">initialDelaySeconds</span>: <span class="cn">5</span>
-          <span class="ck">periodSeconds</span>: <span class="cn">10</span>
-          <span class="ck">failureThreshold</span>: <span class="cn">3</span>   <span class="cm"># restart after 3 consecutive failures</span>
-        <span class="ck">readinessProbe</span>:
-          <span class="ck">httpGet</span>:
-            <span class="ck">path</span>: <span class="cv">/health/ready</span>
-            <span class="ck">port</span>: <span class="cn">8080</span>
-          <span class="ck">initialDelaySeconds</span>: <span class="cn">3</span>
-          <span class="ck">periodSeconds</span>: <span class="cn">5</span>
-          <span class="ck">failureThreshold</span>: <span class="cn">2</span>   <span class="cm"># remove from LB after 2 failures</span>
-        <span class="ck">terminationGracePeriodSeconds</span>: <span class="cn">30</span>
+<span class="ck">valueFrom</span>:
+<span class="ck">configMapKeyRef</span>:
+<span class="ck">name</span>: <span class="cv">order-service-config</span>
+<span class="ck">key</span>: <span class="cv">kafka_brokers</span>
+<span class="ck">resources</span>:
+<span class="ck">requests</span>:
+<span class="ck">cpu</span>: <span class="cv">"100m"</span>     <span class="cm"># 0.1 CPU cores guaranteed</span>
+<span class="ck">memory</span>: <span class="cv">"64Mi"</span>
+<span class="ck">limits</span>:
+<span class="ck">cpu</span>: <span class="cv">"500m"</span>     <span class="cm"># burst up to 0.5 CPU</span>
+<span class="ck">memory</span>: <span class="cv">"256Mi"</span>  <span class="cm"># OOM-killed if exceeded</span>
+<span class="ck">livenessProbe</span>:
+<span class="ck">httpGet</span>:
+<span class="ck">path</span>: <span class="cv">/health/live</span>
+<span class="ck">port</span>: <span class="cn">8080</span>
+<span class="ck">initialDelaySeconds</span>: <span class="cn">5</span>
+<span class="ck">periodSeconds</span>: <span class="cn">10</span>
+<span class="ck">failureThreshold</span>: <span class="cn">3</span>   <span class="cm"># restart after 3 consecutive failures</span>
+<span class="ck">readinessProbe</span>:
+<span class="ck">httpGet</span>:
+<span class="ck">path</span>: <span class="cv">/health/ready</span>
+<span class="ck">port</span>: <span class="cn">8080</span>
+<span class="ck">initialDelaySeconds</span>: <span class="cn">3</span>
+<span class="ck">periodSeconds</span>: <span class="cn">5</span>
+<span class="ck">failureThreshold</span>: <span class="cn">2</span>   <span class="cm"># remove from LB after 2 failures</span>
+<span class="ck">terminationGracePeriodSeconds</span>: <span class="cn">30</span>
 ---
 <span class="ck">apiVersion</span>: <span class="cv">v1</span>
 <span class="ck">kind</span>: <span class="cv">Service</span>
@@ -635,38 +635,38 @@ tests/</div>
   <span class="ck">name</span>: <span class="cv">order-service</span>
 <span class="ck">spec</span>:
   <span class="ck">selector</span>:
-    <span class="ck">app</span>: <span class="cv">order-service</span>
+<span class="ck">app</span>: <span class="cv">order-service</span>
   <span class="ck">ports</span>:
   - <span class="ck">port</span>: <span class="cn">80</span>
-    <span class="ck">targetPort</span>: <span class="cn">8080</span></div>
+<span class="ck">targetPort</span>: <span class="cn">8080</span></div>
   </div>
 </div>
 <div class="two-col">
   <div class="cp p-green">
-    <div class="cp-hdr">💓 Liveness vs Readiness Probes</div>
-    <div class="cp-body">
-      <table class="t-table">
-        <thead><tr><th>Probe</th><th>Failure Action</th><th>Purpose</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Liveness</strong></td><td>Restart the container</td><td>Is the process alive? (Detects deadlocks, infinite loops)</td></tr>
-          <tr><td><strong>Readiness</strong></td><td>Remove from Service endpoints (stops traffic)</td><td>Is the process ready to serve? (DB connected, cache warm)</td></tr>
-          <tr><td><strong>Startup</strong></td><td>Restart if not ready within window</td><td>Slow-starting apps — disables liveness until startup complete</td></tr>
-        </tbody>
-      </table>
-      <div class="warn" style="margin-top:.4rem">Never make readiness probe depend on external services. If Payment Service is down, you don't want all Order Service pods removed from load balancing — implement graceful degradation instead.</div>
-    </div>
+<div class="cp-hdr">💓 Liveness vs Readiness Probes</div>
+<div class="cp-body">
+<table class="t-table">
+<thead><tr><th>Probe</th><th>Failure Action</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><strong>Liveness</strong></td><td>Restart the container</td><td>Is the process alive? (Detects deadlocks, infinite loops)</td></tr>
+<tr><td><strong>Readiness</strong></td><td>Remove from Service endpoints (stops traffic)</td><td>Is the process ready to serve? (DB connected, cache warm)</td></tr>
+<tr><td><strong>Startup</strong></td><td>Restart if not ready within window</td><td>Slow-starting apps — disables liveness until startup complete</td></tr>
+</tbody>
+</table>
+<div class="warn" style="margin-top:.4rem">Never make readiness probe depend on external services. If Payment Service is down, you don't want all Order Service pods removed from load balancing — implement graceful degradation instead.</div>
+</div>
   </div>
   <div class="cp p-teal">
-    <div class="cp-hdr">🚀 Rolling Updates &amp; Rollback</div>
-    <div class="cp-body">
-      <ul style="margin:0;padding-left:1.2rem">
-        <li>Update image: <code>kubectl set image deployment/order-service order-service=registry.example.com/order-service:1.4.3</code></li>
-        <li>Monitor rollout: <code>kubectl rollout status deployment/order-service</code></li>
-        <li>Rollback to previous: <code>kubectl rollout undo deployment/order-service</code></li>
-        <li>Rollback to specific revision: <code>kubectl rollout undo deployment/order-service --to-revision=2</code></li>
-      </ul>
-      <div class="note" style="margin-top:.4rem"><strong>Pod Disruption Budget:</strong> <code>minAvailable: 2</code> — cluster autoscaler and rolling updates respect this; never takes down so many pods that fewer than 2 are available.</div>
-    </div>
+<div class="cp-hdr">🚀 Rolling Updates &amp; Rollback</div>
+<div class="cp-body">
+<ul style="margin:0;padding-left:1.2rem">
+<li>Update image: <code>kubectl set image deployment/order-service order-service=registry.example.com/order-service:1.4.3</code></li>
+<li>Monitor rollout: <code>kubectl rollout status deployment/order-service</code></li>
+<li>Rollback to previous: <code>kubectl rollout undo deployment/order-service</code></li>
+<li>Rollback to specific revision: <code>kubectl rollout undo deployment/order-service --to-revision=2</code></li>
+</ul>
+<div class="note" style="margin-top:.4rem"><strong>Pod Disruption Budget:</strong> <code>minAvailable: 2</code> — cluster autoscaler and rolling updates respect this; never takes down so many pods that fewer than 2 are available.</div>
+</div>
   </div>
 </div>
 </div><!-- /t-k8s -->
@@ -692,33 +692,33 @@ tests/</div>
 </ul>
 <div class="two-col">
   <div class="cp p-green">
-    <div class="cp-hdr">🟢🔵 Blue-Green Deployment</div>
-    <div class="cp-body">
+<div class="cp-hdr">🟢🔵 Blue-Green Deployment</div>
+<div class="cp-body">
       Maintain two identical environments (blue = current, green = new):
-      <ol style="margin:0;padding-left:1.2rem">
-        <li>Deploy new version to green environment</li>
-        <li>Run smoke tests on green (not receiving production traffic)</li>
-        <li>Switch load balancer to point to green (instant cutover)</li>
-        <li>Blue environment kept running for instant rollback</li>
-        <li>After confidence period, decommission blue</li>
-      </ol>
-      <strong>Pros:</strong> zero-downtime, instant rollback<br>
-      <strong>Cons:</strong> requires 2× infrastructure during transition
-    </div>
+<ol style="margin:0;padding-left:1.2rem">
+<li>Deploy new version to green environment</li>
+<li>Run smoke tests on green (not receiving production traffic)</li>
+<li>Switch load balancer to point to green (instant cutover)</li>
+<li>Blue environment kept running for instant rollback</li>
+<li>After confidence period, decommission blue</li>
+</ol>
+<strong>Pros:</strong> zero-downtime, instant rollback<br>
+<strong>Cons:</strong> requires 2× infrastructure during transition
+</div>
   </div>
   <div class="cp p-blue">
-    <div class="cp-hdr">🐦 Canary Deployment</div>
-    <div class="cp-body">
+<div class="cp-hdr">🐦 Canary Deployment</div>
+<div class="cp-body">
       Route a small percentage of traffic to new version first:
-      <ol style="margin:0;padding-left:1.2rem">
-        <li>Deploy new version alongside old; route 5% of traffic to it</li>
-        <li>Monitor error rate, latency, business metrics (conversion rate)</li>
-        <li>If healthy after 10m: increase to 20% → 50% → 100%</li>
-        <li>If issues: instant rollback by routing 100% back to old version</li>
-      </ol>
-      <strong>Pros:</strong> real production traffic validation, minimal blast radius<br>
-      <strong>Cons:</strong> two versions run simultaneously — must be API-compatible
-    </div>
+<ol style="margin:0;padding-left:1.2rem">
+<li>Deploy new version alongside old; route 5% of traffic to it</li>
+<li>Monitor error rate, latency, business metrics (conversion rate)</li>
+<li>If healthy after 10m: increase to 20% → 50% → 100%</li>
+<li>If issues: instant rollback by routing 100% back to old version</li>
+</ol>
+<strong>Pros:</strong> real production traffic validation, minimal blast radius<br>
+<strong>Cons:</strong> two versions run simultaneously — must be API-compatible
+</div>
   </div>
 </div>
 <div class="cp p-amber">
@@ -728,51 +728,51 @@ tests/</div>
 <span class="ck">name</span>: <span class="cv">CI</span>
 <span class="ck">on</span>:
   <span class="ck">push</span>:
-    <span class="ck">branches</span>: [<span class="cv">main</span>]
+<span class="ck">branches</span>: [<span class="cv">main</span>]
   <span class="ck">pull_request</span>:
 
 <span class="ck">jobs</span>:
   <span class="ck">build-test</span>:
-    <span class="ck">runs-on</span>: <span class="cv">ubuntu-latest</span>
-    <span class="ck">services</span>:
-      <span class="ck">postgres</span>:
-        <span class="ck">image</span>: <span class="cv">postgres:16</span>
-        <span class="ck">env</span>:
-          <span class="ck">POSTGRES_PASSWORD</span>: <span class="cv">test</span>
-          <span class="ck">POSTGRES_DB</span>: <span class="cv">testdb</span>
-        <span class="ck">options</span>: <span class="cv">&gt;-
+<span class="ck">runs-on</span>: <span class="cv">ubuntu-latest</span>
+<span class="ck">services</span>:
+<span class="ck">postgres</span>:
+<span class="ck">image</span>: <span class="cv">postgres:16</span>
+<span class="ck">env</span>:
+<span class="ck">POSTGRES_PASSWORD</span>: <span class="cv">test</span>
+<span class="ck">POSTGRES_DB</span>: <span class="cv">testdb</span>
+<span class="ck">options</span>: <span class="cv">&gt;-
           --health-cmd pg_isready
           --health-interval 10s</span>
-    <span class="ck">steps</span>:
+<span class="ck">steps</span>:
     - <span class="ck">uses</span>: <span class="cv">actions/checkout@v4</span>
     - <span class="ck">name</span>: <span class="cv">Install dependencies</span>
-      <span class="ck">run</span>: <span class="cv">|
+<span class="ck">run</span>: <span class="cv">|
         sudo apt-get update
         sudo apt-get install -y libpq-dev librdkafka-dev clang-tidy cppcheck</span>
     - <span class="ck">name</span>: <span class="cv">Configure</span>
-      <span class="ck">run</span>: <span class="cv">cmake -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=ON</span>
+<span class="ck">run</span>: <span class="cv">cmake -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_TESTS=ON</span>
     - <span class="ck">name</span>: <span class="cv">Build</span>
-      <span class="ck">run</span>: <span class="cv">cmake --build build -j$(nproc)</span>
+<span class="ck">run</span>: <span class="cv">cmake --build build -j$(nproc)</span>
     - <span class="ck">name</span>: <span class="cv">Lint</span>
-      <span class="ck">run</span>: <span class="cv">clang-tidy src/*.c -- -Iinclude</span>
+<span class="ck">run</span>: <span class="cv">clang-tidy src/*.c -- -Iinclude</span>
     - <span class="ck">name</span>: <span class="cv">Unit tests</span>
-      <span class="ck">run</span>: <span class="cv">./build/tests/unit_tests</span>
+<span class="ck">run</span>: <span class="cv">./build/tests/unit_tests</span>
     - <span class="ck">name</span>: <span class="cv">Integration tests</span>
-      <span class="ck">env</span>:
-        <span class="ck">DATABASE_URL</span>: <span class="cv">postgres://postgres:test@localhost/testdb</span>
-      <span class="ck">run</span>: <span class="cv">./build/tests/integration_tests</span>
+<span class="ck">env</span>:
+<span class="ck">DATABASE_URL</span>: <span class="cv">postgres://postgres:test@localhost/testdb</span>
+<span class="ck">run</span>: <span class="cv">./build/tests/integration_tests</span>
   <span class="ck">docker-build</span>:
-    <span class="ck">needs</span>: <span class="cv">build-test</span>
-    <span class="ck">runs-on</span>: <span class="cv">ubuntu-latest</span>
-    <span class="ck">if</span>: <span class="cv">github.ref == 'refs/heads/main'</span>
-    <span class="ck">steps</span>:
+<span class="ck">needs</span>: <span class="cv">build-test</span>
+<span class="ck">runs-on</span>: <span class="cv">ubuntu-latest</span>
+<span class="ck">if</span>: <span class="cv">github.ref == 'refs/heads/main'</span>
+<span class="ck">steps</span>:
     - <span class="ck">uses</span>: <span class="cv">actions/checkout@v4</span>
     - <span class="ck">name</span>: <span class="cv">Build and push image</span>
-      <span class="ck">run</span>: <span class="cv">|
+<span class="ck">run</span>: <span class="cv">|
         docker build -t registry.example.com/order-service:${{ github.sha }} .
         docker push registry.example.com/order-service:${{ github.sha }}</span>
     - <span class="ck">name</span>: <span class="cv">Deploy to staging</span>
-      <span class="ck">run</span>: <span class="cv">|
+<span class="ck">run</span>: <span class="cv">|
         kubectl set image deployment/order-service \
           order-service=registry.example.com/order-service:${{ github.sha }}
         kubectl rollout status deployment/order-service --timeout=5m</span></div>
@@ -792,27 +792,27 @@ tests/</div>
 <div class="cp p-green">
   <div class="cp-hdr">🔑 The 12 Factors (Microservices-Relevant Highlights)</div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>#</th><th>Factor</th><th>Rule</th><th>C Implementation</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td><strong>Codebase</strong></td><td>One codebase per service, tracked in version control</td><td>One git repo per service; <code>main</code> deploys to production</td></tr>
-        <tr><td>2</td><td><strong>Dependencies</strong></td><td>Declare and isolate all dependencies explicitly</td><td>CMakeLists.txt pins exact library versions; no implicit system libraries</td></tr>
-        <tr><td>3</td><td><strong>Config</strong></td><td>Config in environment, not in code</td><td><code>getenv("DATABASE_URL")</code> — never hardcode DSN/passwords</td></tr>
-        <tr><td>4</td><td><strong>Backing Services</strong></td><td>Treat DB, cache, broker as attached resources</td><td>URL from env — swap Postgres for RDS without code change</td></tr>
-        <tr><td>6</td><td><strong>Processes</strong></td><td>Execute app as one or more stateless processes</td><td>No in-process session state; sessions in Redis</td></tr>
-        <tr><td>7</td><td><strong>Port Binding</strong></td><td>Export services via port binding, not app server injection</td><td>Service binds <code>$PORT</code> itself; Kubernetes routes to it</td></tr>
-        <tr><td>8</td><td><strong>Concurrency</strong></td><td>Scale out via the process model</td><td>Multiple replicas (K8s <code>replicas: N</code>), not threads-per-monolith</td></tr>
-        <tr><td>9</td><td><strong>Disposability</strong></td><td>Maximize robustness with fast startup and graceful shutdown</td><td>Handle SIGTERM: drain connections, flush buffers, exit 0</td></tr>
-        <tr><td>11</td><td><strong>Logs</strong></td><td>Treat logs as event streams — write to stdout</td><td><code>fprintf(stdout, "...")</code> — never write to files inside container</td></tr>
-        <tr><td>12</td><td><strong>Admin Processes</strong></td><td>Run admin/management tasks as one-off processes</td><td>DB migrations as a separate Job (Kubernetes Job), not in service startup</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>#</th><th>Factor</th><th>Rule</th><th>C Implementation</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>Codebase</strong></td><td>One codebase per service, tracked in version control</td><td>One git repo per service; <code>main</code> deploys to production</td></tr>
+<tr><td>2</td><td><strong>Dependencies</strong></td><td>Declare and isolate all dependencies explicitly</td><td>CMakeLists.txt pins exact library versions; no implicit system libraries</td></tr>
+<tr><td>3</td><td><strong>Config</strong></td><td>Config in environment, not in code</td><td><code>getenv("DATABASE_URL")</code> — never hardcode DSN/passwords</td></tr>
+<tr><td>4</td><td><strong>Backing Services</strong></td><td>Treat DB, cache, broker as attached resources</td><td>URL from env — swap Postgres for RDS without code change</td></tr>
+<tr><td>6</td><td><strong>Processes</strong></td><td>Execute app as one or more stateless processes</td><td>No in-process session state; sessions in Redis</td></tr>
+<tr><td>7</td><td><strong>Port Binding</strong></td><td>Export services via port binding, not app server injection</td><td>Service binds <code>$PORT</code> itself; Kubernetes routes to it</td></tr>
+<tr><td>8</td><td><strong>Concurrency</strong></td><td>Scale out via the process model</td><td>Multiple replicas (K8s <code>replicas: N</code>), not threads-per-monolith</td></tr>
+<tr><td>9</td><td><strong>Disposability</strong></td><td>Maximize robustness with fast startup and graceful shutdown</td><td>Handle SIGTERM: drain connections, flush buffers, exit 0</td></tr>
+<tr><td>11</td><td><strong>Logs</strong></td><td>Treat logs as event streams — write to stdout</td><td><code>fprintf(stdout, "...")</code> — never write to files inside container</td></tr>
+<tr><td>12</td><td><strong>Admin Processes</strong></td><td>Run admin/management tasks as one-off processes</td><td>DB migrations as a separate Job (Kubernetes Job), not in service startup</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="two-col">
   <div class="cp p-blue">
-    <div class="cp-hdr">⚙️ Factor 3: Config via Environment</div>
-    <div class="cp-body">
+<div class="cp-hdr">⚙️ Factor 3: Config via Environment</div>
+<div class="cp-body">
 <div class="cb"><span class="cm">/* Never do this: */</span>
 <span class="cs">const char</span> *db_url = <span class="cv">"postgres://prod-db:5432/app"</span>;
 
@@ -823,11 +823,11 @@ tests/</div>
     exit(<span class="cn">1</span>);
 }</div>
       Config that varies between environments (dev/staging/prod) must never be in code. The same binary runs in all environments — only the environment variables differ.
-    </div>
+</div>
   </div>
   <div class="cp p-teal">
-    <div class="cp-hdr">🔄 Factor 9: Graceful Shutdown in C</div>
-    <div class="cp-body">
+<div class="cp-hdr">🔄 Factor 9: Graceful Shutdown in C</div>
+<div class="cp-body">
 <div class="cb"><span class="cs">static volatile</span> <span class="cs">int</span> shutting_down = <span class="cn">0</span>;
 
 <span class="ck">static void</span> <span class="cf">handle_sigterm</span>(<span class="cs">int</span> sig) {
@@ -839,18 +839,18 @@ tests/</div>
     signal(SIGTERM, handle_sigterm);
     signal(SIGINT, handle_sigterm);
 
-    <span class="ck">while</span> (!shutting_down) {
-        <span class="cm">/* serve requests */</span>
+<span class="ck">while</span> (!shutting_down) {
+<span class="cm">/* serve requests */</span>
     }
 
-    <span class="cm">/* Graceful shutdown: drain connections */</span>
+<span class="cm">/* Graceful shutdown: drain connections */</span>
     drain_active_connections();
     rd_kafka_flush(rk, <span class="cn">10000</span>);  <span class="cm">/* flush pending events */</span>
     PQfinish(pg_conn);
     fprintf(stdout, <span class="cv">"Shutdown complete\n"</span>);
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
-    </div>
+</div>
   </div>
 </div>
 <div class="cp p-orange">
@@ -860,13 +860,13 @@ tests/</div>
 <div class="cb"><span class="cm">/* Structured JSON logging */</span>
 <span class="ck">#define</span> LOG_INFO(fmt, ...) \
     fprintf(stdout, \
-        <span class="cv">"{\"level\":\"INFO\",\"ts\":\"%.3f\",\"msg\":\""</span> fmt <span class="cv">"\"}\n"</span>, \
+<span class="cv">"{\"level\":\"INFO\",\"ts\":\"%.3f\",\"msg\":\""</span> fmt <span class="cv">"\"}\n"</span>, \
         get_unix_ms(), ##__VA_ARGS__)
 
 <span class="cm">/* Usage */</span>
 LOG_INFO(<span class="cv">"order_placed order_id=%s user_id=%s amount=%.2f"</span>,
          order_id, user_id, amount);</div>
-    <div class="ins">Include in every log line: <code>timestamp</code>, <code>level</code>, <code>service</code>, <code>correlation_id</code>, and the event. This makes logs searchable and correlatable across services in your log aggregator.</div>
+<div class="ins">Include in every log line: <code>timestamp</code>, <code>level</code>, <code>service</code>, <code>correlation_id</code>, and the event. This makes logs searchable and correlatable across services in your log aggregator.</div>
   </div>
 </div>
 </div><!-- /t-12factor -->
@@ -890,18 +890,18 @@ LOG_INFO(<span class="cv">"order_placed order_id=%s user_id=%s amount=%.2f"</spa
     _Atomic(<span class="cs">int</span>)         state;          <span class="cm">/* cb_state_t */</span>
     _Atomic(<span class="cs">int</span>)         failure_count;
     _Atomic(<span class="cs">long</span>)        open_since_ms;  <span class="cm">/* epoch ms when opened */</span>
-    <span class="cs">int</span>                  failure_threshold;
-    <span class="cs">long</span>                 open_timeout_ms;
+<span class="cs">int</span>                  failure_threshold;
+<span class="cs">long</span>                 open_timeout_ms;
 } circuit_breaker_t;
 
 <span class="ck">static inline</span> <span class="cs">long</span> <span class="cf">now_ms</span>(<span class="cs">void</span>) {
-    <span class="cs">struct timespec</span> ts;
+<span class="cs">struct timespec</span> ts;
     clock_gettime(CLOCK_MONOTONIC, &amp;ts);
-    <span class="ck">return</span> ts.tv_sec * <span class="cn">1000LL</span> + ts.tv_nsec / <span class="cn">1000000LL</span>;
+<span class="ck">return</span> ts.tv_sec * <span class="cn">1000LL</span> + ts.tv_nsec / <span class="cn">1000000LL</span>;
 }
 
 <span class="ck">static inline</span> <span class="cs">void</span> <span class="cf">cb_init</span>(circuit_breaker_t *cb,
-                              <span class="cs">int</span> threshold, <span class="cs">long</span> timeout_ms) {
+<span class="cs">int</span> threshold, <span class="cs">long</span> timeout_ms) {
     atomic_store(&amp;cb-&gt;state,         CB_CLOSED);
     atomic_store(&amp;cb-&gt;failure_count, <span class="cn">0</span>);
     atomic_store(&amp;cb-&gt;open_since_ms, <span class="cn">0</span>);
@@ -911,52 +911,52 @@ LOG_INFO(<span class="cv">"order_placed order_id=%s user_id=%s amount=%.2f"</spa
 
 <span class="cm">/* Returns true if the call should be allowed through */</span>
 <span class="ck">static inline</span> <span class="cs">bool</span> <span class="cf">cb_allow</span>(circuit_breaker_t *cb) {
-    <span class="cs">int</span> state = atomic_load(&amp;cb-&gt;state);
+<span class="cs">int</span> state = atomic_load(&amp;cb-&gt;state);
 
-    <span class="ck">if</span> (state == CB_CLOSED) <span class="ck">return</span> <span class="cn">true</span>;
+<span class="ck">if</span> (state == CB_CLOSED) <span class="ck">return</span> <span class="cn">true</span>;
 
-    <span class="ck">if</span> (state == CB_OPEN) {
-        <span class="cs">long</span> elapsed = now_ms() - atomic_load(&amp;cb-&gt;open_since_ms);
-        <span class="ck">if</span> (elapsed &gt;= cb-&gt;open_timeout_ms) {
-            <span class="cm">/* Transition to HALF_OPEN to probe recovery */</span>
-            <span class="cs">int</span> expected = CB_OPEN;
-            <span class="ck">if</span> (atomic_compare_exchange_strong(&amp;cb-&gt;state,
+<span class="ck">if</span> (state == CB_OPEN) {
+<span class="cs">long</span> elapsed = now_ms() - atomic_load(&amp;cb-&gt;open_since_ms);
+<span class="ck">if</span> (elapsed &gt;= cb-&gt;open_timeout_ms) {
+<span class="cm">/* Transition to HALF_OPEN to probe recovery */</span>
+<span class="cs">int</span> expected = CB_OPEN;
+<span class="ck">if</span> (atomic_compare_exchange_strong(&amp;cb-&gt;state,
                                                &amp;expected, CB_HALF_OPEN)) {
-                <span class="ck">return</span> <span class="cn">true</span>;  <span class="cm">/* this thread gets the probe request */</span>
+<span class="ck">return</span> <span class="cn">true</span>;  <span class="cm">/* this thread gets the probe request */</span>
             }
         }
-        <span class="ck">return</span> <span class="cn">false</span>;  <span class="cm">/* still open */</span>
+<span class="ck">return</span> <span class="cn">false</span>;  <span class="cm">/* still open */</span>
     }
 
-    <span class="cm">/* HALF_OPEN: allow one probe at a time */</span>
-    <span class="ck">return</span> <span class="cn">true</span>;
+<span class="cm">/* HALF_OPEN: allow one probe at a time */</span>
+<span class="ck">return</span> <span class="cn">true</span>;
 }
 
 <span class="ck">static inline</span> <span class="cs">void</span> <span class="cf">cb_on_success</span>(circuit_breaker_t *cb) {
-    <span class="cs">int</span> state = atomic_load(&amp;cb-&gt;state);
-    <span class="ck">if</span> (state == CB_HALF_OPEN) {
-        <span class="cm">/* Recovery confirmed: close the breaker */</span>
+<span class="cs">int</span> state = atomic_load(&amp;cb-&gt;state);
+<span class="ck">if</span> (state == CB_HALF_OPEN) {
+<span class="cm">/* Recovery confirmed: close the breaker */</span>
         atomic_store(&amp;cb-&gt;failure_count, <span class="cn">0</span>);
         atomic_store(&amp;cb-&gt;state, CB_CLOSED);
     }
-    <span class="ck">if</span> (state == CB_CLOSED) {
-        <span class="cm">/* Reset failure count on success */</span>
+<span class="ck">if</span> (state == CB_CLOSED) {
+<span class="cm">/* Reset failure count on success */</span>
         atomic_store(&amp;cb-&gt;failure_count, <span class="cn">0</span>);
     }
 }
 
 <span class="ck">static inline</span> <span class="cs">void</span> <span class="cf">cb_on_failure</span>(circuit_breaker_t *cb) {
-    <span class="cs">int</span> state = atomic_load(&amp;cb-&gt;state);
-    <span class="ck">if</span> (state == CB_HALF_OPEN) {
-        <span class="cm">/* Probe failed: reopen the breaker */</span>
+<span class="cs">int</span> state = atomic_load(&amp;cb-&gt;state);
+<span class="ck">if</span> (state == CB_HALF_OPEN) {
+<span class="cm">/* Probe failed: reopen the breaker */</span>
         atomic_store(&amp;cb-&gt;open_since_ms, now_ms());
         atomic_store(&amp;cb-&gt;state, CB_OPEN);
-        <span class="ck">return</span>;
+<span class="ck">return</span>;
     }
-    <span class="cs">int</span> count = atomic_fetch_add(&amp;cb-&gt;failure_count, <span class="cn">1</span>) + <span class="cn">1</span>;
-    <span class="ck">if</span> (count &gt;= cb-&gt;failure_threshold) {
-        <span class="cs">int</span> expected = CB_CLOSED;
-        <span class="ck">if</span> (atomic_compare_exchange_strong(&amp;cb-&gt;state, &amp;expected, CB_OPEN)) {
+<span class="cs">int</span> count = atomic_fetch_add(&amp;cb-&gt;failure_count, <span class="cn">1</span>) + <span class="cn">1</span>;
+<span class="ck">if</span> (count &gt;= cb-&gt;failure_threshold) {
+<span class="cs">int</span> expected = CB_CLOSED;
+<span class="ck">if</span> (atomic_compare_exchange_strong(&amp;cb-&gt;state, &amp;expected, CB_OPEN)) {
             atomic_store(&amp;cb-&gt;open_since_ms, now_ms());
             fprintf(stderr, <span class="cv">"[CB] Circuit OPENED after %d failures\n"</span>, count);
         }
@@ -969,18 +969,18 @@ LOG_INFO(<span class="cv">"order_placed order_id=%s user_id=%s amount=%.2f"</spa
 circuit_breaker_t payment_cb;
 
 <span class="cs">int</span> <span class="cf">charge_customer</span>(<span class="cs">const char</span> *order_id, <span class="cs">double</span> amount) {
-    <span class="ck">if</span> (!cb_allow(&amp;payment_cb)) {
+<span class="ck">if</span> (!cb_allow(&amp;payment_cb)) {
         fprintf(stderr, <span class="cv">"[CB] OPEN: payment service unavailable\n"</span>);
-        <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* fail fast */</span>
+<span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* fail fast */</span>
     }
 
-    <span class="cs">int</span> result = call_payment_service(NULL);
-    <span class="ck">if</span> (result == <span class="cn">0</span>)
+<span class="cs">int</span> result = call_payment_service(NULL);
+<span class="ck">if</span> (result == <span class="cn">0</span>)
         cb_on_success(&amp;payment_cb);
-    <span class="ck">else</span>
+<span class="ck">else</span>
         cb_on_failure(&amp;payment_cb);
 
-    <span class="ck">return</span> result;
+<span class="ck">return</span> result;
 }</div>
   </div>
 </div>
@@ -999,11 +999,11 @@ circuit_breaker_t payment_cb;
 <span class="cs">static volatile</span> <span class="cs">int</span> ready = <span class="cn">0</span>;  <span class="cm">/* set to 1 once DB connected etc. */</span>
 <span class="ck">static void</span> *<span class="cf">health_thread</span>(<span class="cs">void</span> *arg) {
     (void)arg;
-    <span class="cs">int</span> srv = socket(AF_INET, SOCK_STREAM, <span class="cn">0</span>);
-    <span class="cs">int</span> opt = <span class="cn">1</span>;
+<span class="cs">int</span> srv = socket(AF_INET, SOCK_STREAM, <span class="cn">0</span>);
+<span class="cs">int</span> opt = <span class="cn">1</span>;
     setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="ck">sizeof</span>(opt));
 
-    <span class="cs">struct sockaddr_in</span> addr = {
+<span class="cs">struct sockaddr_in</span> addr = {
         .sin_family = AF_INET,
         .sin_addr.s_addr = INADDR_ANY,
         .sin_port = htons(<span class="cn">8081</span>)
@@ -1011,16 +1011,16 @@ circuit_breaker_t payment_cb;
     bind(srv, (<span class="cs">struct sockaddr</span> *)&amp;addr, <span class="ck">sizeof</span>(addr));
     listen(srv, <span class="cn">16</span>);
 
-    <span class="ck">while</span> (<span class="cn">1</span>) {
-        <span class="cs">int</span> conn = accept(srv, NULL, NULL);
-        <span class="ck">if</span> (conn &lt; <span class="cn">0</span>) <span class="ck">continue</span>;
+<span class="ck">while</span> (<span class="cn">1</span>) {
+<span class="cs">int</span> conn = accept(srv, NULL, NULL);
+<span class="ck">if</span> (conn &lt; <span class="cn">0</span>) <span class="ck">continue</span>;
 
-        <span class="cs">char</span> buf[<span class="cn">256</span>];
+<span class="cs">char</span> buf[<span class="cn">256</span>];
         ssize_t n = recv(conn, buf, <span class="ck">sizeof</span>(buf) - <span class="cn">1</span>, <span class="cn">0</span>);
         buf[n > <span class="cn">0</span> ? n : <span class="cn">0</span>] = <span class="cn">'\0'</span>;
 
-        <span class="cs">const char</span> *resp;
-        <span class="ck">if</span> (strstr(buf, <span class="cv">"GET /health/live"</span>)) {
+<span class="cs">const char</span> *resp;
+<span class="ck">if</span> (strstr(buf, <span class="cv">"GET /health/live"</span>)) {
             resp = <span class="cv">"HTTP/1.1 200 OK\r\nContent-Length:2\r\n\r\nOK"</span>;
         } <span class="ck">else if</span> (strstr(buf, <span class="cv">"GET /health/ready"</span>)) {
             resp = ready
@@ -1033,7 +1033,7 @@ circuit_breaker_t payment_cb;
         send(conn, resp, strlen(resp), <span class="cn">0</span>);
         close(conn);
     }
-    <span class="ck">return</span> NULL;
+<span class="ck">return</span> NULL;
 }
 
 <span class="cs">void</span> <span class="cf">start_health_server</span>(<span class="cs">void</span>) {
@@ -1043,7 +1043,7 @@ circuit_breaker_t payment_cb;
 }
 
 <span class="cs">void</span> <span class="cf">set_ready</span>(<span class="cs">int</span> r) { ready = r; }</div>
-    <div class="note">Start the health server before connecting to databases so the <code>/health/live</code> probe succeeds immediately. Set <code>ready=1</code> only after all dependencies (DB, Kafka) are connected — this keeps the pod out of the Service load balancer until it's actually ready.</div>
+<div class="note">Start the health server before connecting to databases so the <code>/health/live</code> probe succeeds immediately. Set <code>ready=1</code> only after all dependencies (DB, Kafka) are connected — this keeps the pod out of the Service load balancer until it's actually ready.</div>
   </div>
 </div>
 </div><!-- /t-impl -->
@@ -1055,83 +1055,83 @@ circuit_breaker_t payment_cb;
   <div class="lab-hdr">🔬 Lab 1 — Circuit Breaker Under Load</div>
   <div class="lab-body">
     Observe circuit breaker state transitions under real failure conditions.
-    <div class="lab-step"><span class="sn">1</span> Build the circuit breaker from Tab 8. Write a test harness that calls a "downstream service" function that returns success/failure based on a configurable failure rate.</div>
-    <div class="lab-step"><span class="sn">2</span> Run 100 concurrent goroutine-equivalent threads (using pthreads) calling the circuit breaker simultaneously. Set failure rate to 80%.</div>
-    <div class="lab-step"><span class="sn">3</span> Observe and log state transitions: CLOSED → OPEN (trip after N failures) → HALF-OPEN (after timeout) → CLOSED (after probe success).</div>
-    <div class="lab-step"><span class="sn">4</span> Measure: in OPEN state, what is the p99 response time? (Should be microseconds — fail fast.) Compare to CLOSED state with real downstream calls.</div>
-    <div class="lab-step"><span class="sn">5</span> <strong>Bonus:</strong> add a sliding window failure rate threshold (failure rate over last 20 calls, not just a count) and verify it's more resilient to bursty failures.</div>
+<div class="lab-step"><span class="sn">1</span> Build the circuit breaker from Tab 8. Write a test harness that calls a "downstream service" function that returns success/failure based on a configurable failure rate.</div>
+<div class="lab-step"><span class="sn">2</span> Run 100 concurrent goroutine-equivalent threads (using pthreads) calling the circuit breaker simultaneously. Set failure rate to 80%.</div>
+<div class="lab-step"><span class="sn">3</span> Observe and log state transitions: CLOSED → OPEN (trip after N failures) → HALF-OPEN (after timeout) → CLOSED (after probe success).</div>
+<div class="lab-step"><span class="sn">4</span> Measure: in OPEN state, what is the p99 response time? (Should be microseconds — fail fast.) Compare to CLOSED state with real downstream calls.</div>
+<div class="lab-step"><span class="sn">5</span> <strong>Bonus:</strong> add a sliding window failure rate threshold (failure rate over last 20 calls, not just a count) and verify it's more resilient to bursty failures.</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 2 — Docker Multi-Stage Build: Size Comparison</div>
   <div class="lab-body">
     Demonstrate the image size impact of multi-stage builds.
-    <div class="lab-step"><span class="sn">1</span> Write a simple C HTTP server (or use the health server from Tab 8). Compile it manually to confirm it works.</div>
-    <div class="lab-step"><span class="sn">2</span> Write a single-stage Dockerfile using <code>FROM gcc:13</code>. Build it: <code>docker build -t service:single-stage .</code>. Check size: <code>docker image ls service:single-stage</code>.</div>
-    <div class="lab-step"><span class="sn">3</span> Write the multi-stage Dockerfile from Tab 4. Build it: <code>docker build -t service:multi-stage .</code>. Compare sizes.</div>
-    <div class="lab-step"><span class="sn">4</span> Run <code>docker run --rm service:multi-stage</code>. Verify the binary executes correctly in the slim image.</div>
-    <div class="lab-step"><span class="sn">5</span> Run <code>docker history service:multi-stage</code> — verify no build tools (gcc, make) appear in any layer of the final image.</div>
-    <div class="lab-step"><span class="sn">6</span> Run <code>docker run --user $(id -u) service:multi-stage</code> — verify non-root execution. Check process inside container: <code>docker exec &lt;id&gt; id</code>.</div>
+<div class="lab-step"><span class="sn">1</span> Write a simple C HTTP server (or use the health server from Tab 8). Compile it manually to confirm it works.</div>
+<div class="lab-step"><span class="sn">2</span> Write a single-stage Dockerfile using <code>FROM gcc:13</code>. Build it: <code>docker build -t service:single-stage .</code>. Check size: <code>docker image ls service:single-stage</code>.</div>
+<div class="lab-step"><span class="sn">3</span> Write the multi-stage Dockerfile from Tab 4. Build it: <code>docker build -t service:multi-stage .</code>. Compare sizes.</div>
+<div class="lab-step"><span class="sn">4</span> Run <code>docker run --rm service:multi-stage</code>. Verify the binary executes correctly in the slim image.</div>
+<div class="lab-step"><span class="sn">5</span> Run <code>docker history service:multi-stage</code> — verify no build tools (gcc, make) appear in any layer of the final image.</div>
+<div class="lab-step"><span class="sn">6</span> Run <code>docker run --user $(id -u) service:multi-stage</code> — verify non-root execution. Check process inside container: <code>docker exec &lt;id&gt; id</code>.</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 3 — Kubernetes Deployment with Probes</div>
   <div class="lab-body">
     Deploy the C service to a local Kubernetes cluster (minikube or kind).
-    <div class="lab-step"><span class="sn">1</span> Build and push the Docker image to a local registry: <code>minikube image load service:multi-stage</code>.</div>
-    <div class="lab-step"><span class="sn">2</span> Apply the Deployment from Tab 5. Watch pods come up: <code>kubectl get pods -w</code>.</div>
-    <div class="lab-step"><span class="sn">3</span> Observe readiness probe in action: modify the service to delay setting <code>ready=1</code> by 10 seconds. Watch the pod stay NotReady during startup.</div>
-    <div class="lab-step"><span class="sn">4</span> Trigger a liveness probe failure: modify the <code>/health/live</code> endpoint to return 503 after receiving 5 requests. Observe Kubernetes restart the pod.</div>
-    <div class="lab-step"><span class="sn">5</span> Perform a rolling update: rebuild with a different version tag, apply the new image. Watch rolling update: <code>kubectl rollout status deployment/order-service</code>.</div>
-    <div class="lab-step"><span class="sn">6</span> Rollback: <code>kubectl rollout undo deployment/order-service</code>. Verify the previous image is running.</div>
+<div class="lab-step"><span class="sn">1</span> Build and push the Docker image to a local registry: <code>minikube image load service:multi-stage</code>.</div>
+<div class="lab-step"><span class="sn">2</span> Apply the Deployment from Tab 5. Watch pods come up: <code>kubectl get pods -w</code>.</div>
+<div class="lab-step"><span class="sn">3</span> Observe readiness probe in action: modify the service to delay setting <code>ready=1</code> by 10 seconds. Watch the pod stay NotReady during startup.</div>
+<div class="lab-step"><span class="sn">4</span> Trigger a liveness probe failure: modify the <code>/health/live</code> endpoint to return 503 after receiving 5 requests. Observe Kubernetes restart the pod.</div>
+<div class="lab-step"><span class="sn">5</span> Perform a rolling update: rebuild with a different version tag, apply the new image. Watch rolling update: <code>kubectl rollout status deployment/order-service</code>.</div>
+<div class="lab-step"><span class="sn">6</span> Rollback: <code>kubectl rollout undo deployment/order-service</code>. Verify the previous image is running.</div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 4 — Strangler Fig Migration (Simulated)</div>
   <div class="lab-body">
     Simulate extracting a service from a monolith using Strangler Fig.
-    <div class="lab-step"><span class="sn">1</span> Write a "monolith": a C HTTP server handling <code>/orders/*</code>, <code>/users/*</code>, and <code>/notifications/*</code> all in one process.</div>
-    <div class="lab-step"><span class="sn">2</span> Write a new "Notifications microservice": a separate C process handling <code>/notifications/*</code>.</div>
-    <div class="lab-step"><span class="sn">3</span> Add an Nginx reverse proxy as the "API Gateway": route <code>/notifications/*</code> to the new service, all other paths to the monolith.</div>
-    <div class="lab-step"><span class="sn">4</span> Verify: requests to <code>/orders/123</code> hit the monolith. Requests to <code>/notifications/send</code> hit the new service. Both return correct responses.</div>
-    <div class="lab-step"><span class="sn">5</span> Remove the notifications handler from the monolith. Verify all notification requests still work (now served entirely by new service).</div>
+<div class="lab-step"><span class="sn">1</span> Write a "monolith": a C HTTP server handling <code>/orders/*</code>, <code>/users/*</code>, and <code>/notifications/*</code> all in one process.</div>
+<div class="lab-step"><span class="sn">2</span> Write a new "Notifications microservice": a separate C process handling <code>/notifications/*</code>.</div>
+<div class="lab-step"><span class="sn">3</span> Add an Nginx reverse proxy as the "API Gateway": route <code>/notifications/*</code> to the new service, all other paths to the monolith.</div>
+<div class="lab-step"><span class="sn">4</span> Verify: requests to <code>/orders/123</code> hit the monolith. Requests to <code>/notifications/send</code> hit the new service. Both return correct responses.</div>
+<div class="lab-step"><span class="sn">5</span> Remove the notifications handler from the monolith. Verify all notification requests still work (now served entirely by new service).</div>
   </div>
 </div>
 <div class="sep">── Phase 6 Mastery Checklist ──</div>
 <div class="two-col">
   <div>
-    <strong style="color:#92400e">Architecture</strong>
-    <ul class="cl">
-      <li>Explain Conway's Law and how it drives service boundaries</li>
-      <li>Describe the Strangler Fig migration pattern step by step</li>
-      <li>Compare sync REST/gRPC vs async events for inter-service communication</li>
-      <li>List 5 responsibilities of an API Gateway</li>
-      <li>Explain client-side vs server-side service discovery</li>
-    </ul>
-    <strong style="color:#92400e">Resilience</strong>
-    <ul class="cl">
-      <li>Draw the circuit breaker state machine (CLOSED/OPEN/HALF-OPEN)</li>
-      <li>Implement retry with exponential backoff + jitter</li>
-      <li>Explain the bulkhead pattern and when to apply it</li>
-      <li>Set correct timeout values relative to circuit breaker thresholds</li>
-    </ul>
+<strong style="color:#92400e">Architecture</strong>
+<ul class="cl">
+<li>Explain Conway's Law and how it drives service boundaries</li>
+<li>Describe the Strangler Fig migration pattern step by step</li>
+<li>Compare sync REST/gRPC vs async events for inter-service communication</li>
+<li>List 5 responsibilities of an API Gateway</li>
+<li>Explain client-side vs server-side service discovery</li>
+</ul>
+<strong style="color:#92400e">Resilience</strong>
+<ul class="cl">
+<li>Draw the circuit breaker state machine (CLOSED/OPEN/HALF-OPEN)</li>
+<li>Implement retry with exponential backoff + jitter</li>
+<li>Explain the bulkhead pattern and when to apply it</li>
+<li>Set correct timeout values relative to circuit breaker thresholds</li>
+</ul>
   </div>
   <div>
-    <strong style="color:#92400e">Docker &amp; Kubernetes</strong>
-    <ul class="cl">
-      <li>Write a multi-stage Dockerfile for a C binary</li>
-      <li>Explain why non-root + exec-form ENTRYPOINT matters</li>
-      <li>Write a Deployment with liveness + readiness probes</li>
-      <li>Explain the difference between liveness and readiness probes</li>
-      <li>Perform a rolling update and rollback with kubectl</li>
-    </ul>
-    <strong style="color:#92400e">CI/CD &amp; 12-Factor</strong>
-    <ul class="cl">
-      <li>List the 8 stages of a production CI/CD pipeline</li>
-      <li>Explain blue-green vs canary deployment trade-offs</li>
-      <li>Apply 12-Factor principles: config in env, logs to stdout, graceful shutdown</li>
-      <li>Write structured JSON logging and graceful SIGTERM handling in C</li>
-    </ul>
+<strong style="color:#92400e">Docker &amp; Kubernetes</strong>
+<ul class="cl">
+<li>Write a multi-stage Dockerfile for a C binary</li>
+<li>Explain why non-root + exec-form ENTRYPOINT matters</li>
+<li>Write a Deployment with liveness + readiness probes</li>
+<li>Explain the difference between liveness and readiness probes</li>
+<li>Perform a rolling update and rollback with kubectl</li>
+</ul>
+<strong style="color:#92400e">CI/CD &amp; 12-Factor</strong>
+<ul class="cl">
+<li>List the 8 stages of a production CI/CD pipeline</li>
+<li>Explain blue-green vs canary deployment trade-offs</li>
+<li>Apply 12-Factor principles: config in env, logs to stdout, graceful shutdown</li>
+<li>Write structured JSON logging and graceful SIGTERM handling in C</li>
+</ul>
   </div>
 </div>
 <div class="mod-nav">

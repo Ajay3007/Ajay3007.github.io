@@ -49,11 +49,11 @@ Never guess at bit patterns in your head. Print them. Compare visually.
 </div>
 <div class="cb"><span class="cm">// C — print binary for any unsigned integer, grouped by nibble</span>
 <span class="ck">void</span> <span class="cf">printBits</span>(<span class="co">uint64_t</span> x, <span class="ck">int</span> bits) {
-    <span class="ck">for</span> (<span class="ck">int</span> i = bits-<span class="cn">1</span>; i &gt;= <span class="cn">0</span>; i--) {
-        <span class="cf">putchar</span>((x &gt;&gt; i) &amp; <span class="cn">1</span> ? <span class="cs">'1'</span> : <span class="cs">'0'</span>);
-        <span class="ck">if</span> (i &gt; <span class="cn">0</span> &amp;&amp; i % <span class="cn">4</span> == <span class="cn">0</span>) <span class="cf">putchar</span>(<span class="cs">' '</span>);  <span class="cm">// group by nibble</span>
+<span class="ck">for</span> (<span class="ck">int</span> i = bits-<span class="cn">1</span>; i &gt;= <span class="cn">0</span>; i--) {
+<span class="cf">putchar</span>((x &gt;&gt; i) &amp; <span class="cn">1</span> ? <span class="cs">'1'</span> : <span class="cs">'0'</span>);
+<span class="ck">if</span> (i &gt; <span class="cn">0</span> &amp;&amp; i % <span class="cn">4</span> == <span class="cn">0</span>) <span class="cf">putchar</span>(<span class="cs">' '</span>);  <span class="cm">// group by nibble</span>
     }
-    <span class="cf">putchar</span>(<span class="cs">'\n'</span>);
+<span class="cf">putchar</span>(<span class="cs">'\n'</span>);
 }
 <span class="cm">// printBits(0xC0A80A05, 32):</span>
 <span class="cm">// 1100 0000 1010 1000 0000 1010 0000 0101</span>

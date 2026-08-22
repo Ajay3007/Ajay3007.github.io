@@ -179,12 +179,12 @@ url: /learning/networking-mastery/m04-ipv6/
   <div class="mod-title">🔵 IPv6</div>
   <div class="mod-subtitle">128-bit addressing · Header format · Address types · NDP · SLAAC · Dual-stack · Transition mechanisms</div>
   <div class="mod-pills">
-    <span class="mod-pill">Beginner → Intermediate</span>
-    <span class="mod-pill">Prerequisite: M03 IPv4</span>
-    <span class="mod-pill">RFC 8200</span>
-    <span class="mod-pill">128-bit addresses</span>
-    <span class="mod-pill">No broadcast</span>
-    <span class="mod-pill">2 Labs</span>
+<span class="mod-pill">Beginner → Intermediate</span>
+<span class="mod-pill">Prerequisite: M03 IPv4</span>
+<span class="mod-pill">RFC 8200</span>
+<span class="mod-pill">128-bit addresses</span>
+<span class="mod-pill">No broadcast</span>
+<span class="mod-pill">2 Labs</span>
   </div>
 </div>
 <!-- ── TAB BAR ── -->
@@ -206,44 +206,44 @@ url: /learning/networking-mastery/m04-ipv6/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📉</span><h3>IPv4 Address Exhaustion</h3><span class="tag tag-purple">MOTIVATION</span></div>
   <div class="cp-body">
-    <p>IPv4 uses 32-bit addresses — providing a theoretical maximum of <strong>2³² = 4,294,967,296</strong> (about 4.3 billion) unique addresses. When IPv4 was designed in 1981, this seemed enormous. But the explosive growth of the internet — billions of smartphones, IoT devices, cloud servers, home routers — consumed this space far faster than anticipated.</p>
-    <p><strong>IANA (the global IP address authority) exhausted its IPv4 pool on 3 February 2011.</strong> Regional registries ran out of free allocations between 2011–2019. Today, obtaining new public IPv4 addresses requires buying them on the secondary market at premium prices.</p>
-    <p>Several stopgap measures delayed the crisis:</p>
-    <ul>
-      <li><strong>CIDR</strong> — replaced wasteful classful allocation, made address usage more efficient</li>
-      <li><strong>RFC 1918 private addresses + NAT</strong> — allowed millions of devices to share a single public IP. A home router with one public IP can serve 100+ internal devices. This is why your home network uses <code>192.168.x.x</code></li>
-      <li><strong>CGN (Carrier-Grade NAT)</strong> — ISPs now put entire neighbourhoods behind a single public IPv4 address</li>
-    </ul>
-    <p>NAT solved the exhaustion problem temporarily, but at a cost: it breaks end-to-end connectivity, complicates application protocols (FTP, SIP, WebRTC need ALGs to work through NAT), and adds latency. IPv6 eliminates NAT by giving every device a globally unique address.</p>
+<p>IPv4 uses 32-bit addresses — providing a theoretical maximum of <strong>2³² = 4,294,967,296</strong> (about 4.3 billion) unique addresses. When IPv4 was designed in 1981, this seemed enormous. But the explosive growth of the internet — billions of smartphones, IoT devices, cloud servers, home routers — consumed this space far faster than anticipated.</p>
+<p><strong>IANA (the global IP address authority) exhausted its IPv4 pool on 3 February 2011.</strong> Regional registries ran out of free allocations between 2011–2019. Today, obtaining new public IPv4 addresses requires buying them on the secondary market at premium prices.</p>
+<p>Several stopgap measures delayed the crisis:</p>
+<ul>
+<li><strong>CIDR</strong> — replaced wasteful classful allocation, made address usage more efficient</li>
+<li><strong>RFC 1918 private addresses + NAT</strong> — allowed millions of devices to share a single public IP. A home router with one public IP can serve 100+ internal devices. This is why your home network uses <code>192.168.x.x</code></li>
+<li><strong>CGN (Carrier-Grade NAT)</strong> — ISPs now put entire neighbourhoods behind a single public IPv4 address</li>
+</ul>
+<p>NAT solved the exhaustion problem temporarily, but at a cost: it breaks end-to-end connectivity, complicates application protocols (FTP, SIP, WebRTC need ALGs to work through NAT), and adds latency. IPv6 eliminates NAT by giving every device a globally unique address.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>IPv6 — The Long-Term Solution</h3><span class="tag tag-blue">SOLUTION</span></div>
   <div class="cp-body">
-    <p>IPv6 (Internet Protocol version 6) was standardised in RFC 2460 (1998), updated by RFC 8200 (2017). It solves address exhaustion and simultaneously redesigns several IPv4 pain points:</p>
-    <div class="two-col">
-      <div>
-        <h4>What IPv6 Fixes</h4>
-        <ul>
-          <li><strong>128-bit addresses</strong> — 2¹²⁸ ≈ 3.4 × 10³⁸ unique addresses. Enough to give every atom on Earth its own IP address</li>
-          <li><strong>No broadcast</strong> — IPv4 broadcast is replaced with targeted multicast, reducing noise on large networks</li>
-          <li><strong>Built-in security</strong> — IPsec support is mandatory in the specification (optional in IPv4)</li>
-          <li><strong>Simplified header</strong> — fixed 40-byte header, no checksum, no fragmentation in transit, cleaner extension header chain</li>
-          <li><strong>Stateless autoconfiguration (SLAAC)</strong> — devices can configure their own addresses without a DHCP server</li>
-          <li><strong>No NAT required</strong> — every device gets a globally routable address</li>
-        </ul>
-      </div>
-      <div>
-        <h4>IPv6 Adoption Today</h4>
-        <ul>
-          <li>Google reports ~45% of global traffic over IPv6 (2024)</li>
-          <li>Mobile networks (Jio, T-Mobile, AT&T) are predominantly IPv6-only internally</li>
-          <li>All major cloud providers (AWS, GCP, Azure) fully support IPv6</li>
-          <li>Most modern OSes (Linux, Windows, macOS, Android, iOS) prefer IPv6 when available</li>
-          <li>For NGFW development, IPv6 support is not optional — your firewall must handle both</li>
-        </ul>
-      </div>
-    </div>
+<p>IPv6 (Internet Protocol version 6) was standardised in RFC 2460 (1998), updated by RFC 8200 (2017). It solves address exhaustion and simultaneously redesigns several IPv4 pain points:</p>
+<div class="two-col">
+<div>
+<h4>What IPv6 Fixes</h4>
+<ul>
+<li><strong>128-bit addresses</strong> — 2¹²⁸ ≈ 3.4 × 10³⁸ unique addresses. Enough to give every atom on Earth its own IP address</li>
+<li><strong>No broadcast</strong> — IPv4 broadcast is replaced with targeted multicast, reducing noise on large networks</li>
+<li><strong>Built-in security</strong> — IPsec support is mandatory in the specification (optional in IPv4)</li>
+<li><strong>Simplified header</strong> — fixed 40-byte header, no checksum, no fragmentation in transit, cleaner extension header chain</li>
+<li><strong>Stateless autoconfiguration (SLAAC)</strong> — devices can configure their own addresses without a DHCP server</li>
+<li><strong>No NAT required</strong> — every device gets a globally routable address</li>
+</ul>
+</div>
+<div>
+<h4>IPv6 Adoption Today</h4>
+<ul>
+<li>Google reports ~45% of global traffic over IPv6 (2024)</li>
+<li>Mobile networks (Jio, T-Mobile, AT&T) are predominantly IPv6-only internally</li>
+<li>All major cloud providers (AWS, GCP, Azure) fully support IPv6</li>
+<li>Most modern OSes (Linux, Windows, macOS, Android, iOS) prefer IPv6 when available</li>
+<li>For NGFW development, IPv6 support is not optional — your firewall must handle both</li>
+</ul>
+</div>
+</div>
   </div>
 </div>
 <div class="analogy">
@@ -257,78 +257,78 @@ url: /learning/networking-mastery/m04-ipv6/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📦</span><h3>IPv6 Header Layout</h3><span class="tag tag-purple">HEADER FORMAT</span></div>
   <div class="cp-body">
-    <p>The IPv6 header is always exactly <strong>40 bytes</strong> — fixed, no options, no IHL field. This simplicity is intentional: routers can process it faster because they always know exactly where the header ends. IPv4 options (rare but requiring variable-length parsing) are replaced by a clean <strong>extension header chain</strong>.</p>
+<p>The IPv6 header is always exactly <strong>40 bytes</strong> — fixed, no options, no IHL field. This simplicity is intentional: routers can process it faster because they always know exactly where the header ends. IPv4 options (rare but requiring variable-length parsing) are replaced by a clean <strong>extension header chain</strong>.</p>
   </div>
 </div>
 <div class="hdr-diagram">
   <div class="hdr-row">
-    <div class="hdr-label">Row 1</div>
-    <div class="hf hf-ver" style="flex:.5">Ver<div class="hf-bytes">4 bits = 6</div></div>
-    <div class="hf hf-tc"  style="flex:.8">Traffic Class<div class="hf-bytes">8 bits</div></div>
-    <div class="hf hf-fl"  style="flex:2.7">Flow Label<div class="hf-bytes">20 bits</div></div>
+<div class="hdr-label">Row 1</div>
+<div class="hf hf-ver" style="flex:.5">Ver<div class="hf-bytes">4 bits = 6</div></div>
+<div class="hf hf-tc"  style="flex:.8">Traffic Class<div class="hf-bytes">8 bits</div></div>
+<div class="hf hf-fl"  style="flex:2.7">Flow Label<div class="hf-bytes">20 bits</div></div>
   </div>
   <div class="hdr-row">
-    <div class="hdr-label">Row 2</div>
-    <div class="hf hf-pl" style="flex:2">Payload Length<div class="hf-bytes">16 bits</div></div>
-    <div class="hf hf-nh" style="flex:1">Next Header<div class="hf-bytes">8 bits</div></div>
-    <div class="hf hf-hl" style="flex:1">Hop Limit<div class="hf-bytes">8 bits</div></div>
+<div class="hdr-label">Row 2</div>
+<div class="hf hf-pl" style="flex:2">Payload Length<div class="hf-bytes">16 bits</div></div>
+<div class="hf hf-nh" style="flex:1">Next Header<div class="hf-bytes">8 bits</div></div>
+<div class="hf hf-hl" style="flex:1">Hop Limit<div class="hf-bytes">8 bits</div></div>
   </div>
   <div class="hdr-row">
-    <div class="hdr-label">Rows 3–6</div>
-    <div class="hf hf-sa" style="flex:4">Source IPv6 Address<div class="hf-bytes">128 bits — 16 bytes</div></div>
+<div class="hdr-label">Rows 3–6</div>
+<div class="hf hf-sa" style="flex:4">Source IPv6 Address<div class="hf-bytes">128 bits — 16 bytes</div></div>
   </div>
   <div class="hdr-row">
-    <div class="hdr-label">Rows 7–10</div>
-    <div class="hf hf-da" style="flex:4">Destination IPv6 Address<div class="hf-bytes">128 bits — 16 bytes</div></div>
+<div class="hdr-label">Rows 7–10</div>
+<div class="hf hf-da" style="flex:4">Destination IPv6 Address<div class="hf-bytes">128 bits — 16 bytes</div></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Every Field Explained</h3><span class="tag tag-blue">FIELD REFERENCE</span></div>
   <div class="cp-body">
-    <h4>Version (4 bits) = 0110 = 6</h4>
-    <p>Always 6 for IPv6. Receivers check this first to know which IP version to process. Same position as IPv4's Version field — allows a parser to distinguish v4 from v6 without any other context.</p>
-    <h4>Traffic Class (8 bits)</h4>
-    <p>Equivalent to IPv4's DSCP/TOS field. The upper 6 bits are DSCP for QoS marking; the lower 2 bits are ECN. Same semantics as IPv4 — allows routers to prioritise packets based on service class. Your NGFW policy engine uses this for QoS marking.</p>
-    <h4>Flow Label (20 bits) — NEW in IPv6</h4>
-    <p>A 20-bit value identifying a specific flow (sequence of packets from the same source to the same destination, e.g., a single TCP connection or video stream). Routers can use it for <strong>fast-path flow-based forwarding</strong> without inspecting the full address pair on every packet. This is particularly valuable for ECMP (Equal-Cost Multi-Path) load balancing — all packets of the same flow get the same hash → same path → in-order delivery.</p>
-    <p>For your DPDK/VPP work: the Flow Label is used in RSS (Receive Side Scaling) hash computation to distribute flows across worker threads.</p>
-    <h4>Payload Length (16 bits)</h4>
-    <p>Length of everything after the 40-byte fixed header — extension headers + upper-layer data. Unlike IPv4's Total Length (which included the header), Payload Length excludes the fixed header. Maximum: 65,535 bytes. For Jumbograms (packets >65,535 bytes), this is set to 0 and a Jumbo Payload option in an extension header carries the actual length.</p>
-    <h4>Next Header (8 bits) — Replaces IPv4 Protocol field</h4>
-    <p>Identifies what follows the fixed IPv6 header. Uses the same protocol number values as IPv4's Protocol field, plus new values for extension headers:</p>
-    <ul>
-      <li><code>6</code> — TCP (directly follows)</li>
-      <li><code>17</code> — UDP (directly follows)</li>
-      <li><code>58</code> — ICMPv6 (directly follows)</li>
-      <li><code>43</code> — Routing extension header follows</li>
-      <li><code>44</code> — Fragment extension header follows</li>
-      <li><code>0</code>  — Hop-by-Hop Options header follows</li>
-      <li><code>59</code> — No next header (empty payload)</li>
-      <li><code>50</code> — ESP (IPsec, directly follows)</li>
-    </ul>
-    <p>Extension headers form a <strong>chain</strong>: each extension header has its own Next Header field pointing to the next. The last in the chain points to the actual L4 protocol (TCP=6, UDP=17).</p>
-    <h4>Hop Limit (8 bits) — IPv4's TTL, renamed</h4>
-    <p>Same semantics as IPv4 TTL: decremented by 1 at each router hop, packet discarded when it reaches 0. Renamed "Hop Limit" because it is now accurately named — it was never a time limit, always a hop count.</p>
-    <h4>Source and Destination Addresses (128 bits each = 16 bytes each)</h4>
-    <p>The IPv6 addresses. At 16 bytes each, they dominate the header — 32 of the 40 bytes are just addresses. This is the cost of the larger address space.</p>
+<h4>Version (4 bits) = 0110 = 6</h4>
+<p>Always 6 for IPv6. Receivers check this first to know which IP version to process. Same position as IPv4's Version field — allows a parser to distinguish v4 from v6 without any other context.</p>
+<h4>Traffic Class (8 bits)</h4>
+<p>Equivalent to IPv4's DSCP/TOS field. The upper 6 bits are DSCP for QoS marking; the lower 2 bits are ECN. Same semantics as IPv4 — allows routers to prioritise packets based on service class. Your NGFW policy engine uses this for QoS marking.</p>
+<h4>Flow Label (20 bits) — NEW in IPv6</h4>
+<p>A 20-bit value identifying a specific flow (sequence of packets from the same source to the same destination, e.g., a single TCP connection or video stream). Routers can use it for <strong>fast-path flow-based forwarding</strong> without inspecting the full address pair on every packet. This is particularly valuable for ECMP (Equal-Cost Multi-Path) load balancing — all packets of the same flow get the same hash → same path → in-order delivery.</p>
+<p>For your DPDK/VPP work: the Flow Label is used in RSS (Receive Side Scaling) hash computation to distribute flows across worker threads.</p>
+<h4>Payload Length (16 bits)</h4>
+<p>Length of everything after the 40-byte fixed header — extension headers + upper-layer data. Unlike IPv4's Total Length (which included the header), Payload Length excludes the fixed header. Maximum: 65,535 bytes. For Jumbograms (packets >65,535 bytes), this is set to 0 and a Jumbo Payload option in an extension header carries the actual length.</p>
+<h4>Next Header (8 bits) — Replaces IPv4 Protocol field</h4>
+<p>Identifies what follows the fixed IPv6 header. Uses the same protocol number values as IPv4's Protocol field, plus new values for extension headers:</p>
+<ul>
+<li><code>6</code> — TCP (directly follows)</li>
+<li><code>17</code> — UDP (directly follows)</li>
+<li><code>58</code> — ICMPv6 (directly follows)</li>
+<li><code>43</code> — Routing extension header follows</li>
+<li><code>44</code> — Fragment extension header follows</li>
+<li><code>0</code>  — Hop-by-Hop Options header follows</li>
+<li><code>59</code> — No next header (empty payload)</li>
+<li><code>50</code> — ESP (IPsec, directly follows)</li>
+</ul>
+<p>Extension headers form a <strong>chain</strong>: each extension header has its own Next Header field pointing to the next. The last in the chain points to the actual L4 protocol (TCP=6, UDP=17).</p>
+<h4>Hop Limit (8 bits) — IPv4's TTL, renamed</h4>
+<p>Same semantics as IPv4 TTL: decremented by 1 at each router hop, packet discarded when it reaches 0. Renamed "Hop Limit" because it is now accurately named — it was never a time limit, always a hop count.</p>
+<h4>Source and Destination Addresses (128 bits each = 16 bytes each)</h4>
+<p>The IPv6 addresses. At 16 bytes each, they dominate the header — 32 of the 40 bytes are just addresses. This is the cost of the larger address space.</p>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Extension Headers — Replacing IPv4 Options</h3><span class="tag tag-teal">EXTENSION HEADERS</span></div>
   <div class="cp-body">
-    <p>IPv4 had an Options field in the main header — complex, variable-length, required all routers to check it. IPv6 replaces this with a cleaner chain of extension headers that most routers skip entirely (only the destination processes most of them):</p>
-    <table class="t-table">
-      <thead><tr><th>Extension Header</th><th>Next Header Value</th><th>Purpose</th><th>Processed by</th></tr></thead>
-      <tbody>
-        <tr><td>Hop-by-Hop Options</td><td><code>0</code></td><td>Options every router must read (rare — e.g., Router Alert for RSVP)</td><td>Every router</td></tr>
-        <tr><td>Destination Options</td><td><code>60</code></td><td>Options for the destination host only</td><td>Destination only</td></tr>
-        <tr><td>Routing Header</td><td><code>43</code></td><td>Loose/strict source routing — list of intermediate nodes</td><td>Each listed node</td></tr>
-        <tr><td>Fragment Header</td><td><code>44</code></td><td>Fragmentation info (IPv6 only fragments at source)</td><td>Destination only</td></tr>
-        <tr><td>Auth Header (AH)</td><td><code>51</code></td><td>IPsec authentication</td><td>Destination only</td></tr>
-        <tr><td>ESP Header</td><td><code>50</code></td><td>IPsec encryption</td><td>Destination only</td></tr>
-      </tbody>
-    </table>
-    <div class="ins"><p>💡 <strong>Key difference from IPv4:</strong> In IPv6, <strong>routers do not fragment packets</strong>. If a packet is too large for a link, the router drops it and sends ICMPv6 "Packet Too Big" (Type 2) back to the source. Only the source can fragment, using the Fragment extension header. This puts fragmentation complexity at endpoints where it belongs, keeping routers fast.</p></div>
+<p>IPv4 had an Options field in the main header — complex, variable-length, required all routers to check it. IPv6 replaces this with a cleaner chain of extension headers that most routers skip entirely (only the destination processes most of them):</p>
+<table class="t-table">
+<thead><tr><th>Extension Header</th><th>Next Header Value</th><th>Purpose</th><th>Processed by</th></tr></thead>
+<tbody>
+<tr><td>Hop-by-Hop Options</td><td><code>0</code></td><td>Options every router must read (rare — e.g., Router Alert for RSVP)</td><td>Every router</td></tr>
+<tr><td>Destination Options</td><td><code>60</code></td><td>Options for the destination host only</td><td>Destination only</td></tr>
+<tr><td>Routing Header</td><td><code>43</code></td><td>Loose/strict source routing — list of intermediate nodes</td><td>Each listed node</td></tr>
+<tr><td>Fragment Header</td><td><code>44</code></td><td>Fragmentation info (IPv6 only fragments at source)</td><td>Destination only</td></tr>
+<tr><td>Auth Header (AH)</td><td><code>51</code></td><td>IPsec authentication</td><td>Destination only</td></tr>
+<tr><td>ESP Header</td><td><code>50</code></td><td>IPsec encryption</td><td>Destination only</td></tr>
+</tbody>
+</table>
+<div class="ins"><p>💡 <strong>Key difference from IPv4:</strong> In IPv6, <strong>routers do not fragment packets</strong>. If a packet is too large for a link, the router drops it and sends ICMPv6 "Packet Too Big" (Type 2) back to the source. Only the source can fragment, using the Fragment extension header. This puts fragmentation complexity at endpoints where it belongs, keeping routers fast.</p></div>
   </div>
 </div>
 </div>
@@ -338,95 +338,112 @@ url: /learning/networking-mastery/m04-ipv6/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>IPv6 Address Notation</h3><span class="tag tag-purple">FORMAT</span></div>
   <div class="cp-body">
-    <p>An IPv6 address is 128 bits written as <strong>8 groups of 4 hexadecimal digits</strong>, separated by colons. Each group represents 16 bits (2 bytes):</p>
-    <div style="text-align:center;margin:1rem 0">
-      <div class="v6-addr" style="justify-content:center">
-        <div class="v6-col"><div class="v6-group" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">2001</div><div class="v6-lbl">bits 0–15</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">0db8</div><div class="v6-lbl">bits 16–31</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#e8f1f9;border-color:#b0ccec;color:#1a3a5c">85a3</div><div class="v6-lbl">bits 32–47</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#e8f1f9;border-color:#b0ccec;color:#1a3a5c">0000</div><div class="v6-lbl">bits 48–63</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#e0f0ee;border-color:#90c8b8;color:#0a3a30">0000</div><div class="v6-lbl">bits 64–79</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#e0f0ee;border-color:#90c8b8;color:#0a3a30">8a2e</div><div class="v6-lbl">bits 80–95</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#e2f0e8;border-color:#a0d0a0;color:#1a4a1a">0370</div><div class="v6-lbl">bits 96–111</div></div>
-        <div class="v6-sep">:</div>
-        <div class="v6-col"><div class="v6-group" style="background:#e2f0e8;border-color:#a0d0a0;color:#1a4a1a">7334</div><div class="v6-lbl">bits 112–127</div></div>
-      </div>
-      <div style="font-size:.75rem;font-family:monospace;color:var(--light-text,#666);margin-top:4px">Full address: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</div>
-    </div>
-    <h4>Abbreviation Rules (RFC 5952)</h4>
-    <p>IPv6 addresses are long — two abbreviation rules make them manageable:</p>
-    <p><strong>Rule 1 — Drop leading zeros within each group:</strong></p>
-    <ul>
-      <li><code>0db8</code> → <code>db8</code></li>
-      <li><code>0000</code> → <code>0</code></li>
-      <li><code>0001</code> → <code>1</code></li>
-    </ul>
-    <p><strong>Rule 2 — Replace longest consecutive run of all-zero groups with <code>::</code> (only once per address):</strong></p>
-<div class="cb"><pre><span class="cm">/* Full notation */</span>
+<p>An IPv6 address is 128 bits written as <strong>8 groups of 4 hexadecimal digits</strong>, separated by colons. Each group represents 16 bits (2 bytes):</p>
+<div style="text-align:center;margin:1rem 0">
+<div class="v6-addr" style="justify-content:center">
+<div class="v6-col"><div class="v6-group" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">2001</div><div class="v6-lbl">bits 0–15</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">0db8</div><div class="v6-lbl">bits 16–31</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#e8f1f9;border-color:#b0ccec;color:#1a3a5c">85a3</div><div class="v6-lbl">bits 32–47</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#e8f1f9;border-color:#b0ccec;color:#1a3a5c">0000</div><div class="v6-lbl">bits 48–63</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#e0f0ee;border-color:#90c8b8;color:#0a3a30">0000</div><div class="v6-lbl">bits 64–79</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#e0f0ee;border-color:#90c8b8;color:#0a3a30">8a2e</div><div class="v6-lbl">bits 80–95</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#e2f0e8;border-color:#a0d0a0;color:#1a4a1a">0370</div><div class="v6-lbl">bits 96–111</div></div>
+<div class="v6-sep">:</div>
+<div class="v6-col"><div class="v6-group" style="background:#e2f0e8;border-color:#a0d0a0;color:#1a4a1a">7334</div><div class="v6-lbl">bits 112–127</div></div>
+</div>
+<div style="font-size:.75rem;font-family:monospace;color:var(--light-text,#666);margin-top:4px">Full address: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</div>
+</div>
+<h4>Abbreviation Rules (RFC 5952)</h4>
+<p>IPv6 addresses are long — two abbreviation rules make them manageable:</p>
+<p><strong>Rule 1 — Drop leading zeros within each group:</strong></p>
+<ul>
+<li><code>0db8</code> → <code>db8</code></li>
+<li><code>0000</code> → <code>0</code></li>
+<li><code>0001</code> → <code>1</code></li>
+</ul>
+<p><strong>Rule 2 — Replace longest consecutive run of all-zero groups with <code>::</code> (only once per address):</strong></p>
+
+
+
+```yaml
+/* Full notation */
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
- 
-<span class="cm">/* Step 1: Drop leading zeros in each group */</span>
+
+/* Step 1: Drop leading zeros in each group */
 2001:db8:85a3:0:0:8a2e:370:7334
- 
-<span class="cm">/* Step 2: Compress the run of zeros (0:0) with :: */</span>
+
+/* Step 2: Compress the run of zeros (0:0) with :: */
 2001:db8:85a3::8a2e:370:7334  ← final compressed form
- 
-<span class="cm">/* More examples */</span>
+
+/* More examples */
 fe80:0000:0000:0000:0204:61ff:fe9d:f156
-→  fe80::204:61ff:fe9d:f156           <span class="cm"># 4 consecutive zero groups compressed</span>
- 
+→  fe80::204:61ff:fe9d:f156           # 4 consecutive zero groups compressed
+
 0000:0000:0000:0000:0000:0000:0000:0001
-→  ::1                                 <span class="cm"># loopback address</span>
- 
+→  ::1                                 # loopback address
+
 0000:0000:0000:0000:0000:0000:0000:0000
-→  ::                                  <span class="cm"># unspecified address</span>
-<span class="cm">/* :: can only be used ONCE per address */</span>
-2001:db8::1:0:0:1   <span class="cm"># valid — one :: compresses middle zeros</span>
-2001::db8::1        <span class="cm"># INVALID — two :: is ambiguous</span>
-<span class="cm">/* Prefix notation — same as IPv4 CIDR */</span>
-2001:db8::/32       <span class="cm"># network prefix /32 bits</span>
-fe80::/10           <span class="cm"># link-local prefix</span>
-2001:db8::1/128     <span class="cm"># single host (/128 = one address)</span></pre></div>
+→  ::                                  # unspecified address
+
+/* :: can only be used ONCE per address */
+2001:db8::1:0:0:1   # valid — one :: compresses middle zeros
+2001::db8::1        # INVALID — two :: is ambiguous
+
+/* Prefix notation — same as IPv4 CIDR */
+2001:db8::/32       # network prefix /32 bits
+fe80::/10           # link-local prefix
+2001:db8::1/128     # single host (/128 = one address)
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🧮</span><h3>IPv6 in C — Structures and Functions</h3><span class="tag tag-blue">CODE</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cs">#include &lt;arpa/inet.h&gt;
-#include &lt;netinet/in.h&gt;
-#include &lt;string.h&gt;</span>
-<span class="cm">/* IPv6 address structure: 16 bytes = 128 bits */</span>
-<span class="ck">struct</span> in6_addr addr;
- 
-<span class="cm">/* Parse a string into binary */</span>
-inet_pton(AF_INET6, <span class="cs">"2001:db8::1"</span>, &addr);
- 
-<span class="cm">/* Print binary as string */</span>
-<span class="ck">char</span> buf[INET6_ADDRSTRLEN];   <span class="cm">/* 46 bytes: enough for any IPv6 string */</span>
-inet_ntop(AF_INET6, &addr, buf, <span class="ck">sizeof</span>(buf));
-printf(<span class="cs">"%s\n"</span>, buf);           <span class="cm">/* prints: 2001:db8::1 */</span>
-<span class="cm">/* Access raw bytes (useful for masking) */</span>
-<span class="ck">uint8_t</span> *bytes = addr.s6_addr;  <span class="cm">/* 16-byte array */</span>
-printf(<span class="cs">"First byte: %02x\n"</span>, bytes[0]);
- 
-<span class="cm">/* Check if address is in a prefix (e.g., fe80::/10 link-local) */</span>
-<span class="ck">int</span> is_link_local(<span class="ck">struct</span> in6_addr *a) {
-    <span class="cm">/* fe80::/10 — first 10 bits = 1111 1110 10 */</span>
-    <span class="ck">return</span> (a->s6_addr[0] == 0xfe) && ((a->s6_addr[1] & 0xc0) == 0x80);
+
+
+```cpp
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <string.h>
+
+/* IPv6 address structure: 16 bytes = 128 bits */
+struct in6_addr addr;
+
+/* Parse a string into binary */
+inet_pton(AF_INET6, "2001:db8::1", &addr);
+
+/* Print binary as string */
+char buf[INET6_ADDRSTRLEN];   /* 46 bytes: enough for any IPv6 string */
+inet_ntop(AF_INET6, &addr, buf, sizeof(buf));
+printf("%s\n", buf);           /* prints: 2001:db8::1 */
+
+/* Access raw bytes (useful for masking) */
+uint8_t *bytes = addr.s6_addr;  /* 16-byte array */
+printf("First byte: %02x\n", bytes[0]);
+
+/* Check if address is in a prefix (e.g., fe80::/10 link-local) */
+int is_link_local(struct in6_addr *a) {
+    /* fe80::/10 — first 10 bits = 1111 1110 10 */
+    return (a->s6_addr[0] == 0xfe) && ((a->s6_addr[1] & 0xc0) == 0x80);
 }
- 
-<span class="cm">/* sockaddr for IPv6 connections */</span>
-<span class="ck">struct</span> sockaddr_in6 sa6 = {0};
+
+/* sockaddr for IPv6 connections */
+struct sockaddr_in6 sa6 = {0};
 sa6.sin6_family = AF_INET6;
 sa6.sin6_port   = htons(80);
-inet_pton(AF_INET6, <span class="cs">"2001:db8::1"</span>, &sa6.sin6_addr);
-connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">sizeof</span>(sa6));</pre></div>
+inet_pton(AF_INET6, "2001:db8::1", &sa6.sin6_addr);
+connect(sock, (struct sockaddr *)&sa6, sizeof(sa6));
+```
+
+
   </div>
 </div>
 </div>
@@ -436,31 +453,31 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🗂️</span><h3>Three Address Types — Unicast, Multicast, Anycast</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>IPv6 eliminates broadcast entirely. The three address types are:</p>
-    <ul>
-      <li><strong>Unicast</strong> — one sender to one specific receiver. The majority of IPv6 traffic.</li>
-      <li><strong>Multicast</strong> — one sender to a group of receivers (all addresses starting <code>FF</code>). Replaces broadcast for all use cases.</li>
-      <li><strong>Anycast</strong> — one sender to the nearest of multiple receivers sharing the same address. Used for DNS root servers, CDN edge nodes.</li>
-    </ul>
-    <p><strong>There is no broadcast in IPv6.</strong> What used to be broadcast (e.g., ARP requests) is now done with targeted multicast (NDP Solicited-Node multicast). This is one of the most important architectural improvements.</p>
+<p>IPv6 eliminates broadcast entirely. The three address types are:</p>
+<ul>
+<li><strong>Unicast</strong> — one sender to one specific receiver. The majority of IPv6 traffic.</li>
+<li><strong>Multicast</strong> — one sender to a group of receivers (all addresses starting <code>FF</code>). Replaces broadcast for all use cases.</li>
+<li><strong>Anycast</strong> — one sender to the nearest of multiple receivers sharing the same address. Used for DNS root servers, CDN edge nodes.</li>
+</ul>
+<p><strong>There is no broadcast in IPv6.</strong> What used to be broadcast (e.g., ARP requests) is now done with targeted multicast (NDP Solicited-Node multicast). This is one of the most important architectural improvements.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Unicast Address Types — Know Each One</h3><span class="tag tag-blue">UNICAST</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Type</th><th>Prefix</th><th>Example</th><th>Scope</th><th>Use</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Global Unicast (GUA)</strong></td><td><code>2000::/3</code></td><td><code>2001:db8::1</code></td><td>Internet-wide</td><td>Publicly routable addresses — the IPv6 equivalent of public IPv4</td></tr>
-        <tr><td><strong>Link-Local</strong></td><td><code>fe80::/10</code></td><td><code>fe80::1</code></td><td>Single link only</td><td>Automatically configured on every IPv6 interface. Used for NDP, router discovery. Never routed beyond a single link.</td></tr>
-        <tr><td><strong>Unique Local (ULA)</strong></td><td><code>fc00::/7</code> (usually <code>fd00::/8</code>)</td><td><code>fd00::1</code></td><td>Organisation-wide</td><td>IPv6's equivalent of RFC 1918 private addresses. Not routable on internet. Used for internal networks.</td></tr>
-        <tr><td><strong>Loopback</strong></td><td><code>::1/128</code></td><td><code>::1</code></td><td>Host-local</td><td>Equivalent to 127.0.0.1. Used for local host communication.</td></tr>
-        <tr><td><strong>Unspecified</strong></td><td><code>::/128</code></td><td><code>::</code></td><td>N/A</td><td>Equivalent to 0.0.0.0. Used before address assignment.</td></tr>
-        <tr><td><strong>IPv4-Mapped</strong></td><td><code>::ffff:0:0/96</code></td><td><code>::ffff:192.0.2.1</code></td><td>N/A</td><td>Represents an IPv4 address in IPv6 notation. Used by dual-stack APIs.</td></tr>
-      </tbody>
-    </table>
-    <h4>Global Unicast Address Structure</h4>
-    <p>A GUA is divided into three parts:</p>
+<table class="t-table">
+<thead><tr><th>Type</th><th>Prefix</th><th>Example</th><th>Scope</th><th>Use</th></tr></thead>
+<tbody>
+<tr><td><strong>Global Unicast (GUA)</strong></td><td><code>2000::/3</code></td><td><code>2001:db8::1</code></td><td>Internet-wide</td><td>Publicly routable addresses — the IPv6 equivalent of public IPv4</td></tr>
+<tr><td><strong>Link-Local</strong></td><td><code>fe80::/10</code></td><td><code>fe80::1</code></td><td>Single link only</td><td>Automatically configured on every IPv6 interface. Used for NDP, router discovery. Never routed beyond a single link.</td></tr>
+<tr><td><strong>Unique Local (ULA)</strong></td><td><code>fc00::/7</code> (usually <code>fd00::/8</code>)</td><td><code>fd00::1</code></td><td>Organisation-wide</td><td>IPv6's equivalent of RFC 1918 private addresses. Not routable on internet. Used for internal networks.</td></tr>
+<tr><td><strong>Loopback</strong></td><td><code>::1/128</code></td><td><code>::1</code></td><td>Host-local</td><td>Equivalent to 127.0.0.1. Used for local host communication.</td></tr>
+<tr><td><strong>Unspecified</strong></td><td><code>::/128</code></td><td><code>::</code></td><td>N/A</td><td>Equivalent to 0.0.0.0. Used before address assignment.</td></tr>
+<tr><td><strong>IPv4-Mapped</strong></td><td><code>::ffff:0:0/96</code></td><td><code>::ffff:192.0.2.1</code></td><td>N/A</td><td>Represents an IPv4 address in IPv6 notation. Used by dual-stack APIs.</td></tr>
+</tbody>
+</table>
+<h4>Global Unicast Address Structure</h4>
+<p>A GUA is divided into three parts:</p>
 <div class="cb"><pre><span class="cm">/* Global Unicast Address: 2001:db8:1234:5678:abcd:ef01:2345:6789 */</span>
  
 |←── Global Routing Prefix ──→|←─ Subnet ID ─→|←───── Interface ID ─────→|
@@ -471,40 +488,46 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
 <span class="cm">/* The /64 boundary is the standard interface prefix */</span>
 <span class="cm">/* Network: 2001:db8:1234:5678::/64 */</span>
 <span class="cm">/* Host:    anything in the lower 64 bits */</span></pre></div>
-    <div class="ins"><p>💡 <strong>Why /64 everywhere?</strong> The 64-bit interface ID boundary is standard in IPv6 for several reasons: SLAAC (address autoconfiguration) uses a 64-bit EUI-64 derived from the MAC address as the interface ID; NDP Solicited-Node multicast uses the lower 24 bits of the interface ID; and /64 subnets give enough space that you'll never run out of host addresses within a subnet.</p></div>
+<div class="ins"><p>💡 <strong>Why /64 everywhere?</strong> The 64-bit interface ID boundary is standard in IPv6 for several reasons: SLAAC (address autoconfiguration) uses a 64-bit EUI-64 derived from the MAC address as the interface ID; NDP Solicited-Node multicast uses the lower 24 bits of the interface ID; and /64 subnets give enough space that you'll never run out of host addresses within a subnet.</p></div>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📣</span><h3>Multicast Addresses — Replacing Broadcast</h3><span class="tag tag-teal">MULTICAST</span></div>
   <div class="cp-body">
-    <p>All IPv6 multicast addresses start with <code>FF</code>. The second byte encodes the <strong>lifetime</strong> (permanent vs transient) and <strong>scope</strong> (how far the multicast travels):</p>
-    <table class="t-table">
-      <thead><tr><th>Address</th><th>Name</th><th>Replaces (IPv4)</th><th>Used by</th></tr></thead>
-      <tbody>
-        <tr><td><code>ff02::1</code></td><td>All-nodes (link-local)</td><td>255.255.255.255 broadcast</td><td>General link-local broadcast equivalent</td></tr>
-        <tr><td><code>ff02::2</code></td><td>All-routers (link-local)</td><td>224.0.0.2</td><td>Router discovery, DHCPv6 relay</td></tr>
-        <tr><td><code>ff02::5</code></td><td>OSPFv3 All-routers</td><td>224.0.0.5</td><td>OSPFv3 hello packets</td></tr>
-        <tr><td><code>ff02::6</code></td><td>OSPFv3 DR/BDR</td><td>224.0.0.6</td><td>OSPFv3 DR/BDR</td></tr>
-        <tr><td><code>ff02::1:ff00:0/104</code></td><td>Solicited-Node Multicast</td><td>ARP broadcast</td><td>NDP — neighbour address resolution</td></tr>
-        <tr><td><code>ff05::2</code></td><td>All-routers (site-local)</td><td>N/A</td><td>Router discovery across site</td></tr>
-      </tbody>
-    </table>
-    <h4>Solicited-Node Multicast — The ARP Replacement</h4>
-    <p>This is how IPv6 avoids broadcast for address resolution. Each interface automatically joins a Solicited-Node multicast group derived from its own IPv6 address:</p>
-<div class="cb"><pre><span class="cm">/* Solicited-Node Multicast formula */</span>
+<p>All IPv6 multicast addresses start with <code>FF</code>. The second byte encodes the <strong>lifetime</strong> (permanent vs transient) and <strong>scope</strong> (how far the multicast travels):</p>
+<table class="t-table">
+<thead><tr><th>Address</th><th>Name</th><th>Replaces (IPv4)</th><th>Used by</th></tr></thead>
+<tbody>
+<tr><td><code>ff02::1</code></td><td>All-nodes (link-local)</td><td>255.255.255.255 broadcast</td><td>General link-local broadcast equivalent</td></tr>
+<tr><td><code>ff02::2</code></td><td>All-routers (link-local)</td><td>224.0.0.2</td><td>Router discovery, DHCPv6 relay</td></tr>
+<tr><td><code>ff02::5</code></td><td>OSPFv3 All-routers</td><td>224.0.0.5</td><td>OSPFv3 hello packets</td></tr>
+<tr><td><code>ff02::6</code></td><td>OSPFv3 DR/BDR</td><td>224.0.0.6</td><td>OSPFv3 DR/BDR</td></tr>
+<tr><td><code>ff02::1:ff00:0/104</code></td><td>Solicited-Node Multicast</td><td>ARP broadcast</td><td>NDP — neighbour address resolution</td></tr>
+<tr><td><code>ff05::2</code></td><td>All-routers (site-local)</td><td>N/A</td><td>Router discovery across site</td></tr>
+</tbody>
+</table>
+<h4>Solicited-Node Multicast — The ARP Replacement</h4>
+<p>This is how IPv6 avoids broadcast for address resolution. Each interface automatically joins a Solicited-Node multicast group derived from its own IPv6 address:</p>
+
+
+```yaml
+/* Solicited-Node Multicast formula */
 Prefix: ff02::1:ff00:0/104
 Last 24 bits: lower 24 bits of the interface's IPv6 address
- 
-<span class="cm">/* Example */</span>
+
+/* Example */
 Interface IPv6: 2001:db8::abcd:ef01
 Lower 24 bits:  cd:ef:01
 Solicited-Node: ff02::1:ffcd:ef01
- 
-<span class="cm">/* Why this is better than ARP broadcast */</span>
+
+/* Why this is better than ARP broadcast */
 ARP: sent to FF:FF:FF:FF:FF:FF — EVERY device on the segment must wake up and process it
 NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in cd:ef:01 process it
      (statistically, only 1–2 devices on any given segment share the same lower 24 bits)
-     Much lower CPU overhead on large segments</pre></div>
+     Much lower CPU overhead on large segments
+```
+
+
   </div>
 </div>
 </div>
@@ -514,78 +537,82 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>NDP — IPv6's Supercharged ARP</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>Neighbour Discovery Protocol (NDP, RFC 4861) replaces ARP and adds additional functions that required separate protocols in IPv4. It runs over ICMPv6 (Type 133–137) and uses multicast instead of broadcast.</p>
-    <p>NDP provides five functions:</p>
-    <ul>
-      <li><strong>Address Resolution</strong> — maps IPv6 address to MAC address (replaces ARP)</li>
-      <li><strong>Router Discovery</strong> — hosts find routers and their prefixes automatically</li>
-      <li><strong>Prefix Discovery</strong> — hosts learn the network prefix for SLAAC autoconfiguration</li>
-      <li><strong>Redirect</strong> — routers inform hosts of better first-hop routes</li>
-      <li><strong>Duplicate Address Detection (DAD)</strong> — verifies an address is unique before using it</li>
-    </ul>
+<p>Neighbour Discovery Protocol (NDP, RFC 4861) replaces ARP and adds additional functions that required separate protocols in IPv4. It runs over ICMPv6 (Type 133–137) and uses multicast instead of broadcast.</p>
+<p>NDP provides five functions:</p>
+<ul>
+<li><strong>Address Resolution</strong> — maps IPv6 address to MAC address (replaces ARP)</li>
+<li><strong>Router Discovery</strong> — hosts find routers and their prefixes automatically</li>
+<li><strong>Prefix Discovery</strong> — hosts learn the network prefix for SLAAC autoconfiguration</li>
+<li><strong>Redirect</strong> — routers inform hosts of better first-hop routes</li>
+<li><strong>Duplicate Address Detection (DAD)</strong> — verifies an address is unique before using it</li>
+</ul>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>NDP Message Types</h3><span class="tag tag-blue">MESSAGES</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>ICMPv6 Type</th><th>Name</th><th>Direction</th><th>Purpose</th></tr></thead>
-      <tbody>
-        <tr><td><code>133</code></td><td>Router Solicitation (RS)</td><td>Host → All-routers (ff02::2)</td><td>Host asks "any routers out there?" on startup</td></tr>
-        <tr><td><code>134</code></td><td>Router Advertisement (RA)</td><td>Router → All-nodes (ff02::1)</td><td>Router announces prefix, MTU, default gateway, flags</td></tr>
-        <tr><td><code>135</code></td><td>Neighbour Solicitation (NS)</td><td>Host → Solicited-Node multicast</td><td>Address resolution (like ARP request) + DAD</td></tr>
-        <tr><td><code>136</code></td><td>Neighbour Advertisement (NA)</td><td>Host → Requester (unicast)</td><td>Address resolution reply (like ARP reply)</td></tr>
-        <tr><td><code>137</code></td><td>Redirect</td><td>Router → Host</td><td>Better route available via different next-hop</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>ICMPv6 Type</th><th>Name</th><th>Direction</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>133</code></td><td>Router Solicitation (RS)</td><td>Host → All-routers (ff02::2)</td><td>Host asks "any routers out there?" on startup</td></tr>
+<tr><td><code>134</code></td><td>Router Advertisement (RA)</td><td>Router → All-nodes (ff02::1)</td><td>Router announces prefix, MTU, default gateway, flags</td></tr>
+<tr><td><code>135</code></td><td>Neighbour Solicitation (NS)</td><td>Host → Solicited-Node multicast</td><td>Address resolution (like ARP request) + DAD</td></tr>
+<tr><td><code>136</code></td><td>Neighbour Advertisement (NA)</td><td>Host → Requester (unicast)</td><td>Address resolution reply (like ARP reply)</td></tr>
+<tr><td><code>137</code></td><td>Redirect</td><td>Router → Host</td><td>Better route available via different next-hop</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>NDP Address Resolution — Step by Step</h3><span class="tag tag-teal">PROCESS</span></div>
   <div class="cp-body">
-    <p>Scenario: Host A (<code>2001:db8::1</code>) wants to send a packet to Host B (<code>2001:db8::2</code>). It doesn't know B's MAC address.</p>
-    <div class="flow-list">
-      <div class="fl-step" data-n="1" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">A checks its Neighbour Cache</div>
-          <div class="fl-detail">Linux maintains a Neighbour Cache (equivalent to IPv4 ARP cache) mapping IPv6 → MAC. If a valid entry for 2001:db8::2 exists, skip to step 5.</div>
-          <div class="fl-code">ip -6 neigh show</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="2" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">A computes B's Solicited-Node Multicast address</div>
-          <div class="fl-detail">B's address ends in <code>00:00:02</code> → Solicited-Node = <code>ff02::1:ff00:0002</code>. The Ethernet multicast MAC for this is derived as <code>33:33:ff:00:00:02</code> (IPv6 multicast MAC prefix is 33:33 followed by the last 4 bytes of the multicast group).</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="3" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">A sends Neighbour Solicitation (NS)</div>
-          <div class="fl-detail">ICMPv6 Type 135: Target = 2001:db8::2. Source link-layer option = A's MAC. Sent to Solicited-Node multicast (not broadcast!). Only B — and any other device whose address ends in 00:02 — receives this.</div>
-          <div class="fl-code">ICMPv6 NS: src=2001:db8::1 dst=ff02::1:ff00:2 target=2001:db8::2</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="4" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">B sends Neighbour Advertisement (NA)</div>
-          <div class="fl-detail">ICMPv6 Type 136: Target = 2001:db8::2, Target link-layer option = B's MAC. Sent directly to A's unicast address (not multicast).</div>
-          <div class="fl-code">ICMPv6 NA: src=2001:db8::2 dst=2001:db8::1 MAC=bb:bb:bb:bb:bb:bb</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="5" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">A caches the mapping and sends the original packet</div>
-          <div class="fl-detail">Neighbour cache entry: 2001:db8::2 → bb:bb:bb:bb:bb:bb (REACHABLE). All subsequent packets use this cache entry until it expires (default 30 seconds before reachability probe).</div>
-        </div>
-      </div>
-    </div>
+<p>Scenario: Host A (<code>2001:db8::1</code>) wants to send a packet to Host B (<code>2001:db8::2</code>). It doesn't know B's MAC address.</p>
+<div class="flow-list">
+<div class="fl-step" data-n="1" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">A checks its Neighbour Cache</div>
+<div class="fl-detail">Linux maintains a Neighbour Cache (equivalent to IPv4 ARP cache) mapping IPv6 → MAC. If a valid entry for 2001:db8::2 exists, skip to step 5.</div>
+<div class="fl-code">ip -6 neigh show</div>
+</div>
+</div>
+<div class="fl-step" data-n="2" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">A computes B's Solicited-Node Multicast address</div>
+<div class="fl-detail">B's address ends in <code>00:00:02</code> → Solicited-Node = <code>ff02::1:ff00:0002</code>. The Ethernet multicast MAC for this is derived as <code>33:33:ff:00:00:02</code> (IPv6 multicast MAC prefix is 33:33 followed by the last 4 bytes of the multicast group).</div>
+</div>
+</div>
+<div class="fl-step" data-n="3" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">A sends Neighbour Solicitation (NS)</div>
+<div class="fl-detail">ICMPv6 Type 135: Target = 2001:db8::2. Source link-layer option = A's MAC. Sent to Solicited-Node multicast (not broadcast!). Only B — and any other device whose address ends in 00:02 — receives this.</div>
+<div class="fl-code">ICMPv6 NS: src=2001:db8::1 dst=ff02::1:ff00:2 target=2001:db8::2</div>
+</div>
+</div>
+<div class="fl-step" data-n="4" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">B sends Neighbour Advertisement (NA)</div>
+<div class="fl-detail">ICMPv6 Type 136: Target = 2001:db8::2, Target link-layer option = B's MAC. Sent directly to A's unicast address (not multicast).</div>
+<div class="fl-code">ICMPv6 NA: src=2001:db8::2 dst=2001:db8::1 MAC=bb:bb:bb:bb:bb:bb</div>
+</div>
+</div>
+<div class="fl-step" data-n="5" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">A caches the mapping and sends the original packet</div>
+<div class="fl-detail">Neighbour cache entry: 2001:db8::2 → bb:bb:bb:bb:bb:bb (REACHABLE). All subsequent packets use this cache entry until it expires (default 30 seconds before reachability probe).</div>
+</div>
+</div>
+</div>
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Duplicate Address Detection (DAD)</h3><span class="tag tag-orange">DAD</span></div>
   <div class="cp-body">
-    <p>Before using a new IPv6 address, a host <strong>must verify it's unique</strong> on the link via DAD. This is especially important for SLAAC-derived addresses (two devices could theoretically derive the same EUI-64 from different MAC addresses, though this is extremely rare).</p>
-<div class="cb"><pre><span class="cm">/* DAD process */</span>
+<p>Before using a new IPv6 address, a host <strong>must verify it's unique</strong> on the link via DAD. This is especially important for SLAAC-derived addresses (two devices could theoretically derive the same EUI-64 from different MAC addresses, though this is extremely rare).</p>
+
+
+
+```python
+/* DAD process */
 1. Host tentatively assigns the address (marks as TENTATIVE in neighbour cache)
 2. Host sends NS with:
    - Source IP = :: (unspecified — not yet using the new address)
@@ -597,36 +624,46 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
    → Address conflict detected → DAD fails
    → Interface stays without this address
    → Kernel logs: "IPv6: DAD failed for address 2001:db8::1"
- 
-<span class="cm">/* On Linux you can observe DAD: */</span>
+
+/* On Linux you can observe DAD: */
 $ ip -6 addr show dev eth0
    inet6 2001:db8::1/64 scope global tentative  ← DAD in progress
-   inet6 2001:db8::1/64 scope global            ← DAD passed, address active</pre></div>
+   inet6 2001:db8::1/64 scope global            ← DAD passed, address active
+```
+
+
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Router Advertisement — The Key to Autoconfiguration</h3><span class="tag tag-green">RA MESSAGE</span></div>
   <div class="cp-body">
-    <p>Router Advertisements (ICMPv6 Type 134) are sent periodically by routers to <code>ff02::1</code> (all-nodes) and contain everything a host needs to configure itself:</p>
-<div class="cb"><pre><span class="cm">/* Key fields in a Router Advertisement */</span>
-Cur Hop Limit:    64        <span class="cm"># recommended Hop Limit for outgoing packets</span>
-Flags:            M=0 O=0  <span class="cm"># M=1: use DHCPv6 for address; O=1: use DHCPv6 for options</span>
-Router Lifetime:  1800s     <span class="cm"># how long to use this router as default gateway</span>
-Reachable Time:   0         <span class="cm"># time to assume neighbour is reachable after last confirmation</span>
- 
+<p>Router Advertisements (ICMPv6 Type 134) are sent periodically by routers to <code>ff02::1</code> (all-nodes) and contain everything a host needs to configure itself:</p>
+
+
+```python
+/* Key fields in a Router Advertisement */
+Cur Hop Limit:    64        # recommended Hop Limit for outgoing packets
+Flags:            M=0 O=0  # M=1: use DHCPv6 for address; O=1: use DHCPv6 for options
+Router Lifetime:  1800s     # how long to use this router as default gateway
+Reachable Time:   0         # time to assume neighbour is reachable after last confirmation
+
 Prefix Information Option:
   Prefix:         2001:db8::/64
-  Valid Lifetime: 2592000s  <span class="cm"># 30 days</span>
-  Preferred Lifetime: 604800s <span class="cm"># 7 days</span>
-  L flag = 1                <span class="cm"># prefix is on-link</span>
-  A flag = 1                <span class="cm"># use for SLAAC autoconfiguration</span>
- 
-MTU Option:       1500      <span class="cm"># link MTU</span>
-Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
-<span class="cm"># Receiving host uses this to:</span>
-<span class="cm"># 1. Know it's on prefix 2001:db8::/64</span>
-<span class="cm"># 2. Auto-configure its own address (SLAAC)</span>
-<span class="cm"># 3. Set the router as default gateway (fe80::router_mac)</span></pre></div>
+  Valid Lifetime: 2592000s  # 30 days
+  Preferred Lifetime: 604800s # 7 days
+  L flag = 1                # prefix is on-link
+  A flag = 1                # use for SLAAC autoconfiguration
+
+MTU Option:       1500      # link MTU
+Source Link-Layer: aa:bb:cc:dd:ee:ff  # router's MAC
+
+# Receiving host uses this to:
+# 1. Know it's on prefix 2001:db8::/64
+# 2. Auto-configure its own address (SLAAC)
+# 3. Set the router as default gateway (fe80::router_mac)
+```
+
+
   </div>
 </div>
 </div>
@@ -636,81 +673,88 @@ Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>SLAAC — Stateless Address Autoconfiguration</h3><span class="tag tag-purple">SLAAC</span></div>
   <div class="cp-body">
-    <p>SLAAC (RFC 4862) is IPv6's mechanism for devices to configure their own IP address <strong>without any server</strong>. A device with just a MAC address and a connected link can generate a globally routable IPv6 address in seconds — no DHCP server, no manual configuration.</p>
-    <p><strong>SLAAC process:</strong></p>
-    <div class="flow-list">
-      <div class="fl-step" data-n="1" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">Interface comes up — auto-configure Link-Local address</div>
-          <div class="fl-detail">Every IPv6 interface automatically generates a Link-Local address (fe80::/10) using EUI-64 from the MAC address (see below). This address is used for NDP before any global address is assigned.</div>
-          <div class="fl-code">fe80::[EUI-64 derived from MAC]</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="2" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">DAD on Link-Local address</div>
-          <div class="fl-detail">Sends NS with src=:: to the Solicited-Node multicast of the tentative fe80 address. If no conflict: Link-Local address becomes PREFERRED.</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="3" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">Send Router Solicitation</div>
-          <div class="fl-detail">ICMPv6 Type 133 sent to ff02::2 (all-routers): "Any routers? Please send me a Router Advertisement."</div>
-          <div class="fl-code">RS: src=fe80::[eui64] dst=ff02::2</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="4" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">Receive Router Advertisement</div>
-          <div class="fl-detail">Router replies with RA containing the network prefix (e.g., 2001:db8::/64), MTU, and configuration flags. Host records the router's link-local address as the default gateway.</div>
-          <div class="fl-code">RA: prefix=2001:db8::/64 A=1 L=1</div>
-        </div>
-      </div>
-      <div class="fl-step" data-n="5" style="--sc:#5b3a8c">
-        <div>
-          <div class="fl-title">Generate Global Unicast Address</div>
-          <div class="fl-detail">Combine the /64 prefix from RA with the EUI-64 interface identifier: 2001:db8::[EUI-64]. This is the SLAAC address. Run DAD before using it.</div>
-          <div class="fl-code">GUA = prefix (64 bits) + EUI-64 (64 bits)</div>
-        </div>
-      </div>
-    </div>
-    <h4>EUI-64 Interface Identifier Generation</h4>
-<div class="cb"><pre><span class="cm">/* Derive 64-bit EUI-64 from 48-bit MAC address */</span>
- 
+<p>SLAAC (RFC 4862) is IPv6's mechanism for devices to configure their own IP address <strong>without any server</strong>. A device with just a MAC address and a connected link can generate a globally routable IPv6 address in seconds — no DHCP server, no manual configuration.</p>
+<p><strong>SLAAC process:</strong></p>
+<div class="flow-list">
+<div class="fl-step" data-n="1" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">Interface comes up — auto-configure Link-Local address</div>
+<div class="fl-detail">Every IPv6 interface automatically generates a Link-Local address (fe80::/10) using EUI-64 from the MAC address (see below). This address is used for NDP before any global address is assigned.</div>
+<div class="fl-code">fe80::[EUI-64 derived from MAC]</div>
+</div>
+</div>
+<div class="fl-step" data-n="2" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">DAD on Link-Local address</div>
+<div class="fl-detail">Sends NS with src=:: to the Solicited-Node multicast of the tentative fe80 address. If no conflict: Link-Local address becomes PREFERRED.</div>
+</div>
+</div>
+<div class="fl-step" data-n="3" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">Send Router Solicitation</div>
+<div class="fl-detail">ICMPv6 Type 133 sent to ff02::2 (all-routers): "Any routers? Please send me a Router Advertisement."</div>
+<div class="fl-code">RS: src=fe80::[eui64] dst=ff02::2</div>
+</div>
+</div>
+<div class="fl-step" data-n="4" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">Receive Router Advertisement</div>
+<div class="fl-detail">Router replies with RA containing the network prefix (e.g., 2001:db8::/64), MTU, and configuration flags. Host records the router's link-local address as the default gateway.</div>
+<div class="fl-code">RA: prefix=2001:db8::/64 A=1 L=1</div>
+</div>
+</div>
+<div class="fl-step" data-n="5" style="--sc:#5b3a8c">
+<div>
+<div class="fl-title">Generate Global Unicast Address</div>
+<div class="fl-detail">Combine the /64 prefix from RA with the EUI-64 interface identifier: 2001:db8::[EUI-64]. This is the SLAAC address. Run DAD before using it.</div>
+<div class="fl-code">GUA = prefix (64 bits) + EUI-64 (64 bits)</div>
+</div>
+</div>
+</div>
+<h4>EUI-64 Interface Identifier Generation</h4>
+
+
+```bash
+/* Derive 64-bit EUI-64 from 48-bit MAC address */
+
 MAC:    aa:bb:cc : dd:ee:ff
         ↓
 Split:  aa:bb:cc | dd:ee:ff
-Insert: aa:bb:cc : ff:fe : dd:ee:ff    <span class="cm"># insert ff:fe in the middle</span>
-Flip:   a8:bb:cc : ff:fe : dd:ee:ff    <span class="cm"># flip bit 6 (Universal/Local bit) of first byte</span>
-                                        <span class="cm"># aa = 10101010 → bit 6 flip → 10101000 = a8</span>
-<span class="cm">/* Example */</span>
+Insert: aa:bb:cc : ff:fe : dd:ee:ff    # insert ff:fe in the middle
+Flip:   a8:bb:cc : ff:fe : dd:ee:ff    # flip bit 6 (Universal/Local bit) of first byte
+                                        # aa = 10101010 → bit 6 flip → 10101000 = a8
+
+/* Example */
 MAC:          00:1a:2b:3c:4d:5e
 EUI-64:       02:1a:2b:ff:fe:3c:4d:5e
 Link-Local:   fe80::021a:2bff:fe3c:4d5e
- 
-<span class="cm">/* Privacy concern */</span>
-<span class="cm"># EUI-64 embeds the MAC — tracking device across networks</span>
-<span class="cm"># RFC 8981 "Temporary Address Extensions" generates random interface IDs</span>
-<span class="cm"># Linux uses privacy extensions by default: random interface ID, rotated periodically</span>
-$ sysctl net.ipv6.conf.eth0.use_tempaddr   <span class="cm"># 2 = prefer temporary addresses</span></pre></div>
+
+/* Privacy concern */
+# EUI-64 embeds the MAC — tracking device across networks
+# RFC 8981 "Temporary Address Extensions" generates random interface IDs
+# Linux uses privacy extensions by default: random interface ID, rotated periodically
+$ sysctl net.ipv6.conf.eth0.use_tempaddr   # 2 = prefer temporary addresses
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🖥️</span><h3>DHCPv6 — Stateful and Stateless</h3><span class="tag tag-blue">DHCPv6</span></div>
   <div class="cp-body">
-    <p>DHCPv6 (RFC 8415) provides more control than SLAAC. It comes in two modes, controlled by flags in the Router Advertisement:</p>
-    <div class="two-col">
-      <div>
-        <h4>Stateless DHCPv6 (O flag = 1)</h4>
-        <p>Host uses SLAAC for its address but queries DHCPv6 for additional configuration: DNS server addresses, domain search list, NTP servers. The DHCPv6 server doesn't track assignments.</p>
-        <p><strong>Use when:</strong> You want SLAAC's simplicity but need to push DNS/NTP config centrally.</p>
-      </div>
-      <div>
-        <h4>Stateful DHCPv6 (M flag = 1)</h4>
-        <p>Host gets its entire address from DHCPv6 server (not SLAAC). Server maintains a lease database. Gives full control over address assignment — needed for environments requiring fixed address-to-host mapping.</p>
-        <p><strong>Use when:</strong> You need to control exactly which address each device gets (servers, NGFW trusted hosts).</p>
-      </div>
-    </div>
+<p>DHCPv6 (RFC 8415) provides more control than SLAAC. It comes in two modes, controlled by flags in the Router Advertisement:</p>
+<div class="two-col">
+<div>
+<h4>Stateless DHCPv6 (O flag = 1)</h4>
+<p>Host uses SLAAC for its address but queries DHCPv6 for additional configuration: DNS server addresses, domain search list, NTP servers. The DHCPv6 server doesn't track assignments.</p>
+<p><strong>Use when:</strong> You want SLAAC's simplicity but need to push DNS/NTP config centrally.</p>
+</div>
+<div>
+<h4>Stateful DHCPv6 (M flag = 1)</h4>
+<p>Host gets its entire address from DHCPv6 server (not SLAAC). Server maintains a lease database. Gives full control over address assignment — needed for environments requiring fixed address-to-host mapping.</p>
+<p><strong>Use when:</strong> You need to control exactly which address each device gets (servers, NGFW trusted hosts).</p>
+</div>
+</div>
   </div>
 </div>
 </div>
@@ -720,58 +764,68 @@ $ sysctl net.ipv6.conf.eth0.use_tempaddr   <span class="cm"># 2 = prefer tempora
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Dual-Stack — Running Both Simultaneously</h3><span class="tag tag-blue">DUAL-STACK</span></div>
   <div class="cp-body">
-    <p>The most common and recommended transition approach is <strong>dual-stack</strong>: every node runs both IPv4 and IPv6 simultaneously. Each interface has both an IPv4 address and one or more IPv6 addresses. Applications connect using whichever version the network supports for the destination, with IPv6 preferred (Happy Eyeballs algorithm, RFC 8305).</p>
-    <div class="ds-diagram">
-      <div class="ds-row">
-        <div class="ds-box" style="background:#f0ecfc;border-color:#c0a8e8;color:#3a1a6c">Application<div class="ds-label">HTTP, SSH, DNS</div></div>
-      </div>
-      <div class="ds-row">
-        <div class="ds-box" style="background:#e0f0ee;border-color:#90c8b8;color:#0a3a30">TCP/UDP<div class="ds-label">Transport</div></div>
-      </div>
-      <div class="ds-row">
-        <div class="ds-box" style="background:#e8f5e8;border-color:#90d890;color:#1a5a1a">IPv4<div class="ds-label">10.0.0.5</div></div>
-        <div class="ds-arrow">+</div>
-        <div class="ds-box" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">IPv6<div class="ds-label">2001:db8::5</div></div>
-      </div>
-      <div class="ds-row">
-        <div class="ds-box" style="background:#fdf4dc;border-color:#e8c870;color:#5a3800">Ethernet NIC<div class="ds-label">Single interface, one MAC</div></div>
-      </div>
-    </div>
-<div class="cb"><pre><span class="cm"># Configure dual-stack on Linux</span>
-ip addr add 10.0.0.5/24   dev eth0    <span class="cm"># IPv4</span>
-ip addr add 2001:db8::5/64 dev eth0    <span class="cm"># IPv6 (manual)</span>
-<span class="cm"># Or let SLAAC configure IPv6 automatically</span>
-<span class="cm"># Check dual-stack status</span>
+<p>The most common and recommended transition approach is <strong>dual-stack</strong>: every node runs both IPv4 and IPv6 simultaneously. Each interface has both an IPv4 address and one or more IPv6 addresses. Applications connect using whichever version the network supports for the destination, with IPv6 preferred (Happy Eyeballs algorithm, RFC 8305).</p>
+<div class="ds-diagram">
+<div class="ds-row">
+<div class="ds-box" style="background:#f0ecfc;border-color:#c0a8e8;color:#3a1a6c">Application<div class="ds-label">HTTP, SSH, DNS</div></div>
+</div>
+<div class="ds-row">
+<div class="ds-box" style="background:#e0f0ee;border-color:#90c8b8;color:#0a3a30">TCP/UDP<div class="ds-label">Transport</div></div>
+</div>
+<div class="ds-row">
+<div class="ds-box" style="background:#e8f5e8;border-color:#90d890;color:#1a5a1a">IPv4<div class="ds-label">10.0.0.5</div></div>
+<div class="ds-arrow">+</div>
+<div class="ds-box" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">IPv6<div class="ds-label">2001:db8::5</div></div>
+</div>
+<div class="ds-row">
+<div class="ds-box" style="background:#fdf4dc;border-color:#e8c870;color:#5a3800">Ethernet NIC<div class="ds-label">Single interface, one MAC</div></div>
+</div>
+</div>
+
+
+
+```bash
+# Configure dual-stack on Linux
+ip addr add 10.0.0.5/24   dev eth0    # IPv4
+ip addr add 2001:db8::5/64 dev eth0    # IPv6 (manual)
+# Or let SLAAC configure IPv6 automatically
+
+# Check dual-stack status
 ip addr show eth0
-<span class="cm"># inet  10.0.0.5/24 brd 10.0.0.255 scope global eth0</span>
-<span class="cm"># inet6 2001:db8::5/64 scope global</span>
-<span class="cm"># inet6 fe80::a00:27ff:fe4e:66a1/64 scope link</span>
-<span class="cm"># Connect to a dual-stack server — OS picks IPv6 first (Happy Eyeballs)</span>
+# inet  10.0.0.5/24 brd 10.0.0.255 scope global eth0
+# inet6 2001:db8::5/64 scope global
+# inet6 fe80::a00:27ff:fe4e:66a1/64 scope link
+
+# Connect to a dual-stack server — OS picks IPv6 first (Happy Eyeballs)
 curl -v https://google.com
-<span class="cm"># Look for: Connected to google.com (2a00:1450:4009:820::200e) port 443</span>
-<span class="cm"># Force IPv4</span>
+# Look for: Connected to google.com (2a00:1450:4009:820::200e) port 443
+
+# Force IPv4
 curl -4 https://google.com
-<span class="cm"># Force IPv6</span>
-curl -6 https://google.com</pre></div>
+# Force IPv6
+curl -6 https://google.com
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🌉</span><h3>Transition Mechanisms — When Dual-Stack Isn't Available</h3><span class="tag tag-teal">TUNNELLING</span></div>
   <div class="cp-body">
-    <p>Sometimes you need IPv6 connectivity over an IPv4-only network, or vice versa. Several tunnelling and translation mechanisms handle this:</p>
-    <table class="t-table">
-      <thead><tr><th>Mechanism</th><th>Type</th><th>How It Works</th><th>Use Case</th></tr></thead>
-      <tbody>
-        <tr><td><strong>6in4 (SIT tunnel)</strong></td><td>Tunnel</td><td>IPv6 packet encapsulated in IPv4 (Protocol 41). Manual configuration of endpoints.</td><td>Connecting IPv6 islands over IPv4 backbone</td></tr>
-        <tr><td><strong>6to4</strong></td><td>Tunnel</td><td>Automatic encapsulation using anycast relay. Embeds IPv4 address in IPv6 prefix 2002::/16.</td><td>Legacy — largely deprecated</td></tr>
-        <tr><td><strong>Teredo</strong></td><td>Tunnel</td><td>IPv6 over UDP/IPv4. Works through NAT. Used by Windows historically.</td><td>Legacy — deprecated</td></tr>
-        <tr><td><strong>ISATAP</strong></td><td>Tunnel</td><td>Intra-Site Automatic Tunnel — IPv6 over IPv4 within an organisation.</td><td>Enterprise internal tunnelling</td></tr>
-        <tr><td><strong>DS-Lite</strong></td><td>Tunnel</td><td>IPv4-in-IPv6 tunnelling + NAT. ISPs deploy this to serve IPv4 over IPv6-only infrastructure.</td><td>ISP transition — CGN replacement</td></tr>
-        <tr><td><strong>NAT64 + DNS64</strong></td><td>Translation</td><td>NAT64 translates IPv6 packets to IPv4 and back. DNS64 synthesises AAAA records for IPv4-only hosts. IPv6-only clients can reach IPv4 servers.</td><td>IPv6-only mobile networks accessing IPv4 internet</td></tr>
-        <tr><td><strong>MAP-T / MAP-E</strong></td><td>Translation / Tunnel</td><td>Stateless mapping between IPv4 and IPv6 — no per-connection state in the provider network.</td><td>Modern ISP deployment at scale</td></tr>
-      </tbody>
-    </table>
-    <div class="note"><p>💡 <strong>For your NGFW:</strong> NAT64 and DNS64 are the most important transition mechanisms to support. Mobile operators (Jio included) run IPv6-only core networks with NAT64 gateways to reach IPv4 content. Your NGFW must be capable of processing both IPv6 traffic and NAT64-translated traffic correctly.</p></div>
+<p>Sometimes you need IPv6 connectivity over an IPv4-only network, or vice versa. Several tunnelling and translation mechanisms handle this:</p>
+<table class="t-table">
+<thead><tr><th>Mechanism</th><th>Type</th><th>How It Works</th><th>Use Case</th></tr></thead>
+<tbody>
+<tr><td><strong>6in4 (SIT tunnel)</strong></td><td>Tunnel</td><td>IPv6 packet encapsulated in IPv4 (Protocol 41). Manual configuration of endpoints.</td><td>Connecting IPv6 islands over IPv4 backbone</td></tr>
+<tr><td><strong>6to4</strong></td><td>Tunnel</td><td>Automatic encapsulation using anycast relay. Embeds IPv4 address in IPv6 prefix 2002::/16.</td><td>Legacy — largely deprecated</td></tr>
+<tr><td><strong>Teredo</strong></td><td>Tunnel</td><td>IPv6 over UDP/IPv4. Works through NAT. Used by Windows historically.</td><td>Legacy — deprecated</td></tr>
+<tr><td><strong>ISATAP</strong></td><td>Tunnel</td><td>Intra-Site Automatic Tunnel — IPv6 over IPv4 within an organisation.</td><td>Enterprise internal tunnelling</td></tr>
+<tr><td><strong>DS-Lite</strong></td><td>Tunnel</td><td>IPv4-in-IPv6 tunnelling + NAT. ISPs deploy this to serve IPv4 over IPv6-only infrastructure.</td><td>ISP transition — CGN replacement</td></tr>
+<tr><td><strong>NAT64 + DNS64</strong></td><td>Translation</td><td>NAT64 translates IPv6 packets to IPv4 and back. DNS64 synthesises AAAA records for IPv4-only hosts. IPv6-only clients can reach IPv4 servers.</td><td>IPv6-only mobile networks accessing IPv4 internet</td></tr>
+<tr><td><strong>MAP-T / MAP-E</strong></td><td>Translation / Tunnel</td><td>Stateless mapping between IPv4 and IPv6 — no per-connection state in the provider network.</td><td>Modern ISP deployment at scale</td></tr>
+</tbody>
+</table>
+<div class="note"><p>💡 <strong>For your NGFW:</strong> NAT64 and DNS64 are the most important transition mechanisms to support. Mobile operators (Jio included) run IPv6-only core networks with NAT64 gateways to reach IPv4 content. Your NGFW must be capable of processing both IPv6 traffic and NAT64-translated traffic correctly.</p></div>
   </div>
 </div>
 </div>
@@ -780,112 +834,112 @@ curl -6 https://google.com</pre></div>
 <p class="sep">IPv4 vs IPv6 — SIDE-BY-SIDE COMPARISON</p>
 <table class="cmp-table">
   <thead>
-    <tr>
-      <th>Feature</th>
-      <th>IPv4</th>
-      <th>IPv6</th>
-    </tr>
+<tr>
+<th>Feature</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
   </thead>
   <tbody>
-    <tr>
-      <td><strong>Address size</strong></td>
-      <td>32 bits (4 bytes)</td>
-      <td>128 bits (16 bytes)</td>
-    </tr>
-    <tr>
-      <td><strong>Address space</strong></td>
-      <td>~4.3 billion</td>
-      <td>~3.4 × 10³⁸ (340 undecillion)</td>
-    </tr>
-    <tr>
-      <td><strong>Header size</strong></td>
-      <td>20–60 bytes (variable — IHL)</td>
-      <td>40 bytes (fixed)</td>
-    </tr>
-    <tr>
-      <td><strong>Header checksum</strong></td>
-      <td>Yes — recomputed at every hop (TTL change)</td>
-      <td><span class="good">No</span> — removed. Upper layers have their own checksum</td>
-    </tr>
-    <tr>
-      <td><strong>Fragmentation</strong></td>
-      <td>By any router along the path</td>
-      <td><span class="good">Source only</span> — routers send ICMPv6 Packet Too Big</td>
-    </tr>
-    <tr>
-      <td><strong>Broadcast</strong></td>
-      <td>Yes — 255.255.255.255 and subnet broadcast</td>
-      <td><span class="good">No broadcast</span> — replaced by targeted multicast</td>
-    </tr>
-    <tr>
-      <td><strong>Address resolution</strong></td>
-      <td>ARP (L2 broadcast)</td>
-      <td>NDP (ICMPv6 multicast — more targeted)</td>
-    </tr>
-    <tr>
-      <td><strong>Address configuration</strong></td>
-      <td>Manual or DHCP</td>
-      <td>Manual, SLAAC (automatic), or DHCPv6</td>
-    </tr>
-    <tr>
-      <td><strong>NAT</strong></td>
-      <td>Required (address exhaustion)</td>
-      <td><span class="good">Not needed</span> — every device gets global address</td>
-    </tr>
-    <tr>
-      <td><strong>IPsec</strong></td>
-      <td>Optional</td>
-      <td><span class="good">Mandatory</span> (specification requires support)</td>
-    </tr>
-    <tr>
-      <td><strong>Router discovery</strong></td>
-      <td>Manual or DHCP option 3 (default gateway)</td>
-      <td>SLAAC via RA — automatic, no DHCP needed</td>
-    </tr>
-    <tr>
-      <td><strong>Options/extensions</strong></td>
-      <td>In-header options (variable length, every router reads)</td>
-      <td>Extension headers (separate, most routers skip)</td>
-    </tr>
-    <tr>
-      <td><strong>TTL/Hop Limit</strong></td>
-      <td>TTL (8 bits)</td>
-      <td>Hop Limit (8 bits) — same mechanism, better name</td>
-    </tr>
-    <tr>
-      <td><strong>Flow identification</strong></td>
-      <td>No dedicated field</td>
-      <td>20-bit Flow Label — enables hardware-accelerated per-flow routing</td>
-    </tr>
-    <tr>
-      <td><strong>Link-local addresses</strong></td>
-      <td>169.254.0.0/16 (APIPA, failure indicator)</td>
-      <td>fe80::/10 — always present, used for NDP/routing</td>
-    </tr>
-    <tr>
-      <td><strong>Loopback</strong></td>
-      <td>127.0.0.1 (127.0.0.0/8)</td>
-      <td>::1/128 (single address)</td>
-    </tr>
-    <tr>
-      <td><strong>NGFW complexity</strong></td>
-      <td>Well-understood, mature tooling</td>
-      <td>Extension header chain requires careful inspection to avoid evasion</td>
-    </tr>
+<tr>
+<td><strong>Address size</strong></td>
+<td>32 bits (4 bytes)</td>
+<td>128 bits (16 bytes)</td>
+</tr>
+<tr>
+<td><strong>Address space</strong></td>
+<td>~4.3 billion</td>
+<td>~3.4 × 10³⁸ (340 undecillion)</td>
+</tr>
+<tr>
+<td><strong>Header size</strong></td>
+<td>20–60 bytes (variable — IHL)</td>
+<td>40 bytes (fixed)</td>
+</tr>
+<tr>
+<td><strong>Header checksum</strong></td>
+<td>Yes — recomputed at every hop (TTL change)</td>
+<td><span class="good">No</span> — removed. Upper layers have their own checksum</td>
+</tr>
+<tr>
+<td><strong>Fragmentation</strong></td>
+<td>By any router along the path</td>
+<td><span class="good">Source only</span> — routers send ICMPv6 Packet Too Big</td>
+</tr>
+<tr>
+<td><strong>Broadcast</strong></td>
+<td>Yes — 255.255.255.255 and subnet broadcast</td>
+<td><span class="good">No broadcast</span> — replaced by targeted multicast</td>
+</tr>
+<tr>
+<td><strong>Address resolution</strong></td>
+<td>ARP (L2 broadcast)</td>
+<td>NDP (ICMPv6 multicast — more targeted)</td>
+</tr>
+<tr>
+<td><strong>Address configuration</strong></td>
+<td>Manual or DHCP</td>
+<td>Manual, SLAAC (automatic), or DHCPv6</td>
+</tr>
+<tr>
+<td><strong>NAT</strong></td>
+<td>Required (address exhaustion)</td>
+<td><span class="good">Not needed</span> — every device gets global address</td>
+</tr>
+<tr>
+<td><strong>IPsec</strong></td>
+<td>Optional</td>
+<td><span class="good">Mandatory</span> (specification requires support)</td>
+</tr>
+<tr>
+<td><strong>Router discovery</strong></td>
+<td>Manual or DHCP option 3 (default gateway)</td>
+<td>SLAAC via RA — automatic, no DHCP needed</td>
+</tr>
+<tr>
+<td><strong>Options/extensions</strong></td>
+<td>In-header options (variable length, every router reads)</td>
+<td>Extension headers (separate, most routers skip)</td>
+</tr>
+<tr>
+<td><strong>TTL/Hop Limit</strong></td>
+<td>TTL (8 bits)</td>
+<td>Hop Limit (8 bits) — same mechanism, better name</td>
+</tr>
+<tr>
+<td><strong>Flow identification</strong></td>
+<td>No dedicated field</td>
+<td>20-bit Flow Label — enables hardware-accelerated per-flow routing</td>
+</tr>
+<tr>
+<td><strong>Link-local addresses</strong></td>
+<td>169.254.0.0/16 (APIPA, failure indicator)</td>
+<td>fe80::/10 — always present, used for NDP/routing</td>
+</tr>
+<tr>
+<td><strong>Loopback</strong></td>
+<td>127.0.0.1 (127.0.0.0/8)</td>
+<td>::1/128 (single address)</td>
+</tr>
+<tr>
+<td><strong>NGFW complexity</strong></td>
+<td>Well-understood, mature tooling</td>
+<td>Extension header chain requires careful inspection to avoid evasion</td>
+</tr>
   </tbody>
 </table>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>IPv6 Security Considerations for NGFW</h3><span class="tag tag-red">NGFW SECURITY</span></div>
   <div class="cp-body">
-    <p>IPv6 introduces new attack surfaces that NGFWs must handle. Many legacy firewalls only inspect IPv4 — IPv6 traffic passes uninspected, creating a bypass route. This is called an <strong>"IPv6 dark hole"</strong>.</p>
-    <ul>
-      <li><strong>Extension header abuse</strong> — attackers can hide payload content or confuse stateless firewalls by inserting many extension headers (Hop-by-Hop with large options, multiple Destination headers). NGFW must traverse the full extension header chain to find L4 headers.</li>
-      <li><strong>Routing Header type 0 (RH0)</strong> — deprecated (RFC 5095) but still sent by attackers. Allowed source routing of packets through arbitrary nodes — a DDoS amplification vector. Drop all packets with RH0.</li>
-      <li><strong>ICMPv6 must be allowed selectively</strong> — unlike IPv4 where you can block most ICMP, IPv6 depends on ICMPv6 for basic operation (NDP). Blocking it entirely breaks the network. Allow: Types 133–136 (NDP), 2 (Packet Too Big). Block: Type 137 (Redirect from external).</li>
-      <li><strong>Rogue RA attacks</strong> — any device can send a Router Advertisement claiming to be the default gateway, redirecting all traffic through itself. NGFW/switches should implement RA Guard (RFC 6105).</li>
-      <li><strong>Tunnelled IPv6 (6in4, Teredo)</strong> — IPv6-in-IPv4 tunnels can bypass IPv6 firewall rules. Inspect Protocol 41 packets and block unauthorised 6in4 tunnels at the perimeter.</li>
-      <li><strong>IPv6 fragmentation attacks</strong> — overlapping fragments, tiny fragments hiding L4 headers. NGFW must fully reassemble IPv6 fragments before inspection.</li>
-    </ul>
+<p>IPv6 introduces new attack surfaces that NGFWs must handle. Many legacy firewalls only inspect IPv4 — IPv6 traffic passes uninspected, creating a bypass route. This is called an <strong>"IPv6 dark hole"</strong>.</p>
+<ul>
+<li><strong>Extension header abuse</strong> — attackers can hide payload content or confuse stateless firewalls by inserting many extension headers (Hop-by-Hop with large options, multiple Destination headers). NGFW must traverse the full extension header chain to find L4 headers.</li>
+<li><strong>Routing Header type 0 (RH0)</strong> — deprecated (RFC 5095) but still sent by attackers. Allowed source routing of packets through arbitrary nodes — a DDoS amplification vector. Drop all packets with RH0.</li>
+<li><strong>ICMPv6 must be allowed selectively</strong> — unlike IPv4 where you can block most ICMP, IPv6 depends on ICMPv6 for basic operation (NDP). Blocking it entirely breaks the network. Allow: Types 133–136 (NDP), 2 (Packet Too Big). Block: Type 137 (Redirect from external).</li>
+<li><strong>Rogue RA attacks</strong> — any device can send a Router Advertisement claiming to be the default gateway, redirecting all traffic through itself. NGFW/switches should implement RA Guard (RFC 6105).</li>
+<li><strong>Tunnelled IPv6 (6in4, Teredo)</strong> — IPv6-in-IPv4 tunnels can bypass IPv6 firewall rules. Inspect Protocol 41 packets and block unauthorised 6in4 tunnels at the perimeter.</li>
+<li><strong>IPv6 fragmentation attacks</strong> — overlapping fragments, tiny fragments hiding L4 headers. NGFW must fully reassemble IPv6 fragments before inspection.</li>
+</ul>
   </div>
 </div>
 </div>
@@ -894,21 +948,21 @@ curl -6 https://google.com</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Explore IPv6 on Linux — Addresses, NDP, and SLAAC</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Examine a live IPv6 stack, observe NDP in action, understand SLAAC address generation, and decode IPv6 packets with Wireshark.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Check your IPv6 addresses: <code>ip -6 addr show</code>. Identify: which are link-local (fe80::), which are global unicast (2001: or similar), which are temporary privacy addresses. If no global address exists, check if your router sends RAs: <code>sudo rdisc6 eth0</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Manually derive your expected link-local EUI-64 from your MAC: take <code>ip link show eth0</code> MAC address, split it in half, insert <code>ff:fe</code> in the middle, flip bit 6 of the first byte, prepend <code>fe80::</code>. Compare with the actual fe80 address shown in <code>ip addr</code>. Do they match? If not, Linux privacy extensions may be in use.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Observe the NDP neighbour cache: <code>ip -6 neigh show</code>. Ping your IPv6 default gateway (from <code>ip -6 route show default</code>) and watch the neighbour cache update. Compare with IPv4: <code>ip neigh show</code> — notice the structural similarity (IPv6 neigh = IPv4 ARP cache).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Capture NDP in Wireshark: filter <code>icmpv6</code>. Run <code>sudo ip -6 neigh flush all</code> to clear the cache, then <code>ping6 -c 1 [your_gateway_ipv6]</code>. You should see: NS (Neighbour Solicitation) to the Solicited-Node multicast, NA (Neighbour Advertisement) back. Expand each message and identify all ICMPv6 fields.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Capture a Router Advertisement: filter <code>icmpv6.type == 134</code> in Wireshark. You may need to wait up to 200 seconds for the next periodic RA, or trigger one with <code>sudo ndisc6 eth0 ff02::2</code>. Expand the RA and find: Prefix Information option (prefix, valid/preferred lifetime, A flag), MTU option, source link-layer address.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — Send a manual Router Solicitation with Scapy:</strong> <code>from scapy.all import *; sendp(Ether(dst="33:33:00:00:00:02")/IPv6(dst="ff02::2")/ICMPv6ND_RS(), iface="eth0")</code>. Capture the RA response that follows — you triggered SLAAC manually.</div></div>
+<p><strong>Objective:</strong> Examine a live IPv6 stack, observe NDP in action, understand SLAAC address generation, and decode IPv6 packets with Wireshark.</p>
+<div class="lab-step"><div class="sn">1</div><div>Check your IPv6 addresses: <code>ip -6 addr show</code>. Identify: which are link-local (fe80::), which are global unicast (2001: or similar), which are temporary privacy addresses. If no global address exists, check if your router sends RAs: <code>sudo rdisc6 eth0</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Manually derive your expected link-local EUI-64 from your MAC: take <code>ip link show eth0</code> MAC address, split it in half, insert <code>ff:fe</code> in the middle, flip bit 6 of the first byte, prepend <code>fe80::</code>. Compare with the actual fe80 address shown in <code>ip addr</code>. Do they match? If not, Linux privacy extensions may be in use.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Observe the NDP neighbour cache: <code>ip -6 neigh show</code>. Ping your IPv6 default gateway (from <code>ip -6 route show default</code>) and watch the neighbour cache update. Compare with IPv4: <code>ip neigh show</code> — notice the structural similarity (IPv6 neigh = IPv4 ARP cache).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Capture NDP in Wireshark: filter <code>icmpv6</code>. Run <code>sudo ip -6 neigh flush all</code> to clear the cache, then <code>ping6 -c 1 [your_gateway_ipv6]</code>. You should see: NS (Neighbour Solicitation) to the Solicited-Node multicast, NA (Neighbour Advertisement) back. Expand each message and identify all ICMPv6 fields.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Capture a Router Advertisement: filter <code>icmpv6.type == 134</code> in Wireshark. You may need to wait up to 200 seconds for the next periodic RA, or trigger one with <code>sudo ndisc6 eth0 ff02::2</code>. Expand the RA and find: Prefix Information option (prefix, valid/preferred lifetime, A flag), MTU option, source link-layer address.</div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Bonus — Send a manual Router Solicitation with Scapy:</strong> <code>from scapy.all import *; sendp(Ether(dst="33:33:00:00:00:02")/IPv6(dst="ff02::2")/ICMPv6ND_RS(), iface="eth0")</code>. Capture the RA response that follows — you triggered SLAAC manually.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>IPv6 Socket Programming and Dual-Stack in C</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Write a dual-stack TCP server in C that accepts both IPv4 and IPv6 connections. Understand the AF_INET6 socket API and how IPv4-mapped addresses work.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a minimal IPv6 TCP server. Create socket with <code>AF_INET6, SOCK_STREAM</code>. Bind to <code>::</code> (all interfaces, both IPv4 and IPv6) on port 8080. On Linux, binding to <code>::</code> with <code>IPV6_V6ONLY=0</code> creates a dual-stack socket that accepts both IPv4 and IPv6 connections.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Key code pattern:
+<p><strong>Objective:</strong> Write a dual-stack TCP server in C that accepts both IPv4 and IPv6 connections. Understand the AF_INET6 socket API and how IPv4-mapped addresses work.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write a minimal IPv6 TCP server. Create socket with <code>AF_INET6, SOCK_STREAM</code>. Bind to <code>::</code> (all interfaces, both IPv4 and IPv6) on port 8080. On Linux, binding to <code>::</code> with <code>IPV6_V6ONLY=0</code> creates a dual-stack socket that accepts both IPv4 and IPv6 connections.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Key code pattern:
 <div class="cb"><pre><span class="ck">int</span> sock = socket(AF_INET6, SOCK_STREAM, 0);
 <span class="ck">int</span> v6only = 0;
 setsockopt(sock, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, <span class="ck">sizeof</span>(v6only));
@@ -919,9 +973,9 @@ addr.sin6_addr = in6addr_any;   <span class="cm">/* :: — listen on all interfa
 bind(sock, (<span class="ck">struct</span> sockaddr *)&addr, <span class="ck">sizeof</span>(addr));
 listen(sock, 10);</pre></div>
 Compile and run. Connect with <code>telnet localhost 8080</code> (IPv4) and <code>telnet -6 ::1 8080</code> (IPv6).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>In the accept() loop, print the connecting client's address. When an IPv4 client connects to the dual-stack socket, its address appears as an IPv4-mapped IPv6 address: <code>::ffff:127.0.0.1</code>. Detect and distinguish IPv4 vs IPv6 clients by checking the first 12 bytes of the address for the IPv4-mapped prefix (<code>::ffff:0:0/96</code>).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Capture the connections in Wireshark. The IPv4 connection uses a regular TCP/IPv4 packet. The IPv6 connection uses TCP/IPv6. Compare the packet sizes: IPv6 header is 40 bytes (fixed) vs IPv4 header 20 bytes (minimum) — IPv6 packets have 20 more bytes of overhead per packet just from the larger addresses.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Bonus — getaddrinfo for protocol-agnostic code:</strong> Replace direct socket creation with <code>getaddrinfo(NULL, "8080", &hints, &res)</code> where <code>hints.ai_family = AF_UNSPEC</code>. This returns both IPv4 and IPv6 addresses — loop through and bind to all. This is how production servers handle dual-stack without caring about the specific protocol.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>In the accept() loop, print the connecting client's address. When an IPv4 client connects to the dual-stack socket, its address appears as an IPv4-mapped IPv6 address: <code>::ffff:127.0.0.1</code>. Detect and distinguish IPv4 vs IPv6 clients by checking the first 12 bytes of the address for the IPv4-mapped prefix (<code>::ffff:0:0/96</code>).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Capture the connections in Wireshark. The IPv4 connection uses a regular TCP/IPv4 packet. The IPv6 connection uses TCP/IPv6. Compare the packet sizes: IPv6 header is 40 bytes (fixed) vs IPv4 header 20 bytes (minimum) — IPv6 packets have 20 more bytes of overhead per packet just from the larger addresses.</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Bonus — getaddrinfo for protocol-agnostic code:</strong> Replace direct socket creation with <code>getaddrinfo(NULL, "8080", &hints, &res)</code> where <code>hints.ai_family = AF_UNSPEC</code>. This returns both IPv4 and IPv6 addresses — loop through and bind to all. This is how production servers handle dual-stack without caring about the specific protocol.</div></div>
   </div>
 </div>
 </div>

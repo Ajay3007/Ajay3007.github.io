@@ -89,10 +89,10 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
   <div class="mod-title">Prompt Versioning, Cost Monitoring &amp; Caching</div>
   <div class="mod-subtitle">Manage prompt changes safely, track spend, and eliminate redundant LLM calls</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 Git · Redis · Promptfoo · SQLite</span>
-    <span class="mod-pill">📋 Prerequisite: P7-M25</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 Git · Redis · Promptfoo · SQLite</span>
+<span class="mod-pill">📋 Prerequisite: P7-M25</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -112,14 +112,14 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-navy">AI-Specific Ops</span></div>
   <div class="cp-body">
-    <p>The operational challenges unique to AI systems: prompts silently change behaviour when edited, LLM costs accumulate invisibly, and identical queries hit the API repeatedly. This module gives you systems for each problem.</p>
-    <ul>
-      <li><strong>Prompt versioning</strong> — storing prompts in DB/Git, tracking changes, rollback on regression</li>
-      <li><strong>Prompt testing</strong> — regression testing before deploying a changed prompt</li>
-      <li><strong>Cost monitoring</strong> — per-user, per-endpoint, per-model spend dashboards</li>
-      <li><strong>Response caching</strong> — semantic deduplication, Redis TTL cache for identical queries</li>
-      <li><strong>Anthropic prompt caching</strong> — 90% cost reduction on large repeated system prompts</li>
-    </ul>
+<p>The operational challenges unique to AI systems: prompts silently change behaviour when edited, LLM costs accumulate invisibly, and identical queries hit the API repeatedly. This module gives you systems for each problem.</p>
+<ul>
+<li><strong>Prompt versioning</strong> — storing prompts in DB/Git, tracking changes, rollback on regression</li>
+<li><strong>Prompt testing</strong> — regression testing before deploying a changed prompt</li>
+<li><strong>Cost monitoring</strong> — per-user, per-endpoint, per-model spend dashboards</li>
+<li><strong>Response caching</strong> — semantic deduplication, Redis TTL cache for identical queries</li>
+<li><strong>Anthropic prompt caching</strong> — 90% cost reduction on large repeated system prompts</li>
+</ul>
   </div>
 </div>
 </div>
@@ -128,15 +128,18 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Prompt Versioning — Never Lose a Working Prompt</h3><span class="tag tag-navy">Version Control</span></div>
   <div class="cp-body">
-    <p>A prompt is code. Like code, it should be versioned, reviewed, and tested before deployment. A casual edit to a production system prompt can break behaviour for every user — silently.</p>
-    <div class="cb"><pre>import sqlite3, hashlib, json
+<p>A prompt is code. Like code, it should be versioned, reviewed, and tested before deployment. A casual edit to a production system prompt can break behaviour for every user — silently.</p>
+    
+
+```python
+import sqlite3, hashlib, json
 from datetime import datetime
 from typing import Optional
- 
-<span class="ck"># ── DB-backed prompt registry ─────────────────────────</span>
+
+# ── DB-backed prompt registry ─────────────────────────
 def init_prompt_db():
-    with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
-        conn.execute(<span class="cs">"""CREATE TABLE IF NOT EXISTS prompts (
+    with sqlite3.connect("prompts.db") as conn:
+        conn.execute("""CREATE TABLE IF NOT EXISTS prompts (
             id          INTEGER PRIMARY KEY AUTOINCREMENT,
             name        TEXT NOT NULL,
             version     INTEGER NOT NULL,
@@ -146,100 +149,109 @@ def init_prompt_db():
             notes       TEXT,
             is_active   INTEGER DEFAULT 0,
             created_at  TEXT NOT NULL,
-            UNIQUE(name, version))"""</span>)
-        conn.execute(<span class="cs">"CREATE INDEX IF NOT EXISTS idx_name ON prompts(name, is_active)"</span>)
- 
-def register_prompt(name: str, content: str, author: str = <span class="cs">""</span>, notes: str = <span class="cs">""</span>) -> int:
+            UNIQUE(name, version))""")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_name ON prompts(name, is_active)")
+
+def register_prompt(name: str, content: str, author: str = "", notes: str = "") -> int:
     """Register a new version of a prompt. Returns version number."""
     h   = hashlib.sha256(content.encode()).hexdigest()[:12]
     now = datetime.utcnow().isoformat()
-    with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
+    with sqlite3.connect("prompts.db") as conn:
         row = conn.execute(
-            <span class="cs">"SELECT MAX(version) FROM prompts WHERE name=?"</span>, (name,)).fetchone()
-        version = (row[<span class="cv">0</span>] or <span class="cv">0</span>) + <span class="cv">1</span>
-        conn.execute(<span class="cs">"""INSERT INTO prompts (name,version,content,hash,author,notes,created_at)
-            VALUES (?,?,?,?,?,?,?)"""</span>, (name, version, content, h, author, notes, now))
+            "SELECT MAX(version) FROM prompts WHERE name=?", (name,)).fetchone()
+        version = (row[0] or 0) + 1
+        conn.execute("""INSERT INTO prompts (name,version,content,hash,author,notes,created_at)
+            VALUES (?,?,?,?,?,?,?)""", (name, version, content, h, author, notes, now))
     return version
- 
+
 def activate_prompt(name: str, version: int):
     """Activate a specific version — all others for this name become inactive."""
-    with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
-        conn.execute(<span class="cs">"UPDATE prompts SET is_active=0 WHERE name=?"</span>, (name,))
+    with sqlite3.connect("prompts.db") as conn:
+        conn.execute("UPDATE prompts SET is_active=0 WHERE name=?", (name,))
         conn.execute(
-            <span class="cs">"UPDATE prompts SET is_active=1 WHERE name=? AND version=?"</span>,
+            "UPDATE prompts SET is_active=1 WHERE name=? AND version=?",
             (name, version))
- 
+
 def get_active_prompt(name: str) -> Optional[dict]:
-    with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
+    with sqlite3.connect("prompts.db") as conn:
         row = conn.execute(
-            <span class="cs">"SELECT content, version, hash FROM prompts WHERE name=? AND is_active=1"</span>,
+            "SELECT content, version, hash FROM prompts WHERE name=? AND is_active=1",
             (name,)).fetchone()
     if not row:
         return None
-    return {<span class="cs">"content"</span>: row[<span class="cv">0</span>], <span class="cs">"version"</span>: row[<span class="cv">1</span>], <span class="cs">"hash"</span>: row[<span class="cv">2</span>]}
- 
+    return {"content": row[0], "version": row[1], "hash": row[2]}
+
 def rollback_prompt(name: str, to_version: int):
     """Rollback to a previous version."""
     activate_prompt(name, to_version)
-    print(<span class="cs">f"Rolled back {name!r} to version {to_version}"</span>)
- 
+    print(f"Rolled back {name!r} to version {to_version}")
+
 def list_prompt_history(name: str) -> list[dict]:
-    with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
-        rows = conn.execute(<span class="cs">"""SELECT version, hash, author, is_active, created_at, notes
-            FROM prompts WHERE name=? ORDER BY version DESC"""</span>, (name,)).fetchall()
-    return [{<span class="cs">"version"</span>: r[<span class="cv">0</span>], <span class="cs">"hash"</span>: r[<span class="cv">1</span>], <span class="cs">"author"</span>: r[<span class="cv">2</span>],
-             <span class="cs">"active"</span>: bool(r[<span class="cv">3</span>]), <span class="cs">"created"</span>: r[<span class="cv">4</span>], <span class="cs">"notes"</span>: r[<span class="cv">5</span>]} for r in rows]
- 
-<span class="ck"># Usage workflow:</span>
-<span class="ck"># v1 = register_prompt("rag_system", "You are a helpful assistant...")     → version 1</span>
-<span class="ck"># activate_prompt("rag_system", 1)                                          → live</span>
-<span class="ck"># v2 = register_prompt("rag_system", "You are a precise assistant...")     → version 2</span>
-<span class="ck"># run_regression_tests("rag_system", v2)  ← test BEFORE activating</span>
-<span class="ck"># activate_prompt("rag_system", 2)                                          → live</span>
-<span class="ck"># if metrics worsen: rollback_prompt("rag_system", 1)                      → instant</span></pre></div>
+    with sqlite3.connect("prompts.db") as conn:
+        rows = conn.execute("""SELECT version, hash, author, is_active, created_at, notes
+            FROM prompts WHERE name=? ORDER BY version DESC""", (name,)).fetchall()
+    return [{"version": r[0], "hash": r[1], "author": r[2],
+             "active": bool(r[3]), "created": r[4], "notes": r[5]} for r in rows]
+
+# Usage workflow:
+# v1 = register_prompt("rag_system", "You are a helpful assistant...")     → version 1
+# activate_prompt("rag_system", 1)                                          → live
+# v2 = register_prompt("rag_system", "You are a precise assistant...")     → version 2
+# run_regression_tests("rag_system", v2)  ← test BEFORE activating
+# activate_prompt("rag_system", 2)                                          → live
+# if metrics worsen: rollback_prompt("rag_system", 1)                      → instant
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📁</span><h3>Git-Based Prompt Management</h3><span class="tag tag-blue">File-First</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># prompts/ directory — treat prompts like source files</span>
-<span class="ck">#</span>
-<span class="ck"># prompts/</span>
-<span class="ck"># ├── rag_system.txt           ← current version</span>
-<span class="ck"># ├── rag_system.v1.txt        ← archived version</span>
-<span class="ck"># ├── chat_system.txt</span>
-<span class="ck"># └── agent_system.txt</span>
- 
+    
+
+```python
+# prompts/ directory — treat prompts like source files
+#
+# prompts/
+# ├── rag_system.txt           ← current version
+# ├── rag_system.v1.txt        ← archived version
+# ├── chat_system.txt
+# └── agent_system.txt
+
 from pathlib import Path
 import hashlib
- 
-PROMPT_DIR = Path(<span class="cs">"prompts"</span>)
- 
+
+PROMPT_DIR = Path("prompts")
+
 def load_prompt(name: str) -> str:
     """Load prompt from file. Falls back to DB if file not found."""
-    path = PROMPT_DIR / <span class="cs">f"{name}.txt"</span>
+    path = PROMPT_DIR / f"{name}.txt"
     if path.exists():
-        return path.read_text(encoding=<span class="cs">"utf-8"</span>)
-    <span class="ck"># Fall back to DB</span>
+        return path.read_text(encoding="utf-8")
+    # Fall back to DB
     p = get_active_prompt(name)
-    return p[<span class="cs">"content"</span>] if p else <span class="cs">""</span>
- 
+    return p["content"] if p else ""
+
 def prompt_changed(name: str) -> bool:
     """Detect if the file version differs from the DB active version."""
     file_content = load_prompt(name)
     db_version   = get_active_prompt(name)
     if not db_version:
-        return <span class="cv">True</span>
+        return True
     file_hash = hashlib.sha256(file_content.encode()).hexdigest()[:12]
-    return file_hash != db_version[<span class="cs">"hash"</span>]
- 
-<span class="ck"># CI/CD hook: on prompt file change, require test pass before merge</span>
-<span class="ck"># .github/workflows/test-prompts.yml</span>
-<span class="ck"># jobs:</span>
-<span class="ck">#   test-prompts:</span>
-<span class="ck">#     steps:</span>
-<span class="ck">#       - run: python -m pytest tests/test_prompts.py -v</span>
-<span class="ck">#       - run: python scripts/sync_prompts_to_db.py  # only if tests pass</span></pre></div>
+    return file_hash != db_version["hash"]
+
+# CI/CD hook: on prompt file change, require test pass before merge
+# .github/workflows/test-prompts.yml
+# jobs:
+#   test-prompts:
+#     steps:
+#       - run: python -m pytest tests/test_prompts.py -v
+#       - run: python scripts/sync_prompts_to_db.py  # only if tests pass
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -248,60 +260,67 @@ def prompt_changed(name: str) -> bool:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🧪</span><h3>Prompt Regression Testing</h3><span class="tag tag-navy">Test Before Deploy</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import pytest, anthropic
- 
+    
+
+```python
+import pytest, anthropic
+
 client = anthropic.Anthropic()
- 
+
 def call_with_prompt(prompt_content: str, user_message: str) -> str:
     response = client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        max_tokens=<span class="cv">512</span>,
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=512,
         system=prompt_content,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
+        messages=[{"role": "user", "content": user_message}]
     )
-    return response.content[<span class="cv">0</span>].text
- 
-<span class="ck"># ── Deterministic assertions (temperature=0) ──────────</span>
-<span class="ck"># These must pass for every prompt version before activation</span>
- 
-RAG_PROMPT_V2 = load_prompt_version(<span class="cs">"rag_system"</span>, version=<span class="cv">2</span>)
- 
+    return response.content[0].text
+
+# ── Deterministic assertions (temperature=0) ──────────
+# These must pass for every prompt version before activation
+
+RAG_PROMPT_V2 = load_prompt_version("rag_system", version=2)
+
 def test_rag_stays_grounded():
     """Prompt must refuse to answer from outside context."""
     reply = call_with_prompt(RAG_PROMPT_V2,
-                             <span class="cs">"What is the capital of France? (Context: [empty])"</span>)
-    forbidden = [<span class="cs">"Paris"</span>, <span class="cs">"France"</span>]
+                             "What is the capital of France? (Context: [empty])")
+    forbidden = ["Paris", "France"]
     for word in forbidden:
-        assert word not in reply, <span class="cs">f"Hallucinated '{word}' outside context"</span>
- 
+        assert word not in reply, f"Hallucinated '{word}' outside context"
+
 def test_rag_uses_context():
     """Prompt must use provided context."""
-    ctx = <span class="cs">"The DPDK mempool is initialised with rte_mempool_create()."</span>
+    ctx = "The DPDK mempool is initialised with rte_mempool_create()."
     reply = call_with_prompt(RAG_PROMPT_V2,
-                             <span class="cs">f"Context: {ctx}\n\nHow is DPDK mempool initialised?"</span>)
-    assert <span class="cs">"rte_mempool_create"</span> in reply
- 
+                             f"Context: {ctx}\n\nHow is DPDK mempool initialised?")
+    assert "rte_mempool_create" in reply
+
 def test_rag_declines_gracefully():
     """Prompt must produce the exact 'I don't know' phrase when context empty."""
     reply = call_with_prompt(RAG_PROMPT_V2,
-                             <span class="cs">"Context: [no documents retrieved]\n\nWhat is VPP?"</span>)
-    assert <span class="cs">"don't have"</span> in reply.lower() or <span class="cs">"not contain"</span> in reply.lower()
- 
-<span class="ck"># ── LLM-as-judge tests (non-deterministic behaviour) ──</span>
+                             "Context: [no documents retrieved]\n\nWhat is VPP?")
+    assert "don't have" in reply.lower() or "not contain" in reply.lower()
+
+# ── LLM-as-judge tests (non-deterministic behaviour) ──
 from eval_helpers import judge_faithfulness
- 
+
 def test_rag_faithfulness_score():
     """Faithfulness must be >= 0.85 on held-out test set."""
     scores = []
     for case in HELD_OUT_TEST_CASES:
-        reply = call_with_prompt(RAG_PROMPT_V2, case[<span class="cs">"prompt"</span>])
-        v = judge_faithfulness(case[<span class="cs">"context"</span>], reply)
+        reply = call_with_prompt(RAG_PROMPT_V2, case["prompt"])
+        v = judge_faithfulness(case["context"], reply)
         scores.append(v.score)
     avg = sum(scores) / len(scores)
-    assert avg >= <span class="cv">0.85</span>, <span class="cs">f"Faithfulness {avg:.3f} < 0.85 threshold"</span>
-<span class="ck"># Run: pytest tests/test_prompts.py -v</span>
-<span class="ck"># If tests pass: activate_prompt("rag_system", 2)</span>
-<span class="ck"># If tests fail: do NOT activate — investigate and fix prompt</span></pre></div>
+    assert avg >= 0.85, f"Faithfulness {avg:.3f} 
+
+# Run: pytest tests/test_prompts.py -v
+# If tests pass: activate_prompt("rag_system", 2)
+# If tests fail: do NOT activate — investigate and fix prompt
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -310,18 +329,21 @@ def test_rag_faithfulness_score():
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">💰</span><h3>Cost Monitoring — Know Where Every Dollar Goes</h3><span class="tag tag-navy">Financial Control</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import sqlite3
+    
+
+```python
+import sqlite3
 from datetime import datetime, timedelta
- 
+
 MODEL_PRICES = {
-    <span class="cs">"claude-3-5-sonnet-20241022"</span>: (<span class="cv">3.0</span>/<span class="cv">1e6</span>, <span class="cv">15.0</span>/<span class="cv">1e6</span>),
-    <span class="cs">"claude-3-haiku-20240307"</span>:    (<span class="cv">0.25</span>/<span class="cv">1e6</span>, <span class="cv">1.25</span>/<span class="cv">1e6</span>),
-    <span class="cs">"gpt-4o"</span>:                     (<span class="cv">2.5</span>/<span class="cv">1e6</span>, <span class="cv">10.0</span>/<span class="cv">1e6</span>),
+    "claude-3-5-sonnet-20241022": (3.0/1e6, 15.0/1e6),
+    "claude-3-haiku-20240307":    (0.25/1e6, 1.25/1e6),
+    "gpt-4o":                     (2.5/1e6, 10.0/1e6),
 }
- 
+
 def init_cost_db():
-    with sqlite3.connect(<span class="cs">"costs.db"</span>) as conn:
-        conn.execute(<span class="cs">"""CREATE TABLE IF NOT EXISTS llm_calls (
+    with sqlite3.connect("costs.db") as conn:
+        conn.execute("""CREATE TABLE IF NOT EXISTS llm_calls (
             id          INTEGER PRIMARY KEY AUTOINCREMENT,
             ts          TEXT NOT NULL,
             model       TEXT NOT NULL,
@@ -330,50 +352,53 @@ def init_cost_db():
             input_tok   INTEGER, output_tok INTEGER,
             cost_usd    REAL,
             latency_ms  REAL,
-            cached      INTEGER DEFAULT 0)"""</span>)
-        conn.executescript(<span class="cs">"""
+            cached      INTEGER DEFAULT 0)""")
+        conn.executescript("""
             CREATE INDEX IF NOT EXISTS idx_ts      ON llm_calls(ts);
             CREATE INDEX IF NOT EXISTS idx_user    ON llm_calls(user_id);
             CREATE INDEX IF NOT EXISTS idx_model   ON llm_calls(model);
-        """</span>)
- 
+        """)
+
 def log_llm_call(model: str, endpoint: str, user_id: str,
                  input_tok: int, output_tok: int, latency_ms: float,
-                 cached: bool = <span class="cv">False</span>):
-    p_in, p_out = MODEL_PRICES.get(model, (<span class="cv">3e-6</span>, <span class="cv">15e-6</span>))
+                 cached: bool = False):
+    p_in, p_out = MODEL_PRICES.get(model, (3e-6, 15e-6))
     cost = input_tok * p_in + output_tok * p_out
-    with sqlite3.connect(<span class="cs">"costs.db"</span>) as conn:
-        conn.execute(<span class="cs">"""INSERT INTO llm_calls
+    with sqlite3.connect("costs.db") as conn:
+        conn.execute("""INSERT INTO llm_calls
             (ts,model,endpoint,user_id,input_tok,output_tok,cost_usd,latency_ms,cached)
-            VALUES (?,?,?,?,?,?,?,?,?)"""</span>,
+            VALUES (?,?,?,?,?,?,?,?,?)""",
             (datetime.utcnow().isoformat(), model, endpoint, user_id,
              input_tok, output_tok, cost, latency_ms, int(cached)))
- 
-<span class="ck"># ── Reporting queries ─────────────────────────────────</span>
-def cost_report(days: int = <span class="cv">30</span>) -> dict:
+
+# ── Reporting queries ─────────────────────────────────
+def cost_report(days: int = 30) -> dict:
     cutoff = (datetime.utcnow() - timedelta(days=days)).isoformat()
-    with sqlite3.connect(<span class="cs">"costs.db"</span>) as conn:
+    with sqlite3.connect("costs.db") as conn:
         total = conn.execute(
-            <span class="cs">"SELECT SUM(cost_usd), SUM(input_tok+output_tok), COUNT(*) FROM llm_calls WHERE ts>?"</span>,
+            "SELECT SUM(cost_usd), SUM(input_tok+output_tok), COUNT(*) FROM llm_calls WHERE ts>?",
             (cutoff,)).fetchone()
         by_model = conn.execute(
-            <span class="cs">"SELECT model, SUM(cost_usd), COUNT(*) FROM llm_calls WHERE ts>? GROUP BY model ORDER BY SUM(cost_usd) DESC"</span>,
+            "SELECT model, SUM(cost_usd), COUNT(*) FROM llm_calls WHERE ts>? GROUP BY model ORDER BY SUM(cost_usd) DESC",
             (cutoff,)).fetchall()
         by_user = conn.execute(
-            <span class="cs">"SELECT user_id, SUM(cost_usd) FROM llm_calls WHERE ts>? GROUP BY user_id ORDER BY SUM(cost_usd) DESC LIMIT 10"</span>,
+            "SELECT user_id, SUM(cost_usd) FROM llm_calls WHERE ts>? GROUP BY user_id ORDER BY SUM(cost_usd) DESC LIMIT 10",
             (cutoff,)).fetchall()
         cache_savings = conn.execute(
-            <span class="cs">"SELECT SUM(cost_usd) FROM llm_calls WHERE ts>? AND cached=1"</span>,
-            (cutoff,)).fetchone()[<span class="cv">0</span>] or <span class="cv">0</span>
+            "SELECT SUM(cost_usd) FROM llm_calls WHERE ts>? AND cached=1",
+            (cutoff,)).fetchone()[0] or 0
     return {
-        <span class="cs">"period_days"</span>:    days,
-        <span class="cs">"total_usd"</span>:      round(total[<span class="cv">0</span>] or <span class="cv">0</span>, <span class="cv">4</span>),
-        <span class="cs">"total_tokens"</span>:   total[<span class="cv">1</span>] or <span class="cv">0</span>,
-        <span class="cs">"total_calls"</span>:    total[<span class="cv">2</span>] or <span class="cv">0</span>,
-        <span class="cs">"cache_savings"</span>:  round(cache_savings, <span class="cv">4</span>),
-        <span class="cs">"by_model"</span>:       [{<span class="cs">"model"</span>: r[<span class="cv">0</span>], <span class="cs">"cost"</span>: round(r[<span class="cv">1</span>], <span class="cv">4</span>), <span class="cs">"calls"</span>: r[<span class="cv">2</span>]} for r in by_model],
-        <span class="cs">"top_users"</span>:      [{<span class="cs">"user_id"</span>: r[<span class="cv">0</span>], <span class="cs">"cost"</span>: round(r[<span class="cv">1</span>], <span class="cv">4</span>)} for r in by_user],
-    }</pre></div>
+        "period_days":    days,
+        "total_usd":      round(total[0] or 0, 4),
+        "total_tokens":   total[1] or 0,
+        "total_calls":    total[2] or 0,
+        "cache_savings":  round(cache_savings, 4),
+        "by_model":       [{"model": r[0], "cost": round(r[1], 4), "calls": r[2]} for r in by_model],
+        "top_users":      [{"user_id": r[0], "cost": round(r[1], 4)} for r in by_user],
+    }
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -382,77 +407,84 @@ def cost_report(days: int = <span class="cv">30</span>) -> dict:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Response Caching — Eliminate Redundant API Calls</h3><span class="tag tag-navy">Cost + Speed</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import redis, hashlib, json
+    
+
+```python
+import redis, hashlib, json
 from typing import Optional
- 
-r = redis.Redis(host=<span class="cs">"localhost"</span>, port=<span class="cv">6379</span>, decode_responses=<span class="cv">True</span>)
- 
-<span class="ck"># ── Exact match cache ─────────────────────────────────</span>
-<span class="ck"># Same prompt + same system → same deterministic response</span>
-<span class="ck"># Only valid for temperature=0 calls</span>
- 
+
+r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+
+# ── Exact match cache ─────────────────────────────────
+# Same prompt + same system → same deterministic response
+# Only valid for temperature=0 calls
+
 def cache_key(system: str, messages: list, model: str) -> str:
-    payload = json.dumps({<span class="cs">"system"</span>: system, <span class="cs">"messages"</span>: messages,
-                          <span class="cs">"model"</span>: model}, sort_keys=<span class="cv">True</span>)
-    return <span class="cs">f"llm:resp:{hashlib.md5(payload.encode()).hexdigest()}"</span>
- 
+    payload = json.dumps({"system": system, "messages": messages,
+                          "model": model}, sort_keys=True)
+    return f"llm:resp:{hashlib.md5(payload.encode()).hexdigest()}"
+
 def get_cached(system: str, messages: list, model: str,
-               ttl_seconds: int = <span class="cv">3600</span>) -> Optional[str]:
+               ttl_seconds: int = 3600) -> Optional[str]:
     """Check cache. Returns cached response or None."""
     key = cache_key(system, messages, model)
     return r.get(key)
- 
+
 def set_cached(system: str, messages: list, model: str,
-               response: str, ttl_seconds: int = <span class="cv">3600</span>):
+               response: str, ttl_seconds: int = 3600):
     key = cache_key(system, messages, model)
     r.setex(key, ttl_seconds, response)
- 
+
 async def cached_llm_call(system: str, messages: list,
-                           model: str = <span class="cs">"claude-3-5-sonnet-20241022"</span>,
-                           temperature: float = <span class="cv">0.0</span>) -> tuple[str, bool]:
+                           model: str = "claude-3-5-sonnet-20241022",
+                           temperature: float = 0.0) -> tuple[str, bool]:
     """Returns (response_text, was_cached)."""
-    if temperature == <span class="cv">0.0</span>:   <span class="ck"># only cache deterministic calls</span>
+    if temperature == 0.0:   # only cache deterministic calls
         cached = get_cached(system, messages, model)
         if cached:
-            return cached, <span class="cv">True</span>
- 
+            return cached, True
+
     response = await llm_client.messages.create(
-        model=model, max_tokens=<span class="cv">1024</span>, temperature=temperature,
+        model=model, max_tokens=1024, temperature=temperature,
         system=system, messages=messages
     )
-    text = response.content[<span class="cv">0</span>].text
- 
-    if temperature == <span class="cv">0.0</span>:
+    text = response.content[0].text
+
+    if temperature == 0.0:
         set_cached(system, messages, model, text)
- 
-    return text, <span class="cv">False</span>
-<span class="ck"># ── Semantic cache — cache similar (not just identical) queries ──</span>
-<span class="ck"># 1. Embed the query</span>
-<span class="ck"># 2. Search cached embeddings for cosine similarity > threshold</span>
-<span class="ck"># 3. Return cached response if similar enough</span>
- 
+
+    return text, False
+
+# ── Semantic cache — cache similar (not just identical) queries ──
+# 1. Embed the query
+# 2. Search cached embeddings for cosine similarity > threshold
+# 3. Return cached response if similar enough
+
 import numpy as np
- 
+
 class SemanticCache:
-    def __init__(self, similarity_threshold: float = <span class="cv">0.95</span>, ttl: int = <span class="cv">3600</span>):
+    def __init__(self, similarity_threshold: float = 0.95, ttl: int = 3600):
         self.threshold = similarity_threshold
         self.ttl = ttl
-        self._entries: list[dict] = []   <span class="ck"># in-prod: use vector DB</span>
- 
+        self._entries: list[dict] = []   # in-prod: use vector DB
+
     def _cosine_sim(self, a, b) -> float:
         a, b = np.array(a), np.array(b)
-        return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + <span class="cv">1e-8</span>))
- 
+        return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-8))
+
     def get(self, query_embedding: list[float]) -> Optional[str]:
         for entry in self._entries:
-            sim = self._cosine_sim(query_embedding, entry[<span class="cs">"embedding"</span>])
+            sim = self._cosine_sim(query_embedding, entry["embedding"])
             if sim >= self.threshold:
-                return entry[<span class="cs">"response"</span>]
+                return entry["response"]
         return None
- 
+
     def set(self, query_embedding: list[float], response: str):
-        self._entries.append({<span class="cs">"embedding"</span>: query_embedding, <span class="cs">"response"</span>: response})</pre></div>
-    <div class="ins"><p>💡 <strong>Cache hit rate is a key business metric.</strong> Even a 20% cache hit rate on RAG queries means 20% fewer LLM API calls — directly reducing cost and latency. Track cache_savings in your cost report (see Tab 3) to show the value of caching to stakeholders.</p></div>
+        self._entries.append({"embedding": query_embedding, "response": response})
+```
+
+
+<div class="ins"><p>💡 <strong>Cache hit rate is a key business metric.</strong> Even a 20% cache hit rate on RAG queries means 20% fewer LLM API calls — directly reducing cost and latency. Track cache_savings in your cost report (see Tab 3) to show the value of caching to stakeholders.</p></div>
   </div>
 </div>
 </div><!-- end t4 -->
@@ -461,54 +493,60 @@ class SemanticCache:
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Anthropic Prompt Caching — 90% Cost Reduction</h3><span class="tag tag-navy">Provider Feature</span></div>
   <div class="cp-body">
-    <p>Anthropic's prompt caching caches the KV computation for large system prompts and documents. When the same cached prefix is sent again within 5 minutes, you pay 90% less for those tokens.</p>
-    <div class="cb"><pre>import anthropic
+<p>Anthropic's prompt caching caches the KV computation for large system prompts and documents. When the same cached prefix is sent again within 5 minutes, you pay 90% less for those tokens.</p>
+    
+
+```python
+import anthropic
 client = anthropic.Anthropic()
- 
-<span class="ck"># ── Cache a large system prompt ───────────────────────</span>
-<span class="ck"># Use when: same large system prompt sent with every request</span>
+
+# ── Cache a large system prompt ───────────────────────
+# Use when: same large system prompt sent with every request
 response = client.messages.create(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">1024</span>,
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1024,
     system=[{
-        <span class="cs">"type"</span>: <span class="cs">"text"</span>,
-        <span class="cs">"text"</span>: very_long_system_prompt,   <span class="ck"># must be > 1024 tokens for caching to apply</span>
-        <span class="cs">"cache_control"</span>: {<span class="cs">"type"</span>: <span class="cs">"ephemeral"</span>}
+        "type": "text",
+        "text": very_long_system_prompt,   # must be > 1024 tokens for caching to apply
+        "cache_control": {"type": "ephemeral"}
     }],
-    messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_question}]
+    messages=[{"role": "user", "content": user_question}]
 )
- 
-<span class="ck"># First call: cache_creation_input_tokens = N (full price)</span>
-<span class="ck"># Subsequent calls within 5 min: cache_read_input_tokens = N (10% price)</span>
-print(<span class="cs">f"Cache write: {response.usage.cache_creation_input_tokens}"</span>)
-print(<span class="cs">f"Cache read:  {response.usage.cache_read_input_tokens}"</span>)
- 
-<span class="ck"># ── Cache a large document for RAG ────────────────────</span>
-<span class="ck"># Use when: same large document referenced in many queries</span>
+
+# First call: cache_creation_input_tokens = N (full price)
+# Subsequent calls within 5 min: cache_read_input_tokens = N (10% price)
+print(f"Cache write: {response.usage.cache_creation_input_tokens}")
+print(f"Cache read:  {response.usage.cache_read_input_tokens}")
+
+# ── Cache a large document for RAG ────────────────────
+# Use when: same large document referenced in many queries
 response = client.messages.create(
-    model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-    max_tokens=<span class="cv">1024</span>,
-    system=<span class="cs">"You are a document Q&A assistant."</span>,
+    model="claude-3-5-sonnet-20241022",
+    max_tokens=1024,
+    system="You are a document Q&A assistant.",
     messages=[{
-        <span class="cs">"role"</span>: <span class="cs">"user"</span>,
-        <span class="cs">"content"</span>: [
-            {<span class="cs">"type"</span>: <span class="cs">"text"</span>, <span class="cs">"text"</span>: <span class="cs">"Here is the DPDK programmer's guide:"</span>},
-            {<span class="cs">"type"</span>: <span class="cs">"text"</span>, <span class="cs">"text"</span>: large_dpdk_document,
-             <span class="cs">"cache_control"</span>: {<span class="cs">"type"</span>: <span class="cs">"ephemeral"</span>}},
-            {<span class="cs">"type"</span>: <span class="cs">"text"</span>, <span class="cs">"text"</span>: user_question}
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "Here is the DPDK programmer's guide:"},
+            {"type": "text", "text": large_dpdk_document,
+             "cache_control": {"type": "ephemeral"}},
+            {"type": "text", "text": user_question}
         ]
     }]
 )
- 
-<span class="ck"># ── When prompt caching is worth it ───────────────────</span>
-<span class="ck"># Break-even: cache_write_cost = 1.25× normal. Cache reads = 0.1× normal.</span>
-<span class="ck"># Break-even after 2 cache reads. If a prompt is used 10+ times per 5 min → always worth it.</span>
-<span class="ck">#</span>
-<span class="ck"># Best use cases:</span>
-<span class="ck"># - Long system prompts (>2k tokens) sent with every request</span>
-<span class="ck"># - Large documents referenced in many RAG queries</span>
-<span class="ck"># - Few-shot examples in prompts</span>
-<span class="ck"># - Tool definitions for agents with many tools</span></pre></div>
+
+# ── When prompt caching is worth it ───────────────────
+# Break-even: cache_write_cost = 1.25× normal. Cache reads = 0.1× normal.
+# Break-even after 2 cache reads. If a prompt is used 10+ times per 5 min → always worth it.
+#
+# Best use cases:
+# - Long system prompts (>2k tokens) sent with every request
+# - Large documents referenced in many RAG queries
+# - Few-shot examples in prompts
+# - Tool definitions for agents with many tools
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -518,10 +556,10 @@ response = client.messages.create(
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener">Anthropic: Prompt Caching — docs.anthropic.com</a></td><td>Official guide on prompt caching. Covers supported models, cache lifetime, and pricing.</td></tr>
-    <tr><td class="res-type">Tool</td><td><a href="https://github.com/promptfoo/promptfoo" target="_blank" rel="noopener">Promptfoo — github.com/promptfoo/promptfoo</a></td><td>Open-source prompt testing framework. CI/CD integration, regression tests, red-teaming.</td></tr>
-    <tr><td class="res-type">Article</td><td><a href="https://hamel.dev/blog/posts/prompt_versioning/" target="_blank" rel="noopener">Prompt Versioning in Production — hamel.dev</a></td><td>Battle-tested strategies for managing prompts in production ML systems.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://redis.io/docs/manual/keyspace-notifications/" target="_blank" rel="noopener">Redis TTL and Expiry — redis.io/docs</a></td><td>Redis TTL mechanics for response cache expiry and keyspace events.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener">Anthropic: Prompt Caching — docs.anthropic.com</a></td><td>Official guide on prompt caching. Covers supported models, cache lifetime, and pricing.</td></tr>
+<tr><td class="res-type">Tool</td><td><a href="https://github.com/promptfoo/promptfoo" target="_blank" rel="noopener">Promptfoo — github.com/promptfoo/promptfoo</a></td><td>Open-source prompt testing framework. CI/CD integration, regression tests, red-teaming.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://hamel.dev/blog/posts/prompt_versioning/" target="_blank" rel="noopener">Prompt Versioning in Production — hamel.dev</a></td><td>Battle-tested strategies for managing prompts in production ML systems.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://redis.io/docs/manual/keyspace-notifications/" target="_blank" rel="noopener">Redis TTL and Expiry — redis.io/docs</a></td><td>Redis TTL mechanics for response cache expiry and keyspace events.</td></tr>
   </tbody>
 </table>
 </div>
@@ -529,21 +567,21 @@ response = client.messages.create(
 <div id="t7" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span>
-    <span class="proj-title">Prompt Management System + Cost Dashboard</span>
-    <span class="proj-dur">[Intermediate] 3–4 days</span>
+<span class="proj-title">Prompt Management System + Cost Dashboard</span>
+<span class="proj-dur">[Intermediate] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Build a complete prompt management and cost monitoring system for your AI API.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>Prompt registry</strong> — SQLite-backed register, activate, rollback, history endpoints in FastAPI</li>
-      <li><strong>Prompt regression tests</strong> — pytest suite: grounding test, context-use test, graceful-decline test</li>
-      <li><strong>Cost logger</strong> — log every LLM call to costs.db with model, endpoint, user, tokens, cost</li>
-      <li><strong>Cost report API</strong> — GET /admin/costs returns 30-day report: total, by model, top users, cache savings</li>
-      <li><strong>Response cache</strong> — Redis-backed exact match for temperature=0 calls, 1-hour TTL</li>
-      <li><strong>Prompt caching</strong> — apply cache_control to your RAG system prompt; log cache_read vs cache_write tokens</li>
-    </ul>
-    <p><strong>Skills:</strong> SQLite versioning, pytest fixtures, Redis caching, cost analytics, Anthropic prompt caching</p>
+<p>Build a complete prompt management and cost monitoring system for your AI API.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>Prompt registry</strong> — SQLite-backed register, activate, rollback, history endpoints in FastAPI</li>
+<li><strong>Prompt regression tests</strong> — pytest suite: grounding test, context-use test, graceful-decline test</li>
+<li><strong>Cost logger</strong> — log every LLM call to costs.db with model, endpoint, user, tokens, cost</li>
+<li><strong>Cost report API</strong> — GET /admin/costs returns 30-day report: total, by model, top users, cache savings</li>
+<li><strong>Response cache</strong> — Redis-backed exact match for temperature=0 calls, 1-hour TTL</li>
+<li><strong>Prompt caching</strong> — apply cache_control to your RAG system prompt; log cache_read vs cache_write tokens</li>
+</ul>
+<p><strong>Skills:</strong> SQLite versioning, pytest fixtures, Redis caching, cost analytics, Anthropic prompt caching</p>
   </div>
 </div>
 </div>
@@ -552,31 +590,31 @@ response = client.messages.create(
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Prompt Versioning Lifecycle</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Practise the full register → test → activate → monitor → rollback cycle.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Register your current RAG system prompt as v1. Activate it. Make a deliberate quality-degrading change (remove the "only answer from context" rule). Register as v2.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run your regression test suite on v2. Verify the grounding test fails (as expected — the change broke it).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Fix the prompt. Register v3. Verify all tests pass on v3. Activate v3.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Verify prompt_changed() returns False (DB matches file). Call list_prompt_history() and verify v1, v2, v3 are all recorded with their authors and timestamps.</div></div>
+<p><strong>Objective:</strong> Practise the full register → test → activate → monitor → rollback cycle.</p>
+<div class="lab-step"><div class="sn">1</div><div>Register your current RAG system prompt as v1. Activate it. Make a deliberate quality-degrading change (remove the "only answer from context" rule). Register as v2.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run your regression test suite on v2. Verify the grounding test fails (as expected — the change broke it).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Fix the prompt. Register v3. Verify all tests pass on v3. Activate v3.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Verify prompt_changed() returns False (DB matches file). Call list_prompt_history() and verify v1, v2, v3 are all recorded with their authors and timestamps.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Cost Report — Find Your Biggest Spend</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Instrument 100 real API calls and use the cost report to identify optimisation opportunities.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Add log_llm_call() to every LLM call in your M23 API. Run 100 test requests across all endpoints. Generate cost_report(days=1).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Answer from the report: Which model costs the most? Which endpoint uses the most tokens? Which user has the highest spend?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Identify 2 endpoints where you can switch to Haiku instead of Sonnet. Make the switch. Run another 100 requests. Compare the cost reports before and after. What is the % cost reduction?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add the response cache. Run the same 100 requests again. How many were served from cache? What is cache_savings in the report? What is the effective cost reduction including caching?</div></div>
+<p><strong>Objective:</strong> Instrument 100 real API calls and use the cost report to identify optimisation opportunities.</p>
+<div class="lab-step"><div class="sn">1</div><div>Add log_llm_call() to every LLM call in your M23 API. Run 100 test requests across all endpoints. Generate cost_report(days=1).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Answer from the report: Which model costs the most? Which endpoint uses the most tokens? Which user has the highest spend?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Identify 2 endpoints where you can switch to Haiku instead of Sonnet. Make the switch. Run another 100 requests. Compare the cost reports before and after. What is the % cost reduction?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add the response cache. Run the same 100 requests again. How many were served from cache? What is cache_savings in the report? What is the effective cost reduction including caching?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Prompt Caching — Measure the Savings</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Add Anthropic prompt caching and measure the real cost reduction.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Take your RAG system prompt (make it long — add extensive instructions until it exceeds 1024 tokens). Log the cache_creation_input_tokens on the first call and cache_read_input_tokens on subsequent calls.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run 20 queries in rapid succession (within 5 min). For each, print: cache_write, cache_read, total cost. Verify calls 2-20 show cache_read_input_tokens instead of cache_creation_input_tokens.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Calculate: cost without caching (20 × full system prompt cost) vs cost with caching (1 write + 19 reads). What is the % savings?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Wait 6 minutes (beyond the 5-min cache window). Send another request. Verify cache_creation_input_tokens is non-zero again (cache expired). Confirm caching is re-triggered.</div></div>
+<p><strong>Objective:</strong> Add Anthropic prompt caching and measure the real cost reduction.</p>
+<div class="lab-step"><div class="sn">1</div><div>Take your RAG system prompt (make it long — add extensive instructions until it exceeds 1024 tokens). Log the cache_creation_input_tokens on the first call and cache_read_input_tokens on subsequent calls.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run 20 queries in rapid succession (within 5 min). For each, print: cache_write, cache_read, total cost. Verify calls 2-20 show cache_read_input_tokens instead of cache_creation_input_tokens.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Calculate: cost without caching (20 × full system prompt cost) vs cost with caching (1 write + 19 reads). What is the % savings?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Wait 6 minutes (beyond the 5-min cache window). Send another request. Verify cache_creation_input_tokens is non-zero again (cache expired). Confirm caching is re-triggered.</div></div>
   </div>
 </div>
 </div><!-- end t8 -->

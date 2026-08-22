@@ -68,11 +68,11 @@ url: /learning/data-plane/dpdk/module-p2-rings/
   <div class="mod-title">rte_ring, Distributor &amp; App Models</div>
   <div class="mod-subtitle">Lock-free ring internals · CAS mechanics · rte_distributor · Run-to-completion vs Pipeline</div>
   <div class="mod-pills">
-    <span class="mod-pill">Ch 10 — rte_ring</span>
-    <span class="mod-pill">Ch 11 — rte_distributor</span>
-    <span class="mod-pill">Ch 12 — App Models</span>
-    <span class="mod-pill">C · Lock-Free · MPMC</span>
-    <span class="mod-pill">Weeks 8–10</span>
+<span class="mod-pill">Ch 10 — rte_ring</span>
+<span class="mod-pill">Ch 11 — rte_distributor</span>
+<span class="mod-pill">Ch 12 — App Models</span>
+<span class="mod-pill">C · Lock-Free · MPMC</span>
+<span class="mod-pill">Weeks 8–10</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -156,14 +156,14 @@ rte_ring is <strong>lock-free</strong> (no thread can block indefinitely holding
 
 <span class="cm">// SPSC — fastest (dedicate one producer and one consumer core)</span>
 ring = <span class="cf">rte_ring_create</span>(<span class="cs">"FAST_RING"</span>, <span class="cn">1024</span>, <span class="cf">rte_socket_id</span>(),
-                      <span class="cn">RING_F_SP_ENQ</span> | <span class="cn">RING_F_SC_DEQ</span>);
+<span class="cn">RING_F_SP_ENQ</span> | <span class="cn">RING_F_SC_DEQ</span>);
 
 <span class="cm">// MPMC — default (most general)</span>
 ring = <span class="cf">rte_ring_create</span>(<span class="cs">"WORK_RING"</span>, <span class="cn">4096</span>, <span class="cf">rte_socket_id</span>(),
-                      <span class="cn">0</span>);   <span class="cm">// 0 = MPMC</span>
+<span class="cn">0</span>);   <span class="cm">// 0 = MPMC</span>
 <span class="cm">// Check if creation succeeded</span>
 <span class="ck">if</span> (!ring)
-    <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Ring create failed: %s\n"</span>, <span class="cf">rte_strerror</span>(<span class="cf">rte_errno</span>));</div>
+<span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Ring create failed: %s\n"</span>, <span class="cf">rte_strerror</span>(<span class="cf">rte_errno</span>));</div>
 <div class="warn">&#9888;&#65039; <strong>Ring size must be a power of 2.</strong> If you pass a non-power-of-2 size, <code>rte_ring_create()</code> returns NULL. The actual usable capacity is <code>size - 1</code> (one slot is always kept empty to distinguish full from empty). So a ring of size 1024 holds at most 1023 objects.</div>
 </div><!-- /t-modes -->
 <!-- TAB: Ring API -->
@@ -223,34 +223,34 @@ ring = <span class="cf">rte_ring_create</span>(<span class="cs">"WORK_RING"</spa
    All packets with same hash → same worker → per-flow state, no locks</div>
 <div class="cb"><span class="cm">// Coordinator lcore (lcore 0)</span>
 <span class="ck">struct</span> rte_distributor *dist = <span class="cf">rte_distributor_create</span>(
-    <span class="cs">"SASE_DIST"</span>,         <span class="cm">// name</span>
-    <span class="cf">rte_socket_id</span>(),     <span class="cm">// NUMA socket</span>
+<span class="cs">"SASE_DIST"</span>,         <span class="cm">// name</span>
+<span class="cf">rte_socket_id</span>(),     <span class="cm">// NUMA socket</span>
     nb_workers,          <span class="cm">// number of worker lcores</span>
-    <span class="cn">RTE_DIST_ALG_BURST</span>   <span class="cm">// burst mode (preferred over single)</span>
+<span class="cn">RTE_DIST_ALG_BURST</span>   <span class="cm">// burst mode (preferred over single)</span>
 );
 
 <span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SIZE</span>];
 <span class="ck">while</span> (<span class="cn">1</span>) {
-    <span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, <span class="cn">0</span>, pkts, <span class="cn">BURST_SIZE</span>);
-    <span class="cm">// Set flow tag for each packet — distributor uses this for affinity</span>
-    <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++)
+<span class="co">uint16_t</span> nb_rx = <span class="cf">rte_eth_rx_burst</span>(port, <span class="cn">0</span>, pkts, <span class="cn">BURST_SIZE</span>);
+<span class="cm">// Set flow tag for each packet — distributor uses this for affinity</span>
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb_rx; i++)
         pkts[i]-&gt;hash.usr = pkts[i]-&gt;hash.rss;  <span class="cm">// use RSS hash as tag</span>
-    <span class="cf">rte_distributor_process</span>(dist, pkts, nb_rx);
+<span class="cf">rte_distributor_process</span>(dist, pkts, nb_rx);
 }
 
 <span class="cm">// Worker lcore (each runs this function)</span>
 <span class="ck">static</span> <span class="co">int</span> <span class="cf">worker_loop</span>(<span class="ck">void</span> *arg) {
-    <span class="ck">struct</span> rte_distributor *dist = arg;
-    <span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SIZE</span>];
-    <span class="co">uint16_t</span> nb;
-    <span class="ck">while</span> (<span class="cn">1</span>) {
+<span class="ck">struct</span> rte_distributor *dist = arg;
+<span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">BURST_SIZE</span>];
+<span class="co">uint16_t</span> nb;
+<span class="ck">while</span> (<span class="cn">1</span>) {
         nb = <span class="cf">rte_distributor_get_pkt</span>(dist, <span class="cf">rte_lcore_id</span>(), pkts, NULL, <span class="cn">0</span>);
-        <span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb; i++) {
-            <span class="cf">process_packet</span>(pkts[i]);
-            <span class="cf">rte_pktmbuf_free</span>(pkts[i]);
+<span class="ck">for</span> (<span class="co">uint16_t</span> i = <span class="cn">0</span>; i &lt; nb; i++) {
+<span class="cf">process_packet</span>(pkts[i]);
+<span class="cf">rte_pktmbuf_free</span>(pkts[i]);
         }
     }
-    <span class="ck">return</span> <span class="cn">0</span>;
+<span class="ck">return</span> <span class="cn">0</span>;
 }</div>
 <div class="ins">&#127381; <strong>Blaze/SASE-DP Context:</strong> The SASE-DP URL filter uses a distributor-based architecture: the RX core receives packets from a 100G NIC and distributes by RSS hash (= 5-tuple hash) to 8 worker cores. Each worker owns its portion of the flow table — no cross-core lookups, no locking on the hot path. Enterprise and mobility traffic classes separated by RETA programming.</div>
 </div><!-- /t-dist -->

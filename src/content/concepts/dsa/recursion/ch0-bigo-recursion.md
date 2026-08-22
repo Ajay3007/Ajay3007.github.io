@@ -13,20 +13,20 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
 
 <div class="chapter-hero">
   <div class="chapter-hero-inner">
-    <div class="ch-hero-breadcrumb">
-      <a href="/roadmap/">All Roadmaps</a> ›
-      <a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
+<div class="ch-hero-breadcrumb">
+<a href="/roadmap/">All Roadmaps</a> ›
+<a href="/learning/dsa/dsa-roadmap/">DSA Mastery</a> ›
       Chapter 0
-    </div>
-    <div class="chapter-num-badge">Chapter 0 · Beginner · No Prerequisite</div>
-    <h1>Big O Notation & Recursion</h1>
-    <p class="chapter-hero-sub">The foundation every DSA topic builds upon — learn to analyse algorithm complexity and think recursively before writing a single line of interview code.</p>
-    <div class="chapter-meta-row">
-      <span class="ch-meta-pill teal">11 Sections</span>
-      <span class="ch-meta-pill">4 Practice Problems</span>
-      <span class="ch-meta-pill">Beginner</span>
-      <a href="/learning/dsa/dsa-roadmap/#ch0" class="ch-nav-btn">← Back to Roadmap</a>
-    </div>
+</div>
+<div class="chapter-num-badge">Chapter 0 · Beginner · No Prerequisite</div>
+<h1>Big O Notation & Recursion</h1>
+<p class="chapter-hero-sub">The foundation every DSA topic builds upon — learn to analyse algorithm complexity and think recursively before writing a single line of interview code.</p>
+<div class="chapter-meta-row">
+<span class="ch-meta-pill teal">11 Sections</span>
+<span class="ch-meta-pill">4 Practice Problems</span>
+<span class="ch-meta-pill">Beginner</span>
+<a href="/learning/dsa/dsa-roadmap/#ch0" class="ch-nav-btn">← Back to Roadmap</a>
+</div>
   </div>
 </div>
 <div class="chapter-content">
@@ -37,8 +37,8 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
 <div class="insight-box">
   <span class="insight-label">Two Dimensions of Complexity</span>
   <ul>
-    <li><strong>Time complexity</strong> — how many operations does the algorithm perform as input grows?</li>
-    <li><strong>Space complexity</strong> — how much extra memory does it use? (Input itself is usually excluded)</li>
+<li><strong>Time complexity</strong> — how many operations does the algorithm perform as input grows?</li>
+<li><strong>Space complexity</strong> — how much extra memory does it use? (Input itself is usually excluded)</li>
   </ul>
 </div>
 <h3 class="section-subheading">1.1 — The Complexity Hierarchy</h3>
@@ -46,16 +46,16 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
 <div class="ch-ed-problems">
 <table>
   <thead>
-    <tr><th>Complexity</th><th>Name</th><th>Example</th><th>Acceptable for n=</th></tr>
+<tr><th>Complexity</th><th>Name</th><th>Example</th><th>Acceptable for n=</th></tr>
   </thead>
   <tbody>
-    <tr><td><strong>O(1)</strong></td><td>Constant</td><td>Array index access</td><td>Any</td></tr>
-    <tr><td><strong>O(log n)</strong></td><td>Logarithmic</td><td>Binary search</td><td>10⁹</td></tr>
-    <tr><td><strong>O(n)</strong></td><td>Linear</td><td>Single for-loop</td><td>10⁸</td></tr>
-    <tr><td><strong>O(n log n)</strong></td><td>Linearithmic</td><td>Merge sort, heap sort</td><td>10⁷</td></tr>
-    <tr><td><strong>O(n²)</strong></td><td>Quadratic</td><td>Nested loops</td><td>5000</td></tr>
-    <tr><td><strong>O(2ⁿ)</strong></td><td>Exponential</td><td>Subsets, backtracking</td><td>~25</td></tr>
-    <tr><td><strong>O(n!)</strong></td><td>Factorial</td><td>All permutations</td><td>~12</td></tr>
+<tr><td><strong>O(1)</strong></td><td>Constant</td><td>Array index access</td><td>Any</td></tr>
+<tr><td><strong>O(log n)</strong></td><td>Logarithmic</td><td>Binary search</td><td>10⁹</td></tr>
+<tr><td><strong>O(n)</strong></td><td>Linear</td><td>Single for-loop</td><td>10⁸</td></tr>
+<tr><td><strong>O(n log n)</strong></td><td>Linearithmic</td><td>Merge sort, heap sort</td><td>10⁷</td></tr>
+<tr><td><strong>O(n²)</strong></td><td>Quadratic</td><td>Nested loops</td><td>5000</td></tr>
+<tr><td><strong>O(2ⁿ)</strong></td><td>Exponential</td><td>Subsets, backtracking</td><td>~25</td></tr>
+<tr><td><strong>O(n!)</strong></td><td>Factorial</td><td>All permutations</td><td>~12</td></tr>
   </tbody>
 </table>
 </div>
@@ -63,11 +63,11 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
 <div class="insight-box">
   <span class="insight-label">Drop & Simplify Rules</span>
   <ul>
-    <li><strong>Drop constants:</strong> O(5n) = O(n). We care about growth rate, not the multiplier.</li>
-    <li><strong>Drop lower-order terms:</strong> O(n² + n) = O(n²). The dominant term wins.</li>
-    <li><strong>Different inputs = different variables:</strong> Two loops over different arrays is O(a + b), not O(n).</li>
-    <li><strong>Nested loops multiply:</strong> An O(n) loop inside an O(m) loop = O(n × m).</li>
-    <li><strong>Always analyse worst case</strong> unless told otherwise.</li>
+<li><strong>Drop constants:</strong> O(5n) = O(n). We care about growth rate, not the multiplier.</li>
+<li><strong>Drop lower-order terms:</strong> O(n² + n) = O(n²). The dominant term wins.</li>
+<li><strong>Different inputs = different variables:</strong> Two loops over different arrays is O(a + b), not O(n).</li>
+<li><strong>Nested loops multiply:</strong> An O(n) loop inside an O(m) loop = O(n × m).</li>
+<li><strong>Always analyse worst case</strong> unless told otherwise.</li>
   </ul>
 </div>
 </div>
@@ -83,10 +83,10 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
 <h3 class="section-subheading">2.2 — Space Complexity</h3>
 <div class="insight-box">
   <ul>
-    <li>Space complexity counts <em>extra</em> memory your algorithm allocates — not the input.</li>
-    <li>Recursive call stack counts as space: a function that recurses n times deep = O(n) space.</li>
-    <li>A HashMap storing n entries = O(n) space.</li>
-    <li>In-place operations (two-pointer reversal, bubble sort) = O(1) space.</li>
+<li>Space complexity counts <em>extra</em> memory your algorithm allocates — not the input.</li>
+<li>Recursive call stack counts as space: a function that recurses n times deep = O(n) space.</li>
+<li>A HashMap storing n entries = O(n) space.</li>
+<li>In-place operations (two-pointer reversal, bubble sort) = O(1) space.</li>
   </ul>
 </div>
 <div class="ch-code-wrap">
@@ -114,8 +114,8 @@ int factorial(int n) {
 <div class="insight-box">
   <span class="insight-label">Two Required Components</span>
   <ul>
-    <li><strong>Base case:</strong> The condition under which the function stops calling itself and returns a direct answer.</li>
-    <li><strong>Recursive case:</strong> Reduce the problem to a smaller subproblem and call yourself again.</li>
+<li><strong>Base case:</strong> The condition under which the function stops calling itself and returns a direct answer.</li>
+<li><strong>Recursive case:</strong> Reduce the problem to a smaller subproblem and call yourself again.</li>
   </ul>
   Without a base case → infinite recursion → stack overflow. Without a recursive case → no recursion.
 </div>
@@ -181,10 +181,10 @@ ReturnType solve(params, state) {
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Difficulty</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td><a href="https://leetcode.com/problems/fibonacci-number/" target="_blank">509. Fibonacci Number</a></td><td>Basic Recursion / Memo</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>2</td><td><a href="https://leetcode.com/problems/climbing-stairs/" target="_blank">70. Climbing Stairs</a></td><td>1D Memoized DP</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>3</td><td><a href="https://leetcode.com/problems/power-of-two/" target="_blank">231. Power of Two</a></td><td>Bit manipulation + recursion</td><td class="diff-easy">Easy</td></tr>
-    <tr><td>4</td><td><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">206. Reverse Linked List</a></td><td>Linear Recursion</td><td class="diff-easy">Easy</td></tr>
+<tr><td>1</td><td><a href="https://leetcode.com/problems/fibonacci-number/" target="_blank">509. Fibonacci Number</a></td><td>Basic Recursion / Memo</td><td class="diff-easy">Easy</td></tr>
+<tr><td>2</td><td><a href="https://leetcode.com/problems/climbing-stairs/" target="_blank">70. Climbing Stairs</a></td><td>1D Memoized DP</td><td class="diff-easy">Easy</td></tr>
+<tr><td>3</td><td><a href="https://leetcode.com/problems/power-of-two/" target="_blank">231. Power of Two</a></td><td>Bit manipulation + recursion</td><td class="diff-easy">Easy</td></tr>
+<tr><td>4</td><td><a href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">206. Reverse Linked List</a></td><td>Linear Recursion</td><td class="diff-easy">Easy</td></tr>
   </tbody>
 </table>
 </div>

@@ -83,10 +83,10 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
   <div class="mod-title">Ensembles: XGBoost, LightGBM, SMOTE &amp; Optuna</div>
   <div class="mod-subtitle">Gradient boosting, stacking, imbalanced data strategies, and automated hyperparameter optimisation</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2 Weeks</span>
-    <span class="mod-pill">🟡 Intermediate–Advanced</span>
-    <span class="mod-pill">🔧 xgboost · lightgbm · optuna · imbalanced-learn</span>
-    <span class="mod-pill">📋 Prerequisite: P3-M08</span>
+<span class="mod-pill">⏱ 2 Weeks</span>
+<span class="mod-pill">🟡 Intermediate–Advanced</span>
+<span class="mod-pill">🔧 xgboost · lightgbm · optuna · imbalanced-learn</span>
+<span class="mod-pill">📋 Prerequisite: P3-M08</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -106,16 +106,16 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3</span></div>
   <div class="cp-body">
-    <p>Gradient boosting models (XGBoost, LightGBM, CatBoost) dominate Kaggle structured-data competitions. This module covers these industry-standard tools, automated hyperparameter tuning with Optuna, advanced imbalanced-data strategies, and ensemble stacking.</p>
-    <ul>
-      <li><strong>XGBoost</strong> — gradient boosting, regularisation, early stopping, sklearn API</li>
-      <li><strong>LightGBM</strong> — leaf-wise growth, categorical support, faster than XGBoost</li>
-      <li><strong>Optuna</strong> — automated hyperparameter search with Bayesian optimisation</li>
-      <li><strong>SMOTE variants</strong> — SMOTE, ADASYN, SMOTETomek, BorderlineSMOTE</li>
-      <li><strong>Stacking and blending</strong> — combining model predictions as meta-features</li>
-      <li><strong>Advanced SHAP</strong> — interaction values, dependence plots, force plots</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>XGBoost is the starting model for nearly every structured-data ML problem.</strong> It handles missing values natively, is robust to outliers, requires minimal preprocessing (no scaling needed), and is fast. If XGBoost doesn't beat your baseline significantly, your problem may need feature engineering rather than a more complex model.</p></div>
+<p>Gradient boosting models (XGBoost, LightGBM, CatBoost) dominate Kaggle structured-data competitions. This module covers these industry-standard tools, automated hyperparameter tuning with Optuna, advanced imbalanced-data strategies, and ensemble stacking.</p>
+<ul>
+<li><strong>XGBoost</strong> — gradient boosting, regularisation, early stopping, sklearn API</li>
+<li><strong>LightGBM</strong> — leaf-wise growth, categorical support, faster than XGBoost</li>
+<li><strong>Optuna</strong> — automated hyperparameter search with Bayesian optimisation</li>
+<li><strong>SMOTE variants</strong> — SMOTE, ADASYN, SMOTETomek, BorderlineSMOTE</li>
+<li><strong>Stacking and blending</strong> — combining model predictions as meta-features</li>
+<li><strong>Advanced SHAP</strong> — interaction values, dependence plots, force plots</li>
+</ul>
+<div class="ins"><p>💡 <strong>XGBoost is the starting model for nearly every structured-data ML problem.</strong> It handles missing values natively, is robust to outliers, requires minimal preprocessing (no scaling needed), and is fast. If XGBoost doesn't beat your baseline significantly, your problem may need feature engineering rather than a more complex model.</p></div>
   </div>
 </div>
 </div>
@@ -185,14 +185,14 @@ params = {
 cv_results = xgb.cv(params, dtrain, num_boost_round=500,
                     nfold=5, early_stopping_rounds=30, verbose_eval=50)
 print(f"Best CV RMSE: {cv_results['test-rmse-mean'].min():,.1f}")</pre></div>
-    <h4>Key XGBoost Parameters to Tune</h4>
-    <ul>
-      <li><strong>n_estimators + learning_rate</strong> — always tune together. Lower lr needs more trees. Start: lr=0.1, trees=300. Then lr=0.01, trees=3000.</li>
-      <li><strong>max_depth</strong> — 3-8. Deeper = more complex interactions. Default=6 is usually good.</li>
-      <li><strong>subsample + colsample_bytree</strong> — 0.6-0.9. Stochastic sampling reduces overfitting.</li>
-      <li><strong>min_child_weight</strong> — 1-20. Higher = more conservative splits. Tune for imbalanced data.</li>
-      <li><strong>scale_pos_weight</strong> — for classification: sum(neg)/sum(pos). Critical for imbalanced classes.</li>
-    </ul>
+<h4>Key XGBoost Parameters to Tune</h4>
+<ul>
+<li><strong>n_estimators + learning_rate</strong> — always tune together. Lower lr needs more trees. Start: lr=0.1, trees=300. Then lr=0.01, trees=3000.</li>
+<li><strong>max_depth</strong> — 3-8. Deeper = more complex interactions. Default=6 is usually good.</li>
+<li><strong>subsample + colsample_bytree</strong> — 0.6-0.9. Stochastic sampling reduces overfitting.</li>
+<li><strong>min_child_weight</strong> — 1-20. Higher = more conservative splits. Tune for imbalanced data.</li>
+<li><strong>scale_pos_weight</strong> — for classification: sum(neg)/sum(pos). Critical for imbalanced classes.</li>
+</ul>
   </div>
 </div>
 </div>
@@ -252,7 +252,7 @@ cv_result = lgb.cv(params, lgb_train, num_boost_round=1000,
                    nfold=5, callbacks=[lgb.early_stopping(50)])
 best_round = len(cv_result["valid rmse-mean"])
 print(f"Best round: {best_round}, CV RMSE: {min(cv_result['valid rmse-mean']):,.1f}")</pre></div>
-    <div class="ins"><p>💡 <strong>Use LightGBM when your dataset has &gt; 50,000 rows or &gt; 100 features.</strong> It trains 5-20× faster than XGBoost on large datasets. Use XGBoost when you want the most well-documented, stable gradient boosting library with the largest community. Both are excellent — pick LightGBM for speed, XGBoost for documentation.</p></div>
+<div class="ins"><p>💡 <strong>Use LightGBM when your dataset has &gt; 50,000 rows or &gt; 100 features.</strong> It trains 5-20× faster than XGBoost on large datasets. Use XGBoost when you want the most well-documented, stable gradient boosting library with the largest community. Both are excellent — pick LightGBM for speed, XGBoost for documentation.</p></div>
   </div>
 </div>
 </div>
@@ -318,7 +318,7 @@ fig.show()
 # Shows which hyperparameters had the most impact
 fig = plot_param_importances(study)
 fig.show()</pre></div>
-    <div class="ins"><p>💡 <strong>For production models, use 100-200 Optuna trials.</strong> The first 20-30 trials explore randomly; subsequent trials exploit the most promising regions. Set a timeout if you need time-bounded tuning: study.optimize(objective, timeout=3600) for 1 hour of tuning.</p></div>
+<div class="ins"><p>💡 <strong>For production models, use 100-200 Optuna trials.</strong> The first 20-30 trials explore randomly; subsequent trials exploit the most promising regions. Set a timeout if you need time-bounded tuning: study.optimize(objective, timeout=3600) for 1 hour of tuning.</p></div>
   </div>
 </div>
 </div>
@@ -486,12 +486,12 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://xgboost.readthedocs.io/en/stable/" target="_blank" rel="noopener">XGBoost Documentation — xgboost.readthedocs.io</a></td><td>Complete XGBoost reference. Parameter explanations, tutorials, Python API. Authoritative.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://lightgbm.readthedocs.io/en/latest/" target="_blank" rel="noopener">LightGBM Documentation — lightgbm.readthedocs.io</a></td><td>Parameters, performance tips, categorical feature support, full Python API.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://optuna.readthedocs.io/" target="_blank" rel="noopener">Optuna Documentation — optuna.readthedocs.io</a></td><td>Bayesian hyperparameter optimisation. Tutorials, samplers, pruners, visualisation.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/intermediate-machine-learning" target="_blank" rel="noopener">Kaggle Intermediate ML — XGBoost section — kaggle.com/learn/intermediate-machine-learning</a></td><td>Hands-on XGBoost with Kaggle exercises. Covers missing values, cross-validation integration.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" target="_blank" rel="noopener">Credit Card Fraud — Kaggle</a></td><td>Severe class imbalance (0.17% fraud). Perfect for SMOTE, scale_pos_weight, and F1 vs AUC comparison.</td></tr>
-    <tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/c/porto-seguro-safe-driver-prediction" target="_blank" rel="noopener">Porto Seguro Safe Driver — Kaggle</a></td><td>Industry-standard XGBoost/LightGBM benchmark. Kaggle competition with public discussion.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://xgboost.readthedocs.io/en/stable/" target="_blank" rel="noopener">XGBoost Documentation — xgboost.readthedocs.io</a></td><td>Complete XGBoost reference. Parameter explanations, tutorials, Python API. Authoritative.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://lightgbm.readthedocs.io/en/latest/" target="_blank" rel="noopener">LightGBM Documentation — lightgbm.readthedocs.io</a></td><td>Parameters, performance tips, categorical feature support, full Python API.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://optuna.readthedocs.io/" target="_blank" rel="noopener">Optuna Documentation — optuna.readthedocs.io</a></td><td>Bayesian hyperparameter optimisation. Tutorials, samplers, pruners, visualisation.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/intermediate-machine-learning" target="_blank" rel="noopener">Kaggle Intermediate ML — XGBoost section — kaggle.com/learn/intermediate-machine-learning</a></td><td>Hands-on XGBoost with Kaggle exercises. Covers missing values, cross-validation integration.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" target="_blank" rel="noopener">Credit Card Fraud — Kaggle</a></td><td>Severe class imbalance (0.17% fraud). Perfect for SMOTE, scale_pos_weight, and F1 vs AUC comparison.</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://www.kaggle.com/c/porto-seguro-safe-driver-prediction" target="_blank" rel="noopener">Porto Seguro Safe Driver — Kaggle</a></td><td>Industry-standard XGBoost/LightGBM benchmark. Kaggle competition with public discussion.</td></tr>
   </tbody>
 </table>
 </div>
@@ -499,18 +499,18 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Credit Card Fraud Detection — Full Pipeline</span><span class="proj-dur">[Advanced] 6–7 days</span></div>
   <div class="proj-body">
-    <p>Build a production-ready fraud detection system with all the techniques from this module.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>EDA</strong> — class imbalance analysis (only 0.17% fraud), feature distributions by class</li>
-      <li><strong>Baseline</strong> — Logistic Regression. Report: accuracy, precision, recall, F1, ROC-AUC. Note that accuracy is misleading.</li>
-      <li><strong>XGBoost with scale_pos_weight</strong> — tune with Optuna (50 trials). Report CV F1.</li>
-      <li><strong>SMOTE + XGBoost</strong> — use ImbPipeline, compare to scale_pos_weight approach</li>
-      <li><strong>Threshold tuning</strong> — find optimal threshold on validation set using PR curve</li>
-      <li><strong>SHAP analysis</strong> — which features drive fraud predictions? Surprise any you?</li>
-      <li><strong>Final results table</strong> — all models, all metrics, final chosen model with justification</li>
-    </ul>
-    <p><strong>Target:</strong> F1 &gt; 0.85 on test set. Report both F1 and ROC-AUC (both matter for fraud).</p>
+<p>Build a production-ready fraud detection system with all the techniques from this module.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>EDA</strong> — class imbalance analysis (only 0.17% fraud), feature distributions by class</li>
+<li><strong>Baseline</strong> — Logistic Regression. Report: accuracy, precision, recall, F1, ROC-AUC. Note that accuracy is misleading.</li>
+<li><strong>XGBoost with scale_pos_weight</strong> — tune with Optuna (50 trials). Report CV F1.</li>
+<li><strong>SMOTE + XGBoost</strong> — use ImbPipeline, compare to scale_pos_weight approach</li>
+<li><strong>Threshold tuning</strong> — find optimal threshold on validation set using PR curve</li>
+<li><strong>SHAP analysis</strong> — which features drive fraud predictions? Surprise any you?</li>
+<li><strong>Final results table</strong> — all models, all metrics, final chosen model with justification</li>
+</ul>
+<p><strong>Target:</strong> F1 &gt; 0.85 on test set. Report both F1 and ROC-AUC (both matter for fraud).</p>
   </div>
 </div>
 </div>
@@ -518,17 +518,17 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>XGBoost Early Stopping</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Train XGBoost on House Prices with n_estimators=2000 and learning_rate=0.01. Use early stopping on a 15% validation split. What is the optimal number of rounds? Compare to n_estimators=200 without early stopping.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Plot train RMSE and validation RMSE vs boosting round. At what round does overfitting begin? Annotate on the plot with plt.axvline().</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Run XGBoost CV using xgb.cv(). Compare the best CV RMSE to the early stopping result. Which finds the better model?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Train XGBoost on House Prices with n_estimators=2000 and learning_rate=0.01. Use early stopping on a 15% validation split. What is the optimal number of rounds? Compare to n_estimators=200 without early stopping.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Plot train RMSE and validation RMSE vs boosting round. At what round does overfitting begin? Annotate on the plot with plt.axvline().</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Run XGBoost CV using xgb.cv(). Compare the best CV RMSE to the early stopping result. Which finds the better model?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Optuna Tuning</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Run Optuna with 50 trials on XGBoost for House Prices. Plot the optimisation history. At what trial does the curve flatten? What does this tell you about when to stop searching?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run plot_param_importances(study). Which hyperparameter has the most impact on RMSE? Is it what you expected?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Compare: default XGBoost, manually tuned XGBoost, and Optuna-tuned XGBoost on 5-fold CV RMSE. How much does Optuna improve over manual tuning?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Run Optuna with 50 trials on XGBoost for House Prices. Plot the optimisation history. At what trial does the curve flatten? What does this tell you about when to stop searching?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run plot_param_importances(study). Which hyperparameter has the most impact on RMSE? Is it what you expected?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Compare: default XGBoost, manually tuned XGBoost, and Optuna-tuned XGBoost on 5-fold CV RMSE. How much does Optuna improve over manual tuning?</div></div>
   </div>
 </div>
 </div>

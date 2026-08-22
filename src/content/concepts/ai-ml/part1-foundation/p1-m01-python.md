@@ -134,11 +134,11 @@ url: /learning/ai-ml/part1-foundation/p1-m01-python/
   <div class="mod-title">Python Programming Fundamentals</div>
   <div class="mod-subtitle">Master Python from scratch — the language of AI engineering</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 3 Weeks</span>
-    <span class="mod-pill">🟢 Beginner</span>
-    <span class="mod-pill">🐍 Python 3</span>
-    <span class="mod-pill">📋 Prerequisites: None</span>
-    <span class="mod-pill">🛠 VS Code / Jupyter / Colab</span>
+<span class="mod-pill">⏱ 3 Weeks</span>
+<span class="mod-pill">🟢 Beginner</span>
+<span class="mod-pill">🐍 Python 3</span>
+<span class="mod-pill">📋 Prerequisites: None</span>
+<span class="mod-pill">🛠 VS Code / Jupyter / Colab</span>
   </div>
 </div>
 <!-- ── TAB BAR ── -->
@@ -157,17 +157,17 @@ url: /learning/ai-ml/part1-foundation/p1-m01-python/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-purple">Foundation</span></div>
   <div class="cp-body">
-    <p>Python is the language of AI engineering. Full stop. Almost every library, API, and tutorial you will encounter over the next six months is in Python. This module takes you from zero to functional Python developer — able to write clean programs, handle files and APIs, and manage a codebase.</p>
-    <ul>
-      <li><strong>Core syntax</strong> — variables, data types, operators, strings, f-strings</li>
-      <li><strong>Data structures</strong> — lists, tuples, dictionaries, sets and their use-cases</li>
-      <li><strong>Control flow</strong> — if/elif/else, for loops, while loops, break/continue</li>
-      <li><strong>Functions</strong> — parameters, return values, *args/**kwargs, lambda, list comprehensions</li>
-      <li><strong>File I/O</strong> — reading and writing text and CSV files</li>
-      <li><strong>Error handling</strong> — try/except/finally for robust production code</li>
-      <li><strong>OOP basics</strong> — classes, objects, __init__, methods, encapsulation</li>
-      <li><strong>Environment management</strong> — venv, pip, requirements.txt</li>
-    </ul>
+<p>Python is the language of AI engineering. Full stop. Almost every library, API, and tutorial you will encounter over the next six months is in Python. This module takes you from zero to functional Python developer — able to write clean programs, handle files and APIs, and manage a codebase.</p>
+<ul>
+<li><strong>Core syntax</strong> — variables, data types, operators, strings, f-strings</li>
+<li><strong>Data structures</strong> — lists, tuples, dictionaries, sets and their use-cases</li>
+<li><strong>Control flow</strong> — if/elif/else, for loops, while loops, break/continue</li>
+<li><strong>Functions</strong> — parameters, return values, *args/**kwargs, lambda, list comprehensions</li>
+<li><strong>File I/O</strong> — reading and writing text and CSV files</li>
+<li><strong>Error handling</strong> — try/except/finally for robust production code</li>
+<li><strong>OOP basics</strong> — classes, objects, __init__, methods, encapsulation</li>
+<li><strong>Environment management</strong> — venv, pip, requirements.txt</li>
+</ul>
   </div>
 </div>
 <div class="skip-box">
@@ -176,34 +176,34 @@ url: /learning/ai-ml/part1-foundation/p1-m01-python/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>Why Python for AI Engineering</h3><span class="tag tag-blue">Context</span></div>
   <div class="cp-body">
-    <p>Python dominates AI/ML for concrete reasons — not just popularity:</p>
-    <ul>
-      <li><strong>Library ecosystem</strong> — NumPy, Pandas, Scikit-learn, PyTorch, LangChain, FastAPI are all Python-first</li>
-      <li><strong>API SDKs</strong> — OpenAI, Anthropic, HuggingFace all ship Python SDKs as their primary interface</li>
-      <li><strong>Rapid prototyping</strong> — interactive Jupyter notebooks let you experiment and iterate faster than compiled languages</li>
-      <li><strong>Glue language</strong> — Python is the orchestration layer that connects your LLM, vector DB, REST API, and deployment pipeline</li>
-      <li><strong>Job market</strong> — 90%+ of AI/ML job postings require Python as the primary language</li>
-    </ul>
-    <p>The goal this month is not to become a Python expert — it is to stop Googling basic syntax and be able to build simple programs confidently.</p>
+<p>Python dominates AI/ML for concrete reasons — not just popularity:</p>
+<ul>
+<li><strong>Library ecosystem</strong> — NumPy, Pandas, Scikit-learn, PyTorch, LangChain, FastAPI are all Python-first</li>
+<li><strong>API SDKs</strong> — OpenAI, Anthropic, HuggingFace all ship Python SDKs as their primary interface</li>
+<li><strong>Rapid prototyping</strong> — interactive Jupyter notebooks let you experiment and iterate faster than compiled languages</li>
+<li><strong>Glue language</strong> — Python is the orchestration layer that connects your LLM, vector DB, REST API, and deployment pipeline</li>
+<li><strong>Job market</strong> — 90%+ of AI/ML job postings require Python as the primary language</li>
+</ul>
+<p>The goal this month is not to become a Python expert — it is to stop Googling basic syntax and be able to build simple programs confidently.</p>
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Module Connections</h3><span class="tag tag-green">Dependencies</span></div>
   <div class="cp-body">
-    <h4>This module feeds directly into:</h4>
-    <ul>
-      <li><strong>P1-M02 (NumPy &amp; Pandas)</strong> — requires list comprehensions, classes, and file I/O</li>
-      <li><strong>P1-M03 (Dev Essentials)</strong> — requires understanding of pip, venv, and JSON handling</li>
-      <li><strong>P1-M04 (FastAPI)</strong> — requires OOP, type hints, and async/await understanding</li>
-      <li><strong>P4 (LLM APIs)</strong> — every API call is Python. Structured outputs use Pydantic (Python classes)</li>
-    </ul>
-    <h4>C/C++/Java background? Here is what maps directly:</h4>
-    <ul>
-      <li>Java classes → Python classes (simpler syntax, no access modifiers)</li>
-      <li>C arrays → Python lists (dynamic, mixed types)</li>
-      <li>C++ STL map → Python dict</li>
-      <li>Java try/catch → Python try/except</li>
-    </ul>
+<h4>This module feeds directly into:</h4>
+<ul>
+<li><strong>P1-M02 (NumPy &amp; Pandas)</strong> — requires list comprehensions, classes, and file I/O</li>
+<li><strong>P1-M03 (Dev Essentials)</strong> — requires understanding of pip, venv, and JSON handling</li>
+<li><strong>P1-M04 (FastAPI)</strong> — requires OOP, type hints, and async/await understanding</li>
+<li><strong>P4 (LLM APIs)</strong> — every API call is Python. Structured outputs use Pydantic (Python classes)</li>
+</ul>
+<h4>C/C++/Java background? Here is what maps directly:</h4>
+<ul>
+<li>Java classes → Python classes (simpler syntax, no access modifiers)</li>
+<li>C arrays → Python lists (dynamic, mixed types)</li>
+<li>C++ STL map → Python dict</li>
+<li>Java try/catch → Python try/except</li>
+</ul>
   </div>
 </div>
 </div><!-- end t0 -->
@@ -212,176 +212,250 @@ url: /learning/ai-ml/part1-foundation/p1-m01-python/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Variables, Types and Operators</h3><span class="tag tag-purple">Week 1</span></div>
   <div class="cp-body">
-    <p>Python is dynamically typed — you do not declare types. The interpreter infers them at runtime.</p>
-    <div class="cb"><pre><span class="ck"># Basic types</span>
-name    = <span class="cs">"Ajay"</span>          <span class="ck"># str</span>
-age     = <span class="cv">28</span>              <span class="ck"># int</span>
-salary  = <span class="cv">85000.50</span>        <span class="ck"># float</span>
-active  = <span class="cv">True</span>            <span class="ck"># bool</span>
-nothing = <span class="cv">None</span>            <span class="ck"># NoneType</span>
-<span class="ck"># Type checking and conversion</span>
-print(type(name))          <span class="ck"># &lt;class 'str'&gt;</span>
-print(int(<span class="cs">"42"</span>))           <span class="ck"># 42  — explicit cast</span>
-print(str(<span class="cv">100</span>))            <span class="ck"># "100"</span>
-<span class="ck"># f-strings — the professional way to format</span>
-print(<span class="cs">f"Hello {name}, age {age}"</span>)   <span class="ck"># Hello Ajay, age 28</span>
-print(<span class="cs">f"{salary:.2f}"</span>)              <span class="ck"># 85000.50</span></pre></div>
-    <div class="ins"><p>💡 <strong>Unlike C/C++, Python variables are references, not memory slots.</strong> When you write <code>x = 5</code>, Python creates an integer object with value 5 and binds the name <code>x</code> to it. This matters for understanding mutability later.</p></div>
+<p>Python is dynamically typed — you do not declare types. The interpreter infers them at runtime.</p>
+    
+
+```python
+# Basic types
+name    = "Ajay"          # str
+age     = 28              # int
+salary  = 85000.50        # float
+active  = True            # bool
+nothing = None            # NoneType
+
+# Type checking and conversion
+print(type(name))          # <class 'str'>
+print(int("42"))           # 42  — explicit cast
+print(str(100))            # "100"
+
+# f-strings — the professional way to format
+print(f"Hello {name}, age {age}")   # Hello Ajay, age 28
+print(f"{salary:.2f}")              # 85000.50
+```
+
+
+<div class="ins"><p>💡 <strong>Unlike C/C++, Python variables are references, not memory slots.</strong> When you write <code>x = 5</code>, Python creates an integer object with value 5 and binds the name <code>x</code> to it. This matters for understanding mutability later.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗂️</span><h3>Core Data Structures</h3><span class="tag tag-blue">Week 1–2</span></div>
   <div class="cp-body">
-    <h4>List — ordered, mutable, allows duplicates</h4>
-    <div class="cb"><pre>items = [<span class="cs">"apple"</span>, <span class="cs">"banana"</span>, <span class="cs">"cherry"</span>]
-items.append(<span class="cs">"date"</span>)          <span class="ck"># add to end</span>
-items.insert(<span class="cv">1</span>, <span class="cs">"avocado"</span>)     <span class="ck"># insert at index</span>
-items.pop()                    <span class="ck"># remove last</span>
-print(items[<span class="cv">0</span>])               <span class="ck"># "apple" — 0-indexed</span>
-print(items[-<span class="cv">1</span>])              <span class="ck"># last element</span>
-print(items[<span class="cv">1</span>:<span class="cv">3</span>])             <span class="ck"># slice [1,3) = ["avocado","banana"]</span>
-<span class="ck"># List comprehension — Pythonic and fast</span>
-squares = [x**<span class="cv">2</span> for x in range(<span class="cv">10</span>) if x % <span class="cv">2</span> == <span class="cv">0</span>]
-<span class="ck"># [0, 4, 16, 36, 64]</span></pre></div>
-    <h4>Dictionary — key-value store, O(1) lookup</h4>
-    <div class="cb"><pre>user = {<span class="cs">"name"</span>: <span class="cs">"Ajay"</span>, <span class="cs">"age"</span>: <span class="cv">28</span>, <span class="cs">"city"</span>: <span class="cs">"Mumbai"</span>}
-user[<span class="cs">"email"</span>] = <span class="cs">"ajay@example.com"</span>   <span class="ck"># add key</span>
-user.get(<span class="cs">"phone"</span>, <span class="cs">"N/A"</span>)            <span class="ck"># safe get with default</span>
-<span class="ck"># Dict comprehension</span>
-word_len = {w: len(w) for w in [<span class="cs">"python"</span>, <span class="cs">"java"</span>, <span class="cs">"c++"</span>]}
-<span class="ck"># {"python": 6, "java": 4, "c++": 3}</span>
-<span class="ck"># Iterating</span>
+<h4>List — ordered, mutable, allows duplicates</h4>
+    
+
+```python
+items = ["apple", "banana", "cherry"]
+items.append("date")          # add to end
+items.insert(1, "avocado")     # insert at index
+items.pop()                    # remove last
+print(items[0])               # "apple" — 0-indexed
+print(items[-1])              # last element
+print(items[1:3])             # slice [1,3) = ["avocado","banana"]
+
+# List comprehension — Pythonic and fast
+squares = [x**2 for x in range(10) if x % 2 == 0]
+# [0, 4, 16, 36, 64]
+```
+
+
+<h4>Dictionary — key-value store, O(1) lookup</h4>
+    
+
+```python
+user = {"name": "Ajay", "age": 28, "city": "Mumbai"}
+user["email"] = "ajay@example.com"   # add key
+user.get("phone", "N/A")            # safe get with default
+
+# Dict comprehension
+word_len = {w: len(w) for w in ["python", "java", "c++"]}
+# {"python": 6, "java": 4, "c++": 3}
+
+# Iterating
 for key, val in user.items():
-    print(<span class="cs">f"{key}: {val}"</span>)</pre></div>
-    <h4>Tuple — ordered, immutable</h4>
-    <div class="cb"><pre>coords = (<span class="cv">19.07</span>, <span class="cv">72.87</span>)          <span class="ck"># lat, lon of Mumbai</span>
-lat, lon = coords                  <span class="ck"># tuple unpacking</span>
-<span class="ck"># Use tuples for fixed data that should not change</span>
-<span class="ck"># e.g. HTTP status codes, RGB colours, database records</span>
-HTTP_OK = (<span class="cv">200</span>, <span class="cs">"OK"</span>)</pre></div>
-    <h4>Set — unordered, unique elements</h4>
-    <div class="cb"><pre>tags = {<span class="cs">"python"</span>, <span class="cs">"ml"</span>, <span class="cs">"llm"</span>, <span class="cs">"python"</span>}  <span class="ck"># duplicates removed</span>
-print(tags)  <span class="ck"># {"python", "ml", "llm"}</span>
-<span class="ck"># Set operations — fast membership testing O(1)</span>
-a = {<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>,<span class="cv">4</span>}
-b = {<span class="cv">3</span>,<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>}
-print(a & b)   <span class="ck"># {3, 4}  — intersection</span>
-print(a | b)   <span class="ck"># {1,2,3,4,5,6} — union</span>
-print(a - b)   <span class="ck"># {1, 2}  — difference</span></pre></div>
+    print(f"{key}: {val}")
+```
+
+
+<h4>Tuple — ordered, immutable</h4>
+    
+
+```bash
+coords = (19.07, 72.87)          # lat, lon of Mumbai
+lat, lon = coords                  # tuple unpacking
+
+# Use tuples for fixed data that should not change
+# e.g. HTTP status codes, RGB colours, database records
+HTTP_OK = (200, "OK")
+```
+
+
+<h4>Set — unordered, unique elements</h4>
+    
+
+```python
+tags = {"python", "ml", "llm", "python"}  # duplicates removed
+print(tags)  # {"python", "ml", "llm"}
+
+# Set operations — fast membership testing O(1)
+a = {1,2,3,4}
+b = {3,4,5,6}
+print(a & b)   # {3, 4}  — intersection
+print(a | b)   # {1,2,3,4,5,6} — union
+print(a - b)   # {1, 2}  — difference
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Functions and Error Handling</h3><span class="tag tag-teal">Week 2–3</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Basic function with type hints (good practice)</span>
-def greet(name: str, greeting: str = <span class="cs">"Hello"</span>) -> str:
-    return <span class="cs">f"{greeting}, {name}!"</span>
-<span class="ck"># *args — variable positional arguments</span>
+    
+
+```python
+# Basic function with type hints (good practice)
+def greet(name: str, greeting: str = "Hello") -> str:
+    return f"{greeting}, {name}!"
+
+# *args — variable positional arguments
 def total(*numbers):
     return sum(numbers)
- 
-print(total(<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>, <span class="cv">4</span>))   <span class="ck"># 10</span>
-<span class="ck"># **kwargs — variable keyword arguments</span>
+
+print(total(1, 2, 3, 4))   # 10
+
+# **kwargs — variable keyword arguments
 def create_profile(**fields):
     return {k: v for k, v in fields.items()}
- 
-profile = create_profile(name=<span class="cs">"Ajay"</span>, role=<span class="cs">"engineer"</span>)
- 
-<span class="ck"># Lambda — one-line anonymous function</span>
-square = lambda x: x ** <span class="cv">2</span>
-print(sorted([<span class="cv">3</span>,<span class="cv">1</span>,<span class="cv">4</span>], key=lambda x: -x))  <span class="ck"># [4, 3, 1]</span></pre></div>
-    <div class="cb"><pre><span class="ck"># Error handling — always handle specific exceptions</span>
+
+profile = create_profile(name="Ajay", role="engineer")
+
+# Lambda — one-line anonymous function
+square = lambda x: x ** 2
+print(sorted([3,1,4], key=lambda x: -x))  # [4, 3, 1]
+```
+
+
+    
+
+```python
+# Error handling — always handle specific exceptions
 def read_config(path: str) -> dict:
     try:
-        with open(path, <span class="cs">"r"</span>) as f:
+        with open(path, "r") as f:
             import json
             return json.load(f)
     except FileNotFoundError:
-        print(<span class="cs">f"Config not found: {path}"</span>)
+        print(f"Config not found: {path}")
         return {}
     except json.JSONDecodeError as e:
-        print(<span class="cs">f"Invalid JSON: {e}"</span>)
+        print(f"Invalid JSON: {e}")
         return {}
     finally:
-        print(<span class="cs">"Config read attempted"</span>)   <span class="ck"># always runs</span></pre></div>
+        print("Config read attempted")   # always runs
+```
+
+
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Object-Oriented Programming</h3><span class="tag tag-orange">Week 3</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Class definition — blueprint for objects</span>
+    
+
+```python
+# Class definition — blueprint for objects
 class BankAccount:
-    <span class="ck"># Class variable (shared by all instances)</span>
-    bank_name = <span class="cs">"PyBank"</span>
- 
-    def __init__(self, owner: str, balance: float = <span class="cv">0.0</span>):
-        <span class="ck"># Instance variables (unique per object)</span>
+    # Class variable (shared by all instances)
+    bank_name = "PyBank"
+
+    def __init__(self, owner: str, balance: float = 0.0):
+        # Instance variables (unique per object)
         self.owner = owner
-        self._balance = balance    <span class="ck"># _prefix = convention for private</span>
- 
+        self._balance = balance    # _prefix = convention for private
+
     def deposit(self, amount: float) -> None:
-        if amount <= <span class="cv">0</span>:
-            raise ValueError(<span class="cs">"Amount must be positive"</span>)
+        if amount 0:
+            raise ValueError("Amount must be positive")
         self._balance += amount
- 
+
     def withdraw(self, amount: float) -> float:
         if amount > self._balance:
-            raise ValueError(<span class="cs">"Insufficient funds"</span>)
+            raise ValueError("Insufficient funds")
         self._balance -= amount
         return amount
- 
+
     @property
-    def balance(self) -> float:        <span class="ck"># getter — access like attribute</span>
+    def balance(self) -> float:        # getter — access like attribute
         return self._balance
- 
+
     def __repr__(self) -> str:
-        return <span class="cs">f"BankAccount({self.owner!r}, {self._balance})"</span>
-<span class="ck"># Usage</span>
-acc = BankAccount(<span class="cs">"Ajay"</span>, <span class="cv">1000</span>)
-acc.deposit(<span class="cv">500</span>)
-print(acc.balance)   <span class="ck"># 1500</span></pre></div>
-    <div class="ins"><p>💡 <strong>Python OOP is simpler than Java/C++</strong> — no access modifiers, no header files. Convention: single underscore <code>_name</code> means "please don't touch this" (not enforced). Double underscore <code>__name</code> triggers name-mangling for true privacy.</p></div>
+        return f"BankAccount({self.owner!r}, {self._balance})"
+
+# Usage
+acc = BankAccount("Ajay", 1000)
+acc.deposit(500)
+print(acc.balance)   # 1500
+```
+
+
+<div class="ins"><p>💡 <strong>Python OOP is simpler than Java/C++</strong> — no access modifiers, no header files. Convention: single underscore <code>_name</code> means "please don't touch this" (not enforced). Double underscore <code>__name</code> triggers name-mangling for true privacy.</p></div>
   </div>
 </div>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📁</span><h3>File I/O and JSON</h3><span class="tag tag-green">Week 3</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import json, csv
+    
+
+```python
+import json, csv
 from pathlib import Path
- 
-<span class="ck"># Writing and reading JSON (critical for LLM API work)</span>
-data = {<span class="cs">"model"</span>: <span class="cs">"claude-3"</span>, <span class="cs">"temperature"</span>: <span class="cv">0.7</span>, <span class="cs">"tokens"</span>: [<span class="cv">100</span>, <span class="cv">200</span>]}
-Path(<span class="cs">"config.json"</span>).write_text(json.dumps(data, indent=<span class="cv">2</span>))
-loaded = json.loads(Path(<span class="cs">"config.json"</span>).read_text())
- 
-<span class="ck"># CSV reading — used constantly in data work</span>
-with open(<span class="cs">"students.csv"</span>, <span class="cs">"r"</span>) as f:
+
+# Writing and reading JSON (critical for LLM API work)
+data = {"model": "claude-3", "temperature": 0.7, "tokens": [100, 200]}
+Path("config.json").write_text(json.dumps(data, indent=2))
+loaded = json.loads(Path("config.json").read_text())
+
+# CSV reading — used constantly in data work
+with open("students.csv", "r") as f:
     reader = csv.DictReader(f)
-    students = list(reader)   <span class="ck"># list of dicts, one per row</span>
-<span class="ck"># CSV writing</span>
-with open(<span class="cs">"output.csv"</span>, <span class="cs">"w"</span>, newline=<span class="cs">""</span>) as f:
-    writer = csv.DictWriter(f, fieldnames=[<span class="cs">"name"</span>, <span class="cs">"score"</span>])
+    students = list(reader)   # list of dicts, one per row
+
+# CSV writing
+with open("output.csv", "w", newline="") as f:
+    writer = csv.DictWriter(f, fieldnames=["name", "score"])
     writer.writeheader()
-    writer.writerows([{<span class="cs">"name"</span>: <span class="cs">"Ajay"</span>, <span class="cs">"score"</span>: <span class="cv">95</span>}])</pre></div>
+    writer.writerows([{"name": "Ajay", "score": 95}])
+```
+
+
   </div>
 </div>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🌍</span><h3>Virtual Environments and Package Management</h3><span class="tag tag-amber">Essential</span></div>
   <div class="cp-body">
-    <p>Every project must have its own virtual environment. This is non-negotiable — it prevents dependency conflicts between projects.</p>
-    <div class="cb"><pre><span class="ck"># Create and activate virtual environment</span>
-python -m venv .venv                 <span class="ck"># create</span>
-source .venv/bin/activate            <span class="ck"># Linux/Mac</span>
-.venv\Scripts\activate              <span class="ck"># Windows</span>
-<span class="ck"># Install packages</span>
-pip install requests pandas numpy    <span class="ck"># install</span>
-pip install openai anthropic         <span class="ck"># AI SDKs</span>
-<span class="ck"># Freeze and restore dependencies</span>
-pip freeze > requirements.txt        <span class="ck"># save exact versions</span>
-pip install -r requirements.txt      <span class="ck"># restore on new machine</span>
-<span class="ck"># Deactivate</span>
-deactivate</pre></div>
-    <div class="warn"><p>⚠️ <strong>Never install packages globally</strong> — always activate your venv first. Global installs create conflicts that are painful to debug. Add <code>.venv/</code> to your <code>.gitignore</code> — never commit the venv folder.</p></div>
+<p>Every project must have its own virtual environment. This is non-negotiable — it prevents dependency conflicts between projects.</p>
+    
+
+```bash
+# Create and activate virtual environment
+python -m venv .venv                 # create
+source .venv/bin/activate            # Linux/Mac
+.venv\Scripts\activate              # Windows
+
+# Install packages
+pip install requests pandas numpy    # install
+pip install openai anthropic         # AI SDKs
+
+# Freeze and restore dependencies
+pip freeze > requirements.txt        # save exact versions
+pip install -r requirements.txt      # restore on new machine
+
+# Deactivate
+deactivate
+```
+
+
+<div class="warn"><p>⚠️ <strong>Never install packages globally</strong> — always activate your venv first. Global installs create conflicts that are painful to debug. Add <code>.venv/</code> to your <code>.gitignore</code> — never commit the venv folder.</p></div>
   </div>
 </div>
 </div><!-- end t1 -->
@@ -390,125 +464,157 @@ deactivate</pre></div>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Mutable vs Immutable — The Most Common Bug Source</h3><span class="tag tag-purple">Critical</span></div>
   <div class="cp-body">
-    <p>Understanding mutability prevents an entire class of bugs that trip up engineers coming from C/C++/Java.</p>
-    <div class="cb"><pre><span class="ck"># Immutable — int, str, tuple, float, bool</span>
-x = <span class="cv">5</span>
+<p>Understanding mutability prevents an entire class of bugs that trip up engineers coming from C/C++/Java.</p>
+    
+
+```python
+# Immutable — int, str, tuple, float, bool
+x = 5
 y = x
-y = <span class="cv">10</span>
-print(x)   <span class="ck"># Still 5 — y got a new object</span>
-<span class="ck"># Mutable — list, dict, set</span>
-a = [<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>]
-b = a              <span class="ck"># b points to SAME list as a</span>
-b.append(<span class="cv">4</span>)
-print(a)           <span class="ck"># [1, 2, 3, 4]  ← a changed!</span>
-<span class="ck"># Fix: explicit copy</span>
-b = a.copy()       <span class="ck"># shallow copy</span>
-b = a[:]           <span class="ck"># slice copy — same result</span>
+y = 10
+print(x)   # Still 5 — y got a new object
+
+# Mutable — list, dict, set
+a = [1, 2, 3]
+b = a              # b points to SAME list as a
+b.append(4)
+print(a)           # [1, 2, 3, 4]  ← a changed!
+
+# Fix: explicit copy
+b = a.copy()       # shallow copy
+b = a[:]           # slice copy — same result
 import copy
-b = copy.deepcopy(a)   <span class="ck"># deep copy for nested structures</span>
-<span class="ck"># Dangerous default argument anti-pattern</span>
-def add_item(item, lst=[]):    <span class="ck"># BAD — lst shared across calls!</span>
+b = copy.deepcopy(a)   # deep copy for nested structures
+
+# Dangerous default argument anti-pattern
+def add_item(item, lst=[]):    # BAD — lst shared across calls!
     lst.append(item)
     return lst
- 
-<span class="ck"># Correct pattern</span>
+
+# Correct pattern
 def add_item(item, lst=None):
     if lst is None:
         lst = []
     lst.append(item)
-    return lst</pre></div>
+    return lst
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Comprehensions and Functional Patterns</h3><span class="tag tag-blue">Pythonic Code</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># List comprehension — replaces most for loops</span>
-even_squares = [x**<span class="cv">2</span> for x in range(<span class="cv">20</span>) if x % <span class="cv">2</span> == <span class="cv">0</span>]
- 
-<span class="ck"># Dict comprehension — used constantly with API responses</span>
-response_data = [{<span class="cs">"id"</span>: <span class="cv">1</span>, <span class="cs">"name"</span>: <span class="cs">"alice"</span>}, {<span class="cs">"id"</span>: <span class="cv">2</span>, <span class="cs">"name"</span>: <span class="cs">"bob"</span>}]
-id_map = {item[<span class="cs">"id"</span>]: item[<span class="cs">"name"</span>] for item in response_data}
-<span class="ck"># {1: "alice", 2: "bob"}</span>
-<span class="ck"># Generator — lazy evaluation, memory efficient for large data</span>
+    
+
+```python
+# List comprehension — replaces most for loops
+even_squares = [x**2 for x in range(20) if x % 2 == 0]
+
+# Dict comprehension — used constantly with API responses
+response_data = [{"id": 1, "name": "alice"}, {"id": 2, "name": "bob"}]
+id_map = {item["id"]: item["name"] for item in response_data}
+# {1: "alice", 2: "bob"}
+
+# Generator — lazy evaluation, memory efficient for large data
 def token_chunks(text: str, size: int):
     words = text.split()
-    for i in range(<span class="cv">0</span>, len(words), size):
-        yield <span class="cs">" "</span>.join(words[i:i+size])
- 
-<span class="ck"># Use with large LLM context windows</span>
-for chunk in token_chunks(long_document, <span class="cv">500</span>):
-    process(chunk)   <span class="ck"># never loads full doc into memory</span>
-<span class="ck"># zip and enumerate — essential for pairing data</span>
-names  = [<span class="cs">"alice"</span>, <span class="cs">"bob"</span>, <span class="cs">"charlie"</span>]
-scores = [<span class="cv">85</span>, <span class="cv">92</span>, <span class="cv">78</span>]
+    for i in range(0, len(words), size):
+        yield " ".join(words[i:i+size])
+
+# Use with large LLM context windows
+for chunk in token_chunks(long_document, 500):
+    process(chunk)   # never loads full doc into memory
+
+# zip and enumerate — essential for pairing data
+names  = ["alice", "bob", "charlie"]
+scores = [85, 92, 78]
 for i, (name, score) in enumerate(zip(names, scores)):
-    print(<span class="cs">f"{i}: {name} = {score}"</span>)</pre></div>
+    print(f"{i}: {name} = {score}")
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Modules, Imports and Project Structure</h3><span class="tag tag-teal">Production Habit</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Standard imports</span>
+    
+
+```python
+# Standard imports
 import os, sys, json, csv
 from pathlib import Path
 from typing import Optional, List, Dict, Any
- 
-<span class="ck"># Third-party imports (installed via pip)</span>
+
+# Third-party imports (installed via pip)
 import requests
 from openai import OpenAI
- 
-<span class="ck"># Relative imports in your own package</span>
+
+# Relative imports in your own package
 from .utils import format_response
 from ..config import API_KEY
- 
-<span class="ck"># Typical project structure</span>
-<span class="ck"># my-ai-app/</span>
-<span class="ck"># ├── main.py          ← entry point</span>
-<span class="ck"># ├── config.py        ← constants, env vars</span>
-<span class="ck"># ├── models/          ← Pydantic schemas</span>
-<span class="ck"># │   └── __init__.py</span>
-<span class="ck"># ├── services/        ← business logic</span>
-<span class="ck"># │   ├── __init__.py</span>
-<span class="ck"># │   └── llm.py</span>
-<span class="ck"># ├── requirements.txt</span>
-<span class="ck"># └── .env             ← secrets (never commit!)</span>
-<span class="ck"># Reading environment variables (secrets pattern)</span>
+
+# Typical project structure
+# my-ai-app/
+# ├── main.py          ← entry point
+# ├── config.py        ← constants, env vars
+# ├── models/          ← Pydantic schemas
+# │   └── __init__.py
+# ├── services/        ← business logic
+# │   ├── __init__.py
+# │   └── llm.py
+# ├── requirements.txt
+# └── .env             ← secrets (never commit!)
+
+# Reading environment variables (secrets pattern)
 import os
 from dotenv import load_dotenv
-load_dotenv()                                 <span class="ck"># loads .env file</span>
-api_key = os.environ.get(<span class="cs">"OPENAI_API_KEY"</span>)   <span class="ck"># never hardcode keys</span></pre></div>
+load_dotenv()                                 # loads .env file
+api_key = os.environ.get("OPENAI_API_KEY")   # never hardcode keys
+```
+
+
   </div>
 </div>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⏳</span><h3>Async/Await — Critical for LLM APIs</h3><span class="tag tag-orange">Month 2 Preview</span></div>
   <div class="cp-body">
-    <p>LLM API calls are I/O-bound — they wait for network responses. Async Python lets your program do other work while waiting, instead of blocking.</p>
-    <div class="cb"><pre>import asyncio
- 
-<span class="ck"># Sync version — blocks for 3 seconds total</span>
+<p>LLM API calls are I/O-bound — they wait for network responses. Async Python lets your program do other work while waiting, instead of blocking.</p>
+    
+
+```python
+import asyncio
+
+# Sync version — blocks for 3 seconds total
 import time
 def fetch_sync():
-    time.sleep(<span class="cv">1</span>)   <span class="ck"># simulates API call</span>
-    return <span class="cs">"result"</span>
-<span class="ck"># Async version — runs concurrently, total ~1 second</span>
+    time.sleep(1)   # simulates API call
+    return "result"
+
+# Async version — runs concurrently, total ~1 second
 async def fetch_async():
-    await asyncio.sleep(<span class="cv">1</span>)   <span class="ck"># yields control while waiting</span>
-    return <span class="cs">"result"</span>
- 
+    await asyncio.sleep(1)   # yields control while waiting
+    return "result"
+
 async def main():
-    <span class="ck"># Run 3 API calls concurrently</span>
+    # Run 3 API calls concurrently
     results = await asyncio.gather(
         fetch_async(),
         fetch_async(),
         fetch_async()
     )
     return results
- 
-asyncio.run(main())   <span class="ck"># entry point for async code</span>
-<span class="ck"># Anthropic async client pattern (Month 2)</span>
-<span class="ck"># async with anthropic.AsyncAnthropic() as client:</span>
-<span class="ck">#     response = await client.messages.create(...)</span></pre></div>
-    <div class="ins"><p>💡 <strong>You do not need to master async now.</strong> The key insight is: <code>async def</code> defines a coroutine (a function that can pause), and <code>await</code> is where it pauses to let other work run. You will use this constantly when calling LLM APIs and building FastAPI endpoints.</p></div>
+
+asyncio.run(main())   # entry point for async code
+
+# Anthropic async client pattern (Month 2)
+# async with anthropic.AsyncAnthropic() as client:
+#     response = await client.messages.create(...)
+```
+
+
+<div class="ins"><p>💡 <strong>You do not need to master async now.</strong> The key insight is: <code>async def</code> defines a coroutine (a function that can pause), and <code>await</code> is where it pauses to let other work run. You will use this constantly when calling LLM APIs and building FastAPI endpoints.</p></div>
   </div>
 </div>
 </div><!-- end t2 -->
@@ -518,47 +624,55 @@ asyncio.run(main())   <span class="ck"># entry point for async code</span>
 <table class="wk-table">
   <thead><tr><th>Week</th><th>Topics</th><th>Daily Task / Mini-Project</th></tr></thead>
   <tbody>
-    <tr>
-      <td class="wk-num">Week 1</td>
-      <td>Install Python 3.10+ and VS Code. Variables, data types, type casting, string methods and f-strings. Lists — indexing, slicing, list methods. Tuples vs lists. Control flow: if/elif/else, for loops, while loops, break/continue/pass.</td>
-      <td>Day 1–2: Unit converter (km↔miles, °C↔°F). Day 3: String palindrome checker. Day 4–5: Shopping list CLI using lists (add, remove, display). Day 6–7: Number guessing game with while loop + score tracker.</td>
-    </tr>
-    <tr>
-      <td class="wk-num">Week 2</td>
-      <td>Dictionaries — CRUD operations, nested dicts, dict comprehensions. Sets — union, intersection, difference. Functions — defining, default args, *args/**kwargs, lambda, list comprehensions. Modules and import system.</td>
-      <td>Day 1–2: Phone book CLI using dictionaries (add, search, delete, update). Day 3–4: Grade classifier using if/elif (A/B/C/D/F with GPA). Day 5–7: Word frequency counter — takes a text file, returns top-10 words using dicts + sorted + lambda.</td>
-    </tr>
-    <tr>
-      <td class="wk-num">Week 3</td>
-      <td>File I/O — open(), read(), write() with text and CSV. JSON — json.loads(), json.dumps(), working with nested structures. Error handling — try/except/finally, custom exceptions. OOP — classes, __init__, methods, @property. venv + pip + requirements.txt.</td>
-      <td>Day 1–2: CSV reader/writer for student grade data. Day 3–4: Bank Account class with deposit, withdraw, balance property. Day 5–7: Full milestone project — CLI Student Grade Management System (see Projects tab).</td>
-    </tr>
+<tr>
+<td class="wk-num">Week 1</td>
+<td>Install Python 3.10+ and VS Code. Variables, data types, type casting, string methods and f-strings. Lists — indexing, slicing, list methods. Tuples vs lists. Control flow: if/elif/else, for loops, while loops, break/continue/pass.</td>
+<td>Day 1–2: Unit converter (km↔miles, °C↔°F). Day 3: String palindrome checker. Day 4–5: Shopping list CLI using lists (add, remove, display). Day 6–7: Number guessing game with while loop + score tracker.</td>
+</tr>
+<tr>
+<td class="wk-num">Week 2</td>
+<td>Dictionaries — CRUD operations, nested dicts, dict comprehensions. Sets — union, intersection, difference. Functions — defining, default args, *args/**kwargs, lambda, list comprehensions. Modules and import system.</td>
+<td>Day 1–2: Phone book CLI using dictionaries (add, search, delete, update). Day 3–4: Grade classifier using if/elif (A/B/C/D/F with GPA). Day 5–7: Word frequency counter — takes a text file, returns top-10 words using dicts + sorted + lambda.</td>
+</tr>
+<tr>
+<td class="wk-num">Week 3</td>
+<td>File I/O — open(), read(), write() with text and CSV. JSON — json.loads(), json.dumps(), working with nested structures. Error handling — try/except/finally, custom exceptions. OOP — classes, __init__, methods, @property. venv + pip + requirements.txt.</td>
+<td>Day 1–2: CSV reader/writer for student grade data. Day 3–4: Bank Account class with deposit, withdraw, balance property. Day 5–7: Full milestone project — CLI Student Grade Management System (see Projects tab).</td>
+</tr>
   </tbody>
 </table>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Environment Setup — Do This First</h3><span class="tag tag-purple">Day 1</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># 1. Install Python 3.10+ from python.org</span>
-<span class="ck"># 2. Install VS Code + Python extension (Microsoft)</span>
-<span class="ck"># 3. Or use Google Colab — zero setup, free GPU</span>
-<span class="ck">#    https://colab.research.google.com/</span>
-<span class="ck"># Verify installation</span>
-python --version    <span class="ck"># Python 3.10.x or higher</span>
-pip --version       <span class="ck"># pip 23.x</span>
-<span class="ck"># Install core packages you will use throughout Part 1</span>
-pip install jupyter numpy pandas matplotlib requests python-dotenv</pre></div>
+    
+
+```bash
+# 1. Install Python 3.10+ from python.org
+# 2. Install VS Code + Python extension (Microsoft)
+# 3. Or use Google Colab — zero setup, free GPU
+#    https://colab.research.google.com/
+
+# Verify installation
+python --version    # Python 3.10.x or higher
+pip --version       # pip 23.x
+
+# Install core packages you will use throughout Part 1
+pip install jupyter numpy pandas matplotlib requests python-dotenv
+```
+
+
   </div>
 </div>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">💡</span><h3>The Most Important Learning Habit</h3><span class="tag tag-amber">Meta-Skill</span></div>
   <div class="cp-body">
-    <p>The most common beginner mistake is consuming content passively — reading along, nodding, and never opening a code editor. Every concept in this module must be typed out and run. Not copy-pasted. Typed. Your fingers need to know the syntax before your brain does.</p>
-    <ul>
-      <li>Open a Python REPL (<code>python</code> in terminal) and experiment immediately after each concept</li>
-      <li>Every error message is a learning opportunity — read it fully before searching</li>
-      <li>Push every mini-project to GitHub, even if it is 20 lines</li>
-      <li>If something works but you don't know why — break it intentionally and observe</li>
-    </ul>
+<p>The most common beginner mistake is consuming content passively — reading along, nodding, and never opening a code editor. Every concept in this module must be typed out and run. Not copy-pasted. Typed. Your fingers need to know the syntax before your brain does.</p>
+<ul>
+<li>Open a Python REPL (<code>python</code> in terminal) and experiment immediately after each concept</li>
+<li>Every error message is a learning opportunity — read it fully before searching</li>
+<li>Push every mini-project to GitHub, even if it is 20 lines</li>
+<li>If something works but you don't know why — break it intentionally and observe</li>
+</ul>
   </div>
 </div>
 </div><!-- end t3 -->
@@ -568,21 +682,21 @@ pip install jupyter numpy pandas matplotlib requests python-dotenv</pre></div>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Course</td><td><a href="https://cs50.harvard.edu/python/" target="_blank" rel="noopener">CS50P — Introduction to Programming with Python (Harvard, Free)</a></td><td>Best free Python course. Structured problem sets. Certificate on completion.</td></tr>
-    <tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/watch?v=rfscVS0vtbw" target="_blank" rel="noopener">Python for Beginners — freeCodeCamp (YouTube, 4.5 hrs)</a></td><td>Single video covering all fundamentals. Watch at 1.5x after Week 1.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://www.coursera.org/specializations/python" target="_blank" rel="noopener">Python for Everybody — Coursera (Free to audit)</a></td><td>Best for absolute beginners. Dr. Chuck is exceptionally clear.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">Official Python Tutorial — python.org</a></td><td>Authoritative reference. Dry but precise. Use as lookup, not primary resource.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/python" target="_blank" rel="noopener">Kaggle Python Course (Free, Interactive)</a></td><td>Hands-on exercises with instant feedback. Great for Week 1–2.</td></tr>
-    <tr><td class="res-type">Book</td><td><a href="https://automatetheboringstuff.com/" target="_blank" rel="noopener">Automate the Boring Stuff with Python (Free online)</a></td><td>Project-oriented. Best book for building real scripts in Week 3.</td></tr>
-    <tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU" target="_blank" rel="noopener">Corey Schafer — Python OOP Tutorials (YouTube Playlist)</a></td><td>Best OOP explanation for engineers coming from Java/C++.</td></tr>
-    <tr><td class="res-type">Tool</td><td><a href="https://colab.research.google.com/" target="_blank" rel="noopener">Google Colab — Free Cloud Jupyter Notebooks</a></td><td>Zero setup. Free GPU. Use if local setup is painful.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://cs50.harvard.edu/python/" target="_blank" rel="noopener">CS50P — Introduction to Programming with Python (Harvard, Free)</a></td><td>Best free Python course. Structured problem sets. Certificate on completion.</td></tr>
+<tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/watch?v=rfscVS0vtbw" target="_blank" rel="noopener">Python for Beginners — freeCodeCamp (YouTube, 4.5 hrs)</a></td><td>Single video covering all fundamentals. Watch at 1.5x after Week 1.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.coursera.org/specializations/python" target="_blank" rel="noopener">Python for Everybody — Coursera (Free to audit)</a></td><td>Best for absolute beginners. Dr. Chuck is exceptionally clear.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">Official Python Tutorial — python.org</a></td><td>Authoritative reference. Dry but precise. Use as lookup, not primary resource.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/python" target="_blank" rel="noopener">Kaggle Python Course (Free, Interactive)</a></td><td>Hands-on exercises with instant feedback. Great for Week 1–2.</td></tr>
+<tr><td class="res-type">Book</td><td><a href="https://automatetheboringstuff.com/" target="_blank" rel="noopener">Automate the Boring Stuff with Python (Free online)</a></td><td>Project-oriented. Best book for building real scripts in Week 3.</td></tr>
+<tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/playlist?list=PL-osiE80TeTt2d9bfVyTiXJA-UTHn6WwU" target="_blank" rel="noopener">Corey Schafer — Python OOP Tutorials (YouTube Playlist)</a></td><td>Best OOP explanation for engineers coming from Java/C++.</td></tr>
+<tr><td class="res-type">Tool</td><td><a href="https://colab.research.google.com/" target="_blank" rel="noopener">Google Colab — Free Cloud Jupyter Notebooks</a></td><td>Zero setup. Free GPU. Use if local setup is painful.</td></tr>
   </tbody>
 </table>
 <p class="sep">PRACTICE DATASET</p>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Used In</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Dataset</td><td><a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noopener">UCI Student Performance Dataset</a></td><td>Milestone project — CLI Grade Management System</td></tr>
+<tr><td class="res-type">Dataset</td><td><a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noopener">UCI Student Performance Dataset</a></td><td>Milestone project — CLI Grade Management System</td></tr>
   </tbody>
 </table>
 </div><!-- end t4 -->
@@ -591,55 +705,61 @@ pip install jupyter numpy pandas matplotlib requests python-dotenv</pre></div>
 <p class="sep">MILESTONE PROJECT</p>
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">CLI Student Grade Management System</span>
-    <span class="proj-dur">[Beginner] 3–4 days · Week 3</span>
+<span>🛠</span>
+<span class="proj-title">CLI Student Grade Management System</span>
+<span class="proj-dur">[Beginner] 3–4 days · Week 3</span>
   </div>
   <div class="proj-body">
-    <p>Build a command-line application that manages student grade data using Python fundamentals. This project tests every concept from the module in a cohesive real-world context.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li>Reads student data from a CSV file (name, subject scores)</li>
-      <li>Calculates grade (A/B/C/D/F), GPA, and class rank for each student</li>
-      <li>Supports filtering by subject or grade range</li>
-      <li>Sorts students by any column (name, GPA, specific subject)</li>
-      <li>Handles invalid input gracefully with try/except (missing file, bad data)</li>
-      <li>Writes a cleaned summary CSV as output</li>
-      <li>CLI menu: view all / search by name / filter / sort / export / quit</li>
-    </ul>
-    <h4>Stretch Goals</h4>
-    <ul>
-      <li>Add a Student class with methods (calculate_gpa, get_grade, __repr__)</li>
-      <li>Store data in JSON format as an alternative to CSV</li>
-      <li>Add a simple stats report: class average, highest/lowest scorer, grade distribution</li>
-    </ul>
-    <p><strong>Skills demonstrated:</strong> File I/O, CSV handling, dictionaries, lists, functions, error handling, OOP basics, sorting with lambda, string formatting</p>
-    <p><strong>Dataset:</strong> <a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noopener">UCI Student Performance Dataset</a> or create your own CSV</p>
-    <p><strong>Push to GitHub</strong> with a README describing what the tool does and how to run it.</p>
+<p>Build a command-line application that manages student grade data using Python fundamentals. This project tests every concept from the module in a cohesive real-world context.</p>
+<h4>Requirements</h4>
+<ul>
+<li>Reads student data from a CSV file (name, subject scores)</li>
+<li>Calculates grade (A/B/C/D/F), GPA, and class rank for each student</li>
+<li>Supports filtering by subject or grade range</li>
+<li>Sorts students by any column (name, GPA, specific subject)</li>
+<li>Handles invalid input gracefully with try/except (missing file, bad data)</li>
+<li>Writes a cleaned summary CSV as output</li>
+<li>CLI menu: view all / search by name / filter / sort / export / quit</li>
+</ul>
+<h4>Stretch Goals</h4>
+<ul>
+<li>Add a Student class with methods (calculate_gpa, get_grade, __repr__)</li>
+<li>Store data in JSON format as an alternative to CSV</li>
+<li>Add a simple stats report: class average, highest/lowest scorer, grade distribution</li>
+</ul>
+<p><strong>Skills demonstrated:</strong> File I/O, CSV handling, dictionaries, lists, functions, error handling, OOP basics, sorting with lambda, string formatting</p>
+<p><strong>Dataset:</strong> <a href="https://archive.ics.uci.edu/dataset/320/student+performance" target="_blank" rel="noopener">UCI Student Performance Dataset</a> or create your own CSV</p>
+<p><strong>Push to GitHub</strong> with a README describing what the tool does and how to run it.</p>
   </div>
 </div>
 <p class="sep">MINI-PROJECTS (WEEKLY)</p>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Week 1 — Unit Converter CLI</span><span class="proj-dur">1–2 days</span></div>
   <div class="proj-body">
-    <p>Build a CLI tool that converts between: km↔miles, °C↔°F, kg↔lbs. Menu-driven loop. Handles invalid input. Demonstrates: variables, type casting, f-strings, conditionals, while loop.</p>
+<p>Build a CLI tool that converts between: km↔miles, °C↔°F, kg↔lbs. Menu-driven loop. Handles invalid input. Demonstrates: variables, type casting, f-strings, conditionals, while loop.</p>
   </div>
 </div>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Week 2 — Word Frequency Analyser</span><span class="proj-dur">2–3 days</span></div>
   <div class="proj-body">
-    <p>Takes a .txt file as input. Returns the top-10 most frequent words (excluding common stop words). Uses: file I/O, dicts, sorted() with lambda, set for stop words. Try it on a book chapter from Project Gutenberg.</p>
+<p>Takes a .txt file as input. Returns the top-10 most frequent words (excluding common stop words). Uses: file I/O, dicts, sorted() with lambda, set for stop words. Try it on a book chapter from Project Gutenberg.</p>
   </div>
 </div>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Week 3 — Public API Script</span><span class="proj-dur">1–2 days</span></div>
   <div class="proj-body">
-    <p>Call the Open-Meteo weather API (no API key needed) using the <code>requests</code> library. Format and print a 7-day forecast. Save the raw JSON response to a file. Push to GitHub with README. This is a preview of Month 2's API work.</p>
-    <div class="cb"><pre>import requests, json
-url = <span class="cs">"https://api.open-meteo.com/v1/forecast?latitude=19.07&longitude=72.87&daily=temperature_2m_max&timezone=Asia/Kolkata"</span>
+<p>Call the Open-Meteo weather API (no API key needed) using the <code>requests</code> library. Format and print a 7-day forecast. Save the raw JSON response to a file. Push to GitHub with README. This is a preview of Month 2's API work.</p>
+    
+
+```python
+import requests, json
+url = "https://api.open-meteo.com/v1/forecast?latitude=19.07&longitude=72.87&daily=temperature_2m_max&timezone=Asia/Kolkata"
 r = requests.get(url)
 data = r.json()
-print(json.dumps(data, indent=<span class="cv">2</span>))</pre></div>
+print(json.dumps(data, indent=2))
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -648,36 +768,36 @@ print(json.dumps(data, indent=<span class="cv">2</span>))</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Python REPL Exploration — Types and Mutability</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build intuition for Python's type system and mutability through hands-on exploration in the REPL.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Open a terminal and run <code>python3</code> (or <code>python</code> on Windows). You are now in the interactive REPL (Read-Eval-Print Loop). Type expressions and see results immediately.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run these lines one by one and note the output: <code>x = [1, 2, 3]</code>, then <code>y = x</code>, then <code>y.append(4)</code>, then <code>print(x)</code>. Did x change? Why?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Now try: <code>a = "hello"</code>, then <code>b = a</code>, then <code>b = b + " world"</code>, then <code>print(a)</code>. Did a change? Why not? What is the key difference between strings and lists?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Run <code>import sys</code> then <code>sys.getsizeof([])</code> vs <code>sys.getsizeof([1,2,3,4,5])</code>. See memory usage grow. Try the same with a string of different lengths.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Test the mutable default argument bug: define <code>def add(x, lst=[]): lst.append(x); return lst</code>. Call it three times: <code>add(1)</code>, <code>add(2)</code>, <code>add(3)</code>. What happens? Fix the function.</div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Bonus:</strong> Use <code>id()</code> to see object identity: <code>a = [1,2,3]; b = a; print(id(a) == id(b))</code>. Then do <code>b = a.copy(); print(id(a) == id(b))</code>. What changes?</div></div>
+<p><strong>Objective:</strong> Build intuition for Python's type system and mutability through hands-on exploration in the REPL.</p>
+<div class="lab-step"><div class="sn">1</div><div>Open a terminal and run <code>python3</code> (or <code>python</code> on Windows). You are now in the interactive REPL (Read-Eval-Print Loop). Type expressions and see results immediately.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run these lines one by one and note the output: <code>x = [1, 2, 3]</code>, then <code>y = x</code>, then <code>y.append(4)</code>, then <code>print(x)</code>. Did x change? Why?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Now try: <code>a = "hello"</code>, then <code>b = a</code>, then <code>b = b + " world"</code>, then <code>print(a)</code>. Did a change? Why not? What is the key difference between strings and lists?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Run <code>import sys</code> then <code>sys.getsizeof([])</code> vs <code>sys.getsizeof([1,2,3,4,5])</code>. See memory usage grow. Try the same with a string of different lengths.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Test the mutable default argument bug: define <code>def add(x, lst=[]): lst.append(x); return lst</code>. Call it three times: <code>add(1)</code>, <code>add(2)</code>, <code>add(3)</code>. What happens? Fix the function.</div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Bonus:</strong> Use <code>id()</code> to see object identity: <code>a = [1,2,3]; b = a; print(id(a) == id(b))</code>. Then do <code>b = a.copy(); print(id(a) == id(b))</code>. What changes?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a JSON Config Reader with Error Handling</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Write production-quality Python that reads configuration files robustly — a pattern you will use in every AI project.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create a file called <code>config.json</code> with this content: <code>{"model": "gpt-4", "temperature": 0.7, "max_tokens": 1000, "api_key": "sk-test"}</code></div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Write a function <code>load_config(path: str) -> dict</code> that reads this file. Use try/except to handle: FileNotFoundError (return empty dict), json.JSONDecodeError (print error, return empty dict), PermissionError (print error, return empty dict).</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add a <code>validate_config(config: dict) -> bool</code> function that checks: "model" key exists, "temperature" is between 0 and 2, "max_tokens" is a positive integer. Return True only if all pass.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test with: valid config, missing file, invalid JSON (break the JSON manually), missing required key, temperature = 3.0. Confirm each error is handled cleanly.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Add a <code>save_config(config: dict, path: str) -> None</code> function that writes back to JSON with 2-space indentation. Add a timestamp field: <code>config["last_updated"] = datetime.now().isoformat()</code></div></div>
-    <div class="lab-step"><div class="sn">6</div><div><strong>Extension:</strong> Use <code>os.environ.get()</code> to override the api_key from an environment variable instead of reading it from the file. This is the secure pattern used in all production AI projects.</div></div>
+<p><strong>Objective:</strong> Write production-quality Python that reads configuration files robustly — a pattern you will use in every AI project.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create a file called <code>config.json</code> with this content: <code>{"model": "gpt-4", "temperature": 0.7, "max_tokens": 1000, "api_key": "sk-test"}</code></div></div>
+<div class="lab-step"><div class="sn">2</div><div>Write a function <code>load_config(path: str) -> dict</code> that reads this file. Use try/except to handle: FileNotFoundError (return empty dict), json.JSONDecodeError (print error, return empty dict), PermissionError (print error, return empty dict).</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add a <code>validate_config(config: dict) -> bool</code> function that checks: "model" key exists, "temperature" is between 0 and 2, "max_tokens" is a positive integer. Return True only if all pass.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test with: valid config, missing file, invalid JSON (break the JSON manually), missing required key, temperature = 3.0. Confirm each error is handled cleanly.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Add a <code>save_config(config: dict, path: str) -> None</code> function that writes back to JSON with 2-space indentation. Add a timestamp field: <code>config["last_updated"] = datetime.now().isoformat()</code></div></div>
+<div class="lab-step"><div class="sn">6</div><div><strong>Extension:</strong> Use <code>os.environ.get()</code> to override the api_key from an environment variable instead of reading it from the file. This is the secure pattern used in all production AI projects.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>OOP — Build a Student Registry Class</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Apply OOP concepts to build a reusable data class — a preview of the Pydantic models you will use in Part 4.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create a <code>Student</code> class with: <code>__init__(self, name, scores: dict)</code> where scores is a dict of subject→score pairs. Store both as instance variables.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add a <code>gpa</code> property that calculates the average of all scores. Add a <code>grade</code> property that returns "A" if gpa >= 90, "B" if >= 80, etc.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add <code>__repr__</code> and <code>__str__</code> methods. <code>__repr__</code> should be unambiguous (useful for debugging). <code>__str__</code> should be human-readable.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Create a <code>StudentRegistry</code> class that holds a list of Student objects. Add methods: <code>add(student)</code>, <code>find(name)</code>, <code>top_n(n)</code> (returns top n by GPA), <code>class_average()</code>.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Add <code>to_csv(path)</code> and <code>from_csv(path)</code> class methods to the registry for persistence. Test the full round-trip: create → save → load → query.</div></div>
+<p><strong>Objective:</strong> Apply OOP concepts to build a reusable data class — a preview of the Pydantic models you will use in Part 4.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create a <code>Student</code> class with: <code>__init__(self, name, scores: dict)</code> where scores is a dict of subject→score pairs. Store both as instance variables.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add a <code>gpa</code> property that calculates the average of all scores. Add a <code>grade</code> property that returns "A" if gpa >= 90, "B" if >= 80, etc.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add <code>__repr__</code> and <code>__str__</code> methods. <code>__repr__</code> should be unambiguous (useful for debugging). <code>__str__</code> should be human-readable.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Create a <code>StudentRegistry</code> class that holds a list of Student objects. Add methods: <code>add(student)</code>, <code>find(name)</code>, <code>top_n(n)</code> (returns top n by GPA), <code>class_average()</code>.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Add <code>to_csv(path)</code> and <code>from_csv(path)</code> class methods to the registry for persistence. Test the full round-trip: create → save → load → query.</div></div>
   </div>
 </div>
 </div><!-- end t6 -->

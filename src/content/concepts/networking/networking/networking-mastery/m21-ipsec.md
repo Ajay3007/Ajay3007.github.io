@@ -83,11 +83,11 @@ url: /learning/networking-mastery/m21-ipsec/
   <div class="mod-title">🛡️ IPsec and IKEv2</div>
   <div class="mod-subtitle">ESP/AH protocols · SA and SPD · IKEv2 exchange · Transport vs tunnel mode · NAT traversal · StrongSwan</div>
   <div class="mod-pills">
-    <span class="mod-pill">Advanced</span>
-    <span class="mod-pill">Prerequisite: M19 Cryptography</span>
-    <span class="mod-pill">RFC 7296 · RFC 4303</span>
-    <span class="mod-pill">VPN and NGFW Core</span>
-    <span class="mod-pill">2 Labs</span>
+<span class="mod-pill">Advanced</span>
+<span class="mod-pill">Prerequisite: M19 Cryptography</span>
+<span class="mod-pill">RFC 7296 · RFC 4303</span>
+<span class="mod-pill">VPN and NGFW Core</span>
+<span class="mod-pill">2 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -107,12 +107,12 @@ url: /learning/networking-mastery/m21-ipsec/
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>IPsec Architecture</h3><span class="tag tag-green">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>IPsec is a suite of protocols for securing IP communications at the network layer — below TCP/UDP, meaning all applications benefit without modification. Unlike TLS (application layer), IPsec is transparent to applications. It is the standard for site-to-site VPNs, remote access VPNs, and is used between NGFW gateways.</p>
-    <p>IPsec has two distinct planes:</p>
-    <ul>
-      <li><strong>Data plane</strong> — ESP (Encapsulating Security Payload, RFC 4303) encrypts and authenticates actual traffic. AH (Authentication Header, RFC 4302) authenticates only — rarely used today.</li>
-      <li><strong>Control plane</strong> — IKEv2 (Internet Key Exchange v2, RFC 7296) negotiates SAs (Security Associations) — the parameters (algorithms, keys, lifetimes) that ESP uses. Runs over UDP 500 (and UDP 4500 for NAT traversal).</li>
-    </ul>
+<p>IPsec is a suite of protocols for securing IP communications at the network layer — below TCP/UDP, meaning all applications benefit without modification. Unlike TLS (application layer), IPsec is transparent to applications. It is the standard for site-to-site VPNs, remote access VPNs, and is used between NGFW gateways.</p>
+<p>IPsec has two distinct planes:</p>
+<ul>
+<li><strong>Data plane</strong> — ESP (Encapsulating Security Payload, RFC 4303) encrypts and authenticates actual traffic. AH (Authentication Header, RFC 4302) authenticates only — rarely used today.</li>
+<li><strong>Control plane</strong> — IKEv2 (Internet Key Exchange v2, RFC 7296) negotiates SAs (Security Associations) — the parameters (algorithms, keys, lifetimes) that ESP uses. Runs over UDP 500 (and UDP 4500 for NAT traversal).</li>
+</ul>
   </div>
 </div>
 </div>
@@ -122,7 +122,10 @@ url: /learning/networking-mastery/m21-ipsec/
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>ESP Packet Format and AEAD</h3><span class="tag tag-blue">ESP</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* ESP packet format (tunnel mode — wraps entire IP packet) */</span>
+
+
+```python
+/* ESP packet format (tunnel mode — wraps entire IP packet) */
 [Outer IP: src=GW1, dst=GW2, proto=50 (ESP)]
 [ESP Header: SPI(4B) + Sequence Number(4B)]
 [IV/Nonce: 8-16 bytes (algorithm-dependent)]
@@ -134,33 +137,36 @@ url: /learning/networking-mastery/m21-ipsec/
   [Next Header: 4=IPv4, 41=IPv6, 6=TCP, 17=UDP]
 ]
 [Auth Tag / ICV: 12-16 bytes]
- 
-<span class="cm">/* SPI — Security Parameters Index */</span>
+
+/* SPI — Security Parameters Index */
 32-bit value that identifies which SA to use for decryption
 Receiver uses (SPI, dst_IP, protocol=ESP) to look up the SA
 SA contains: decryption key, algorithm, anti-replay window
- 
-<span class="cm">/* Sequence Number */</span>
+
+/* Sequence Number */
 32-bit (or 64-bit ESN) counter, starts at 1, never wraps
 Anti-replay: receiver maintains a sliding window of acceptable SN
 Duplicate or out-of-window SN → packet dropped
- 
-<span class="cm">/* Modern ESP cipher suites (RFC 8221) */</span>
+
+/* Modern ESP cipher suites (RFC 8221) */
 AES-256-GCM-16:     AES-256 GCM with 16-byte ICV (recommended)
 AES-128-GCM-16:     AES-128 GCM with 16-byte ICV
 ChaCha20-Poly1305:  For devices without AES-NI
- 
-<span class="cm">/* Combined mode AEAD (GCM): */</span>
+
+/* Combined mode AEAD (GCM): */
 Authenticated:  ESP header + IV (as AAD)
 Encrypted:      payload + padding + next_header
 ICV:            16-byte authentication tag
- 
-<span class="cm">/* AH vs ESP */</span>
+
+/* AH vs ESP */
 AH (proto 51):  authenticates IP header + payload (no encryption)
                 Problem: AH covers IP header fields that NAT changes → NAT breaks AH
 ESP (proto 50): encrypts payload + authenticates ESP header
                 Does NOT authenticate outer IP header → NAT compatible
-Recommendation: always use ESP with authentication (GCM or AES-CBC + HMAC)</pre></div>
+Recommendation: always use ESP with authentication (GCM or AES-CBC + HMAC)
+```
+
+
   </div>
 </div>
 </div>
@@ -170,27 +176,30 @@ Recommendation: always use ESP with authentication (GCM or AES-CBC + HMAC)</pre>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🗄️</span><h3>Security Policy Database and Security Association Database</h3><span class="tag tag-purple">SA DATABASES</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* SPD — Security Policy Database */</span>
-<span class="cm">/* Defines what to do with each traffic flow */</span>
- 
+
+
+```python
+/* SPD — Security Policy Database */
+/* Defines what to do with each traffic flow */
+
 Policy selector (matches on):
   Source IP/prefix, Destination IP/prefix
   Source port range, Destination port range
   Protocol (TCP, UDP, ICMP, any)
- 
+
 Policy action:
   BYPASS:  send without IPsec (for IKE traffic, local management)
   PROTECT: encrypt with IPsec (most traffic)
   DISCARD: drop (block)
- 
+
 Example SPD:
   10.1.0.0/24 → 10.2.0.0/24  any   PROTECT (tunnel to remote site)
   0.0.0.0/0   → 0.0.0.0/0    UDP:500 BYPASS  (allow IKE to negotiate)
   0.0.0.0/0   → 0.0.0.0/0    any   DISCARD (block unprotected traffic)
- 
-<span class="cm">/* SAD — Security Association Database */</span>
-<span class="cm">/* Each SA contains the actual keys and parameters for one direction */</span>
- 
+
+/* SAD — Security Association Database */
+/* Each SA contains the actual keys and parameters for one direction */
+
 SA = {
   SPI:             32-bit identifier (receiver chooses, sender uses)
   Protocol:        ESP (50) or AH (51)
@@ -202,16 +211,19 @@ SA = {
   Sequence number: current counter
   Anti-replay window: 64-bit bitmap
 }
- 
-<span class="cm">/* SAs are unidirectional — one pair per IPsec connection */</span>
+
+/* SAs are unidirectional — one pair per IPsec connection */
 Inbound SA:  (SPI=0x12345678) → decrypt packets FROM remote
 Outbound SA: (SPI=0xabcdef01) → encrypt packets TO remote
- 
-<span class="cm">/* Linux kernel IPsec state */</span>
-ip xfrm state          <span class="cm"># show SA database (SAD)</span>
-ip xfrm policy         <span class="cm"># show policy database (SPD)</span>
+
+/* Linux kernel IPsec state */
+ip xfrm state          # show SA database (SAD)
+ip xfrm policy         # show policy database (SPD)
 ip xfrm state add src 10.0.0.1 dst 10.0.0.2 proto esp spi 0x12345678 \
-    mode tunnel enc "aes-gcm-esp" 0x... aead-icv-len 128</pre></div>
+    mode tunnel enc "aes-gcm-esp" 0x... aead-icv-len 128
+```
+
+
   </div>
 </div>
 </div>
@@ -221,9 +233,12 @@ ip xfrm state add src 10.0.0.1 dst 10.0.0.2 proto esp spi 0x12345678 \
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>IKEv2 Exchange Flow</h3><span class="tag tag-teal">IKEv2</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* IKEv2 establishes the IPsec SA parameters via two exchanges */</span>
-<span class="cm">/* All IKE runs over UDP 500 (or 4500 for NAT-T) */</span>
- 
+
+
+```yaml
+/* IKEv2 establishes the IPsec SA parameters via two exchanges */
+/* All IKE runs over UDP 500 (or 4500 for NAT-T) */
+
 INITIATOR                              RESPONDER
     │                                      │
     │── IKE_SA_INIT ─────────────────────→ │
@@ -261,25 +276,28 @@ INITIATOR                              RESPONDER
     │                                      │
     │ [Child SA (ESP) established]          │
     │ [Keys derived from IKE SA keys]       │
- 
-<span class="cm">/* Authentication methods */</span>
+
+/* Authentication methods */
 RSA signatures:    certificate-based (common for site-to-site)
 ECDSA:             modern certificate auth
 Pre-Shared Key:    shared secret (PSK) — simpler but less scalable
 EAP:               for remote access users (EAP-TLS, EAP-MSCHAPv2)
- 
-<span class="cm">/* IKEv2 additional exchanges */</span>
+
+/* IKEv2 additional exchanges */
 CREATE_CHILD_SA:   create additional SAs (multiple tunnels, rekey)
 INFORMATIONAL:     SA deletion, liveness check (dead peer detection)
- 
-<span class="cm">/* Key material derivation */</span>
-SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared secret */</span>
+
+/* Key material derivation */
+SKEYSEED = PRF(Ni | Nr, g^ir)           /* g^ir = DH shared secret */
 {SK_d | SK_ai | SK_ar | SK_ei | SK_er | SK_pi | SK_pr} =
     PRF+(SKEYSEED, Ni | Nr | SPIi | SPIr)
-<span class="cm">/* SK_d: used to derive Child SA keys */</span>
-<span class="cm">/* SK_e: encryption keys for IKE SA */</span>
-<span class="cm">/* SK_a: integrity keys for IKE SA */</span>
-<span class="cm">/* SK_p: authentication (PRF input) */</span></pre></div>
+/* SK_d: used to derive Child SA keys */
+/* SK_e: encryption keys for IKE SA */
+/* SK_a: integrity keys for IKE SA */
+/* SK_p: authentication (PRF input) */
+```
+
+
   </div>
 </div>
 </div>
@@ -289,10 +307,10 @@ SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared sec
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔀</span><h3>Mode Comparison</h3><span class="tag tag-orange">MODES</span></div>
   <div class="cp-body">
-    <div class="two-col">
-      <div>
-        <h4>Transport Mode</h4>
-        <p>ESP header inserted between IP header and the transport (TCP/UDP) payload. The original IP header is preserved and visible. Only the transport layer and above are encrypted.</p>
+<div class="two-col">
+<div>
+<h4>Transport Mode</h4>
+<p>ESP header inserted between IP header and the transport (TCP/UDP) payload. The original IP header is preserved and visible. Only the transport layer and above are encrypted.</p>
 <div class="cb"><pre><span class="cm">/* Transport mode packet */</span>
 [IP: src=A dst=B]
 [ESP Header]
@@ -303,24 +321,30 @@ SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared sec
 <span class="cm">/* Both endpoints must have IPsec */</span>
 <span class="cm">/* Lower overhead (no extra IP hdr) */</span>
 <span class="cm">/* Used with GRE: GRE+IPsec transport */</span></pre></div>
-      </div>
-      <div>
-        <h4>Tunnel Mode</h4>
-        <p>The entire original IP packet is encrypted and encapsulated inside a new IP packet with gateway addresses as src/dst. Inner IP (with real endpoint addresses) is hidden from network observers.</p>
-<div class="cb"><pre><span class="cm">/* Tunnel mode packet */</span>
+</div>
+<div>
+<h4>Tunnel Mode</h4>
+<p>The entire original IP packet is encrypted and encapsulated inside a new IP packet with gateway addresses as src/dst. Inner IP (with real endpoint addresses) is hidden from network observers.</p>
+
+
+```python
+/* Tunnel mode packet */
 [Outer IP: GW1→GW2]
 [ESP Header]
 [Encrypted:
   [Inner IP: A→B]
   [TCP + data]]
 [ESP Auth]
- 
-<span class="cm">/* Use: site-to-site VPN */</span>
-<span class="cm">/* Gateways encrypt/decrypt */</span>
-<span class="cm">/* Endpoints unaware of IPsec */</span>
-<span class="cm">/* Standard for NGFW VPN */</span></pre></div>
-      </div>
-    </div>
+
+/* Use: site-to-site VPN */
+/* Gateways encrypt/decrypt */
+/* Endpoints unaware of IPsec */
+/* Standard for NGFW VPN */
+```
+
+
+</div>
+</div>
   </div>
 </div>
 </div>
@@ -330,36 +354,44 @@ SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared sec
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>UDP Encapsulation for NAT Traversal</h3><span class="tag tag-red">NAT-T</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* Problem: ESP is IP protocol 50 (not TCP/UDP) */</span>
-<span class="cm">/* NAT translates TCP/UDP port numbers — has no concept of ESP SPI */</span>
-<span class="cm">/* Multiple ESP sessions through same NAT → ambiguity (which client?) */</span>
-<span class="cm">/* NAT-T (NAT Traversal) — RFC 3948 */</span>
-<span class="cm">/* Encapsulate ESP inside UDP to allow NAT translation */</span>
- 
+
+
+```python
+/* Problem: ESP is IP protocol 50 (not TCP/UDP) */
+/* NAT translates TCP/UDP port numbers — has no concept of ESP SPI */
+/* Multiple ESP sessions through same NAT → ambiguity (which client?) */
+
+/* NAT-T (NAT Traversal) — RFC 3948 */
+/* Encapsulate ESP inside UDP to allow NAT translation */
+
 IKEv2 NAT detection:
   IKE_SA_INIT includes NAT_DETECTION_SOURCE_IP and NAT_DETECTION_DESTINATION_IP
   payloads (hashes of IP:port). If hash mismatch → NAT detected.
- 
+
 If NAT detected:
   IKE switches to UDP 4500 (instead of 500)
   ESP packets wrapped in UDP 4500 header
   NAT translates the UDP port → multiple clients possible
- 
-<span class="cm">/* NAT-T packet structure */</span>
+
+/* NAT-T packet structure */
 [Outer IP: src=client_public_IP, dst=VPN_GW]
 [UDP: sport=4500 dport=4500]
 [Non-ESP Marker: 0x00000000 (4 bytes, distinguishes from IKE)]
 [ESP header + encrypted payload]
- 
-<span class="cm">/* Keepalive for NAT mappings */</span>
-<span class="cm">/* NAT state tables expire idle UDP sessions (often 30-120s) */</span>
-<span class="cm">/* IKEv2 NAT-T keepalive: single 0xFF byte every 20s on UDP 4500 */</span>
-dpd-timeout 30         <span class="cm"># StrongSwan: dead peer detection</span>
-nat-keepalive 20       <span class="cm"># keepalive interval</span>
-<span class="cm">/* AH cannot work through NAT */</span>
-<span class="cm">/* AH authenticates the outer IP header including src IP */</span>
-<span class="cm">/* NAT changes src IP → AH authentication fails → AH is dead */</span>
-<span class="cm">/* Always use ESP for NAT-compatible IPsec */</span></pre></div>
+
+/* Keepalive for NAT mappings */
+/* NAT state tables expire idle UDP sessions (often 30-120s) */
+/* IKEv2 NAT-T keepalive: single 0xFF byte every 20s on UDP 4500 */
+dpd-timeout 30         # StrongSwan: dead peer detection
+nat-keepalive 20       # keepalive interval
+
+/* AH cannot work through NAT */
+/* AH authenticates the outer IP header including src IP */
+/* NAT changes src IP → AH authentication fails → AH is dead */
+/* Always use ESP for NAT-compatible IPsec */
+```
+
+
   </div>
 </div>
 </div>
@@ -369,15 +401,19 @@ nat-keepalive 20       <span class="cm"># keepalive interval</span>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🐧</span><h3>Linux IPsec Configuration</h3><span class="tag tag-blue">LINUX</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* Linux IPsec: kernel handles ESP (via xfrm), StrongSwan handles IKEv2 */</span>
-<span class="cm">/* /etc/swanctl/swanctl.conf — StrongSwan IKEv2 config */</span>
+
+
+```python
+/* Linux IPsec: kernel handles ESP (via xfrm), StrongSwan handles IKEv2 */
+
+/* /etc/swanctl/swanctl.conf — StrongSwan IKEv2 config */
 connections {
   site-to-site {
-    local_addrs  = 203.0.113.1      <span class="cm"># our gateway IP</span>
-    remote_addrs = 198.51.100.1     <span class="cm"># peer gateway IP</span>
- 
+    local_addrs  = 203.0.113.1      # our gateway IP
+    remote_addrs = 198.51.100.1     # peer gateway IP
+
     local {
-      auth  = pubkey                <span class="cm"># certificate authentication</span>
+      auth  = pubkey                # certificate authentication
       certs = gw1-cert.pem
       id    = "gw1.example.com"
     }
@@ -385,14 +421,14 @@ connections {
       auth  = pubkey
       id    = "gw2.example.com"
     }
- 
+
     children {
       tunnel {
-        local_ts   = 10.1.0.0/24   <span class="cm"># traffic selectors</span>
+        local_ts   = 10.1.0.0/24   # traffic selectors
         remote_ts  = 10.2.0.0/24
-        esp_proposals = aes256gcm128-prfsha384-ecp384  <span class="cm"># cipher suite</span>
+        esp_proposals = aes256gcm128-prfsha384-ecp384  # cipher suite
         mode      = tunnel
-        dpd_action = restart       <span class="cm"># restart tunnel on DPD failure</span>
+        dpd_action = restart       # restart tunnel on DPD failure
       }
     }
     ike_proposals = aes256gcm16-prfsha384-ecp384
@@ -400,23 +436,28 @@ connections {
     dpd_delay = 30s
   }
 }
- 
-<span class="cm"># Start IKEv2 negotiation</span>
+
+# Start IKEv2 negotiation
 swanctl --load-all
 swanctl --initiate --child tunnel
- 
-<span class="cm"># Monitor</span>
-swanctl --list-sas        <span class="cm"># show active IKE and Child SAs</span>
-ip xfrm state             <span class="cm"># kernel ESP SAs (keys, algorithms, byte counts)</span>
-ip xfrm policy            <span class="cm"># kernel SPD (traffic selectors, actions)</span>
-ip xfrm monitor           <span class="cm"># real-time SA events</span>
-<span class="cm"># Check tunnel traffic</span>
-tcpdump -i eth0 esp       <span class="cm"># ESP packets</span>
-tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</span>
-<span class="cm">/* XFRM offload to hardware (Intel QAT, Mellanox IPsec offload) */</span>
-<span class="cm"># For your Mellanox ConnectX cards:</span>
-<span class="cm"># ip xfrm state add ... offload dev eth0 dir in</span>
-<span class="cm"># Pushes ESP encryption/decryption to NIC — reduces CPU overhead significantly</span></pre></div>
+
+# Monitor
+swanctl --list-sas        # show active IKE and Child SAs
+ip xfrm state             # kernel ESP SAs (keys, algorithms, byte counts)
+ip xfrm policy            # kernel SPD (traffic selectors, actions)
+ip xfrm monitor           # real-time SA events
+
+# Check tunnel traffic
+tcpdump -i eth0 esp       # ESP packets
+tcpdump -i eth0 udp port 500 or udp port 4500  # IKE packets
+
+/* XFRM offload to hardware (Intel QAT, Mellanox IPsec offload) */
+# For your Mellanox ConnectX cards:
+# ip xfrm state add ... offload dev eth0 dir in
+# Pushes ESP encryption/decryption to NIC — reduces CPU overhead significantly
+```
+
+
   </div>
 </div>
 </div>
@@ -425,20 +466,20 @@ tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</s
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Site-to-Site IPsec VPN with StrongSwan</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Configure a complete IKEv2/IPsec tunnel between two Linux VMs using StrongSwan. Capture and analyse IKEv2 and ESP traffic.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Set up two VMs: GW1 (10.0.0.1, serves 192.168.1.0/24) and GW2 (10.0.0.2, serves 192.168.2.0/24). Install StrongSwan: <code>sudo apt install strongswan strongswan-swanctl</code>. Generate certificates with StrongSwan's PKI: <code>pki --gen --type ecdsa --size 256 > ca.der; pki --self --ca --in ca.der --dn "C=IN, O=Test, CN=Test CA" > ca.crt</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Create gateway certificates signed by the test CA. Configure swanctl.conf on both gateways as shown in Tab 6. Start StrongSwan: <code>sudo systemctl start strongswan</code>. Initiate the tunnel: <code>sudo swanctl --initiate --child tunnel</code>. Verify: <code>sudo swanctl --list-sas</code> shows ESTABLISHED.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Capture IKEv2: <code>sudo tcpdump -i eth0 -w /tmp/ike.pcap udp port 500</code> while initiating the tunnel. Open in Wireshark — decode as IKEv2. Identify: IKE_SA_INIT (two messages), IKE_AUTH (two messages). Note which packets are plaintext (IKE_SA_INIT) vs encrypted (IKE_AUTH).</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test the tunnel: ping from 192.168.1.5 (behind GW1) to 192.168.2.5 (behind GW2). Capture ESP packets: <code>tcpdump -i eth0 esp</code>. Verify: IP protocol is 50 (ESP). Check the kernel SA byte counters: <code>ip xfrm state | grep bytes</code> — should increase as traffic flows. Try pinging an address outside the traffic selector — verify it's NOT tunnelled.</div></div>
+<p><strong>Objective:</strong> Configure a complete IKEv2/IPsec tunnel between two Linux VMs using StrongSwan. Capture and analyse IKEv2 and ESP traffic.</p>
+<div class="lab-step"><div class="sn">1</div><div>Set up two VMs: GW1 (10.0.0.1, serves 192.168.1.0/24) and GW2 (10.0.0.2, serves 192.168.2.0/24). Install StrongSwan: <code>sudo apt install strongswan strongswan-swanctl</code>. Generate certificates with StrongSwan's PKI: <code>pki --gen --type ecdsa --size 256 > ca.der; pki --self --ca --in ca.der --dn "C=IN, O=Test, CN=Test CA" > ca.crt</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Create gateway certificates signed by the test CA. Configure swanctl.conf on both gateways as shown in Tab 6. Start StrongSwan: <code>sudo systemctl start strongswan</code>. Initiate the tunnel: <code>sudo swanctl --initiate --child tunnel</code>. Verify: <code>sudo swanctl --list-sas</code> shows ESTABLISHED.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Capture IKEv2: <code>sudo tcpdump -i eth0 -w /tmp/ike.pcap udp port 500</code> while initiating the tunnel. Open in Wireshark — decode as IKEv2. Identify: IKE_SA_INIT (two messages), IKE_AUTH (two messages). Note which packets are plaintext (IKE_SA_INIT) vs encrypted (IKE_AUTH).</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test the tunnel: ping from 192.168.1.5 (behind GW1) to 192.168.2.5 (behind GW2). Capture ESP packets: <code>tcpdump -i eth0 esp</code>. Verify: IP protocol is 50 (ESP). Check the kernel SA byte counters: <code>ip xfrm state | grep bytes</code> — should increase as traffic flows. Try pinging an address outside the traffic selector — verify it's NOT tunnelled.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Manual XFRM SA — IPsec Without IKE</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Configure IPsec manually using ip xfrm commands (no IKEv2). This shows exactly what IKEv2 does automatically and deepens understanding of the SA/SPD model.</p>
-    <div class="lab-step"><div class="sn">1</div><div>On both VMs, manually add SAs using <code>ip xfrm state add</code>. Choose a random 256-bit key: <code>openssl rand -hex 32</code>. Create the inbound and outbound SAs on each machine with matching SPIs and the same key. Use AES-256-GCM: <code>aead "rfc4106(gcm(aes))" 0xKEY 128</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Add security policies: <code>ip xfrm policy add src 192.168.1.0/24 dst 192.168.2.0/24 dir out tmpl src GW1 dst GW2 proto esp mode tunnel</code>. Add the reverse policy. Verify: <code>ip xfrm state</code> shows 2 SAs; <code>ip xfrm policy</code> shows 2 policies.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Ping across the tunnel. Capture and verify ESP packets appear. Check <code>ip xfrm state | grep -A5 "bytes"</code> — counters should increment. Now intentionally set a wrong key on one side. Verify pings fail (authentication error) and find the error counter in <code>ip xfrm state</code>.</div></div>
+<p><strong>Objective:</strong> Configure IPsec manually using ip xfrm commands (no IKEv2). This shows exactly what IKEv2 does automatically and deepens understanding of the SA/SPD model.</p>
+<div class="lab-step"><div class="sn">1</div><div>On both VMs, manually add SAs using <code>ip xfrm state add</code>. Choose a random 256-bit key: <code>openssl rand -hex 32</code>. Create the inbound and outbound SAs on each machine with matching SPIs and the same key. Use AES-256-GCM: <code>aead "rfc4106(gcm(aes))" 0xKEY 128</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Add security policies: <code>ip xfrm policy add src 192.168.1.0/24 dst 192.168.2.0/24 dir out tmpl src GW1 dst GW2 proto esp mode tunnel</code>. Add the reverse policy. Verify: <code>ip xfrm state</code> shows 2 SAs; <code>ip xfrm policy</code> shows 2 policies.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Ping across the tunnel. Capture and verify ESP packets appear. Check <code>ip xfrm state | grep -A5 "bytes"</code> — counters should increment. Now intentionally set a wrong key on one side. Verify pings fail (authentication error) and find the error counter in <code>ip xfrm state</code>.</div></div>
   </div>
 </div>
 </div>

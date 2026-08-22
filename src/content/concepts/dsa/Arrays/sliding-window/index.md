@@ -130,52 +130,52 @@ for (int right = 0; right < s.size(); right++) {
 
 <div class="problem-grid">
   <div class="problem-card">
-    <span class="problem-number">121</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener noreferrer" class="problem-title">Best Time to Buy and Sell Stock</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#best-time-to-buy-and-sell-stock" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">121</span>
+<span class="problem-status solved">✓ Solved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener noreferrer" class="problem-title">Best Time to Buy and Sell Stock</a>
+<a href="/learning/dsa/arrays/arrays-problems/#best-time-to-buy-and-sell-stock" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">567</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/permutation-in-string/" target="_blank" rel="noopener noreferrer" class="problem-title">Permutation in String</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#permutation-in-string" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">567</span>
+<span class="problem-status solved">✓ Solved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/permutation-in-string/" target="_blank" rel="noopener noreferrer" class="problem-title">Permutation in String</a>
+<a href="/learning/dsa/arrays/arrays-problems/#permutation-in-string" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">3</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Substring Without Repeating</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#longest-substring-without-repeating-characters" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">3</span>
+<span class="problem-status solved">✓ Solved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/longest-substring-without-repeating-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Substring Without Repeating</a>
+<a href="/learning/dsa/arrays/arrays-problems/#longest-substring-without-repeating-characters" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">424</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Repeating Character Replacement</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#longest-repeating-character-replacement" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">424</span>
+<span class="problem-status solved">✓ Solved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/longest-repeating-character-replacement/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Repeating Character Replacement</a>
+<a href="/learning/dsa/arrays/arrays-problems/#longest-repeating-character-replacement" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">239</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank" rel="noopener noreferrer" class="problem-title">Sliding Window Maximum</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#sliding-window-maximum" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">239</span>
+<span class="problem-status solved">✓ Solved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/sliding-window-maximum/" target="_blank" rel="noopener noreferrer" class="problem-title">Sliding Window Maximum</a>
+<a href="/learning/dsa/arrays/arrays-problems/#sliding-window-maximum" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">76</span>
-    <span class="problem-status solved">✓ Solved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreferrer" class="problem-title">Minimum Window Substring</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#minimum-window-substring" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">76</span>
+<span class="problem-status solved">✓ Solved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/minimum-window-substring/" target="_blank" rel="noopener noreferrer" class="problem-title">Minimum Window Substring</a>
+<a href="/learning/dsa/arrays/arrays-problems/#minimum-window-substring" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
 </div>
 
@@ -183,36 +183,36 @@ for (int right = 0; right < s.size(); right++) {
 
 <div class="problem-grid">
   <div class="problem-card">
-    <span class="problem-number">904</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/fruit-into-baskets/" target="_blank" rel="noopener noreferrer" class="problem-title">Fruits Into Baskets</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#fruits-into-baskets" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">904</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/fruit-into-baskets/" target="_blank" rel="noopener noreferrer" class="problem-title">Fruits Into Baskets</a>
+<a href="/learning/dsa/arrays/arrays-problems/#fruits-into-baskets" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">560</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank" rel="noopener noreferrer" class="problem-title">Subarray Sum Equals K</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#subarray-sum-equals-k" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">560</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/subarray-sum-equals-k/" target="_blank" rel="noopener noreferrer" class="problem-title">Subarray Sum Equals K</a>
+<a href="/learning/dsa/arrays/arrays-problems/#subarray-sum-equals-k" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">930</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/binary-subarrays-with-sum/" target="_blank" rel="noopener noreferrer" class="problem-title">Binary Subarrays With Sum</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#binary-subarrays-with-sum" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">930</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/binary-subarrays-with-sum/" target="_blank" rel="noopener noreferrer" class="problem-title">Binary Subarrays With Sum</a>
+<a href="/learning/dsa/arrays/arrays-problems/#binary-subarrays-with-sum" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">209</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/minimum-size-subarray-sum/" target="_blank" rel="noopener noreferrer" class="problem-title">Minimum Size Subarray Sum</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#minimum-size-subarray-sum" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">209</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/minimum-size-subarray-sum/" target="_blank" rel="noopener noreferrer" class="problem-title">Minimum Size Subarray Sum</a>
+<a href="/learning/dsa/arrays/arrays-problems/#minimum-size-subarray-sum" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
 </div>
 
@@ -220,36 +220,36 @@ for (int right = 0; right < s.size(); right++) {
 
 <div class="problem-grid">
   <div class="problem-card">
-    <span class="problem-number">992</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener noreferrer" class="problem-title">Subarrays with K Different Integers</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#subarrays-with-k-different-integers" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">992</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/subarrays-with-k-different-integers/" target="_blank" rel="noopener noreferrer" class="problem-title">Subarrays with K Different Integers</a>
+<a href="/learning/dsa/arrays/arrays-problems/#subarrays-with-k-different-integers" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">340</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Substring with At Most K Distinct</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#longest-substring-with-at-most-k-distinct-characters" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">340</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/" target="_blank" rel="noopener noreferrer" class="problem-title">Longest Substring with At Most K Distinct</a>
+<a href="/learning/dsa/arrays/arrays-problems/#longest-substring-with-at-most-k-distinct-characters" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">1004</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/max-consecutive-ones-iii/" target="_blank" rel="noopener noreferrer" class="problem-title">Max Consecutive Ones III</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#max-consecutive-ones-iii" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">1004</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/max-consecutive-ones-iii/" target="_blank" rel="noopener noreferrer" class="problem-title">Max Consecutive Ones III</a>
+<a href="/learning/dsa/arrays/arrays-problems/#max-consecutive-ones-iii" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
   <div class="problem-card">
-    <span class="problem-number">1248</span>
-    <span class="problem-status unsolved">○ Unsolved</span>
-    <div class="problem-card-inner">
-      <a href="https://leetcode.com/problems/count-number-of-nice-subarrays/" target="_blank" rel="noopener noreferrer" class="problem-title">Count Number of Nice Subarrays</a>
-      <a href="/learning/dsa/arrays/arrays-problems/#count-number-of-nice-subarrays" class="problem-btn">📋 View Solution</a>
-    </div>
+<span class="problem-number">1248</span>
+<span class="problem-status unsolved">○ Unsolved</span>
+<div class="problem-card-inner">
+<a href="https://leetcode.com/problems/count-number-of-nice-subarrays/" target="_blank" rel="noopener noreferrer" class="problem-title">Count Number of Nice Subarrays</a>
+<a href="/learning/dsa/arrays/arrays-problems/#count-number-of-nice-subarrays" class="problem-btn">📋 View Solution</a>
+</div>
   </div>
 </div>
 

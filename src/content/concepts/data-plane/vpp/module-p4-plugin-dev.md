@@ -73,11 +73,11 @@ url: /learning/data-plane/vpp/module-p4-plugin-dev/
   <div class="mod-title">🔨 Plugin Development</div>
   <div class="mod-subtitle">Scaffold · Binary API (.api) · CLI · bihash classifier · Stateful tracker · Test framework</div>
   <div class="mod-pills">
-    <span class="mod-pill">VLIB_REGISTER_NODE</span>
-    <span class="mod-pill">.api files</span>
-    <span class="mod-pill">VLIB_CLI_COMMAND</span>
-    <span class="mod-pill">vpptest</span>
-    <span class="mod-pill">Projects 6 &amp; 7</span>
+<span class="mod-pill">VLIB_REGISTER_NODE</span>
+<span class="mod-pill">.api files</span>
+<span class="mod-pill">VLIB_CLI_COMMAND</span>
+<span class="mod-pill">vpptest</span>
+<span class="mod-pill">Projects 6 &amp; 7</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -95,25 +95,33 @@ url: /learning/data-plane/vpp/module-p4-plugin-dev/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Generating and Understanding a Plugin</h3><span class="tag tag-purple">SCAFFOLD</span></div>
   <div class="cp-body">
-    <p>VPP ships an Emacs/shell plugin generator that creates all boilerplate files. Always start here, then modify.</p>
-<div class="cb"><pre><span class="cm"># Generate plugin scaffold</span>
+<p>VPP ships an Emacs/shell plugin generator that creates all boilerplate files. Always start here, then modify.</p>
+
+
+```python
+# Generate plugin scaffold
 cd vpp
 extras/emacs/make-plugin.sh
-<span class="cm"># Prompts for: plugin name (e.g. "classify")</span>
-<span class="cm"># Generates: src/plugins/classify/</span>
-<span class="cm"># Generated file layout:</span>
+# Prompts for: plugin name (e.g. "classify")
+# Generates: src/plugins/classify/
+
+# Generated file layout:
 src/plugins/classify/
-├── CMakeLists.txt        <span class="cm"># cmake build rules</span>
-├── classify.h            <span class="cm"># main_t struct, per-worker data, extern declarations</span>
-├── classify.c            <span class="cm"># plugin init, API message handlers</span>
-├── node.c                <span class="cm"># the graph node function</span>
-├── classify.api          <span class="cm"># binary API message definitions</span>
-├── classify_all_api_h.h  <span class="cm"># generated: #include of .api.h files</span>
-├── classify_msg_enum.h   <span class="cm"># generated: enum of message IDs</span>
-├── setup.pg              <span class="cm"># packet generator script for testing</span>
+├── CMakeLists.txt        # cmake build rules
+├── classify.h            # main_t struct, per-worker data, extern declarations
+├── classify.c            # plugin init, API message handlers
+├── node.c                # the graph node function
+├── classify.api          # binary API message definitions
+├── classify_all_api_h.h  # generated: #include of .api.h files
+├── classify_msg_enum.h   # generated: enum of message IDs
+├── setup.pg              # packet generator script for testing
 └── test/
-    └── test_classify.py  <span class="cm"># Python test using VppTestCase</span></pre></div>
-    <p><strong>Key structures in classify.h:</strong></p>
+    └── test_classify.py  # Python test using VppTestCase
+```
+
+
+
+<p><strong>Key structures in classify.h:</strong></p>
 <div class="cb"><pre><span class="cm">/* Plugin main struct - singleton, holds all plugin state */</span>
 <span class="ck">typedef struct</span> {
     <span class="cm">/* Per-worker data - allocated as a vec, indexed by thread_index */</span>
@@ -183,29 +191,34 @@ VLIB_CONFIG_FUNCTION (classify_config, "classify");
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Defining Messages in .api Files</h3><span class="tag tag-blue">BINARY API</span></div>
   <div class="cp-body">
-    <p>VPP's binary API is the programmatic control-plane interface - used by vppctl, GoVPP, vpp_papi, and any management agent. API messages are defined in <code>.api</code> files and compiled into C, Go, and Python stubs automatically.</p>
-<div class="cb"><pre><span class="cm">/* classify.api - message definitions */</span>
-<span class="cm">/* Option: API version */</span>
+<p>VPP's binary API is the programmatic control-plane interface - used by vppctl, GoVPP, vpp_papi, and any management agent. API messages are defined in <code>.api</code> files and compiled into C, Go, and Python stubs automatically.</p>
+
+
+```python
+/* classify.api - message definitions */
+
+/* Option: API version */
 option version = "1.0.0";
 import "vnet/interface_types.api";
- 
-<span class="cm">/* ── Add a classifier rule ── */</span>
+
+/* ── Add a classifier rule ── */
 autoreply define classify_add_rule {
     u32  client_index;
     u32  context;
-    vl_api_interface_index_t sw_if_index;  <span class="cm">/* interface to apply rule on */</span>
-    u32  src_ip;                            <span class="cm">/* host byte order */</span>
+    vl_api_interface_index_t sw_if_index;  /* interface to apply rule on */
+    u32  src_ip;                            /* host byte order */
     u32  dst_ip;
     u16  src_port;
     u16  dst_port;
     u8   protocol;
-    u8   action;                            <span class="cm">/* 0=pass, 1=drop, 2=redirect */</span>
+    u8   action;                            /* 0=pass, 1=drop, 2=redirect */
     u32  redirect_sw_if_index;
 };
- 
-<span class="cm">/* autoreply generates a _reply message automatically */</span>
-<span class="cm">/* VPP sends: typedef classify_add_rule_reply_t { i32 retval; } */</span>
-<span class="cm">/* ── Dump all rules (uses dump+details pattern) ── */</span>
+
+/* autoreply generates a _reply message automatically */
+/* VPP sends: typedef classify_add_rule_reply_t { i32 retval; } */
+
+/* ── Dump all rules (uses dump+details pattern) ── */
 define classify_rule_dump {
     u32 client_index;
     u32 context;
@@ -222,42 +235,52 @@ define classify_rule_details {
     u8  action;
     u64 packet_count;
     u64 byte_count;
-};</pre></div>
-    <p><strong>Implementing the handler in classify.c:</strong></p>
-<div class="cb"><pre><span class="cm">/* API message handler - called from the main thread */</span>
-<span class="ck">static</span> <span class="ck">void</span>
+};
+```
+
+
+
+<p><strong>Implementing the handler in classify.c:</strong></p>
+
+
+```python
+/* API message handler - called from the main thread */
+static void
 vl_api_classify_add_rule_t_handler (vl_api_classify_add_rule_t *mp)
 {
     classify_main_t *cm = &classify_main;
     vl_api_classify_add_rule_reply_t *rmp;
-    <span class="ck">int</span> rv = 0;
- 
-    <span class="cm">/* Validate input */</span>
-    <span class="ck">u32</span> sw_if_index = ntohl(mp->sw_if_index);
-    <span class="ck">if</span> (!vnet_sw_interface_is_valid(vnet_get_main(), sw_if_index)) {
+    int rv = 0;
+
+    /* Validate input */
+    u32 sw_if_index = ntohl(mp->sw_if_index);
+    if (!vnet_sw_interface_is_valid(vnet_get_main(), sw_if_index)) {
         rv = VNET_API_ERROR_INVALID_SW_IF_INDEX;
-        <span class="ck">goto</span> done;
+        goto done;
     }
- 
-    <span class="cm">/* Add rule - hold a vlib barrier since we're modifying global state */</span>
+
+    /* Add rule - hold a vlib barrier since we're modifying global state */
     vlib_worker_thread_barrier_sync(cm->vlib_main);
     rv = classify_add_rule_internal(cm, mp);
     vlib_worker_thread_barrier_release(cm->vlib_main);
- 
+
 done:
-    <span class="cm">/* Send reply */</span>
+    /* Send reply */
     REPLY_MACRO(VL_API_CLASSIFY_ADD_RULE_REPLY);
 }
- 
-<span class="cm">/* Registration glue */</span>
-<span class="ck">static</span> <span class="ck">void</span>
+
+/* Registration glue */
+static void
 classify_api_hookup (vlib_main_t *vm)
 {
-<span class="cs">#define _(N,n) vl_msg_api_set_handlers(VL_API_##N, #n,</span>
-<span class="cs">    vl_api_##n##_t_handler, /* ... */)</span>
+#define _(N,n) vl_msg_api_set_handlers(VL_API_##N, #n,
+    vl_api_##n##_t_handler, /* ... */)
     foreach_classify_api_msg;
-<span class="cs">#undef _</span>
-}</pre></div>
+#undef _
+}
+```
+
+
   </div>
 </div>
 </div>
@@ -267,93 +290,99 @@ classify_api_hookup (vlib_main_t *vm)
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Registering and Implementing CLI Commands</h3><span class="tag tag-green">CLI</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* ── Registration ── */</span>
-VLIB_CLI_COMMAND (classify_add_rule_command, <span class="ck">static</span>) = {
-    .path = <span class="cs">"classify add rule"</span>,
-    .short_help = <span class="cs">"classify add rule &lt;if&gt; src &lt;ip&gt; dst &lt;ip&gt; [proto &lt;N&gt;] [drop|pass]"</span>,
+
+
+```python
+/* ── Registration ── */
+VLIB_CLI_COMMAND (classify_add_rule_command, static) = {
+    .path = "classify add rule",
+    .short_help = "classify add rule <if> src <ip> dst <ip> [proto <N>] [drop|pass]",
     .function = classify_add_rule_command_fn,
 };
- 
-VLIB_CLI_COMMAND (classify_show_command, <span class="ck">static</span>) = {
-    .path = <span class="cs">"show classify"</span>,
-    .short_help = <span class="cs">"show classify [interface &lt;if&gt;]"</span>,
+
+VLIB_CLI_COMMAND (classify_show_command, static) = {
+    .path = "show classify",
+    .short_help = "show classify [interface <if>]",
     .function = classify_show_command_fn,
 };
- 
-<span class="cm">/* ── Implementation ── */</span>
-<span class="ck">static</span> clib_error_t *
+
+/* ── Implementation ── */
+static clib_error_t *
 classify_add_rule_command_fn (vlib_main_t *vm,
     unformat_input_t *input, vlib_cli_command_t *cmd)
 {
     classify_main_t *cm = &classify_main;
-    <span class="ck">u32</span> sw_if_index = ~0;
+    u32 sw_if_index = ~0;
     ip4_address_t src = {0}, dst = {0};
-    <span class="ck">u8</span>  protocol = 0;
-    <span class="ck">int</span> drop = 0;
+    u8  protocol = 0;
+    int drop = 0;
     clib_error_t *error = 0;
- 
-    <span class="cm">/* Parse arguments */</span>
-    <span class="ck">while</span> (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
-        <span class="ck">if</span> (unformat(input, <span class="cs">"%U"</span>, unformat_vnet_sw_interface,
+
+    /* Parse arguments */
+    while (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
+        if (unformat(input, "%U", unformat_vnet_sw_interface,
                       vnet_get_main(), &sw_if_index))
             ;
-        <span class="ck">else if</span> (unformat(input, <span class="cs">"src %U"</span>, unformat_ip4_address, &src))
+        else if (unformat(input, "src %U", unformat_ip4_address, &src))
             ;
-        <span class="ck">else if</span> (unformat(input, <span class="cs">"dst %U"</span>, unformat_ip4_address, &dst))
+        else if (unformat(input, "dst %U", unformat_ip4_address, &dst))
             ;
-        <span class="ck">else if</span> (unformat(input, <span class="cs">"proto %d"</span>, &protocol))
+        else if (unformat(input, "proto %d", &protocol))
             ;
-        <span class="ck">else if</span> (unformat(input, <span class="cs">"drop"</span>))
+        else if (unformat(input, "drop"))
             drop = 1;
-        <span class="ck">else</span> {
-            error = clib_error_return(0, <span class="cs">"Unknown argument: '%U'"</span>,
+        else {
+            error = clib_error_return(0, "Unknown argument: '%U'",
                                       format_unformat_error, input);
-            <span class="ck">goto</span> done;
+            goto done;
         }
     }
- 
-    <span class="ck">if</span> (sw_if_index == ~0) {
-        error = clib_error_return(0, <span class="cs">"Interface required"</span>);
-        <span class="ck">goto</span> done;
+
+    if (sw_if_index == ~0) {
+        error = clib_error_return(0, "Interface required");
+        goto done;
     }
- 
+
     classify_add_rule_internal(cm, sw_if_index, &src, &dst, protocol, drop);
-    vlib_cli_output(vm, <span class="cs">"Rule added (sw_if_index %d)\n"</span>, sw_if_index);
- 
+    vlib_cli_output(vm, "Rule added (sw_if_index %d)\n", sw_if_index);
+
 done:
-    <span class="ck">return</span> error;
+    return error;
 }
- 
-<span class="cm">/* ── Show command ── */</span>
-<span class="ck">static</span> clib_error_t *
+
+/* ── Show command ── */
+static clib_error_t *
 classify_show_command_fn (vlib_main_t *vm,
     unformat_input_t *input, vlib_cli_command_t *cmd)
 {
     classify_main_t *cm = &classify_main;
     classify_rule_t *rule;
-    <span class="ck">u32</span> sw_if_index = ~0;
- 
-    <span class="ck">if</span> (unformat(input, <span class="cs">"%U"</span>, unformat_vnet_sw_interface,
+    u32 sw_if_index = ~0;
+
+    if (unformat(input, "%U", unformat_vnet_sw_interface,
                   vnet_get_main(), &sw_if_index))
         ;
- 
-    <span class="cm">/* Print header */</span>
-    vlib_cli_output(vm, <span class="cs">"%-5s %-16s %-16s %-6s %-6s %-10s %-10s\n"</span>,
-                    <span class="cs">"ID"</span>, <span class="cs">"SRC"</span>, <span class="cs">"DST"</span>, <span class="cs">"PROTO"</span>, <span class="cs">"ACTION"</span>, <span class="cs">"PACKETS"</span>, <span class="cs">"BYTES"</span>);
- 
+
+    /* Print header */
+    vlib_cli_output(vm, "%-5s %-16s %-16s %-6s %-6s %-10s %-10s\n",
+                    "ID", "SRC", "DST", "PROTO", "ACTION", "PACKETS", "BYTES");
+
     pool_foreach(rule, cm->rules) {
-        <span class="ck">if</span> (sw_if_index != ~0 && rule->sw_if_index != sw_if_index)
+        if (sw_if_index != ~0 && rule->sw_if_index != sw_if_index)
             continue;
-        vlib_cli_output(vm, <span class="cs">"%-5d %-16U %-16U %-6d %-6s %-10llu %-10llu\n"</span>,
+        vlib_cli_output(vm, "%-5d %-16U %-16U %-6d %-6s %-10llu %-10llu\n",
                         rule - cm->rules,
                         format_ip4_address, &rule->src,
                         format_ip4_address, &rule->dst,
                         rule->protocol,
-                        rule->action == CLASSIFY_ACTION_DROP ? <span class="cs">"DROP"</span> : <span class="cs">"PASS"</span>,
+                        rule->action == CLASSIFY_ACTION_DROP ? "DROP" : "PASS",
                         rule->n_packets, rule->n_bytes);
     }
-    <span class="ck">return</span> 0;
-}</pre></div>
+    return 0;
+}
+```
+
+
   </div>
 </div>
 </div>
@@ -455,75 +484,81 @@ VLIB_NODE_FN (classify_node) (vlib_main_t *vm,
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Per-Flow State + Timeout Sweep</h3><span class="tag tag-purple">ADVANCED</span></div>
   <div class="cp-body">
-    <p>A stateful tracker extends the classifier to maintain per-flow connection state (NEW, ESTABLISHED, FIN_WAIT, CLOSED), byte/packet counters per flow, and a timeout sweep to expire idle flows. This is the foundation of NAT, firewalls, and connection tracking.</p>
-<div class="cb"><pre><span class="cm">/* Flow state machine */</span>
-<span class="ck">typedef enum</span> {
+<p>A stateful tracker extends the classifier to maintain per-flow connection state (NEW, ESTABLISHED, FIN_WAIT, CLOSED), byte/packet counters per flow, and a timeout sweep to expire idle flows. This is the foundation of NAT, firewalls, and connection tracking.</p>
+
+
+```sql
+/* Flow state machine */
+typedef enum {
     FLOW_STATE_NEW = 0,
     FLOW_STATE_ESTABLISHED,
     FLOW_STATE_FIN_WAIT,
     FLOW_STATE_CLOSED,
 } flow_state_t;
- 
-<span class="cm">/* Flow entry - stored in a pool */</span>
-<span class="ck">typedef struct</span> {
-    <span class="cm">/* Key (also used as bihash lookup) */</span>
+
+/* Flow entry - stored in a pool */
+typedef struct {
+    /* Key (also used as bihash lookup) */
     ip4_address_t src, dst;
-    <span class="ck">u16</span>  src_port, dst_port;
-    <span class="ck">u8</span>   protocol;
- 
-    <span class="cm">/* State */</span>
+    u16  src_port, dst_port;
+    u8   protocol;
+
+    /* State */
     flow_state_t state;
-    f64  last_seen;          <span class="cm">/* vlib_time_now() */</span>
-    <span class="ck">u64</span>  n_packets, n_bytes;
- 
-    <span class="cm">/* Timer wheel handle */</span>
-    <span class="ck">u32</span>  timer_handle;
+    f64  last_seen;          /* vlib_time_now() */
+    u64  n_packets, n_bytes;
+
+    /* Timer wheel handle */
+    u32  timer_handle;
 } flow_entry_t;
- 
-<span class="cm">/* Fast path: per-packet state update */</span>
+
+/* Fast path: per-packet state update */
 VLIB_NODE_FN(flow_track_node)(vlib_main_t *vm, ...) {
-    <span class="cm">/* ... dual loop ... */</span>
+    /* ... dual loop ... */
     f64 now = vlib_time_now(vm);
- 
-    <span class="cm">/* Lookup flow */</span>
+
+    /* Lookup flow */
     clib_bihash_kv_16_8_t kv;
     pack_5tuple(&kv.key, ip0, tcp0);
- 
-    <span class="ck">if</span> (PREDICT_TRUE(clib_bihash_search_16_8(&fm->flow_table, &kv, &kv) == 0)) {
-        <span class="cm">/* Existing flow */</span>
+
+    if (PREDICT_TRUE(clib_bihash_search_16_8(&fm->flow_table, &kv, &kv) == 0)) {
+        /* Existing flow */
         flow_entry_t *f = pool_elt_at_index(fm->flows, kv.value);
         f->last_seen = now;
         f->n_packets++;
         f->n_bytes += b0->current_length;
- 
-        <span class="cm">/* State transition on TCP flags */</span>
-        <span class="ck">if</span> (tcp0->flags & TCP_FLAG_FIN)
+
+        /* State transition on TCP flags */
+        if (tcp0->flags & TCP_FLAG_FIN)
             f->state = FLOW_STATE_FIN_WAIT;
-        <span class="ck">else if</span> (f->state == FLOW_STATE_NEW)
+        else if (f->state == FLOW_STATE_NEW)
             f->state = FLOW_STATE_ESTABLISHED;
-    } <span class="ck">else</span> {
-        <span class="cm">/* New flow - send to slow path for allocation */</span>
+    } else {
+        /* New flow - send to slow path for allocation */
         next0 = FLOW_NEXT_SLOW_PATH;
     }
 }
- 
-<span class="cm">/* Timeout sweep - runs in a PROCESS node once per second */</span>
+
+/* Timeout sweep - runs in a PROCESS node once per second */
 VLIB_NODE_FN(flow_timeout_process)(vlib_main_t *vm, ...) {
-    <span class="ck">while</span> (1) {
-        vlib_process_suspend(vm, 1.0);  <span class="cm">/* yield for 1 second */</span>
+    while (1) {
+        vlib_process_suspend(vm, 1.0);  /* yield for 1 second */
         f64 now = vlib_time_now(vm);
         flow_entry_t *f;
         pool_foreach(f, fm->flows) {
-            <span class="ck">if</span> (now - f->last_seen > FLOW_TIMEOUT_SEC) {
-                <span class="cm">/* Remove from bihash + free pool slot */</span>
+            if (now - f->last_seen > FLOW_TIMEOUT_SEC) {
+                /* Remove from bihash + free pool slot */
                 flow_delete(fm, f);
             }
         }
     }
-}</pre></div>
-    <div class="ins">
-      <p>💡 <strong>Thread safety in the tracker:</strong> The fast path (flow lookup + counter update) runs on worker threads. The timeout sweep (pool_foreach + flow_delete) runs on the main thread. To safely delete flows from a worker-accessed bihash, use <code>vlib_worker_thread_barrier_sync</code> in the sweep, or use atomic operations / a lock-free delete queue. The barrier approach is simpler and correct for low-frequency deletions.</p>
-    </div>
+}
+```
+
+
+<div class="ins">
+<p>💡 <strong>Thread safety in the tracker:</strong> The fast path (flow lookup + counter update) runs on worker threads. The timeout sweep (pool_foreach + flow_delete) runs on the main thread. To safely delete flows from a worker-accessed bihash, use <code>vlib_worker_thread_barrier_sync</code> in the sweep, or use atomic operations / a lock-free delete queue. The barrier approach is simpler and correct for low-frequency deletions.</p>
+</div>
   </div>
 </div>
 </div>
@@ -533,69 +568,75 @@ VLIB_NODE_FN(flow_timeout_process)(vlib_main_t *vm, ...) {
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧪</span><h3>Writing Python Tests with VppTestCase</h3><span class="tag tag-teal">TESTING</span></div>
   <div class="cp-body">
-    <p>VPP's test framework (<code>test/</code>) provides <code>VppTestCase</code>, a Python unittest subclass that spins up a real VPP instance, sends packets via the packet generator or raw sockets, and makes assertions on counters and captured packets.</p>
-<div class="cb"><pre><span class="cm">## test/test_classify.py</span>
+<p>VPP's test framework (<code>test/</code>) provides <code>VppTestCase</code>, a Python unittest subclass that spins up a real VPP instance, sends packets via the packet generator or raw sockets, and makes assertions on counters and captured packets.</p>
+
+
+```python
+## test/test_classify.py
 from framework import VppTestCase
 from scapy.layers.inet import IP, TCP, UDP, Ether
 from vpp_papi import VppEnum
- 
+
 class TestClassify(VppTestCase):
     """Packet Classifier Plugin Tests"""
- 
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
- 
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
- 
+
     def setUp(self):
         super().setUp()
-        <span class="cm"># Create two loopback interfaces for testing</span>
+        # Create two loopback interfaces for testing
         self.create_loopback_interfaces(2)
         self.lo0, self.lo1 = self.lo_interfaces
- 
+
         for i in self.lo_interfaces:
             i.admin_up()
             i.config_ip4()
             i.resolve_arp()
- 
-        <span class="cm"># Enable classify feature on lo0</span>
+
+        # Enable classify feature on lo0
         self.vapi.classify_enable_disable(
             sw_if_index=self.lo0.sw_if_index,
             enable=1
         )
- 
+
     def tearDown(self):
         for i in self.lo_interfaces:
             i.unconfig_ip4()
             i.admin_down()
         super().tearDown()
- 
+
     def test_drop_rule(self):
         """Verify DROP rule drops matching packets"""
-        <span class="cm"># Add DROP rule for src 10.0.0.100 → dst 10.0.0.200</span>
+        # Add DROP rule for src 10.0.0.100 → dst 10.0.0.200
         self.vapi.classify_add_rule(
             sw_if_index=self.lo0.sw_if_index,
             src_ip=socket.inet_aton("10.0.0.100"),
             dst_ip=socket.inet_aton("10.0.0.200"),
-            action=1  <span class="cm"># DROP</span>
+            action=1  # DROP
         )
- 
-        <span class="cm"># Craft and send matching packet</span>
+
+        # Craft and send matching packet
         pkts = [Ether() / IP(src="10.0.0.100", dst="10.0.0.200") / TCP()]
         self.send_and_assert_no_replies(self.lo0, pkts)
- 
-        <span class="cm"># Verify drop counter incremented</span>
+
+        # Verify drop counter incremented
         stats = self.vapi.classify_stats_get()
         self.assertEqual(stats.n_dropped, 1)
- 
+
     def test_pass_rule(self):
         """Verify non-matching packets pass through"""
         pkts = [Ether() / IP(src="10.0.1.1", dst="10.0.1.2") / UDP()]
-        self.send_and_expect(self.lo0, pkts, self.lo1)</pre></div>
-    <p>Run your test: <code>make test TEST=test_classify</code></p>
+        self.send_and_expect(self.lo0, pkts, self.lo1)
+```
+
+
+<p>Run your test: <code>make test TEST=test_classify</code></p>
   </div>
 </div>
 </div>

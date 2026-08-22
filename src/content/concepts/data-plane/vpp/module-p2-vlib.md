@@ -96,10 +96,10 @@ url: /learning/data-plane/vpp/module-p2-vlib/
   <div class="mod-title">⚙️ vlib - Graph Dispatcher</div>
   <div class="mod-subtitle">Node Types · Dispatch Loop · Buffer Layout · Dual-Loop Pattern · Multi-Threading · Packet Tracing</div>
   <div class="mod-pills">
-    <span class="mod-pill">src/vlib/main.c</span>
-    <span class="mod-pill">src/vlib/node.h</span>
-    <span class="mod-pill">src/vlib/buffer.h</span>
-    <span class="mod-pill">2 Mini-Projects</span>
+<span class="mod-pill">src/vlib/main.c</span>
+<span class="mod-pill">src/vlib/node.h</span>
+<span class="mod-pill">src/vlib/buffer.h</span>
+<span class="mod-pill">2 Mini-Projects</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -117,20 +117,20 @@ url: /learning/data-plane/vpp/module-p2-vlib/
 <p class="section-sep">THE FOUR NODE TYPES</p>
 <div class="node-type-grid">
   <div class="node-type-card" style="border-left:4px solid #1a7a6e">
-    <h4 style="color:#1a7a6e">VLIB_NODE_TYPE_INPUT</h4>
-    <p>Polled by the dispatcher on every main loop iteration. Used for packet ingress (dpdk-input, pg-input, memif-input). Returns number of vectors processed - used to switch between polling and sleep modes.</p>
+<h4 style="color:#1a7a6e">VLIB_NODE_TYPE_INPUT</h4>
+<p>Polled by the dispatcher on every main loop iteration. Used for packet ingress (dpdk-input, pg-input, memif-input). Returns number of vectors processed - used to switch between polling and sleep modes.</p>
   </div>
   <div class="node-type-card" style="border-left:4px solid #1a3a5c">
-    <h4 style="color:#1a3a5c">VLIB_NODE_TYPE_INTERNAL</h4>
-    <p>Called only when another node enqueues packets to it via <code>vlib_frame_t</code>. The vast majority of nodes: ip4-lookup, ip4-rewrite, ethernet-input, your custom processing nodes.</p>
+<h4 style="color:#1a3a5c">VLIB_NODE_TYPE_INTERNAL</h4>
+<p>Called only when another node enqueues packets to it via <code>vlib_frame_t</code>. The vast majority of nodes: ip4-lookup, ip4-rewrite, ethernet-input, your custom processing nodes.</p>
   </div>
   <div class="node-type-card" style="border-left:4px solid #5b3a8c">
-    <h4 style="color:#5b3a8c">VLIB_NODE_TYPE_PROCESS</h4>
-    <p>Cooperative coroutine - runs with <code>vlib_process_suspend()</code> and <code>vlib_process_wait_for_event()</code>. Used for slow-path: ARP resolution, control-plane responses. Never handles packets directly.</p>
+<h4 style="color:#5b3a8c">VLIB_NODE_TYPE_PROCESS</h4>
+<p>Cooperative coroutine - runs with <code>vlib_process_suspend()</code> and <code>vlib_process_wait_for_event()</code>. Used for slow-path: ARP resolution, control-plane responses. Never handles packets directly.</p>
   </div>
   <div class="node-type-card" style="border-left:4px solid #c05e1b">
-    <h4 style="color:#c05e1b">VLIB_NODE_TYPE_PRE_INPUT</h4>
-    <p>Called before INPUT nodes on every loop. Used for global preprocessing. Rare - only a few VPP nodes use this type.</p>
+<h4 style="color:#c05e1b">VLIB_NODE_TYPE_PRE_INPUT</h4>
+<p>Called before INPUT nodes on every loop. Used for global preprocessing. Rare - only a few VPP nodes use this type.</p>
   </div>
 </div>
 <div class="concept-panel panel-teal">
@@ -182,28 +182,37 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🔄</span><h3>vlib_main_loop - The Heart of VPP</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="concept-panel-body">
-    <p>The dispatcher lives in <code>vlib_main_loop()</code>. You never write a main loop in VPP - the framework calls your nodes. Understanding the loop explains VPP's performance model.</p>
-<div class="code-block"><pre><span class="c-comment">/* Simplified pseudocode of vlib_main_loop (src/vlib/main.c) */</span>
-<span class="c-key">while</span> (1) {
-  <span class="c-comment">/* 1. Poll all INPUT nodes */</span>
-  <span class="c-key">foreach</span> input_node:
+<p>The dispatcher lives in <code>vlib_main_loop()</code>. You never write a main loop in VPP - the framework calls your nodes. Understanding the loop explains VPP's performance model.</p>
+<div class="code-block">
+
+```python
+/* Simplified pseudocode of vlib_main_loop (src/vlib/main.c) */
+while (1) {
+  /* 1. Poll all INPUT nodes */
+  foreach input_node:
     vectors = input_node.fn(vm, node, frame);
-    <span class="c-comment">/* vectors returned drives adaptive polling rate */</span>
-  <span class="c-comment">/* 2. Run INTERNAL nodes that have pending frames */</span>
-  <span class="c-key">while</span> pending_frames:
+    /* vectors returned drives adaptive polling rate */
+
+  /* 2. Run INTERNAL nodes that have pending frames */
+  while pending_frames:
     dispatch_node(next_pending_node);
-    <span class="c-comment">/* this may enqueue more frames to other nodes */</span>
-  <span class="c-comment">/* 3. Run PROCESS nodes that are ready */</span>
-  <span class="c-key">foreach</span> ready_process:
+    /* this may enqueue more frames to other nodes */
+
+  /* 3. Run PROCESS nodes that are ready */
+  foreach ready_process:
     resume_process(proc);
- 
-  <span class="c-comment">/* 4. Adaptive sleep if no work (avoids busy-spin at 0 pps) */</span>
-  <span class="c-key">if</span> (total_vectors == 0):
+
+  /* 4. Adaptive sleep if no work (avoids busy-spin at 0 pps) */
+  if (total_vectors == 0):
     sleep_us(min(sleep_us * 2, max_sleep_us));
-  <span class="c-key">else</span>:
-    sleep_us = 0;  <span class="c-comment">/* busy poll when traffic present */</span>
-}</pre></div>
-    <p><strong>Frame lifecycle:</strong> When an INPUT node receives packets, it allocates a <code>vlib_frame_t</code> and fills it with buffer indices. It calls <code>vlib_frame_enqueue</code> to schedule INTERNAL nodes. The dispatcher runs each INTERNAL node when its frame is non-empty. Each INTERNAL node can enqueue further frames - the graph unfolds packet by packet.</p>
+  else:
+    sleep_us = 0;  /* busy poll when traffic present */
+}
+```
+
+
+
+<p><strong>Frame lifecycle:</strong> When an INPUT node receives packets, it allocates a <code>vlib_frame_t</code> and fills it with buffer indices. It calls <code>vlib_frame_enqueue</code> to schedule INTERNAL nodes. The dispatcher runs each INTERNAL node when its frame is non-empty. Each INTERNAL node can enqueue further frames - the graph unfolds packet by packet.</p>
   </div>
 </div>
 <div class="concept-panel panel-teal">
@@ -230,9 +239,9 @@ vlib_put_next_frame(vm, node, MY_NEXT_INDEX, <span class="c-comment">/* n_left_t
 <span class="c-type">u16</span> nexts[VLIB_FRAME_SIZE];
 nexts[i] = MY_NODE_NEXT_IP4_LOOKUP;
 vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
-    <div class="insight-box">
-      <p>💡 <strong>Frame size limit:</strong> <code>VLIB_FRAME_SIZE = 256</code>. No single node invocation processes more than 256 packets. This is by design - it bounds worst-case latency for other nodes. INPUT nodes should return early once they have 256 packets.</p>
-    </div>
+<div class="insight-box">
+<p>💡 <strong>Frame size limit:</strong> <code>VLIB_FRAME_SIZE = 256</code>. No single node invocation processes more than 256 packets. This is by design - it bounds worst-case latency for other nodes. INPUT nodes should return early once they have 256 packets.</p>
+</div>
   </div>
 </div>
 </div>
@@ -300,17 +309,17 @@ vlib_buffer_alloc(vm, &bi, <span class="c-val">1</span>);    <span class="c-comm
 vlib_buffer_free(vm, &bi, <span class="c-val">1</span>);     <span class="c-comment">/* free 1 buffer */</span>
 <span class="c-comment">/* Clone a buffer (reference counting) */</span>
 vlib_buffer_clone(vm, src_bi, &dst_bi, <span class="c-val">1</span>, head_end_offset);</pre></div>
-    <div class="dpdk-box">
-      <div class="dpdk-hdr">⚙️ vlib_buffer_t vs rte_mbuf</div>
-      <ul>
-        <li><strong>current_data</strong> ≈ <code>rte_mbuf.data_off</code> - both are byte offsets into the data area</li>
-        <li><strong>current_length</strong> ≈ <code>rte_mbuf.data_len</code> - both track the valid data span</li>
-        <li><strong>opaque / opaque2</strong> ≈ <code>rte_mbuf.udata64</code> / private mbuf area - per-packet scratch space</li>
-        <li><strong>next_buffer</strong> ≈ <code>rte_mbuf.next</code> - both support chained multi-segment packets</li>
-        <li><strong>Key difference</strong>: VPP passes <em>u32 indices</em> between nodes, not pointers - index-to-pointer conversion is a single array offset</li>
-        <li><strong>Pre-data area</strong>: VPP reserves bytes before <code>data_u8[]</code> for encap headers - you can prepend headers by moving <code>current_data</code> negative without a new buffer allocation</li>
-      </ul>
-    </div>
+<div class="dpdk-box">
+<div class="dpdk-hdr">⚙️ vlib_buffer_t vs rte_mbuf</div>
+<ul>
+<li><strong>current_data</strong> ≈ <code>rte_mbuf.data_off</code> - both are byte offsets into the data area</li>
+<li><strong>current_length</strong> ≈ <code>rte_mbuf.data_len</code> - both track the valid data span</li>
+<li><strong>opaque / opaque2</strong> ≈ <code>rte_mbuf.udata64</code> / private mbuf area - per-packet scratch space</li>
+<li><strong>next_buffer</strong> ≈ <code>rte_mbuf.next</code> - both support chained multi-segment packets</li>
+<li><strong>Key difference</strong>: VPP passes <em>u32 indices</em> between nodes, not pointers - index-to-pointer conversion is a single array offset</li>
+<li><strong>Pre-data area</strong>: VPP reserves bytes before <code>data_u8[]</code> for encap headers - you can prepend headers by moving <code>current_data</code> negative without a new buffer allocation</li>
+</ul>
+</div>
   </div>
 </div>
 </div>
@@ -320,8 +329,8 @@ vlib_buffer_clone(vm, src_bi, &dst_bi, <span class="c-val">1</span>, head_end_of
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">⚡</span><h3>Why Dual-Loop?</h3><span class="tag tag-teal">PERFORMANCE</span></div>
   <div class="concept-panel-body">
-    <p>Memory latency is the bottleneck in packet processing. A 64-byte cache line takes ~200 cycles to load from DRAM. Processing one packet at a time means those 200 cycles are wasted. The dual-loop pattern hides latency by <strong>prefetching packet N+2 while processing packet N</strong>.</p>
-    <p>Structure: an outer loop processes 2 packets per iteration (prefetch 2 ahead). When fewer than 4 remain, fall into a single loop. This is the canonical VPP pattern - used in <code>ip4-lookup</code>, <code>ip4-rewrite</code>, and every high-performance node.</p>
+<p>Memory latency is the bottleneck in packet processing. A 64-byte cache line takes ~200 cycles to load from DRAM. Processing one packet at a time means those 200 cycles are wasted. The dual-loop pattern hides latency by <strong>prefetching packet N+2 while processing packet N</strong>.</p>
+<p>Structure: an outer loop processes 2 packets per iteration (prefetch 2 ahead). When fewer than 4 remain, fall into a single loop. This is the canonical VPP pattern - used in <code>ip4-lookup</code>, <code>ip4-rewrite</code>, and every high-performance node.</p>
   </div>
 </div>
 <div class="concept-panel panel-blue">
@@ -394,7 +403,7 @@ my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vl
 <div class="concept-panel panel-green">
   <div class="concept-panel-hdr"><span class="icon">🚀</span><h3>Modern "qs" Pattern - vlib_get_buffers</h3><span class="tag tag-green">VPP v22+</span></div>
   <div class="concept-panel-body">
-    <p>Newer VPP nodes use the "quad-single" helper which fetches all buffers upfront using SIMD-friendly bulk get:</p>
+<p>Newer VPP nodes use the "quad-single" helper which fetches all buffers upfront using SIMD-friendly bulk get:</p>
 <div class="code-block"><pre><span class="c-comment">/* Bulk fetch all buffer pointers - compiler can vectorise */</span>
 <span class="c-type">vlib_buffer_t</span> *bufs[VLIB_FRAME_SIZE];
 vlib_get_buffers(vm, from, bufs, n_vectors);
@@ -405,7 +414,7 @@ vlib_get_buffers(vm, from, bufs, n_vectors);
 }
  
 vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
-    <p>Use the qs pattern for new nodes. Use the hand-written dual-loop when you need ultra-precise prefetch control for memory-intensive operations (e.g., FIB lookup with pointer chasing).</p>
+<p>Use the qs pattern for new nodes. Use the hand-written dual-loop when you need ultra-precise prefetch control for memory-intensive operations (e.g., FIB lookup with pointer chasing).</p>
   </div>
 </div>
 </div>
@@ -415,13 +424,13 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
 <div class="concept-panel panel-purple">
   <div class="concept-panel-hdr"><span class="icon">🧵</span><h3>Per-Worker vlib_main_t</h3><span class="tag tag-purple">ARCHITECTURE</span></div>
   <div class="concept-panel-body">
-    <p>VPP uses a <strong>share-nothing</strong> threading model. Each worker thread has its own <code>vlib_main_t</code>, its own buffer pool, and its own set of graph nodes. There is <strong>no global lock on the fast path</strong>.</p>
-    <ul>
-      <li>Worker 0 handles RX queue 0 of each interface; Worker 1 handles RX queue 1; etc.</li>
-      <li>Each worker thread runs an independent copy of <code>vlib_main_loop</code></li>
-      <li>Workers never share packet ownership - a packet assigned to Worker 0 stays on Worker 0 unless explicitly handed off</li>
-      <li>The main thread (Thread 0) handles control-plane: PROCESS nodes, CLI, API requests</li>
-    </ul>
+<p>VPP uses a <strong>share-nothing</strong> threading model. Each worker thread has its own <code>vlib_main_t</code>, its own buffer pool, and its own set of graph nodes. There is <strong>no global lock on the fast path</strong>.</p>
+<ul>
+<li>Worker 0 handles RX queue 0 of each interface; Worker 1 handles RX queue 1; etc.</li>
+<li>Each worker thread runs an independent copy of <code>vlib_main_loop</code></li>
+<li>Workers never share packet ownership - a packet assigned to Worker 0 stays on Worker 0 unless explicitly handed off</li>
+<li>The main thread (Thread 0) handles control-plane: PROCESS nodes, CLI, API requests</li>
+</ul>
 <div class="code-block"><pre><span class="c-comment">/* Get the current worker's vlib_main_t (in node function context) */</span>
 <span class="c-type">vlib_main_t</span> *vm = ...;   <span class="c-comment">/* already passed to your node function */</span>
 <span class="c-type">u32</span> thread_index = vm->thread_index;   <span class="c-comment">/* 0 = main, 1..N = workers */</span>
@@ -441,7 +450,7 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
 <div class="concept-panel panel-orange">
   <div class="concept-panel-hdr"><span class="icon">🔀</span><h3>Handoff - Cross-Worker Packet Transfer</h3><span class="tag tag-orange">src/vlib/threads.c</span></div>
   <div class="concept-panel-body">
-    <p>Sometimes a packet must be processed by a specific worker - for example, if your plugin requires all packets of the same flow to be handled by the same thread (stateful processing). Use the <strong>handoff mechanism</strong>.</p>
+<p>Sometimes a packet must be processed by a specific worker - for example, if your plugin requires all packets of the same flow to be handled by the same thread (stateful processing). Use the <strong>handoff mechanism</strong>.</p>
 <div class="code-block"><pre><span class="c-comment">/* Enqueue buffers to a different worker's input queue */</span>
 <span class="c-type">u32</span> target_worker = compute_flow_worker(flow_id);
 <span class="c-key">if</span> (target_worker != vm->thread_index) {
@@ -450,10 +459,10 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
                                 &bi, &target_worker,
                                 <span class="c-val">1</span>);   <span class="c-comment">/* n_buffers */</span>
 }</pre></div>
-    <p>See <code>src/examples/handoffdemo/</code> for a complete working example. The handoff node approach is also used by the NAT plugin to ensure symmetric flow handling.</p>
-    <div class="warn-box">
-      <p>⚠️ <strong>Avoid unnecessary handoffs.</strong> Each cross-worker transfer adds latency and overhead. Design your hashing strategy (startup.conf <code>num-rx-queues</code> + RSS hash type) so packets of the same flow arrive at the same worker naturally through NIC RSS. Handoff is the fallback, not the primary mechanism.</p>
-    </div>
+<p>See <code>src/examples/handoffdemo/</code> for a complete working example. The handoff node approach is also used by the NAT plugin to ensure symmetric flow handling.</p>
+<div class="warn-box">
+<p>⚠️ <strong>Avoid unnecessary handoffs.</strong> Each cross-worker transfer adds latency and overhead. Design your hashing strategy (startup.conf <code>num-rx-queues</code> + RSS hash type) so packets of the same flow arrive at the same worker naturally through NIC RSS. Handoff is the fallback, not the primary mechanism.</p>
+</div>
   </div>
 </div>
 </div>
@@ -527,24 +536,24 @@ vlib_node_increment_counter(vm, my_node.index,
 <div class="project-box">
   <div class="project-box-hdr"><span class="pnum">PROJECT 2</span><h4>Graph Node Inspector</h4></div>
   <div class="project-box-body">
-    <p><strong>Objective:</strong> Understand the dispatch loop and node statistics by observation - no code yet.</p>
-    <div class="project-step"><div class="step-n">1</div><div>Start VPP with the packet generator (<code>pg</code>) plugin. Create a <code>pg</code> interface and configure it as an L3 interface with an IP address.</div></div>
-    <div class="project-step"><div class="step-n">2</div><div>Generate traffic: <code>packet-generator new { name pg0 limit 10000 ... }</code>. Run <code>show run</code> before and after. Record vectors/call, clocks/vector for each active node.</div></div>
-    <div class="project-step"><div class="step-n">3</div><div>Use <code>trace add pg-input 50</code>, send 50 packets, then <code>show trace</code>. Map each line of the trace to the corresponding node function in the source tree.</div></div>
-    <div class="project-step"><div class="step-n">4</div><div>Set a breakpoint in GDB on <code>ip4_lookup</code>'s node function. Inspect <code>frame->n_vectors</code> and the first 4 buffer indices in <code>from[]</code>. Dereference one buffer index and read <code>current_data</code> and <code>current_length</code>.</div></div>
-    <div class="project-step"><div class="step-n">5</div><div>Increase pg traffic to 1M packets/sec. Re-run <code>show run</code>. Observe that vectors/call increases toward VLIB_FRAME_SIZE (256). Explain why.</div></div>
+<p><strong>Objective:</strong> Understand the dispatch loop and node statistics by observation - no code yet.</p>
+<div class="project-step"><div class="step-n">1</div><div>Start VPP with the packet generator (<code>pg</code>) plugin. Create a <code>pg</code> interface and configure it as an L3 interface with an IP address.</div></div>
+<div class="project-step"><div class="step-n">2</div><div>Generate traffic: <code>packet-generator new { name pg0 limit 10000 ... }</code>. Run <code>show run</code> before and after. Record vectors/call, clocks/vector for each active node.</div></div>
+<div class="project-step"><div class="step-n">3</div><div>Use <code>trace add pg-input 50</code>, send 50 packets, then <code>show trace</code>. Map each line of the trace to the corresponding node function in the source tree.</div></div>
+<div class="project-step"><div class="step-n">4</div><div>Set a breakpoint in GDB on <code>ip4_lookup</code>'s node function. Inspect <code>frame->n_vectors</code> and the first 4 buffer indices in <code>from[]</code>. Dereference one buffer index and read <code>current_data</code> and <code>current_length</code>.</div></div>
+<div class="project-step"><div class="step-n">5</div><div>Increase pg traffic to 1M packets/sec. Re-run <code>show run</code>. Observe that vectors/call increases toward VLIB_FRAME_SIZE (256). Explain why.</div></div>
   </div>
 </div>
 <div class="project-box">
   <div class="project-box-hdr"><span class="pnum">PROJECT 3</span><h4>Custom Buffer Inspector Node</h4></div>
   <div class="project-box-body">
-    <p><strong>Objective:</strong> Write your first VPP plugin - a simple node that reads buffer headers and emits trace output. No packet modification yet.</p>
-    <div class="project-step"><div class="step-n">1</div><div>Copy <code>src/examples/sample-plugin/</code> to a new directory <code>src/plugins/buffer-inspector/</code>. Rename all symbols.</div></div>
-    <div class="project-step"><div class="step-n">2</div><div>Create an INTERNAL node with one next: <code>ip4-lookup</code>. In the node function, implement the dual-loop pattern. For each packet, read <code>current_data</code>, <code>current_length</code>, and the first 4 bytes of the IP header.</div></div>
-    <div class="project-step"><div class="step-n">3</div><div>Add trace support with a struct that stores: sw_if_index, IP src addr, IP dst addr, protocol. Implement <code>format_buffer_inspector_trace</code>.</div></div>
-    <div class="project-step"><div class="step-n">4</div><div>Add a feature arc registration so your node can be inserted into the <code>ip4-unicast</code> arc. Test with <code>set interface feature vpp0 buffer-inspector ip4-unicast enable</code>.</div></div>
-    <div class="project-step"><div class="step-n">5</div><div>Add error counters for: packets seen, packets with TTL==1, packets with unknown protocol. Verify they appear correctly in <code>show error</code>.</div></div>
-    <div class="project-step"><div class="step-n">6</div><div>Run under the VPP test framework: write a Python test that sends 100 packets through the interface and asserts that the "packets seen" counter equals 100.</div></div>
+<p><strong>Objective:</strong> Write your first VPP plugin - a simple node that reads buffer headers and emits trace output. No packet modification yet.</p>
+<div class="project-step"><div class="step-n">1</div><div>Copy <code>src/examples/sample-plugin/</code> to a new directory <code>src/plugins/buffer-inspector/</code>. Rename all symbols.</div></div>
+<div class="project-step"><div class="step-n">2</div><div>Create an INTERNAL node with one next: <code>ip4-lookup</code>. In the node function, implement the dual-loop pattern. For each packet, read <code>current_data</code>, <code>current_length</code>, and the first 4 bytes of the IP header.</div></div>
+<div class="project-step"><div class="step-n">3</div><div>Add trace support with a struct that stores: sw_if_index, IP src addr, IP dst addr, protocol. Implement <code>format_buffer_inspector_trace</code>.</div></div>
+<div class="project-step"><div class="step-n">4</div><div>Add a feature arc registration so your node can be inserted into the <code>ip4-unicast</code> arc. Test with <code>set interface feature vpp0 buffer-inspector ip4-unicast enable</code>.</div></div>
+<div class="project-step"><div class="step-n">5</div><div>Add error counters for: packets seen, packets with TTL==1, packets with unknown protocol. Verify they appear correctly in <code>show error</code>.</div></div>
+<div class="project-step"><div class="step-n">6</div><div>Run under the VPP test framework: write a Python test that sends 100 packets through the interface and asserts that the "packets seen" counter equals 100.</div></div>
   </div>
 </div>
 </div>

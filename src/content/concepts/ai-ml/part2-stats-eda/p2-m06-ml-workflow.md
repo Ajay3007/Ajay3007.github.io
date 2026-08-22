@@ -89,10 +89,10 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
   <div class="mod-title">ML Workflow &amp; Feature Engineering</div>
   <div class="mod-subtitle">Scale, encode, transform, and build your first sklearn Pipeline — the foundation of every ML project</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 2 Weeks</span>
-    <span class="mod-pill">🟡 Intermediate</span>
-    <span class="mod-pill">🔧 scikit-learn · pandas · numpy · Pipeline</span>
-    <span class="mod-pill">📋 Prerequisite: P2-M05</span>
+<span class="mod-pill">⏱ 2 Weeks</span>
+<span class="mod-pill">🟡 Intermediate</span>
+<span class="mod-pill">🔧 scikit-learn · pandas · numpy · Pipeline</span>
+<span class="mod-pill">📋 Prerequisite: P2-M05</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -112,16 +112,16 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 2</span></div>
   <div class="cp-body">
-    <p>Raw data can rarely be fed directly into a model. This module covers the preprocessing and engineering steps that transform your DataFrame into model-ready features — and the sklearn Pipeline that makes these steps reproducible, leak-free, and composable.</p>
-    <ul>
-      <li><strong>Feature engineering</strong> — creating new features that capture domain knowledge</li>
-      <li><strong>Scaling</strong> — StandardScaler, MinMaxScaler, RobustScaler — when and why</li>
-      <li><strong>Encoding</strong> — label encoding, one-hot encoding, ordinal encoding, target encoding</li>
-      <li><strong>Train-test split</strong> — stratified split, data leakage, the golden rule</li>
-      <li><strong>Cross-validation</strong> — K-Fold, StratifiedKFold, leave-one-out</li>
-      <li><strong>sklearn Pipeline</strong> — chaining preprocessing and model into a single reusable object</li>
-    </ul>
-    <div class="ins"><p>💡 <strong>The Pipeline is the most important sklearn abstraction.</strong> It guarantees that your scaler is fit only on training data (not test data), that your encoder handles unseen categories, and that your entire preprocessing stack can be serialised, deployed, and reloaded in production.</p></div>
+<p>Raw data can rarely be fed directly into a model. This module covers the preprocessing and engineering steps that transform your DataFrame into model-ready features — and the sklearn Pipeline that makes these steps reproducible, leak-free, and composable.</p>
+<ul>
+<li><strong>Feature engineering</strong> — creating new features that capture domain knowledge</li>
+<li><strong>Scaling</strong> — StandardScaler, MinMaxScaler, RobustScaler — when and why</li>
+<li><strong>Encoding</strong> — label encoding, one-hot encoding, ordinal encoding, target encoding</li>
+<li><strong>Train-test split</strong> — stratified split, data leakage, the golden rule</li>
+<li><strong>Cross-validation</strong> — K-Fold, StratifiedKFold, leave-one-out</li>
+<li><strong>sklearn Pipeline</strong> — chaining preprocessing and model into a single reusable object</li>
+</ul>
+<div class="ins"><p>💡 <strong>The Pipeline is the most important sklearn abstraction.</strong> It guarantees that your scaler is fit only on training data (not test data), that your encoder handles unseen categories, and that your entire preprocessing stack can be serialised, deployed, and reloaded in production.</p></div>
   </div>
 </div>
 </div>
@@ -182,7 +182,7 @@ for col in ["BsmtQual", "BsmtCond", "GarageType", "FireplaceQu"]:
     df[col].fillna("None", inplace=True)
  
 print(f"Features created. Shape: {df.shape}")</pre></div>
-    <div class="ins"><p>💡 <strong>Feature engineering is where domain expertise translates to model performance.</strong> TotalSF (total square footage) outperforms individual floor areas because it captures what buyers actually care about — total usable space. The best features come from asking "what would a human expert look at to value this house?"</p></div>
+<div class="ins"><p>💡 <strong>Feature engineering is where domain expertise translates to model performance.</strong> TotalSF (total square footage) outperforms individual floor areas because it captures what buyers actually care about — total usable space. The best features come from asking "what would a human expert look at to value this house?"</p></div>
   </div>
 </div>
 </div>
@@ -235,7 +235,7 @@ X_test_s  = scaler.transform(X_test)  # apply those statistics to test
  
 print(f"Before scaling: mean={X_train[:, 0].mean():.1f}, std={X_train[:, 0].std():.1f}")
 print(f"After scaling:  mean={X_train_scaled[:, 0].mean():.4f}, std={X_train_scaled[:, 0].std():.4f}")</pre></div>
-    <div class="ins"><p>💡 <strong>The most common preprocessing mistake is fitting the scaler on the entire dataset before splitting.</strong> If you scale using the test set's statistics, the model has implicitly "seen" the test data — this inflates your validation metrics and your real-world performance will be worse. Always fit preprocessing objects only on training data.</p></div>
+<div class="ins"><p>💡 <strong>The most common preprocessing mistake is fitting the scaler on the entire dataset before splitting.</strong> If you scale using the test set's statistics, the model has implicitly "seen" the test data — this inflates your validation metrics and your real-world performance will be worse. Always fit preprocessing objects only on training data.</p></div>
   </div>
 </div>
 </div>
@@ -355,7 +355,7 @@ suspicious = corr[corr > 0.95].drop("SalePrice")
 if len(suspicious):
     print("WARNING: Potentially leaky features:")
     print(suspicious)</pre></div>
-    <div class="warn"><p>⚠️ <strong>The Golden Rule: your test set is a time capsule from the future.</strong> You are not allowed to look at it until final evaluation. Never fit your scaler, imputer, or encoder on the full dataset — always fit on training data only, then apply to test. Using the test set at any point during preprocessing inflates your estimates of generalisation performance.</p></div>
+<div class="warn"><p>⚠️ <strong>The Golden Rule: your test set is a time capsule from the future.</strong> You are not allowed to look at it until final evaluation. Never fit your scaler, imputer, or encoder on the full dataset — always fit on training data only, then apply to test. Using the test set at any point during preprocessing inflates your estimates of generalisation performance.</p></div>
   </div>
 </div>
 </div>
@@ -400,7 +400,7 @@ print(f"Stratified CV F1: {scores.mean():.3f} ± {scores.std():.3f}")
 pipe = Pipeline([("scaler", StandardScaler()), ("model", Ridge(alpha=1.0))])
 cv_scores = cross_val_score(pipe, X_num, y, cv=5, scoring="r2")
 print(f"Pipeline CV R²: {cv_scores.mean():.3f}")</pre></div>
-    <div class="ins"><p>💡 <strong>K=5 is the standard choice.</strong> K=5 gives 5x fewer training samples than the full dataset — acceptable bias. K=10 gives slightly better estimates but takes 2× longer. K=3 is faster but noisier. For small datasets (&lt;500 rows), consider leave-one-out (LOOCV). Always look at the standard deviation — a mean of 0.85 ± 0.01 is far more reliable than 0.85 ± 0.12.</p></div>
+<div class="ins"><p>💡 <strong>K=5 is the standard choice.</strong> K=5 gives 5x fewer training samples than the full dataset — acceptable bias. K=10 gives slightly better estimates but takes 2× longer. K=3 is faster but noisier. For small datasets (&lt;500 rows), consider leave-one-out (LOOCV). Always look at the standard deviation — a mean of 0.85 ± 0.01 is far more reliable than 0.85 ± 0.12.</p></div>
   </div>
 </div>
 </div>
@@ -463,7 +463,7 @@ print(f"CV R²: {cv_r2.mean():.3f} ± {cv_r2.std():.3f}")
 joblib.dump(pipeline, "house_price_pipeline.pkl")
 loaded = joblib.load("house_price_pipeline.pkl")
 print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre></div>
-    <div class="ins"><p>💡 <strong>A Pipeline is not just convenience — it is correctness.</strong> Without a Pipeline, you will accidentally leak preprocessing statistics. With a Pipeline, calling pipeline.fit(X_train, y_train) fits your scaler, imputer, and encoder only on X_train. Calling pipeline.predict(X_test) applies those learned transformations without refitting. This is the only correct way to build a preprocessing + model stack.</p></div>
+<div class="ins"><p>💡 <strong>A Pipeline is not just convenience — it is correctness.</strong> Without a Pipeline, you will accidentally leak preprocessing statistics. With a Pipeline, calling pipeline.fit(X_train, y_train) fits your scaler, imputer, and encoder only on X_train. Calling pipeline.predict(X_test) applies those learned transformations without refitting. This is the only correct way to build a preprocessing + model stack.</p></div>
   </div>
 </div>
 </div>
@@ -472,12 +472,12 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/intermediate-machine-learning" target="_blank" rel="noopener">Kaggle Intermediate ML Course (Free) — kaggle.com/learn/intermediate-machine-learning</a></td><td>Best coverage of Pipelines, missing values, categorical encoding, and data leakage.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/modules/preprocessing.html" target="_blank" rel="noopener">Scikit-learn Preprocessing Guide — scikit-learn.org/stable/modules/preprocessing.html</a></td><td>Complete reference for all sklearn scalers, encoders, and transformers with examples.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/modules/compose.html" target="_blank" rel="noopener">Scikit-learn ColumnTransformer — scikit-learn.org/stable/modules/compose.html</a></td><td>Official guide on combining multiple transformers with ColumnTransformer and Pipeline.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/feature-engineering" target="_blank" rel="noopener">Kaggle Feature Engineering Course — kaggle.com/learn/feature-engineering</a></td><td>Mutual information, target encoding, and creating features. Practical exercises.</td></tr>
-    <tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — Cross-Validation and Pipeline (YouTube)</a></td><td>Visual explanation of K-Fold cross-validation and why it matters. Clear and memorable.</td></tr>
-    <tr><td class="res-type">Article</td><td><a href="https://machinelearningmastery.com/data-leakage-machine-learning/" target="_blank" rel="noopener">Data Leakage in Machine Learning — machinelearningmastery.com</a></td><td>Comprehensive guide to all types of data leakage with examples. Essential reading.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/intermediate-machine-learning" target="_blank" rel="noopener">Kaggle Intermediate ML Course (Free) — kaggle.com/learn/intermediate-machine-learning</a></td><td>Best coverage of Pipelines, missing values, categorical encoding, and data leakage.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/modules/preprocessing.html" target="_blank" rel="noopener">Scikit-learn Preprocessing Guide — scikit-learn.org/stable/modules/preprocessing.html</a></td><td>Complete reference for all sklearn scalers, encoders, and transformers with examples.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://scikit-learn.org/stable/modules/compose.html" target="_blank" rel="noopener">Scikit-learn ColumnTransformer — scikit-learn.org/stable/modules/compose.html</a></td><td>Official guide on combining multiple transformers with ColumnTransformer and Pipeline.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://www.kaggle.com/learn/feature-engineering" target="_blank" rel="noopener">Kaggle Feature Engineering Course — kaggle.com/learn/feature-engineering</a></td><td>Mutual information, target encoding, and creating features. Practical exercises.</td></tr>
+<tr><td class="res-type">Video</td><td><a href="https://www.youtube.com/c/joshstarmer" target="_blank" rel="noopener">StatQuest — Cross-Validation and Pipeline (YouTube)</a></td><td>Visual explanation of K-Fold cross-validation and why it matters. Clear and memorable.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://machinelearningmastery.com/data-leakage-machine-learning/" target="_blank" rel="noopener">Data Leakage in Machine Learning — machinelearningmastery.com</a></td><td>Comprehensive guide to all types of data leakage with examples. Essential reading.</td></tr>
   </tbody>
 </table>
 </div>
@@ -485,18 +485,18 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">House Prices — Full Preprocessing Pipeline</span><span class="proj-dur">[Intermediate] 4–5 days</span></div>
   <div class="proj-body">
-    <p>Build a complete preprocessing + Ridge regression pipeline for the House Prices dataset.</p>
-    <h4>Requirements</h4>
-    <ul>
-      <li><strong>Feature engineering</strong> — create TotalSF, HouseAge, TotalBath, HasGarage, QualArea</li>
-      <li><strong>Missing values</strong> — impute numeric with median, categorical with "None" or mode</li>
-      <li><strong>Encoding</strong> — OHE for low-cardinality nominals, ordinal encoding for quality columns</li>
-      <li><strong>Scaling</strong> — RobustScaler on numeric features</li>
-      <li><strong>Pipeline</strong> — ColumnTransformer + Ridge(alpha=10) in a single Pipeline object</li>
-      <li><strong>Evaluation</strong> — 5-fold CV reporting mean RMSE ± std</li>
-      <li><strong>Target transform</strong> — fit on log(SalePrice), invert with np.expm1() for final predictions</li>
-    </ul>
-    <p>Expected CV RMSE: ~$25,000–$30,000 on raw price. Compare: what RMSE do you get on log price?</p>
+<p>Build a complete preprocessing + Ridge regression pipeline for the House Prices dataset.</p>
+<h4>Requirements</h4>
+<ul>
+<li><strong>Feature engineering</strong> — create TotalSF, HouseAge, TotalBath, HasGarage, QualArea</li>
+<li><strong>Missing values</strong> — impute numeric with median, categorical with "None" or mode</li>
+<li><strong>Encoding</strong> — OHE for low-cardinality nominals, ordinal encoding for quality columns</li>
+<li><strong>Scaling</strong> — RobustScaler on numeric features</li>
+<li><strong>Pipeline</strong> — ColumnTransformer + Ridge(alpha=10) in a single Pipeline object</li>
+<li><strong>Evaluation</strong> — 5-fold CV reporting mean RMSE ± std</li>
+<li><strong>Target transform</strong> — fit on log(SalePrice), invert with np.expm1() for final predictions</li>
+</ul>
+<p>Expected CV RMSE: ~$25,000–$30,000 on raw price. Compare: what RMSE do you get on log price?</p>
   </div>
 </div>
 </div>
@@ -504,25 +504,25 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Scaling Comparison</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Take GrLivArea with its outliers. Apply StandardScaler, MinMaxScaler, and RobustScaler. Plot all 3 resulting distributions. How does each handle the outliers at GrLivArea &gt; 4000?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Intentionally leak: fit a StandardScaler on X_full (before split), then use those statistics to scale X_train and X_test. Compare the mean/std of X_test — they should be non-zero with leaked scaler. With correct pipeline, they should be ~0/1.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Train a Ridge regression with correctly scaled vs leaked scaled data. Compare test R² scores. Does leakage always inflate performance on this dataset?</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Take GrLivArea with its outliers. Apply StandardScaler, MinMaxScaler, and RobustScaler. Plot all 3 resulting distributions. How does each handle the outliers at GrLivArea &gt; 4000?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Intentionally leak: fit a StandardScaler on X_full (before split), then use those statistics to scale X_train and X_test. Compare the mean/std of X_test — they should be non-zero with leaked scaler. With correct pipeline, they should be ~0/1.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Train a Ridge regression with correctly scaled vs leaked scaled data. Compare test R² scores. Does leakage always inflate performance on this dataset?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Encoding Comparison</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Encode the Neighborhood column (25 categories) three ways: OHE, label encoding, target encoding (K-fold). Train Ridge regression with each. Which gives the best cross-validated R²?</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Apply OHE to all nominal columns. How many columns does the feature matrix become? Use get_feature_names_out() to list all OHE features.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Apply ordinal encoding to ExterQual, KitchenQual, BsmtQual using the order Po &lt; Fa &lt; TA &lt; Gd &lt; Ex. Compute Spearman correlation with SalePrice for each encoded column. Compare to raw OHE.</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Encode the Neighborhood column (25 categories) three ways: OHE, label encoding, target encoding (K-fold). Train Ridge regression with each. Which gives the best cross-validated R²?</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Apply OHE to all nominal columns. How many columns does the feature matrix become? Use get_feature_names_out() to list all OHE features.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Apply ordinal encoding to ExterQual, KitchenQual, BsmtQual using the order Po &lt; Fa &lt; TA &lt; Gd &lt; Ex. Compute Spearman correlation with SalePrice for each encoded column. Compare to raw OHE.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Pipeline Build</h4></div>
   <div class="lab-body">
-    <div class="lab-step"><div class="sn">1</div><div>Build the full ColumnTransformer pipeline (numeric: impute+scale; categorical: impute+OHE). Print the pipeline structure with pipeline.named_steps and check the output shape after fit_transform.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run 5-fold CV on the full pipeline with Ridge. Print mean RMSE and std. Then change to alpha=0.1 and alpha=100. Which alpha gives the best CV RMSE?</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Save the pipeline with joblib.dump(). Reload it and make a prediction on a manually constructed row (dict of feature values). Verify the prediction matches what the un-saved pipeline produces.</div></div>
+<div class="lab-step"><div class="sn">1</div><div>Build the full ColumnTransformer pipeline (numeric: impute+scale; categorical: impute+OHE). Print the pipeline structure with pipeline.named_steps and check the output shape after fit_transform.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run 5-fold CV on the full pipeline with Ridge. Print mean RMSE and std. Then change to alpha=0.1 and alpha=100. Which alpha gives the best CV RMSE?</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Save the pipeline with joblib.dump(). Reload it and make a prediction on a manually constructed row (dict of feature values). Verify the prediction matches what the un-saved pipeline produces.</div></div>
   </div>
 </div>
 </div>

@@ -13,22 +13,22 @@ url: /learning/system-design/lld/module-a5-notes/
 
 <div class="chapter-hero" style="--ch-1:#7c6fff;--ch-2:#00d4aa;">
   <div class="breadcrumb">
-    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/">LLD Hub</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/module-a5-concurrency/">Module A5</a>
-    <span class="separator">›</span>
-    <span class="current">Full Notes</span>
+<a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/">LLD Hub</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/module-a5-concurrency/">Module A5</a>
+<span class="separator">›</span>
+<span class="current">Full Notes</span>
   </div>
   <h1>Module A5 — Concurrency in LLD</h1>
   <p class="ch-subtitle">Complete reference notes · Track A: LLD · Week 8</p>
   <div class="hero-stats">
-    <span class="stat-badge">Java Memory Model</span>
-    <span class="stat-badge">Locks & Semaphores</span>
-    <span class="stat-badge">Producer-Consumer</span>
-    <span class="stat-badge">Thread Pool</span>
-    <span class="stat-badge">Rate Limiter</span>
+<span class="stat-badge">Java Memory Model</span>
+<span class="stat-badge">Locks & Semaphores</span>
+<span class="stat-badge">Producer-Consumer</span>
+<span class="stat-badge">Thread Pool</span>
+<span class="stat-badge">Rate Limiter</span>
   </div>
 </div>
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">

@@ -110,10 +110,10 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
   <div class="mod-title">Tool Design, Workflow Patterns &amp; When NOT to Use Agents</div>
   <div class="mod-subtitle">Design reliable tools, pick the right workflow pattern, and know when simpler is better</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟠 Intermediate–Advanced</span>
-    <span class="mod-pill">🔧 LangGraph · FastAPI · Anthropic</span>
-    <span class="mod-pill">📋 Prerequisite: P6-M19</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟠 Intermediate–Advanced</span>
+<span class="mod-pill">🔧 LangGraph · FastAPI · Anthropic</span>
+<span class="mod-pill">📋 Prerequisite: P6-M19</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -133,14 +133,14 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-violet">Design Thinking</span></div>
   <div class="cp-body">
-    <p>Building agents that work in a notebook is easy. Building agents that work reliably in production is hard. This module covers the engineering judgment that separates toy agents from production ones: how to design tools that are reliable, how to choose the right workflow architecture, and critically — when a simple chain beats a complex agent every time.</p>
-    <ul>
-      <li><strong>Tool design principles</strong> — idempotency, error contracts, atomicity, what makes a good vs bad tool</li>
-      <li><strong>The five workflow patterns</strong> — prompt chaining, routing, parallelisation, orchestrator-subagent, evaluator-optimizer</li>
-      <li><strong>When NOT to use agents</strong> — the decision matrix that saves you from over-engineering</li>
-      <li><strong>Parallel workflows</strong> — fan-out/fan-in patterns, when to parallelise, how to handle partial failures</li>
-      <li><strong>Orchestrator-subagent</strong> — breaking complex goals into specialised sub-agents with handoff</li>
-    </ul>
+<p>Building agents that work in a notebook is easy. Building agents that work reliably in production is hard. This module covers the engineering judgment that separates toy agents from production ones: how to design tools that are reliable, how to choose the right workflow architecture, and critically — when a simple chain beats a complex agent every time.</p>
+<ul>
+<li><strong>Tool design principles</strong> — idempotency, error contracts, atomicity, what makes a good vs bad tool</li>
+<li><strong>The five workflow patterns</strong> — prompt chaining, routing, parallelisation, orchestrator-subagent, evaluator-optimizer</li>
+<li><strong>When NOT to use agents</strong> — the decision matrix that saves you from over-engineering</li>
+<li><strong>Parallel workflows</strong> — fan-out/fan-in patterns, when to parallelise, how to handle partial failures</li>
+<li><strong>Orchestrator-subagent</strong> — breaking complex goals into specialised sub-agents with handoff</li>
+</ul>
   </div>
 </div>
 </div>
@@ -149,143 +149,164 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>What Makes a Good Tool</h3><span class="tag tag-violet">Design Principles</span></div>
   <div class="cp-body">
-    <p>A tool is the interface between your agent and the real world. Bad tool design is the #1 source of agent failures — not the LLM, not the prompting.</p>
-    <div class="cb"><pre><span class="ck"># ── PRINCIPLE 1: Idempotent tools ────────────────────</span>
-<span class="ck"># If the agent calls a tool twice with the same args, the result should be the same</span>
-<span class="ck"># and no duplicate side effects should occur</span>
-<span class="ck"># BAD: calling twice creates two records</span>
+<p>A tool is the interface between your agent and the real world. Bad tool design is the #1 source of agent failures — not the LLM, not the prompting.</p>
+    
+
+```python
+# ── PRINCIPLE 1: Idempotent tools ────────────────────
+# If the agent calls a tool twice with the same args, the result should be the same
+# and no duplicate side effects should occur
+
+# BAD: calling twice creates two records
 def create_ticket(title: str, description: str) -> dict:
-    return db.insert(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title, <span class="cs">"description"</span>: description})
- 
-<span class="ck"># GOOD: upsert on a natural key — safe to call multiple times</span>
+    return db.insert("tickets", {"title": title, "description": description})
+
+# GOOD: upsert on a natural key — safe to call multiple times
 def create_or_get_ticket(title: str, description: str) -> dict:
-    existing = db.find_one(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title})
+    existing = db.find_one("tickets", {"title": title})
     if existing:
         return existing
-    return db.insert(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title, <span class="cs">"description"</span>: description})
- 
-<span class="ck"># ── PRINCIPLE 2: Explicit error contracts ────────────</span>
-<span class="ck"># Never raise exceptions — return structured errors the agent can understand</span>
-<span class="ck"># BAD: agent receives an unhandled exception, gets confused</span>
+    return db.insert("tickets", {"title": title, "description": description})
+
+# ── PRINCIPLE 2: Explicit error contracts ────────────
+# Never raise exceptions — return structured errors the agent can understand
+
+# BAD: agent receives an unhandled exception, gets confused
 def get_user(user_id: str) -> dict:
-    return db.get(<span class="cs">"users"</span>, user_id)   <span class="ck"># raises KeyError if not found</span>
-<span class="ck"># GOOD: structured error the agent can reason about</span>
+    return db.get("users", user_id)   # raises KeyError if not found
+
+# GOOD: structured error the agent can reason about
 def get_user(user_id: str) -> dict:
-    user = db.find_one(<span class="cs">"users"</span>, {<span class="cs">"id"</span>: user_id})
+    user = db.find_one("users", {"id": user_id})
     if not user:
-        return {<span class="cs">"error"</span>: <span class="cs">"USER_NOT_FOUND"</span>,
-                <span class="cs">"message"</span>: <span class="cs">f"No user with id '{user_id}'"</span>,
-                <span class="cs">"suggestion"</span>: <span class="cs">"Try searching by email with search_users()"</span>}
-    return {<span class="cs">"success"</span>: <span class="cv">True</span>, <span class="cs">"user"</span>: user}
- 
-<span class="ck"># ── PRINCIPLE 3: Atomic operations ───────────────────</span>
-<span class="ck"># One tool should do ONE thing — not a chain of things</span>
-<span class="ck"># BAD: one tool does too much — partial failures are unrecoverable</span>
+        return {"error": "USER_NOT_FOUND",
+                "message": f"No user with id '{user_id}'",
+                "suggestion": "Try searching by email with search_users()"}
+    return {"success": True, "user": user}
+
+# ── PRINCIPLE 3: Atomic operations ───────────────────
+# One tool should do ONE thing — not a chain of things
+
+# BAD: one tool does too much — partial failures are unrecoverable
 def process_order(order_id: str) -> dict:
     validate_stock()
     charge_payment()
     send_confirmation_email()
     update_inventory()
- 
-<span class="ck"># GOOD: separate tools, agent orchestrates the sequence</span>
+
+# GOOD: separate tools, agent orchestrates the sequence
 def validate_stock(items: list) -> dict: ...
 def charge_payment(amount: float, card_id: str) -> dict: ...
 def send_confirmation_email(order_id: str, email: str) -> dict: ...
-def update_inventory(items: list, delta: int) -> dict: ...</pre></div>
+def update_inventory(items: list, delta: int) -> dict: ...
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Tool Description Engineering</h3><span class="tag tag-blue">Selection Precision</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># The description determines WHEN the agent calls the tool.</span>
-<span class="ck"># Bad descriptions → wrong tool selection → wrong results.</span>
-<span class="ck"># ── Pattern: Use When / Don't Use When ───────────────</span>
+    
+
+```python
+# The description determines WHEN the agent calls the tool.
+# Bad descriptions → wrong tool selection → wrong results.
+
+# ── Pattern: Use When / Don't Use When ───────────────
 SEARCH_TOOL = {
-    <span class="cs">"name"</span>: <span class="cs">"search_knowledge_base"</span>,
-    <span class="cs">"description"</span>: <span class="cs">"""Search the internal knowledge base for product documentation,
+    "name": "search_knowledge_base",
+    "description": """Search the internal knowledge base for product documentation,
 API references, and troubleshooting guides.
- 
+
 USE when:
 - User asks about product features, configuration, or known issues
 - User needs step-by-step instructions from documentation
 - User references a specific version or release note
- 
+
 DO NOT USE when:
 - Question is about general programming (use your training knowledge)
 - Question requires real-time data (use get_live_status instead)
-- Question is a math calculation (use calculate instead)"""</span>,
-    <span class="cs">"input_schema"</span>: {
-        <span class="cs">"type"</span>: <span class="cs">"object"</span>,
-        <span class="cs">"properties"</span>: {
-            <span class="cs">"query"</span>: {
-                <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                <span class="cs">"description"</span>: <span class="cs">"Natural language search query. Be specific. Example: 'how to configure DPDK hugepages on Linux'"</span>
+- Question is a math calculation (use calculate instead)""",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "query": {
+                "type": "string",
+                "description": "Natural language search query. Be specific. Example: 'how to configure DPDK hugepages on Linux'"
             },
-            <span class="cs">"version"</span>: {
-                <span class="cs">"type"</span>: <span class="cs">"string"</span>,
-                <span class="cs">"description"</span>: <span class="cs">"Optionally filter by product version, e.g. '23.11'. Omit for all versions."</span>
+            "version": {
+                "type": "string",
+                "description": "Optionally filter by product version, e.g. '23.11'. Omit for all versions."
             }
         },
-        <span class="cs">"required"</span>: [<span class="cs">"query"</span>]
+        "required": ["query"]
     }
 }
- 
-<span class="ck"># ── Consistent return schema ──────────────────────────</span>
-<span class="ck"># All tools should return a dict with consistent keys</span>
-<span class="ck"># so the agent can reliably check for success/failure</span>
- 
-def tool_success(data: dict, message: str = <span class="cs">""</span>) -> dict:
-    return {<span class="cs">"ok"</span>: <span class="cv">True</span>, <span class="cs">"data"</span>: data, <span class="cs">"message"</span>: message}
- 
-def tool_error(code: str, message: str, suggestion: str = <span class="cs">""</span>) -> dict:
-    return {<span class="cs">"ok"</span>: <span class="cv">False</span>, <span class="cs">"error_code"</span>: code,
-            <span class="cs">"message"</span>: message, <span class="cs">"suggestion"</span>: suggestion}</pre></div>
-    <div class="ins"><p>💡 <strong>Tool names are critical.</strong> <code>search</code> is ambiguous — the agent doesn't know what it searches. <code>search_knowledge_base</code>, <code>search_web</code>, <code>search_customer_records</code> are unambiguous. When you have multiple search tools, the names must make the distinction obvious without reading the description.</p></div>
+
+# ── Consistent return schema ──────────────────────────
+# All tools should return a dict with consistent keys
+# so the agent can reliably check for success/failure
+
+def tool_success(data: dict, message: str = "") -> dict:
+    return {"ok": True, "data": data, "message": message}
+
+def tool_error(code: str, message: str, suggestion: str = "") -> dict:
+    return {"ok": False, "error_code": code,
+            "message": message, "suggestion": suggestion}
+```
+
+
+<div class="ins"><p>💡 <strong>Tool names are critical.</strong> <code>search</code> is ambiguous — the agent doesn't know what it searches. <code>search_knowledge_base</code>, <code>search_web</code>, <code>search_customer_records</code> are unambiguous. When you have multiple search tools, the names must make the distinction obvious without reading the description.</p></div>
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>Tool Safety — Scope Limiting and Validation</h3><span class="tag tag-teal">Production</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Scope limiting — tools should only do what they say</span>
+    
+
+```python
+# Scope limiting — tools should only do what they say
 def query_database(sql: str, allowed_tables: list[str] = None) -> dict:
-    <span class="ck"># Validate it's a SELECT (never allow INSERT/DELETE/UPDATE from agent)</span>
-    if not sql.strip().upper().startswith(<span class="cs">"SELECT"</span>):
-        return tool_error(<span class="cs">"FORBIDDEN_OPERATION"</span>,
-                          <span class="cs">"Only SELECT queries are allowed"</span>,
-                          <span class="cs">"Use write_record() for data modification"</span>)
- 
-    <span class="ck"># Validate only allowed tables are accessed</span>
+    # Validate it's a SELECT (never allow INSERT/DELETE/UPDATE from agent)
+    if not sql.strip().upper().startswith("SELECT"):
+        return tool_error("FORBIDDEN_OPERATION",
+                          "Only SELECT queries are allowed",
+                          "Use write_record() for data modification")
+
+    # Validate only allowed tables are accessed
     if allowed_tables:
         import re
-        tables_in_query = re.findall(r<span class="cs">'FROM\s+(\w+)'</span>, sql, re.IGNORECASE)
+        tables_in_query = re.findall(r'FROM\s+(\w+)', sql, re.IGNORECASE)
         for t in tables_in_query:
             if t not in allowed_tables:
-                return tool_error(<span class="cs">"TABLE_NOT_ALLOWED"</span>,
-                                  <span class="cs">f"Table {t!r} not in allowed list: {allowed_tables}"</span>)
+                return tool_error("TABLE_NOT_ALLOWED",
+                                  f"Table {t!r} not in allowed list: {allowed_tables}")
     try:
         results = db.execute(sql)
-        return tool_success({<span class="cs">"rows"</span>: results, <span class="cs">"count"</span>: len(results)})
+        return tool_success({"rows": results, "count": len(results)})
     except Exception as e:
-        return tool_error(<span class="cs">"QUERY_ERROR"</span>, str(e))
- 
-<span class="ck"># Rate limiting per tool to prevent runaway agents</span>
+        return tool_error("QUERY_ERROR", str(e))
+
+# Rate limiting per tool to prevent runaway agents
 from collections import defaultdict
 import time
- 
+
 _tool_calls = defaultdict(list)
-RATE_LIMITS = {<span class="cs">"search_web"</span>: (<span class="cv">10</span>, <span class="cv">60</span>)}   <span class="ck"># 10 calls per 60 seconds</span>
- 
+RATE_LIMITS = {"search_web": (10, 60)}   # 10 calls per 60 seconds
+
 def rate_limit_check(tool_name: str) -> bool:
     if tool_name not in RATE_LIMITS:
-        return <span class="cv">True</span>
+        return True
     max_calls, window = RATE_LIMITS[tool_name]
     now = time.time()
-    calls = [t for t in _tool_calls[tool_name] if now - t < window]
-    _tool_calls[tool_name] = calls
-    if len(calls) >= max_calls:
-        return <span class="cv">False</span>
+    calls = [t for t in _tool_calls[tool_name] if now - t = max_calls:
+        return False
     _tool_calls[tool_name].append(now)
-    return <span class="cv">True</span></pre></div>
+    return True
+```
+
+
   </div>
 </div>
 </div><!-- end t1 -->
@@ -294,126 +315,138 @@ def rate_limit_check(tool_name: str) -> bool:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🗺</span><h3>The Five Workflow Patterns</h3><span class="tag tag-violet">Architecture Toolkit</span></div>
   <div class="cp-body">
-    <p>These five patterns cover 90% of real AI system architectures. Knowing them prevents you from reaching for a full agent when a simpler pattern will do.</p>
-    <div class="pattern-grid">
-      <div class="pc pc-prompt">
-        <h4>Prompt Chaining</h4>
-        <p>LLM output of step N feeds as input to step N+1. Each step does one thing well.</p>
-        <div class="use">Use: linear multi-step tasks, document pipelines</div>
-      </div>
-      <div class="pc pc-routing">
-        <h4>Routing</h4>
-        <p>A classifier LLM routes input to one of several specialised handlers. Each handler is optimised for its class.</p>
-        <div class="use">Use: multi-category support, mixed content types</div>
-      </div>
-      <div class="pc pc-parallel">
-        <h4>Parallelisation</h4>
-        <p>Multiple LLM calls run concurrently on the same input. Results are aggregated (voting or merge).</p>
-        <div class="use">Use: independent subtasks, multi-perspective analysis</div>
-      </div>
-      <div class="pc pc-orchestrator">
-        <h4>Orchestrator-Subagent</h4>
-        <p>A planning LLM breaks the task into subtasks and dispatches to specialised subagents. Results are synthesised.</p>
-        <div class="use">Use: complex multi-domain tasks, large research jobs</div>
-      </div>
-      <div class="pc pc-evaluator">
-        <h4>Evaluator-Optimizer</h4>
-        <p>One LLM generates output, another evaluates quality and provides feedback for improvement. Loops until quality threshold met.</p>
-        <div class="use">Use: code generation, content quality requirements</div>
-      </div>
-    </div>
+<p>These five patterns cover 90% of real AI system architectures. Knowing them prevents you from reaching for a full agent when a simpler pattern will do.</p>
+<div class="pattern-grid">
+<div class="pc pc-prompt">
+<h4>Prompt Chaining</h4>
+<p>LLM output of step N feeds as input to step N+1. Each step does one thing well.</p>
+<div class="use">Use: linear multi-step tasks, document pipelines</div>
+</div>
+<div class="pc pc-routing">
+<h4>Routing</h4>
+<p>A classifier LLM routes input to one of several specialised handlers. Each handler is optimised for its class.</p>
+<div class="use">Use: multi-category support, mixed content types</div>
+</div>
+<div class="pc pc-parallel">
+<h4>Parallelisation</h4>
+<p>Multiple LLM calls run concurrently on the same input. Results are aggregated (voting or merge).</p>
+<div class="use">Use: independent subtasks, multi-perspective analysis</div>
+</div>
+<div class="pc pc-orchestrator">
+<h4>Orchestrator-Subagent</h4>
+<p>A planning LLM breaks the task into subtasks and dispatches to specialised subagents. Results are synthesised.</p>
+<div class="use">Use: complex multi-domain tasks, large research jobs</div>
+</div>
+<div class="pc pc-evaluator">
+<h4>Evaluator-Optimizer</h4>
+<p>One LLM generates output, another evaluates quality and provides feedback for improvement. Loops until quality threshold met.</p>
+<div class="use">Use: code generation, content quality requirements</div>
+</div>
+</div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Prompt Chaining — Implementation</h3><span class="tag tag-blue">Most Common</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Prompt chaining: clean, testable, each step independently improvable</span>
-<span class="ck"># Each gate() call validates before passing to the next step</span>
- 
+    
+
+```python
+# Prompt chaining: clean, testable, each step independently improvable
+# Each gate() call validates before passing to the next step
+
 def chain_extract_summarise_translate(document: str, target_lang: str) -> dict:
-    <span class="ck"># Step 1: Extract key facts</span>
+    # Step 1: Extract key facts
     facts = call_llm(
-        system=<span class="cs">"Extract the 5 most important factual claims from this document. Output as a numbered list."</span>,
+        system="Extract the 5 most important factual claims from this document. Output as a numbered list.",
         user=document
     )
     if not facts:
-        return {<span class="cs">"error"</span>: <span class="cs">"Extraction failed"</span>}
- 
-    <span class="ck"># Step 2: Summarise the facts</span>
+        return {"error": "Extraction failed"}
+
+    # Step 2: Summarise the facts
     summary = call_llm(
-        system=<span class="cs">"Write a 2-3 sentence executive summary based on these key facts."</span>,
+        system="Write a 2-3 sentence executive summary based on these key facts.",
         user=facts
     )
- 
-    <span class="ck"># Step 3: Translate (only if not English)</span>
-    if target_lang.lower() not in (<span class="cs">"en"</span>, <span class="cs">"english"</span>):
+
+    # Step 3: Translate (only if not English)
+    if target_lang.lower() not in ("en", "english"):
         translated = call_llm(
-            system=<span class="cs">f"Translate to {target_lang}. Maintain tone and technical terms."</span>,
+            system=f"Translate to {target_lang}. Maintain tone and technical terms.",
             user=summary
         )
     else:
         translated = summary
- 
-    return {<span class="cs">"facts"</span>: facts, <span class="cs">"summary"</span>: summary, <span class="cs">"translated"</span>: translated}
- 
-<span class="ck"># Evaluator-Optimizer pattern</span>
-def generate_with_quality_loop(prompt: str, max_iterations: int = <span class="cv">3</span>) -> str:
-    output = call_llm(system=<span class="cs">"Generate a response."</span>, user=prompt)
- 
+
+    return {"facts": facts, "summary": summary, "translated": translated}
+
+# Evaluator-Optimizer pattern
+def generate_with_quality_loop(prompt: str, max_iterations: int = 3) -> str:
+    output = call_llm(system="Generate a response.", user=prompt)
+
     for i in range(max_iterations):
         evaluation = call_llm(
-            system=<span class="cs">"""Evaluate this output for: accuracy, completeness, clarity.
-Return JSON: {"score": 1-10, "issues": [...], "passed": bool}"""</span>,
-            user=<span class="cs">f"Original prompt: {prompt}\n\nOutput: {output}"</span>
+            system="""Evaluate this output for: accuracy, completeness, clarity.
+Return JSON: {"score": 1-10, "issues": [...], "passed": bool}""",
+            user=f"Original prompt: {prompt}\n\nOutput: {output}"
         )
         import json
         result = json.loads(evaluation)
-        if result.get(<span class="cs">"passed"</span>) or result.get(<span class="cs">"score"</span>, <span class="cv">0</span>) >= <span class="cv">8</span>:
+        if result.get("passed") or result.get("score", 0) >= 8:
             break
- 
-        <span class="ck"># Regenerate with feedback</span>
+
+        # Regenerate with feedback
         output = call_llm(
-            system=<span class="cs">"Improve the output based on this feedback."</span>,
-            user=<span class="cs">f"Previous output: {output}\n\nIssues: {result['issues']}"</span>
+            system="Improve the output based on this feedback.",
+            user=f"Previous output: {output}\n\nIssues: {result['issues']}"
         )
-    return output</pre></div>
+    return output
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔀</span><h3>Routing Pattern — LLM as Classifier</h3><span class="tag tag-teal">Scalable</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>from typing import Literal
+    
+
+```python
+from typing import Literal
 from pydantic import BaseModel
 import instructor, anthropic
- 
+
 instr_client = instructor.from_anthropic(anthropic.Anthropic())
- 
+
 class RouteDecision(BaseModel):
-    category: Literal[<span class="cs">"billing"</span>, <span class="cs">"technical"</span>, <span class="cs">"general"</span>, <span class="cs">"complaint"</span>]
+    category: Literal["billing", "technical", "general", "complaint"]
     confidence: float
     reasoning: str
- 
+
 def route_support_ticket(ticket: str) -> RouteDecision:
     return instr_client.messages.create(
-        model=<span class="cs">"claude-3-haiku-20240307"</span>,   <span class="ck"># cheap model for routing</span>
-        max_tokens=<span class="cv">100</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>,
-                   <span class="cs">"content"</span>: <span class="cs">f"Classify this support ticket:\n\n{ticket}"</span>}],
+        model="claude-3-haiku-20240307",   # cheap model for routing
+        max_tokens=100,
+        messages=[{"role": "user",
+                   "content": f"Classify this support ticket:\n\n{ticket}"}],
         response_model=RouteDecision
     )
- 
-<span class="ck"># Specialised handlers — each optimised for its category</span>
+
+# Specialised handlers — each optimised for its category
 HANDLERS = {
-    <span class="cs">"billing"</span>:   handle_billing_ticket,
-    <span class="cs">"technical"</span>: handle_technical_ticket,
-    <span class="cs">"general"</span>:   handle_general_ticket,
-    <span class="cs">"complaint"</span>: handle_complaint_ticket,
+    "billing":   handle_billing_ticket,
+    "technical": handle_technical_ticket,
+    "general":   handle_general_ticket,
+    "complaint": handle_complaint_ticket,
 }
- 
+
 def process_ticket(ticket: str) -> dict:
     route = route_support_ticket(ticket)
     handler = HANDLERS[route.category]
-    return handler(ticket)</pre></div>
+    return handler(ticket)
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -422,40 +455,46 @@ def process_ticket(ticket: str) -> dict:
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🚫</span><h3>When NOT to Use Agents — The Decision Matrix</h3><span class="tag tag-red">Most Important Lesson</span></div>
   <div class="cp-body">
-    <p>The most common mistake in AI engineering is reaching for agents when a simpler architecture would be more reliable, cheaper, and faster to debug. Agents introduce non-determinism — every additional LLM decision is a point of potential failure.</p>
-    <table class="dm-table">
-      <thead><tr><th>Situation</th><th>Use Agent?</th><th>Better Alternative</th></tr></thead>
-      <tbody>
-        <tr><td>Steps are always the same</td><td class="dm-avoid">✗ No</td><td>Prompt chain — deterministic, testable</td></tr>
-        <tr><td>Steps depend on content classification</td><td class="dm-avoid">✗ No</td><td>Routing — LLM classifier + fixed handlers</td></tr>
-        <tr><td>Independent subtasks on same input</td><td class="dm-avoid">✗ No</td><td>Parallelisation — asyncio.gather()</td></tr>
-        <tr><td>Single API call answers the question</td><td class="dm-avoid">✗ No</td><td>Simple function call or RAG query</td></tr>
-        <tr><td>Steps are known, but order varies by input</td><td class="dm-avoid">✗ No</td><td>Routing with multiple fixed chains</td></tr>
-        <tr><td>Task requires dynamic tool selection</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
-        <tr><td>Number of steps not known in advance</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
-        <tr><td>Task requires reasoning about partial results</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
-        <tr><td>Task spans multiple API/DB systems dynamically</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
-      </tbody>
-    </table>
-    <div class="cb"><pre><span class="ck"># The "do I need an agent?" test — ask these questions in order:</span>
-<span class="ck">#</span>
-<span class="ck"># 1. Can I write the steps as a fixed Python function?</span>
-<span class="ck">#    YES → use a chain or function call. NOT an agent.</span>
-<span class="ck">#</span>
-<span class="ck"># 2. Do the steps vary, but can I enumerate all the variations?</span>
-<span class="ck">#    YES → use routing. NOT an agent.</span>
-<span class="ck">#</span>
-<span class="ck"># 3. Are the subtasks independent and can run in parallel?</span>
-<span class="ck">#    YES → use asyncio.gather(). NOT an agent.</span>
-<span class="ck">#</span>
-<span class="ck"># 4. Is the sequence truly unpredictable until you see the data?</span>
-<span class="ck">#    YES → now consider an agent.</span>
-<span class="ck">#</span>
-<span class="ck"># If you reach question 4 — also ask:</span>
-<span class="ck"># - Can I tolerate non-determinism in production?</span>
-<span class="ck"># - Do I have evaluation/monitoring to catch failures?</span>
-<span class="ck"># - Is the latency and cost of multi-turn LLM reasoning acceptable?</span></pre></div>
-    <div class="warn"><p>⚠️ <strong>Agents are harder to test, harder to debug, more expensive, and slower than deterministic pipelines.</strong> Every additional LLM call is a potential point of failure, cost, and latency. Anthropic's own guidelines say: augment agents with workflows wherever possible, and only add true autonomy where it is genuinely necessary.</p></div>
+<p>The most common mistake in AI engineering is reaching for agents when a simpler architecture would be more reliable, cheaper, and faster to debug. Agents introduce non-determinism — every additional LLM decision is a point of potential failure.</p>
+<table class="dm-table">
+<thead><tr><th>Situation</th><th>Use Agent?</th><th>Better Alternative</th></tr></thead>
+<tbody>
+<tr><td>Steps are always the same</td><td class="dm-avoid">✗ No</td><td>Prompt chain — deterministic, testable</td></tr>
+<tr><td>Steps depend on content classification</td><td class="dm-avoid">✗ No</td><td>Routing — LLM classifier + fixed handlers</td></tr>
+<tr><td>Independent subtasks on same input</td><td class="dm-avoid">✗ No</td><td>Parallelisation — asyncio.gather()</td></tr>
+<tr><td>Single API call answers the question</td><td class="dm-avoid">✗ No</td><td>Simple function call or RAG query</td></tr>
+<tr><td>Steps are known, but order varies by input</td><td class="dm-avoid">✗ No</td><td>Routing with multiple fixed chains</td></tr>
+<tr><td>Task requires dynamic tool selection</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
+<tr><td>Number of steps not known in advance</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
+<tr><td>Task requires reasoning about partial results</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
+<tr><td>Task spans multiple API/DB systems dynamically</td><td class="dm-use">✓ Yes</td><td>—</td></tr>
+</tbody>
+</table>
+    
+
+```python
+# The "do I need an agent?" test — ask these questions in order:
+#
+# 1. Can I write the steps as a fixed Python function?
+#    YES → use a chain or function call. NOT an agent.
+#
+# 2. Do the steps vary, but can I enumerate all the variations?
+#    YES → use routing. NOT an agent.
+#
+# 3. Are the subtasks independent and can run in parallel?
+#    YES → use asyncio.gather(). NOT an agent.
+#
+# 4. Is the sequence truly unpredictable until you see the data?
+#    YES → now consider an agent.
+#
+# If you reach question 4 — also ask:
+# - Can I tolerate non-determinism in production?
+# - Do I have evaluation/monitoring to catch failures?
+# - Is the latency and cost of multi-turn LLM reasoning acceptable?
+```
+
+
+<div class="warn"><p>⚠️ <strong>Agents are harder to test, harder to debug, more expensive, and slower than deterministic pipelines.</strong> Every additional LLM call is a potential point of failure, cost, and latency. Anthropic's own guidelines say: augment agents with workflows wherever possible, and only add true autonomy where it is genuinely necessary.</p></div>
   </div>
 </div>
 </div><!-- end t3 -->
@@ -464,62 +503,68 @@ def process_ticket(ticket: str) -> dict:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Parallel Workflows — Fan-Out / Fan-In</h3><span class="tag tag-violet">Performance Pattern</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>import asyncio, anthropic
- 
+    
+
+```python
+import asyncio, anthropic
+
 async_client = anthropic.AsyncAnthropic()
- 
+
 async def call_llm_async(system: str, user: str) -> str:
     response = await async_client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        max_tokens=<span class="cv">1024</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user}],
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=1024,
+        messages=[{"role": "user", "content": user}],
         system=system
     )
-    return response.content[<span class="cv">0</span>].text
- 
-<span class="ck"># ── Pattern 1: Same input, multiple perspectives ──────</span>
+    return response.content[0].text
+
+# ── Pattern 1: Same input, multiple perspectives ──────
 async def multi_perspective_review(code: str) -> dict:
     security, performance, readability = await asyncio.gather(
-        call_llm_async(<span class="cs">"Review this code for security vulnerabilities only."</span>, code),
-        call_llm_async(<span class="cs">"Review this code for performance issues only."</span>, code),
-        call_llm_async(<span class="cs">"Review this code for readability and maintainability only."</span>, code),
+        call_llm_async("Review this code for security vulnerabilities only.", code),
+        call_llm_async("Review this code for performance issues only.", code),
+        call_llm_async("Review this code for readability and maintainability only.", code),
     )
-    <span class="ck"># Synthesise all three perspectives</span>
+    # Synthesise all three perspectives
     synthesis = await call_llm_async(
-        <span class="cs">"Combine these three code reviews into a single prioritised action list."</span>,
-        <span class="cs">f"Security:\n{security}\n\nPerformance:\n{performance}\n\nReadability:\n{readability}"</span>
+        "Combine these three code reviews into a single prioritised action list.",
+        f"Security:\n{security}\n\nPerformance:\n{performance}\n\nReadability:\n{readability}"
     )
-    return {<span class="cs">"security"</span>: security, <span class="cs">"performance"</span>: performance,
-            <span class="cs">"readability"</span>: readability, <span class="cs">"synthesis"</span>: synthesis}
- 
-<span class="ck"># ── Pattern 2: Different inputs, same processing ──────</span>
+    return {"security": security, "performance": performance,
+            "readability": readability, "synthesis": synthesis}
+
+# ── Pattern 2: Different inputs, same processing ──────
 async def process_documents_parallel(documents: list[str]) -> list[str]:
     summaries = await asyncio.gather(
-        *[call_llm_async(<span class="cs">"Summarise in 2 sentences."</span>, doc) for doc in documents]
+        *[call_llm_async("Summarise in 2 sentences.", doc) for doc in documents]
     )
     return list(summaries)
- 
-<span class="ck"># ── Pattern 3: Voting — run N times, take majority ────</span>
-async def classify_with_voting(text: str, n: int = <span class="cv">3</span>) -> str:
+
+# ── Pattern 3: Voting — run N times, take majority ────
+async def classify_with_voting(text: str, n: int = 3) -> str:
     from collections import Counter
     labels = await asyncio.gather(
         *[call_llm_async(
-            <span class="cs">"Classify as POSITIVE, NEGATIVE, or NEUTRAL. Reply with one word only."</span>, text
+            "Classify as POSITIVE, NEGATIVE, or NEUTRAL. Reply with one word only.", text
           ) for _ in range(n)]
     )
     labels = [l.strip().upper() for l in labels]
-    return Counter(labels).most_common(<span class="cv">1</span>)[<span class="cv">0</span>][<span class="cv">0</span>]
- 
-<span class="ck"># ── Handling partial failures ──────────────────────────</span>
+    return Counter(labels).most_common(1)[0][0]
+
+# ── Handling partial failures ──────────────────────────
 async def gather_with_fallback(coroutines: list) -> list:
-    results = await asyncio.gather(*coroutines, return_exceptions=<span class="cv">True</span>)
+    results = await asyncio.gather(*coroutines, return_exceptions=True)
     processed = []
     for r in results:
         if isinstance(r, Exception):
-            processed.append({<span class="cs">"error"</span>: str(r)})
+            processed.append({"error": str(r)})
         else:
             processed.append(r)
-    return processed</pre></div>
+    return processed
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -528,69 +573,75 @@ async def gather_with_fallback(coroutines: list) -> list:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Orchestrator-Subagent Pattern</h3><span class="tag tag-violet">Complex Tasks</span></div>
   <div class="cp-body">
-    <p>For complex tasks that span multiple domains (research + analysis + writing), an orchestrator LLM plans and dispatches to specialised subagents. Each subagent has its own tools and system prompt optimised for its domain.</p>
-    <div class="cb"><pre>from pydantic import BaseModel
+<p>For complex tasks that span multiple domains (research + analysis + writing), an orchestrator LLM plans and dispatches to specialised subagents. Each subagent has its own tools and system prompt optimised for its domain.</p>
+    
+
+```python
+from pydantic import BaseModel
 from typing import List, Literal
 import instructor, anthropic, asyncio
- 
+
 instr_client = instructor.from_anthropic(anthropic.Anthropic())
- 
+
 class SubTask(BaseModel):
-    agent:       Literal[<span class="cs">"researcher"</span>, <span class="cs">"analyst"</span>, <span class="cs">"writer"</span>]
+    agent:       Literal["researcher", "analyst", "writer"]
     task:        str
-    depends_on:  List[int] = []   <span class="ck"># indices of tasks that must complete first</span>
- 
+    depends_on:  List[int] = []   # indices of tasks that must complete first
+
 class OrchestratorPlan(BaseModel):
     goal_summary: str
     subtasks:    List[SubTask]
- 
+
 def orchestrate(user_goal: str) -> str:
-    <span class="ck"># 1. Orchestrator plans the work</span>
+    # 1. Orchestrator plans the work
     plan = instr_client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        max_tokens=<span class="cv">1024</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>:
-            <span class="cs">f"""Break this goal into subtasks for specialised agents:
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=1024,
+        messages=[{"role": "user", "content":
+            f"""Break this goal into subtasks for specialised agents:
 Goal: {user_goal}
- 
+
 Available agents:
 - researcher: searches web, finds facts, gathers data
 - analyst: processes data, identifies patterns, creates structured analysis
-- writer: synthesises research and analysis into coherent written output"""</span>}],
+- writer: synthesises research and analysis into coherent written output"""}],
         response_model=OrchestratorPlan
     )
- 
+
     results = {}
- 
-    <span class="ck"># 2. Execute subtasks in dependency order</span>
+
+    # 2. Execute subtasks in dependency order
     for i, subtask in enumerate(plan.subtasks):
-        <span class="ck"># Wait for dependencies</span>
-        context = <span class="cs">"\n\n"</span>.join(
-            <span class="cs">f"Result from task {j}: {results[j]}"</span>
+        # Wait for dependencies
+        context = "\n\n".join(
+            f"Result from task {j}: {results[j]}"
             for j in subtask.depends_on if j in results
         )
- 
-        <span class="ck"># Dispatch to specialised subagent</span>
+
+        # Dispatch to specialised subagent
         AGENT_SYSTEMS = {
-            <span class="cs">"researcher"</span>: <span class="cs">"You are a researcher. Find accurate information. Cite sources."</span>,
-            <span class="cs">"analyst"</span>:   <span class="cs">"You are an analyst. Process data systematically. Be precise."</span>,
-            <span class="cs">"writer"</span>:    <span class="cs">"You are a technical writer. Write clearly for the target audience."</span>,
+            "researcher": "You are a researcher. Find accurate information. Cite sources.",
+            "analyst":   "You are an analyst. Process data systematically. Be precise.",
+            "writer":    "You are a technical writer. Write clearly for the target audience.",
         }
         task_with_context = subtask.task
         if context:
-            task_with_context = <span class="cs">f"Prior results:\n{context}\n\nYour task: {subtask.task}"</span>
- 
+            task_with_context = f"Prior results:\n{context}\n\nYour task: {subtask.task}"
+
         results[i] = run_agent(
             user_message=task_with_context,
             system=AGENT_SYSTEMS[subtask.agent]
         )
- 
-    <span class="ck"># 3. Final synthesis</span>
-    all_results = <span class="cs">"\n\n"</span>.join(<span class="cs">f"Task {i}: {r}"</span> for i, r in results.items())
+
+    # 3. Final synthesis
+    all_results = "\n\n".join(f"Task {i}: {r}" for i, r in results.items())
     return run_agent(
-        user_message=<span class="cs">f"Goal: {user_goal}\n\nAll subtask results:\n{all_results}\n\nSynthesize into a complete answer."</span>,
-        system=<span class="cs">"You are a senior analyst. Synthesise all results into a coherent, complete response."</span>
-    )</pre></div>
+        user_message=f"Goal: {user_goal}\n\nAll subtask results:\n{all_results}\n\nSynthesize into a complete answer.",
+        system="You are a senior analyst. Synthesise all results into a coherent, complete response."
+    )
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -600,9 +651,9 @@ Available agents:
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Article</td><td><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents — anthropic.com/research</a></td><td>The definitive guide on workflow patterns, when to use agents, and how to design reliable systems. Required reading.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/multi_agent/" target="_blank" rel="noopener">LangGraph: Multi-Agent Systems — langchain-ai.github.io/langgraph</a></td><td>Supervisor patterns, handoff protocols, and shared memory between agents.</td></tr>
-    <tr><td class="res-type">Article</td><td><a href="https://platform.openai.com/docs/guides/orchestration" target="_blank" rel="noopener">OpenAI: A Practical Guide to Building Agents — cdn.openai.com</a></td><td>OpenAI's agent patterns including orchestrator-subagent and guardrail design.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents — anthropic.com/research</a></td><td>The definitive guide on workflow patterns, when to use agents, and how to design reliable systems. Required reading.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://langchain-ai.github.io/langgraph/concepts/multi_agent/" target="_blank" rel="noopener">LangGraph: Multi-Agent Systems — langchain-ai.github.io/langgraph</a></td><td>Supervisor patterns, handoff protocols, and shared memory between agents.</td></tr>
+<tr><td class="res-type">Article</td><td><a href="https://platform.openai.com/docs/guides/orchestration" target="_blank" rel="noopener">OpenAI: A Practical Guide to Building Agents — cdn.openai.com</a></td><td>OpenAI's agent patterns including orchestrator-subagent and guardrail design.</td></tr>
   </tbody>
 </table>
 </div>
@@ -610,35 +661,35 @@ Available agents:
 <div id="t7" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Multi-Pattern Pipeline — Same Task, Three Architectures</span>
-    <span class="proj-dur">[Advanced] 3–4 days</span>
+<span>🛠</span>
+<span class="proj-title">Multi-Pattern Pipeline — Same Task, Three Architectures</span>
+<span class="proj-dur">[Advanced] 3–4 days</span>
   </div>
   <div class="proj-body">
-    <p>Build the same complex task using three different architectures and compare reliability, cost, and latency. This is the exercise that builds real engineering judgment.</p>
-    <h4>Task: Competitive Intelligence Report</h4>
-    <p>Given a company name, produce a structured report: executive summary, products/services, market position, recent news, SWOT analysis.</p>
-    <h4>Architecture 1 — Prompt Chain</h4>
-    <ul>
-      <li>5 fixed sequential LLM calls, each producing one section</li>
-      <li>Each step's output feeds the next as context</li>
-    </ul>
-    <h4>Architecture 2 — Parallel + Synthesis</h4>
-    <ul>
-      <li>4 parallel calls (exec summary, products, market, news)</li>
-      <li>1 final synthesis call combining all results</li>
-    </ul>
-    <h4>Architecture 3 — Orchestrator-Subagent</h4>
-    <ul>
-      <li>Orchestrator plans and dispatches to researcher + analyst + writer subagents</li>
-      <li>Each subagent has its own tools and system prompt</li>
-    </ul>
-    <h4>Evaluation</h4>
-    <ul>
-      <li>Run all three on the same 3 companies. Measure: total latency, total tokens, total cost, output quality (manual 1-5 rating)</li>
-      <li>Document: which architecture would you ship and why?</li>
-    </ul>
-    <p><strong>Skills:</strong> Prompt chaining, asyncio.gather, orchestrator-subagent, cost/latency measurement, architecture trade-off analysis</p>
+<p>Build the same complex task using three different architectures and compare reliability, cost, and latency. This is the exercise that builds real engineering judgment.</p>
+<h4>Task: Competitive Intelligence Report</h4>
+<p>Given a company name, produce a structured report: executive summary, products/services, market position, recent news, SWOT analysis.</p>
+<h4>Architecture 1 — Prompt Chain</h4>
+<ul>
+<li>5 fixed sequential LLM calls, each producing one section</li>
+<li>Each step's output feeds the next as context</li>
+</ul>
+<h4>Architecture 2 — Parallel + Synthesis</h4>
+<ul>
+<li>4 parallel calls (exec summary, products, market, news)</li>
+<li>1 final synthesis call combining all results</li>
+</ul>
+<h4>Architecture 3 — Orchestrator-Subagent</h4>
+<ul>
+<li>Orchestrator plans and dispatches to researcher + analyst + writer subagents</li>
+<li>Each subagent has its own tools and system prompt</li>
+</ul>
+<h4>Evaluation</h4>
+<ul>
+<li>Run all three on the same 3 companies. Measure: total latency, total tokens, total cost, output quality (manual 1-5 rating)</li>
+<li>Document: which architecture would you ship and why?</li>
+</ul>
+<p><strong>Skills:</strong> Prompt chaining, asyncio.gather, orchestrator-subagent, cost/latency measurement, architecture trade-off analysis</p>
   </div>
 </div>
 </div>
@@ -647,30 +698,30 @@ Available agents:
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Tool Design Audit — Fix Three Bad Tools</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Apply the tool design principles to real tool definitions and measure the improvement.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Write three intentionally bad tools: (a) a <code>do_stuff(input)</code> with vague name and description, (b) a tool that raises an exception on error instead of returning a dict, (c) a tool that does 3 things (fetch + process + save) in one call.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Connect these to an agent. Run 5 queries that should trigger these tools. Record how often the agent: selects the wrong tool, crashes on the exception, or produces inconsistent results from the multi-purpose tool.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Fix each tool: rename with specific verb+noun, return structured error dicts, split into atomic operations. Rerun the same 5 queries. Compare failure rates.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Add the USE/DON'T USE pattern to each tool description. Test with ambiguous queries that could trigger multiple tools — does selection improve?</div></div>
+<p><strong>Objective:</strong> Apply the tool design principles to real tool definitions and measure the improvement.</p>
+<div class="lab-step"><div class="sn">1</div><div>Write three intentionally bad tools: (a) a <code>do_stuff(input)</code> with vague name and description, (b) a tool that raises an exception on error instead of returning a dict, (c) a tool that does 3 things (fetch + process + save) in one call.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Connect these to an agent. Run 5 queries that should trigger these tools. Record how often the agent: selects the wrong tool, crashes on the exception, or produces inconsistent results from the multi-purpose tool.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Fix each tool: rename with specific verb+noun, return structured error dicts, split into atomic operations. Rerun the same 5 queries. Compare failure rates.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Add the USE/DON'T USE pattern to each tool description. Test with ambiguous queries that could trigger multiple tools — does selection improve?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Pattern Selection — Choose the Right Architecture</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Practice the decision matrix by correctly categorising 10 real tasks.</p>
-    <div class="lab-step"><div class="sn">1</div><div>For each of the following tasks, apply the decision matrix and determine the right pattern (chain, routing, parallel, agent, orchestrator): (a) translate a document to 5 languages, (b) answer a customer support email (billing/technical/general), (c) generate a test suite for a function, (d) research and write a 10-page market analysis, (e) summarise a meeting transcript into action items.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Implement two of the non-agent solutions (chain or parallel). Measure latency and cost vs a naive "just use an agent" implementation for the same tasks.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div><strong>Document:</strong> For which tasks was the simpler architecture actually better? What would have gone wrong with the agent approach?</div></div>
+<p><strong>Objective:</strong> Practice the decision matrix by correctly categorising 10 real tasks.</p>
+<div class="lab-step"><div class="sn">1</div><div>For each of the following tasks, apply the decision matrix and determine the right pattern (chain, routing, parallel, agent, orchestrator): (a) translate a document to 5 languages, (b) answer a customer support email (billing/technical/general), (c) generate a test suite for a function, (d) research and write a 10-page market analysis, (e) summarise a meeting transcript into action items.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Implement two of the non-agent solutions (chain or parallel). Measure latency and cost vs a naive "just use an agent" implementation for the same tasks.</div></div>
+<div class="lab-step"><div class="sn">3</div><div><strong>Document:</strong> For which tasks was the simpler architecture actually better? What would have gone wrong with the agent approach?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Parallel Fan-Out — Measure Real Speedup</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Quantify the latency benefit of parallelisation on a real multi-perspective task.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Take a 500-word technical document. Build a sequential pipeline: 4 sequential LLM calls for security, performance, readability, and documentation reviews. Time the total.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Build the parallel version using asyncio.gather for the same 4 reviews. Time the total.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Add a 5th synthesis step (sequential in both versions). Compare: total time, total tokens, quality of synthesis output.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test partial failure handling: make one of the 4 review calls intentionally fail. Does gather(return_exceptions=True) allow the other 3 to succeed? Does the synthesis handle the missing review gracefully?</div></div>
+<p><strong>Objective:</strong> Quantify the latency benefit of parallelisation on a real multi-perspective task.</p>
+<div class="lab-step"><div class="sn">1</div><div>Take a 500-word technical document. Build a sequential pipeline: 4 sequential LLM calls for security, performance, readability, and documentation reviews. Time the total.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Build the parallel version using asyncio.gather for the same 4 reviews. Time the total.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Add a 5th synthesis step (sequential in both versions). Compare: total time, total tokens, quality of synthesis output.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test partial failure handling: make one of the 4 review calls intentionally fail. Does gather(return_exceptions=True) allow the other 3 to succeed? Does the synthesis handle the missing review gracefully?</div></div>
   </div>
 </div>
 </div><!-- end t8 -->

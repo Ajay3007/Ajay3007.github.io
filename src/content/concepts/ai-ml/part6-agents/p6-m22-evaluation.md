@@ -107,10 +107,10 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
   <div class="mod-title">Evaluation Harnesses &amp; Task Success Metrics</div>
   <div class="mod-subtitle">Measure what matters — RAG faithfulness, agent task success, and LLM-as-judge patterns</div>
   <div class="mod-pills">
-    <span class="mod-pill">⏱ 1 Week</span>
-    <span class="mod-pill">🟠 Intermediate–Advanced</span>
-    <span class="mod-pill">🔧 DeepEval · Ragas · LangSmith · Promptfoo</span>
-    <span class="mod-pill">📋 Prerequisite: P6-M21</span>
+<span class="mod-pill">⏱ 1 Week</span>
+<span class="mod-pill">🟠 Intermediate–Advanced</span>
+<span class="mod-pill">🔧 DeepEval · Ragas · LangSmith · Promptfoo</span>
+<span class="mod-pill">📋 Prerequisite: P6-M21</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -131,15 +131,15 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-violet">Final Part 6 Module</span></div>
   <div class="cp-body">
-    <p>You cannot improve what you cannot measure. Evaluation is what separates teams that ship reliable AI systems from teams that rely on vibes and hope. This module covers the full evaluation stack — from simple metrics you implement yourself to production-grade harnesses.</p>
-    <ul>
-      <li><strong>Key metrics</strong> — faithfulness, answer relevancy, context recall, task success rate, tool precision</li>
-      <li><strong>LLM-as-judge</strong> — using an LLM to evaluate LLM outputs, calibration, and known biases</li>
-      <li><strong>RAG evaluation</strong> — RAGAS framework: faithfulness, answer relevancy, context precision, context recall</li>
-      <li><strong>Agent evaluation</strong> — task success rate, tool call efficiency, trajectory accuracy</li>
-      <li><strong>DeepEval &amp; Ragas</strong> — production eval frameworks with built-in metrics</li>
-      <li><strong>LangSmith</strong> — tracing, datasets, evaluation runs, regression testing</li>
-    </ul>
+<p>You cannot improve what you cannot measure. Evaluation is what separates teams that ship reliable AI systems from teams that rely on vibes and hope. This module covers the full evaluation stack — from simple metrics you implement yourself to production-grade harnesses.</p>
+<ul>
+<li><strong>Key metrics</strong> — faithfulness, answer relevancy, context recall, task success rate, tool precision</li>
+<li><strong>LLM-as-judge</strong> — using an LLM to evaluate LLM outputs, calibration, and known biases</li>
+<li><strong>RAG evaluation</strong> — RAGAS framework: faithfulness, answer relevancy, context precision, context recall</li>
+<li><strong>Agent evaluation</strong> — task success rate, tool call efficiency, trajectory accuracy</li>
+<li><strong>DeepEval &amp; Ragas</strong> — production eval frameworks with built-in metrics</li>
+<li><strong>LangSmith</strong> — tracing, datasets, evaluation runs, regression testing</li>
+</ul>
   </div>
 </div>
 </div>
@@ -148,70 +148,70 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">📐</span><h3>The Metrics That Matter</h3><span class="tag tag-violet">Know These by Name</span></div>
   <div class="cp-body">
-    <p class="sep">RAG METRICS</p>
-    <div class="metric-grid">
-      <div class="mc m-rag">
-        <div class="name">Faithfulness</div>
-        <div class="val">0–1</div>
-        <div class="desc">Are all claims in the answer supported by the retrieved context? 1.0 = fully grounded</div>
-      </div>
-      <div class="mc m-rag">
-        <div class="name">Answer Relevancy</div>
-        <div class="val">0–1</div>
-        <div class="desc">Does the answer actually address the question asked? High score = on-topic</div>
-      </div>
-      <div class="mc m-rag">
-        <div class="name">Context Precision</div>
-        <div class="val">0–1</div>
-        <div class="desc">Of the retrieved chunks, what fraction were actually useful? 1.0 = all relevant</div>
-      </div>
-      <div class="mc m-rag">
-        <div class="name">Context Recall</div>
-        <div class="val">0–1</div>
-        <div class="desc">Did retrieval find all the chunks needed to answer? 1.0 = nothing missed</div>
-      </div>
-    </div>
-    <p class="sep">AGENT METRICS</p>
-    <div class="metric-grid">
-      <div class="mc m-agent">
-        <div class="name">Task Success Rate</div>
-        <div class="val">0–100%</div>
-        <div class="desc">% of tasks where the agent achieved the stated goal. The headline metric.</div>
-      </div>
-      <div class="mc m-agent">
-        <div class="name">Tool Call Precision</div>
-        <div class="val">0–1</div>
-        <div class="desc">Were all tool calls necessary? Unused/redundant calls lower this.</div>
-      </div>
-      <div class="mc m-agent">
-        <div class="name">Trajectory Accuracy</div>
-        <div class="val">0–1</div>
-        <div class="desc">Did the agent follow an efficient path? Compared to optimal sequence.</div>
-      </div>
-      <div class="mc m-agent">
-        <div class="name">Cost per Task</div>
-        <div class="val">$</div>
-        <div class="desc">Average USD spent per successful task completion.</div>
-      </div>
-    </div>
-    <p class="sep">GENERAL LLM METRICS</p>
-    <div class="metric-grid">
-      <div class="mc m-general">
-        <div class="name">Correctness</div>
-        <div class="val">0–1</div>
-        <div class="desc">Is the answer factually correct? Requires ground truth.</div>
-      </div>
-      <div class="mc m-general">
-        <div class="name">Coherence</div>
-        <div class="val">0–1</div>
-        <div class="desc">Is the output well-structured and logically consistent?</div>
-      </div>
-      <div class="mc m-general">
-        <div class="name">Toxicity</div>
-        <div class="val">0–1</div>
-        <div class="desc">Does output contain harmful content? 0.0 = safe.</div>
-      </div>
-    </div>
+<p class="sep">RAG METRICS</p>
+<div class="metric-grid">
+<div class="mc m-rag">
+<div class="name">Faithfulness</div>
+<div class="val">0–1</div>
+<div class="desc">Are all claims in the answer supported by the retrieved context? 1.0 = fully grounded</div>
+</div>
+<div class="mc m-rag">
+<div class="name">Answer Relevancy</div>
+<div class="val">0–1</div>
+<div class="desc">Does the answer actually address the question asked? High score = on-topic</div>
+</div>
+<div class="mc m-rag">
+<div class="name">Context Precision</div>
+<div class="val">0–1</div>
+<div class="desc">Of the retrieved chunks, what fraction were actually useful? 1.0 = all relevant</div>
+</div>
+<div class="mc m-rag">
+<div class="name">Context Recall</div>
+<div class="val">0–1</div>
+<div class="desc">Did retrieval find all the chunks needed to answer? 1.0 = nothing missed</div>
+</div>
+</div>
+<p class="sep">AGENT METRICS</p>
+<div class="metric-grid">
+<div class="mc m-agent">
+<div class="name">Task Success Rate</div>
+<div class="val">0–100%</div>
+<div class="desc">% of tasks where the agent achieved the stated goal. The headline metric.</div>
+</div>
+<div class="mc m-agent">
+<div class="name">Tool Call Precision</div>
+<div class="val">0–1</div>
+<div class="desc">Were all tool calls necessary? Unused/redundant calls lower this.</div>
+</div>
+<div class="mc m-agent">
+<div class="name">Trajectory Accuracy</div>
+<div class="val">0–1</div>
+<div class="desc">Did the agent follow an efficient path? Compared to optimal sequence.</div>
+</div>
+<div class="mc m-agent">
+<div class="name">Cost per Task</div>
+<div class="val">$</div>
+<div class="desc">Average USD spent per successful task completion.</div>
+</div>
+</div>
+<p class="sep">GENERAL LLM METRICS</p>
+<div class="metric-grid">
+<div class="mc m-general">
+<div class="name">Correctness</div>
+<div class="val">0–1</div>
+<div class="desc">Is the answer factually correct? Requires ground truth.</div>
+</div>
+<div class="mc m-general">
+<div class="name">Coherence</div>
+<div class="val">0–1</div>
+<div class="desc">Is the output well-structured and logically consistent?</div>
+</div>
+<div class="mc m-general">
+<div class="name">Toxicity</div>
+<div class="val">0–1</div>
+<div class="desc">Does output contain harmful content? 0.0 = safe.</div>
+</div>
+</div>
   </div>
 </div>
 </div><!-- end t1 -->
@@ -220,92 +220,105 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🤖</span><h3>LLM-as-Judge — Using AI to Evaluate AI</h3><span class="tag tag-violet">Core Technique</span></div>
   <div class="cp-body">
-    <p>When you can't write deterministic evaluation rules (most LLM outputs), use a capable LLM as the judge. The key is calibration — your judge must agree with human raters on a validation set.</p>
-    <div class="cb"><pre>import anthropic
+<p>When you can't write deterministic evaluation rules (most LLM outputs), use a capable LLM as the judge. The key is calibration — your judge must agree with human raters on a validation set.</p>
+    
+
+```python
+import anthropic
 from pydantic import BaseModel
 import instructor
- 
+
 judge_client = instructor.from_anthropic(anthropic.Anthropic())
- 
+
 class JudgeVerdict(BaseModel):
-    score:      float   <span class="ck"># 0.0 to 1.0</span>
+    score:      float   # 0.0 to 1.0
     reasoning:  str
-    passed:     bool    <span class="ck"># True if score >= threshold</span>
-<span class="ck"># ── Faithfulness judge ────────────────────────────────</span>
-FAITHFULNESS_JUDGE = <span class="cs">"""You are an expert evaluator. Determine whether every factual
+    passed:     bool    # True if score >= threshold
+
+# ── Faithfulness judge ────────────────────────────────
+FAITHFULNESS_JUDGE = """You are an expert evaluator. Determine whether every factual
 claim in the ANSWER is directly supported by the CONTEXT.
- 
+
 Score 1.0: All claims are explicitly stated in the context.
 Score 0.5: Most claims supported, some extrapolation.
 Score 0.0: Major claims not in context — hallucination present.
- 
+
 CONTEXT:
 {context}
- 
+
 ANSWER:
-{answer}"""</span>
- 
+{answer}"""
+
 def judge_faithfulness(context: str, answer: str,
-                        threshold: float = <span class="cv">0.7</span>) -> JudgeVerdict:
+                        threshold: float = 0.7) -> JudgeVerdict:
     result = judge_client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,   <span class="ck"># strong model for judging</span>
-        max_tokens=<span class="cv">300</span>,
-        temperature=<span class="cv">0.0</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>,
-                   <span class="cs">"content"</span>: FAITHFULNESS_JUDGE.format(context=context, answer=answer)}],
+        model="claude-3-5-sonnet-20241022",   # strong model for judging
+        max_tokens=300,
+        temperature=0.0,
+        messages=[{"role": "user",
+                   "content": FAITHFULNESS_JUDGE.format(context=context, answer=answer)}],
         response_model=JudgeVerdict
     )
     result.passed = result.score >= threshold
     return result
- 
-<span class="ck"># ── Task success judge ────────────────────────────────</span>
-TASK_SUCCESS_JUDGE = <span class="cs">"""Did the AI agent successfully complete the following task?
- 
+
+# ── Task success judge ────────────────────────────────
+TASK_SUCCESS_JUDGE = """Did the AI agent successfully complete the following task?
+
 ORIGINAL TASK: {task}
 AGENT'S OUTPUT: {output}
- 
+
 Score 1.0: Task fully completed — all requirements met.
 Score 0.5: Task partially completed — some requirements missing.
-Score 0.0: Task failed — output does not address the task."""</span>
- 
+Score 0.0: Task failed — output does not address the task."""
+
 def judge_task_success(task: str, output: str) -> JudgeVerdict:
     return judge_client.messages.create(
-        model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
-        max_tokens=<span class="cv">200</span>, temperature=<span class="cv">0.0</span>,
-        messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>,
-                   <span class="cs">"content"</span>: TASK_SUCCESS_JUDGE.format(task=task, output=output)}],
+        model="claude-3-5-sonnet-20241022",
+        max_tokens=200, temperature=0.0,
+        messages=[{"role": "user",
+                   "content": TASK_SUCCESS_JUDGE.format(task=task, output=output)}],
         response_model=JudgeVerdict
-    )</pre></div>
+    )
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>LLM Judge Biases — Know These</h3><span class="tag tag-blue">Calibration</span></div>
   <div class="cp-body">
-    <ul>
-      <li><strong>Position bias</strong> — judges prefer the first option shown in A/B comparisons. Always randomise ordering and average results.</li>
-      <li><strong>Verbosity bias</strong> — longer answers score higher even if less accurate. Penalise unnecessary length explicitly in your judge prompt.</li>
-      <li><strong>Self-preference bias</strong> — Claude tends to prefer Claude outputs, GPT prefers GPT outputs. Use a different model family as judge when evaluating your primary model.</li>
-      <li><strong>Sycophancy</strong> — judges rate answers higher if they seem confident. Include "do not be influenced by the confidence of the answer" in your judge prompt.</li>
-    </ul>
-    <div class="cb"><pre><span class="ck"># Calibrate your judge against human ratings</span>
-<span class="ck"># Step 1: get 50 human-rated examples (your gold set)</span>
-<span class="ck"># Step 2: run your judge on the same 50</span>
-<span class="ck"># Step 3: compute correlation (Pearson r or Spearman ρ)</span>
-<span class="ck"># Step 4: if r < 0.7, iterate on the judge prompt</span>
- 
+<ul>
+<li><strong>Position bias</strong> — judges prefer the first option shown in A/B comparisons. Always randomise ordering and average results.</li>
+<li><strong>Verbosity bias</strong> — longer answers score higher even if less accurate. Penalise unnecessary length explicitly in your judge prompt.</li>
+<li><strong>Self-preference bias</strong> — Claude tends to prefer Claude outputs, GPT prefers GPT outputs. Use a different model family as judge when evaluating your primary model.</li>
+<li><strong>Sycophancy</strong> — judges rate answers higher if they seem confident. Include "do not be influenced by the confidence of the answer" in your judge prompt.</li>
+</ul>
+    
+
+```python
+# Calibrate your judge against human ratings
+# Step 1: get 50 human-rated examples (your gold set)
+# Step 2: run your judge on the same 50
+# Step 3: compute correlation (Pearson r or Spearman ρ)
+# Step 4: if r 
+
 from scipy.stats import pearsonr, spearmanr
- 
+
 def calibrate_judge(human_scores: list[float], judge_scores: list[float]) -> dict:
     pearson_r, _ = pearsonr(human_scores, judge_scores)
     spearman_r, _ = spearmanr(human_scores, judge_scores)
-    agreement    = sum(<span class="cv">1</span> for h, j in zip(human_scores, judge_scores)
-                       if abs(h - j) < <span class="cv">0.2</span>) / len(human_scores)
+    agreement    = sum(1 for h, j in zip(human_scores, judge_scores)
+                       if abs(h - j) 0.2) / len(human_scores)
     return {
-        <span class="cs">"pearson_r"</span>:   round(pearson_r, <span class="cv">3</span>),
-        <span class="cs">"spearman_r"</span>:  round(spearman_r, <span class="cv">3</span>),
-        <span class="cs">"agreement"</span>:   round(agreement, <span class="cv">3</span>),
-        <span class="cs">"calibrated"</span>: pearson_r >= <span class="cv">0.7</span>   <span class="ck"># r ≥ 0.7 considered acceptable</span>
-    }</pre></div>
+        "pearson_r":   round(pearson_r, 3),
+        "spearman_r":  round(spearman_r, 3),
+        "agreement":   round(agreement, 3),
+        "calibrated": pearson_r >= 0.7   # r ≥ 0.7 considered acceptable
+    }
+```
+
+
   </div>
 </div>
 </div><!-- end t2 -->
@@ -314,47 +327,54 @@ def calibrate_judge(human_scores: list[float], judge_scores: list[float]) -> dic
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Evaluating Your RAG Pipeline End-to-End</h3><span class="tag tag-violet">Systematic</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Build a ground truth dataset for RAG evaluation</span>
-<span class="ck"># Each test case: question + expected answer + expected source</span>
+    
+
+```python
+# Build a ground truth dataset for RAG evaluation
+# Each test case: question + expected answer + expected source
 RAG_TEST_SET = [
     {
-        <span class="cs">"question"</span>: <span class="cs">"How does DPDK mempool initialisation work?"</span>,
-        <span class="cs">"ground_truth"</span>: <span class="cs">"DPDK mempool uses rte_mempool_create() with a fixed pool of memory objects pre-allocated at startup."</span>,
-        <span class="cs">"expected_source"</span>: <span class="cs">"dpdk-guide-mempool.pdf"</span>,
+        "question": "How does DPDK mempool initialisation work?",
+        "ground_truth": "DPDK mempool uses rte_mempool_create() with a fixed pool of memory objects pre-allocated at startup.",
+        "expected_source": "dpdk-guide-mempool.pdf",
     },
-    <span class="ck"># ... 20+ test cases</span>
+    # ... 20+ test cases
 ]
- 
-<span class="ck"># Run full eval loop</span>
+
+# Run full eval loop
 async def evaluate_rag_pipeline(pipeline, test_set: list) -> dict:
-    scores = {<span class="cs">"faithfulness"</span>: [], <span class="cs">"relevancy"</span>: [], <span class="cs">"hit_rate"</span>: [],
-              <span class="cs">"cost_usd"</span>: [], <span class="cs">"latency_ms"</span>: []}
- 
+    scores = {"faithfulness": [], "relevancy": [], "hit_rate": [],
+              "cost_usd": [], "latency_ms": []}
+
     for case in test_set:
         import time
         t_start = time.perf_counter()
-        result  = await pipeline.query(case[<span class="cs">"question"</span>])
-        latency = (time.perf_counter() - t_start) * <span class="cv">1000</span>
-        <span class="ck"># Metric 1: Faithfulness</span>
+        result  = await pipeline.query(case["question"])
+        latency = (time.perf_counter() - t_start) * 1000
+
+        # Metric 1: Faithfulness
         faith = judge_faithfulness(
-            context=<span class="cs">" ".join(s[<span class="cs">"text"</span>] for s in result[<span class="cs">"sources"</span>]),
-            answer=result[<span class="cs">"answer"</span>]
+            context=" ".join(s["text"] for s in result["sources"]),
+            answer=result["answer"]
         )
-        scores[<span class="cs">"faithfulness"</span>].append(faith.score)
- 
-        <span class="ck"># Metric 2: Answer relevancy (does answer address the question?)</span>
-        relevancy = judge_answer_relevancy(case[<span class="cs">"question"</span>], result[<span class="cs">"answer"</span>])
-        scores[<span class="cs">"relevancy"</span>].append(relevancy.score)
- 
-        <span class="ck"># Metric 3: Source hit rate</span>
-        expected = case[<span class="cs">"expected_source"</span>]
-        hit = any(expected in s.get(<span class="cs">"source"</span>, <span class="cs">""</span>) for s in result[<span class="cs">"sources"</span>])
-        scores[<span class="cs">"hit_rate"</span>].append(float(hit))
- 
-        scores[<span class="cs">"latency_ms"</span>].append(latency)
- 
-    def avg(lst): return round(sum(lst) / len(lst), <span class="cv">3</span>) if lst else <span class="cv">0</span>
-    return {k: avg(v) for k, v in scores.items()}</pre></div>
+        scores["faithfulness"].append(faith.score)
+
+        # Metric 2: Answer relevancy (does answer address the question?)
+        relevancy = judge_answer_relevancy(case["question"], result["answer"])
+        scores["relevancy"].append(relevancy.score)
+
+        # Metric 3: Source hit rate
+        expected = case["expected_source"]
+        hit = any(expected in s.get("source", "") for s in result["sources"])
+        scores["hit_rate"].append(float(hit))
+
+        scores["latency_ms"].append(latency)
+
+    def avg(lst): return round(sum(lst) / len(lst), 3) if lst else 0
+    return {k: avg(v) for k, v in scores.items()}
+```
+
+
   </div>
 </div>
 </div><!-- end t3 -->
@@ -363,83 +383,89 @@ async def evaluate_rag_pipeline(pipeline, test_set: list) -> dict:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🕵</span><h3>Evaluating Agents — Task Success and Trajectory</h3><span class="tag tag-violet">Agent Specific</span></div>
   <div class="cp-body">
-    <div class="cb"><pre><span class="ck"># Agent evaluation is harder than RAG eval because:</span>
-<span class="ck"># 1. The "right answer" may not be unique</span>
-<span class="ck"># 2. The path matters, not just the destination</span>
-<span class="ck"># 3. Tool calls have side effects that are hard to undo</span>
- 
+    
+
+```python
+# Agent evaluation is harder than RAG eval because:
+# 1. The "right answer" may not be unique
+# 2. The path matters, not just the destination
+# 3. Tool calls have side effects that are hard to undo
+
 @dataclass
 class AgentTestCase:
     task:              str
-    expected_outcome:  str                <span class="ck"># what a successful completion looks like</span>
-    required_tools:    list[str] = None   <span class="ck"># tools that MUST be called</span>
-    forbidden_tools:   list[str] = None   <span class="ck"># tools that must NOT be called</span>
-    max_turns:         int = <span class="cv">10</span>
-    max_cost_usd:      float = <span class="cv">0.50</span>
- 
+    expected_outcome:  str                # what a successful completion looks like
+    required_tools:    list[str] = None   # tools that MUST be called
+    forbidden_tools:   list[str] = None   # tools that must NOT be called
+    max_turns:         int = 10
+    max_cost_usd:      float = 0.50
+
 AGENT_TEST_SET = [
     AgentTestCase(
-        task=<span class="cs">"Find the square root of 1764 and the current time"</span>,
-        expected_outcome=<span class="cs">"Answer mentions 42 and current time"</span>,
-        required_tools=[<span class="cs">"calculate"</span>, <span class="cs">"get_current_time"</span>],
-        max_turns=<span class="cv">5</span>
+        task="Find the square root of 1764 and the current time",
+        expected_outcome="Answer mentions 42 and current time",
+        required_tools=["calculate", "get_current_time"],
+        max_turns=5
     ),
     AgentTestCase(
-        task=<span class="cs">"Search for DPDK documentation on hugepages"</span>,
-        expected_outcome=<span class="cs">"Returns information about hugepage configuration"</span>,
-        required_tools=[<span class="cs">"search_web"</span>],
-        forbidden_tools=[<span class="cs">"send_email"</span>],   <span class="ck"># should not email anyone</span>
+        task="Search for DPDK documentation on hugepages",
+        expected_outcome="Returns information about hugepage configuration",
+        required_tools=["search_web"],
+        forbidden_tools=["send_email"],   # should not email anyone
     ),
 ]
- 
+
 class AgentEvaluator:
     def evaluate(self, agent_fn, test_case: AgentTestCase) -> dict:
         result = agent_fn(test_case.task)
-        tools_called = result.get(<span class="cs">"tools_called"</span>, [])
-        output       = result.get(<span class="cs">"answer"</span>, <span class="cs">""</span>)
-        turns        = result.get(<span class="cs">"turns_used"</span>, <span class="cv">0</span>)
-        cost         = result.get(<span class="cs">"cost_usd"</span>, <span class="cv">0</span>)
- 
-        <span class="ck"># Task success — LLM judge</span>
+        tools_called = result.get("tools_called", [])
+        output       = result.get("answer", "")
+        turns        = result.get("turns_used", 0)
+        cost         = result.get("cost_usd", 0)
+
+        # Task success — LLM judge
         success = judge_task_success(test_case.task, output)
- 
-        <span class="ck"># Required tools coverage</span>
-        tool_coverage = <span class="cv">1.0</span>
+
+        # Required tools coverage
+        tool_coverage = 1.0
         if test_case.required_tools:
             called_set  = set(tools_called)
             required    = set(test_case.required_tools)
             tool_coverage = len(called_set & required) / len(required)
- 
-        <span class="ck"># Forbidden tools check</span>
+
+        # Forbidden tools check
         forbidden_used = []
         if test_case.forbidden_tools:
             forbidden_used = [t for t in tools_called if t in test_case.forbidden_tools]
- 
-        <span class="ck"># Efficiency: did it use more turns than needed?</span>
-        efficiency = min(<span class="cv">1.0</span>, (test_case.max_turns - turns) / test_case.max_turns + <span class="cv">0.5</span>)
- 
+
+        # Efficiency: did it use more turns than needed?
+        efficiency = min(1.0, (test_case.max_turns - turns) / test_case.max_turns + 0.5)
+
         return {
-            <span class="cs">"task_success"</span>:   success.score,
-            <span class="cs">"task_passed"</span>:    success.passed,
-            <span class="cs">"tool_coverage"</span>:  tool_coverage,
-            <span class="cs">"forbidden_used"</span>: forbidden_used,
-            <span class="cs">"turns_used"</span>:     turns,
-            <span class="cs">"cost_usd"</span>:       cost,
-            <span class="cs">"efficiency"</span>:     efficiency,
-            <span class="cs">"judge_reasoning"</span>: success.reasoning,
+            "task_success":   success.score,
+            "task_passed":    success.passed,
+            "tool_coverage":  tool_coverage,
+            "forbidden_used": forbidden_used,
+            "turns_used":     turns,
+            "cost_usd":       cost,
+            "efficiency":     efficiency,
+            "judge_reasoning": success.reasoning,
         }
- 
+
     def evaluate_batch(self, agent_fn, test_set) -> dict:
         results   = [self.evaluate(agent_fn, tc) for tc in test_set]
-        successes = [r[<span class="cs">"task_success"</span>] for r in results]
+        successes = [r["task_success"] for r in results]
         return {
-            <span class="cs">"task_success_rate"</span>: sum(r[<span class="cs">"task_passed"</span>] for r in results) / len(results),
-            <span class="cs">"avg_success_score"</span>: sum(successes) / len(successes),
-            <span class="cs">"avg_turns"</span>:         sum(r[<span class="cs">"turns_used"</span>] for r in results) / len(results),
-            <span class="cs">"avg_cost_usd"</span>:      sum(r[<span class="cs">"cost_usd"</span>] for r in results) / len(results),
-            <span class="cs">"forbidden_violations"</span>: sum(<span class="cv">1</span> for r in results if r[<span class="cs">"forbidden_used"</span>]),
-            <span class="cs">"n"</span>:                 len(results),
-        }</pre></div>
+            "task_success_rate": sum(r["task_passed"] for r in results) / len(results),
+            "avg_success_score": sum(successes) / len(successes),
+            "avg_turns":         sum(r["turns_used"] for r in results) / len(results),
+            "avg_cost_usd":      sum(r["cost_usd"] for r in results) / len(results),
+            "forbidden_violations": sum(1 for r in results if r["forbidden_used"]),
+            "n":                 len(results),
+        }
+```
+
+
   </div>
 </div>
 </div><!-- end t4 -->
@@ -448,8 +474,11 @@ class AgentEvaluator:
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>DeepEval — Production Eval Framework</h3><span class="tag tag-violet">Framework</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install deepeval
- 
+    
+
+```python
+pip install deepeval
+
 from deepeval import evaluate
 from deepeval.metrics import (
     AnswerRelevancyMetric, FaithfulnessMetric,
@@ -457,71 +486,81 @@ from deepeval.metrics import (
     HallucinationMetric, ToxicityMetric,
 )
 from deepeval.test_case import LLMTestCase
- 
-<span class="ck"># Define metrics</span>
+
+# Define metrics
 metrics = [
-    AnswerRelevancyMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
-    FaithfulnessMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
-    ContextualPrecisionMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
-    ContextualRecallMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
+    AnswerRelevancyMetric(threshold=0.7, model="gpt-4o"),
+    FaithfulnessMetric(threshold=0.7, model="gpt-4o"),
+    ContextualPrecisionMetric(threshold=0.7, model="gpt-4o"),
+    ContextualRecallMetric(threshold=0.7, model="gpt-4o"),
 ]
- 
-<span class="ck"># Create a test case</span>
+
+# Create a test case
 test_case = LLMTestCase(
-    input=<span class="cs">"How does DPDK mempool work?"</span>,
-    actual_output=<span class="cs">"DPDK mempool pre-allocates a fixed pool of memory objects..."</span>,
-    expected_output=<span class="cs">"rte_mempool_create() creates a fixed-size pool..."</span>,   <span class="ck"># optional</span>
-    retrieval_context=[<span class="cs">"The DPDK mempool library provides an API to allocate..."</span>]
+    input="How does DPDK mempool work?",
+    actual_output="DPDK mempool pre-allocates a fixed pool of memory objects...",
+    expected_output="rte_mempool_create() creates a fixed-size pool...",   # optional
+    retrieval_context=["The DPDK mempool library provides an API to allocate..."]
 )
- 
-<span class="ck"># Run evaluation</span>
+
+# Run evaluation
 results = evaluate([test_case], metrics)
- 
-<span class="ck"># Use in pytest for CI/CD regression testing</span>
+
+# Use in pytest for CI/CD regression testing
 from deepeval import assert_test
 import pytest
- 
-@pytest.mark.parametrize(<span class="cs">"test_case"</span>, my_test_cases)
+
+@pytest.mark.parametrize("test_case", my_test_cases)
 def test_rag_quality(test_case):
-    assert_test(test_case, metrics)</pre></div>
+    assert_test(test_case, metrics)
+```
+
+
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Ragas — RAG Assessment Framework</h3><span class="tag tag-blue">RAG Specific</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install ragas
- 
+    
+
+```python
+pip install ragas
+
 from ragas import evaluate
 from ragas.metrics import (
     faithfulness, answer_relevancy,
     context_precision, context_recall
 )
 from datasets import Dataset
- 
-<span class="ck"># Prepare your evaluation dataset</span>
+
+# Prepare your evaluation dataset
 data = {
-    <span class="cs">"question"</span>: [<span class="cs">"How does DPDK mempool work?"</span>, <span class="cs">"What is VPP?"</span>],
-    <span class="cs">"answer"</span>:   [<span class="cs">"DPDK mempool uses rte_mempool_create..."</span>, <span class="cs">"VPP is Vector Packet Processor..."</span>],
-    <span class="cs">"contexts"</span>: [
-        [<span class="cs">"The mempool library provides..."</span>, <span class="cs">"rte_mempool_create allocates..."</span>],
-        [<span class="cs">"VPP is FD.io's data plane..."</span>],
+    "question": ["How does DPDK mempool work?", "What is VPP?"],
+    "answer":   ["DPDK mempool uses rte_mempool_create...", "VPP is Vector Packet Processor..."],
+    "contexts": [
+        ["The mempool library provides...", "rte_mempool_create allocates..."],
+        ["VPP is FD.io's data plane..."],
     ],
-    <span class="cs">"ground_truth"</span>: [<span class="cs">"rte_mempool_create creates a fixed pool"</span>, <span class="cs">"VPP processes vectors of packets"</span>]
+    "ground_truth": ["rte_mempool_create creates a fixed pool", "VPP processes vectors of packets"]
 }
 dataset = Dataset.from_dict(data)
- 
-<span class="ck"># Run Ragas evaluation</span>
+
+# Run Ragas evaluation
 result = evaluate(
     dataset,
     metrics=[faithfulness, answer_relevancy, context_precision, context_recall]
 )
 print(result)
-<span class="ck"># {'faithfulness': 0.92, 'answer_relevancy': 0.88,</span>
-<span class="ck">#  'context_precision': 0.84, 'context_recall': 0.79}</span>
-<span class="ck"># Convert to pandas for analysis</span>
+# {'faithfulness': 0.92, 'answer_relevancy': 0.88,
+#  'context_precision': 0.84, 'context_recall': 0.79}
+
+# Convert to pandas for analysis
 df = result.to_pandas()
-df.to_csv(<span class="cs">"rag_eval_results.csv"</span>, index=<span class="cv">False</span>)
-<span class="ck"># Identify lowest-scoring questions → improve retrieval or chunking for those</span></pre></div>
+df.to_csv("rag_eval_results.csv", index=False)
+# Identify lowest-scoring questions → improve retrieval or chunking for those
+```
+
+
   </div>
 </div>
 </div><!-- end t5 -->
@@ -530,54 +569,62 @@ df.to_csv(<span class="cs">"rag_eval_results.csv"</span>, index=<span class="cv"
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔭</span><h3>LangSmith — Tracing and Evaluation Platform</h3><span class="tag tag-violet">Observability</span></div>
   <div class="cp-body">
-    <div class="cb"><pre>pip install langsmith
- 
+    
+
+```python
+pip install langsmith
+
 import os
-os.environ[<span class="cs">"LANGCHAIN_TRACING_V2"</span>] = <span class="cs">"true"</span>
-os.environ[<span class="cs">"LANGCHAIN_API_KEY"</span>]      = os.environ[<span class="cs">"LANGSMITH_API_KEY"</span>]
-os.environ[<span class="cs">"LANGCHAIN_PROJECT"</span>]       = <span class="cs">"my-rag-project"</span>
-<span class="ck"># All LangChain calls now auto-trace to LangSmith</span>
-<span class="ck"># Go to smith.langchain.com → see every run</span>
-<span class="ck"># ── Manual tracing (without LangChain) ───────────────</span>
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_API_KEY"]      = os.environ["LANGSMITH_API_KEY"]
+os.environ["LANGCHAIN_PROJECT"]       = "my-rag-project"
+
+# All LangChain calls now auto-trace to LangSmith
+# Go to smith.langchain.com → see every run
+
+# ── Manual tracing (without LangChain) ───────────────
 from langsmith import Client, traceable
- 
+
 ls_client = Client()
- 
-@traceable(name=<span class="cs">"rag_query"</span>, run_type=<span class="cs">"chain"</span>)
+
+@traceable(name="rag_query", run_type="chain")
 def traced_rag_query(question: str) -> dict:
-    <span class="ck"># Your RAG pipeline here — every call is auto-logged</span>
+    # Your RAG pipeline here — every call is auto-logged
     result = rag_query(question)
     return result
- 
-<span class="ck"># ── Dataset-based evaluation ──────────────────────────</span>
-<span class="ck"># Create a dataset in LangSmith</span>
-dataset = ls_client.create_dataset(<span class="cs">"rag-eval-set"</span>)
+
+# ── Dataset-based evaluation ──────────────────────────
+# Create a dataset in LangSmith
+dataset = ls_client.create_dataset("rag-eval-set")
 ls_client.create_examples(
-    inputs=[{<span class="cs">"question"</span>: t[<span class="cs">"question"</span>]} for t in RAG_TEST_SET],
-    outputs=[{<span class="cs">"answer"</span>: t[<span class="cs">"ground_truth"</span>]} for t in RAG_TEST_SET],
+    inputs=[{"question": t["question"]} for t in RAG_TEST_SET],
+    outputs=[{"answer": t["ground_truth"]} for t in RAG_TEST_SET],
     dataset_id=dataset.id
 )
- 
-<span class="ck"># Define evaluator function</span>
+
+# Define evaluator function
 def faithfulness_evaluator(run, example) -> dict:
     verdict = judge_faithfulness(
-        context=run.outputs.get(<span class="cs">"context"</span>, <span class="cs">""</span>),
-        answer=run.outputs.get(<span class="cs">"answer"</span>, <span class="cs">""</span>)
+        context=run.outputs.get("context", ""),
+        answer=run.outputs.get("answer", "")
     )
-    return {<span class="cs">"key"</span>: <span class="cs">"faithfulness"</span>, <span class="cs">"score"</span>: verdict.score,
-            <span class="cs">"comment"</span>: verdict.reasoning}
- 
-<span class="ck"># Run evaluation against the dataset</span>
+    return {"key": "faithfulness", "score": verdict.score,
+            "comment": verdict.reasoning}
+
+# Run evaluation against the dataset
 from langsmith.evaluation import evaluate as ls_evaluate
- 
+
 results = ls_evaluate(
     traced_rag_query,
-    data=<span class="cs">"rag-eval-set"</span>,
+    data="rag-eval-set",
     evaluators=[faithfulness_evaluator],
-    experiment_prefix=<span class="cs">"v2-reranked"</span>
+    experiment_prefix="v2-reranked"
 )
-<span class="ck"># Results visible in LangSmith UI with charts, per-example scores, diffs</span></pre></div>
-    <div class="ins"><p>💡 <strong>LangSmith's experiment comparison is its killer feature.</strong> Run your baseline (v1) and improved (v2) pipelines against the same dataset, and LangSmith shows a side-by-side diff of every metric. This is how you prove that a new reranker or chunking strategy improved quality without regressions.</p></div>
+# Results visible in LangSmith UI with charts, per-example scores, diffs
+```
+
+
+<div class="ins"><p>💡 <strong>LangSmith's experiment comparison is its killer feature.</strong> Run your baseline (v1) and improved (v2) pipelines against the same dataset, and LangSmith shows a side-by-side diff of every metric. This is how you prove that a new reranker or chunking strategy improved quality without regressions.</p></div>
   </div>
 </div>
 </div><!-- end t6 -->
@@ -587,11 +634,11 @@ results = ls_evaluate(
 <table class="res-table">
   <thead><tr><th>Type</th><th>Resource</th><th>Best For</th></tr></thead>
   <tbody>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.confident-ai.com/" target="_blank" rel="noopener">DeepEval Documentation — docs.confident-ai.com</a></td><td>Complete reference for DeepEval metrics. Covers RAG, agent, and LLM evaluation with pytest integration.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.ragas.io/" target="_blank" rel="noopener">Ragas Documentation — docs.ragas.io</a></td><td>RAG-specific metrics framework. Best for faithfulness, context precision/recall evaluation.</td></tr>
-    <tr><td class="res-type">Docs</td><td><a href="https://docs.smith.langchain.com/" target="_blank" rel="noopener">LangSmith Documentation — docs.smith.langchain.com</a></td><td>Tracing, datasets, and experiment comparison. Essential for production AI observability.</td></tr>
-    <tr><td class="res-type">Course</td><td><a href="https://learn.deeplearning.ai/courses/building-and-evaluating-advanced-rag" target="_blank" rel="noopener">DeepLearning.AI: Building and Evaluating Advanced RAG (Free)</a></td><td>Covers RAG evaluation end-to-end with Ragas. Hands-on notebooks included.</td></tr>
-    <tr><td class="res-type">Library</td><td><a href="https://github.com/promptfoo/promptfoo" target="_blank" rel="noopener">Promptfoo — github.com/promptfoo/promptfoo</a></td><td>Open-source prompt testing framework. Red-teaming, regression testing, and CI/CD integration.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.confident-ai.com/" target="_blank" rel="noopener">DeepEval Documentation — docs.confident-ai.com</a></td><td>Complete reference for DeepEval metrics. Covers RAG, agent, and LLM evaluation with pytest integration.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.ragas.io/" target="_blank" rel="noopener">Ragas Documentation — docs.ragas.io</a></td><td>RAG-specific metrics framework. Best for faithfulness, context precision/recall evaluation.</td></tr>
+<tr><td class="res-type">Docs</td><td><a href="https://docs.smith.langchain.com/" target="_blank" rel="noopener">LangSmith Documentation — docs.smith.langchain.com</a></td><td>Tracing, datasets, and experiment comparison. Essential for production AI observability.</td></tr>
+<tr><td class="res-type">Course</td><td><a href="https://learn.deeplearning.ai/courses/building-and-evaluating-advanced-rag" target="_blank" rel="noopener">DeepLearning.AI: Building and Evaluating Advanced RAG (Free)</a></td><td>Covers RAG evaluation end-to-end with Ragas. Hands-on notebooks included.</td></tr>
+<tr><td class="res-type">Library</td><td><a href="https://github.com/promptfoo/promptfoo" target="_blank" rel="noopener">Promptfoo — github.com/promptfoo/promptfoo</a></td><td>Open-source prompt testing framework. Red-teaming, regression testing, and CI/CD integration.</td></tr>
   </tbody>
 </table>
 </div>
@@ -599,32 +646,32 @@ results = ls_evaluate(
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
-    <span>🛠</span>
-    <span class="proj-title">Full Eval Harness — RAG + Agent on Real Dataset</span>
-    <span class="proj-dur">[Advanced] 4–5 days</span>
+<span>🛠</span>
+<span class="proj-title">Full Eval Harness — RAG + Agent on Real Dataset</span>
+<span class="proj-dur">[Advanced] 4–5 days</span>
   </div>
   <div class="proj-body">
-    <p>Build a complete evaluation harness that runs on every commit — the CI/CD layer for your AI system.</p>
-    <h4>Part A — RAG Evaluation</h4>
-    <ul>
-      <li>Build a 30-question test set from your M18 "Chat With Your Docs" app with ground truth answers</li>
-      <li>Run Ragas evaluation: faithfulness, answer_relevancy, context_precision, context_recall</li>
-      <li>Run baseline (no reranking) vs enhanced (Cohere reranker from M17) — compare all 4 metrics</li>
-      <li>Export results to CSV, identify the 5 worst-performing questions and diagnose why</li>
-    </ul>
-    <h4>Part B — Agent Evaluation</h4>
-    <ul>
-      <li>Build a 20-task test set for your M21 hardened agent with expected outcomes and required tools</li>
-      <li>Run AgentEvaluator: task_success_rate, avg_turns, avg_cost, forbidden_violations</li>
-      <li>Use LLM-as-judge for task success with calibrated faithfulness judge</li>
-    </ul>
-    <h4>Part C — CI Integration</h4>
-    <ul>
-      <li>Write a pytest test file using DeepEval assertions</li>
-      <li>The test fails if: faithfulness &lt; 0.7 OR task_success_rate &lt; 0.8 OR any forbidden tool used</li>
-      <li>Run locally: <code>pytest eval_tests.py -v</code></li>
-    </ul>
-    <p><strong>Skills:</strong> Ragas, DeepEval, LLM-as-judge, AgentEvaluator, pytest integration, regression baselines</p>
+<p>Build a complete evaluation harness that runs on every commit — the CI/CD layer for your AI system.</p>
+<h4>Part A — RAG Evaluation</h4>
+<ul>
+<li>Build a 30-question test set from your M18 "Chat With Your Docs" app with ground truth answers</li>
+<li>Run Ragas evaluation: faithfulness, answer_relevancy, context_precision, context_recall</li>
+<li>Run baseline (no reranking) vs enhanced (Cohere reranker from M17) — compare all 4 metrics</li>
+<li>Export results to CSV, identify the 5 worst-performing questions and diagnose why</li>
+</ul>
+<h4>Part B — Agent Evaluation</h4>
+<ul>
+<li>Build a 20-task test set for your M21 hardened agent with expected outcomes and required tools</li>
+<li>Run AgentEvaluator: task_success_rate, avg_turns, avg_cost, forbidden_violations</li>
+<li>Use LLM-as-judge for task success with calibrated faithfulness judge</li>
+</ul>
+<h4>Part C — CI Integration</h4>
+<ul>
+<li>Write a pytest test file using DeepEval assertions</li>
+<li>The test fails if: faithfulness &lt; 0.7 OR task_success_rate &lt; 0.8 OR any forbidden tool used</li>
+<li>Run locally: <code>pytest eval_tests.py -v</code></li>
+</ul>
+<p><strong>Skills:</strong> Ragas, DeepEval, LLM-as-judge, AgentEvaluator, pytest integration, regression baselines</p>
   </div>
 </div>
 </div>
@@ -633,33 +680,33 @@ results = ls_evaluate(
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Build and Calibrate an LLM Judge</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Build a faithfulness judge, calibrate it against human ratings, and measure its reliability.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Generate 30 RAG outputs (question + context + answer) from your M18 pipeline — 10 clearly faithful, 10 clearly unfaithful (manually inject hallucinations), 10 borderline cases.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Rate all 30 yourself (0.0, 0.5, or 1.0). These are your human ratings — your gold set.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Run your LLM judge (Claude Haiku) on all 30. Compute pearson_r between human and judge scores using calibrate_judge().</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>If pearson_r &lt; 0.7, iterate on the judge prompt — add clearer scoring criteria, add examples. Re-run until calibrated.</div></div>
-    <div class="lab-step"><div class="sn">5</div><div>Test the 4 known biases: (a) verbosity — does a longer answer get higher score? (b) position — does ordering change scores in A/B? (c) self-preference — does Haiku prefer Haiku outputs? (d) confidence — does a confident wrong answer score higher?</div></div>
+<p><strong>Objective:</strong> Build a faithfulness judge, calibrate it against human ratings, and measure its reliability.</p>
+<div class="lab-step"><div class="sn">1</div><div>Generate 30 RAG outputs (question + context + answer) from your M18 pipeline — 10 clearly faithful, 10 clearly unfaithful (manually inject hallucinations), 10 borderline cases.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Rate all 30 yourself (0.0, 0.5, or 1.0). These are your human ratings — your gold set.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Run your LLM judge (Claude Haiku) on all 30. Compute pearson_r between human and judge scores using calibrate_judge().</div></div>
+<div class="lab-step"><div class="sn">4</div><div>If pearson_r &lt; 0.7, iterate on the judge prompt — add clearer scoring criteria, add examples. Re-run until calibrated.</div></div>
+<div class="lab-step"><div class="sn">5</div><div>Test the 4 known biases: (a) verbosity — does a longer answer get higher score? (b) position — does ordering change scores in A/B? (c) self-preference — does Haiku prefer Haiku outputs? (d) confidence — does a confident wrong answer score higher?</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Ragas End-to-End on Your RAG System</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Run a full Ragas evaluation and use the results to drive a concrete improvement.</p>
-    <div class="lab-step"><div class="sn">1</div><div>Create a 20-question dataset for your M18 RAG system. Include: question, ground_truth, contexts (retrieved chunks), answer (your pipeline's output).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run Ragas with all 4 metrics. Print the aggregate scores and the per-question DataFrame.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Identify the 3 questions with the lowest faithfulness score. Manually inspect: what did the answer say that wasn't in the context? Is this a retrieval failure or generation failure?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Fix the lowest-performing failure (e.g. rechunk, add reranker, strengthen grounding prompt). Re-run Ragas. Document: which metric improved? Did any regress?</div></div>
-    <div class="lab-step"><div class="sn">5</div><div><strong>Document the regression test rule:</strong> "Our faithfulness must be ≥ X and context_recall must be ≥ Y on this test set." Write a pytest assertion that enforces this.</div></div>
+<p><strong>Objective:</strong> Run a full Ragas evaluation and use the results to drive a concrete improvement.</p>
+<div class="lab-step"><div class="sn">1</div><div>Create a 20-question dataset for your M18 RAG system. Include: question, ground_truth, contexts (retrieved chunks), answer (your pipeline's output).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run Ragas with all 4 metrics. Print the aggregate scores and the per-question DataFrame.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Identify the 3 questions with the lowest faithfulness score. Manually inspect: what did the answer say that wasn't in the context? Is this a retrieval failure or generation failure?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Fix the lowest-performing failure (e.g. rechunk, add reranker, strengthen grounding prompt). Re-run Ragas. Document: which metric improved? Did any regress?</div></div>
+<div class="lab-step"><div class="sn">5</div><div><strong>Document the regression test rule:</strong> "Our faithfulness must be ≥ X and context_recall must be ≥ Y on this test set." Write a pytest assertion that enforces this.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Agent Evaluation — Measure Before You Improve</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Establish a baseline for your M21 agent, identify the most common failure pattern, and measure improvement.</div></p>
-    <div class="lab-step"><div class="sn">1</div><div>Write a 15-task test set for your M21 hardened agent covering: 5 simple (1-2 tools), 5 medium (3-4 tools), 5 complex (5+ tools or multi-step reasoning).</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Run AgentEvaluator.evaluate_batch(). Record: task_success_rate, avg_turns, avg_cost, forbidden_violations.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>For every failed task (task_success < 0.6), read the judge_reasoning and classify the failure: wrong tool selected, correct tool but wrong args, took too many turns, gave partial answer.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Fix the most common failure category (likely wrong tool selection or bad tool description). Re-run the evaluation. Show the before/after task_success_rate.</div></div>
+<p><strong>Objective:</strong> Establish a baseline for your M21 agent, identify the most common failure pattern, and measure improvement.</div></p>
+<div class="lab-step"><div class="sn">1</div><div>Write a 15-task test set for your M21 hardened agent covering: 5 simple (1-2 tools), 5 medium (3-4 tools), 5 complex (5+ tools or multi-step reasoning).</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Run AgentEvaluator.evaluate_batch(). Record: task_success_rate, avg_turns, avg_cost, forbidden_violations.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>For every failed task (task_success < 0.6), read the judge_reasoning and classify the failure: wrong tool selected, correct tool but wrong args, took too many turns, gave partial answer.</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Fix the most common failure category (likely wrong tool selection or bad tool description). Re-run the evaluation. Show the before/after task_success_rate.</div></div>
   </div>
 </div>
 </div><!-- end t9 -->
@@ -695,14 +742,14 @@ results = ls_evaluate(
   <h3>🎉 Part 6 — Agents, Workflows &amp; Evaluation Complete!</h3>
   <p>You can now build, harden, and measure production-grade AI agent systems.</p>
   <div class="part-skills">
-    <div class="ps-item">Build agents from scratch with ReAct loops</div>
-    <div class="ps-item">Design stateful agents with LangGraph</div>
-    <div class="ps-item">Implement human-in-the-loop with interrupt/resume</div>
-    <div class="ps-item">Design reliable tools with proper error contracts</div>
-    <div class="ps-item">Choose the right workflow pattern (chain/route/parallel/agent)</div>
-    <div class="ps-item">Detect and contain all 5 agent failure modes</div>
-    <div class="ps-item">Implement cost circuit breakers and structured logging</div>
-    <div class="ps-item">Evaluate RAG with Ragas and agents with LLM-as-judge</div>
+<div class="ps-item">Build agents from scratch with ReAct loops</div>
+<div class="ps-item">Design stateful agents with LangGraph</div>
+<div class="ps-item">Implement human-in-the-loop with interrupt/resume</div>
+<div class="ps-item">Design reliable tools with proper error contracts</div>
+<div class="ps-item">Choose the right workflow pattern (chain/route/parallel/agent)</div>
+<div class="ps-item">Detect and contain all 5 agent failure modes</div>
+<div class="ps-item">Implement cost circuit breakers and structured logging</div>
+<div class="ps-item">Evaluate RAG with Ragas and agents with LLM-as-judge</div>
   </div>
 </div>
 <div class="mod-nav">

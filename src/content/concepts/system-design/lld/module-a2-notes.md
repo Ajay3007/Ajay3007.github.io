@@ -13,20 +13,20 @@ url: /learning/system-design/lld/module-a2-notes/
 
 <div class="chapter-hero" style="--ch-1:#f0a500;--ch-2:#cf7500;">
   <div class="breadcrumb">
-    <a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
-    <span class="separator">›</span>
-    <a href="/learning/system-design/lld/module-a2-creational/">Module A2</a>
-    <span class="separator">›</span>
-    <span class="current">Full Notes</span>
+<a href="/learning/system-design/system-design-roadmap/">System Design Roadmap</a>
+<span class="separator">›</span>
+<a href="/learning/system-design/lld/module-a2-creational/">Module A2</a>
+<span class="separator">›</span>
+<span class="current">Full Notes</span>
   </div>
   <h1>Module A2 — Creational Patterns</h1>
   <p class="ch-subtitle">Complete reference notes · Track A: LLD · Week 4</p>
   <div class="hero-stats">
-    <span class="stat-badge">Singleton</span>
-    <span class="stat-badge">Factory Method</span>
-    <span class="stat-badge">Abstract Factory</span>
-    <span class="stat-badge">Builder</span>
-    <span class="stat-badge">Prototype</span>
+<span class="stat-badge">Singleton</span>
+<span class="stat-badge">Factory Method</span>
+<span class="stat-badge">Abstract Factory</span>
+<span class="stat-badge">Builder</span>
+<span class="stat-badge">Prototype</span>
   </div>
 </div>
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
@@ -335,44 +335,44 @@ class ShapeRegistry {
 <div class="table-responsive">
 <table class="insight-table">
   <thead>
-    <tr>
-      <th>Pattern</th>
-      <th>Creates</th>
-      <th>Mechanism</th>
-      <th>Primary SOLID Principle Enforced</th>
-    </tr>
+<tr>
+<th>Pattern</th>
+<th>Creates</th>
+<th>Mechanism</th>
+<th>Primary SOLID Principle Enforced</th>
+</tr>
   </thead>
   <tbody>
-    <tr>
-      <td><strong>Singleton</strong></td>
-      <td>A single, globally accessible instance</td>
-      <td>Private constructor + static accessor</td>
-      <td>SRP (Though it often violates it practically, conceptually it manages one state globally).</td>
-    </tr>
-    <tr>
-      <td><strong>Factory Method</strong></td>
-      <td>One specific product object</td>
-      <td>Subclass overrides a creator method</td>
-      <td>OCP (Add new creators without modifying existing ones).</td>
-    </tr>
-    <tr>
-      <td><strong>Abstract Factory</strong></td>
-      <td>A family of related product objects</td>
-      <td>Interface injection with multiple factory methods</td>
-      <td>OCP and ISP (Interface Segregation).</td>
-    </tr>
-    <tr>
-      <td><strong>Builder</strong></td>
-      <td>A complex object, step-by-step</td>
-      <td>Inner Builder class, chained setters, `build()` method</td>
-      <td>SRP (Separates construction logic from the data model).</td>
-    </tr>
-    <tr>
-      <td><strong>Prototype</strong></td>
-      <td>A clone of an existing object</td>
-      <td>`clone()` interfaces and copy constructors</td>
-      <td>OCP (Cloning avoids concrete dependencies on classes).</td>
-    </tr>
+<tr>
+<td><strong>Singleton</strong></td>
+<td>A single, globally accessible instance</td>
+<td>Private constructor + static accessor</td>
+<td>SRP (Though it often violates it practically, conceptually it manages one state globally).</td>
+</tr>
+<tr>
+<td><strong>Factory Method</strong></td>
+<td>One specific product object</td>
+<td>Subclass overrides a creator method</td>
+<td>OCP (Add new creators without modifying existing ones).</td>
+</tr>
+<tr>
+<td><strong>Abstract Factory</strong></td>
+<td>A family of related product objects</td>
+<td>Interface injection with multiple factory methods</td>
+<td>OCP and ISP (Interface Segregation).</td>
+</tr>
+<tr>
+<td><strong>Builder</strong></td>
+<td>A complex object, step-by-step</td>
+<td>Inner Builder class, chained setters, `build()` method</td>
+<td>SRP (Separates construction logic from the data model).</td>
+</tr>
+<tr>
+<td><strong>Prototype</strong></td>
+<td>A clone of an existing object</td>
+<td>`clone()` interfaces and copy constructors</td>
+<td>OCP (Cloning avoids concrete dependencies on classes).</td>
+</tr>
   </tbody>
 </table>
 </div>

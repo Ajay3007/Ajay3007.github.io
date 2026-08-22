@@ -104,11 +104,11 @@ url: /learning/networking-mastery/m13-tunneling/
   <div class="mod-title">🔗 MPLS, VxLAN, GRE and Tunneling</div>
   <div class="mod-subtitle">Label switching · Overlay networks · VxLAN VTEP · GRE encapsulation · IPsec tunnels · Tunnel comparison</div>
   <div class="mod-pills">
-    <span class="mod-pill">Intermediate → Advanced</span>
-    <span class="mod-pill">Prerequisite: M10, M12</span>
-    <span class="mod-pill">RFC 3032 · RFC 7348 · RFC 2784</span>
-    <span class="mod-pill">Data Centre and VPN Core</span>
-    <span class="mod-pill">2 Labs</span>
+<span class="mod-pill">Intermediate → Advanced</span>
+<span class="mod-pill">Prerequisite: M10, M12</span>
+<span class="mod-pill">RFC 3032 · RFC 7348 · RFC 2784</span>
+<span class="mod-pill">Data Centre and VPN Core</span>
+<span class="mod-pill">2 Labs</span>
   </div>
 </div>
 <div class="tab-bar">
@@ -128,33 +128,33 @@ url: /learning/networking-mastery/m13-tunneling/
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>The Tunneling Concept</h3><span class="tag tag-teal">OVERVIEW</span></div>
   <div class="cp-body">
-    <p>Tunneling encapsulates one network protocol inside another — creating a virtual link between two endpoints that may be separated by many intermediate hops that don't need to understand the inner protocol. The <strong>underlay</strong> is the physical/IP network; the <strong>overlay</strong> is the virtual network running on top.</p>
-    <p><strong>Core use cases for tunneling:</strong></p>
-    <ul>
-      <li><strong>Carry non-IP traffic over IP</strong> — legacy protocols (IPX, SNA) encapsulated in IP/GRE for transport over modern IP networks</li>
-      <li><strong>Connect private networks over public internet</strong> — VPN tunnels (GRE+IPsec, WireGuard) connect branch offices over the internet as if they were directly connected</li>
-      <li><strong>Scale L2 over L3</strong> — VxLAN extends Layer 2 Ethernet broadcast domains across Layer 3 IP networks — essential for data centre multi-tenancy and VM migration</li>
-      <li><strong>Traffic engineering</strong> — MPLS labels allow routers to forward packets along pre-computed explicit paths, bypassing normal IP routing</li>
-      <li><strong>Network virtualisation</strong> — SDN overlays (OVN, NSX, ACI) use tunnels to implement virtual networks with arbitrary topology on top of physical hardware</li>
-    </ul>
+<p>Tunneling encapsulates one network protocol inside another — creating a virtual link between two endpoints that may be separated by many intermediate hops that don't need to understand the inner protocol. The <strong>underlay</strong> is the physical/IP network; the <strong>overlay</strong> is the virtual network running on top.</p>
+<p><strong>Core use cases for tunneling:</strong></p>
+<ul>
+<li><strong>Carry non-IP traffic over IP</strong> — legacy protocols (IPX, SNA) encapsulated in IP/GRE for transport over modern IP networks</li>
+<li><strong>Connect private networks over public internet</strong> — VPN tunnels (GRE+IPsec, WireGuard) connect branch offices over the internet as if they were directly connected</li>
+<li><strong>Scale L2 over L3</strong> — VxLAN extends Layer 2 Ethernet broadcast domains across Layer 3 IP networks — essential for data centre multi-tenancy and VM migration</li>
+<li><strong>Traffic engineering</strong> — MPLS labels allow routers to forward packets along pre-computed explicit paths, bypassing normal IP routing</li>
+<li><strong>Network virtualisation</strong> — SDN overlays (OVN, NSX, ACI) use tunnels to implement virtual networks with arbitrary topology on top of physical hardware</li>
+</ul>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Encapsulation Overhead Comparison</h3><span class="tag tag-blue">OVERHEAD</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Tunnel Type</th><th>Added Headers</th><th>Total Overhead</th><th>Effective MTU (from 1500)</th></tr></thead>
-      <tbody>
-        <tr><td>GRE (basic)</td><td>IP(20) + GRE(4)</td><td>24 bytes</td><td>1476 bytes</td></tr>
-        <tr><td>GRE + IPsec (ESP)</td><td>IP(20) + GRE(4) + ESP(~50)</td><td>~74 bytes</td><td>~1426 bytes</td></tr>
-        <tr><td>VxLAN</td><td>Eth(14) + IP(20) + UDP(8) + VxLAN(8)</td><td>50 bytes</td><td>1450 bytes</td></tr>
-        <tr><td>MPLS (1 label)</td><td>MPLS label(4)</td><td>4 bytes per label</td><td>1496 bytes</td></tr>
-        <tr><td>MPLS (2 labels)</td><td>MPLS label(8)</td><td>8 bytes</td><td>1492 bytes</td></tr>
-        <tr><td>WireGuard</td><td>IP(20) + UDP(8) + WireGuard(~32)</td><td>~60 bytes</td><td>~1440 bytes</td></tr>
-        <tr><td>IPsec (ESP transport)</td><td>ESP(~40)</td><td>~40 bytes</td><td>~1460 bytes</td></tr>
-      </tbody>
-    </table>
-    <div class="warn"><p>⚠️ <strong>MTU fragmentation is the #1 tunneling operational problem.</strong> When the effective MTU is reduced by tunnel overhead, packets that filled the original MTU now exceed the tunnel's MTU. If DF=1 is set (common with TCP), they get dropped. Solutions: MSS clamping (TCP only), Path MTU Discovery, configuring tunnel endpoints with reduced MTU, jumbo frames on the underlay.</p></div>
+<table class="t-table">
+<thead><tr><th>Tunnel Type</th><th>Added Headers</th><th>Total Overhead</th><th>Effective MTU (from 1500)</th></tr></thead>
+<tbody>
+<tr><td>GRE (basic)</td><td>IP(20) + GRE(4)</td><td>24 bytes</td><td>1476 bytes</td></tr>
+<tr><td>GRE + IPsec (ESP)</td><td>IP(20) + GRE(4) + ESP(~50)</td><td>~74 bytes</td><td>~1426 bytes</td></tr>
+<tr><td>VxLAN</td><td>Eth(14) + IP(20) + UDP(8) + VxLAN(8)</td><td>50 bytes</td><td>1450 bytes</td></tr>
+<tr><td>MPLS (1 label)</td><td>MPLS label(4)</td><td>4 bytes per label</td><td>1496 bytes</td></tr>
+<tr><td>MPLS (2 labels)</td><td>MPLS label(8)</td><td>8 bytes</td><td>1492 bytes</td></tr>
+<tr><td>WireGuard</td><td>IP(20) + UDP(8) + WireGuard(~32)</td><td>~60 bytes</td><td>~1440 bytes</td></tr>
+<tr><td>IPsec (ESP transport)</td><td>ESP(~40)</td><td>~40 bytes</td><td>~1460 bytes</td></tr>
+</tbody>
+</table>
+<div class="warn"><p>⚠️ <strong>MTU fragmentation is the #1 tunneling operational problem.</strong> When the effective MTU is reduced by tunnel overhead, packets that filled the original MTU now exceed the tunnel's MTU. If DF=1 is set (common with TCP), they get dropped. Solutions: MSS clamping (TCP only), Path MTU Discovery, configuring tunnel endpoints with reduced MTU, jumbo frames on the underlay.</p></div>
   </div>
 </div>
 </div>
@@ -164,51 +164,58 @@ url: /learning/networking-mastery/m13-tunneling/
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>MPLS Architecture and Label Forwarding</h3><span class="tag tag-purple">MPLS</span></div>
   <div class="cp-body">
-    <p>MPLS (RFC 3032) inserts a 32-bit label between the Layer 2 header and the IP header — often called "Layer 2.5". Labels allow routers to forward packets based on a fixed-length label lookup (O(1)) rather than an IP LPM lookup (more complex), and enable traffic engineering by pre-computing explicit paths through the network.</p>
-<div class="cb"><pre><span class="cm">/* MPLS label format (32 bits) */</span>
+<p>MPLS (RFC 3032) inserts a 32-bit label between the Layer 2 header and the IP header — often called "Layer 2.5". Labels allow routers to forward packets based on a fixed-length label lookup (O(1)) rather than an IP LPM lookup (more complex), and enable traffic engineering by pre-computing explicit paths through the network.</p>
+
+
+```yaml
+/* MPLS label format (32 bits) */
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                Label (20 bits)                | Exp(3b)|S|  TTL  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
- 
+
 Label:  20-bit forwarding label (0–15 = reserved)
 Exp:    3-bit traffic class (QoS, formerly called "EXP")
 S bit:  Bottom of Stack — set on the innermost label
 TTL:    copied from IP TTL on ingress, decremented at each LSR hop
- 
-<span class="cm">/* MPLS packet structure */</span>
+
+/* MPLS packet structure */
 [Ethernet hdr][MPLS label 1][MPLS label 2][IP hdr][TCP hdr][Data]
                 ↑ outer label  ↑ inner label
                 (multiple labels = "label stack")
- 
-<span class="cm">/* Label operations */</span>
+
+/* Label operations */
 PUSH:   Ingress LER adds label(s) to packet
 SWAP:   Transit LSR replaces label with new label (the forwarding operation)
 POP:    Egress LER removes label, exposes inner packet
- 
-<span class="cm">/* MPLS forwarding table (LFIB) */</span>
+
+/* MPLS forwarding table (LFIB) */
 Incoming label | Operation | Outgoing label | Outgoing interface
 100            | SWAP→200  | 200            | eth1
 200            | POP       | (none)         | eth2  → IP routing takes over
-300            | PUSH 400  | 400            | eth3  → add outer label</pre></div>
-    <div class="ins"><p>💡 <strong>Penultimate Hop Popping (PHP):</strong> The second-to-last router in an MPLS path removes the label (POP) before forwarding to the egress router. This allows the egress router to process the packet as pure IP without needing a label lookup. Signalled by the egress router advertising label 3 (Implicit NULL) to its upstream neighbour.</p></div>
+300            | PUSH 400  | 400            | eth3  → add outer label
+```
+
+
+
+<div class="ins"><p>💡 <strong>Penultimate Hop Popping (PHP):</strong> The second-to-last router in an MPLS path removes the label (POP) before forwarding to the egress router. This allows the egress router to process the packet as pure IP without needing a label lookup. Signalled by the egress router advertising label 3 (Implicit NULL) to its upstream neighbour.</p></div>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🛣️</span><h3>MPLS Traffic Engineering and VPNs</h3><span class="tag tag-blue">APPLICATIONS</span></div>
   <div class="cp-body">
-    <p>MPLS has two dominant applications in service-provider networks:</p>
-    <div class="two-col">
-      <div>
-        <h4>MPLS-TE (Traffic Engineering)</h4>
-        <p>RSVP-TE or LDP establishes explicit Label Switched Paths (LSPs) through the network following a pre-computed route (not necessarily the shortest IGP path). Allows bandwidth reservation, fast-reroute (50ms failover), and load distribution across parallel paths.</p>
-      </div>
-      <div>
-        <h4>MPLS L3VPN (BGP/MPLS VPN)</h4>
-        <p>Service providers use MPLS+BGP to provide isolated virtual private networks to customers. Customer routes are carried in BGP with a Route Distinguisher (RD) to separate them. The MPLS label stack (outer=transport, inner=VPN) directs packets to the correct customer VRF at the egress PE router.</p>
-      </div>
-    </div>
+<p>MPLS has two dominant applications in service-provider networks:</p>
+<div class="two-col">
+<div>
+<h4>MPLS-TE (Traffic Engineering)</h4>
+<p>RSVP-TE or LDP establishes explicit Label Switched Paths (LSPs) through the network following a pre-computed route (not necessarily the shortest IGP path). Allows bandwidth reservation, fast-reroute (50ms failover), and load distribution across parallel paths.</p>
+</div>
+<div>
+<h4>MPLS L3VPN (BGP/MPLS VPN)</h4>
+<p>Service providers use MPLS+BGP to provide isolated virtual private networks to customers. Customer routes are carried in BGP with a Route Distinguisher (RD) to separate them. The MPLS label stack (outer=transport, inner=VPN) directs packets to the correct customer VRF at the egress PE router.</p>
+</div>
+</div>
   </div>
 </div>
 </div>
@@ -218,8 +225,11 @@ Incoming label | Operation | Outgoing label | Outgoing interface
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>GRE Header and Operation</h3><span class="tag tag-teal">GRE</span></div>
   <div class="cp-body">
-    <p>GRE (Generic Routing Encapsulation) is the simplest tunnel protocol. It encapsulates any L3 protocol packet inside an IP packet with a small GRE header. GRE itself provides no encryption or authentication — it's just a wrapper. Encryption is typically added by combining GRE with IPsec.</p>
-<div class="cb"><pre><span class="cm">/* GRE packet structure */</span>
+<p>GRE (Generic Routing Encapsulation) is the simplest tunnel protocol. It encapsulates any L3 protocol packet inside an IP packet with a small GRE header. GRE itself provides no encryption or authentication — it's just a wrapper. Encryption is typically added by combining GRE with IPsec.</p>
+
+
+```bash
+/* GRE packet structure */
 [Outer IP hdr: src=tunnel_src dst=tunnel_dst proto=47]
 [GRE header: 4 bytes minimum]
   Flags(4b) | Reserved(9b) | Version(3b) | Protocol Type(16b)
@@ -228,29 +238,34 @@ Incoming label | Operation | Outgoing label | Outgoing interface
   [Optional: Sequence Number(32b)]
 [Inner IP packet: src=orig_src dst=orig_dst]
 [Original payload]
- 
-<span class="cm">/* GRE Protocol Type field — what's inside */</span>
+
+/* GRE Protocol Type field — what's inside */
 0x0800 = IPv4 (most common)
 0x86DD = IPv6
 0x0806 = ARP
 0x8847 = MPLS
- 
-<span class="cm">/* Linux GRE tunnel setup */</span>
-<span class="cm"># Create GRE tunnel interface</span>
+
+/* Linux GRE tunnel setup */
+# Create GRE tunnel interface
 ip tunnel add gre1 mode gre local 203.0.113.1 remote 198.51.100.1 ttl 255
 ip link set gre1 up
 ip addr add 10.100.0.1/30 dev gre1
- 
-<span class="cm"># Route traffic through tunnel</span>
+
+# Route traffic through tunnel
 ip route add 192.168.2.0/24 via 10.100.0.2 dev gre1
- 
-<span class="cm"># Verify</span>
+
+# Verify
 ip tunnel show
-ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
-<span class="cm">/* GRE keepalives (Cisco extension) */</span>
-<span class="cm"># GRE itself has no keepalive — use OSPF/BFD over the tunnel for failure detection</span>
-<span class="cm"># Or configure GRE keepalives (encapsulate keepalive inside GRE inside tunnel)</span></pre></div>
-    <div class="note"><p>💡 <strong>GRE + IPsec is the classic site-to-site VPN.</strong> GRE provides the tunnel (any-protocol encapsulation, routing over the tunnel), and IPsec provides encryption and authentication. Most enterprise VPN gateways still use this combination. Modern alternatives: WireGuard (simpler, faster), IPsec IKEv2 (no GRE needed), OpenVPN.</p></div>
+ping 10.100.0.2   # ping tunnel endpoint
+
+/* GRE keepalives (Cisco extension) */
+# GRE itself has no keepalive — use OSPF/BFD over the tunnel for failure detection
+# Or configure GRE keepalives (encapsulate keepalive inside GRE inside tunnel)
+```
+
+
+
+<div class="note"><p>💡 <strong>GRE + IPsec is the classic site-to-site VPN.</strong> GRE provides the tunnel (any-protocol encapsulation, routing over the tunnel), and IPsec provides encryption and authentication. Most enterprise VPN gateways still use this combination. Modern alternatives: WireGuard (simpler, faster), IPsec IKEv2 (no GRE needed), OpenVPN.</p></div>
   </div>
 </div>
 </div>
@@ -260,14 +275,17 @@ ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Why VxLAN Exists — Scaling L2 Over L3</h3><span class="tag tag-green">VXLAN</span></div>
   <div class="cp-body">
-    <p>Traditional VLANs have a fundamental limitation: they are bounded by a Layer 3 network. Two VMs in the same VLAN must be on the same L2 segment — you can't have VLAN 100 span across multiple data centre buildings connected by IP routing. With cloud and hyperscale data centres needing millions of isolated tenant networks, the 4094 VLAN limit was also a constraint.</p>
-    <p>VxLAN solves both problems: it encapsulates entire Ethernet frames (including VLAN tags) inside UDP/IP packets, allowing L2 segments to span any IP network. The VxLAN Network Identifier (VNI) is 24 bits — supporting 16 million isolated networks.</p>
+<p>Traditional VLANs have a fundamental limitation: they are bounded by a Layer 3 network. Two VMs in the same VLAN must be on the same L2 segment — you can't have VLAN 100 span across multiple data centre buildings connected by IP routing. With cloud and hyperscale data centres needing millions of isolated tenant networks, the 4094 VLAN limit was also a constraint.</p>
+<p>VxLAN solves both problems: it encapsulates entire Ethernet frames (including VLAN tags) inside UDP/IP packets, allowing L2 segments to span any IP network. The VxLAN Network Identifier (VNI) is 24 bits — supporting 16 million isolated networks.</p>
   </div>
 </div>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>VxLAN Encapsulation and VTEP</h3><span class="tag tag-blue">VXLAN DETAILS</span></div>
   <div class="cp-body">
-<div class="cb"><pre><span class="cm">/* VxLAN packet structure */</span>
+
+
+```python
+/* VxLAN packet structure */
 [Outer Ethernet: src=VTEP_MAC dst=next-hop_MAC type=0x0800]
 [Outer IP: src=VTEP_IP dst=remote_VTEP_IP proto=17 (UDP)]
 [Outer UDP: src=ephemeral dst=4789 (IANA VxLAN port)]
@@ -277,15 +295,15 @@ ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
 [Inner Ethernet frame: src=VM_MAC dst=dest_VM_MAC type=0x0800]
 [Inner IP packet]
 [Payload]
- 
+
 Total overhead: 50 bytes → effective MTU 1450 from standard 1500-byte underlay
- 
-<span class="cm">/* VNI — VxLAN Network Identifier */</span>
+
+/* VNI — VxLAN Network Identifier */
 24 bits → 16,777,216 unique overlay networks
 Equivalent to VLAN ID but vastly larger scale
 Each VNI is a separate L2 broadcast domain
- 
-<span class="cm">/* VTEP — VxLAN Tunnel End Point */</span>
+
+/* VTEP — VxLAN Tunnel End Point */
 The device that encapsulates/decapsulates VxLAN:
   On ingress (from VM): Ethernet frame → wrap in VxLAN/UDP/IP
   On egress (to VM):    VxLAN/UDP/IP → unwrap → deliver Ethernet frame
@@ -293,51 +311,61 @@ VTEPs can be:
   - Hypervisor (Linux bridge/OVS with VXLAN)
   - Hardware switch (ToR switch with VxLAN support)
   - Dedicated gateway appliance
- 
-<span class="cm">/* Linux VxLAN setup */</span>
-<span class="cm"># Create VxLAN tunnel interface</span>
+
+/* Linux VxLAN setup */
+# Create VxLAN tunnel interface
 ip link add vxlan100 type vxlan id 100 dstport 4789 \
     local 10.0.0.1 remote 10.0.0.2 dev eth0
- 
+
 ip link set vxlan100 up
 ip addr add 192.168.100.1/24 dev vxlan100
- 
-<span class="cm"># Add static FDB entry (tell Linux: MAC xx is at remote VTEP 10.0.0.2)</span>
+
+# Add static FDB entry (tell Linux: MAC xx is at remote VTEP 10.0.0.2)
 bridge fdb add aa:bb:cc:dd:ee:ff dev vxlan100 dst 10.0.0.2
- 
-<span class="cm"># Multicast VxLAN (learning mode)</span>
+
+# Multicast VxLAN (learning mode)
 ip link add vxlan100 type vxlan id 100 group 239.1.1.1 dev eth0
-<span class="cm"># BUM (Broadcast, Unknown unicast, Multicast) traffic → multicast group</span>
-<span class="cm"># VTEPs join the multicast group — learn each other's MACs via flooding</span></pre></div>
+# BUM (Broadcast, Unknown unicast, Multicast) traffic → multicast group
+# VTEPs join the multicast group — learn each other's MACs via flooding
+```
+
+
   </div>
 </div>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎛️</span><h3>EVPN — BGP Control Plane for VxLAN</h3><span class="tag tag-teal">EVPN</span></div>
   <div class="cp-body">
-    <p>Traditional VxLAN floods BUM (Broadcast, Unknown unicast, Multicast) traffic to discover MACs — this doesn't scale. <strong>EVPN (Ethernet VPN, RFC 7432)</strong> uses BGP as a control plane to distribute MAC-to-IP-to-VTEP mappings, eliminating flooding:</p>
-<div class="cb"><pre><span class="cm">/* EVPN Route Types (the key ones) */</span>
+<p>Traditional VxLAN floods BUM (Broadcast, Unknown unicast, Multicast) traffic to discover MACs — this doesn't scale. <strong>EVPN (Ethernet VPN, RFC 7432)</strong> uses BGP as a control plane to distribute MAC-to-IP-to-VTEP mappings, eliminating flooding:</p>
+
+
+```python
+/* EVPN Route Types (the key ones) */
 Type 2 (MAC/IP Advertisement):
   "MAC aa:bb:cc:dd:ee:ff, IP 192.168.1.5 is at VTEP 10.0.0.1, VNI 100"
   → VTEPs learn MAC/IP locations via BGP, no flooding needed
- 
+
 Type 3 (Inclusive Multicast):
   "VTEP 10.0.0.1 participates in VNI 100 BUM forwarding"
   → Ingress replication list instead of multicast
- 
-<span class="cm">/* Symmetric IRB — Integrated Routing and Bridging */</span>
-<span class="cm"># Layer 3 routing between VNIs without leaving the VxLAN fabric</span>
-<span class="cm"># Each VTEP acts as a distributed gateway for its local VMs</span>
-<span class="cm"># No hairpinning through a central gateway router</span>
-<span class="cm">/* Modern data centre: Leaf-Spine with VxLAN+EVPN */</span>
+
+/* Symmetric IRB — Integrated Routing and Bridging */
+# Layer 3 routing between VNIs without leaving the VxLAN fabric
+# Each VTEP acts as a distributed gateway for its local VMs
+# No hairpinning through a central gateway router
+
+/* Modern data centre: Leaf-Spine with VxLAN+EVPN */
 Spine switches:  pure IP underlay + iBGP route reflector for EVPN
 Leaf switches:   VTEPs + EVPN BGP speakers
 VMs/containers:  connected to leaf switches, in VxLAN VNIs
- 
-<span class="cm">/* FRR VxLAN+EVPN config */</span>
+
+/* FRR VxLAN+EVPN config */
 router bgp 65001
   address-family l2vpn evpn
     neighbor SPINE activate
-    advertise-all-vni</pre></div>
+    advertise-all-vni
+```
+
+
   </div>
 </div>
 </div>
@@ -347,21 +375,21 @@ router bgp 65001
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Tunnel Protocol Reference</h3><span class="tag tag-blue">REFERENCE</span></div>
   <div class="cp-body">
-    <table class="t-table">
-      <thead><tr><th>Protocol</th><th>RFC</th><th>Transport</th><th>Overhead</th><th>Use Case</th></tr></thead>
-      <tbody>
-        <tr><td><strong>GRE</strong></td><td>RFC 2784</td><td>IP Proto 47</td><td>24B</td><td>Site-to-site VPN (with IPsec), multi-protocol transport, GRE keepalives</td></tr>
-        <tr><td><strong>IP-in-IP</strong></td><td>RFC 2003</td><td>IP Proto 4</td><td>20B</td><td>Simple IPv4-in-IPv4; no options/encryption, minimum overhead</td></tr>
-        <tr><td><strong>6in4</strong></td><td>RFC 4213</td><td>IP Proto 41</td><td>20B</td><td>IPv6-in-IPv4 tunnels; connect IPv6 islands over IPv4 backbone</td></tr>
-        <tr><td><strong>VxLAN</strong></td><td>RFC 7348</td><td>UDP 4789</td><td>50B</td><td>Data centre overlay, VM mobility, L2 over L3, cloud networking</td></tr>
-        <tr><td><strong>GENEVE</strong></td><td>RFC 8926</td><td>UDP 6081</td><td>50B+</td><td>Next-gen overlay (OpenStack, OVN); extensible TLV options in header</td></tr>
-        <tr><td><strong>MPLS</strong></td><td>RFC 3032</td><td>Between L2/L3</td><td>4B/label</td><td>Service provider TE, L3VPN, L2VPN, fast-reroute</td></tr>
-        <tr><td><strong>IPsec (tunnel)</strong></td><td>RFC 4303</td><td>IP Proto 50/51</td><td>~50B</td><td>Encrypted site-to-site and remote-access VPN; mandatory encryption</td></tr>
-        <tr><td><strong>WireGuard</strong></td><td>—</td><td>UDP (custom)</td><td>~60B</td><td>Modern VPN: simple, fast, strong crypto (ChaCha20/Poly1305/Curve25519)</td></tr>
-        <tr><td><strong>VLAN (802.1Q)</strong></td><td>IEEE 802.1Q</td><td>Ethernet tag</td><td>4B</td><td>L2 network segmentation; not technically a tunnel but a virtual L2 overlay</td></tr>
-        <tr><td><strong>PPPoE</strong></td><td>RFC 2516</td><td>Ethernet</td><td>8B</td><td>ISP DSL access; encapsulates PPP in Ethernet; reduces MTU to 1492</td></tr>
-      </tbody>
-    </table>
+<table class="t-table">
+<thead><tr><th>Protocol</th><th>RFC</th><th>Transport</th><th>Overhead</th><th>Use Case</th></tr></thead>
+<tbody>
+<tr><td><strong>GRE</strong></td><td>RFC 2784</td><td>IP Proto 47</td><td>24B</td><td>Site-to-site VPN (with IPsec), multi-protocol transport, GRE keepalives</td></tr>
+<tr><td><strong>IP-in-IP</strong></td><td>RFC 2003</td><td>IP Proto 4</td><td>20B</td><td>Simple IPv4-in-IPv4; no options/encryption, minimum overhead</td></tr>
+<tr><td><strong>6in4</strong></td><td>RFC 4213</td><td>IP Proto 41</td><td>20B</td><td>IPv6-in-IPv4 tunnels; connect IPv6 islands over IPv4 backbone</td></tr>
+<tr><td><strong>VxLAN</strong></td><td>RFC 7348</td><td>UDP 4789</td><td>50B</td><td>Data centre overlay, VM mobility, L2 over L3, cloud networking</td></tr>
+<tr><td><strong>GENEVE</strong></td><td>RFC 8926</td><td>UDP 6081</td><td>50B+</td><td>Next-gen overlay (OpenStack, OVN); extensible TLV options in header</td></tr>
+<tr><td><strong>MPLS</strong></td><td>RFC 3032</td><td>Between L2/L3</td><td>4B/label</td><td>Service provider TE, L3VPN, L2VPN, fast-reroute</td></tr>
+<tr><td><strong>IPsec (tunnel)</strong></td><td>RFC 4303</td><td>IP Proto 50/51</td><td>~50B</td><td>Encrypted site-to-site and remote-access VPN; mandatory encryption</td></tr>
+<tr><td><strong>WireGuard</strong></td><td>—</td><td>UDP (custom)</td><td>~60B</td><td>Modern VPN: simple, fast, strong crypto (ChaCha20/Poly1305/Curve25519)</td></tr>
+<tr><td><strong>VLAN (802.1Q)</strong></td><td>IEEE 802.1Q</td><td>Ethernet tag</td><td>4B</td><td>L2 network segmentation; not technically a tunnel but a virtual L2 overlay</td></tr>
+<tr><td><strong>PPPoE</strong></td><td>RFC 2516</td><td>Ethernet</td><td>8B</td><td>ISP DSL access; encapsulates PPP in Ethernet; reduces MTU to 1492</td></tr>
+</tbody>
+</table>
   </div>
 </div>
 </div>
@@ -405,18 +433,18 @@ Need a simple test or diagnostic tunnel?
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>The Tunnel Inspection Problem</h3><span class="tag tag-red">NGFW</span></div>
   <div class="cp-body">
-    <p>Tunnels present a fundamental challenge for NGFWs: the firewall sees the outer packet (which may be innocuous — UDP to port 4789, or IP proto 47) but not the inner packet (which may contain malicious traffic). An attacker can use a tunnel to bypass firewall rules by hiding prohibited traffic inside permitted tunnel traffic.</p>
-    <table class="t-table">
-      <thead><tr><th>Tunnel Type</th><th>What NGFW Sees Without Inspection</th><th>Inspection Approach</th></tr></thead>
-      <tbody>
-        <tr><td>GRE</td><td>IP packets destined to tunnel endpoint (Proto 47)</td><td>Decapsulate GRE at firewall, inspect inner IP packet against policy, re-encapsulate or forward</td></tr>
-        <tr><td>VxLAN</td><td>UDP port 4789 traffic between VTEPs</td><td>Decapsulate at hypervisor/switch level before reaching NGFW, or deploy NGFW as a VTEP; EVPN allows policy attachment to VNIs</td></tr>
-        <tr><td>IPsec (encrypted)</td><td>Encrypted ESP/AH packets — opaque content</td><td>Terminate IPsec at NGFW → inspect decrypted content → re-encrypt. Or use split-tunneling to bypass NGFW for trusted traffic</td></tr>
-        <tr><td>DNS tunnelling</td><td>Legitimate-looking UDP 53 traffic</td><td>Deep DNS inspection: entropy analysis, label length, query frequency (see M07)</td></tr>
-        <tr><td>HTTPS tunnels</td><td>TLS-encrypted traffic on 443</td><td>SSL inspection (see M08)</td></tr>
-        <tr><td>ICMP tunnels</td><td>ICMP Echo Request/Reply</td><td>Inspect ICMP data field for non-standard content (see M06)</td></tr>
-      </tbody>
-    </table>
+<p>Tunnels present a fundamental challenge for NGFWs: the firewall sees the outer packet (which may be innocuous — UDP to port 4789, or IP proto 47) but not the inner packet (which may contain malicious traffic). An attacker can use a tunnel to bypass firewall rules by hiding prohibited traffic inside permitted tunnel traffic.</p>
+<table class="t-table">
+<thead><tr><th>Tunnel Type</th><th>What NGFW Sees Without Inspection</th><th>Inspection Approach</th></tr></thead>
+<tbody>
+<tr><td>GRE</td><td>IP packets destined to tunnel endpoint (Proto 47)</td><td>Decapsulate GRE at firewall, inspect inner IP packet against policy, re-encapsulate or forward</td></tr>
+<tr><td>VxLAN</td><td>UDP port 4789 traffic between VTEPs</td><td>Decapsulate at hypervisor/switch level before reaching NGFW, or deploy NGFW as a VTEP; EVPN allows policy attachment to VNIs</td></tr>
+<tr><td>IPsec (encrypted)</td><td>Encrypted ESP/AH packets — opaque content</td><td>Terminate IPsec at NGFW → inspect decrypted content → re-encrypt. Or use split-tunneling to bypass NGFW for trusted traffic</td></tr>
+<tr><td>DNS tunnelling</td><td>Legitimate-looking UDP 53 traffic</td><td>Deep DNS inspection: entropy analysis, label length, query frequency (see M07)</td></tr>
+<tr><td>HTTPS tunnels</td><td>TLS-encrypted traffic on 443</td><td>SSL inspection (see M08)</td></tr>
+<tr><td>ICMP tunnels</td><td>ICMP Echo Request/Reply</td><td>Inspect ICMP data field for non-standard content (see M06)</td></tr>
+</tbody>
+</table>
 <div class="cb"><pre><span class="cm">/* GRE decapsulation in NGFW (VPP-style) */</span>
 <span class="cm">/* Packet arrives: outer IP → GRE → inner IP → TCP → payload */</span>
  
@@ -440,21 +468,21 @@ VNI 200 = "tenant network B" → apply tenant B's security policy</pre></div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>GRE Tunnel Setup and Analysis</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Create a GRE tunnel between two Linux VMs, route traffic through it, and capture the encapsulated packets to understand the header structure.</p>
-    <div class="lab-step"><div class="sn">1</div><div>On VM1 (outer IP 10.0.0.1): <code>sudo ip tunnel add gre1 mode gre local 10.0.0.1 remote 10.0.0.2 ttl 255; sudo ip link set gre1 up; sudo ip addr add 172.16.0.1/30 dev gre1</code>. On VM2 (outer IP 10.0.0.2): same commands with reversed IPs. Test: <code>ping 172.16.0.2</code>.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Capture the traffic: on VM1, run <code>sudo tcpdump -i eth0 proto 47 -v</code> while pinging through the tunnel. You should see GRE packets (IP proto 47) with an outer IP src/dst and an inner ICMP payload. Note the double IP header in the capture.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Open the capture in Wireshark. Expand the GRE packet: outer Ethernet, outer IP (proto=47), GRE header (protocol type=0x0800 = IPv4), inner IP, inner ICMP. Identify the tunnel overhead: how many extra bytes vs a direct ICMP ping?</div></div>
-    <div class="lab-step"><div class="sn">4</div><div>Test MTU: ping with large packets: <code>ping -M do -s 1472 172.16.0.2</code>. The effective MTU through GRE is 1476 (1500-20-4). With -s 1473 (1501B IP = exceeds 1476B GRE MTU), you should get "Frag needed". Add a route to a remote subnet through the tunnel and verify end-to-end connectivity.</div></div>
+<p><strong>Objective:</strong> Create a GRE tunnel between two Linux VMs, route traffic through it, and capture the encapsulated packets to understand the header structure.</p>
+<div class="lab-step"><div class="sn">1</div><div>On VM1 (outer IP 10.0.0.1): <code>sudo ip tunnel add gre1 mode gre local 10.0.0.1 remote 10.0.0.2 ttl 255; sudo ip link set gre1 up; sudo ip addr add 172.16.0.1/30 dev gre1</code>. On VM2 (outer IP 10.0.0.2): same commands with reversed IPs. Test: <code>ping 172.16.0.2</code>.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Capture the traffic: on VM1, run <code>sudo tcpdump -i eth0 proto 47 -v</code> while pinging through the tunnel. You should see GRE packets (IP proto 47) with an outer IP src/dst and an inner ICMP payload. Note the double IP header in the capture.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Open the capture in Wireshark. Expand the GRE packet: outer Ethernet, outer IP (proto=47), GRE header (protocol type=0x0800 = IPv4), inner IP, inner ICMP. Identify the tunnel overhead: how many extra bytes vs a direct ICMP ping?</div></div>
+<div class="lab-step"><div class="sn">4</div><div>Test MTU: ping with large packets: <code>ping -M do -s 1472 172.16.0.2</code>. The effective MTU through GRE is 1476 (1500-20-4). With -s 1473 (1501B IP = exceeds 1476B GRE MTU), you should get "Frag needed". Add a route to a remote subnet through the tunnel and verify end-to-end connectivity.</div></div>
   </div>
 </div>
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>VxLAN Overlay Network</h4></div>
   <div class="lab-body">
-    <p><strong>Objective:</strong> Create a VxLAN overlay that allows two VMs on different physical hosts (different subnets) to appear as if they're on the same L2 segment.</p>
-    <div class="lab-step"><div class="sn">1</div><div>On Host1 (underlay IP 10.0.0.1): create VxLAN interface with VNI 100: <code>sudo ip link add vxlan100 type vxlan id 100 dstport 4789 local 10.0.0.1 remote 10.0.0.2 dev eth0; sudo ip link set vxlan100 up; sudo ip addr add 192.168.100.1/24 dev vxlan100</code>. On Host2: same with .2 addresses.</div></div>
-    <div class="lab-step"><div class="sn">2</div><div>Capture VxLAN traffic: on Host1, <code>sudo tcpdump -i eth0 udp port 4789 -v</code> while pinging 192.168.100.2. In Wireshark, expand the packet: outer Ethernet, outer IP (UDP), VxLAN header (VNI=100), inner Ethernet, inner ICMP.</div></div>
-    <div class="lab-step"><div class="sn">3</div><div>Verify the inner Ethernet frame: the inner Ethernet dst/src are the VxLAN interface MAC addresses, not the physical interface MACs. This is the key insight: to the overlay network, the VxLAN interfaces appear directly connected at L2 regardless of the physical topology.</div></div>
-    <div class="lab-step"><div class="sn">4</div><div><strong>Bonus — multiple VNIs:</strong> Add a second VxLAN interface with VNI 200 on both hosts with a different /24 overlay subnet. Verify VNI 100 and VNI 200 are completely isolated — ping from VNI 100 cannot reach VNI 200 addresses (no inter-VNI routing configured). This is L2 isolation between tenants.</div></div>
+<p><strong>Objective:</strong> Create a VxLAN overlay that allows two VMs on different physical hosts (different subnets) to appear as if they're on the same L2 segment.</p>
+<div class="lab-step"><div class="sn">1</div><div>On Host1 (underlay IP 10.0.0.1): create VxLAN interface with VNI 100: <code>sudo ip link add vxlan100 type vxlan id 100 dstport 4789 local 10.0.0.1 remote 10.0.0.2 dev eth0; sudo ip link set vxlan100 up; sudo ip addr add 192.168.100.1/24 dev vxlan100</code>. On Host2: same with .2 addresses.</div></div>
+<div class="lab-step"><div class="sn">2</div><div>Capture VxLAN traffic: on Host1, <code>sudo tcpdump -i eth0 udp port 4789 -v</code> while pinging 192.168.100.2. In Wireshark, expand the packet: outer Ethernet, outer IP (UDP), VxLAN header (VNI=100), inner Ethernet, inner ICMP.</div></div>
+<div class="lab-step"><div class="sn">3</div><div>Verify the inner Ethernet frame: the inner Ethernet dst/src are the VxLAN interface MAC addresses, not the physical interface MACs. This is the key insight: to the overlay network, the VxLAN interfaces appear directly connected at L2 regardless of the physical topology.</div></div>
+<div class="lab-step"><div class="sn">4</div><div><strong>Bonus — multiple VNIs:</strong> Add a second VxLAN interface with VNI 200 on both hosts with a different /24 overlay subnet. Verify VNI 100 and VNI 200 are completely isolated — ping from VNI 100 cannot reach VNI 200 addresses (no inter-VNI routing configured). This is L2 isolation between tenants.</div></div>
   </div>
 </div>
 </div>
