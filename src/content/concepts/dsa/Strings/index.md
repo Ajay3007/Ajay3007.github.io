@@ -170,7 +170,7 @@ These help in elite interviews.
 
 5. String compression
 
-6. [Leetcode 412. Fizz Buzz](https://leetcode.com/problems/fizz-buzz/description/){:target="_blank" rel="noopener noreferrer"} - **[Solution](/learning/dsa/strings/Leetcode-412.cpp)**
+6. [Leetcode 412. Fizz Buzz](https://leetcode.com/problems/fizz-buzz/description/){:target="_blank" rel="noopener noreferrer"} - **[Solution](/learning/dsa/Strings/Leetcode-412.cpp)**
 
 7. [Leetcode 14. Longest Common Prefix](https://leetcode.com/problems/longest-common-prefix/description/){:target="_blank" rel="noopener noreferrer"} - **[Solution](https://leetcode.com/problems/longest-common-prefix/solutions/7391572/horizontal-scanning-approach-on-solution-9y18/){:target="_blank" rel="noopener noreferrer"}**
 

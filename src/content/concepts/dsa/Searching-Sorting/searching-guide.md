@@ -124,7 +124,7 @@ int solve(vector<int>& arr) {
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/search-insert-position/" target="_blank" rel="noopener noreferrer" class="problem-title">Search Insert Position</a>
-      <a href="/learning/dsa/searching-sorting/floorAndCeil.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/floorAndCeil.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -132,7 +132,7 @@ int solve(vector<int>& arr) {
     <span class="problem-status solved">✓ Solved</span>
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/find-smallest-letter-greater-than-target/" target="_blank" rel="noopener noreferrer" class="problem-title">Find Smallest Letter Greater Than Target</a>
-      <a href="/learning/dsa/searching-sorting/floorAndCeil.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 Ceil Approach (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/floorAndCeil.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 Ceil Approach (PDF)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -168,8 +168,8 @@ int solve(vector<int>& arr) {
     <span class="problem-status unsolved">○ Unsolved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/find-rotation-count-rotated-sorted-array/" target="_blank" rel="noopener noreferrer" class="problem-title">Rotation Count in Rotated Sorted Array</a>
-      <a href="/learning/dsa/searching-sorting/Kth_rotation.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
-      <a href="/learning/dsa/searching-sorting/Kth_rotation.cpp" target="_blank" rel="noopener noreferrer" class="problem-btn">💻 Solution (Code)</a>
+      <a href="/learning/dsa/Searching-Sorting/Kth_rotation.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/Kth_rotation.cpp" target="_blank" rel="noopener noreferrer" class="problem-btn">💻 Solution (Code)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -193,7 +193,7 @@ int solve(vector<int>& arr) {
     <span class="problem-status unsolved">○ Unsolved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/find-position-element-sorted-array-infinite-numbers/" target="_blank" rel="noopener noreferrer" class="problem-title">Find Position in Infinite Sorted Array</a>
-      <a href="/learning/dsa/searching-sorting/bsOnInfiniteNum.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/bsOnInfiniteNum.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -201,7 +201,7 @@ int solve(vector<int>& arr) {
     <span class="problem-status unsolved">○ Unsolved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/find-index-first-1-infinite-sorted-array-0s-1s/" target="_blank" rel="noopener noreferrer" class="problem-title">Index of First 1 in Infinite Binary Array</a>
-      <a href="/learning/dsa/searching-sorting/firstOneInBinaryInfiniteArray.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/firstOneInBinaryInfiniteArray.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 My Approach (PDF)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -225,7 +225,7 @@ int solve(vector<int>& arr) {
     <span class="problem-status unsolved">○ Unsolved</span>
     <div class="problem-card-inner">
       <a href="https://www.geeksforgeeks.org/dsa/search-in-row-wise-and-column-wise-sorted-matrix/" target="_blank" rel="noopener noreferrer" class="problem-title">Search in Row & Column Wise Sorted Matrix</a>
-      <a href="/learning/dsa/searching-sorting/searchInSortedMatrix.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 Approach (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/searchInSortedMatrix.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 Approach (PDF)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -250,7 +250,7 @@ int solve(vector<int>& arr) {
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/koko-eating-bananas/" target="_blank" rel="noopener noreferrer" class="problem-title">Koko Eating Bananas</a>
       <a href="https://leetcode.com/problems/koko-eating-bananas/solutions/7429088/binary-search-on-eating-speed-efficient-6ydvw/" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 View Solution</a>
-      <a href="/learning/dsa/searching-sorting/koko-banana.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📊 Example Visuals (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/koko-banana.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📊 Example Visuals (PDF)</a>
     </div>
   </div>
   <div class="problem-card">
@@ -279,7 +279,7 @@ int solve(vector<int>& arr) {
     <div class="problem-card-inner">
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/" target="_blank" rel="noopener noreferrer" class="problem-title">Median of Two Sorted Arrays</a>
       <a href="https://leetcode.com/problems/median-of-two-sorted-arrays/solutions/7430537/median-of-two-sorted-arrays-binary-searc-hjg4/" target="_blank" rel="noopener noreferrer" class="problem-btn">📋 View Solution</a>
-      <a href="/learning/dsa/searching-sorting/median-sorted-array.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📊 Example Visuals (PDF)</a>
+      <a href="/learning/dsa/Searching-Sorting/median-sorted-array.pdf" target="_blank" rel="noopener noreferrer" class="problem-btn">📊 Example Visuals (PDF)</a>
     </div>
   </div>
   <div class="problem-card">

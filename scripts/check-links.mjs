@@ -48,11 +48,42 @@ function walk(dir, out = []) {
   return out;
 }
 
+/**
+ * Every real path in dist, at its true casing.
+ *
+ * Membership in this set is case-sensitive even on macOS, where existsSync is
+ * not. That difference is not academic: the first Astro deploy failed on 15
+ * links that resolve locally and 404 on Linux, because the pages spell a
+ * capitalised folder in lowercase. Comparing against real directory entries
+ * makes a local run agree with CI.
+ */
+const realPaths = new Set();
+{
+  const walkAll = (dir, prefix = '') => {
+    for (const name of readdirSync(dir)) {
+      const abs = join(dir, name);
+      const rel = `${prefix}/${name}`;
+      if (statSync(abs).isDirectory()) {
+        realPaths.add(`${rel}/`);
+        walkAll(abs, rel);
+      } else {
+        realPaths.add(rel);
+      }
+    }
+  };
+  walkAll(DIST);
+}
+
 /** A link resolves if it maps to a file, a directory index, or a .html sibling. */
 function resolves(url) {
   const clean = decodeURI(url.split('#')[0].split('?')[0]);
-  const p = join(DIST, clean);
-  return existsSync(p) || existsSync(join(p, 'index.html')) || existsSync(`${p.replace(/\/$/, '')}.html`);
+  const bare = clean.replace(/\/$/, '');
+  return (
+    realPaths.has(clean) ||
+    realPaths.has(`${bare}/`) ||
+    realPaths.has(`${bare}/index.html`) ||
+    realPaths.has(`${bare}.html`)
+  );
 }
 
 const pages = walk(DIST);

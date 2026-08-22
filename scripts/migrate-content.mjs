@@ -17,7 +17,7 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync, rmSync } from 'node:fs';
-import { join, dirname, basename, relative } from 'node:path';
+import { join, dirname, basename, relative, sep } from 'node:path';
 import { parse as parseYaml } from 'yaml';
 
 const ROOT = new URL('..', import.meta.url).pathname;
@@ -114,6 +114,30 @@ function convertLiquid(body) {
     .replace(/\{\{\s*site\.baseurl\s*\}\}/g, '');
   const remaining = (body.match(/\{%|\{\{/g) || []).length;
   return { body, changed: body !== before, remaining };
+}
+
+/**
+ * Corrects the casing of links to static files under /learning/.
+ *
+ * The Jekyll tree mixes folder casing, and several pages link to a sibling
+ * download using the lowercase spelling of a capitalised folder —
+ * /learning/dsa/searching-sorting/Kth_rotation.pdf when the file is served
+ * from Searching-Sorting/. Those links 404 on the live site today and have
+ * done for as long as the pages have existed; they only looked fine locally
+ * because macOS is case-insensitive, which is also why the original audit
+ * did not catch them.
+ *
+ * Rewritten to the path the file is actually served from, so the downloads
+ * work for the first time.
+ */
+function fixAssetLinkCase(body, index) {
+  return body.replace(/(["'(])(\/learning\/[^"')\s]+\.(?:pdf|cpp|c|h|sh|docx|csv|png|jpg|svg|gif))/gi,
+    (m, open, href) => {
+      const real = index.get(href.toLowerCase());
+      if (!real || real === href) return m;
+      report.assetCaseFixes.push([href, real]);
+      return open + real;
+    });
 }
 
 /**
@@ -284,7 +308,7 @@ function writeTracks() {
         if (data.custom_css) trackHead = `<link rel="stylesheet" href="/assets/css/${data.custom_css}.css">`;
         if (data.custom_js) trackFoot = `<script src="/assets/js/${data.custom_js}.js" defer></script>`;
         const converted = convertLiquid(fm[2]);
-        body = joinHtmlBlocks(sealPreBlocks(converted.body));
+        body = fixAssetLinkCase(joinHtmlBlocks(sealPreBlocks(converted.body)), assetIndex);
         if (converted.remaining) report.liquidLeft.push([def.from, converted.remaining]);
         description = data.description ?? deriveDescription(body, def.title);
       }
@@ -338,7 +362,27 @@ const MERGED_DOMAINS = new Set(
 /** Guards against two sources writing to one destination. */
 const written = new Map();
 
-const report = { migrated: [], skipped: [], autoDescription: [], liquidLeft: [], noTrack: [], tracks: [], placeholderImages: [] };
+/**
+ * Every static file under _learning, keyed by its lowercased served path, so
+ * a mis-cased link can be resolved back to the real one.
+ */
+const assetIndex = new Map();
+{
+  const base = join(ROOT, '_learning');
+  const walkAll = (dir) => {
+    for (const n of readdirSync(dir)) {
+      const p = join(dir, n);
+      if (statSync(p).isDirectory()) { if (n !== 'manim-scripts') walkAll(p); }
+      else if (!p.endsWith('.md')) {
+        const served = '/learning/' + relative(base, p).split(sep).join('/');
+        assetIndex.set(served.toLowerCase(), served);
+      }
+    }
+  };
+  if (existsSync(base)) walkAll(base);
+}
+
+const report = { migrated: [], skipped: [], autoDescription: [], liquidLeft: [], noTrack: [], tracks: [], placeholderImages: [], assetCaseFixes: [] };
 const roadmapFiles = [];
 const modulesSeen = new Map();
 
@@ -379,7 +423,10 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
 
   const url = data.permalink ?? '/' + file.replace(/^_/, '').replace(/\/index\.md$/, '/').replace(/\.md$/, '/');
   const { body: liquidFixed, remaining } = convertLiquid(fm[2]);
-  const body = joinHtmlBlocks(sealPreBlocks(fixRelativeImages(liquidFixed, file)));
+  const body = fixAssetLinkCase(
+    joinHtmlBlocks(sealPreBlocks(fixRelativeImages(liquidFixed, file))),
+    assetIndex,
+  );
   if (remaining) report.liquidLeft.push([file, remaining]);
 
   let description = data.description;
@@ -471,6 +518,7 @@ console.log(`${pad(report.noTrack.length)}  migrated without a track`);
 console.log(`${pad(modulesSeen.size)}  modules discovered`);
 console.log(`${pad(report.tracks.length)}  tracks written`);
 console.log(`${pad(report.placeholderImages.length)}  placeholder image paths kept as literal text`);
+console.log(`${pad(report.assetCaseFixes.length)}  mis-cased asset links corrected`);
 
 const bySkip = {};
 for (const [, s] of report.skipped) bySkip[s] = (bySkip[s] ?? 0) + 1;

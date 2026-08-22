@@ -70,7 +70,7 @@ void selectionSort(vector<int>& arr) {
 
 4. Not used in interviews except conceptual warmup
 
-#### [For more on Stable and Adaptive sorting CLICK HERE](/learning/dsa/searching-sorting/stable-adaptive-sort.pdf){:target="_blank" rel="noopener noreferrer"}
+#### [For more on Stable and Adaptive sorting CLICK HERE](/learning/dsa/Searching-Sorting/stable-adaptive-sort.pdf){:target="_blank" rel="noopener noreferrer"}
 
 ---
 
@@ -102,7 +102,7 @@ Largest elements bubble up to the right in each pass.
 
 If no swaps occur in a pass, array is already sorted → stop early.
 
-#### [👉 Bubble Sort Code](/learning/dsa/searching-sorting/bubble_sort.cpp)
+#### [👉 Bubble Sort Code](/learning/dsa/Searching-Sorting/bubble_sort.cpp)
 
 ---
 
@@ -128,7 +128,7 @@ Exactly how you sort playing cards in hand.
 
 - Repeat
 
-#### [👉 Insertion Sort Code](/learning/dsa/searching-sorting/insertion_sort.cpp)
+#### [👉 Insertion Sort Code](/learning/dsa/Searching-Sorting/insertion_sort.cpp)
 
 1. Complexity
     - Time: O(N²)
@@ -227,7 +227,7 @@ Q: Why not use merge sort always?
 
 - Merge two sorted halves
 
-#### [👉 Merge Sort Code](/learning/dsa/searching-sorting/merge_sort.cpp)
+#### [👉 Merge Sort Code](/learning/dsa/Searching-Sorting/merge_sort.cpp)
 
 
 1. Used in:

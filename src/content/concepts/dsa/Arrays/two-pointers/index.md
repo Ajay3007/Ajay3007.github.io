@@ -142,7 +142,7 @@ Two pointers is a general approach where you use two indices (or iterators) to t
     <h3>Two Sum II - Input Array Is Sorted</h3>
     <div class="problem-buttons">
         <a href="https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-problem">🔗 Problem</a>
-        <a href="/learning/dsa/arrays/two-pointers/leetcode-167.pdf" class="problem-btn-link btn-solution">💻 PDF Solution</a>
+        <a href="/learning/dsa/Arrays/two-pointers/leetcode-167.pdf" class="problem-btn-link btn-solution">💻 PDF Solution</a>
     </div>
 </div>
 <!-- 3Sum -->
