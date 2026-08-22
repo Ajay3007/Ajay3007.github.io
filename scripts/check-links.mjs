@@ -81,10 +81,18 @@ console.log(`checked ${checked} internal links across ${pages.length} pages`);
  * inventory holds its .html twin — the page exists today, at the other spelling,
  * and the move is a redirect rather than a broken link.
  */
-const isPending = (url) =>
-  inventory.has(url) ||
-  inventory.has(url.replace(/\/$/, '') + '.html') ||
-  inventory.has(url.replace(/\.html$/, '/'));
+const isPending = (url) => {
+  // Compare on the path alone: a #fragment or a missing trailing slash does
+  // not make /learning/dsa/arrays/arrays-problems/ a different page.
+  const path = url.split('#')[0].split('?')[0];
+  const withSlash = path.endsWith('/') ? path : path + '/';
+  return (
+    inventory.has(path) ||
+    inventory.has(withSlash) ||
+    inventory.has(withSlash.replace(/\/$/, '') + '.html') ||
+    inventory.has(path.replace(/\.html$/, '/'))
+  );
+};
 
 const pending = [...broken].filter(([url]) => !STRICT && isPending(url));
 const real = [...broken].filter(([url]) => STRICT || !isPending(url));

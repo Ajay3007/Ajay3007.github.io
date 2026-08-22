@@ -44,3 +44,8 @@ _learning/manim-scripts/**/media/
 # Astro build output
 dist/
 .astro/
+
+# Mirrored from the Jekyll tree by scripts/sync-public.mjs — not a second copy in git
+public/assets/
+public/images/
+public/learning/
