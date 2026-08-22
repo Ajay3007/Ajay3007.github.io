@@ -1,5 +1,5 @@
 ---
-permalink: /editorials/balanced-binary-tree/
+permalink: /editorials/binary-tree-level-order-traversal/
 layout: editorial
 title: "Binary Tree Level Order Traversal Solution"
 problem_id: "102"
