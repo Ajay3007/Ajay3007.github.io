@@ -56,8 +56,6 @@
     {% if page.custom_css %}
     <link rel="stylesheet" href="{{ '/assets/css/' | append: page.custom_css | append: '.css?v=1.1' | relative_url }}">
     {% endif %}
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 
 <body>
@@ -160,20 +158,11 @@
     <script src="{{ '/assets/js/home.js' | relative_url }}" defer></script>
     {% endif %}
     <script src="{{ '/assets/js/command-palette.js' | relative_url }}" defer></script>
-    <script>
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.init({
-                APIUrl: "https://ajdevhub.netlify.app/.netlify/identity"
-            });
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
-            });
-        }
-    </script>
+    {%- comment -%}
+      The Netlify Identity widget used to load here on every page for a CMS only
+      reachable at /admin/. admin/index.html loads its own copy, so /admin/ is
+      unaffected and every other page drops an external script.
+    {%- endcomment -%}
     {% if page.custom_js %}
     <script src="{{ '/assets/js/' | append: page.custom_js | append: '.js' | relative_url }}" defer></script>
     {% endif %}
