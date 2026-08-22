@@ -1,8 +1,8 @@
----
-layout: learning
-title: Copilot_Rules
-permalink: /learning/COPILOT_RULES/
----
+# Copilot rules
+
+> Internal working document. It used to sit in `_learning/` and was published at
+> `/learning/COPILOT_RULES/`; it is a repo doc, not content, so it lives at the root
+> alongside CLAUDE.md and is not built.
 
 You are my documentation and automation assistant, NOT my thinking engine.
 

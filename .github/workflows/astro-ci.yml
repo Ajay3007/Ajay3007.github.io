@@ -1,11 +1,9 @@
 name: Astro CI
 
-# Verification only — this workflow never deploys. Production is still the
-# Jekyll build in jekyll-gh-pages.yml, which runs on pushes to master. At the
-# Phase 11 cutover the deploy job moves here and that workflow is retired.
+# Verification for pull requests. Pushes to master run the same checks inside
+# deploy.yml before publishing, so this exists to catch problems before merge
+# rather than after.
 on:
-  push:
-    branches: ['migration/**']
   pull_request:
     branches: [master]
   workflow_dispatch:
