@@ -1,0 +1,61 @@
+---
+/**
+ * Tag index. Generated from the tags that content actually uses, so adding a
+ * tag to a concept creates its page — there is no tag list to maintain.
+ */
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/ui/Card.astro';
+import StatusChip from '../../components/ui/StatusChip.astro';
+import { DOMAIN_LABELS } from '../../consts';
+import { getConcepts, conceptUrl, type Concept } from '../../lib/content';
+
+interface Props { tag: string; concepts: Concept[] }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const concepts = await getConcepts();
+  const byTag = new Map<string, Concept[]>();
+  for (const c of concepts) {
+    for (const t of c.data.tags) {
+      if (!byTag.has(t)) byTag.set(t, []);
+      byTag.get(t)!.push(c);
+    }
+  }
+  return [...byTag].map(([tag, list]) => ({ params: { tag }, props: { tag, concepts: list } }));
+};
+
+const { tag, concepts } = Astro.props as Props;
+---
+
+<BaseLayout
+  title={`Tagged “${tag}”`}
+  description={`${concepts.length} page${concepts.length === 1 ? '' : 's'} tagged ${tag}.`}
+  indexable={false}
+>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-12 sm:px-8">
+    <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">Tag</p>
+    <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg">{tag}</h1>
+    <p class="mt-2 text-muted">
+      {concepts.length} page{concepts.length === 1 ? '' : 's'}
+    </p>
+
+    <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+      {
+        concepts.map((c) => (
+          <li>
+            <Card href={conceptUrl(c)}>
+              <div class="flex items-baseline gap-3">
+                <span class="text-[15px] text-fg">{c.data.title}</span>
+                <span class="ml-auto shrink-0"><StatusChip status={c.data.status} showLabel={false} /></span>
+              </div>
+              <p class="mt-1 font-mono text-[11px] tracking-wide text-subtle uppercase">
+                {DOMAIN_LABELS[c.data.domain] ?? c.data.domain}
+              </p>
+              <p class="mt-2 text-[13.5px] leading-relaxed text-subtle">{c.data.description}</p>
+            </Card>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+/**
+ * Every learning concept.
+ *
+ * Routes come from each entry's carried `url`, so the 401 preserved Jekyll
+ * URLs are reproduced exactly rather than derived from the file tree.
+ *
+ * MDX components are injected here rather than imported in every content file:
+ * concepts stay clean prose with no import boilerplate, and adding a component
+ * for the whole site is a one-line change below.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+
+import ConceptLayout from '../../layouts/ConceptLayout.astro';
+import Callout from '../../components/content/Callout.astro';
+import KeyIdea from '../../components/content/KeyIdea.astro';
+import CodeFile from '../../components/content/CodeFile.astro';
+import Compare from '../../components/content/Compare.astro';
+import Steps from '../../components/content/Steps.astro';
+import Step from '../../components/content/Step.astro';
+import Intuition from '../../components/concept/Intuition.astro';
+import MentalModel from '../../components/concept/MentalModel.astro';
+import MathView from '../../components/concept/MathView.astro';
+import CompilerView from '../../components/concept/CompilerView.astro';
+import HardwareView from '../../components/concept/HardwareView.astro';
+import Confusion from '../../components/concept/Confusion.astro';
+import MyUnderstanding from '../../components/concept/MyUnderstanding.astro';
+
+import {
+  conceptUrl, trackUrl, getNeighbourhood, getNeighbours, isPublished,
+  type Concept, type Track,
+} from '../../lib/content';
+
+interface Props {
+  concept: Concept;
+  track?: Track;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const [concepts, tracks] = await Promise.all([
+    getCollection('concepts', isPublished),
+    getCollection('tracks', isPublished),
+  ]);
+  const trackById = new Map(tracks.map((t) => [t.id, t]));
+
+  return concepts.map((concept) => {
+    // `url` is authoritative: /learning/<rest>/ — strip the mount point.
+    const url = conceptUrl(concept);
+    const slug = url.replace(/^\/learning\//, '').replace(/\/$/, '');
+    const track = concept.data.track ? trackById.get(concept.data.track) : undefined;
+    return { params: { slug }, props: { concept, track } };
+  });
+};
+
+const { concept, track } = Astro.props as Props;
+const { Content, headings } = await render(concept);
+const [neighbourhood, { previous, next }] = await Promise.all([
+  getNeighbourhood(concept),
+  getNeighbours(concept),
+]);
+
+const components = {
+  Callout, KeyIdea, CodeFile, Compare, Steps, Step,
+  Intuition, MentalModel, MathView, CompilerView, HardwareView, Confusion, MyUnderstanding,
+};
+---
+
+<ConceptLayout
+  concept={concept}
+  headings={headings}
+  neighbourhood={neighbourhood}
+  previous={previous}
+  next={next}
+  trackTitle={track?.data.title}
+  trackHref={track ? trackUrl(track) : undefined}
+>
+  <Content components={components} />
+</ConceptLayout>

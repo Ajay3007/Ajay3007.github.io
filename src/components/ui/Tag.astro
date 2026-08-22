@@ -1,0 +1,8 @@
+---
+/** Content tag. Links to the tag index when `href` is given. */
+interface Props { href?: string }
+const { href } = Astro.props;
+const cls =
+  'inline-flex items-center rounded-full border border-line px-2.5 py-0.5 text-[12px] text-muted transition-colors hover:border-accent-border hover:text-accent';
+---
+{href ? <a href={href} class={cls}><slot /></a> : <span class={cls}><slot /></span>}

@@ -1,0 +1,28 @@
+---
+/**
+ * The author's learning status for a concept — one of the four values in
+ * consts.STATUSES. Absent status renders nothing at all, which is different
+ * from "not started": it means no claim has been made.
+ */
+import { STATUSES } from '../../consts';
+interface Props { status?: string; showLabel?: boolean }
+const { status, showLabel = true } = Astro.props;
+const entry = STATUSES.find((s) => s.slug === status);
+const tone: Record<string, string> = {
+  'not-started': 'text-subtle',
+  learning: 'text-warn',
+  understood: 'text-accent',
+  solid: 'text-ok',
+};
+---
+{
+  entry && (
+    <span
+      class:list={['inline-flex items-center gap-1.5 text-[13px]', tone[entry.slug]]}
+      title={`Status: ${entry.label}`}
+    >
+      <span aria-hidden="true">{entry.glyph}</span>
+      {showLabel && <span>{entry.label}</span>}
+    </span>
+  )
+}

@@ -1,0 +1,19 @@
+---
+/** Two-column trade-off. ~103 hand-built comparison tables in the corpus. */
+interface Props { left: string; right: string }
+const { left, right } = Astro.props;
+---
+<div class="my-6 grid gap-3 sm:grid-cols-2">
+  <div class="rounded-card border border-line p-4">
+    <p class="mb-2 font-mono text-[12px] tracking-wide text-subtle uppercase">{left}</p>
+    <div class="text-[15px] leading-relaxed text-muted [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+      <slot name="left" />
+    </div>
+  </div>
+  <div class="rounded-card border border-line p-4">
+    <p class="mb-2 font-mono text-[12px] tracking-wide text-subtle uppercase">{right}</p>
+    <div class="text-[15px] leading-relaxed text-muted [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+      <slot name="right" />
+    </div>
+  </div>
+</div>

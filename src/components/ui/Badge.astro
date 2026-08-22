@@ -1,0 +1,21 @@
+---
+/** Small status or metadata label. `tone` maps onto the semantic tokens only. */
+interface Props {
+  tone?: 'neutral' | 'accent' | 'ok' | 'warn' | 'danger';
+  class?: string;
+}
+const { tone = 'neutral', class: cls = '' } = Astro.props;
+const tones = {
+  neutral: 'border-line text-subtle',
+  accent: 'border-accent-border text-accent',
+  ok: 'border-current/30 text-ok',
+  warn: 'border-current/30 text-warn',
+  danger: 'border-current/30 text-danger',
+} as const;
+---
+<span
+  class:list={[
+    'inline-flex items-center rounded border px-1.5 py-0.5 font-mono text-[11px] leading-none tracking-wide uppercase',
+    tones[tone],
+    cls,
+  ]}><slot /></span>

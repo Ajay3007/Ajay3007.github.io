@@ -1,0 +1,122 @@
+---
+/**
+ * A learning concept page.
+ *
+ * Everything in the chrome is derived from frontmatter: breadcrumbs from
+ * domain and track, prev/next from `order` within the track, prerequisites and
+ * related from the graph, backlinks from other concepts naming this one. The
+ * author writes prose and metadata; none of this is maintained by hand.
+ */
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import MathStyles from '../components/MathStyles.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import StatusChip from '../components/ui/StatusChip.astro';
+import Badge from '../components/ui/Badge.astro';
+import Tag from '../components/ui/Tag.astro';
+import ConceptList from '../components/ui/ConceptList.astro';
+import TableOfContents from '../components/ui/TableOfContents.astro';
+import { DOMAIN_LABELS } from '../consts';
+import { conceptUrl, formatDuration, type Concept, type Neighbourhood } from '../lib/content';
+
+interface Props {
+  concept: Concept;
+  headings: MarkdownHeading[];
+  neighbourhood: Neighbourhood;
+  previous: Concept | null;
+  next: Concept | null;
+  trackTitle?: string;
+  trackHref?: string;
+}
+const { concept, headings, neighbourhood, previous, next, trackTitle, trackHref } = Astro.props;
+const d = concept.data;
+const duration = formatDuration(d.estimatedMinutes);
+
+const crumbs = [
+  { label: 'Learning', href: '/learning/' },
+  { label: DOMAIN_LABELS[d.domain] ?? d.domain, href: `/learning/${d.domain}/` },
+  ...(trackTitle ? [{ label: trackTitle, href: trackHref }] : []),
+  { label: d.title },
+];
+---
+
+<BaseLayout
+  title={d.title}
+  description={d.description}
+  type="article"
+  updatedAt={d.updated}
+  tags={d.tags}
+>
+  <MathStyles />
+
+  <div class="mx-auto grid max-w-(--container-wide) gap-10 px-5 pt-10 sm:px-8 lg:grid-cols-[minmax(0,1fr)_15rem]">
+    <article class="min-w-0">
+      <Breadcrumb items={crumbs} />
+
+      <header class="mt-6">
+        <h1 class="text-3xl font-semibold tracking-tight text-fg sm:text-4xl">{d.title}</h1>
+        <p class="mt-3 max-w-(--container-prose) text-[17px] leading-relaxed text-muted">
+          {d.description}
+        </p>
+        <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[13px] text-subtle">
+          <StatusChip status={d.status} />
+          {d.difficulty && <Badge>{d.difficulty}</Badge>}
+          {duration && <span>{duration}</span>}
+          {d.updated && <span>Updated {d.updated.toISOString().slice(0, 10)}</span>}
+        </div>
+      </header>
+
+      <ConceptList
+        title="Prerequisites"
+        concepts={neighbourhood.prerequisites}
+        note="Worth reading first."
+      />
+
+      <div
+        class="prose prose-invert mt-8 max-w-(--container-prose) prose-headings:scroll-mt-20 prose-a:text-accent prose-code:before:content-none prose-code:after:content-none"
+      >
+        <slot />
+      </div>
+
+      <ConceptList title="Related" concepts={neighbourhood.related} />
+      <ConceptList
+        title="Referenced by"
+        concepts={neighbourhood.backlinks}
+        note="Concepts that name this one — derived, not maintained by hand."
+      />
+
+      {
+        d.tags.length > 0 && (
+          <div class="mt-8 flex flex-wrap gap-2">
+            {d.tags.map((t) => <Tag href={`/tags/${t}/`}>{t}</Tag>)}
+          </div>
+        )
+      }
+
+      {
+        (previous || next) && (
+          <nav class="mt-10 grid gap-3 border-t border-line pt-6 sm:grid-cols-2" aria-label="Track navigation">
+            {previous ? (
+              <a href={conceptUrl(previous)} class="rounded-card border border-line p-3 transition-colors hover:border-accent-border">
+                <span class="font-mono text-[11px] tracking-wide text-subtle uppercase">← Previous</span>
+                <span class="mt-1 block text-[15px] text-fg">{previous.data.title}</span>
+              </a>
+            ) : <div />}
+            {next && (
+              <a href={conceptUrl(next)} class="rounded-card border border-line p-3 text-right transition-colors hover:border-accent-border sm:col-start-2">
+                <span class="font-mono text-[11px] tracking-wide text-subtle uppercase">Next →</span>
+                <span class="mt-1 block text-[15px] text-fg">{next.data.title}</span>
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </article>
+
+    <aside class="hidden lg:block">
+      <div class="sticky top-20">
+        <TableOfContents headings={headings} />
+      </div>
+    </aside>
+  </div>
+</BaseLayout>
