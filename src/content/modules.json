@@ -1,0 +1,20 @@
+[
+  {
+    "id": "networking-mastery/foundations",
+    "track": "networking-mastery",
+    "slug": "foundations",
+    "title": "Foundations",
+    "description": "The layered model and the two protocols everything else is built on.",
+    "order": 1,
+    "stage": "Phase 1"
+  },
+  {
+    "id": "networking-mastery/transport",
+    "track": "networking-mastery",
+    "slug": "transport",
+    "title": "Transport",
+    "description": "TCP and UDP in enough depth to reason about real traffic.",
+    "order": 2,
+    "stage": "Phase 2"
+  }
+]
