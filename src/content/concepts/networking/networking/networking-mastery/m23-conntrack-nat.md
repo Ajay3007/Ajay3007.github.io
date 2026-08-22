@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 6 · MODULE 23 · WEEK 22 🔗 Connect
 domain: networking
 track: networking-mastery
 order: 23
+ownHeader: true
 url: /learning/networking-mastery/m23-conntrack-nat/
 ---
 
@@ -148,12 +149,12 @@ dst_ip    — Destination IP address
 src_port  — Source TCP/UDP port     (2B)
 dst_port  — Destination TCP/UDP port
 protocol  — IP protocol             (6=TCP, 17=UDP, 1=ICMP, 50=ESP)
-
+ 
 /* CRITICAL: both directions of a flow must hash to the same entry */
 /* Forward:  (client_ip, client_port, server_ip, server_port, proto) */
 /* Reverse:  (server_ip, server_port, client_ip, client_port, proto) */
 /* Solution: canonical form — sort so "smaller" endpoint is always first */
-
+ 
 typedef struct {
     uint8_t  src_ip[16];   /* zero-pad IPv4 to 16B for uniform handling */
     uint8_t  dst_ip[16];
@@ -162,7 +163,7 @@ typedef struct {
     uint8_t  proto;
     uint8_t  pad[3];       /* 40 bytes total — fits 2x AVX2 registers */
 } flow_key_t;
-
+ 
 void normalise_key(flow_key_t *k, int *is_initiator) {
     int cmp = memcmp(k->src_ip, k->dst_ip, 16);
     if (cmp > 0 || (cmp == 0 && k->src_port > k->dst_port)) {
@@ -176,7 +177,7 @@ void normalise_key(flow_key_t *k, int *is_initiator) {
         *is_initiator = 1;
     }
 }
-
+ 
 /* For ICMP: no ports — encode type/identifier in port fields */
 /* Echo request (type=8): src_port=identifier, dst_port=type */
 /* ICMP error: extract inner IP header five-tuple from payload */</pre></div>
@@ -194,12 +195,12 @@ void normalise_key(flow_key_t *k, int *is_initiator) {
 <div class="cb"><pre>typedef struct session {
     /* ── Lookup key (must match hash table key size) ─── */
     flow_key_t   key;            /* canonical five-tuple, 40B */
-
+ 
     /* ── Protocol state ─────────────────────────────── */
     uint8_t      proto;          /* IPPROTO_TCP, _UDP, _ICMP */
     uint8_t      tcp_state;      /* TCP_S_SYN_SENT .. TCP_S_CLOSED */
     uint8_t      flags;          /* F_NAT, F_TLS_INSPECT, F_LOG */
-
+ 
     /* ── TCP sequence tracking ───────────────────────── */
     uint32_t     fwd_seq;        /* highest seq seen (forward) */
     uint32_t     rev_seq;        /* highest seq seen (reverse) */
@@ -209,39 +210,39 @@ void normalise_key(flow_key_t *k, int *is_initiator) {
     uint32_t     rev_window;
     uint8_t      fwd_wscale;     /* window scale factor (TCP option) */
     uint8_t      rev_wscale;
-
+ 
     /* ── Timestamps ──────────────────────────────────── */
     uint64_t     created_ns;     /* session birth (CLOCK_MONOTONIC) */
     uint64_t     last_seen_ns;   /* last packet timestamp */
     uint32_t     timeout_s;      /* per-protocol inactivity timeout */
     uint32_t     expire_tick;    /* timer wheel bucket */
-
+ 
     /* ── Traffic counters ────────────────────────────── */
     uint64_t     fwd_pkts;
     uint64_t     fwd_bytes;
     uint64_t     rev_pkts;
     uint64_t     rev_bytes;
-
+ 
     /* ── NAT rewrite (populated if F_NAT set) ────────── */
     uint32_t     nat_src_ip;     /* translated src IP (SNAT) */
     uint16_t     nat_src_port;   /* translated src port (NAPT) */
     uint32_t     nat_dst_ip;     /* translated dst IP (DNAT) */
     uint16_t     nat_dst_port;   /* translated dst port (DNAT) */
-
+ 
     /* ── Application layer ───────────────────────────── */
     uint16_t     app_id;         /* identified app: HTTP=1, TLS=2, DNS=3... */
     uint8_t      risk_score;     /* 0–100 threat score from DPI */
     void        *dpi_state;      /* DPI engine per-flow state machine */
-
+ 
     /* ── Policy result (cached after first policy eval) ─ */
     uint32_t     policy_id;      /* matched ACL rule index */
     uint8_t      action;         /* ACTION_PERMIT, _DENY, _INSPECT */
     uint8_t      ssl_inspect;    /* 1 = TLS MITM proxy active */
-
+ 
     /* ── Linked list for timer wheel ─────────────────── */
     struct session *tw_next;
     struct session *tw_prev;
-
+ 
 } __attribute__((packed)) session_t;
 /* Target size: ≤ 256 bytes per session */
 /* 1M sessions × 256B = 256MB — fits in L3 cache on server CPUs */
@@ -255,7 +256,7 @@ void normalise_key(flow_key_t *k, int *is_initiator) {
 <div class="cb"><pre>/* Option 1: VPP clib_bihash_48_8 (production choice) */
 clib_bihash_48_8_t session_table;
 clib_bihash_init_48_8(&session_table, "sessions", 1<<20, 512<<20);
-
+ 
 /* Lookup */
 clib_bihash_kv_48_8_t kv;
 memcpy(kv.key, &flow_key, 48);
@@ -263,7 +264,7 @@ if (!clib_bihash_search_48_8(&session_table, &kv, &kv)) {
     session_t *s = pool_elt_at_index(session_pool, (uint32_t)kv.value);
     /* fast path: cached policy, cached NAT mapping */
 }
-
+ 
 /* Option 2: DPDK rte_hash with lock-free concurrent access */
 struct rte_hash_parameters p = {
     .name       = "sessions",
@@ -274,17 +275,17 @@ struct rte_hash_parameters p = {
     .socket_id  = rte_socket_id(),
 };
 struct rte_hash *ht = rte_hash_create(&p);
-
+ 
 /* Bulk lookup — SIMD, 8 flows simultaneously */
 const void *keys[8] = {&k0,&k1,&k2,&k3,&k4,&k5,&k6,&k7};
 int32_t positions[8];
 uint64_t hit_mask = rte_hash_lookup_bulk(ht, keys, 8, positions);
 /* bit i set in hit_mask → flow i found; positions[i] = session index */
-
+ 
 /* Memory pool: pre-allocated array, no malloc per session */
 session_t *session_pool = rte_malloc_socket("sessions",
     MAX_SESSIONS * sizeof(session_t), 64, rte_eth_dev_socket_id(0));
-
+ 
 /* Per-NUMA-socket pools: each socket has its own pool and hash table */
 /* Workers pinned to same socket as their NIC → zero cross-NUMA memory */</pre></div>
     <div class="ins"><p>💡 <strong>Two critical performance design choices:</strong> (1) Use a pre-allocated memory pool indexed by integer — malloc/free per session causes heap fragmentation and cache thrashing at scale. (2) Per-NUMA-socket tables with per-CPU-core session creation — eliminate cross-socket locking entirely. VPP's clib_bihash is designed exactly for this access pattern.</p></div>
@@ -314,12 +315,12 @@ typedef struct {
     session_t *buckets[WHEEL_SIZE];   /* linked list head per bucket */
     uint32_t   current_tick;
 } timer_wheel_t;
-
+ 
 void session_refresh(session_t *s, timer_wheel_t *tw, uint32_t timeout_s) {
     /* Remove from current bucket */
     if (s->tw_prev) s->tw_prev->tw_next = s->tw_next;
     if (s->tw_next) s->tw_next->tw_prev = s->tw_prev;
-
+ 
     /* Insert into new bucket */
     s->expire_tick = tw->current_tick + timeout_s;
     uint32_t b = s->expire_tick & (WHEEL_SIZE - 1);
@@ -328,7 +329,7 @@ void session_refresh(session_t *s, timer_wheel_t *tw, uint32_t timeout_s) {
     if (tw->buckets[b]) tw->buckets[b]->tw_prev = s;
     tw->buckets[b] = s;
 }
-
+ 
 /* Called once per second from background thread */
 void timer_wheel_advance(timer_wheel_t *tw, session_table_t *st) {
     tw->current_tick++;
@@ -370,28 +371,28 @@ typedef enum {
     TCP_S_TIME_WAIT,   /* waiting for stray packets */
     TCP_S_CLOSED,      /* RST received or graceful close complete */
 } tcp_state_t;
-
+ 
 /* State transition table */
 uint8_t tcp_next_state[TCP_S_CLOSED+1][2 /*dir*/][64 /*flags*/];
-
+ 
 /* Build the table at init (simplified) */
 void tcp_init_transitions(void) {
     /* SYN from initiator → create session, SYN_SENT */
     /* Handled at session creation, not in table */
-
+ 
     /* SYN+ACK from responder → SYN_RCVD */
     tcp_next_state[TCP_S_SYN_SENT][0/*rev*/][TH_SYN|TH_ACK] = TCP_S_SYN_RCVD;
-
+ 
     /* ACK from initiator → ESTABLISHED */
     tcp_next_state[TCP_S_SYN_RCVD][1/*fwd*/][TH_ACK] = TCP_S_ESTABLISHED;
-
+ 
     /* FIN from initiator → FIN_WAIT_1 */
     tcp_next_state[TCP_S_ESTABLISHED][1/*fwd*/][TH_FIN]     = TCP_S_FIN_WAIT_1;
     tcp_next_state[TCP_S_ESTABLISHED][1/*fwd*/][TH_FIN|TH_ACK] = TCP_S_FIN_WAIT_1;
-
+ 
     /* ACK of FIN → FIN_WAIT_2 */
     tcp_next_state[TCP_S_FIN_WAIT_1][0/*rev*/][TH_ACK]      = TCP_S_FIN_WAIT_2;
-
+ 
     /* RST → CLOSED from any state */
     for (int st = 0; st <= TCP_S_CLOSED; st++) {
         tcp_next_state[st][0][TH_RST] = TCP_S_CLOSED;
@@ -399,7 +400,7 @@ void tcp_init_transitions(void) {
     }
     /* ... more transitions ... */
 }
-
+ 
 /* Fast-path state lookup */
 uint8_t new_state = tcp_next_state[s->tcp_state][is_initiator][tcp_flags & 0x3f];
 if (new_state != s->tcp_state) {
@@ -415,18 +416,18 @@ if (new_state != s->tcp_state) {
   <div class="cp-body">
 <div class="cb"><pre>/* Sequence validation: reject RST injection and data injection attacks */
 /* Only accept packets whose sequence number falls within expected window */
-
+ 
 int tcp_seq_in_window(session_t *s, const struct tcphdr *th,
                       uint16_t data_len, int is_fwd) {
     uint32_t seq    = ntohl(th->th_seq);
     uint32_t ack    = ntohl(th->th_ack);
     uint32_t e_seq  = is_fwd ? s->fwd_seq  : s->rev_seq;   /* expected */
     uint32_t window = is_fwd ? s->rev_window : s->fwd_window; /* peer window */
-
+ 
     /* Allow [e_seq - window, e_seq + window] accounting for 32-bit wrap */
     int32_t lo = (int32_t)(seq - (e_seq - window));
     int32_t hi = (int32_t)(seq + data_len - (e_seq + window));
-
+ 
     if (lo < 0 || hi > 0) {
         /* Out of window */
         if (th->th_flags & TH_RST) {
@@ -438,7 +439,7 @@ int tcp_seq_in_window(session_t *s, const struct tcphdr *th,
         /* Log and drop; don't tear down session */
         return 0;
     }
-
+ 
     /* Update tracked sequence numbers */
     if (is_fwd) {
         if (SEQ_GT(seq + data_len, s->fwd_seq))
@@ -453,7 +454,7 @@ int tcp_seq_in_window(session_t *s, const struct tcphdr *th,
     }
     return 1;
 }
-
+ 
 /* Window scale option — must be parsed from SYN/SYN-ACK */
 /* Effective window = advertised_window << window_scale */
 /* Not parsing window scale → sequence window may be too narrow */
@@ -470,13 +471,13 @@ int tcp_seq_in_window(session_t *s, const struct tcphdr *th,
   <div class="cp-hdr"><span class="ico">📡</span><h3>UDP Pseudo-Session Tracking</h3><span class="tag tag-teal">UDP</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* UDP has no handshake — NGFW creates pseudo-session on first permitted datagram */
-
+ 
 typedef enum {
     UDP_S_NEW,      /* first packet seen, no reply yet */
     UDP_S_REPLIED,  /* return packet seen — bidirectional confirmed */
     UDP_S_CLOSING   /* idle → pending removal */
 } udp_state_t;
-
+ 
 /* Per-protocol timeouts */
 static const struct {
     uint16_t dst_port;
@@ -490,20 +491,20 @@ static const struct {
     { 5060, 300 },   /* SIP registration */
     { 0,    30  },   /* default */
 };
-
+ 
 uint32_t udp_timeout(uint16_t dst_port) {
     for (int i = 0; udp_port_timeouts[i].dst_port; i++)
         if (udp_port_timeouts[i].dst_port == dst_port)
             return udp_port_timeouts[i].timeout_s;
     return 30;
 }
-
+ 
 /* QUIC sessions (UDP 443) require special handling */
 /* QUIC Connection IDs survive IP address changes (mobile handoff) */
 /* Proper QUIC tracking: parse QUIC header → extract Connection ID */
 /* Create secondary index: connection_id → session */
 /* On IP change: update session's five-tuple but keep DPI state */
-
+ 
 /* UDP session creation in forwarding loop */
 if (!session_lookup(&key)) {
     if (policy_permits(&key)) {
@@ -524,7 +525,7 @@ if (!session_lookup(&key)) {
 <div class="cb"><pre>/* ICMP Echo tracking: identifier field plays role of session ID */
 /* Request: type=8, code=0, id=PID, seq=N */
 /* Reply:   type=0, code=0, id=PID, seq=N */
-
+ 
 /* Encode ICMP into flow_key_t */
 void icmp_to_key(const struct iphdr *iph,
                  const struct icmphdr *ich, flow_key_t *k) {
@@ -540,14 +541,14 @@ void icmp_to_key(const struct iphdr *iph,
         /* After normalise, ECHO and ECHOREPLY map to same entry */
     }
 }
-
+ 
 /* ICMP error correlation — find the session that triggered the error */
 void icmp_error_correlate(const struct icmphdr *ich, size_t len,
                            session_t **orig_session) {
     /* ICMP error payload: original IP header + first 8B of transport */
     const struct iphdr *inner = (const struct iphdr *)(ich + 1);
     if (len < sizeof(*ich) + sizeof(*inner) + 8) { *orig_session = NULL; return; }
-
+ 
     flow_key_t inner_key;
     const uint8_t *inner_l4 = (const uint8_t *)inner + inner->ihl * 4;
     inner_key.proto    = inner->protocol;
@@ -559,7 +560,7 @@ void icmp_error_correlate(const struct icmphdr *ich, size_t len,
     normalise_key(&inner_key, NULL);
     *orig_session = session_lookup(&inner_key);
 }
-
+ 
 /* ICMP policy */
 /* Echo request/reply: permit if within session */
 /* ICMP unreachable / TTL exceeded: permit only if correlates to a session */
@@ -580,33 +581,33 @@ void icmp_error_correlate(const struct icmphdr *ich, size_t len,
 /*    Private IP ←→ Public IP, permanent */
 /*    Use: servers that need a consistent public address */
 192.168.1.100 ←→ 203.0.113.100
-
+ 
 /* 2. Dynamic NAT (pool-based, no port sharing) */
 /*    Each private IP gets one public IP from a pool */
 /*    Pool exhausted → new connections fail */
 /*    Rarely used today — NAPT replaced it */
-
+ 
 /* 3. NAPT / PAT (many-to-one with port multiplexing) */
 /*    The standard for home/enterprise edge */
 192.168.1.10:4501 → 203.0.113.1:10001
 192.168.1.20:4502 → 203.0.113.1:10002
 192.168.1.30:4501 → 203.0.113.1:10003  /* same client port OK — different IP */
-
+ 
 /* 4. DNAT (Destination NAT) — server publishing */
 /*    Rewrite destination; used for load balancing, port forwarding */
 dst:203.0.113.1:80 → dst:10.0.0.5:8080
-
+ 
 /* 5. Twice NAT (full NAT) */
 /*    Rewrite both src and dst — overlapping address spaces */
 src:10.0.0.5 dst:10.0.0.1 → src:172.16.0.5 dst:172.16.0.1
-
+ 
 /* NAT and conntrack coupling */
 /* NAT must use conntrack because it needs to:                */
 /* 1. Know which translation to apply to RETURN traffic       */
 /* 2. Apply the REVERSE translation (DNAT reply → SNAT)       */
 /* 3. Persist the mapping for the lifetime of the session      */
 /* Session entry stores both original and translated addresses */
-
+ 
 /* Netfilter hook points for NAT */
 /* SNAT: POSTROUTING hook — after routing decision, before NIC */
 /* DNAT: PREROUTING hook — before routing decision             */
@@ -631,7 +632,7 @@ typedef struct {
     uint16_t next_hint;    /* round-robin start hint */
     uint32_t in_use;       /* current count */
 } nat_port_pool_t;
-
+ 
 uint16_t nat_alloc_port(nat_port_pool_t *pool) {
     uint16_t start = pool->next_hint;
     for (int i = 0; i < 64512; i++) {
@@ -647,34 +648,34 @@ uint16_t nat_alloc_port(nat_port_pool_t *pool) {
     }
     return 0;  /* port exhaustion */
 }
-
+ 
 void nat_free_port(nat_port_pool_t *pool, uint16_t port) {
     uint32_t off = port - pool->port_start;
     pool->bitmap[off / 8] &= ~(1u << (off % 8));
     pool->in_use--;
 }
-
+ 
 /* Packet rewrite — what changes in each direction */
 /*
   Outbound SNAT:
     IP  header: src_addr = nat_src_ip     (was private IP)
     TCP header: src_port = nat_src_port   (was ephemeral port)
     Checksums:  both IP and TCP/UDP must be updated
-
+ 
   Inbound reverse:
     IP  header: dst_addr = orig_src_ip    (restore private IP)
     TCP header: dst_port = orig_src_port  (restore original port)
     Checksums:  updated
-
+ 
   DNAT outbound:
     IP  header: dst_addr = real_server_ip
     TCP header: dst_port = real_server_port
-
+ 
   DNAT inbound (reply):
     IP  header: src_addr = public_vip_ip
     TCP header: src_port = published_port
 */
-
+ 
 /* Incremental checksum update (RFC 1624) */
 /* Much faster than full recalculation — only 1-2 words changed */
 static inline uint16_t csum_update_u32(uint16_t old_csum,
@@ -685,18 +686,18 @@ static inline uint16_t csum_update_u32(uint16_t old_csum,
     while (s >> 16) s = (s & 0xFFFF) + (s >> 16);
     return (uint16_t)~s;
 }
-
+ 
 void nat_rewrite_outbound(struct iphdr *iph, struct tcphdr *th,
                            uint32_t new_sip, uint16_t new_sport) {
     uint32_t old_sip   = iph->saddr;
     uint16_t old_sport = th->source;
-
+ 
     iph->saddr  = htonl(new_sip);
     th->source  = htons(new_sport);
-
+ 
     /* Update IP checksum (covers IP header — 32-bit addr field) */
     iph->check = csum_update_u32(iph->check, old_sip, new_sip);
-
+ 
     /* Update TCP/UDP checksum (pseudo-header includes src IP + port) */
     th->check = csum_update_u32(th->check, old_sip, new_sip);
     th->check = csum_update_u32(th->check,
@@ -720,21 +721,21 @@ void nat_rewrite_outbound(struct iphdr *iph, struct tcphdr *th,
 /* FTP (see M09): PORT/PASV commands contain IP:port */
 /* SIP/VoIP:       SDP body contains media IP:port    */
 /* H.323:          Q.931/H.245 contain internal IPs   */
-
+ 
 /* SIP ALG — the most complex common ALG */
-
+ 
 Incoming INVITE from UA behind NAT:
   INVITE sip:bob@remote.com SIP/2.0
   Contact: sip:alice@192.168.1.5:5060     ← private IP!
   Via: SIP/2.0/UDP 192.168.1.5:5060       ← private IP!
   Content-Type: application/sdp
   Content-Length: 128
-
+ 
   v=0
   o=alice 1234 5678 IN IP4 192.168.1.5    ← private IP in SDP!
   c=IN IP4 192.168.1.5                    ← private IP!
   m=audio 16384 RTP/AVP 0                ← media port
-
+ 
 ALG processing:
   1. Detect SIP (port 5060 or inspect INVITE/REGISTER keywords)
   2. Buffer TCP stream for full SIP message (may span segments)
@@ -746,7 +747,7 @@ ALG processing:
   7. Recalculate Content-Length (body size changed!)
   8. Adjust TCP sequence numbers if body size changed
   9. Update IP/TCP checksums
-
+ 
 typedef struct sip_alg {
     uint8_t  *buf;          /* TCP reassembly buffer */
     uint32_t  buf_len;
@@ -755,7 +756,7 @@ typedef struct sip_alg {
     uint16_t  media_port;   /* original media port */
     uint16_t  nat_port;     /* allocated NAT port for media stream */
 } sip_alg_t;
-
+ 
 /* Modern alternative: STUN/ICE (RFC 5389/8445) */
 /* Application-level NAT traversal — no ALG needed */
 /* Client queries public STUN server → learns public IP:port */
@@ -775,7 +776,7 @@ typedef struct sip_alg {
 <div class="cb"><pre>/* NAT44-ED: Endpoint-Dependent — key includes destination address */
 /* Advantage: same client port can be used for different destinations */
 /* Required for: hairpinning, multiple ISP links, port-restricted NAT */
-
+ 
 /* VPP NAT44-ED session key (endpoint-dependent) */
 typedef struct {
     ip4_address_t local_addr;   /* pre-NAT source IP */
@@ -785,40 +786,40 @@ typedef struct {
     u8  proto;
     u8  pad[3];
 } ed_key_t;   /* 14 bytes padded to 16 */
-
+ 
 /* Two-level lookup for ED NAT */
 /* Table 1: (local_ip, local_port, ext_ip, ext_port, proto) → session */
 /* Table 2: (nat_ip,   nat_port,   ext_ip, ext_port, proto) → session */
 /* Both tables point to same session pool entry */
-
+ 
 /* VPP NAT configuration */
 nat44 enable sessions 1048576    /* 1M session table */
 nat44 add pool address 203.0.113.1
 nat44 add pool address 203.0.113.2  /* multiple public IPs for load */
 set interface nat44 in tap0 out tap1
 nat44 add interface address tap1   /* masquerade mode */
-
+ 
 /* Static DNAT mapping */
 nat44 add static mapping tcp local 10.0.0.5 8080 external 203.0.113.1 80
-
+ 
 /* Per-worker session distribution */
 /* VPP: each worker thread has its own session cache slice */
 /* New session → hash five-tuple → assign to worker thread */
 /* All subsequent packets of same flow → same worker (RSS ensures this) */
-
+ 
 /* Monitoring */
 show nat44 sessions                   /* active session count and list */
 show nat44 sessions detail            /* full field dump */
 show nat44 summary                    /* pool usage, allocations */
 show nat44 addresses                  /* public IP pool */
 show errors                           /* NAT error counters */
-
+ 
 /* VPP NAT error counters */
 nat44-ed-in2out: packet does not match existing session: new connections
 nat44-ed-in2out: out of ports: port pool exhausted
 nat44-ed-in2out: TCP RST packet without session: likely stale RST
 nat44-ed-out2in: unknown session: return packet with no matching session
-
+ 
 /* Debugging a specific session */
 nat44 del session in 10.0.0.5:54321 out 203.0.113.1:12345 tcp
 /* Manually remove a stale session */</pre></div>
@@ -849,7 +850,7 @@ nat44 del session in 10.0.0.5:54321 out 203.0.113.1:12345 tcp
 
 <div class="cb"><pre>/* SYN Cookie — no state until 3-way handshake verified */
 /* ISN = HMAC(4-tuple + timestamp) — encodes connection info */
-
+ 
 uint32_t syn_cookie_gen(uint32_t sip, uint32_t dip,
                          uint16_t sport, uint16_t dport,
                          uint32_t ts_tick, const uint8_t *key) {
@@ -863,7 +864,7 @@ uint32_t syn_cookie_gen(uint32_t sip, uint32_t dip,
     HMAC_SHA256(key, 32, data, sizeof(data), mac);
     return ntohl(*(uint32_t *)mac) ^ (ts_tick & 0xFFFF);
 }
-
+ 
 /* On receiving ACK for SYN-ACK: */
 int syn_cookie_verify(uint32_t client_ack, ...) {
     /* client sends ACK = cookie + 1 */
@@ -872,13 +873,13 @@ int syn_cookie_verify(uint32_t client_ack, ...) {
 }
 /* If valid: create session entry NOW — entire SYN phase was stateless */
 /* SYN cookies sacrifice MSS options (encoded as upper 3 bits of ISN) */
-
+ 
 /* Half-open connection limit */
 #define MAX_HALF_OPEN  100000   /* global limit */
 #define MAX_PER_SOURCE 100      /* per source IP limit */
-
+ 
 atomic_uint half_open_count = 0;
-
+ 
 int session_allow_new_syn(uint32_t src_ip) {
     if (atomic_load(&half_open_count) >= MAX_HALF_OPEN)
         return 0;   /* global limit — trigger SYN cookies */

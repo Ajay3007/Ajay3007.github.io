@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK C · MODULE C5 · WEEK 29 OAUTH2 ·
 domain: system-design
 track: system-design-hld
 order: 210
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c5-security/
 ---
 
@@ -144,7 +146,7 @@ url: /learning/system-design/hld/module-c5-security/
 <span class="cm">// If any service is compromised → attacker can forge any token.</span>
 token = jwt.<span class="fn">sign</span>(payload, <span class="str">"shared-secret-key"</span>, { algorithm: <span class="str">"HS256"</span> })
 jwt.<span class="fn">verify</span>(token, <span class="str">"shared-secret-key"</span>)   <span class="cm">← every service needs this key</span>
-
+ 
 <span class="cm">// RS256 (RSA-SHA256) — ASYMMETRIC ← PREFERRED</span>
 <span class="cm">// Auth server signs with PRIVATE key (kept secret, only auth server has it).</span>
 <span class="cm">// All services verify with PUBLIC key (published at JWKS endpoint).</span>
@@ -166,7 +168,7 @@ jwt.<span class="fn">verify</span>(token, public_key, {
   <div class="cb"><div class="cb-top">mTLS handshake — what happens under the hood<span class="cb-l">TLS HANDSHAKE</span></div>
 <pre class="c"><span class="cm">// Regular TLS: only CLIENT verifies server certificate.</span>
 <span class="cm">// mTLS: BOTH sides verify each other. Used for service-to-service auth.</span>
-
+ 
 Client (order-service)            Server (payment-service)
     |                                    |
     |--- ClientHello ------------------>|
@@ -186,14 +188,14 @@ Client (order-service)            Server (payment-service)
     |                                   |
     |=== Encrypted channel established ==|
     |--- GET /charge (HTTP/1.1) ------->|  <span class="cm">← now authorized</span>
-
+ 
 <span class="cm">// Service mesh (Istio) automates all of this:</span>
 <span class="cm">// Envoy sidecar handles mTLS transparently.</span>
 <span class="cm">// Policy: "order-service → payment-service: ALLOW"</span>
 <span class="cm">//         "frontend → payment-service: DENY"</span>
 <span class="cm">// Your application code calls http://payment-service/charge</span>
 <span class="cm">// Envoy sidecar upgrades to mTLS automatically.</span>
-
+ 
 <span class="cm">// Cert rotation (SPIRE):</span>
 <span class="cm">// SPIRE issues short-lived SVIDs (24–72 hrs) to every workload.</span>
 <span class="cm">// Automatic rotation before expiry — zero manual cert management.</span></pre>
@@ -235,10 +237,10 @@ Client (order-service)            Server (payment-service)
   <div class="cb"><div class="cb-top">Microsegmentation — explicit allow vs flat network<span class="cb-l">K8S NETWORK POLICY</span></div>
 <pre class="c"><span class="cm">// Flat network (DEFAULT, DANGEROUS):</span>
 <span class="cm">// Any pod can call any pod. Compromised frontend → calls payment DB directly.</span>
-
+ 
 <span class="cm">// Microsegmented (ZERO-TRUST):</span>
 <span class="cm">// All traffic denied by default. Explicit allows only.</span>
-
+ 
 <span class="kw">apiVersion</span>: networking.k8s.io/v1
 <span class="kw">kind</span>: NetworkPolicy
 <span class="kw">metadata</span>:
@@ -256,7 +258,7 @@ Client (order-service)            Server (payment-service)
   - <span class="kw">to</span>:
     - <span class="kw">podSelector</span>:
         <span class="kw">matchLabels</span>: { app: payment-db }     <span class="cm">← ONLY payment-db may be called</span>
-
+ 
 <span class="cm">// Blast radius comparison:</span>
 <span class="cm">// Without Zero-Trust: compromised transcoding pod → access to payment DB, user DB, secrets</span>
 <span class="cm">// With Zero-Trust: compromised transcoding pod → can only reach video-storage S3 bucket</span>
@@ -277,24 +279,24 @@ Client (order-service)            Server (payment-service)
   <div class="cb"><div class="cb-top">HashiCorp Vault dynamic secrets — no long-lived credentials<span class="cb-l">VAULT</span></div>
 <pre class="c"><span class="cm">// STATIC secret (dangerous): long-lived DB password stored as a secret</span>
 <span class="cm">// If the secret leaks: valid forever until manually rotated.</span>
-
+ 
 <span class="cm">// DYNAMIC secret (Vault): Vault generates credentials per-request, with TTL</span>
-
+ 
 <span class="cm">// App startup: request DB credentials from Vault</span>
 response = vault.<span class="fn">read</span>(<span class="str">"database/creds/my-role"</span>)
 <span class="cm">// Vault generates: { username: "v-app-20250307-abc", password: "xyz", lease_ttl: "1h" }</span>
 <span class="cm">// Vault creates this user in the DB with read permissions</span>
 <span class="cm">// After 1 hour: Vault AUTOMATICALLY revokes the DB user</span>
-
+ 
 db.<span class="fn">connect</span>(
   host=<span class="str">"db.internal"</span>,
   user=response.username,     <span class="cm">← temporary, unique to this app instance</span>
   password=response.password  <span class="cm">← expires in 1 hour</span>
 )
-
+ 
 <span class="cm">// App renews lease before expiry:</span>
 vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← extend by another hour</span>
-
+ 
 <span class="cm">// Benefits:</span>
 <span class="cm">// • No long-lived credentials → breach window is at most 1 hour</span>
 <span class="cm">// • Full audit log: who requested what credential, when</span>
@@ -348,7 +350,7 @@ vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← ext
     ip_count = redis.<span class="fn">incr</span>(ip_key)
     <span class="kw">if</span> ip_count == <span class="hl">1</span>: redis.<span class="fn">expire</span>(ip_key, <span class="hl">900</span>)   <span class="cm"># 15 min window</span>
     <span class="kw">if</span> ip_count > <span class="hl">5</span>: <span class="kw">raise</span> TooManyRequests
-
+ 
     <span class="cm"># Per-user: 10 attempts per hour (stops distributed multi-IP attack)</span>
     user_key = <span class="str">f"login:user:{user_id}"</span>
     user_count = redis.<span class="fn">incr</span>(user_key)
@@ -356,13 +358,13 @@ vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← ext
     <span class="kw">if</span> user_count > <span class="hl">10</span>:
         <span class="fn">send_suspicious_activity_alert</span>(user_id)
         <span class="kw">raise</span> TooManyRequests
-
+ 
 <span class="cm">// CREDENTIAL STUFFING (breached credentials list from other sites):</span>
 <span class="cm">// Attacker uses many different IPs → per-IP limits ineffective.</span>
 <span class="cm">// Fix: rate limit per user_id (not just IP). CAPTCHA after 3 failures.</span>
 <span class="cm">// HIBP (Have I Been Pwned) check: reject passwords in known breach datasets.</span>
 <span class="cm">// Device fingerprinting: flag new device + failed login → MFA challenge.</span>
-
+ 
 <span class="cm">// DDoS mitigation layers:</span>
 <span class="cm">// L3/4 volumetric (millions of packets): ISP BGP blackholing, AWS Shield Standard</span>
 <span class="cm">// L7 application (HTTP flood): Cloudflare WAF, AWS WAF, rate limiting, CAPTCHA</span>

@@ -4,6 +4,7 @@ description: "Module B6 — Design Twitter/X Feed System Design Mastery Course T
 domain: system-design
 track: system-design-hld
 order: 113
+ownHeader: true
 url: /learning/system-design/hld/module-b6-notes/
 ---
 

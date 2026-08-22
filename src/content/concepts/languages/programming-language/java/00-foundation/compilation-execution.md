@@ -3,6 +3,7 @@ title: "Java Compilation & Execution Flow"
 description: "Java Compilation & Execution Flow This document explains how Java source code is compiled and executed , from writing a .java file to running it inside the JVM."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/00-foundation/compilation-execution/
 ---
 

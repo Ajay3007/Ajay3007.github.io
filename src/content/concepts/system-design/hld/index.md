@@ -4,6 +4,7 @@ description: "🏗️ High-Level Design (HLD) Scale systems to millions of users
 domain: system-design
 track: system-design-hld
 order: 0
+ownHeader: true
 url: /learning/system-design/hld/
 ---
 

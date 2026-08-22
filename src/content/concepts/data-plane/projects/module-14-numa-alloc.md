@@ -4,6 +4,7 @@ description: "Module 14 — NUMA-aware Memory Allocation Part A (NUMA topology r
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-14-numa-alloc/
 ---
 

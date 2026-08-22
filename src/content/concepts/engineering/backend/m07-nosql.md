@@ -4,6 +4,7 @@ description: "NoSQL taxonomy and tradeoffs, Redis data structures with complexit
 domain: engineering
 track: backend
 order: 7
+ownHeader: true
 url: /learning/backend/m07-nosql/
 ---
 
@@ -167,7 +168,7 @@ Partition ─────────── Availability
 Tolerance              (always responds,
 (nodes can             may be stale)
  fail/split)
-
+ 
 CP examples: HBase, Zookeeper, Redis Cluster (default)
 AP examples: Cassandra (tunable), DynamoDB, CouchDB
 CA example:  Single-node PostgreSQL (no partition tolerance)
@@ -488,19 +489,19 @@ maxmemory-policy <span class="cv">allkeys-lru</span></div>
 <div class="diagram-box">
 <pre>
 Scenario: popular cache key expires at T=0
-
+ 
 T=0:  100 requests hit cache → all MISS
       → all 100 simultaneously query DB
       → DB overwhelmed, latency spikes
-
+ 
 Fix 1: Probabilistic early re-computation
   When remaining TTL < threshold: randomly re-cache
   → one request re-caches while others still get old value
-
+ 
 Fix 2: Lock / Mutex (Redis SET NX)
   First miss acquires distributed lock → fetches DB
   Others wait → then all read from cache (or retry)
-
+ 
 Fix 3: Background refresh
   Scheduled job refreshes cache before TTL expires
   → cache never actually empty for popular keys
@@ -810,23 +811,23 @@ Collection → [$match] → [$lookup] → [$unwind] → [$group] → [$sort] →
 <div class="diagram-box">
 <pre>
 Cassandra Cluster (3 nodes, replication_factor=3)
-
+ 
 Write path:
   Client → Coordinator Node
     → hash(partition_key) → token ring → target nodes
     → Commit Log (WAL) + Memtable
     → Memtable flush → SSTable on disk
-
+ 
 Read path:
   Client → Coordinator → target nodes
     → Row Cache (if enabled)
     → Bloom Filter (fast "definitely not here" check)
     → Key Cache → SSTable index → SSTable data
-
+ 
 Compaction:
   SSTables merge periodically → remove tombstones (deletes)
   → smaller read amplification
-
+ 
 Token Ring (consistent hashing):
   Each node owns a range of tokens
   Replication: each row copied to RF=3 consecutive nodes
@@ -1036,7 +1037,7 @@ gcc -o hiredis_demo hiredis_demo.c -lhiredis</div>
 Without pipelining (N commands = N round-trips):
   Client ──SET──► Server ──OK──► Client ──INCR──► Server ──1──► Client ...
   RTT: N × (50ms) = 500ms for 10 commands
-
+ 
 With pipelining (N commands = 1 round-trip):
   Client ──[SET, INCR, HSET, ...]──► Server
   Server ──[OK, 1, 3, ...]──────────► Client

@@ -3,6 +3,7 @@ title: "Middle of the Linked List - Solution"
 description: "🔗 Middle of the Linked List - Solution LeetCode 876 Difficulty: Easy --- Approach Use the slow and fast pointer (tortoise and hare) technique to find the middle node: -…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/leetcode-876-solution/
 ---
 

@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B13 · WEEK 23 FEATURE 
 domain: system-design
 track: system-design-hld
 order: 126
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b13-ml-systems/
 ---
 
@@ -113,19 +115,19 @@ url: /learning/system-design/hld/module-b13-ml-systems/
 <pre class="c"><span class="cm">// Training on historical data: label occurred at time T</span>
 <span class="cm">// Must retrieve feature values AS OF time T, not current values</span>
 <span class="cm">// Using future features to predict the past = data leakage = inflated offline metrics</span>
-
+ 
 <span class="cm">// WRONG — uses today's feature value to predict a past label:</span>
 <span class="er">features = feature_store.get(entity_id=user_123, feature="avg_session_30d")</span>
 <span class="cm">// This returns the feature as it is TODAY — but the label was from 6 months ago</span>
 <span class="cm">// The feature includes 6 months of future data. Model appears great offline, fails in prod.</span>
-
+ 
 <span class="cm">// CORRECT — point-in-time correct retrieval:</span>
 <span class="ok">features = feature_store.get(</span>
 <span class="ok">    entity_id=user_123,</span>
 <span class="ok">    feature="avg_session_30d",</span>
 <span class="ok">    as_of=label_timestamp  ← retrieve value AS OF when the label occurred</span>
 <span class="ok">)</span>
-
+ 
 <span class="cm">// Feature store must store full history of feature values with timestamps</span>
 <span class="cm">// Offline store schema:</span>
 <span class="cm">// (entity_id, feature_name, value, event_timestamp, created_timestamp)</span>
@@ -144,14 +146,14 @@ url: /learning/system-design/hld/module-b13-ml-systems/
 data = bigquery.<span class="fn">query</span>(<span class="str">"SELECT user_id, item_id, label, event_time FROM interactions WHERE date=?"</span>)
 features = feature_store.<span class="fn">batch_get</span>(entity_ids=data.user_ids, as_of=data.event_times)
 dataset = <span class="fn">join</span>(data, features)
-
+ 
 <span class="cm">// Stage 2: DATA VALIDATION</span>
 <span class="cm">// Catch data quality issues before training (fail fast)</span>
 validator.<span class="fn">check_schema</span>(dataset)           <span class="cm">// expected columns present?</span>
 validator.<span class="fn">check_distributions</span>(dataset)    <span class="cm">// feature values in expected range?</span>
 validator.<span class="fn">check_null_rates</span>(dataset)       <span class="cm">// null rate &lt; threshold per feature?</span>
 validator.<span class="fn">check_label_balance</span>(dataset)    <span class="cm">// not extreme class imbalance?</span>
-
+ 
 <span class="cm">// Stage 3: FEATURE PREPROCESSING (saved as artifact → identical at serving time)</span>
 preprocessor = <span class="fn">Pipeline</span>([
     <span class="fn">StandardScaler</span>(cols=[<span class="str">"age"</span>, <span class="str">"session_duration"</span>]),
@@ -159,17 +161,17 @@ preprocessor = <span class="fn">Pipeline</span>([
     <span class="fn">MeanImputer</span>(cols=[<span class="str">"avg_purchase_value"</span>])
 ])
 preprocessor.<span class="fn">fit_transform</span>(train_data)    <span class="cm">// saved as artifact, applied at serving</span>
-
+ 
 <span class="cm">// Stage 4: MODEL TRAINING</span>
 model = <span class="fn">TwoTowerModel</span>(user_dim=<span class="vi">256</span>, item_dim=<span class="vi">256</span>)
 trainer = <span class="fn">DistributedTrainer</span>(model, gpus=<span class="vi">8</span>)   <span class="cm">// Horovod / PyTorch DDP</span>
 trainer.<span class="fn">train</span>(train_data, epochs=<span class="vi">10</span>)
-
+ 
 <span class="cm">// Stage 5: EVALUATION (must beat champion model)</span>
 metrics = evaluator.<span class="fn">eval</span>(model, test_data)
 <span class="kw">if</span> metrics.recall_at_100 &lt;= champion.recall_at_100:
     pipeline.<span class="fn">fail</span>(<span class="str">"New model does not beat champion. Stopping."</span>)
-
+ 
 <span class="cm">// Stage 6: MODEL REGISTRATION</span>
 registry.<span class="fn">register</span>(model, {
     <span class="str">"recall@100"</span>: metrics.recall_at_100,
@@ -205,18 +207,18 @@ registry.<span class="fn">register</span>(model, {
 user_response = champion_model.<span class="fn">predict</span>(features)    <span class="cm">← shown to user</span>
 shadow_result  = challenger_model.<span class="fn">predict</span>(features)  <span class="cm">← logged only</span>
 logger.<span class="fn">log</span>({<span class="str">"shadow_prediction"</span>: shadow_result, <span class="str">"actual_label"</span>: label})
-
+ 
 <span class="cm">// 2. CANARY — small % of real traffic to new model</span>
 <span class="kw">if</span> hash(user_id) % <span class="vi">100</span> &lt; <span class="vi">5</span>:    <span class="cm">← 5% canary</span>
     <span class="kw">return</span> challenger_model.<span class="fn">predict</span>(features)
 <span class="kw">else</span>:
     <span class="kw">return</span> champion_model.<span class="fn">predict</span>(features)
-
+ 
 <span class="cm">// 3. BLUE-GREEN — both versions hot, instant traffic switch</span>
 <span class="cm">//    Keep v1 (blue) running. Deploy v2 (green). Validate green.</span>
 <span class="cm">//    Switch load balancer: 100% → green. Keep blue for 1hr (fast rollback).</span>
 load_balancer.<span class="fn">set_backend</span>(<span class="str">"green"</span>)   <span class="cm">← instant switch</span>
-
+ 
 <span class="cm">// Automated rollback trigger:</span>
 <span class="kw">if</span> metrics.p99_latency > champion.p99_latency * <span class="vi">1.1</span>:   <span class="cm">← 10% regression</span>
     load_balancer.<span class="fn">set_backend</span>(<span class="str">"blue"</span>)  <span class="cm">← instant rollback</span>
@@ -250,15 +252,15 @@ user_emb = user_tower.<span class="fn">embed</span>(user_features)     <span cla
 candidates = ann_index.<span class="fn">search</span>(user_emb, k=<span class="vi">500</span>)  <span class="cm">// ScaNN ANN search, ~15ms</span>
 <span class="cm">// ANN index: 10M items × 256 dims × 4 bytes = ~10 GB → fits in RAM</span>
 <span class="cm">// ScaNN achieves ~95% recall@100 at 10ms for 10M items</span>
-
+ 
 <span class="cm">// STAGE 2: RANKING — score each of 500 candidates precisely</span>
 <span class="kw">for</span> item_id <span class="kw">in</span> candidates:
     item_features = feature_store.<span class="fn">get</span>(item_id)    <span class="cm">// Redis batch fetch</span>
     cross_features = <span class="fn">compute_cross</span>(user, item)    <span class="cm">// interaction features</span>
     score = ranking_model.<span class="fn">predict</span>(user_features, item_features, cross_features)
-
+ 
 ranked = <span class="fn">sorted</span>(candidates, key=score, reverse=<span class="kw">True</span>)
-
+ 
 <span class="cm">// STAGE 3: POST-PROCESSING — business rules on top-100</span>
 final = post_processor.<span class="fn">apply</span>(ranked[:100], rules=[
     <span class="fn">FilterWatched</span>(user_id),         <span class="cm">// don't show already-watched</span>
@@ -283,18 +285,18 @@ final = post_processor.<span class="fn">apply</span>(ranked[:100], rules=[
         <span class="kw">return</span> challenger_model
     <span class="kw">else</span>:              <span class="cm">← 95% control</span>
         <span class="kw">return</span> champion_model
-
+ 
 <span class="cm">// Sample size calculation:</span>
 <span class="cm">// baseline CTR = 2%, minimum detectable effect = 0.2% (10% relative lift)</span>
 <span class="cm">// power = 80%, significance = 0.05</span>
 n_per_group = <span class="fn">sample_size</span>(
     baseline=<span class="vi">0.02</span>, mde=<span class="vi">0.002</span>, power=<span class="vi">0.8</span>, alpha=<span class="vi">0.05</span>
 )  <span class="cm">→ ~156,000 users per group → ~312K total</span>
-
+ 
 <span class="cm">// Primary metric: business metric (CTR, watch time, conversion rate)</span>
 <span class="cm">// NOT offline AUC — model can improve AUC while hurting business metrics</span>
 <span class="cm">// Guardrail metrics: must not regress (latency p99, revenue, crash rate)</span>
-
+ 
 <span class="cm">// Peeking problem: DO NOT stop early because p &lt; 0.05 after 3 days</span>
 <span class="cm">// Each time you check, you increase false positive rate.</span>
 <span class="cm">// Fix: pre-commit to run duration (2 weeks), use sequential testing if early stopping needed</span></pre>
@@ -349,17 +351,17 @@ n_per_group = <span class="fn">sample_size</span>(
 <pre class="c"><span class="cm">// PSI = Population Stability Index</span>
 <span class="cm">// Compares distribution of a feature between training (baseline) and production (current)</span>
 <span class="cm">// Higher PSI = more drift</span>
-
+ 
 <span class="cm">// Formula:</span>
 PSI = Σ (P_current_i - P_baseline_i) × ln(P_current_i / P_baseline_i)
-
+ 
 <span class="cm">// Where P_i = proportion of observations in bucket i (e.g., 10 equal-frequency buckets)</span>
-
+ 
 <span class="cm">// Thresholds (industry standard):</span>
 PSI &lt; <span class="vi">0.1</span>   <span class="ok">→ No significant change, model stable</span>
 PSI <span class="vi">0.1–0.2</span> <span class="yel">→ Minor shift, investigate further</span>
 PSI &gt; <span class="vi">0.2</span>   <span class="er">→ Significant shift, retrain model</span>
-
+ 
 <span class="cm">// Monitoring stack (6 daily metrics to track):</span>
 <span class="vi">1.</span> PSI per feature           <span class="cm">← data drift</span>
 <span class="vi">2.</span> Prediction score dist     <span class="cm">← model output drift</span>
@@ -412,21 +414,21 @@ PSI &gt; <span class="vi">0.2</span>   <span class="er">→ Significant shift, r
 user_features  = <span class="fn">compute</span>(watch_history_30d, search_history_7d, demographics)
 video_features = <span class="fn">compute</span>(view_count, like_ratio, avg_watch_pct, transcript_emb)
 <span class="cm">// → Written to BigQuery (offline) + Bigtable (online, low-latency lookup)</span>
-
+ 
 <span class="cm">// TRAINING DATA GENERATION:</span>
 positives = events <span class="kw">WHERE</span> watch_pct &gt; <span class="vi">0.5</span>        <span class="cm">// user watched &gt;50% of video</span>
 negatives = <span class="fn">sample</span>(shown_but_not_clicked, n=<span class="vi">10</span>) <span class="cm">// 10 negatives per positive</span>
 dataset   = <span class="fn">join_pit_correct</span>(positives + negatives, feature_store)
-
+ 
 <span class="cm">// TWO-TOWER RETRIEVAL TRAINING:</span>
 <span class="cm">// Goal: Recall@100 (are ground-truth videos in top-100 from 10M?)</span>
 <span class="cm">// Pre-index: all 10M video embeddings → ScaNN index (~10 GB in RAM)</span>
-
+ 
 <span class="cm">// RANKING MODEL TRAINING:</span>
 <span class="cm">// Input: (user_emb, video_emb, cross_features, context)</span>
 <span class="cm">// Output: predicted watch time (regression)</span>
 <span class="cm">// Eval: NDCG@20 on held-out test set</span>
-
+ 
 <span class="cm">// A/B TEST PROMOTION:</span>
 <span class="cm">// New model → 5% canary → primary metric: watch time per session</span>
 <span class="cm">// Guardrail: p99 latency must not exceed 110ms</span>

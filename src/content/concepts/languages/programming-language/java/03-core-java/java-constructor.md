@@ -3,6 +3,7 @@ title: "Constructors in Java – Initialization & Object Creation"
 description: "📘 Constructors in Java Complete guide to constructors, default vs no-args constructors, overloading, and object initialization flow."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/03-core-java/java-constructor/
 ---
 

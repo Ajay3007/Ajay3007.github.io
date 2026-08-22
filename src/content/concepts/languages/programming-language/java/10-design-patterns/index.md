@@ -3,6 +3,7 @@ title: "Design Patterns"
 description: "Design Patterns Creational, structural, and behavioral patterns in Java."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/10-design-patterns/
 ---
 

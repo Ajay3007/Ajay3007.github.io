@@ -3,6 +3,7 @@ title: "OOP"
 description: "OOP Object-oriented programming concepts in Java."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/02-oop/
 ---
 

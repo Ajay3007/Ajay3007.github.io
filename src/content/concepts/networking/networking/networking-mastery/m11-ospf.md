@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 3 · MODULE 11 · WEEK 9 🔄 OSPF Int
 domain: networking
 track: networking-mastery
 order: 11
+ownHeader: true
 url: /learning/networking-mastery/m11-ospf/
 ---
 
@@ -147,18 +148,18 @@ url: /learning/networking-mastery/m11-ospf/
 100 Mbps Ethernet:  10^8 / 10^8  = 1   (minimum default)
 1 Gbps   Ethernet:  10^8 / 10^9  = 0.1 → rounds up to 1 (same as 100M!)
 10 Gbps  Ethernet:  10^8 / 10^10 = 0.01 → rounds up to 1 (same!)
-
+ 
 <span class="cm">/* Problem: default reference bandwidth doesn't differentiate fast links */</span>
 <span class="cm">/* Solution: increase reference bandwidth to 100 Gbps */</span>
-
+ 
 auto-cost reference-bandwidth 100000  <span class="cm"># Cisco IOS (Mbps)</span>
 ip ospf cost 10                       <span class="cm"># manual cost per interface</span>
-
+ 
 <span class="cm">/* With 100G reference bandwidth */</span>
 1 Gbps:  10^11 / 10^9  = 100
 10 Gbps: 10^11 / 10^10 = 10
 100 Gbps: 10^11 / 10^11 = 1
-
+ 
 <span class="cm">/* Linux FRR OSPF */</span>
 vtysh
   router ospf
@@ -180,29 +181,29 @@ vtysh
     <p>OSPF neighbours must exchange the full LSDB before routing can start. This process goes through a defined sequence of states. Understanding these states is essential for troubleshooting OSPF — "stuck in 2-Way" or "stuck in Exstart" are common failure modes.</p>
 
 <div class="cb"><pre><span class="cm">/* OSPF Neighbour States */</span>
-
+ 
 DOWN        No Hello received. Initial state or after timeout.
-
+ 
 INIT        Hello received from neighbour, but our Router-ID
             not yet in their neighbour list.
-
+ 
 2-WAY       Our Router-ID seen in neighbour's Hello.
             Bidirectional communication confirmed.
             On broadcast networks: DR/BDR election happens here.
             Non-DR/BDR neighbours stop here (2-Way with DR/BDR → Full).
-
+ 
 EXSTART     Master/Slave election via DBD packets.
             Higher Router-ID becomes Master, controls sequence numbers.
-
+ 
 EXCHANGE    Routers exchange Database Description (DBD) packets —
             summaries of their LSDB (LSA headers only, not full LSAs).
-
+ 
 LOADING     Router sends LSR (Link State Request) for LSAs it's missing.
             Neighbour sends LSU (Link State Update) with the requested LSAs.
-
+ 
 FULL        LSDBs are synchronised. Routing table can be computed.
             This is the healthy operational state.
-
+ 
 <span class="cm">/* Hello packet fields that must match for neighbour formation */</span>
 Area ID:             must be identical
 Authentication:      must match (none/simple/MD5)
@@ -210,12 +211,12 @@ Hello interval:      must match (default 10s point-to-point, 10s broadcast)
 Dead interval:       must match (default 40s = 4 × hello)
 Subnet mask:         must match (point-to-point links exempt)
 Stub area flag:      must match
-
+ 
 <span class="cm">/* Troubleshooting stuck neighbours */</span>
 show ip ospf neighbor           <span class="cm"># current state</span>
 show ip ospf neighbor detail    <span class="cm"># full detail including timers</span>
 debug ip ospf adj               <span class="cm"># live adjacency events</span>
-
+ 
 <span class="cm">/* Stuck in EXSTART: MTU mismatch — one side has jumbo frames, other doesn't */</span>
 <span class="cm"># DBD packets use the interface MTU — if mismatched, packets get fragmented</span>
 <span class="cm"># Fix: ip ospf mtu-ignore  (or fix the MTU)</span></pre></div>
@@ -235,12 +236,12 @@ Dead Interval:   time without Hello before declaring neighbour dead (default 40s
 DR:              IP of current Designated Router (0.0.0.0 if unknown)
 BDR:             IP of current Backup DR
 Neighbour List:  Router IDs of all neighbours from whom we've heard Hellos
-
+ 
 <span class="cm">/* Timers — trade-off between convergence speed and CPU load */</span>
 Default:      Hello=10s, Dead=40s   → convergence after 40s
 Fast:         Hello=1s,  Dead=4s    → convergence after 4s (higher CPU)
 BFD:          sub-second detection  → millisecond convergence (separate protocol)
-
+ 
 <span class="cm">/* Linux FRR — configure OSPF timers per interface */</span>
 interface eth0
   ip ospf hello-interval 1
@@ -287,13 +288,13 @@ LSA fields for version control:
   LSA Age:          seconds since originated. Incremented by each router in transit.
                     MaxAge (3600s) = LSA is stale, should be purged.
   LS Checksum:      integrity check over LSA (excluding Age field)
-
+ 
 <span class="cm">/* Database Exchange summary */</span>
 show ip ospf database          <span class="cm"># list all LSAs in LSDB</span>
 show ip ospf database router   <span class="cm"># Type 1 LSAs only</span>
 show ip ospf database summary  <span class="cm"># Type 3 LSAs only</span>
 show ip ospf database external <span class="cm"># Type 5 LSAs</span>
-
+ 
 <span class="cm">/* LSA refresh — prevent premature aging */</span>
 <span class="cm"># Each router re-originates its own LSAs every 30 minutes (LSRefreshTime)</span>
 <span class="cm"># This resets the Age counter so they don't expire (MaxAge = 3600s)</span></pre></div>
@@ -313,7 +314,7 @@ show ip ospf database external <span class="cm"># Type 5 LSAs</span>
 <div class="cb"><pre><span class="cm">/* Dijkstra's algorithm — simplified */</span>
 Input:  LSDB (directed graph of routers and links with costs)
 Output: Shortest Path Tree (SPT) rooted at this router
-
+ 
 1. Mark all routers with distance = ∞, except self = 0.
 2. Put all routers in a priority queue (tentative set), keyed by distance.
 3. While priority queue not empty:
@@ -326,28 +327,28 @@ Output: Shortest Path Tree (SPT) rooted at this router
           predecessor(N) = R
           Update N's priority in queue
 4. SPT complete — predecessor array gives next-hop for each destination.
-
+ 
 <span class="cm">/* Worked example */</span>
 Network:  R1─(1)─R2─(1)─R4
            └─(10)─────────R3─(1)─R4
-
+ 
 Computing SPT from R1:
 Confirmed: {R1=0}
 Tentative: {R2=1, R3=10}
-
+ 
 Extract R2 (cost 1):
   Confirmed: {R1=0, R2=1}
   R4 via R2: cost = 1+1 = 2 → add R4=2
   Tentative: {R3=10, R4=2}
-
+ 
 Extract R4 (cost 2):
   Confirmed: {R1=0, R2=1, R4=2}
   R3 via R4: cost = 2+1 = 3 → update R3=3 (was 10!)
   Tentative: {R3=3}
-
+ 
 Extract R3 (cost 3):
   Confirmed: {R1=0, R2=1, R4=2, R3=3}
-
+ 
 Result:
   R4 → via R2 (cost 2) — NOT via R3 (cost 11)
   R3 → via R2→R4 (cost 3) — NOT direct (cost 10)</pre></div>
@@ -383,7 +384,7 @@ Internal Router:    all interfaces in same area
 ABR (Area Border):  interfaces in multiple areas — sits on area boundary
 ASBR (AS Boundary): redistributes routes from/to external protocols (BGP, static)
 Backbone Router:    has at least one interface in Area 0
-
+ 
 <span class="cm">/* Virtual links — connect non-adjacent areas to Area 0 */</span>
 router ospf 1
   area 2 virtual-link 3.3.3.3  <span class="cm"># create virtual link through area 2 to router 3.3.3.3</span></pre></div>
@@ -407,17 +408,17 @@ router ospf 1
 3. Tie-break: highest Router-ID wins
 4. Second-highest priority/RID wins BDR
 5. Priority 0 = ineligible for DR/BDR (always a DROther)
-
+ 
 <span class="cm">/* Important: DR election is NOT preemptive */</span>
 <span class="cm"># Even if a router with higher priority joins later, the current DR stays</span>
 <span class="cm"># DR changes only when current DR fails</span>
 <span class="cm"># This prevents constant re-election on flapping networks</span>
-
+ 
 <span class="cm">/* Setting DR priority */</span>
 interface GigabitEthernet0/0
   ip ospf priority 100   <span class="cm"># make this the preferred DR</span>
   ip ospf priority 0     <span class="cm"># never become DR</span>
-
+ 
 <span class="cm">/* Verify DR/BDR */</span>
 show ip ospf interface GigabitEthernet0/0
 <span class="cm"># "Designated Router (ID) 2.2.2.2, Interface address 192.168.1.2"</span>
@@ -435,7 +436,7 @@ show ip ospf interface GigabitEthernet0/0
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>OSPF Convergence Timeline</h3><span class="tag tag-orange">CONVERGENCE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* What happens when a link fails */</span>
-
+ 
 T=0:       Link goes down
 T=0:       Router detects link down (interface state change — instantaneous)
 T=0:       Router generates new Router LSA (Type 1) marking the link as failed
@@ -443,9 +444,9 @@ T=0–0.1:   LSA flooded to all routers in the area
 T=0–0.1:   Each router runs incremental SPF
 T=0–0.1:   FIB updated — traffic rerouted
            Total: sub-second convergence for link-down detection!
-
+ 
 <span class="cm">/* What happens when a router fails (link stays up, router crashes) */</span>
-
+ 
 T=0:       Router crashes
 T=0–40:    Other routers still send Hellos, get no response
 T=40:      Dead interval expires — router declared dead
@@ -453,17 +454,17 @@ T=40:      LSA generated removing dead router
 T=40:      LSA flooded + SPF runs
 T=40+:     Routes converged
            Total: default 40 seconds! Much slower.
-
+ 
 <span class="cm">/* Solutions for fast failure detection */</span>
-
+ 
 Option 1: Reduce timers (Hello=1s, Dead=4s)
   Con: 4x more Hello processing; sensitive to packet loss
-
+ 
 Option 2: BFD (Bidirectional Forwarding Detection)
   Sub-second (ms) failure detection, separate from OSPF
   OSPF reacts when BFD reports peer down (before Dead interval)
   bfd interval 100 min_rx 100 multiplier 3   <span class="cm"># 300ms detection</span>
-
+ 
 Option 3: OSPF Fast Hello (hello every 1 second, dead 4 seconds)
   interface eth0
     ip ospf dead-interval minimal hello-multiplier 4  <span class="cm"># hello = dead/4 = 250ms</span></pre></div>
@@ -515,14 +516,14 @@ vtysh
   router ospf6
     ospf6 router-id 1.1.1.1   <span class="cm"># must set manually (no IPv4 to borrow)</span>
     interface eth0 area 0.0.0.0
-
+ 
   interface eth0
     ipv6 ospf6 area 0.0.0.0
-
+ 
 show ipv6 ospf6 neighbor
 show ipv6 ospf6 database
 show ipv6 ospf6 route
-
+ 
 <span class="cm">/* Verify OSPFv3 uses link-local source addresses */</span>
 <span class="cm"># Hellos sent from fe80::... not global unicast</span>
 <span class="cm"># Link-local = no router will forward these beyond the segment</span></pre></div>

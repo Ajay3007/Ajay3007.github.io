@@ -4,6 +4,7 @@ description: "// HANDS-ON Dataplane Learning — 21 C Modules View on GitHub Bui
 domain: data-plane
 track: dataplane-projects
 order: 0
+ownHeader: true
 url: /learning/data-plane/projects/
 ---
 

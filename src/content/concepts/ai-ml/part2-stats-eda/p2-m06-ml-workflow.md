@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part2-stats-eda
 order: 206
+ownHeader: true
 url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
 ---
 
@@ -133,57 +134,57 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Feature Engineering — Creating Better Inputs</h3><span class="tag tag-pink">Domain Knowledge</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import pandas as pd, numpy as np
-
+ 
 df = pd.read_csv("house_prices.csv")
-
+ 
 # ── Numeric transformations ─────────────────────────
 # Log transform: compress right-skewed features
 df["SalePrice_log"]   = np.log1p(df["SalePrice"])
 df["GrLivArea_log"]   = np.log1p(df["GrLivArea"])
 df["LotArea_log"]     = np.log1p(df["LotArea"])
-
+ 
 # Square root: lighter compression than log
 df["LotFrontage_sqrt"] = np.sqrt(df["LotFrontage"].fillna(0))
-
+ 
 # Polynomial features: capture non-linear relationships
 df["GrLivArea_sq"] = df["GrLivArea"] ** 2   # quadratic term
-
+ 
 # ── Combining features ───────────────────────────────
 # Domain insight: total bathrooms = full + half*0.5
 df["TotalBath"] = (df["FullBath"] + df["BsmtFullBath"].fillna(0)
                    + 0.5 * (df["HalfBath"] + df["BsmtHalfBath"].fillna(0)))
-
+ 
 # Total square footage
 df["TotalSF"] = (df["TotalBsmtSF"].fillna(0) +
                  df["1stFlrSF"] + df["2ndFlrSF"])
-
+ 
 # House age and remodel age
 df["HouseAge"]  = df["YrSold"] - df["YearBuilt"]
 df["RemodelAge"] = df["YrSold"] - df["YearRemodAdd"]
-
+ 
 # Has garage? (binary from numeric)
 df["HasGarage"] = (df["GarageArea"] > 0).astype(int)
 df["HasPool"]   = (df["PoolArea"]   > 0).astype(int)
 df["HasBsmt"]   = (df["TotalBsmtSF"].fillna(0) > 0).astype(int)
-
+ 
 # ── Interaction features ─────────────────────────────
 # Quality × Size: premium-size product captures luxury segment
 df["QualArea"] = df["OverallQual"] * df["GrLivArea"]
-
+ 
 # ── Binning continuous into ordinal ──────────────────
 df["AgeBin"] = pd.cut(df["HouseAge"],
     bins=[0, 10, 20, 40, 80, 200],
     labels=["New", "Recent", "Middle", "Old", "Very Old"])
-
+ 
 # ── Missing value handling ───────────────────────────
 # Numeric: fill with median (robust to outliers)
 for col in ["LotFrontage", "GarageYrBlt", "MasVnrArea"]:
     df[col].fillna(df[col].median(), inplace=True)
-
+ 
 # Categorical: fill with most frequent or "None" string
 for col in ["BsmtQual", "BsmtCond", "GarageType", "FireplaceQu"]:
     df[col].fillna("None", inplace=True)
-
+ 
 print(f"Features created. Shape: {df.shape}")</pre></div>
     <div class="ins"><p>💡 <strong>Feature engineering is where domain expertise translates to model performance.</strong> TotalSF (total square footage) outperforms individual floor areas because it captures what buyers actually care about — total usable space. The best features come from asking "what would a human expert look at to value this house?"</p></div>
   </div>
@@ -196,47 +197,47 @@ print(f"Features created. Shape: {df.shape}")</pre></div>
   <div class="cp-body">
     <div class="cb"><pre>from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 import numpy as np
-
+ 
 # ── StandardScaler: z-score normalisation ────────────
 # Transforms each feature to mean=0, std=1
 # x_new = (x - mean) / std
 # USE WHEN: logistic regression, SVM, neural networks, PCA
 # AVOID: tree-based models (Random Forest, XGBoost) — trees don't need scaling
-
+ 
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)  # fit AND transform
 X_test_scaled  = scaler.transform(X_test)        # transform ONLY (never fit on test!)
-
+ 
 # ── MinMaxScaler: scale to [0, 1] range ──────────────
 # x_new = (x - min) / (max - min)
 # USE WHEN: neural networks (bounded activations), KNN
 # AVOID: when test data may exceed training range (extrapolation issues)
-
+ 
 mm_scaler = MinMaxScaler(feature_range=(0, 1))
 X_train_mm = mm_scaler.fit_transform(X_train)
-
+ 
 # ── RobustScaler: median + IQR (outlier-robust) ───────
 # x_new = (x - median) / IQR
 # USE WHEN: data has significant outliers (medical, financial)
 # Better than StandardScaler when outliers are present
-
+ 
 rob = RobustScaler()
 X_robust = rob.fit_transform(X_train)
-
+ 
 # ── CRITICAL: fit on train, transform on test ─────────
 # WRONG — causes data leakage:
 # scaler.fit_transform(X_full)  # scaler sees test statistics!
-
+ 
 # RIGHT:
 scaler.fit(X_train)           # learn statistics from training data only
 X_train_s = scaler.transform(X_train)
 X_test_s  = scaler.transform(X_test)  # apply those statistics to test
-
+ 
 # ── Do tree models need scaling? ──────────────────────
 # NO. Decision trees split on thresholds — scale doesn't matter.
 # Random Forest, XGBoost, LightGBM: no scaling needed.
 # Logistic Regression, SVM, KNN, Neural Nets: MUST scale.
-
+ 
 print(f"Before scaling: mean={X_train[:, 0].mean():.1f}, std={X_train[:, 0].std():.1f}")
 print(f"After scaling:  mean={X_train_scaled[:, 0].mean():.4f}, std={X_train_scaled[:, 0].std():.4f}")</pre></div>
     <div class="ins"><p>💡 <strong>The most common preprocessing mistake is fitting the scaler on the entire dataset before splitting.</strong> If you scale using the test set's statistics, the model has implicitly "seen" the test data — this inflates your validation metrics and your real-world performance will be worse. Always fit preprocessing objects only on training data.</p></div>
@@ -252,46 +253,46 @@ print(f"After scaling:  mean={X_train_scaled[:, 0].mean():.4f}, std={X_train_sca
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder
 from sklearn.preprocessing import TargetEncoder  # sklearn >= 1.3
-
+ 
 # ── 1. One-Hot Encoding (OHE) ─────────────────────────
 # Creates N binary columns (or N-1 to avoid multicollinearity)
 # USE FOR: nominal categories (no natural order): color, city, genre
 # AVOID FOR: high cardinality (>20 categories) — too many columns
-
+ 
 ohe = OneHotEncoder(handle_unknown="ignore", sparse_output=False, drop="first")
 X_ohe = ohe.fit_transform(df[["MSZoning", "SaleType"]])
 print(f"OHE output shape: {X_ohe.shape}")
 print(f"Feature names: {ohe.get_feature_names_out()[:5]}")
-
+ 
 # With pandas (simpler for exploration)
 df_ohe = pd.get_dummies(df[["MSZoning", "SaleType"]], drop_first=True)
-
+ 
 # ── 2. Ordinal Encoding ───────────────────────────────
 # Maps categories to integers preserving order
 # USE FOR: categories with natural ranking: poor<fair<good<excellent
-
+ 
 quality_order = ["None", "Po", "Fa", "TA", "Gd", "Ex"]
 ord_enc = OrdinalEncoder(categories=[quality_order], handle_unknown="use_encoded_value",
                           unknown_value=-1)
 df["ExterQual_enc"] = ord_enc.fit_transform(df[["ExterQual"]])
-
+ 
 # Manual ordinal mapping (most explicit)
 qual_map = {"None": 0, "Po": 1, "Fa": 2, "TA": 3, "Gd": 4, "Ex": 5}
 for col in ["BsmtQual", "KitchenQual", "GarageQual"]:
     df[f"{col}_ord"] = df[col].map(qual_map).fillna(0)
-
+ 
 # ── 3. Target Encoding (mean encoding) ────────────────
 # Replace each category with the mean target value for that category
 # USE FOR: high-cardinality categoricals (Neighborhood: 25 values)
 # MUST use cross-validation to avoid target leakage
-
+ 
 from sklearn.preprocessing import TargetEncoder  # sklearn >= 1.3
 te = TargetEncoder(cv=5, smooth="auto")  # cv=5 prevents leakage
 X_te = te.fit_transform(df[["Neighborhood"]], df["SalePrice"])
-
+ 
 # Manual with K-fold (scikit-learn < 1.3)
 from sklearn.model_selection import KFold
-
+ 
 def target_encode_kfold(df, cat_col, target_col, n_splits=5):
     result = df[cat_col].copy()
     kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
@@ -299,9 +300,9 @@ def target_encode_kfold(df, cat_col, target_col, n_splits=5):
         means = df.iloc[train_idx].groupby(cat_col)[target_col].mean()
         result.iloc[val_idx] = df.iloc[val_idx][cat_col].map(means)
     return result.fillna(df[target_col].mean())
-
+ 
 df["Neighborhood_te"] = target_encode_kfold(df, "Neighborhood", "SalePrice")
-
+ 
 # ── Summary: when to use what ─────────────────────────
 # OHE:    nominal, low cardinality (<20 categories)
 # Ordinal: ordered categories (quality ratings)
@@ -316,22 +317,22 @@ df["Neighborhood_te"] = target_encode_kfold(df, "Neighborhood", "SalePrice")
   <div class="cp-body">
     <div class="cb"><pre>from sklearn.model_selection import train_test_split
 import pandas as pd
-
+ 
 # ── Basic split ───────────────────────────────────────
 X = df.drop(columns=["SalePrice"])
 y = df["SalePrice"]
-
+ 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
     test_size=0.2,     # 80% train, 20% test
     random_state=42    # reproducible split
 )
 print(f"Train: {len(X_train)}, Test: {len(X_test)}")
-
+ 
 # ── Stratified split for classification ──────────────
 # Ensures class distribution is preserved in both sets
 from sklearn.model_selection import train_test_split
-
+ 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y_class,
     test_size=0.2,
@@ -341,7 +342,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Check class balance is preserved:
 print("Train:", y_train.value_counts(normalize=True))
 print("Test: ", y_test.value_counts(normalize=True))
-
+ 
 # ── Data leakage — THE most important concept ─────────
 # Leakage: test-set information contaminating training
 # Sources:
@@ -349,12 +350,12 @@ print("Test: ", y_test.value_counts(normalize=True))
 #   2. Imputing with full-dataset statistics before split
 #   3. Feature engineering using future data
 #   4. Selecting features based on test-set correlation
-
+ 
 # ── How to check for leakage ──────────────────────────
 # Suspiciously high train accuracy (>99%) with low test accuracy
 # Features with correlation >0.95 to target (might be derived from target)
 # Model performance "too good to be true"
-
+ 
 # Check for suspicious correlations
 corr = df.corr(numeric_only=True)["SalePrice"].sort_values(ascending=False)
 suspicious = corr[corr > 0.95].drop("SalePrice")
@@ -376,9 +377,9 @@ from sklearn.linear_model import Ridge
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 import numpy as np
-
+ 
 model = Ridge(alpha=1.0)
-
+ 
 # ── K-Fold cross-validation ───────────────────────────
 # Train/eval k times on different non-overlapping folds
 # Final score = mean ± std over k folds
@@ -386,7 +387,7 @@ kf = KFold(n_splits=5, shuffle=True, random_state=42)
 scores = cross_val_score(model, X, y, cv=kf, scoring="neg_root_mean_squared_error")
 rmse_scores = -scores   # negate back to positive
 print(f"CV RMSE: {rmse_scores.mean():.0f} ± {rmse_scores.std():.0f}")
-
+ 
 # ── Multiple metrics at once ──────────────────────────
 results = cross_validate(model, X_num, y, cv=5, scoring={
     "r2":   "r2",
@@ -396,12 +397,12 @@ results = cross_validate(model, X_num, y, cv=5, scoring={
 print(f"CV R²:   {results['test_r2'].mean():.3f}")
 print(f"CV RMSE: {-results['test_rmse'].mean():.0f}")
 # Compare train vs test: if train >> test, you are overfitting
-
+ 
 # ── StratifiedKFold for classification ────────────────
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 scores = cross_val_score(classifier, X, y_class, cv=skf, scoring="f1_macro")
 print(f"Stratified CV F1: {scores.mean():.3f} ± {scores.std():.3f}")
-
+ 
 # ── CV INSIDE a Pipeline (correct) ────────────────────
 # Pipeline ensures scaler is fit on training folds ONLY
 pipe = Pipeline([("scaler", StandardScaler()), ("model", Ridge(alpha=1.0))])
@@ -423,50 +424,50 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import Ridge
 import pandas as pd
 import joblib
-
+ 
 # ── Define column types ───────────────────────────────
 numeric_cols = ["GrLivArea", "TotalBsmtSF", "OverallQual", "HouseAge", "TotalBath"]
 low_card_cat = ["MSZoning", "SaleType", "HeatingQC"]
 high_card_cat = ["Neighborhood"]
-
+ 
 # ── Numeric pipeline: impute then scale ───────────────
 numeric_transformer = Pipeline([
     ("imputer", SimpleImputer(strategy="median")),   # fill NaN with column median
     ("scaler",  RobustScaler()),                     # scale robust to outliers
 ])
-
+ 
 # ── Categorical pipeline: impute then encode ─────────
 categorical_transformer = Pipeline([
     ("imputer", SimpleImputer(strategy="most_frequent")),  # fill NaN with mode
     ("ohe",     OneHotEncoder(handle_unknown="ignore", sparse_output=False, drop="first")),
 ])
-
+ 
 # ── Combine with ColumnTransformer ────────────────────
 preprocessor = ColumnTransformer(transformers=[
     ("num", numeric_transformer, numeric_cols),
     ("cat", categorical_transformer, low_card_cat),
 ], remainder="drop")
-
+ 
 # ── Full Pipeline: preprocessing + model ─────────────
 pipeline = Pipeline([
     ("preprocessor", preprocessor),
     ("model",        Ridge(alpha=10.0)),
 ])
-
+ 
 # ── Train the whole thing ─────────────────────────────
 pipeline.fit(X_train, y_train)    # fits preprocessors on X_train, trains model
-
+ 
 # ── Evaluate ──────────────────────────────────────────
 from sklearn.metrics import root_mean_squared_error, r2_score
 y_pred = pipeline.predict(X_test)
 print(f"RMSE: {root_mean_squared_error(y_test, y_pred):,.0f}")
 print(f"R²:   {r2_score(y_test, y_pred):.4f}")
-
+ 
 # ── Cross-validate the whole Pipeline ─────────────────
 from sklearn.model_selection import cross_val_score
 cv_r2 = cross_val_score(pipeline, X_train, y_train, cv=5, scoring="r2")
 print(f"CV R²: {cv_r2.mean():.3f} ± {cv_r2.std():.3f}")
-
+ 
 # ── Save and reload ───────────────────────────────────
 joblib.dump(pipeline, "house_price_pipeline.pkl")
 loaded = joblib.load("house_price_pipeline.pkl")

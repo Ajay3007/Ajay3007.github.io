@@ -4,6 +4,7 @@ description: "Phase 4 · Module 11 Concurrency Performance Threading models · S
 domain: engineering
 track: backend
 order: 11
+ownHeader: true
 url: /learning/backend/m11-concurrency/
 ---
 

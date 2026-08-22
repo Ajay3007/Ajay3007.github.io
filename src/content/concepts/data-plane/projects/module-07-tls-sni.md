@@ -4,6 +4,7 @@ description: "Module 07 — TLS SNI Extractor What you learn How to extract the 
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-07-tls-sni/
 ---
 

@@ -3,6 +3,7 @@ title: "Learning Journal"
 description: "📔 Learning Journal Daily entries documenting learning progress and insights."
 domain: system-design
 order: 0
+ownHeader: true
 url: /learning/system-design/journal/
 ---
 

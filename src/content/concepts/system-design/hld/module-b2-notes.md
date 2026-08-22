@@ -4,6 +4,8 @@ description: "System Design Roadmap › HLD Hub › Module B2 › Full Notes ⚡
 domain: system-design
 track: system-design-hld
 order: 105
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b2-notes/
 ---
 

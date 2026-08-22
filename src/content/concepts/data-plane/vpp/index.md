@@ -4,6 +4,7 @@ description: "DATA PLANE FD.io VPP DPDK 3–4 MONTHS 5 PHASES · 9 PROJECTS ⚡ 
 domain: data-plane
 track: vpp
 order: 0
+ownHeader: true
 url: /learning/data-plane/vpp/
 ---
 

@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part4-llm-apis
 order: 413
+ownHeader: true
 url: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
 ---
 
@@ -174,7 +175,7 @@ response = client.messages.create(
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Explain RAG in detail"</span>}]
 )
 print(response.content[<span class="cv">0</span>].text)   <span class="ck"># appears all at once after 8s</span>
-
+ 
 <span class="ck"># With streaming — first token appears in ~300ms, rest stream in</span>
 with client.messages.stream(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -183,7 +184,7 @@ with client.messages.stream(
 ) as stream:
     for text in stream.text_stream:
         print(text, end=<span class="cs">""</span>, flush=<span class="cv">True</span>)   <span class="ck"># each chunk printed as it arrives</span>
-
+ 
 <span class="ck"># Get final message after streaming completes</span>
 final_message = stream.get_final_message()
 print(<span class="cs">f"\nTokens used: {final_message.usage.input_tokens} in, {final_message.usage.output_tokens} out"</span>)</pre></div>
@@ -220,7 +221,7 @@ with client.messages.stream(
             case <span class="cs">"message_stop"</span>:
                 <span class="ck"># Streaming complete</span>
                 print(<span class="cs">"Stream finished"</span>)
-
+ 
 <span class="ck"># OpenAI streaming — similar pattern</span>
 with client.chat.completions.stream(
     model=<span class="cs">"gpt-4o"</span>,
@@ -260,7 +261,7 @@ with client.messages.stream(
                 tool_args = json.loads(current_tool_input)
                 <span class="ck"># Now execute the tool...</span>
                 current_tool_input = <span class="cs">""</span>
-
+ 
     final = stream.get_final_message()
     <span class="ck"># Use final.content to build the next turn of the conversation</span></pre></div>
     <div class="ins"><p>💡 <strong>Always call <code>get_final_message()</code> after streaming.</strong> This gives you the complete, assembled message including all content blocks — safe to append directly to your conversation history. Never try to assemble the message yourself from streaming chunks.</p></div>
@@ -280,18 +281,18 @@ with client.messages.stream(
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 import anthropic, asyncio, json
-
+ 
 app = FastAPI()
 client = anthropic.AsyncAnthropic()   <span class="ck"># async client for FastAPI</span>
-
+ 
 class ChatRequest(BaseModel):
     message:  str
     session_id: str = <span class="cs">"default"</span>
-
+ 
 <span class="ck"># ── Streaming endpoint ────────────────────────────────</span>
 @app.post(<span class="cs">"/chat/stream"</span>)
 async def chat_stream(request: ChatRequest):
-
+ 
     async def generate():
         async with client.messages.stream(
             model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -300,18 +301,18 @@ async def chat_stream(request: ChatRequest):
         ) as stream:
             async for text in stream.text_stream:
                 <span class="ck"># SSE format: "data: {payload}
-
+ 
 "</span>
                 yield <span class="cs">f"data: {json.dumps({'text': text})}
-
+ 
 "</span>
-
+ 
             <span class="ck"># Send final event with usage stats</span>
             final = await stream.get_final_message()
             yield <span class="cs">f"data: {json.dumps({'done': True, 'usage': {'input': final.usage.input_tokens, 'output': final.usage.output_tokens}})}
-
+ 
 "</span>
-
+ 
     return StreamingResponse(
         generate(),
         media_type=<span class="cs">"text/event-stream"</span>,
@@ -333,23 +334,23 @@ async function streamChat(message) {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({message})
   });
-
+ 
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
-
+ 
   while (true) {
     const {done, value} = await reader.read();
     if (done) break;
-
+ 
     buffer += decoder.decode(value, {stream: true});
     const lines = buffer.split('\n');
     buffer = lines.pop();   // keep incomplete line in buffer
-
+ 
     for (const line of lines) {
       if (!line.startsWith('data: ')) continue;
       const data = JSON.parse(line.slice(6));
-
+ 
       if (data.text) {
         document.getElementById('response').textContent += data.text;
       }
@@ -359,10 +360,10 @@ async function streamChat(message) {
     }
   }
 }
-
+ 
 <span class="ck">// Python client consuming the stream</span>
 import httpx, json
-
+ 
 async def consume_stream(message: str):
     async with httpx.AsyncClient(timeout=<span class="cv">60</span>) as http:
         async with http.stream(<span class="cs">"POST"</span>, <span class="cs">"http://localhost:8000/chat/stream"</span>,
@@ -391,23 +392,23 @@ async def generate_safe():
         async with client.messages.stream(...) as stream:
             async for text in stream.text_stream:
                 yield <span class="cs">f"data: {json.dumps({'text': text})}
-
+ 
 "</span>
     except anthropic.RateLimitError:
         yield <span class="cs">f"data: {json.dumps({'error': 'rate_limit', 'message': 'Too many requests. Please wait a moment.'})}
-
+ 
 "</span>
     except anthropic.APIStatusError as e:
         yield <span class="cs">f"data: {json.dumps({'error': 'api_error', 'status': e.status_code})}
-
+ 
 "</span>
     except Exception as e:
         yield <span class="cs">f"data: {json.dumps({'error': 'unknown', 'message': str(e)})}
-
+ 
 "</span>
     finally:
         yield <span class="cs">"data: {"done": true}
-
+ 
 "</span>   <span class="ck"># always send done event</span></pre></div>
   </div>
 </div>
@@ -430,15 +431,15 @@ response2 = client.messages.create(
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"What is my name?"</span>}], ...
 )
 <span class="ck"># Model: "I don't know your name" — it never saw the first message</span>
-
+ 
 <span class="ck"># ── CORRECT — full history sent every call ─────────────</span>
 messages = []
-
+ 
 <span class="ck"># Turn 1</span>
 messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"My name is Ajay"</span>})
 response = client.messages.create(model=<span class="cs">"..."</span>, max_tokens=<span class="cv">512</span>, messages=messages)
 messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content[<span class="cv">0</span>].text})
-
+ 
 <span class="ck"># Turn 2</span>
 messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"What is my name?"</span>})
 response = client.messages.create(model=<span class="cs">"..."</span>, max_tokens=<span class="cv">512</span>, messages=messages)
@@ -454,14 +455,14 @@ messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</s
 from dataclasses import dataclass, field
 from typing import Optional
 from datetime import datetime
-
+ 
 @dataclass
 class Turn:
     role:      str
     content:   str
     timestamp: str = field(default_factory=lambda: datetime.utcnow().isoformat())
     tokens:    Optional[int] = None
-
+ 
 class ConversationManager:
     def __init__(
         self,
@@ -474,23 +475,23 @@ class ConversationManager:
         self.model         = model
         self.max_tokens    = max_tokens
         self.history: list[Turn] = []
-
+ 
     def _build_messages(self) -> list[dict]:
         return [
             {<span class="cs">"role"</span>: t.role, <span class="cs">"content"</span>: t.content}
             for t in self.history
         ]
-
+ 
     def chat(self, user_message: str) -> str:
         self.history.append(Turn(role=<span class="cs">"user"</span>, content=user_message))
-
+ 
         response = self.client.messages.create(
             model=self.model,
             max_tokens=self.max_tokens,
             system=self.system_prompt,
             messages=self._build_messages()
         )
-
+ 
         reply = response.content[<span class="cv">0</span>].text
         self.history.append(Turn(
             role=<span class="cs">"assistant"</span>,
@@ -498,11 +499,11 @@ class ConversationManager:
             tokens=response.usage.output_tokens
         ))
         return reply
-
+ 
     def chat_stream(self, user_message: str):
         self.history.append(Turn(role=<span class="cs">"user"</span>, content=user_message))
         full_reply = <span class="cs">""</span>
-
+ 
         with self.client.messages.stream(
             model=self.model,
             max_tokens=self.max_tokens,
@@ -513,20 +514,20 @@ class ConversationManager:
                 full_reply += text
                 yield text
             final = stream.get_final_message()
-
+ 
         self.history.append(Turn(
             role=<span class="cs">"assistant"</span>,
             content=full_reply,
             tokens=final.usage.output_tokens
         ))
-
+ 
     def clear(self):
         self.history = []
-
+ 
     @property
     def turn_count(self) -> int:
         return len([t for t in self.history if t.role == <span class="cs">"user"</span>])
-
+ 
 <span class="ck"># Usage</span>
 conv = ConversationManager(system_prompt=<span class="cs">"You are a helpful coding assistant."</span>)
 print(conv.chat(<span class="cs">"My name is Ajay and I work with DPDK"</span>))
@@ -539,28 +540,28 @@ print(conv.turn_count)   <span class="ck"># 2</span></pre></div>
   <div class="cp-hdr"><span class="ico">🎯</span><h3>System Prompt Design for Multi-Turn</h3><span class="tag tag-teal">Best Practice</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># System prompt rules for multi-turn conversations</span>
-
+ 
 <span class="ck"># 1. State what information the model should REMEMBER across turns</span>
 system = <span class="cs">"""You are a helpful coding assistant.
-
+ 
 Remember and use throughout the conversation:
 - The user's name and role (if they tell you)
 - Programming languages they work with
 - Specific codebase or project context they share
 - Decisions made in earlier turns of this conversation
-
+ 
 When the user references "the function" or "the code" without specifying,
 use context from earlier in the conversation."""</span>
-
+ 
 <span class="ck"># 2. Define how to handle ambiguous references</span>
 system += <span class="cs">"""
-
+ 
 If a reference is ambiguous and cannot be resolved from context,
 ask for clarification before answering."""</span>
-
+ 
 <span class="ck"># 3. Set turn-specific behaviour</span>
 system += <span class="cs">"""
-
+ 
 For code reviews: always reference specific line numbers.
 For debugging: always ask to see the error message if not provided."""</span></pre></div>
   </div>
@@ -584,29 +585,29 @@ For debugging: always ask to see the error message if not provided."""</span></p
       <span><span class="tl-dot" style="background:#e0e7ff"></span>Available for next turn</span>
     </div>
     <div class="cb"><pre>pip install tiktoken   <span class="ck"># OpenAI's fast token counter — works for Claude too (approx)</span>
-
+ 
 import tiktoken
-
+ 
 def count_tokens(text: str, model: str = <span class="cs">"cl100k_base"</span>) -> int:
     """Approximate token count. cl100k_base works for GPT-4 and Claude."""
     enc = tiktoken.get_encoding(model)
     return len(enc.encode(text))
-
+ 
 def count_messages_tokens(messages: list[dict]) -> int:
     total = <span class="cv">0</span>
     for msg in messages:
         total += count_tokens(msg[<span class="cs">"content"</span>])
         total += <span class="cv">4</span>   <span class="ck"># overhead per message (role + formatting)</span>
     return total + <span class="cv">2</span>   <span class="ck"># reply priming tokens</span>
-
+ 
 <span class="ck"># Check context usage before sending</span>
 MAX_CONTEXT = <span class="cv">180_000</span>   <span class="ck"># Claude 3.5 Sonnet context window</span>
 RESERVE_TOKENS = <span class="cv">4_096</span>  <span class="ck"># always reserve for response</span>
-
+ 
 def will_fit(messages: list, system: str) -> bool:
     used = count_messages_tokens(messages) + count_tokens(system)
     return used + RESERVE_TOKENS < MAX_CONTEXT
-
+ 
 <span class="ck"># Anthropic's own token counter (exact, not approximate)</span>
 response = client.messages.count_tokens(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -634,7 +635,7 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
     result = []
     token_count = <span class="cv">0</span>
     pairs = []
-
+ 
     <span class="ck"># Group into user+assistant pairs</span>
     i = <span class="cv">0</span>
     while i < len(messages) - <span class="cv">1</span>:
@@ -643,7 +644,7 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
             i += <span class="cv">2</span>
         else:
             i += <span class="cv">1</span>
-
+ 
     <span class="ck"># Always include last user message</span>
     if messages and messages[-<span class="cv">1</span>][<span class="cs">"role"</span>] == <span class="cs">"user"</span>:
         result = [messages[-<span class="cv">1</span>]]
@@ -651,7 +652,7 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
         pairs_to_check = pairs
     else:
         pairs_to_check = pairs
-
+ 
     <span class="ck"># Add pairs from most recent backwards until we hit the limit</span>
     included = []
     for user_msg, asst_msg in reversed(pairs_to_check):
@@ -660,10 +661,10 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
             break
         included.insert(<span class="cv">0</span>, (user_msg, asst_msg))
         token_count += pair_tokens
-
+ 
     for u, a in included:
         result = [u, a] + result
-
+ 
     return result</pre></div>
   </div>
 </div>
@@ -681,15 +682,15 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
     """
     if len(messages) <= keep_recent * <span class="cv">2</span>:
         return messages   <span class="ck"># not long enough to summarise</span>
-
+ 
     old_turns = messages[:-(keep_recent * <span class="cv">2</span>)]
     recent_turns = messages[-(keep_recent * <span class="cv">2</span>):]
-
+ 
     old_text = <span class="cs">"\n"</span>.join(
         <span class="cs">f"{m['role'].upper()}: {m['content']}"</span>
         for m in old_turns
     )
-
+ 
     summary_response = await async_client.messages.create(
         model=<span class="cs">"claude-3-haiku-20240307"</span>,   <span class="ck"># use cheaper model for summarisation</span>
         max_tokens=<span class="cv">512</span>,
@@ -698,14 +699,14 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
             <span class="cs">"content"</span>: <span class="cs">f"""Summarise this conversation history concisely.
 Preserve: key facts stated by the user, decisions made, context needed for future turns.
 Do not include: greetings, filler, repeated information.
-
+ 
 {old_text}
-
+ 
 Provide a dense 3-5 sentence summary:"""</span>
         }]
     )
     summary = summary_response.content[<span class="cv">0</span>].text
-
+ 
     <span class="ck"># Replace old history with summary message</span>
     summary_msg = {
         <span class="cs">"role"</span>: <span class="cs">"user"</span>,
@@ -732,7 +733,7 @@ Provide a dense 3-5 sentence summary:"""</span>
     <div class="cb"><pre>import sqlite3, json
 from contextlib import contextmanager
 from datetime import datetime
-
+ 
 @contextmanager
 def get_db():
     conn = sqlite3.connect(<span class="cs">"conversations.db"</span>)
@@ -760,7 +761,7 @@ def get_db():
         yield conn
     finally:
         conn.close()
-
+ 
 def save_turn(conv_id: str, user_msg: str, assistant_msg: str, tokens: int = <span class="cv">0</span>):
     now = datetime.utcnow().isoformat()
     with get_db() as conn:
@@ -779,7 +780,7 @@ def save_turn(conv_id: str, user_msg: str, assistant_msg: str, tokens: int = <sp
             (conv_id, <span class="cs">"assistant"</span>, assistant_msg, now, tokens),
         ])
         conn.commit()
-
+ 
 def load_history(conv_id: str, last_n: int = <span class="cv">0</span>) -> list[dict]:
     with get_db() as conn:
         query = <span class="cs">"SELECT role, content FROM messages WHERE conversation_id = ? ORDER BY id"</span>
@@ -793,26 +794,26 @@ def load_history(conv_id: str, last_n: int = <span class="cv">0</span>) -> list[
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Redis for High-Traffic Conversations</h3><span class="tag tag-blue">Scalable</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import redis, json
-
+ 
 r = redis.Redis(host=<span class="cs">"localhost"</span>, port=<span class="cv">6379</span>, decode_responses=<span class="cv">True</span>)
-
+ 
 def save_message_redis(session_id: str, role: str, content: str, ttl: int = <span class="cv">3600</span>):
     """Store message in Redis list. TTL in seconds (default: 1 hour)."""
     key = <span class="cs">f"conv:{session_id}"</span>
     message = json.dumps({<span class="cs">"role"</span>: role, <span class="cs">"content"</span>: content})
     r.rpush(key, message)        <span class="ck"># append to list</span>
     r.expire(key, ttl)           <span class="ck"># reset TTL on each message</span>
-
+ 
 def load_history_redis(session_id: str, last_n: int = <span class="cv">0</span>) -> list[dict]:
     """Load conversation history from Redis."""
     key = <span class="cs">f"conv:{session_id}"</span>
     start = -last_n * <span class="cv">2</span> if last_n else <span class="cv">0</span>
     raw = r.lrange(key, start, -<span class="cv">1</span>)
     return [json.loads(m) for m in raw]
-
+ 
 def clear_history_redis(session_id: str):
     r.delete(<span class="cs">f"conv:{session_id}"</span>)
-
+ 
 <span class="ck"># When to use SQLite vs Redis:</span>
 <span class="ck"># SQLite  — single server, persistent storage, needs query/search, < 1k concurrent users</span>
 <span class="ck"># Redis   — multi-server, ephemeral (TTL), fast read/write, > 1k concurrent sessions</span>
@@ -826,29 +827,29 @@ def clear_history_redis(session_id: str):
     <div class="cb"><pre>from fastapi import FastAPI
 from pydantic import BaseModel
 import anthropic, uuid
-
+ 
 app = FastAPI()
 client = anthropic.AsyncAnthropic()
-
+ 
 class ChatRequest(BaseModel):
     message:    str
     session_id: str = <span class="cs">""</span>   <span class="ck"># empty = new session</span>
-
+ 
 class ChatResponse(BaseModel):
     session_id: str
     reply:      str
     turn_count: int
-
+ 
 @app.post(<span class="cs">"/chat"</span>, response_model=ChatResponse)
 async def chat(request: ChatRequest):
     session_id = request.session_id or str(uuid.uuid4())
-
+ 
     <span class="ck"># Load existing history</span>
     history = load_history_redis(session_id, last_n=<span class="cv">10</span>)
-
+ 
     <span class="ck"># Add new user message</span>
     history.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: request.message})
-
+ 
     <span class="ck"># Call LLM with full history</span>
     response = await client.messages.create(
         model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -857,11 +858,11 @@ async def chat(request: ChatRequest):
         messages=history
     )
     reply = response.content[<span class="cv">0</span>].text
-
+ 
     <span class="ck"># Persist both turns</span>
     save_message_redis(session_id, <span class="cs">"user"</span>,      request.message)
     save_message_redis(session_id, <span class="cs">"assistant"</span>, reply)
-
+ 
     turn_count = len(history) // <span class="cv">2</span> + <span class="cv">1</span>
     return ChatResponse(session_id=session_id, reply=reply, turn_count=turn_count)</pre></div>
   </div>

@@ -3,6 +3,7 @@ title: "Bit Manipulation — Debugging Guide"
 description: "DSA MASTERY · CH 11 · BIT MANIPULATION · APPENDIX A & 128027; Debugging Bit Operations Print binary Common bug checklist Operator precedence quick reference Appendix A…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/bit-manipulation/debugging/
 ---
 

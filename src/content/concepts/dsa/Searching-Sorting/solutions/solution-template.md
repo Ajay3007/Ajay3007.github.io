@@ -3,6 +3,7 @@ title: "Problem Title - Solution"
 description: "🔗 Problem Title - Solution LeetCode xxx Difficulty: Easy/Medium/Hard --- Approach --- Algorithm Explanation --- Complexity Analysis - Time Complexity: O(n) - Single pass…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/searching-sorting/solutions/solution-template/
 ---
 

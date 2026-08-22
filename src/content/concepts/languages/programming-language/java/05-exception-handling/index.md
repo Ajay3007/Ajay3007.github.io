@@ -3,6 +3,7 @@ title: "Exception Handling"
 description: "Exception Handling Try-catch, custom exceptions, and error management."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/05-exception-handling/
 ---
 

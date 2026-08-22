@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part5-rag
 order: 515
+ownHeader: true
 url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
 ---
 
@@ -208,43 +209,43 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Generating Embeddings — OpenAI, Cohere, HuggingFace</h3><span class="tag tag-blue">Code</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install openai cohere sentence-transformers
-
+ 
 <span class="ck"># ── OpenAI Embeddings ─────────────────────────────────</span>
 from openai import OpenAI
 client = OpenAI()
-
+ 
 def embed_openai(texts: list[str], model: str = <span class="cs">"text-embedding-3-small"</span>) -> list[list[float]]:
     response = client.embeddings.create(input=texts, model=model)
     return [item.embedding for item in response.data]
-
+ 
 <span class="ck"># Single text</span>
 vec = embed_openai([<span class="cs">"What is DPDK?"</span>])[<span class="cv">0</span>]
 print(<span class="cs">f"Dimensions: {len(vec)}"</span>)   <span class="ck"># 1536 for text-embedding-3-small</span>
-
+ 
 <span class="ck"># Batch — much more efficient (one API call for many texts)</span>
 docs = [<span class="cs">"DPDK is a packet processing framework"</span>,
         <span class="cs">"VPP runs on DPDK for high-performance networking"</span>,
         <span class="cs">"Machine learning uses gradient descent"</span>]
 vecs = embed_openai(docs)   <span class="ck"># 3 embeddings, 1 API call</span>
-
+ 
 <span class="ck"># ── Cohere Embeddings ─────────────────────────────────</span>
 import cohere
 co = cohere.Client()   <span class="ck"># COHERE_API_KEY from environment</span>
-
+ 
 response = co.embed(
     texts=docs,
     model=<span class="cs">"embed-english-v3.0"</span>,
     input_type=<span class="cs">"search_document"</span>   <span class="ck"># "search_document" for indexing, "search_query" for queries</span>
 )
 vecs = response.embeddings   <span class="ck"># list of lists</span>
-
+ 
 <span class="ck"># ── HuggingFace Sentence Transformers (free, local) ───</span>
 from sentence_transformers import SentenceTransformer
-
+ 
 model = SentenceTransformer(<span class="cs">"all-MiniLM-L6-v2"</span>)   <span class="ck"># 384 dims, fast, free</span>
 vecs = model.encode(docs, show_progress_bar=<span class="cv">True</span>)   <span class="ck"># numpy arrays</span>
 print(vecs.shape)   <span class="ck"># (3, 384)</span>
-
+ 
 <span class="ck"># Better quality, slower:</span>
 model = SentenceTransformer(<span class="cs">"BAAI/bge-large-en-v1.5"</span>)   <span class="ck"># 1024 dims, SOTA free model</span></pre></div>
 
@@ -267,7 +268,7 @@ model = SentenceTransformer(<span class="cs">"BAAI/bge-large-en-v1.5"</span>)   
     <div class="cb"><pre><span class="ck"># 1. Always batch — never embed one text at a time in a loop</span>
 <span class="ck"># BAD: 1000 API calls</span>
 vecs = [embed_openai([text])[<span class="cv">0</span>] for text in texts]
-
+ 
 <span class="ck"># GOOD: 1 API call (batch up to 2048 texts)</span>
 <span class="ck"># Batch into chunks of 500 to stay within API limits</span>
 def embed_batch(texts: list[str], batch_size: int = <span class="cv">500</span>) -> list[list[float]]:
@@ -277,10 +278,10 @@ def embed_batch(texts: list[str], batch_size: int = <span class="cv">500</span>)
         response = client.embeddings.create(input=batch, model=<span class="cs">"text-embedding-3-small"</span>)
         all_embeddings.extend([item.embedding for item in response.data])
     return all_embeddings
-
+ 
 <span class="ck"># 2. Cache embeddings — never re-embed the same text twice</span>
 import hashlib, json, sqlite3
-
+ 
 def cached_embed(text: str) -> list[float]:
     key = hashlib.md5(text.encode()).hexdigest()
     with sqlite3.connect(<span class="cs">"embeddings.db"</span>) as conn:
@@ -291,15 +292,15 @@ def cached_embed(text: str) -> list[float]:
         vec = embed_openai([text])[<span class="cv">0</span>]
         conn.execute(<span class="cs">"INSERT INTO cache VALUES (?,?)"</span>, (key, json.dumps(vec)))
         return vec
-
+ 
 <span class="ck"># 3. Use the right input_type (Cohere only)</span>
 <span class="ck"># Documents being indexed: input_type="search_document"</span>
 <span class="ck"># User queries: input_type="search_query"</span>
 <span class="ck"># Using the wrong type degrades retrieval quality</span>
-
+ 
 <span class="ck"># 4. Normalise embeddings before cosine similarity (optional but consistent)</span>
 import numpy as np
-
+ 
 def normalise(vec: list[float]) -> list[float]:
     arr = np.array(vec)
     return (arr / np.linalg.norm(arr)).tolist()</pre></div>
@@ -316,27 +317,27 @@ def normalise(vec: list[float]) -> list[float]:
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Similarity Metrics — Cosine, Dot Product, Euclidean</h3><span class="tag tag-emerald">Core Math</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import numpy as np
-
+ 
 def cosine_similarity(a: list[float], b: list[float]) -> float:
     """Angle between vectors. Range: -1 to 1. 1 = identical direction."""
     a, b = np.array(a), np.array(b)
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
-
+ 
 def dot_product(a: list[float], b: list[float]) -> float:
     """Dot product. Equivalent to cosine if vectors are normalised."""
     return float(np.dot(np.array(a), np.array(b)))
-
+ 
 def euclidean_distance(a: list[float], b: list[float]) -> float:
     """Straight-line distance. Lower = more similar. Range: 0 to inf."""
     return float(np.linalg.norm(np.array(a) - np.array(b)))
-
+ 
 <span class="ck"># Demonstrate: semantically similar texts should be close</span>
 vecs = embed_openai([
     <span class="cs">"DPDK is a fast packet processing framework"</span>,
     <span class="cs">"FD.io DPDK provides high-speed networking"</span>,
     <span class="cs">"Machine learning uses gradient descent optimisation"</span>
 ])
-
+ 
 print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">1</span>]))  <span class="ck"># ~0.91 — very similar</span>
 print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">2</span>]))  <span class="ck"># ~0.18 — very different</span></pre></div>
 
@@ -362,15 +363,15 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
               for i, v in enumerate(stored_vecs)]
     scores.sort(reverse=<span class="cv">True</span>)
     return scores[:top_k]
-
+ 
 <span class="ck"># ANN (Approximate Nearest Neighbor) — index structure for fast search</span>
 <span class="ck"># HNSW (Hierarchical Navigable Small World) — used by ChromaDB, Qdrant, Weaviate</span>
 <span class="ck"># IVF (Inverted File Index) — used by FAISS</span>
 <span class="ck"># ANNOY — used by Spotify, disk-friendly</span>
-
+ 
 <span class="ck"># ANN trade-off: slightly approximate results, but 100-1000x faster</span>
 <span class="ck"># In practice: ANN accuracy is &gt;99% with right parameters</span>
-
+ 
 <span class="ck"># Rule of thumb:</span>
 <span class="ck"># &lt; 100k vectors:   brute force fine (ChromaDB default)</span>
 <span class="ck"># 100k - 10M:       HNSW index (Qdrant, Weaviate)</span>
@@ -438,29 +439,29 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
   <div class="cp-hdr"><span class="ico">🟢</span><h3>ChromaDB — Start Here for Every RAG Project</h3><span class="tag tag-emerald">Prototype to Production</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install chromadb openai
-
+ 
 import chromadb
 from chromadb.utils import embedding_functions
-
+ 
 <span class="ck"># ── In-memory (for tests / notebooks) ────────────────</span>
 client = chromadb.Client()
-
+ 
 <span class="ck"># ── Persistent (survives restarts) ───────────────────</span>
 client = chromadb.PersistentClient(path=<span class="cs">"./chroma_db"</span>)
-
+ 
 <span class="ck"># ── Use OpenAI embeddings automatically ──────────────</span>
 oai_ef = embedding_functions.OpenAIEmbeddingFunction(
     api_key=os.environ[<span class="cs">"OPENAI_API_KEY"</span>],
     model_name=<span class="cs">"text-embedding-3-small"</span>
 )
-
+ 
 <span class="ck"># Create or get a collection</span>
 collection = client.get_or_create_collection(
     name=<span class="cs">"docs"</span>,
     embedding_function=oai_ef,           <span class="ck"># auto-embeds on add/query</span>
     metadata={<span class="cs">"hnsw:space"</span>: <span class="cs">"cosine"</span>}   <span class="ck"># use cosine similarity</span>
 )
-
+ 
 <span class="ck"># Add documents — Chroma embeds them automatically</span>
 collection.add(
     ids=[<span class="cs">"doc1"</span>, <span class="cs">"doc2"</span>, <span class="cs">"doc3"</span>],
@@ -475,7 +476,7 @@ collection.add(
         {<span class="cs">"source"</span>: <span class="cs">"python_docs"</span>, <span class="cs">"year"</span>: <span class="cv">2023</span>},
     ]
 )
-
+ 
 <span class="ck"># Query — semantic search</span>
 results = collection.query(
     query_texts=[<span class="cs">"how does packet processing work?"</span>],
@@ -496,21 +497,21 @@ for doc, meta, dist in zip(
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Filter by metadata BEFORE semantic search</span>
 <span class="ck"># This is critical for multi-tenant apps or date-filtered search</span>
-
+ 
 <span class="ck"># Only search within dpdk_docs source</span>
 results = collection.query(
     query_texts=[<span class="cs">"packet processing"</span>],
     n_results=<span class="cv">5</span>,
     where={<span class="cs">"source"</span>: <span class="cs">"dpdk_docs"</span>}   <span class="ck"># metadata filter</span>
 )
-
+ 
 <span class="ck"># Numeric comparison filters</span>
 results = collection.query(
     query_texts=[<span class="cs">"networking architecture"</span>],
     n_results=<span class="cv">5</span>,
     where={<span class="cs">"year"</span>: {<span class="cs">"$gte"</span>: <span class="cv">2024</span>}}   <span class="ck"># year >= 2024</span>
 )
-
+ 
 <span class="ck"># Boolean operators</span>
 results = collection.query(
     query_texts=[<span class="cs">"high performance networking"</span>],
@@ -520,7 +521,7 @@ results = collection.query(
         {<span class="cs">"year"</span>: {<span class="cs">"$gte"</span>: <span class="cv">2023</span>}}
     ]}
 )
-
+ 
 <span class="ck"># Update and delete</span>
 collection.update(ids=[<span class="cs">"doc1"</span>], metadatas=[{<span class="cs">"year"</span>: <span class="cv">2025</span>}])
 collection.delete(ids=[<span class="cs">"doc3"</span>])
@@ -538,11 +539,11 @@ print(collection.count())   <span class="ck"># current document count</span></pr
   <div class="cp-hdr"><span class="ico">📌</span><h3>Pinecone — Managed Vector DB</h3><span class="tag tag-emerald">Cloud Production</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install pinecone-client
-
+ 
 from pinecone import Pinecone, ServerlessSpec
-
+ 
 pc = Pinecone(api_key=os.environ[<span class="cs">"PINECONE_API_KEY"</span>])
-
+ 
 <span class="ck"># Create index (one-time setup)</span>
 pc.create_index(
     name=<span class="cs">"my-rag-index"</span>,
@@ -550,9 +551,9 @@ pc.create_index(
     metric=<span class="cs">"cosine"</span>,
     spec=ServerlessSpec(cloud=<span class="cs">"aws"</span>, region=<span class="cs">"us-east-1"</span>)
 )
-
+ 
 index = pc.Index(<span class="cs">"my-rag-index"</span>)
-
+ 
 <span class="ck"># Upsert vectors (create or update)</span>
 vectors = embed_batch(documents)
 index.upsert(vectors=[
@@ -563,7 +564,7 @@ index.upsert(vectors=[
     }
     for i, (vec, doc) in enumerate(zip(vectors, documents))
 ])
-
+ 
 <span class="ck"># Query</span>
 query_vec = embed_openai([<span class="cs">"packet processing performance"</span>])[<span class="cv">0</span>]
 results = index.query(
@@ -572,10 +573,10 @@ results = index.query(
     include_metadata=<span class="cv">True</span>,
     filter={<span class="cs">"source"</span>: {<span class="cs">"$eq"</span>: <span class="cs">"docs"</span>}}
 )
-
+ 
 for match in results[<span class="cs">"matches"</span>]:
     print(<span class="cs">f"Score: {match['score']:.3f} | {match['metadata']['text'][:60]}"</span>)
-
+ 
 <span class="ck"># Index stats</span>
 print(index.describe_index_stats())</pre></div>
   </div>
@@ -585,21 +586,21 @@ print(index.describe_index_stats())</pre></div>
   <div class="cp-hdr"><span class="ico">🔷</span><h3>Qdrant — Best Self-Hosted Option</h3><span class="tag tag-orange">OSS Production</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install qdrant-client
-
+ 
 <span class="ck"># Start Qdrant locally with Docker:</span>
 <span class="ck"># docker run -p 6333:6333 qdrant/qdrant</span>
-
+ 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct, Filter, FieldCondition, MatchValue
-
+ 
 client = QdrantClient(host=<span class="cs">"localhost"</span>, port=<span class="cv">6333</span>)
-
+ 
 <span class="ck"># Create collection</span>
 client.create_collection(
     collection_name=<span class="cs">"docs"</span>,
     vectors_config=VectorParams(size=<span class="cv">1536</span>, distance=Distance.COSINE),
 )
-
+ 
 <span class="ck"># Upsert points</span>
 vectors = embed_batch(documents)
 client.upsert(
@@ -613,7 +614,7 @@ client.upsert(
         for i, (vec, doc) in enumerate(zip(vectors, documents))
     ]
 )
-
+ 
 <span class="ck"># Semantic search with metadata filter</span>
 query_vec = embed_openai([<span class="cs">"DPDK performance"</span>])[<span class="cv">0</span>]
 results = client.search(
@@ -641,16 +642,16 @@ for hit in results:
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Install pgvector extension in PostgreSQL</span>
 <span class="ck"># docker run -e POSTGRES_PASSWORD=pass -p 5432:5432 pgvector/pgvector:pg16</span>
-
+ 
 pip install psycopg2-binary pgvector
-
+ 
 import psycopg2
 from pgvector.psycopg2 import register_vector
 import numpy as np
-
+ 
 conn = psycopg2.connect(<span class="cs">"postgresql://postgres:pass@localhost/ragdb"</span>)
 register_vector(conn)
-
+ 
 <span class="ck"># Enable extension and create table</span>
 with conn.cursor() as cur:
     cur.execute(<span class="cs">"CREATE EXTENSION IF NOT EXISTS vector"</span>)
@@ -664,7 +665,7 @@ with conn.cursor() as cur:
     """</span>)
     cur.execute(<span class="cs">"CREATE INDEX IF NOT EXISTS docs_embedding_idx ON documents USING ivfflat (embedding vector_cosine_ops)"</span>)
     conn.commit()
-
+ 
 <span class="ck"># Insert documents with embeddings</span>
 def insert_docs(texts: list[str], source: str):
     vecs = embed_batch(texts)
@@ -674,13 +675,13 @@ def insert_docs(texts: list[str], source: str):
             VALUES (%s, %s, %s)
         """</span>, [(text, source, vec) for text, vec in zip(texts, vecs)])
     conn.commit()
-
+ 
 <span class="ck"># Semantic search — pure SQL!</span>
 def semantic_search(query: str, top_k: int = <span class="cv">5</span>, source: str = None) -> list[dict]:
     query_vec = embed_openai([query])[<span class="cv">0</span>]
     source_filter = <span class="cs">"AND source = %s"</span> if source else <span class="cs">""</span>
     params = [query_vec, top_k] if not source else [query_vec, source, top_k]
-
+ 
     with conn.cursor() as cur:
         cur.execute(<span class="cs">f"""
             SELECT content, source,
@@ -692,7 +693,7 @@ def semantic_search(query: str, top_k: int = <span class="cv">5</span>, source: 
         """</span>, [query_vec] + ([source] if source else []) + [query_vec, top_k])
         rows = cur.fetchall()
     return [{<span class="cs">"content"</span>: r[<span class="cv">0</span>], <span class="cs">"source"</span>: r[<span class="cv">1</span>], <span class="cs">"similarity"</span>: r[<span class="cv">2</span>]} for r in rows]
-
+ 
 <span class="ck"># pgvector distance operators:</span>
 <span class="ck"># &lt;-&gt;   Euclidean distance</span>
 <span class="ck"># &lt;=&gt;   Cosine distance (1 - cosine_similarity)</span>
@@ -704,38 +705,38 @@ def semantic_search(query: str, top_k: int = <span class="cv">5</span>, source: 
   <div class="cp-hdr"><span class="ico">⚡</span><h3>FAISS — Maximum Performance Library</h3><span class="tag tag-purple">High Scale</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install faiss-cpu   <span class="ck"># or faiss-gpu for GPU</span>
-
+ 
 import faiss
 import numpy as np
-
+ 
 <span class="ck"># Build an index</span>
 dimension = <span class="cv">1536</span>
-
+ 
 <span class="ck"># Flat (brute force) — exact, best for &lt; 100k vectors</span>
 index = faiss.IndexFlatIP(dimension)   <span class="ck"># Inner Product (= cosine for normalised)</span>
-
+ 
 <span class="ck"># IVF (Inverted File) — fast approximate, for &gt; 100k vectors</span>
 nlist = <span class="cv">100</span>   <span class="ck"># number of clusters</span>
 quantiser = faiss.IndexFlatIP(dimension)
 index = faiss.IndexIVFFlat(quantiser, dimension, nlist, faiss.METRIC_INNER_PRODUCT)
-
+ 
 <span class="ck"># Add vectors (normalised for cosine similarity)</span>
 vecs = np.array(embed_batch(documents), dtype=<span class="cs">'float32'</span>)
 faiss.normalize_L2(vecs)   <span class="ck"># in-place L2 normalisation</span>
-
+ 
 if isinstance(index, faiss.IndexIVFFlat):
     index.train(vecs)   <span class="ck"># IVF index must be trained first</span>
 index.add(vecs)
-
+ 
 <span class="ck"># Search</span>
 query_vec = np.array(embed_openai([<span class="cs">"packet processing"</span>]), dtype=<span class="cs">'float32'</span>)
 faiss.normalize_L2(query_vec)
 distances, indices = index.search(query_vec, k=<span class="cv">5</span>)
-
+ 
 for dist, idx in zip(distances[<span class="cv">0</span>], indices[<span class="cv">0</span>]):
     if idx != -<span class="cv">1</span>:   <span class="ck"># -1 means not enough results</span>
         print(<span class="cs">f"Score: {dist:.3f} | {documents[idx][:60]}"</span>)
-
+ 
 <span class="ck"># Save and load index</span>
 faiss.write_index(index, <span class="cs">"docs.faiss"</span>)
 index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>

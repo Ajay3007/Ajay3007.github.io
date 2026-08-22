@@ -4,6 +4,7 @@ description: "Module B10 — Consistent Hashing & Service Discovery System Desig
 domain: system-design
 track: system-design-hld
 order: 121
+ownHeader: true
 url: /learning/system-design/hld/module-b10-notes/
 ---
 

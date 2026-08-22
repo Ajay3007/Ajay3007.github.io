@@ -3,6 +3,7 @@ title: "String Pattern Matching"
 description: "[Pattern Matching]( pattern-matching) --- --- Pattern Matching KMP, Z, and Rabin-Karp."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/strings/pattern-matching/
 ---
 

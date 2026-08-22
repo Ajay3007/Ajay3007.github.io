@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY COURSE TRACK A · LLD · MODULE A6 · WEEKS 
 domain: system-design
 track: system-design-lld
 order: 12
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a6-case-studies/
 ---
 
@@ -151,14 +153,14 @@ url: /learning/system-design/lld/module-a6-case-studies/
     <span class="kw">private final</span> <span class="cls">Position</span> from, to;
     <span class="kw">private</span>       <span class="cls">Piece</span>    capturedPiece;  <span class="cm">// Saved for undo</span>
     <span class="kw">private</span>       <span class="kw">boolean</span>  wasFirstMove;   <span class="cm">// Pawn/king special rules</span>
-
+ 
     <span class="kw">public void</span> <span class="fn">execute</span>(<span class="cls">Board</span> board) {
         capturedPiece = board.<span class="fn">getPiece</span>(to);
         wasFirstMove  = piece.<span class="fn">isFirstMove</span>();
         board.<span class="fn">setPiece</span>(to, piece);  board.<span class="fn">setPiece</span>(from, <span class="kw">null</span>);
         piece.<span class="fn">setPosition</span>(to);     piece.<span class="fn">setFirstMove</span>(<span class="kw">false</span>);
     }
-
+ 
     <span class="kw">public void</span> <span class="fn">undo</span>(<span class="cls">Board</span> board) {
         board.<span class="fn">setPiece</span>(from, piece);          <span class="cm">// Restore moving piece</span>
         board.<span class="fn">setPiece</span>(to, capturedPiece);     <span class="cm">// Restore captured piece (null if none)</span>
@@ -166,7 +168,7 @@ url: /learning/system-design/lld/module-a6-case-studies/
         piece.<span class="fn">setFirstMove</span>(wasFirstMove);
     }
 }
-
+ 
 <span class="cm">// Checkmate detection — simulate all moves, check none escape check</span>
 <span class="kw">public boolean</span> <span class="fn">isCheckmate</span>(<span class="cls">Board</span> board, <span class="cls">PieceColor</span> color) {
     <span class="kw">if</span> (!<span class="fn">isCheck</span>(board, color)) <span class="kw">return false</span>;
@@ -219,7 +221,7 @@ url: /learning/system-design/lld/module-a6-case-studies/
     <span class="kw">private final</span> <span class="cls">ReentrantLock</span>  lock = <span class="kw">new</span> <span class="cls">ReentrantLock</span>();
     <span class="kw">private</span>       <span class="cls">ElevatorState</span>  state = <span class="cls">ElevatorState</span>.IDLE;
     <span class="kw">private int</span>                   currentFloor = <span class="num">1</span>;
-
+ 
     <span class="cm">// LOOK: service all requests in current direction, then reverse</span>
     <span class="kw">public void</span> <span class="fn">step</span>() {
         lock.<span class="fn">lock</span>();
@@ -269,12 +271,12 @@ url: /learning/system-design/lld/module-a6-case-studies/
 <pre class="code"><span class="kw">public boolean</span> <span class="fn">borrowBook</span>(<span class="cls">String</span> isbn, <span class="cls">Member</span> member) {
     <span class="cls">Book</span> book = catalog.<span class="fn">get</span>(isbn);
     <span class="kw">if</span> (book == <span class="kw">null</span>) <span class="kw">throw new</span> <span class="cls">BookNotFoundException</span>(isbn);
-
+ 
     <span class="kw">if</span> (book.<span class="fn">getAvailable</span>() == <span class="num">0</span>) {
         reservations.<span class="fn">reserve</span>(book, member);  <span class="cm">// Join waitlist</span>
         <span class="kw">return false</span>;
     }
-
+ 
     <span class="cm">// Synchronize on book object — prevents two threads taking last copy</span>
     <span class="kw">synchronized</span> (book) {
         <span class="kw">if</span> (book.<span class="fn">getAvailable</span>() == <span class="num">0</span>) {  <span class="cm">// Double-check after sync</span>
@@ -286,7 +288,7 @@ url: /learning/system-design/lld/module-a6-case-studies/
     activeBorrow.<span class="fn">put</span>(member.id+<span class="str">":"</span>+isbn, <span class="kw">new</span> <span class="cls">Borrowing</span>(book, member));
     <span class="kw">return true</span>;
 }
-
+ 
 <span class="kw">public void</span> <span class="fn">returnBook</span>(<span class="cls">String</span> isbn, <span class="cls">Member</span> member) {
     <span class="cls">Borrowing</span> b = activeBorrow.<span class="fn">remove</span>(member.id+<span class="str">":"</span>+isbn);
     b.<span class="fn">markReturned</span>();
@@ -326,7 +328,7 @@ url: /learning/system-design/lld/module-a6-case-studies/
 chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="cls">PaymentHandler</span>(paymentService))
      .<span class="fn">setNext</span>(<span class="kw">new</span> <span class="cls">DeliveryAssignmentHandler</span>(deliveryService))
      .<span class="fn">setNext</span>(<span class="kw">new</span> <span class="cls">NotificationHandler</span>(notifier));
-
+ 
 <span class="cm">// STRATEGY: surge pricing (pluggable at runtime)</span>
 <span class="kw">class</span> <span class="cls">SurgePricingStrategy</span> <span class="kw">implements</span> <span class="cls">PricingStrategy</span> {
     <span class="kw">public double</span> <span class="fn">calculateTotal</span>(<span class="cls">Order</span> order) {
@@ -335,7 +337,7 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
         <span class="kw">return</span> base * surge + DELIVERY_FEE;
     }
 }
-
+ 
 <span class="cm">// Add new payment method: new class implementing PaymentHandler</span>
 <span class="cm">// No changes to ValidationHandler, DeliveryHandler, NotificationHandler (OCP)</span></pre>
     </div>
@@ -365,7 +367,7 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
 <pre class="code"><span class="cm">// PIN retry: 3 attempts then card retained</span>
 <span class="kw">class</span> <span class="cls">CardInsertedState</span> <span class="kw">implements</span> <span class="cls">ATMState</span> {
     <span class="kw">private int</span> attempts = <span class="num">0</span>;
-
+ 
     <span class="kw">public void</span> <span class="fn">enterPin</span>(<span class="cls">ATM</span> atm, <span class="cls">String</span> pin) {
         <span class="kw">if</span> (atm.<span class="fn">getBank</span>().<span class="fn">verifyPin</span>(atm.<span class="fn">getCurrentCard</span>(), pin)) {
             atm.<span class="fn">setState</span>(<span class="kw">new</span> <span class="cls">AuthenticatedState</span>());
@@ -376,7 +378,7 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
         }
     }
 }
-
+ 
 <span class="cm">// Transaction atomicity: debit then dispense</span>
 <span class="cm">// If dispense fails → undo() credits account back</span>
 <span class="kw">class</span> <span class="cls">WithdrawalCommand</span> <span class="kw">implements</span> <span class="cls">Command</span> {
@@ -405,7 +407,7 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
 <pre class="code"><span class="kw">class</span> <span class="cls">Room</span> {
     <span class="kw">private final</span> <span class="cls">ReentrantLock</span> lock       = <span class="kw">new</span> <span class="cls">ReentrantLock</span>();
     <span class="kw">private final</span> <span class="cls">Set</span>&lt;<span class="cls">LocalDate</span>&gt; booked    = <span class="kw">new</span> <span class="cls">HashSet</span>&lt;&gt;();
-
+ 
     <span class="kw">public boolean</span> <span class="fn">tryBook</span>(<span class="cls">LocalDate</span> in, <span class="cls">LocalDate</span> out) {
         lock.<span class="fn">lock</span>();
         <span class="kw">try</span> {
@@ -415,7 +417,7 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
         } <span class="kw">finally</span> { lock.<span class="fn">unlock</span>(); }
     }
 }
-
+ 
 <span class="cm">// Dynamic pricing strategy</span>
 <span class="kw">class</span> <span class="cls">DynamicPricingStrategy</span> <span class="kw">implements</span> <span class="cls">PricingStrategy</span> {
     <span class="kw">public double</span> <span class="fn">getPrice</span>(<span class="cls">Room</span> room, <span class="cls">LocalDate</span> date, <span class="kw">int</span> occupancy) {
@@ -559,14 +561,14 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
   - Win condition: exactly 100 (overshoot = no move)
   - Multiplayer: track current player
   - Save/load game state (Memento)
-
+ 
 Required patterns:
   Factory:   Dice creation
   Strategy:  Dice rolling algorithm
   Observer:  onPlayerMoved, onSnakeBite, onLadderClimb, onWin
   Command:   Move (with undo for "take back" variant)
   Memento:   Save game state to resume later
-
+ 
 Deliver: Full Java + UML + test for 4 players, 10-round game</pre>
       </div>
     </div>
@@ -584,7 +586,7 @@ Deliver: Full Java + UML + test for 4 players, 10-round game</pre>
       > 2 hours: ₹80/hour after first 2h
   - Multiple entry/exit gates (separate rate limiters per gate)
   - Daily revenue report: thread-safe aggregation
-
+ 
 Design challenge: adding EV state without breaking existing Spot hierarchy.
 Show OCP — new spot type = new class, existing code unchanged.</pre>
       </div>
@@ -597,21 +599,21 @@ Show OCP — new spot type = new class, existing code unchanged.</pre>
   L1: In-process LRU (1,000 items, O(1) get/put)
   L2: Distributed (Redis-like, 100,000 items, TTL-based eviction)
   L3: Database (unlimited, slowest)
-
+ 
 On get(key):
   Hit L1 → return immediately
   Miss L1, hit L2 → populate L1, return
   Miss L2, hit L3 → populate L2 + L1, return
   Miss all → return null
-
+ 
 Write policies (Strategy, pluggable):
   write-through:  write all levels synchronously
   write-back:     write L1 only; async flush to L2/L3
   write-around:   bypass cache; write directly to L3
-
+ 
 Concurrency: ReadWriteLock per level (reads don't block each other)
 Invalidation: CacheInvalidationEvent via Observer pattern
-
+ 
 Test: cache hit rates, concurrency safety, write policy correctness</pre>
       </div>
     </div>
@@ -620,7 +622,7 @@ Test: cache hit rates, concurrency safety, write policy correctness</pre>
       <div class="task-hd" onclick="tt(this)"><div class="t-num" style="color:var(--red)">★</div><div class="t-label">Capstone — BookMyShow (Full Track A)</div><div class="t-meta">~8 hrs · complete LLD</div><div class="t-arr">›</div></div>
       <div class="task-bd">
         <pre>Entities: Movie, Show, Screen, Seat, Booking, User, Theatre, Payment, Ticket
-
+ 
 Features:
   1. Browse movies by city/date
   2. Select show → choose seats → pay → receive ticket
@@ -629,7 +631,7 @@ Features:
   5. Pricing: weekday/weekend × screen type × seat type multipliers
   6. Cancellation: full refund >24h, 50% refund 2–24h, none <2h
   7. Notifications: booking confirmation, 2h-before show reminder
-
+ 
 All 9 patterns with justification:
   State:    Seat (AVAILABLE/LOCKED/BOOKED/CANCELLED)
   Observer: Booking events, seat expiry alerts
@@ -640,7 +642,7 @@ All 9 patterns with justification:
   Builder:  BookingRequest (optional fields: promo code, special needs)
   Factory:  TicketFactory (standard vs IMAX vs 4DX ticket format)
   Concurrency: ReentrantLock per Seat + ScheduledExecutor for 5-min expiry
-
+ 
 Deliverables:
   1. Complete Java implementation (every class)
   2. UML class diagram with all 9 patterns annotated

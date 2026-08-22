@@ -4,6 +4,8 @@ description: "← Back to Roadmap Ch8 Intermediate Binary Search Classic Search 
 domain: dsa
 track: dsa-mastery
 order: 8
+chrome: bare
+ownHeader: true
 url: /learning/dsa/binary-search/ch8-binary-search/
 ---
 

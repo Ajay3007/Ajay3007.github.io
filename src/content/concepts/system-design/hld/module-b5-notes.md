@@ -4,6 +4,7 @@ description: "Module B5 — URL Shortener (End-to-End HLD Case Study) System Des
 domain: system-design
 track: system-design-hld
 order: 111
+ownHeader: true
 url: /learning/system-design/hld/module-b5-notes/
 ---
 

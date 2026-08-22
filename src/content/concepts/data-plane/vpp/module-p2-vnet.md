@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 2C · WEEKS 7–8 🌐 vnet - Networking Laye
 domain: data-plane
 track: vpp
 order: 2
+ownHeader: true
 url: /learning/data-plane/vpp/module-p2-vnet/
 ---
 
@@ -122,18 +123,18 @@ url: /learning/data-plane/vpp/module-p2-vnet/
 
 <div class="code-block"><pre><span class="c-comment">/* Get sw_if_index from a received packet */</span>
 <span class="c-type">u32</span> sw_if_index = vnet_buffer(b)->sw_if_index[VLIB_RX];
-
+ 
 <span class="c-comment">/* Get sw_if_index by name (for CLI/API handlers) */</span>
 <span class="c-type">vnet_main_t</span> *vnm = vnet_get_main();
 <span class="c-type">u32</span> sw_if_index = vnet_sw_interface_find_by_name(vnm, <span class="c-str">"GigabitEthernet0/8/0"</span>);
-
+ 
 <span class="c-comment">/* Get interface details */</span>
 <span class="c-type">vnet_sw_interface_t</span> *sw = vnet_get_sw_interface(vnm, sw_if_index);
 <span class="c-type">vnet_hw_interface_t</span> *hw = vnet_get_hw_interface(vnm, sw->hw_if_index);
-
+ 
 <span class="c-comment">/* Set interface admin state */</span>
 vnet_sw_interface_set_flags(vnm, sw_if_index, VNET_SW_INTERFACE_FLAG_ADMIN_UP);
-
+ 
 <span class="c-comment">/* Assign IP address programmatically (from a plugin) */</span>
 <span class="c-type">ip4_add_del_interface_address_args_t</span> a = {
   .sw_if_index = sw_if_index,
@@ -195,26 +196,26 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
   .runs_before = VNET_FEATURES(<span class="c-str">"ip4-lookup"</span>),  <span class="c-comment">/* ordering constraint */</span>
   .runs_after  = VNET_FEATURES(<span class="c-str">"ip4-full-reassembly-feature"</span>),
 };
-
+ 
 <span class="c-comment">/* In your node function: advance to next feature when done */</span>
 <span class="c-key">static</span> <span class="c-type">uword</span> my_feature_fn(...) {
   <span class="c-type">u32</span> next_index;
   <span class="c-type">u32</span> bi0 = from[0];
   <span class="c-type">vlib_buffer_t</span> *b0 = vlib_get_buffer(vm, bi0);
-
+ 
   <span class="c-comment">/* Determine next feature in arc (not a hard-coded node name!) */</span>
   vnet_feature_next(&next_index, b0);   <span class="c-comment">/* reads current_config_index */</span>
-
+ 
   <span class="c-comment">/* OR: early exit - bypass remaining features and go direct to drop */</span>
   next_index = VNET_FEATURE_ARC_DROP_INDEX;
-
+ 
   vlib_buffer_enqueue_to_next(vm, node, from, &next_index, 1);
   <span class="c-key">return</span> 1;
 }
-
+ 
 <span class="c-comment">/* Enable per interface via CLI */</span>
 <span class="c-comment">/* set interface feature GigabitEthernet0/8/0 my-feature-node ip4-unicast enable */</span>
-
+ 
 <span class="c-comment">/* Enable via API (from GoVPP or Python) */</span>
 <span class="c-comment">/* feature_enable_disable { sw_if_index, arc_name, feature_name, enable=1 } */</span></pre></div>
 
@@ -248,7 +249,7 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
 <span class="c-comment">/* Prefix: 10.0.0.0/8 → [ECMP DPO → [adj_A, adj_B]]       */</span>
 <span class="c-comment">/* Prefix: 0.0.0.0/0  → [Drop DPO]                        */</span>
 <span class="c-comment">/* Prefix: 1.2.3.4/32 → [Receive DPO]  (local address)    */</span>
-
+ 
 <span class="c-comment">/* Add a route programmatically from a plugin */</span>
 <span class="c-type">fib_prefix_t</span> pfx = {
   .fp_len   = <span class="c-val">24</span>,
@@ -266,12 +267,12 @@ fib_table_entry_path_add(<span class="c-val">0</span>,       <span class="c-comm
                          FIB_SOURCE_PLUGIN_LOW,
                          FIB_ENTRY_FLAG_NONE,
                          &rpath, <span class="c-val">1</span>);
-
+ 
 <span class="c-comment">/* Lookup in FIB (from a graph node) */</span>
 <span class="c-type">fib_node_index_t</span> fei = fib_table_lookup(fib_index, &pfx);
 <span class="c-type">load_balance_t</span>  *lb  = load_balance_get(
   fib_entry_get_dpo_index(fei, FIB_FORW_CHAIN_TYPE_UNICAST_IP4));
-
+ 
 <span class="c-comment">/* The normal path: ip4-lookup does this automatically */</span>
 <span class="c-comment">/* You rarely need to call fib_table_lookup directly from a node */</span></pre></div>
 
@@ -321,9 +322,9 @@ vnet_set_ip4_ethernet_arp(<span class="c-key">NULL</span>,           <span class
                           mac_addr,
                           <span class="c-val">1</span>,              <span class="c-comment">/* is_static */</span>
                           <span class="c-val">0</span>);             <span class="c-comment">/* is_no */</span>
-
+ 
 <span class="c-comment">/* Show ARP table: vppctl> show ip neighbors */</span>
-
+ 
 <span class="c-comment">/* Walk ARP entries programmatically */</span>
 ip4_neighbor_walk(sw_if_index, my_cb_fn, my_arg);</pre></div>
 
@@ -346,7 +347,7 @@ ip4_neighbor_walk(sw_if_index, my_cb_fn, my_arg);</pre></div>
 <div class="code-block"><pre><span class="c-comment">/* Create bridge domain 1 and add two interfaces */</span>
 <span class="c-comment">/* vppctl> set interface l2 bridge GigabitEthernet0/8/0 1 */</span>
 <span class="c-comment">/* vppctl> set interface l2 bridge memif0/0 1             */</span>
-
+ 
 <span class="c-comment">/* Programmatic: create bridge domain */</span>
 <span class="c-type">l2_bridge_domain_add_del_args_t</span> a = {
   .bd_id     = <span class="c-val">1</span>,
@@ -359,11 +360,11 @@ ip4_neighbor_walk(sw_if_index, my_cb_fn, my_arg);</pre></div>
   .is_add    = <span class="c-val">1</span>,
 };
 bd_add_del(&a);
-
+ 
 <span class="c-comment">/* Add interface to bridge domain */</span>
 set_int_l2_mode(vm, vnm, MODE_L2_BRIDGE, sw_if_index, <span class="c-val">1</span>, <span class="c-comment">/* bd_id */</span>
                L2_BD_PORT_TYPE_NORMAL, <span class="c-val">0</span>, <span class="c-val">0</span>);
-
+ 
 <span class="c-comment">/* Show L2 MAC table */</span>
 <span class="c-comment">/* vppctl> show l2fib            */</span>
 <span class="c-comment">/* vppctl> show bridge-domain 1  */</span></pre></div>

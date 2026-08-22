@@ -4,6 +4,7 @@ description: "Module 08 — DPDK EAL Initialization Reference code — requires 
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-08-dpdk-eal-init/
 ---
 

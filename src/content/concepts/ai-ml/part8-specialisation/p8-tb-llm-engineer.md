@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part8-specialisation
 order: 99
+ownHeader: true
 url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
 ---
 
@@ -98,22 +99,22 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
   <div class="cp-hdr"><span class="ico">🤗</span><h3>HuggingFace Ecosystem</h3><span class="tag">Infrastructure</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install transformers datasets huggingface_hub accelerate evaluate trl
-
+ 
 from datasets import load_dataset, Dataset
 from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
-
+ 
 # Load any open-source model
 model_id = "meta-llama/Llama-3.2-3B-Instruct"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForCausalLM.from_pretrained(
     model_id, torch_dtype="auto", device_map="auto"
 )
-
+ 
 # Inference pipeline
 pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
 result = pipe("Explain DPDK mempool:", max_new_tokens=200)
 print(result[0]["generated_text"])
-
+ 
 # Build a fine-tuning dataset from domain text
 training_data = [
     {"prompt": "What is DPDK?",
@@ -122,11 +123,11 @@ training_data = [
      "completion": "rte_ring is a lock-free FIFO queue implementation in DPDK..."},
     # ... 100-1000 examples
 ]
-
+ 
 # Format for instruction fine-tuning (Llama chat template)
 def format_prompt(example):
     return {"text": f"&lt;|user|&gt;\n{example['prompt']}&lt;|assistant|&gt;\n{example['completion']}"}
-
+ 
 dataset = Dataset.from_list(training_data).map(format_prompt)
 dataset.push_to_hub("your-username/domain-qa-dataset")</pre></div>
   </div>
@@ -139,10 +140,10 @@ dataset.push_to_hub("your-username/domain-qa-dataset")</pre></div>
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Fine-tuning with Unsloth QLoRA</h3><span class="tag">Core Skill</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install unsloth
-
+ 
 from unsloth import FastLanguageModel
 import torch
-
+ 
 # Load model in 4-bit quantised form — fits in 8GB VRAM
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name="unsloth/llama-3.2-3b-instruct-bnb-4bit",
@@ -150,7 +151,7 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     dtype=None,
     load_in_4bit=True,
 )
-
+ 
 # Add LoRA adapters — only 0.1% of parameters are trainable
 model = FastLanguageModel.get_peft_model(
     model,
@@ -164,11 +165,11 @@ model = FastLanguageModel.get_peft_model(
 )
 model.print_trainable_parameters()
 # trainable params: 41,943,040 || all params: 3,254,702,080 || 1.29%
-
+ 
 # Training with SFTTrainer (TRL library)
 from trl import SFTTrainer
 from transformers import TrainingArguments
-
+ 
 trainer = SFTTrainer(
     model=model,
     tokenizer=tokenizer,
@@ -187,11 +188,11 @@ trainer = SFTTrainer(
     ),
 )
 trainer.train()
-
+ 
 # Save LoRA adapter and push to hub
 model.save_pretrained("lora_adapter")
 model.push_to_hub("your-username/domain-llama-lora")
-
+ 
 # Merge adapter into base model for standalone deployment
 merged = model.merge_and_unload()
 merged.save_pretrained("merged_model")</pre></div>
@@ -208,9 +209,9 @@ merged.save_pretrained("merged_model")</pre></div>
     <div class="cb"><pre># LoRA: W_update = A x B, where rank r &lt;&lt; d
 # At r=16 on a 7B model: 0.1% of parameters trained
 # Quality: typically 80-95% of full fine-tune quality at 1% the cost
-
+ 
 from peft import LoraConfig, get_peft_model, TaskType
-
+ 
 # Manual PEFT config (without Unsloth)
 config = LoraConfig(
     task_type=TaskType.CAUSAL_LM,
@@ -222,13 +223,13 @@ config = LoraConfig(
 )
 peft_model = get_peft_model(base_model, config)
 peft_model.print_trainable_parameters()
-
+ 
 # Convert to GGUF for local CPU deployment (llama.cpp)
 # 1. Save merged model:  merged.save_pretrained("merged")
 # 2. Convert: python llama.cpp/convert_hf_to_gguf.py merged --outfile model.gguf
 # 3. Quantise: ./llama.cpp/quantize model.gguf model.q4_k_m.gguf Q4_K_M
 # 4. Run: ./llama.cpp/main -m model.q4_k_m.gguf -p "What is DPDK?"
-
+ 
 # Quantisation comparison:
 # Q8_0:   ~8GB,  highest quality local
 # Q4_K_M: ~4GB,  good quality/size balance — recommended default
@@ -244,13 +245,13 @@ peft_model.print_trainable_parameters()
   <div class="cp-hdr"><span class="ico">🚀</span><h3>vLLM — Production Model Serving</h3><span class="tag">Serving</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install vllm
-
+ 
 # Start server (OpenAI-compatible API)
 # vllm serve your-username/domain-llama --port 8000 --max-model-len 4096
-
+ 
 # Python client — same as OpenAI API
 from openai import OpenAI
-
+ 
 client = OpenAI(base_url="http://localhost:8000/v1", api_key="none")
 response = client.chat.completions.create(
     model="your-username/domain-llama",
@@ -258,20 +259,20 @@ response = client.chat.completions.create(
     max_tokens=512
 )
 print(response.choices[0].message.content)
-
+ 
 # vLLM advantages over transformers.generate():
 # - PagedAttention: manages KV cache in pages, 3-5x higher throughput
 # - Continuous batching: batches requests dynamically, no padding waste
 # - CUDA kernels: fused attention, faster than naive PyTorch
 # - OpenAI-compatible: drop-in replacement for OpenAI API calls
-
+ 
 # Benchmark your fine-tuned model vs base model vs Claude-3-Haiku
 import anthropic, time
-
+ 
 def eval_model(questions: list[str], answers: list[str]) -> dict:
     """Compare fine-tuned vs base vs Claude on domain Q&A."""
     results = {"fine_tuned": [], "base": [], "claude": []}
-
+ 
     for q, expected in zip(questions, answers):
         # Fine-tuned (via vLLM)
         ft_resp = client.chat.completions.create(
@@ -287,7 +288,7 @@ def eval_model(questions: list[str], answers: list[str]) -> dict:
         cl_score = judge_answer(q, expected, cl_resp.content[0].text)
         results["fine_tuned"].append(ft_score)
         results["claude"].append(cl_score)
-
+ 
     return {k: sum(v)/len(v) for k, v in results.items()}</pre></div>
   </div>
 </div>

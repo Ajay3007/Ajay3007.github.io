@@ -4,6 +4,7 @@ description: "🔐 IPsec / VPN — IKE Control Plane meets VPP Data Plane [Modul
 domain: data-plane
 track: ngfw
 order: 6
+ownHeader: true
 url: /learning/data-plane/ngfw/ipsec-vpn/
 ---
 

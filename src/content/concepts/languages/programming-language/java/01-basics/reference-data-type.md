@@ -3,6 +3,7 @@ title: "Java Reference Data Types – Core Notes"
 description: "Java Reference Data Types – Core Notes Concise points about non-primitive (reference) types and related concepts."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/01-basics/reference-data-type/
 ---
 

@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part1-foundation
 order: 101
+ownHeader: true
 url: /learning/ai-ml/part1-foundation/p1-m01-python/
 ---
 
@@ -230,12 +231,12 @@ age     = <span class="cv">28</span>              <span class="ck"># int</span>
 salary  = <span class="cv">85000.50</span>        <span class="ck"># float</span>
 active  = <span class="cv">True</span>            <span class="ck"># bool</span>
 nothing = <span class="cv">None</span>            <span class="ck"># NoneType</span>
-
+ 
 <span class="ck"># Type checking and conversion</span>
 print(type(name))          <span class="ck"># &lt;class 'str'&gt;</span>
 print(int(<span class="cs">"42"</span>))           <span class="ck"># 42  — explicit cast</span>
 print(str(<span class="cv">100</span>))            <span class="ck"># "100"</span>
-
+ 
 <span class="ck"># f-strings — the professional way to format</span>
 print(<span class="cs">f"Hello {name}, age {age}"</span>)   <span class="ck"># Hello Ajay, age 28</span>
 print(<span class="cs">f"{salary:.2f}"</span>)              <span class="ck"># 85000.50</span></pre></div>
@@ -254,7 +255,7 @@ items.pop()                    <span class="ck"># remove last</span>
 print(items[<span class="cv">0</span>])               <span class="ck"># "apple" — 0-indexed</span>
 print(items[-<span class="cv">1</span>])              <span class="ck"># last element</span>
 print(items[<span class="cv">1</span>:<span class="cv">3</span>])             <span class="ck"># slice [1,3) = ["avocado","banana"]</span>
-
+ 
 <span class="ck"># List comprehension — Pythonic and fast</span>
 squares = [x**<span class="cv">2</span> for x in range(<span class="cv">10</span>) if x % <span class="cv">2</span> == <span class="cv">0</span>]
 <span class="ck"># [0, 4, 16, 36, 64]</span></pre></div>
@@ -262,25 +263,25 @@ squares = [x**<span class="cv">2</span> for x in range(<span class="cv">10</span
     <div class="cb"><pre>user = {<span class="cs">"name"</span>: <span class="cs">"Ajay"</span>, <span class="cs">"age"</span>: <span class="cv">28</span>, <span class="cs">"city"</span>: <span class="cs">"Mumbai"</span>}
 user[<span class="cs">"email"</span>] = <span class="cs">"ajay@example.com"</span>   <span class="ck"># add key</span>
 user.get(<span class="cs">"phone"</span>, <span class="cs">"N/A"</span>)            <span class="ck"># safe get with default</span>
-
+ 
 <span class="ck"># Dict comprehension</span>
 word_len = {w: len(w) for w in [<span class="cs">"python"</span>, <span class="cs">"java"</span>, <span class="cs">"c++"</span>]}
 <span class="ck"># {"python": 6, "java": 4, "c++": 3}</span>
-
+ 
 <span class="ck"># Iterating</span>
 for key, val in user.items():
     print(<span class="cs">f"{key}: {val}"</span>)</pre></div>
     <h4>Tuple — ordered, immutable</h4>
     <div class="cb"><pre>coords = (<span class="cv">19.07</span>, <span class="cv">72.87</span>)          <span class="ck"># lat, lon of Mumbai</span>
 lat, lon = coords                  <span class="ck"># tuple unpacking</span>
-
+ 
 <span class="ck"># Use tuples for fixed data that should not change</span>
 <span class="ck"># e.g. HTTP status codes, RGB colours, database records</span>
 HTTP_OK = (<span class="cv">200</span>, <span class="cs">"OK"</span>)</pre></div>
     <h4>Set — unordered, unique elements</h4>
     <div class="cb"><pre>tags = {<span class="cs">"python"</span>, <span class="cs">"ml"</span>, <span class="cs">"llm"</span>, <span class="cs">"python"</span>}  <span class="ck"># duplicates removed</span>
 print(tags)  <span class="ck"># {"python", "ml", "llm"}</span>
-
+ 
 <span class="ck"># Set operations — fast membership testing O(1)</span>
 a = {<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>,<span class="cv">4</span>}
 b = {<span class="cv">3</span>,<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>}
@@ -296,19 +297,19 @@ print(a - b)   <span class="ck"># {1, 2}  — difference</span></pre></div>
     <div class="cb"><pre><span class="ck"># Basic function with type hints (good practice)</span>
 def greet(name: str, greeting: str = <span class="cs">"Hello"</span>) -> str:
     return <span class="cs">f"{greeting}, {name}!"</span>
-
+ 
 <span class="ck"># *args — variable positional arguments</span>
 def total(*numbers):
     return sum(numbers)
-
+ 
 print(total(<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>, <span class="cv">4</span>))   <span class="ck"># 10</span>
-
+ 
 <span class="ck"># **kwargs — variable keyword arguments</span>
 def create_profile(**fields):
     return {k: v for k, v in fields.items()}
-
+ 
 profile = create_profile(name=<span class="cs">"Ajay"</span>, role=<span class="cs">"engineer"</span>)
-
+ 
 <span class="ck"># Lambda — one-line anonymous function</span>
 square = lambda x: x ** <span class="cv">2</span>
 print(sorted([<span class="cv">3</span>,<span class="cv">1</span>,<span class="cv">4</span>], key=lambda x: -x))  <span class="ck"># [4, 3, 1]</span></pre></div>
@@ -336,30 +337,30 @@ def read_config(path: str) -> dict:
 class BankAccount:
     <span class="ck"># Class variable (shared by all instances)</span>
     bank_name = <span class="cs">"PyBank"</span>
-
+ 
     def __init__(self, owner: str, balance: float = <span class="cv">0.0</span>):
         <span class="ck"># Instance variables (unique per object)</span>
         self.owner = owner
         self._balance = balance    <span class="ck"># _prefix = convention for private</span>
-
+ 
     def deposit(self, amount: float) -> None:
         if amount <= <span class="cv">0</span>:
             raise ValueError(<span class="cs">"Amount must be positive"</span>)
         self._balance += amount
-
+ 
     def withdraw(self, amount: float) -> float:
         if amount > self._balance:
             raise ValueError(<span class="cs">"Insufficient funds"</span>)
         self._balance -= amount
         return amount
-
+ 
     @property
     def balance(self) -> float:        <span class="ck"># getter — access like attribute</span>
         return self._balance
-
+ 
     def __repr__(self) -> str:
         return <span class="cs">f"BankAccount({self.owner!r}, {self._balance})"</span>
-
+ 
 <span class="ck"># Usage</span>
 acc = BankAccount(<span class="cs">"Ajay"</span>, <span class="cv">1000</span>)
 acc.deposit(<span class="cv">500</span>)
@@ -373,17 +374,17 @@ print(acc.balance)   <span class="ck"># 1500</span></pre></div>
   <div class="cp-body">
     <div class="cb"><pre>import json, csv
 from pathlib import Path
-
+ 
 <span class="ck"># Writing and reading JSON (critical for LLM API work)</span>
 data = {<span class="cs">"model"</span>: <span class="cs">"claude-3"</span>, <span class="cs">"temperature"</span>: <span class="cv">0.7</span>, <span class="cs">"tokens"</span>: [<span class="cv">100</span>, <span class="cv">200</span>]}
 Path(<span class="cs">"config.json"</span>).write_text(json.dumps(data, indent=<span class="cv">2</span>))
 loaded = json.loads(Path(<span class="cs">"config.json"</span>).read_text())
-
+ 
 <span class="ck"># CSV reading — used constantly in data work</span>
 with open(<span class="cs">"students.csv"</span>, <span class="cs">"r"</span>) as f:
     reader = csv.DictReader(f)
     students = list(reader)   <span class="ck"># list of dicts, one per row</span>
-
+ 
 <span class="ck"># CSV writing</span>
 with open(<span class="cs">"output.csv"</span>, <span class="cs">"w"</span>, newline=<span class="cs">""</span>) as f:
     writer = csv.DictWriter(f, fieldnames=[<span class="cs">"name"</span>, <span class="cs">"score"</span>])
@@ -400,15 +401,15 @@ with open(<span class="cs">"output.csv"</span>, <span class="cs">"w"</span>, new
 python -m venv .venv                 <span class="ck"># create</span>
 source .venv/bin/activate            <span class="ck"># Linux/Mac</span>
 .venv\Scripts\activate              <span class="ck"># Windows</span>
-
+ 
 <span class="ck"># Install packages</span>
 pip install requests pandas numpy    <span class="ck"># install</span>
 pip install openai anthropic         <span class="ck"># AI SDKs</span>
-
+ 
 <span class="ck"># Freeze and restore dependencies</span>
 pip freeze > requirements.txt        <span class="ck"># save exact versions</span>
 pip install -r requirements.txt      <span class="ck"># restore on new machine</span>
-
+ 
 <span class="ck"># Deactivate</span>
 deactivate</pre></div>
     <div class="warn"><p>⚠️ <strong>Never install packages globally</strong> — always activate your venv first. Global installs create conflicts that are painful to debug. Add <code>.venv/</code> to your <code>.gitignore</code> — never commit the venv folder.</p></div>
@@ -430,24 +431,24 @@ x = <span class="cv">5</span>
 y = x
 y = <span class="cv">10</span>
 print(x)   <span class="ck"># Still 5 — y got a new object</span>
-
+ 
 <span class="ck"># Mutable — list, dict, set</span>
 a = [<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>]
 b = a              <span class="ck"># b points to SAME list as a</span>
 b.append(<span class="cv">4</span>)
 print(a)           <span class="ck"># [1, 2, 3, 4]  ← a changed!</span>
-
+ 
 <span class="ck"># Fix: explicit copy</span>
 b = a.copy()       <span class="ck"># shallow copy</span>
 b = a[:]           <span class="ck"># slice copy — same result</span>
 import copy
 b = copy.deepcopy(a)   <span class="ck"># deep copy for nested structures</span>
-
+ 
 <span class="ck"># Dangerous default argument anti-pattern</span>
 def add_item(item, lst=[]):    <span class="ck"># BAD — lst shared across calls!</span>
     lst.append(item)
     return lst
-
+ 
 <span class="ck"># Correct pattern</span>
 def add_item(item, lst=None):
     if lst is None:
@@ -462,22 +463,22 @@ def add_item(item, lst=None):
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># List comprehension — replaces most for loops</span>
 even_squares = [x**<span class="cv">2</span> for x in range(<span class="cv">20</span>) if x % <span class="cv">2</span> == <span class="cv">0</span>]
-
+ 
 <span class="ck"># Dict comprehension — used constantly with API responses</span>
 response_data = [{<span class="cs">"id"</span>: <span class="cv">1</span>, <span class="cs">"name"</span>: <span class="cs">"alice"</span>}, {<span class="cs">"id"</span>: <span class="cv">2</span>, <span class="cs">"name"</span>: <span class="cs">"bob"</span>}]
 id_map = {item[<span class="cs">"id"</span>]: item[<span class="cs">"name"</span>] for item in response_data}
 <span class="ck"># {1: "alice", 2: "bob"}</span>
-
+ 
 <span class="ck"># Generator — lazy evaluation, memory efficient for large data</span>
 def token_chunks(text: str, size: int):
     words = text.split()
     for i in range(<span class="cv">0</span>, len(words), size):
         yield <span class="cs">" "</span>.join(words[i:i+size])
-
+ 
 <span class="ck"># Use with large LLM context windows</span>
 for chunk in token_chunks(long_document, <span class="cv">500</span>):
     process(chunk)   <span class="ck"># never loads full doc into memory</span>
-
+ 
 <span class="ck"># zip and enumerate — essential for pairing data</span>
 names  = [<span class="cs">"alice"</span>, <span class="cs">"bob"</span>, <span class="cs">"charlie"</span>]
 scores = [<span class="cv">85</span>, <span class="cv">92</span>, <span class="cv">78</span>]
@@ -493,15 +494,15 @@ for i, (name, score) in enumerate(zip(names, scores)):
 import os, sys, json, csv
 from pathlib import Path
 from typing import Optional, List, Dict, Any
-
+ 
 <span class="ck"># Third-party imports (installed via pip)</span>
 import requests
 from openai import OpenAI
-
+ 
 <span class="ck"># Relative imports in your own package</span>
 from .utils import format_response
 from ..config import API_KEY
-
+ 
 <span class="ck"># Typical project structure</span>
 <span class="ck"># my-ai-app/</span>
 <span class="ck"># ├── main.py          ← entry point</span>
@@ -513,7 +514,7 @@ from ..config import API_KEY
 <span class="ck"># │   └── llm.py</span>
 <span class="ck"># ├── requirements.txt</span>
 <span class="ck"># └── .env             ← secrets (never commit!)</span>
-
+ 
 <span class="ck"># Reading environment variables (secrets pattern)</span>
 import os
 from dotenv import load_dotenv
@@ -527,18 +528,18 @@ api_key = os.environ.get(<span class="cs">"OPENAI_API_KEY"</span>)   <span class
   <div class="cp-body">
     <p>LLM API calls are I/O-bound — they wait for network responses. Async Python lets your program do other work while waiting, instead of blocking.</p>
     <div class="cb"><pre>import asyncio
-
+ 
 <span class="ck"># Sync version — blocks for 3 seconds total</span>
 import time
 def fetch_sync():
     time.sleep(<span class="cv">1</span>)   <span class="ck"># simulates API call</span>
     return <span class="cs">"result"</span>
-
+ 
 <span class="ck"># Async version — runs concurrently, total ~1 second</span>
 async def fetch_async():
     await asyncio.sleep(<span class="cv">1</span>)   <span class="ck"># yields control while waiting</span>
     return <span class="cs">"result"</span>
-
+ 
 async def main():
     <span class="ck"># Run 3 API calls concurrently</span>
     results = await asyncio.gather(
@@ -547,9 +548,9 @@ async def main():
         fetch_async()
     )
     return results
-
+ 
 asyncio.run(main())   <span class="ck"># entry point for async code</span>
-
+ 
 <span class="ck"># Anthropic async client pattern (Month 2)</span>
 <span class="ck"># async with anthropic.AsyncAnthropic() as client:</span>
 <span class="ck">#     response = await client.messages.create(...)</span></pre></div>
@@ -593,11 +594,11 @@ asyncio.run(main())   <span class="ck"># entry point for async code</span>
 <span class="ck"># 2. Install VS Code + Python extension (Microsoft)</span>
 <span class="ck"># 3. Or use Google Colab — zero setup, free GPU</span>
 <span class="ck">#    https://colab.research.google.com/</span>
-
+ 
 <span class="ck"># Verify installation</span>
 python --version    <span class="ck"># Python 3.10.x or higher</span>
 pip --version       <span class="ck"># pip 23.x</span>
-
+ 
 <span class="ck"># Install core packages you will use throughout Part 1</span>
 pip install jupyter numpy pandas matplotlib requests python-dotenv</pre></div>
   </div>

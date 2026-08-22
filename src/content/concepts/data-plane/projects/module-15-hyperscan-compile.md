@@ -4,6 +4,7 @@ description: "Module 15 — Hyperscan: Pattern Compilation Requires Hyperscan (l
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-15-hyperscan-compile/
 ---
 

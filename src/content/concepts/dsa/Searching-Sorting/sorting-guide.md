@@ -3,6 +3,7 @@ title: "Sorting Algorithms Master Guide"
 description: "🧮 Sorting Algorithms Master Guide Sorting is a foundational topic in computer science and interviews."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/searching-sorting/sorting-guide/
 ---
 

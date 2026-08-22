@@ -3,6 +3,7 @@ title: "Core Java"
 description: "Core Java String, Wrapper classes, and essential Java APIs."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/03-core-java/
 ---
 

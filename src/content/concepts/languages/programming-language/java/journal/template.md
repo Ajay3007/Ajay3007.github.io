@@ -3,6 +3,7 @@ title: "Java Journal - YYYY-MM-DD"
 description: "YYYY-MM-DD Topics Studied - - My Understanding - - Confusions - Interview Notes - --- ← Back to Journal ☕ Java Hub"
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/journal/template/
 ---
 

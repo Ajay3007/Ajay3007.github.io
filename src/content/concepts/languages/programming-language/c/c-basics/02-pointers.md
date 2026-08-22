@@ -4,6 +4,7 @@ description: "Pointers in C/C++ Pointers store addresses ."
 domain: languages
 track: c-fundamentals
 order: 2
+ownHeader: true
 url: /learning/programming-language/c/c-basics/pointers/
 ---
 

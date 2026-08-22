@@ -4,6 +4,7 @@ description: "C Pointer Practice Pack Documentation This document explains point
 domain: languages
 track: c-fundamentals
 order: 99
+ownHeader: true
 url: /learning/programming-language/c/c-basics/pointer-practice/
 ---
 

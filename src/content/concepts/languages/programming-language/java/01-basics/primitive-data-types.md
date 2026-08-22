@@ -3,6 +3,7 @@ title: "Java Primitive Data Types – Complete Guide"
 description: "Java Primitive Data Types – Complete Guide This document covers fundamental concepts about Java primitive data types including floating-point precision, default values, type…"
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/01-basics/primitive-data-types/
 ---
 

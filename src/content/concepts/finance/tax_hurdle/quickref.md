@@ -3,6 +3,7 @@ title: "Quickref"
 description: "Tax Hurdle — Quick Reference Guide Fast lookup guide for key concepts, commands, and resources."
 domain: finance
 order: 99
+ownHeader: true
 url: /learning/finance/tax_hurdle/quickref/
 ---
 

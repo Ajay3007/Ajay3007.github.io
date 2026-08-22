@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 3C · WEEKS 11–13 🐧 TAP · AF XDP · vho
 domain: data-plane
 track: vpp
 order: 3
+ownHeader: true
 url: /learning/data-plane/vpp/module-p3-tap-afxdp/
 ---
 
@@ -122,7 +123,7 @@ url: /learning/data-plane/vpp/module-p3-tap-afxdp/
     </ul>
 <div class="cb"><pre><span class="cm"># Create TAP - VPP side gets tapN, Linux side gets vpp0 (or custom name)</span>
 create tap id 0 host-if-name vpp0 host-ip4-addr 10.10.0.2/30
-
+ 
 <span class="cm"># TAP with custom MAC, MTU, and namespace</span>
 create tap id 1 \
   host-if-name vpp-ctrl \
@@ -130,15 +131,15 @@ create tap id 1 \
   host-mac-addr aa:bb:cc:dd:ee:ff \
   host-mtu-size 1500 \
   host-ns myns
-
+ 
 <span class="cm"># Bring up VPP side and assign L3</span>
 set interface state tap0 up
 set interface ip address tap0 10.10.0.1/30
-
+ 
 <span class="cm"># Verify both sides</span>
 show interface          <span class="cm"># VPP side: tap0 should be up</span>
 show tap tap0           <span class="cm"># virtio queue details</span>
-
+ 
 <span class="cm"># Linux side (inside the container):</span>
 <span class="cm"># ip link show vpp0    - interface should be visible</span>
 <span class="cm"># ping 10.10.0.1       - reaches VPP tap0 interface</span></pre></div>
@@ -151,12 +152,12 @@ show tap tap0           <span class="cm"># virtio queue details</span>
     <p>The <strong>linux-cp</strong> (Linux Control Plane) plugin (<code>src/plugins/linux-cp/</code>) solves a harder problem: you want DPDK to handle the fast path, but you also want Linux to see the same interfaces for control-plane routing protocols (FRR, Bird). linux-cp mirrors each VPP DPDK interface to a Linux netdev - punting control-plane traffic (ARP, OSPF hellos, BGP) to Linux while VPP handles the forwarding plane.</p>
 <div class="cb"><pre><span class="cm"># Enable linux-cp for a DPDK interface</span>
 lcp create GigabitEthernet0/8/0 host-if lcp-eth0
-
+ 
 <span class="cm"># Linux now sees lcp-eth0 as a real interface</span>
 <span class="cm"># Linux side: ip addr add 10.0.0.1/24 dev lcp-eth0</span>
 <span class="cm"># FRR OSPF runs on lcp-eth0</span>
 <span class="cm"># VPP data plane handles all forwarded traffic at line rate</span>
-
+ 
 show lcp              <span class="cm"># list all linux-cp mirrors</span>
 lcp default netns myns  <span class="cm"># create mirrors in a specific network namespace</span></pre></div>
     <div class="ins">
@@ -177,13 +178,13 @@ lcp default netns myns  <span class="cm"># create mirrors in a specific network 
     <p>This gives you: kernel-controlled NIC (no VFIO binding, kernel still owns the interface), with near-DPDK performance for the traffic you redirect to userspace.</p>
 
 <div class="cb"><pre><span class="cm">/* AF_XDP components */</span>
-
+ 
 NIC → XDP eBPF hook → XDP_REDIRECT → UMEM (shared memory)
                                          ↑
                                     AF_XDP socket (VPP)
                                     reads RX ring
                                     writes TX ring
-
+ 
 <span class="cm">/* UMEM: a single large memory region, subdivided into frames */</span>
 UMEM frame size = 4096 (one per packet)
 Fill ring:    VPP refills with free frame addresses
@@ -194,16 +195,16 @@ TX ring:      VPP places frames to transmit</pre></div>
     <p><strong>VPP AF_XDP plugin setup:</strong></p>
 <div class="cb"><pre><span class="cm"># Create AF_XDP interface on eth0 (NIC still owned by kernel mlx5_core)</span>
 create interface af-xdp host-if eth0 name afxdp0
-
+ 
 <span class="cm"># Or in startup.conf for persistent config</span>
-
+ 
 <span class="cm"># startup.conf stanza</span>
 <span class="cm"># (AF_XDP is configured via CLI/API, not startup.conf)</span>
-
+ 
 <span class="cm"># Bring up and configure</span>
 set interface state afxdp0 up
 set interface ip address afxdp0 10.0.0.1/24
-
+ 
 <span class="cm"># Verify</span>
 show interface afxdp0
 show af-xdp interface</pre></div>
@@ -235,13 +236,13 @@ show af-xdp interface</pre></div>
 
 <div class="cb"><pre><span class="cm"># ── VPP side: create vhost-user server ──</span>
 create vhost-user socket /run/vpp/vm0.sock server
-
+ 
 <span class="cm"># The socket is created by VPP (server mode)</span>
 <span class="cm"># QEMU connects to it as client</span>
-
+ 
 set interface state VirtualEthernet0/0/0 up
 set interface ip address VirtualEthernet0/0/0 192.168.100.1/24
-
+ 
 <span class="cm"># ── QEMU side: connect VM to VPP ──</span>
 qemu-system-x86_64 \
   -m 2G -smp 2 \
@@ -249,19 +250,19 @@ qemu-system-x86_64 \
   -netdev vhost-user,id=net0,chardev=char0,vhostforce \
   -device virtio-net-pci,netdev=net0,mac=52:54:00:01:02:03 \
   ...
-
+ 
 <span class="cm"># Inside the VM: the interface appears as eth0 or ens3</span>
 <span class="cm"># Configure with: ip addr add 192.168.100.2/24 dev eth0</span>
 <span class="cm"># Ping VPP: ping 192.168.100.1</span>
-
+ 
 <span class="cm"># For multi-queue (improves VM throughput significantly)</span>
 create vhost-user socket /run/vpp/vm0.sock server \
   rx-queue-size 1024 tx-queue-size 1024
-
+ 
 <span class="cm"># QEMU multi-queue requires:</span>
 <span class="cm"># -device virtio-net-pci,netdev=net0,mq=on,vectors=10</span>
 <span class="cm"># -netdev vhost-user,id=net0,chardev=char0,queues=4</span>
-
+ 
 show vhost-user    <span class="cm"># VPP: show all vhost-user interfaces and queue state</span></pre></div>
 
     <p><strong>Performance optimisation for vhost-user:</strong></p>
@@ -293,14 +294,14 @@ show vhost-user    <span class="cm"># VPP: show all vhost-user interfaces and qu
 
 <div class="cb"><pre><span class="cm"># Create AF_PACKET interface on Linux interface eth0</span>
 create host-interface name eth0
-
+ 
 <span class="cm"># Configure and bring up</span>
 set interface state host-eth0 up
 set interface ip address host-eth0 10.0.0.1/24
-
+ 
 show interface host-eth0
 show af-packet interfaces
-
+ 
 <span class="cm"># Use with veth pairs for container testing without real NICs</span>
 <span class="cm"># (run on Linux host, not inside container):</span>
 ip link add vpp0 type veth peer name vpp1

@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 3A · WEEKS 9–10 🔌 DPDK Plugin Deep Dive
 domain: data-plane
 track: vpp
 order: 3
+ownHeader: true
 url: /learning/data-plane/vpp/module-p3-dpdk/
 ---
 
@@ -113,7 +114,7 @@ dpdk/
 ├── dpdk.h           <span class="cm"># dpdk_main_t, dpdk_device_t - master structs</span>
 └── api/
     └── dpdk.api     <span class="cm"># Binary API: set DPDK interface config etc</span>
-
+ 
 <span class="cm">/* Key structs */</span>
 dpdk_main_t   - singleton: EAL args, device pool, per-worker tx queues
 dpdk_device_t - per-port: port_id, n_rx_queues, rx/tx descriptors, stats</pre></div>
@@ -141,24 +142,24 @@ VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
     dpdk_per_thread_data_t *ptd = vec_elt_at_index(dm->per_thread_data,
                                                     vm->thread_index);
     <span class="ck">u32</span> n_rx_packets = 0;
-
+ 
     <span class="cm">/* Poll each queue assigned to this worker */</span>
     dpdk_device_and_queue_t *dq;
     vec_foreach(dq, dm->devices_by_cpu[vm->thread_index]) {
         dpdk_device_t *xd = vec_elt_at_index(dm->devices, dq->device_index);
-
+ 
         <span class="cm">/* DPDK burst receive - fills ptd->mbufs[] */</span>
         <span class="ck">u32</span> n_rx = rte_eth_rx_burst(xd->port_id, dq->queue_id,
                                    ptd->mbufs, DPDK_RX_BURST_SZ);
         <span class="ck">if</span> (n_rx == 0) continue;
-
+ 
         <span class="cm">/* Convert mbufs to vlib buffer indices + dispatch to ethernet-input */</span>
         n_rx_packets += dpdk_process_rx_burst(vm, node, xd, dq->queue_id,
                                              ptd, n_rx);
     }
     return n_rx_packets;
 }
-
+ 
 <span class="cm">/* What dpdk_process_rx_burst does: */</span>
 <span class="cm">/* 1. For each mbuf: derive vlib_buffer_t pointer (they share memory) */</span>
 <span class="cm">/* 2. Set vlib_buffer fields: current_data, current_length, sw_if_index */</span>
@@ -178,23 +179,23 @@ VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
   <div class="cp-body">
     <p>The DPDK plugin pre-allocates a single <code>rte_mempool</code> with a custom private data size large enough to hold a <code>vlib_buffer_t</code>. Each <code>rte_mbuf</code> in this pool has its <code>rte_mbuf_priv_data</code> area occupied by the <code>vlib_buffer_t</code> header. They overlap in memory.</p>
 <div class="cb"><pre><span class="cm">/* Memory layout of a DPDK+VPP buffer */</span>
-
+ 
 +──────────────────────────────────────────────────────────────────+
 |  rte_mbuf (128 bytes)  |  vlib_buffer_t (128 bytes)  |  data[]  |
 |  (DPDK header)         |  (VPP header = mbuf priv)   |          |
 +──────────────────────────────────────────────────────────────────+
                          ↑                              ↑
                    vlib_buffer ptr               packet data
-
+ 
 <span class="cm">/* Converting between the two */</span>
 <span class="cm">/* mbuf → vlib_buffer */</span>
 vlib_buffer_t *b = vlib_buffer_from_rte_mbuf(mb);
 <span class="cm">/* equivalent to: (vlib_buffer_t *)RTE_PTR_ADD(mb, sizeof(struct rte_mbuf)) */</span>
-
+ 
 <span class="cm">/* vlib_buffer → mbuf */</span>
 struct rte_mbuf *mb = rte_mbuf_from_vlib_buffer(b);
 <span class="cm">/* equivalent to: (struct rte_mbuf *)RTE_PTR_SUB(b, sizeof(struct rte_mbuf)) */</span>
-
+ 
 <span class="cm">/* Fields are synced at RX entry and TX exit */</span>
 <span class="cm">/* RX: DPDK fills mbuf, plugin copies to vlib_buffer fields */</span>
 b->current_data   = mb->data_off - RTE_PKTMBUF_HEADROOM;
@@ -202,7 +203,7 @@ b->current_length = mb->data_len;
 b->flags |= (mb->ol_flags & PKT_RX_RSS_HASH) ? VLIB_BUFFER_TOTAL_LENGTH_VALID : 0;
 vnet_buffer(b)->sw_if_index[VLIB_RX] = xd->sw_if_index;
 vnet_buffer(b)->sw_if_index[VLIB_TX] = ~0;  <span class="cm">/* unknown at RX */</span>
-
+ 
 <span class="cm">/* TX: vlib_buffer → mbuf */</span>
 mb->data_off = b->current_data + RTE_PKTMBUF_HEADROOM;
 mb->data_len = b->current_length;
@@ -255,7 +256,7 @@ dpdk {
   socket-mem 2048,0                 <span class="cm"># 2GB on NUMA 0, 0 on NUMA 1</span>
   log-level notice
 }
-
+ 
 <span class="cm"># Verify mlx5 detection</span>
 <span class="cm"># vppctl: show dpdk interface</span>
 <span class="cm"># Should show: driver mlx5_pmd, link state up</span></pre></div>

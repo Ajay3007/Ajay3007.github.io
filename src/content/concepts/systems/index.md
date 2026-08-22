@@ -3,6 +3,7 @@ title: "Operating Systems"
 description: "--- 💻 Operating Systems Key concepts and internals of operating systems."
 domain: systems
 order: 0
+ownHeader: true
 url: /learning/operating-systems/
 ---
 

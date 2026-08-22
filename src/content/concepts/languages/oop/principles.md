@@ -3,6 +3,7 @@ title: "OOP Principles (SOLID etc.)"
 description: "[📋 Executive Summary]( -executive-summary) 1."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/oop/principles/
 ---
 

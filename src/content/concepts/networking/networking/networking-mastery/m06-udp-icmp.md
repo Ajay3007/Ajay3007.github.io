@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 2 · MODULE 06 · WEEK 5 📦 UDP and 
 domain: networking
 track: networking-mastery
 order: 6
+ownHeader: true
 url: /learning/networking-mastery/m06-udp-icmp/
 ---
 
@@ -281,13 +282,13 @@ url: /learning/networking-mastery/m06-udp-icmp/
 
 <div class="cb"><pre><span class="cm">/* UDP socket programming in C — minimal server */</span>
 <span class="ck">int</span> sock = socket(AF_INET, SOCK_DGRAM, 0);   <span class="cm">/* SOCK_DGRAM for UDP */</span>
-
+ 
 <span class="ck">struct</span> sockaddr_in addr = {0};
 addr.sin_family      = AF_INET;
 addr.sin_port        = htons(53);            <span class="cm">/* DNS port */</span>
 addr.sin_addr.s_addr = INADDR_ANY;
 bind(sock, (<span class="ck">struct</span> sockaddr *)&addr, <span class="ck">sizeof</span>(addr));
-
+ 
 <span class="cm">/* Receive a datagram — one call = one complete message */</span>
 <span class="ck">char</span> buf[512];
 <span class="ck">struct</span> sockaddr_in client;
@@ -295,11 +296,11 @@ socklen_t clen = <span class="ck">sizeof</span>(client);
 ssize_t n = recvfrom(sock, buf, <span class="ck">sizeof</span>(buf), 0,
                      (<span class="ck">struct</span> sockaddr *)&client, &clen);
 <span class="cm">/* n = exact bytes in this datagram — complete message, no framing needed */</span>
-
+ 
 <span class="cm">/* Send reply to same client */</span>
 sendto(sock, response, resp_len, 0,
        (<span class="ck">struct</span> sockaddr *)&client, clen);
-
+ 
 <span class="cm">/* Key: no connect(), no accept(), no listen() — stateless */</span>
 <span class="cm">/* One socket can handle multiple clients simultaneously */</span></pre></div>
 
@@ -311,22 +312,22 @@ sendto(sock, response, resp_len, 0,
   <div class="cp-hdr"><span class="ico">💻</span><h3>UDP Header in C — Parsing Raw Packets</h3><span class="tag tag-teal">CODE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cs">#include &lt;netinet/udp.h&gt;</span>  <span class="cm">/* struct udphdr */</span>
-
+ 
 <span class="cm">/* Parse UDP header from raw packet bytes */</span>
 <span class="ck">void</span> parse_udp(const uint8_t *ip_payload, uint16_t ip_payload_len) {
     <span class="ck">const struct</span> udphdr *udp = (<span class="ck">const struct</span> udphdr *)ip_payload;
-
+ 
     uint16_t src_port = ntohs(udp->uh_sport);   <span class="cm">/* or source */</span>
     uint16_t dst_port = ntohs(udp->uh_dport);   <span class="cm">/* or dest */</span>
     uint16_t length   = ntohs(udp->uh_ulen);    <span class="cm">/* total datagram length */</span>
     uint16_t checksum = ntohs(udp->uh_sum);     <span class="cm">/* 0 = disabled */</span>
-
+ 
     uint16_t data_len = length - 8;             <span class="cm">/* subtract header */</span>
     const uint8_t *payload = ip_payload + 8;    <span class="cm">/* payload after 8-byte header */</span>
-
+ 
     printf(<span class="cs">"UDP: %u → %u  len=%u  cksum=0x%04x\n"</span>,
            src_port, dst_port, length, checksum);
-
+ 
     <span class="cm">/* Dispatch to upper-layer handlers */</span>
     <span class="ck">switch</span> (dst_port) {
         <span class="ck">case</span> 53:  handle_dns(payload, data_len);  <span class="ck">break</span>;
@@ -335,7 +336,7 @@ sendto(sock, response, resp_len, 0,
         <span class="ck">default</span>:  handle_unknown(payload, data_len);
     }
 }
-
+ 
 <span class="cm">/* In VPP: UDP header accessed via vlib_buffer_get_current() */</span>
 <span class="cm">/* after ip4-input has advanced past IP header */</span>
 udp_header_t *udp = vlib_buffer_get_current(b0);
@@ -414,7 +415,7 @@ u16 dst_port = clib_net_to_host_u16(udp->dst_port);</pre></div>
 +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
 |            Media payload (audio/video encoded data)           |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
+ 
 <span class="cm">/* PT = Payload Type: 0=PCMU audio, 8=PCMA, 96-127=dynamic (H.264, Opus) */</span>
 <span class="cm">/* Stack: Ethernet → IP → UDP → RTP → H.264 video frames */</span></pre></div>
   </div>
@@ -435,7 +436,7 @@ u16 dst_port = clib_net_to_host_u16(udp->dst_port);</pre></div>
     ip4_address_t  src_ip, dst_ip;
     uint16_t       src_port, dst_port;
     uint8_t        proto;                <span class="cm">/* 17 = UDP */</span>
-
+ 
     uint64_t       first_seen;           <span class="cm">/* timestamp of first datagram */</span>
     uint64_t       last_seen;            <span class="cm">/* updated on each datagram */</span>
     uint64_t       bytes_fwd;            <span class="cm">/* client → server bytes */</span>
@@ -443,12 +444,12 @@ u16 dst_port = clib_net_to_host_u16(udp->dst_port);</pre></div>
     uint8_t        state;                <span class="cm">/* NEW / ESTABLISHED / TIMEOUT */</span>
     uint32_t       timeout_sec;          <span class="cm">/* idle timeout */</span>
 } udp_session_t;
-
+ 
 <span class="cm">/* UDP session lifecycle */</span>
 First datagram from client → create entry (state=NEW), apply policy
 Reply datagram from server  → find entry by reversed 5-tuple, state=ESTABLISHED
 No more datagrams for 30s  → sweep timer removes entry (default UDP timeout)
-
+ 
 <span class="cm">/* Different timeouts for different UDP protocols */</span>
 DNS:          5  seconds   <span class="cm">/* DNS is one query + one reply */</span>
 DHCP:         30 seconds
@@ -548,7 +549,7 @@ Checksum:   [computed]
 Identifier: [process ID — matches request to reply if multiple pings running]
 Sequence:   [increments with each ping — 1, 2, 3...]
 Data:       [arbitrary payload — default 56 bytes on Linux = 64B ICMP total]
-
+ 
 <span class="cm">/* ICMP Echo Reply (Type 0, Code 0) */</span>
 Type:       0
 Code:       0
@@ -556,19 +557,19 @@ Checksum:   [computed]
 Identifier: [same as request]
 Sequence:   [same as request]
 Data:       [same bytes echoed back]
-
+ 
 <span class="cm">/* ping command usage */</span>
 ping -c 4 8.8.8.8           <span class="cm"># send 4 pings</span>
 ping -s 1400 8.8.8.8        <span class="cm"># send 1400-byte payload (test MTU)</span>
 ping -f -s 1472 8.8.8.8    <span class="cm"># flood ping at max MTU size</span>
 ping -M do -s 1473 8.8.8.8  <span class="cm"># force DF=1, will get "Frag needed" if MTU exceeded</span>
 ping6 2001:4860:4860::8888  <span class="cm"># IPv6 ping (ICMPv6 Type 128/129)</span>
-
+ 
 <span class="cm">/* Interpreting ping output */</span>
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.4 ms
 <span class="cm">#                                         ↑ TTL at receiver (started at some value, decremented by hops)</span>
 <span class="cm">#                                                         ↑ round-trip time in ms</span>
-
+ 
 <span class="cm">/* TTL tricks */</span>
 <span class="cm"># TTL=117 → started at 128 (Windows hop) → 11 hops away</span>
 <span class="cm"># TTL=52  → started at 64  (Linux hop)   → 12 hops away</span>
@@ -662,18 +663,18 @@ for ttl in 1..max_hops:
         ICMP Type 11 Code 0 → TTL expired at THIS router
         ICMP Type 3 Code 3  → Port Unreachable from TARGET (destination reached)
         no reply within timeout → print "* * *"
-
+ 
     print: ttl, router_ip (from ICMP source), 3 RTTs
-
+ 
 <span class="cm">/* Windows tracert algorithm (ICMP mode) */</span>
 for ttl in 1..max_hops:
     send 3 ICMP Echo Request: TTL = ttl
     ICMP Type 11 Code 0 → intermediate router
     ICMP Type 0 → destination replied (done)
-
+ 
 <span class="cm">/* mtr (my traceroute) — continuous real-time version */</span>
 mtr --report --report-cycles 10 8.8.8.8
-
+ 
 <span class="cm">/* Interpreting traceroute anomalies */</span>
 Hop 5: * * *           <span class="cm"># ICMP blocked or rate-limited — does NOT mean broken path</span>
                         <span class="cm"># subsequent hops may show fine</span>
@@ -739,22 +740,22 @@ Hop 3 → Hop 5 jump    <span class="cm"># some hops don't respond to ICMP — s
 1. Host wants to join 224.1.2.3:
    sends IGMP Membership Report → dst IP: 224.1.2.3 (the group itself)
    Router sees report → starts forwarding 224.1.2.3 to this interface
-
+ 
 2. Router sends periodic Membership Query → dst IP: 224.0.0.1 (all hosts)
    "Who still wants which groups?"
    Hosts reply with their active groups
-
+ 
 3. Host wants to leave:
    sends IGMP Leave Group → dst IP: 224.0.0.2 (all routers)
    Router sends Group-Specific Query to confirm no remaining members
    If no reply → stops forwarding to this interface
-
+ 
 <span class="cm">/* IGMP Snooping — switches track IGMP to avoid flooding */</span>
 <span class="cm"># Without IGMP snooping: multicast = flood to all ports (like broadcast)</span>
 <span class="cm"># With IGMP snooping: switch tracks which ports have interested hosts</span>
 <span class="cm">#   → forwards multicast only to ports with IGMP reports</span>
 <span class="cm">#   → dramatically reduces unnecessary traffic on switched networks</span>
-
+ 
 <span class="cm"># Linux: join a multicast group from a socket</span>
 struct ip_mreq mreq;
 mreq.imr_multiaddr.s_addr = inet_addr(<span class="cs">"224.1.2.3"</span>);

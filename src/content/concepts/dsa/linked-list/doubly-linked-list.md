@@ -3,6 +3,7 @@ title: "Doubly Linked List"
 description: "📗 Doubly Linked List Work in Progress — Core concepts and operations guide coming soon."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/doubly-linked-list/
 ---
 

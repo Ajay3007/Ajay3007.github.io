@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 0 Chapter 0 · Beginner �
 domain: dsa
 track: dsa-mastery
 order: 0
+chrome: bare
+ownHeader: true
 url: /learning/dsa/recursion/ch0-bigo-recursion/
 ---
 

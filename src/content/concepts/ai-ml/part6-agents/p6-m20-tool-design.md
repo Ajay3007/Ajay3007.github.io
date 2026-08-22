@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part6-agents
 order: 620
+ownHeader: true
 url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
 ---
 
@@ -158,25 +159,25 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
     <div class="cb"><pre><span class="ck"># ── PRINCIPLE 1: Idempotent tools ────────────────────</span>
 <span class="ck"># If the agent calls a tool twice with the same args, the result should be the same</span>
 <span class="ck"># and no duplicate side effects should occur</span>
-
+ 
 <span class="ck"># BAD: calling twice creates two records</span>
 def create_ticket(title: str, description: str) -> dict:
     return db.insert(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title, <span class="cs">"description"</span>: description})
-
+ 
 <span class="ck"># GOOD: upsert on a natural key — safe to call multiple times</span>
 def create_or_get_ticket(title: str, description: str) -> dict:
     existing = db.find_one(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title})
     if existing:
         return existing
     return db.insert(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title, <span class="cs">"description"</span>: description})
-
+ 
 <span class="ck"># ── PRINCIPLE 2: Explicit error contracts ────────────</span>
 <span class="ck"># Never raise exceptions — return structured errors the agent can understand</span>
-
+ 
 <span class="ck"># BAD: agent receives an unhandled exception, gets confused</span>
 def get_user(user_id: str) -> dict:
     return db.get(<span class="cs">"users"</span>, user_id)   <span class="ck"># raises KeyError if not found</span>
-
+ 
 <span class="ck"># GOOD: structured error the agent can reason about</span>
 def get_user(user_id: str) -> dict:
     user = db.find_one(<span class="cs">"users"</span>, {<span class="cs">"id"</span>: user_id})
@@ -185,17 +186,17 @@ def get_user(user_id: str) -> dict:
                 <span class="cs">"message"</span>: <span class="cs">f"No user with id '{user_id}'"</span>,
                 <span class="cs">"suggestion"</span>: <span class="cs">"Try searching by email with search_users()"</span>}
     return {<span class="cs">"success"</span>: <span class="cv">True</span>, <span class="cs">"user"</span>: user}
-
+ 
 <span class="ck"># ── PRINCIPLE 3: Atomic operations ───────────────────</span>
 <span class="ck"># One tool should do ONE thing — not a chain of things</span>
-
+ 
 <span class="ck"># BAD: one tool does too much — partial failures are unrecoverable</span>
 def process_order(order_id: str) -> dict:
     validate_stock()
     charge_payment()
     send_confirmation_email()
     update_inventory()
-
+ 
 <span class="ck"># GOOD: separate tools, agent orchestrates the sequence</span>
 def validate_stock(items: list) -> dict: ...
 def charge_payment(amount: float, card_id: str) -> dict: ...
@@ -209,18 +210,18 @@ def update_inventory(items: list, delta: int) -> dict: ...</pre></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># The description determines WHEN the agent calls the tool.</span>
 <span class="ck"># Bad descriptions → wrong tool selection → wrong results.</span>
-
+ 
 <span class="ck"># ── Pattern: Use When / Don't Use When ───────────────</span>
 SEARCH_TOOL = {
     <span class="cs">"name"</span>: <span class="cs">"search_knowledge_base"</span>,
     <span class="cs">"description"</span>: <span class="cs">"""Search the internal knowledge base for product documentation,
 API references, and troubleshooting guides.
-
+ 
 USE when:
 - User asks about product features, configuration, or known issues
 - User needs step-by-step instructions from documentation
 - User references a specific version or release note
-
+ 
 DO NOT USE when:
 - Question is about general programming (use your training knowledge)
 - Question requires real-time data (use get_live_status instead)
@@ -240,14 +241,14 @@ DO NOT USE when:
         <span class="cs">"required"</span>: [<span class="cs">"query"</span>]
     }
 }
-
+ 
 <span class="ck"># ── Consistent return schema ──────────────────────────</span>
 <span class="ck"># All tools should return a dict with consistent keys</span>
 <span class="ck"># so the agent can reliably check for success/failure</span>
-
+ 
 def tool_success(data: dict, message: str = <span class="cs">""</span>) -> dict:
     return {<span class="cs">"ok"</span>: <span class="cv">True</span>, <span class="cs">"data"</span>: data, <span class="cs">"message"</span>: message}
-
+ 
 def tool_error(code: str, message: str, suggestion: str = <span class="cs">""</span>) -> dict:
     return {<span class="cs">"ok"</span>: <span class="cv">False</span>, <span class="cs">"error_code"</span>: code,
             <span class="cs">"message"</span>: message, <span class="cs">"suggestion"</span>: suggestion}</pre></div>
@@ -265,7 +266,7 @@ def query_database(sql: str, allowed_tables: list[str] = None) -> dict:
         return tool_error(<span class="cs">"FORBIDDEN_OPERATION"</span>,
                           <span class="cs">"Only SELECT queries are allowed"</span>,
                           <span class="cs">"Use write_record() for data modification"</span>)
-
+ 
     <span class="ck"># Validate only allowed tables are accessed</span>
     if allowed_tables:
         import re
@@ -279,14 +280,14 @@ def query_database(sql: str, allowed_tables: list[str] = None) -> dict:
         return tool_success({<span class="cs">"rows"</span>: results, <span class="cs">"count"</span>: len(results)})
     except Exception as e:
         return tool_error(<span class="cs">"QUERY_ERROR"</span>, str(e))
-
+ 
 <span class="ck"># Rate limiting per tool to prevent runaway agents</span>
 from collections import defaultdict
 import time
-
+ 
 _tool_calls = defaultdict(list)
 RATE_LIMITS = {<span class="cs">"search_web"</span>: (<span class="cv">10</span>, <span class="cv">60</span>)}   <span class="ck"># 10 calls per 60 seconds</span>
-
+ 
 def rate_limit_check(tool_name: str) -> bool:
     if tool_name not in RATE_LIMITS:
         return <span class="cv">True</span>
@@ -344,7 +345,7 @@ def rate_limit_check(tool_name: str) -> bool:
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Prompt chaining: clean, testable, each step independently improvable</span>
 <span class="ck"># Each gate() call validates before passing to the next step</span>
-
+ 
 def chain_extract_summarise_translate(document: str, target_lang: str) -> dict:
     <span class="ck"># Step 1: Extract key facts</span>
     facts = call_llm(
@@ -353,13 +354,13 @@ def chain_extract_summarise_translate(document: str, target_lang: str) -> dict:
     )
     if not facts:
         return {<span class="cs">"error"</span>: <span class="cs">"Extraction failed"</span>}
-
+ 
     <span class="ck"># Step 2: Summarise the facts</span>
     summary = call_llm(
         system=<span class="cs">"Write a 2-3 sentence executive summary based on these key facts."</span>,
         user=facts
     )
-
+ 
     <span class="ck"># Step 3: Translate (only if not English)</span>
     if target_lang.lower() not in (<span class="cs">"en"</span>, <span class="cs">"english"</span>):
         translated = call_llm(
@@ -368,13 +369,13 @@ def chain_extract_summarise_translate(document: str, target_lang: str) -> dict:
         )
     else:
         translated = summary
-
+ 
     return {<span class="cs">"facts"</span>: facts, <span class="cs">"summary"</span>: summary, <span class="cs">"translated"</span>: translated}
-
+ 
 <span class="ck"># Evaluator-Optimizer pattern</span>
 def generate_with_quality_loop(prompt: str, max_iterations: int = <span class="cv">3</span>) -> str:
     output = call_llm(system=<span class="cs">"Generate a response."</span>, user=prompt)
-
+ 
     for i in range(max_iterations):
         evaluation = call_llm(
             system=<span class="cs">"""Evaluate this output for: accuracy, completeness, clarity.
@@ -385,7 +386,7 @@ Return JSON: {"score": 1-10, "issues": [...], "passed": bool}"""</span>,
         result = json.loads(evaluation)
         if result.get(<span class="cs">"passed"</span>) or result.get(<span class="cs">"score"</span>, <span class="cv">0</span>) >= <span class="cv">8</span>:
             break
-
+ 
         <span class="ck"># Regenerate with feedback</span>
         output = call_llm(
             system=<span class="cs">"Improve the output based on this feedback."</span>,
@@ -401,14 +402,14 @@ Return JSON: {"score": 1-10, "issues": [...], "passed": bool}"""</span>,
     <div class="cb"><pre>from typing import Literal
 from pydantic import BaseModel
 import instructor, anthropic
-
+ 
 instr_client = instructor.from_anthropic(anthropic.Anthropic())
-
+ 
 class RouteDecision(BaseModel):
     category: Literal[<span class="cs">"billing"</span>, <span class="cs">"technical"</span>, <span class="cs">"general"</span>, <span class="cs">"complaint"</span>]
     confidence: float
     reasoning: str
-
+ 
 def route_support_ticket(ticket: str) -> RouteDecision:
     return instr_client.messages.create(
         model=<span class="cs">"claude-3-haiku-20240307"</span>,   <span class="ck"># cheap model for routing</span>
@@ -417,7 +418,7 @@ def route_support_ticket(ticket: str) -> RouteDecision:
                    <span class="cs">"content"</span>: <span class="cs">f"Classify this support ticket:\n\n{ticket}"</span>}],
         response_model=RouteDecision
     )
-
+ 
 <span class="ck"># Specialised handlers — each optimised for its category</span>
 HANDLERS = {
     <span class="cs">"billing"</span>:   handle_billing_ticket,
@@ -425,7 +426,7 @@ HANDLERS = {
     <span class="cs">"general"</span>:   handle_general_ticket,
     <span class="cs">"complaint"</span>: handle_complaint_ticket,
 }
-
+ 
 def process_ticket(ticket: str) -> dict:
     route = route_support_ticket(ticket)
     handler = HANDLERS[route.category]
@@ -485,9 +486,9 @@ def process_ticket(ticket: str) -> dict:
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Parallel Workflows — Fan-Out / Fan-In</h3><span class="tag tag-violet">Performance Pattern</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import asyncio, anthropic
-
+ 
 async_client = anthropic.AsyncAnthropic()
-
+ 
 async def call_llm_async(system: str, user: str) -> str:
     response = await async_client.messages.create(
         model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -496,7 +497,7 @@ async def call_llm_async(system: str, user: str) -> str:
         system=system
     )
     return response.content[<span class="cv">0</span>].text
-
+ 
 <span class="ck"># ── Pattern 1: Same input, multiple perspectives ──────</span>
 async def multi_perspective_review(code: str) -> dict:
     security, performance, readability = await asyncio.gather(
@@ -511,14 +512,14 @@ async def multi_perspective_review(code: str) -> dict:
     )
     return {<span class="cs">"security"</span>: security, <span class="cs">"performance"</span>: performance,
             <span class="cs">"readability"</span>: readability, <span class="cs">"synthesis"</span>: synthesis}
-
+ 
 <span class="ck"># ── Pattern 2: Different inputs, same processing ──────</span>
 async def process_documents_parallel(documents: list[str]) -> list[str]:
     summaries = await asyncio.gather(
         *[call_llm_async(<span class="cs">"Summarise in 2 sentences."</span>, doc) for doc in documents]
     )
     return list(summaries)
-
+ 
 <span class="ck"># ── Pattern 3: Voting — run N times, take majority ────</span>
 async def classify_with_voting(text: str, n: int = <span class="cv">3</span>) -> str:
     from collections import Counter
@@ -529,7 +530,7 @@ async def classify_with_voting(text: str, n: int = <span class="cv">3</span>) ->
     )
     labels = [l.strip().upper() for l in labels]
     return Counter(labels).most_common(<span class="cv">1</span>)[<span class="cv">0</span>][<span class="cv">0</span>]
-
+ 
 <span class="ck"># ── Handling partial failures ──────────────────────────</span>
 async def gather_with_fallback(coroutines: list) -> list:
     results = await asyncio.gather(*coroutines, return_exceptions=<span class="cv">True</span>)
@@ -554,18 +555,18 @@ async def gather_with_fallback(coroutines: list) -> list:
     <div class="cb"><pre>from pydantic import BaseModel
 from typing import List, Literal
 import instructor, anthropic, asyncio
-
+ 
 instr_client = instructor.from_anthropic(anthropic.Anthropic())
-
+ 
 class SubTask(BaseModel):
     agent:       Literal[<span class="cs">"researcher"</span>, <span class="cs">"analyst"</span>, <span class="cs">"writer"</span>]
     task:        str
     depends_on:  List[int] = []   <span class="ck"># indices of tasks that must complete first</span>
-
+ 
 class OrchestratorPlan(BaseModel):
     goal_summary: str
     subtasks:    List[SubTask]
-
+ 
 def orchestrate(user_goal: str) -> str:
     <span class="ck"># 1. Orchestrator plans the work</span>
     plan = instr_client.messages.create(
@@ -574,16 +575,16 @@ def orchestrate(user_goal: str) -> str:
         messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>:
             <span class="cs">f"""Break this goal into subtasks for specialised agents:
 Goal: {user_goal}
-
+ 
 Available agents:
 - researcher: searches web, finds facts, gathers data
 - analyst: processes data, identifies patterns, creates structured analysis
 - writer: synthesises research and analysis into coherent written output"""</span>}],
         response_model=OrchestratorPlan
     )
-
+ 
     results = {}
-
+ 
     <span class="ck"># 2. Execute subtasks in dependency order</span>
     for i, subtask in enumerate(plan.subtasks):
         <span class="ck"># Wait for dependencies</span>
@@ -591,7 +592,7 @@ Available agents:
             <span class="cs">f"Result from task {j}: {results[j]}"</span>
             for j in subtask.depends_on if j in results
         )
-
+ 
         <span class="ck"># Dispatch to specialised subagent</span>
         AGENT_SYSTEMS = {
             <span class="cs">"researcher"</span>: <span class="cs">"You are a researcher. Find accurate information. Cite sources."</span>,
@@ -601,12 +602,12 @@ Available agents:
         task_with_context = subtask.task
         if context:
             task_with_context = <span class="cs">f"Prior results:\n{context}\n\nYour task: {subtask.task}"</span>
-
+ 
         results[i] = run_agent(
             user_message=task_with_context,
             system=AGENT_SYSTEMS[subtask.agent]
         )
-
+ 
     <span class="ck"># 3. Final synthesis</span>
     all_results = <span class="cs">"\n\n"</span>.join(<span class="cs">f"Task {i}: {r}"</span> for i, r in results.items())
     return run_agent(

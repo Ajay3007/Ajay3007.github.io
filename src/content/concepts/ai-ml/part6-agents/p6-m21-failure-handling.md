@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part6-agents
 order: 621
+ownHeader: true
 url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 ---
 
@@ -191,7 +192,7 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 from collections import defaultdict, Counter
 from dataclasses import dataclass, field
 from typing import Any
-
+ 
 @dataclass
 class AgentGuardian:
     """Monitors agent execution for failure patterns."""
@@ -199,18 +200,18 @@ class AgentGuardian:
     max_repeated_calls: int  = <span class="cv">3</span>     <span class="ck"># same tool+args N times = loop</span>
     max_errors:        int   = <span class="cv">5</span>     <span class="ck"># 5 consecutive errors = stuck</span>
     max_cost_usd:      float = <span class="cv">1.0</span>   <span class="ck"># hard spending limit</span>
-
+ 
     turn_count:        int   = <span class="cv">0</span>
     error_count:       int   = <span class="cv">0</span>
     total_cost_usd:    float = <span class="cv">0.0</span>
     tool_call_log:     list  = field(default_factory=list)
     call_counts:       dict  = field(default_factory=lambda: Counter())
-
+ 
     def _call_fingerprint(self, tool_name: str, args: dict) -> str:
         """Hash of tool name + sorted args — detects repeated identical calls."""
         key = json.dumps({<span class="cs">"tool"</span>: tool_name, <span class="cs">"args"</span>: args}, sort_keys=<span class="cv">True</span>)
         return hashlib.md5(key.encode()).hexdigest()[:8]
-
+ 
     def record_tool_call(self, tool_name: str, args: dict,
                          result: Any, tokens_used: int = <span class="cv">0</span>) -> None:
         fp = self._call_fingerprint(tool_name, args)
@@ -228,32 +229,32 @@ class AgentGuardian:
             self.error_count = <span class="cv">0</span>   <span class="ck"># reset on success</span>
         cost = tokens_used * (<span class="cv">3.00</span> / <span class="cv">1_000_000</span>)
         self.total_cost_usd += cost
-
+ 
     def check(self) -> tuple[bool, str]:
         """Returns (should_stop, reason). Call before each turn."""
         self.turn_count += <span class="cv">1</span>
-
+ 
         if self.turn_count > self.max_turns:
             return <span class="cv">True</span>, <span class="cs">f"Max turns exceeded ({self.max_turns})"</span>
-
+ 
         if self.total_cost_usd > self.max_cost_usd:
             return <span class="cv">True</span>, <span class="cs">f"Cost limit exceeded: ${self.total_cost_usd:.4f} > ${self.max_cost_usd}"</span>
-
+ 
         if self.error_count >= self.max_errors:
             return <span class="cv">True</span>, <span class="cs">f"Stuck: {self.error_count} consecutive errors"</span>
-
+ 
         for fp, count in self.call_counts.items():
             if count >= self.max_repeated_calls:
                 recent = [c for c in self.tool_call_log if c[<span class="cs">"fp"</span>] == fp][-<span class="cv">1</span>]
                 return <span class="cv">True</span>, <span class="cs">f"Loop detected: {recent['tool']} called {count}x with same args"</span>
-
+ 
         return <span class="cv">False</span>, <span class="cs">""</span>
-
+ 
 <span class="ck"># Usage inside agent loop</span>
 def guarded_agent(user_message: str) -> dict:
     guardian = AgentGuardian(max_turns=<span class="cv">15</span>, max_cost_usd=<span class="cv">0.50</span>)
     messages  = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
-
+ 
     while <span class="cv">True</span>:
         should_stop, reason = guardian.check()
         if should_stop:
@@ -261,16 +262,16 @@ def guarded_agent(user_message: str) -> dict:
                     <span class="cs">"partial_result"</span>: extract_partial_result(messages),
                     <span class="cs">"turns_used"</span>: guardian.turn_count,
                     <span class="cs">"cost_usd"</span>: guardian.total_cost_usd}
-
+ 
         response = client.messages.create(model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
                                            max_tokens=<span class="cv">4096</span>, tools=TOOLS, messages=messages)
-
+ 
         if response.stop_reason == <span class="cs">"end_turn"</span>:
             return {<span class="cs">"status"</span>: <span class="cs">"completed"</span>,
                     <span class="cs">"answer"</span>: response.content[<span class="cv">0</span>].text,
                     <span class="cs">"turns_used"</span>: guardian.turn_count,
                     <span class="cs">"cost_usd"</span>: guardian.total_cost_usd}
-
+ 
         messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
         tool_results = []
         for block in response.content:
@@ -296,15 +297,15 @@ def validate_tool_call(tool_name: str, args: dict) -> tuple[bool, str]:
     """Validate before executing. Returns (is_valid, error_message)."""
     if tool_name not in TOOL_REGISTRY:
         return <span class="cv">False</span>, <span class="cs">f"Tool {tool_name!r} does not exist. Available: {list(TOOL_REGISTRY)}"</span>
-
+ 
     tool_schema = next(t for t in TOOLS if t[<span class="cs">"name"</span>] == tool_name)
     required = tool_schema[<span class="cs">"input_schema"</span>].get(<span class="cs">"required"</span>, [])
     properties = tool_schema[<span class="cs">"input_schema"</span>].get(<span class="cs">"properties"</span>, {})
-
+ 
     for req_field in required:
         if req_field not in args:
             return <span class="cv">False</span>, <span class="cs">f"Missing required field: {req_field!r}"</span>
-
+ 
     for field_name, field_val in args.items():
         if field_name not in properties:
             return <span class="cv">False</span>, <span class="cs">f"Unknown field: {field_name!r}"</span>
@@ -313,9 +314,9 @@ def validate_tool_call(tool_name: str, args: dict) -> tuple[bool, str]:
             return <span class="cv">False</span>, <span class="cs">f"{field_name} must be a string, got {type(field_val).__name__}"</span>
         if expected_type == <span class="cs">"integer"</span> and not isinstance(field_val, int):
             return <span class="cv">False</span>, <span class="cs">f"{field_name} must be an integer"</span>
-
+ 
     return <span class="cv">True</span>, <span class="cs">""</span>
-
+ 
 def execute_tool_safe(tool_name: str, args: dict) -> dict:
     is_valid, error = validate_tool_call(tool_name, args)
     if not is_valid:
@@ -326,28 +327,28 @@ def execute_tool_safe(tool_name: str, args: dict) -> dict:
         return result if isinstance(result, dict) else {<span class="cs">"ok"</span>: <span class="cv">True</span>, <span class="cs">"result"</span>: result}
     except Exception as e:
         return {<span class="cs">"ok"</span>: <span class="cv">False</span>, <span class="cs">"error"</span>: <span class="cs">"TOOL_EXECUTION_ERROR"</span>, <span class="cs">"message"</span>: str(e)}
-
+ 
 <span class="ck"># ── Output guardrail ──────────────────────────────────</span>
 <span class="ck"># Validate the agent's final answer before returning to user</span>
 from pydantic import BaseModel
 from typing import Optional
-
+ 
 class AgentOutputGuardrail(BaseModel):
     is_complete: bool
     has_answer:  bool
     is_on_topic: bool
     issues:      list[str] = []
-
+ 
 def validate_agent_output(original_goal: str, output: str) -> AgentOutputGuardrail:
     return instructor_client.messages.create(
         model=<span class="cs">"claude-3-haiku-20240307"</span>,
         max_tokens=<span class="cv">200</span>,
         messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>:
             <span class="cs">f"""Validate this agent output against the original goal.
-
+ 
 Goal: {original_goal}
 Output: {output}
-
+ 
 Check: Is the goal addressed? Is there a clear answer? Is it on topic?"""</span>}],
         response_model=AgentOutputGuardrail
     )</pre></div>
@@ -363,12 +364,12 @@ Check: Is the goal addressed? Is there a clear answer? Is it on topic?"""</span>
   <div class="cp-body">
     <div class="cb"><pre>import sqlite3
 from datetime import datetime
-
+ 
 MODEL_COSTS = {
     <span class="cs">"claude-3-5-sonnet-20241022"</span>: {<span class="cs">"input"</span>: <span class="cv">3.0</span>/<span class="cv">1e6</span>, <span class="cs">"output"</span>: <span class="cv">15.0</span>/<span class="cv">1e6</span>},
     <span class="cs">"claude-3-haiku-20240307"</span>:    {<span class="cs">"input"</span>: <span class="cv">0.25</span>/<span class="cv">1e6</span>, <span class="cs">"output"</span>: <span class="cv">1.25</span>/<span class="cv">1e6</span>},
 }
-
+ 
 class AgentCostCircuitBreaker:
     """Hard spending limits for agent sessions."""
     def __init__(self, session_limit_usd: float = <span class="cv">1.0</span>,
@@ -379,11 +380,11 @@ class AgentCostCircuitBreaker:
         self.per_tool_call_limit = per_tool_call_limit_usd
         self.session_spend      = <span class="cv">0.0</span>
         self.session_id         = datetime.utcnow().isoformat()
-
+ 
     def _compute_cost(self, model: str, input_tok: int, output_tok: int) -> float:
         prices = MODEL_COSTS.get(model, MODEL_COSTS[<span class="cs">"claude-3-5-sonnet-20241022"</span>])
         return input_tok * prices[<span class="cs">"input"</span>] + output_tok * prices[<span class="cs">"output"</span>]
-
+ 
     def _get_daily_spend(self) -> float:
         today = datetime.utcnow().strftime(<span class="cs">"%Y-%m-%d"</span>)
         with sqlite3.connect(<span class="cs">"agent_costs.db"</span>) as conn:
@@ -391,25 +392,25 @@ class AgentCostCircuitBreaker:
             row = conn.execute(
                 <span class="cs">"SELECT SUM(cost) FROM costs WHERE ts LIKE ?"</span>, (f<span class="cs">"{today}%"</span>,)).fetchone()
         return row[<span class="cv">0</span>] or <span class="cv">0.0</span>
-
+ 
     def record_and_check(self, model: str, input_tok: int,
                          output_tok: int) -> tuple[float, bool, str]:
         cost  = self._compute_cost(model, input_tok, output_tok)
         self.session_spend += cost
-
+ 
         with sqlite3.connect(<span class="cs">"agent_costs.db"</span>) as conn:
             conn.execute(<span class="cs">"INSERT INTO costs VALUES (?,?,?)"</span>,
                          (datetime.utcnow().isoformat(), self.session_id, cost))
-
+ 
         daily = self._get_daily_spend()
-
+ 
         if cost > self.per_tool_call_limit:
             return cost, <span class="cv">True</span>, <span class="cs">f"Single call cost ${cost:.4f} exceeds per-call limit"</span>
         if self.session_spend > self.session_limit:
             return cost, <span class="cv">True</span>, <span class="cs">f"Session spend ${self.session_spend:.4f} exceeds session limit"</span>
         if daily > self.daily_limit:
             return cost, <span class="cv">True</span>, <span class="cs">f"Daily spend ${daily:.4f} exceeds daily limit"</span>
-
+ 
         return cost, <span class="cv">False</span>, <span class="cs">""</span></pre></div>
     <div class="warn"><p>⚠️ <strong>Always set a session cost limit for any agent that can spawn subagents or loop.</strong> A misconfigured agent that recursively calls expensive tools can exhaust a $100 budget in minutes. The circuit breaker pattern is not optional — it is the difference between a manageable incident and a billing nightmare.</p></div>
   </div>
@@ -423,10 +424,10 @@ class AgentCostCircuitBreaker:
   <div class="cp-hdr"><span class="ico">📋</span><h3>Structured Agent Logging</h3><span class="tag tag-violet">Audit & Debug</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install structlog
-
+ 
 import structlog, time
 from datetime import datetime
-
+ 
 <span class="ck"># Configure structlog for JSON output</span>
 structlog.configure(
     processors=[
@@ -437,7 +438,7 @@ structlog.configure(
     ]
 )
 logger = structlog.get_logger()
-
+ 
 class AgentLogger:
     """Structured logging for agent execution."""
     def __init__(self, session_id: str, goal: str):
@@ -446,13 +447,13 @@ class AgentLogger:
         self.turn       = <span class="cv">0</span>
         self.start_time = time.time()
         logger.info(<span class="cs">"agent_started"</span>, session_id=session_id, goal=goal)
-
+ 
     def log_turn(self, stop_reason: str, tools_called: list):
         self.turn += <span class="cv">1</span>
         logger.info(<span class="cs">"agent_turn"</span>, session_id=self.session_id,
                     turn=self.turn, stop_reason=stop_reason,
                     tools_called=tools_called)
-
+ 
     def log_tool_call(self, tool_name: str, args: dict, result: dict,
                       latency_ms: float, cost_usd: float):
         success = result.get(<span class="cs">"ok"</span>, <span class="cv">True</span>)
@@ -460,18 +461,18 @@ class AgentLogger:
                     tool=tool_name, success=success,
                     latency_ms=round(latency_ms, <span class="cv">1</span>), cost_usd=round(cost_usd, <span class="cv">6</span>),
                     error=result.get(<span class="cs">"error"</span>) if not success else None)
-
+ 
     def log_completion(self, status: str, total_cost_usd: float, answer: str = <span class="cs">""</span>):
         elapsed = round(time.time() - self.start_time, <span class="cv">2</span>)
         logger.info(<span class="cs">"agent_completed"</span>, session_id=self.session_id,
                     status=status, total_turns=self.turn,
                     elapsed_sec=elapsed, total_cost_usd=round(total_cost_usd, <span class="cv">6</span>),
                     answer_length=len(answer))
-
+ 
     def log_failure(self, reason: str, last_tool: str = <span class="cs">""</span>):
         logger.error(<span class="cs">"agent_failed"</span>, session_id=self.session_id,
                      turn=self.turn, reason=reason, last_tool=last_tool)
-
+ 
 <span class="ck"># Example output (one JSON line per event):</span>
 <span class="ck"># {"event":"agent_started","session_id":"abc123","goal":"Analyse Q3 sales","level":"info","timestamp":"2024-..."}</span>
 <span class="ck"># {"event":"tool_call","tool":"search_sales_db","success":true,"latency_ms":124.3,"cost_usd":0.000045,...}</span>
@@ -489,17 +490,17 @@ class AgentLogger:
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># ── Pattern 1: Alternative strategy prompt ────────────</span>
 <span class="ck"># When tool fails N times, inject a prompt asking the agent to try differently</span>
-
+ 
 STUCK_RECOVERY_MSG = <span class="cs">"""You have encountered repeated errors with {tool_name}.
 The error was: {error_message}
-
+ 
 Please try a different approach:
 - Use a different tool if available
 - Simplify your query or arguments
 - If you cannot complete this subtask, explain what you found so far and skip it
-
+ 
 Do NOT call {tool_name} again with the same arguments."""</span>
-
+ 
 def inject_recovery_hint(messages: list, tool_name: str, error: str) -> list:
     recovery = STUCK_RECOVERY_MSG.format(tool_name=tool_name, error_message=error)
     messages.append({
@@ -507,14 +508,14 @@ def inject_recovery_hint(messages: list, tool_name: str, error: str) -> list:
         <span class="cs">"content"</span>: [{<span class="cs">"type"</span>: <span class="cs">"text"</span>, <span class="cs">"text"</span>: recovery}]
     })
     return messages
-
+ 
 <span class="ck"># ── Pattern 2: Partial result extraction ─────────────</span>
 <span class="ck"># When agent hits limit, extract what it learned before stopping</span>
-
+ 
 def extract_partial_result(messages: list) -> str:
     if len(messages) < <span class="cv">2</span>:
         return <span class="cs">"No results gathered before timeout."</span>
-
+ 
     response = client.messages.create(
         model=<span class="cs">"claude-3-haiku-20240307"</span>,
         max_tokens=<span class="cv">512</span>,
@@ -525,10 +526,10 @@ def extract_partial_result(messages: list) -> str:
         ]
     )
     return response.content[<span class="cv">0</span>].text
-
+ 
 <span class="ck"># ── Pattern 3: Fallback to human ─────────────────────</span>
 <span class="ck"># When agent cannot proceed, escalate with full context</span>
-
+ 
 def escalate_to_human(session_id: str, goal: str, messages: list,
                       failure_reason: str) -> dict:
     partial = extract_partial_result(messages)
@@ -544,18 +545,18 @@ def escalate_to_human(session_id: str, goal: str, messages: list,
     create_human_task(ticket)   <span class="ck"># your ticketing system</span>
     return {<span class="cs">"status"</span>: <span class="cs">"escalated"</span>, <span class="cs">"ticket_id"</span>: ticket[<span class="cs">"session_id"</span>],
             <span class="cs">"message"</span>: <span class="cs">"A human agent will continue this task."</span>}
-
+ 
 <span class="ck"># ── Pattern 4: Checkpoint and resume ─────────────────</span>
 <span class="ck"># Save progress periodically — resume if agent crashes</span>
-
+ 
 import pickle, pathlib
-
+ 
 def save_checkpoint(session_id: str, messages: list, state: dict):
     path = pathlib.Path(<span class="cs">f".checkpoints/{session_id}.pkl"</span>)
     path.parent.mkdir(exist_ok=<span class="cv">True</span>)
     with open(path, <span class="cs">"wb"</span>) as f:
         pickle.dump({<span class="cs">"messages"</span>: messages, <span class="cs">"state"</span>: state}, f)
-
+ 
 def load_checkpoint(session_id: str) -> dict | None:
     path = pathlib.Path(<span class="cs">f".checkpoints/{session_id}.pkl"</span>)
     if not path.exists():

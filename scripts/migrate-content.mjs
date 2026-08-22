@@ -105,6 +105,24 @@ function convertLiquid(body) {
 }
 
 /**
+ * A raw HTML block ends at the first blank line, per CommonMark — so remark
+ * closes a hand-written <pre> there and parses the rest of the code as
+ * markdown. kramdown did not, which is why 101 files ship <pre> blocks with
+ * blank lines in them (3,640 in total) that rendered fine under Jekyll and
+ * come apart under Astro: ASCII diagrams lose their spacing, and a stray
+ * `# heading` line inside a template becomes a real <h1>.
+ *
+ * Replacing those blank lines with a single space keeps the HTML block intact
+ * for the parser and is invisible inside a <pre>, where whitespace is
+ * preserved anyway. Fenced ``` blocks are untouched — they are already safe.
+ */
+function sealPreBlocks(body) {
+  return body.replace(/<pre[^>]*>[\s\S]*?<\/pre>/g, (block) =>
+    block.replace(/\n[ \t]*\n/g, '\n \n'),
+  );
+}
+
+/**
  * Astro resolves relative markdown image paths at build time and hard-fails on
  * a miss, where Jekyll just emitted a broken <img>.
  *
@@ -214,7 +232,7 @@ function writeTracks() {
         if (data.custom_css) trackHead = `<link rel="stylesheet" href="/assets/css/${data.custom_css}.css">`;
         if (data.custom_js) trackFoot = `<script src="/assets/js/${data.custom_js}.js" defer></script>`;
         const converted = convertLiquid(fm[2]);
-        body = converted.body;
+        body = sealPreBlocks(converted.body);
         if (converted.remaining) report.liquidLeft.push([def.from, converted.remaining]);
         description = data.description ?? deriveDescription(body, def.title);
       }
@@ -309,7 +327,7 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
 
   const url = data.permalink ?? '/' + file.replace(/^_/, '').replace(/\/index\.md$/, '/').replace(/\.md$/, '/');
   const { body: liquidFixed, remaining } = convertLiquid(fm[2]);
-  const body = fixRelativeImages(liquidFixed, file);
+  const body = sealPreBlocks(fixRelativeImages(liquidFixed, file));
   if (remaining) report.liquidLeft.push([file, remaining]);
 
   let description = data.description;
@@ -336,6 +354,9 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
   if (track) out.push(`track: ${track}`);
   if (module) out.push(`module: ${module}`);
   out.push(`order: ${inferOrder(file)}`);
+  // Jekyll's `layout: default` meant "this page draws its own everything".
+  if (data.layout === 'default') out.push('chrome: bare');
+  if (/<h1[\s>]|^\s*#\s+\S|class="[^"]*(hdr|header|hero)/im.test(body)) out.push('ownHeader: true');
   out.push(`url: ${url}`);
   out.push('---', '');
   if (headTags.length) out.push(...headTags, '');

@@ -4,6 +4,7 @@ description: "M09 — Authentication Authorization Phase 3 · Auth Authz · Sess
 domain: engineering
 track: backend
 order: 9
+ownHeader: true
 url: /learning/backend/m09-auth-jwt/
 ---
 

@@ -4,6 +4,7 @@ description: "C Program Compilation Steps (Deep Dive) When we run a C program , 
 domain: languages
 track: c-fundamentals
 order: 11
+ownHeader: true
 url: /learning/programming-language/c/c-basics/c-compilation-process/
 ---
 

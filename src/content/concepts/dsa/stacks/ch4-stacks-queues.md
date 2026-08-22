@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 4 Chapter 4 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 4
+chrome: bare
+ownHeader: true
 url: /learning/dsa/stacks/ch4-stacks-queues/
 ---
 

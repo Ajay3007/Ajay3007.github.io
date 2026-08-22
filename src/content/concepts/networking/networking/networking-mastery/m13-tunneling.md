@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 3 · MODULE 13 · WEEK 11 · PHASE 3 F
 domain: networking
 track: networking-mastery
 order: 13
+ownHeader: true
 url: /learning/networking-mastery/m13-tunneling/
 ---
 
@@ -179,22 +180,22 @@ url: /learning/networking-mastery/m13-tunneling/
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                Label (20 bits)                | Exp(3b)|S|  TTL  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
+ 
 Label:  20-bit forwarding label (0–15 = reserved)
 Exp:    3-bit traffic class (QoS, formerly called "EXP")
 S bit:  Bottom of Stack — set on the innermost label
 TTL:    copied from IP TTL on ingress, decremented at each LSR hop
-
+ 
 <span class="cm">/* MPLS packet structure */</span>
 [Ethernet hdr][MPLS label 1][MPLS label 2][IP hdr][TCP hdr][Data]
                 ↑ outer label  ↑ inner label
                 (multiple labels = "label stack")
-
+ 
 <span class="cm">/* Label operations */</span>
 PUSH:   Ingress LER adds label(s) to packet
 SWAP:   Transit LSR replaces label with new label (the forwarding operation)
 POP:    Egress LER removes label, exposes inner packet
-
+ 
 <span class="cm">/* MPLS forwarding table (LFIB) */</span>
 Incoming label | Operation | Outgoing label | Outgoing interface
 100            | SWAP→200  | 200            | eth1
@@ -241,26 +242,26 @@ Incoming label | Operation | Outgoing label | Outgoing interface
   [Optional: Sequence Number(32b)]
 [Inner IP packet: src=orig_src dst=orig_dst]
 [Original payload]
-
+ 
 <span class="cm">/* GRE Protocol Type field — what's inside */</span>
 0x0800 = IPv4 (most common)
 0x86DD = IPv6
 0x0806 = ARP
 0x8847 = MPLS
-
+ 
 <span class="cm">/* Linux GRE tunnel setup */</span>
 <span class="cm"># Create GRE tunnel interface</span>
 ip tunnel add gre1 mode gre local 203.0.113.1 remote 198.51.100.1 ttl 255
 ip link set gre1 up
 ip addr add 10.100.0.1/30 dev gre1
-
+ 
 <span class="cm"># Route traffic through tunnel</span>
 ip route add 192.168.2.0/24 via 10.100.0.2 dev gre1
-
+ 
 <span class="cm"># Verify</span>
 ip tunnel show
 ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
-
+ 
 <span class="cm">/* GRE keepalives (Cisco extension) */</span>
 <span class="cm"># GRE itself has no keepalive — use OSPF/BFD over the tunnel for failure detection</span>
 <span class="cm"># Or configure GRE keepalives (encapsulate keepalive inside GRE inside tunnel)</span></pre></div>
@@ -296,14 +297,14 @@ ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
 [Inner Ethernet frame: src=VM_MAC dst=dest_VM_MAC type=0x0800]
 [Inner IP packet]
 [Payload]
-
+ 
 Total overhead: 50 bytes → effective MTU 1450 from standard 1500-byte underlay
-
+ 
 <span class="cm">/* VNI — VxLAN Network Identifier */</span>
 24 bits → 16,777,216 unique overlay networks
 Equivalent to VLAN ID but vastly larger scale
 Each VNI is a separate L2 broadcast domain
-
+ 
 <span class="cm">/* VTEP — VxLAN Tunnel End Point */</span>
 The device that encapsulates/decapsulates VxLAN:
   On ingress (from VM): Ethernet frame → wrap in VxLAN/UDP/IP
@@ -312,18 +313,18 @@ VTEPs can be:
   - Hypervisor (Linux bridge/OVS with VXLAN)
   - Hardware switch (ToR switch with VxLAN support)
   - Dedicated gateway appliance
-
+ 
 <span class="cm">/* Linux VxLAN setup */</span>
 <span class="cm"># Create VxLAN tunnel interface</span>
 ip link add vxlan100 type vxlan id 100 dstport 4789 \
     local 10.0.0.1 remote 10.0.0.2 dev eth0
-
+ 
 ip link set vxlan100 up
 ip addr add 192.168.100.1/24 dev vxlan100
-
+ 
 <span class="cm"># Add static FDB entry (tell Linux: MAC xx is at remote VTEP 10.0.0.2)</span>
 bridge fdb add aa:bb:cc:dd:ee:ff dev vxlan100 dst 10.0.0.2
-
+ 
 <span class="cm"># Multicast VxLAN (learning mode)</span>
 ip link add vxlan100 type vxlan id 100 group 239.1.1.1 dev eth0
 <span class="cm"># BUM (Broadcast, Unknown unicast, Multicast) traffic → multicast group</span>
@@ -339,21 +340,21 @@ ip link add vxlan100 type vxlan id 100 group 239.1.1.1 dev eth0
 Type 2 (MAC/IP Advertisement):
   "MAC aa:bb:cc:dd:ee:ff, IP 192.168.1.5 is at VTEP 10.0.0.1, VNI 100"
   → VTEPs learn MAC/IP locations via BGP, no flooding needed
-
+ 
 Type 3 (Inclusive Multicast):
   "VTEP 10.0.0.1 participates in VNI 100 BUM forwarding"
   → Ingress replication list instead of multicast
-
+ 
 <span class="cm">/* Symmetric IRB — Integrated Routing and Bridging */</span>
 <span class="cm"># Layer 3 routing between VNIs without leaving the VxLAN fabric</span>
 <span class="cm"># Each VTEP acts as a distributed gateway for its local VMs</span>
 <span class="cm"># No hairpinning through a central gateway router</span>
-
+ 
 <span class="cm">/* Modern data centre: Leaf-Spine with VxLAN+EVPN */</span>
 Spine switches:  pure IP underlay + iBGP route reflector for EVPN
 Leaf switches:   VTEPs + EVPN BGP speakers
 VMs/containers:  connected to leaf switches, in VxLAN VNIs
-
+ 
 <span class="cm">/* FRR VxLAN+EVPN config */</span>
 router bgp 65001
   address-family l2vpn evpn
@@ -399,28 +400,28 @@ router bgp 65001
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Tunnel Selection Decision Guide</h3><span class="tag tag-green">DECISION</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Which tunnel to use — decision tree */</span>
-
+ 
 Need to connect two office networks over internet securely?
   → IPsec IKEv2 (standard, vendor-interoperable)
   → WireGuard (modern, simple, fast — if both ends are Linux/modern)
   → GRE + IPsec (if you need routing protocols over the tunnel)
-
+ 
 Need to carry non-IP traffic (e.g., IPX, MPLS) over IP?
   → GRE (supports any EtherType in Protocol Type field)
-
+ 
 Need to scale L2 (VMs, containers) across IP data centre fabric?
   → VxLAN (with EVPN for control plane)
   → GENEVE (if you need extensible metadata in the header)
-
+ 
 Need traffic engineering and bandwidth reservation in SP network?
   → MPLS-TE with RSVP-TE
-
+ 
 Need the absolute minimum overhead (no encryption needed)?
   → IP-in-IP (20 bytes overhead, IPv4 only)
-
+ 
 Connecting IPv6 island over IPv4 network?
   → 6in4 (static), 6to4 (automatic), Teredo (through NAT)
-
+ 
 Need a simple test or diagnostic tunnel?
   → GRE (easiest to configure on Linux with ip tunnel add)</pre></div>
   </div>
@@ -451,14 +452,14 @@ Need a simple test or diagnostic tunnel?
 
 <div class="cb"><pre><span class="cm">/* GRE decapsulation in NGFW (VPP-style) */</span>
 <span class="cm">/* Packet arrives: outer IP → GRE → inner IP → TCP → payload */</span>
-
+ 
 1. ip4-input: outer IP validated, routed to gre-input graph node
 2. gre-input: outer IP and GRE header stripped
 3. Inner packet injected back into ip4-input
 4. ip4-input: inner IP subject to full policy (ACL, conntrack, DPI)
 5. If policy permits: route inner packet; NGFW logs both
    outer (IP src/dst of tunnel endpoints) and inner (actual src/dst)
-
+ 
 <span class="cm">/* VxLAN inspection flow */</span>
 Outer UDP dst=4789 → vxlan-input → strip outer Eth+IP+UDP+VxLAN
 Inner Ethernet frame → subject to L2/L3 policy per VNI

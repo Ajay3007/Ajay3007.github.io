@@ -4,6 +4,8 @@ description: "Module B13 · Week 23 · Track B — HLD Prerequisites: B1–B12 G
 domain: system-design
 track: system-design-hld
 order: 127
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b13-notes/
 ---
 

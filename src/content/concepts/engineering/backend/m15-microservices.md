@@ -4,6 +4,7 @@ description: "Service architecture decisions, API Gateway, circuit breaker, Dock
 domain: engineering
 track: backend
 order: 15
+ownHeader: true
 url: /learning/backend/m15-microservices/
 ---
 

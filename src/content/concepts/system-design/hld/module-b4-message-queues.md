@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B4 · WEEK 14 HIGH-LEVE
 domain: system-design
 track: system-design-hld
 order: 108
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b4-message-queues/
 ---
 
@@ -61,12 +63,12 @@ url: /learning/system-design/hld/module-b4-message-queues/
 [Order Service] <span class="mb4-er">──sync──→</span> [Inventory Service]  <span class="mb4-cm">// What if inventory is down?</span>
 [Order Service] <span class="mb4-er">──sync──→</span> [Email Service]      <span class="mb4-cm">// What if email is slow (2s)?</span>
 [Order Service] <span class="mb4-er">──sync──→</span> [Analytics Service]  <span class="mb4-cm">// User waits for all 3!</span>
-
+ 
 <span class="mb4-cm">// WITH message queue: decoupled, resilient, fast</span>
 [Order Service] <span class="mb4-ok">──→ [Topic: order-placed] ──→</span> [Inventory]  <span class="mb4-cm">← independent</span>
                                                <span class="mb4-ok">──→</span> [Email]      <span class="mb4-cm">← independent</span>
                                                <span class="mb4-ok">──→</span> [Analytics]  <span class="mb4-cm">← independent</span>
-
+ 
 <span class="mb4-hl">Order Service returns in &lt;1ms.</span> <span class="mb4-cm">Downstream services process asynchronously.</span>
 <span class="mb4-cm">If email is down → messages queue up → processed when it recovers.</span>
 <span class="mb4-cm">Each consumer processes at its own rate. No cascading failures.</span></pre>
@@ -144,16 +146,16 @@ url: /learning/system-design/hld/module-b4-message-queues/
       <div class="mb4-cb"><div class="mb4-cb-top">ISR and acks configuration<span class="mb4-cb-l">KAFKA CONFIG</span></div>
 <pre class="mb4-c"><span class="mb4-cm">// replication.factor=3 → 1 leader + 2 ISR replicas per partition</span>
 <span class="mb4-cm">// ISR = In-Sync Replicas (have replicated all leader messages)</span>
-
+ 
 <span class="mb4-hl">acks=0:</span>  <span class="mb4-cm">Producer doesn't wait for ACK. Fastest, no durability guarantee.</span>
 <span class="mb4-hl">acks=1:</span>  <span class="mb4-cm">Leader ACKs after writing. Fast, but replica may not have it yet.</span>
 <span class="mb4-hl">acks=all:</span><span class="mb4-cm">All ISR ACKs before producer gets confirmation. Strongest guarantee.</span>
-
+ 
 <span class="mb4-cm">// With acks=all + min.insync.replicas=2 + replication.factor=3:</span>
 <span class="mb4-cm">// → Can lose 1 broker with ZERO data loss</span>
 <span class="mb4-cm">// → Brokers 1 (leader) + Broker 2 (replica) both have message before ACK</span>
 <span class="mb4-cm">// → Broker 1 dies → Broker 2 becomes leader → no data lost</span>
-
+ 
 <span class="mb4-cm">// Partition key routing:</span>
 <span class="mb4-fn">producer.send</span>(<span class="mb4-str">"order-placed"</span>, userId, orderEvent);
 <span class="mb4-cm">// hash(userId) % numPartitions → same userId → same partition → ordered</span></pre>
@@ -194,7 +196,7 @@ url: /learning/system-design/hld/module-b4-message-queues/
         log.<span class="mb4-fn">info</span>(<span class="mb4-str">"Duplicate — skipping: {}"</span>, e.idempotencyKey);
         <span class="mb4-kw">return</span>;  <span class="mb4-cm">// Silently no-op on duplicate</span>
     }
-
+ 
     <span class="mb4-cm">// Atomic: process + mark as processed in same DB transaction</span>
     db.<span class="mb4-fn">transaction</span>(() -> {
         db.<span class="mb4-fn">debitAccount</span>(e.accountId, e.amount);
@@ -203,7 +205,7 @@ url: /learning/system-design/hld/module-b4-message-queues/
     <span class="mb4-cm">// Now commit Kafka offset — at-least-once is effectively exactly-once</span>
     consumer.<span class="mb4-fn">commitSync</span>();
 }
-
+ 
 <span class="mb4-cm">// Key: idempotencyKey must uniquely identify the business operation</span>
 <span class="mb4-cm">// Options: UUID in message, (userId + orderId + action), event sequence number</span></pre>
       </div>
@@ -340,18 +342,18 @@ url: /learning/system-design/hld/module-b4-message-queues/
       <div class="mb4-cb"><div class="mb4-cb-top">How many partitions do I need?<span class="mb4-cb-l">MATH</span></div>
 <pre class="mb4-c"><span class="mb4-cm">// Example: order event stream</span>
 <span class="mb4-cm">// 1M orders/day, peak 50× average</span>
-
+ 
 Peak events/sec  = 1M orders/day ÷ 86,400 × 50 = <span class="mb4-mg">~580 events/sec</span>
 Event size       = <span class="mb4-or">1 KB</span>
 Peak throughput  = 580 × 1KB = <span class="mb4-mg">~0.6 MB/sec</span>
-
+ 
 <span class="mb4-cm">// Single partition max throughput: ~100 MB/sec write</span>
 Partitions needed = 0.6 MB/sec ÷ 100 MB/sec = <span class="mb4-ok">1 partition</span> <span class="mb4-cm">(use 12 for growth headroom)</span>
-
+ 
 <span class="mb4-cm">// Storage (7-day retention, 3 replicas):</span>
 Daily = 580 events/sec × 86,400 × 1 KB = <span class="mb4-mg">~50 GB/day</span>
 Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
-
+ 
 <span class="mb4-cm">// General rules:</span>
 <span class="mb4-cm">//   num_partitions ≥ max_consumers_in_any_group</span>
 <span class="mb4-cm">//   num_partitions = target_throughput_MB_s ÷ throughput_per_partition_MB_s</span>

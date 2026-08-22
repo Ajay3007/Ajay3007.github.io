@@ -4,6 +4,7 @@ description: "C Basics — Notes + Enhanced Documentation This documentation is 
 domain: languages
 track: c-fundamentals
 order: 0
+ownHeader: true
 url: /learning/programming-language/c/c-basics/
 ---
 

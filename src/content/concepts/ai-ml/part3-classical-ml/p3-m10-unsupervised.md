@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part3-classical-ml
 order: 310
+ownHeader: true
 url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
 ---
 
@@ -134,33 +135,33 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
 import pandas as pd, numpy as np
-
+ 
 # ── K-Means algorithm ─────────────────────────────────
 # 1. Randomly initialise K centroids
 # 2. Assign each point to the nearest centroid
 # 3. Recompute centroids as mean of assigned points
 # 4. Repeat 2-3 until convergence (centroids don't move)
 # CRITICAL: K-Means requires feature scaling!
-
+ 
 df_seg = pd.read_csv("mall_customers.csv")
 features = ["Annual Income (k$)", "Spending Score (1-100)", "Age"]
 X = df_seg[features]
-
+ 
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
-
+ 
 # ── Finding optimal K ─────────────────────────────────
 # Method 1: Elbow method — plot inertia (WCSS) vs K
 inertias = []
 sil_scores = []
 K_range = range(2, 11)
-
+ 
 for k in K_range:
     km = KMeans(n_clusters=k, n_init=10, random_state=42)
     km.fit(X_scaled)
     inertias.append(km.inertia_)                    # Within-Cluster Sum of Squares
     sil_scores.append(silhouette_score(X_scaled, km.labels_))  # silhouette
-
+ 
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 axes[0].plot(K_range, inertias, marker="o")
 axes[0].set(xlabel="K", ylabel="Inertia (WCSS)", title="Elbow Method")
@@ -168,18 +169,18 @@ axes[0].axvline(5, color="red", linestyle="--", label="Chosen K")
 axes[1].plot(K_range, sil_scores, marker="o", color="green")
 axes[1].set(xlabel="K", ylabel="Silhouette Score", title="Silhouette (higher=better)")
 # Silhouette: -1 to 1; near 1 = well separated; near 0 = overlapping
-
+ 
 # ── Final model ───────────────────────────────────────
 best_k = 5
 km_final = KMeans(n_clusters=best_k, n_init=20, random_state=42)
 df_seg["Cluster"] = km_final.fit_predict(X_scaled)
-
+ 
 # ── Cluster profiling ─────────────────────────────────
 cluster_profile = df_seg.groupby("Cluster")[features].mean().round(1)
 cluster_sizes   = df_seg["Cluster"].value_counts().sort_index()
 cluster_profile["Size"] = cluster_sizes
 print(cluster_profile)
-
+ 
 # Visualise clusters in 2D (Income vs Spending)
 plt.figure(figsize=(8, 6))
 for cluster_id in range(best_k):
@@ -207,7 +208,7 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 # ── DBSCAN concept ────────────────────────────────────
 # A point is a "core point" if it has at least min_samples
 # neighbours within radius eps
@@ -215,9 +216,9 @@ import numpy as np
 # Points that can't be reached: noise (label = -1)
 # Advantages: finds arbitrary-shaped clusters, detects noise
 # Parameters: eps (neighbourhood radius), min_samples (density threshold)
-
+ 
 X_scaled = StandardScaler().fit_transform(X)
-
+ 
 # ── Find optimal eps: k-distance plot ────────────────
 # For each point, find its 4th nearest neighbour distance
 # eps = knee of the sorted distance plot
@@ -225,23 +226,23 @@ k = 4  # min_samples - 1
 nbrs = NearestNeighbors(n_neighbors=k).fit(X_scaled)
 distances, _ = nbrs.kneighbors(X_scaled)
 k_distances = np.sort(distances[:, k-1])[::-1]
-
+ 
 plt.figure(figsize=(8, 4))
 plt.plot(k_distances)
 plt.ylabel("4th Nearest Neighbour Distance")
 plt.xlabel("Points sorted by distance")
 plt.title("K-Distance Plot: Knee = optimal eps")
 # Knee of the curve ≈ optimal eps value
-
+ 
 # ── Fit DBSCAN ────────────────────────────────────────
 dbscan = DBSCAN(eps=0.5, min_samples=5)
 labels = dbscan.fit_predict(X_scaled)
-
+ 
 n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
 n_noise    = list(labels).count(-1)
 print(f"Clusters: {n_clusters}")
 print(f"Noise points: {n_noise} ({n_noise/len(labels):.1%})")
-
+ 
 # Visualise
 plt.figure(figsize=(8, 6))
 unique_labels = set(labels)
@@ -266,7 +267,7 @@ plt.title(f"DBSCAN: {n_clusters} clusters, {n_noise} noise points")</pre></div>
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 # ── PCA concept ───────────────────────────────────────
 # Finds directions (principal components) of maximum variance
 # PC1: direction of highest variance in the data
@@ -277,19 +278,19 @@ import numpy as np
 #   2. Noise removal: drop low-variance components
 #   3. Feature compression: fewer features before SVM or kNN
 #   4. Multicollinearity removal for linear models
-
+ 
 X = df.select_dtypes("number").dropna()
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
-
+ 
 # ── Fit PCA ───────────────────────────────────────────
 pca = PCA()  # keep all components to see explained variance
 pca.fit(X_scaled)
-
+ 
 # ── Explained variance plot ──────────────────────────
 explained_var = pca.explained_variance_ratio_
 cumulative_var = np.cumsum(explained_var)
-
+ 
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 axes[0].bar(range(1, len(explained_var)+1), explained_var)
 axes[0].set(xlabel="Principal Component", ylabel="Explained Variance Ratio",
@@ -299,19 +300,19 @@ axes[1].axhline(0.95, color="red", linestyle="--", label="95% threshold")
 axes[1].set(xlabel="N Components", ylabel="Cumulative Explained Variance",
              title="How many components for 95% variance?")
 axes[1].legend()
-
+ 
 # How many components to retain 95% variance?
 n_components_95 = np.argmax(cumulative_var >= 0.95) + 1
 print(f"Components for 95% variance: {n_components_95} / {X_scaled.shape[1]}")
-
+ 
 # ── Apply PCA reduction ───────────────────────────────
 pca_2 = PCA(n_components=2)
 X_2d = pca_2.fit_transform(X_scaled)
-
+ 
 pca_95 = PCA(n_components=0.95)  # keep 95% variance automatically
 X_95 = pca_95.fit_transform(X_scaled)
 print(f"Reduced from {X_scaled.shape[1]} to {X_95.shape[1]} features (95% variance)")
-
+ 
 # ── Visualise in 2D ───────────────────────────────────
 plt.figure(figsize=(8, 6))
 scatter = plt.scatter(X_2d[:, 0], X_2d[:, 1],
@@ -320,7 +321,7 @@ plt.colorbar(scatter, label="SalePrice")
 plt.xlabel(f"PC1 ({explained_var[0]:.1%} variance)")
 plt.ylabel(f"PC2 ({explained_var[1]:.1%} variance)")
 plt.title("House Prices: 2D PCA Projection")
-
+ 
 # ── Feature loadings ──────────────────────────────────
 loadings = pd.DataFrame(pca.components_.T,
                          index=X.columns,
@@ -340,7 +341,7 @@ print(loadings["PC1"].abs().sort_values(ascending=False).head(5))</pre></div>
 import umap  # pip install umap-learn
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 # ── t-SNE ─────────────────────────────────────────────
 # Converts high-dimensional distances to probabilities
 # Places points in 2D to match those probability distributions
@@ -349,11 +350,11 @@ import numpy as np
 # Main parameter: perplexity (5-50; ~= number of neighbours considered)
 # WARNING: every run looks different! Set random_state for reproducibility
 # WARNING: slow for N > 10,000. Apply PCA first.
-
+ 
 # Best practice: PCA to 50 dims first (faster, denoises)
 pca50 = PCA(n_components=50)
 X_pca50 = pca50.fit_transform(X_scaled)
-
+ 
 tsne = TSNE(
     n_components=2,
     perplexity=30,          # 5-50; higher = more global
@@ -363,13 +364,13 @@ tsne = TSNE(
     random_state=42,
 )
 X_tsne = tsne.fit_transform(X_pca50)
-
+ 
 plt.figure(figsize=(8, 6))
 scatter = plt.scatter(X_tsne[:, 0], X_tsne[:, 1],
                       c=y_clusters, cmap="tab10", s=8, alpha=0.7)
 plt.title("t-SNE Visualisation (perplexity=30)")
 plt.colorbar(scatter, label="Cluster")
-
+ 
 # ── UMAP (faster + preserves global structure better) ─
 # Pros over t-SNE:
 #   - Much faster (10-100× on large datasets)
@@ -379,7 +380,7 @@ plt.colorbar(scatter, label="Cluster")
 # Main parameters:
 #   n_neighbors: local neighbourhood size (5-50)
 #   min_dist: how tightly to pack clusters (0.0-1.0)
-
+ 
 reducer = umap.UMAP(
     n_components=2,
     n_neighbors=15,     # 5=local, 50=global structure
@@ -388,12 +389,12 @@ reducer = umap.UMAP(
     n_jobs=-1,
 )
 X_umap = reducer.fit_transform(X_scaled)
-
+ 
 plt.figure(figsize=(8, 6))
 scatter = plt.scatter(X_umap[:, 0], X_umap[:, 1],
                       c=y_clusters, cmap="tab10", s=8, alpha=0.7)
 plt.title("UMAP Visualisation")
-
+ 
 # UMAP can transform new data (t-SNE cannot)
 new_data_2d = reducer.transform(X_test_scaled)  # project test set</pre></div>
     <div class="warn"><p>⚠️ <strong>t-SNE and UMAP are for visualisation only.</strong> The 2D coordinates have no absolute meaning — distances between cluster groups are not interpretable. Cluster A appearing "close" to cluster B in t-SNE does not mean they are similar. Use these only to verify that clusters exist visually, not to measure cluster similarity.</p></div>
@@ -410,9 +411,9 @@ new_data_2d = reducer.transform(X_test_scaled)  # project test set</pre></div>
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 # ── Internal metrics (no labels needed) ──────────────
-
+ 
 # 1. Silhouette Score: -1 to +1
 # a(i) = mean distance to own cluster members
 # b(i) = mean distance to nearest OTHER cluster members
@@ -422,22 +423,22 @@ import numpy as np
 # Near -1: point may be in the wrong cluster
 sil = silhouette_score(X_scaled, labels)
 print(f"Silhouette Score: {sil:.4f}  (higher is better, max 1.0)")
-
+ 
 # 2. Davies-Bouldin Index: lower is better
 # Average ratio of intra-cluster to inter-cluster distance
 db = davies_bouldin_score(X_scaled, labels)
 print(f"Davies-Bouldin:   {db:.4f}  (lower is better)")
-
+ 
 # 3. Calinski-Harabasz (Variance Ratio): higher is better
 ch = calinski_harabasz_score(X_scaled, labels)
 print(f"Calinski-Harabasz: {ch:.1f}  (higher is better)")
-
+ 
 # ── External metrics (need true labels) ───────────────
 # Use when you KNOW the true clusters (e.g. from a ground truth)
 # Adjusted Rand Index: -0.5 to 1.0 (1.0 = perfect agreement)
 ari = adjusted_rand_score(y_true, labels)
 print(f"Adjusted Rand Index: {ari:.4f}")
-
+ 
 # ── Plot silhouette scores per cluster ────────────────
 from sklearn.metrics import silhouette_samples
 sample_sil = silhouette_samples(X_scaled, labels)
@@ -464,55 +465,55 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
-
+ 
 # ── RFM Analysis — standard segmentation framework ───
 # R (Recency):   How recently did the customer purchase?
 # F (Frequency): How often do they purchase?
 # M (Monetary):  How much do they spend?
-
+ 
 df_orders = pd.read_csv("online_retail.csv")
 df_orders["InvoiceDate"] = pd.to_datetime(df_orders["InvoiceDate"])
 df_orders["Revenue"] = df_orders["Quantity"] * df_orders["UnitPrice"]
-
+ 
 # Reference date: day after last transaction
 reference = df_orders["InvoiceDate"].max() + pd.Timedelta(days=1)
-
+ 
 rfm = df_orders.groupby("CustomerID").agg(
     Recency   = ("InvoiceDate", lambda x: (reference - x.max()).days),
     Frequency = ("InvoiceNo", "nunique"),
     Monetary  = ("Revenue", "sum")
 ).reset_index()
-
+ 
 # Remove outliers
 rfm = rfm[(rfm["Monetary"] > 0) & (rfm["Frequency"] > 0)]
-
+ 
 # ── Scale and cluster ─────────────────────────────────
 scaler = StandardScaler()
 X_rfm = scaler.fit_transform(rfm[["Recency", "Frequency", "Monetary"]])
-
+ 
 # Find K using elbow + silhouette
 silhouettes = []
 for k in range(2, 8):
     km = KMeans(n_clusters=k, n_init=10, random_state=42)
     labels = km.fit_predict(X_rfm)
     silhouettes.append(silhouette_score(X_rfm, labels))
-
+ 
 best_k = silhouettes.index(max(silhouettes)) + 2
 print(f"Best K: {best_k}")
-
+ 
 km = KMeans(n_clusters=best_k, n_init=20, random_state=42)
 rfm["Cluster"] = km.fit_predict(X_rfm)
-
+ 
 # ── Profile clusters ──────────────────────────────────
 profile = rfm.groupby("Cluster")[["Recency", "Frequency", "Monetary"]].mean().round(1)
 profile["Size"] = rfm["Cluster"].value_counts().sort_index()
 print(profile)
-
+ 
 # Interpret:
 # Cluster A: Low Recency, High Freq, High Monetary → Champions
 # Cluster B: High Recency, Low Freq, Low Monetary  → At Risk
 # Cluster C: Medium Recency, Medium Freq            → Potential Loyalists
-
+ 
 # ── PCA visualisation of RFM clusters ────────────────
 pca2 = PCA(n_components=2)
 X_2d = pca2.fit_transform(X_rfm)

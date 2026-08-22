@@ -4,6 +4,7 @@ description: "Module 19 — Kafka Producer (CDR Export) Requires librdkafka ."
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-19-kafka-producer/
 ---
 

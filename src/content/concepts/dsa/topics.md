@@ -3,6 +3,7 @@ title: "Data Structures Topics"
 description: "[Data Structures & Algorithms — Topics]( data-structures-algorithms-topics) 1.1."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/topics/
 ---
 

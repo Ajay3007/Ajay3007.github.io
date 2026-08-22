@@ -3,6 +3,7 @@ title: "Basics"
 description: "Basics Syntax, data types, operators, and control flow."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/01-basics/
 ---
 

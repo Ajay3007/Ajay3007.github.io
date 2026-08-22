@@ -4,6 +4,7 @@ description: "Module 06 — DNS Parser What you learn How to parse a complete DN
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-06-dns-parser/
 ---
 

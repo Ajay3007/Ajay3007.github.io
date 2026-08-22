@@ -4,6 +4,7 @@ description: "Module B12 — System Design Interview Framework & Mock Interviews
 domain: system-design
 track: system-design-hld
 order: 125
+ownHeader: true
 url: /learning/system-design/hld/module-b12-notes/
 ---
 

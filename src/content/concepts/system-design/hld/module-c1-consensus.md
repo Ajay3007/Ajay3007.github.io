@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK C · MODULE C1 · WEEK 25 RAFT · P
 domain: system-design
 track: system-design-hld
 order: 202
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c1-consensus/
 ---
 
@@ -61,18 +63,18 @@ url: /learning/system-design/hld/module-c1-consensus/
   <div class="sr">Getting N nodes to agree on a value despite failures</div>
   <div class="cb"><div class="cb-top">What consensus must guarantee<span class="cb-l">DEFINITION</span></div>
 <pre class="c"><span class="cm">// Consensus: N nodes must agree on ONE value, even when nodes crash.</span>
-
+ 
 <span class="cm">// Three properties required:</span>
 <span class="kw">Agreement</span>:   All non-faulty nodes decide on the same value.
 <span class="kw">Validity</span>:    The decided value was proposed by some node (not fabricated).
 <span class="kw">Termination</span>: All non-faulty nodes eventually decide (make progress).
-
+ 
 <span class="cm">// Safety vs Liveness:</span>
 <span class="hl">Safety</span>:   "Nothing bad ever happens."  (Agreement + Validity)
            Never return incorrect/conflicting results.
 <span class="hl">Liveness</span>: "Something good eventually happens." (Termination)
            System eventually makes progress.
-
+ 
 <span class="cm">// FLP Impossibility (1985): In an ASYNC network with ≥1 possible crash,</span>
 <span class="cm">// no algorithm can guarantee BOTH safety AND liveness.</span>
 <span class="cm">//</span>
@@ -163,13 +165,13 @@ url: /learning/system-design/hld/module-c1-consensus/
   <div class="cb"><div class="cb-top">RequestVote RPC — the two critical checks<span class="cb-l">ELECTION PROTOCOL</span></div>
 <pre class="c"><span class="cm">// Follower starts election when election timeout expires (150–300ms, RANDOM per node)</span>
 <span class="cm">// Randomization prevents all nodes timing out simultaneously</span>
-
+ 
 <span class="kw">function</span> <span class="fn">startElection</span>(node) {
   node.currentTerm += <span class="bl">1</span>           <span class="cm">// increment term</span>
   node.state = <span class="str">'CANDIDATE'</span>
   node.votedFor = node.id           <span class="cm">// vote for self</span>
   votes = <span class="bl">1</span>
-
+ 
   <span class="kw">for each</span> peer <span class="kw">in</span> cluster:
     response = peer.<span class="fn">requestVote</span>({
       term:         node.currentTerm,
@@ -177,7 +179,7 @@ url: /learning/system-design/hld/module-c1-consensus/
       lastLogIndex: node.log.<span class="fn">lastIndex</span>(),
       lastLogTerm:  node.log.<span class="fn">lastTerm</span>()
     })
-
+ 
     <span class="kw">if</span> (response.voteGranted) votes++
     <span class="kw">if</span> (votes > cluster.size / <span class="bl">2</span>) {
       node.state = <span class="str">'LEADER'</span>
@@ -185,19 +187,19 @@ url: /learning/system-design/hld/module-c1-consensus/
       <span class="kw">return</span>
     }
 }
-
+ 
 <span class="cm">// Voter grants vote ONLY IF both conditions hold:</span>
 <span class="kw">function</span> <span class="fn">handleRequestVote</span>(req) {
   <span class="cm">// Condition 1: haven't voted this term yet</span>
   <span class="kw">if</span> (votedFor != null && votedFor != req.candidateId) <span class="kw">return</span> {voteGranted: <span class="er">false</span>}
-
+ 
   <span class="cm">// Condition 2: candidate's log is AT LEAST as up-to-date as ours</span>
   <span class="cm">// (log completeness check — prevents stale node from winning)</span>
   candidateUpToDate = req.lastLogTerm > myLastLogTerm ||
     (req.lastLogTerm == myLastLogTerm && req.lastLogIndex >= myLastLogIndex)
-
+ 
   <span class="kw">if</span> (!candidateUpToDate) <span class="kw">return</span> {voteGranted: <span class="er">false</span>}
-
+ 
   votedFor = req.candidateId
   <span class="kw">return</span> {voteGranted: <span class="ok">true</span>}
 }</pre>
@@ -257,7 +259,7 @@ url: /learning/system-design/hld/module-c1-consensus/
 <span class="cm">// On AppendEntries rejection (consistency check failed):</span>
 <span class="cm">//   Decrement nextIndex[i] and retry with older entries</span>
 <span class="cm">//   Eventually: follower finds a matching point, then sync forward</span>
-
+ 
 <span class="cm">// AppendEntries includes a consistency check:</span>
 AppendEntries({
   term:         currentTerm,
@@ -267,13 +269,13 @@ AppendEntries({
   entries:      log[nextIndex[i]...],   <span class="cm">// entries to replicate</span>
   leaderCommit: commitIndex             <span class="cm">// highest committed index</span>
 })
-
+ 
 <span class="cm">// Follower F4 (conflict at idx 3):</span>
 <span class="cm">// L sends AppendEntries with prevLogIndex=2, prevLogTerm=1</span>
 <span class="cm">// F4 checks: log[2].term == 1? YES → accepts</span>
 <span class="cm">// F4 replaces log[3] (t1:x=9) with (t2:c=3) — the conflict is overwritten</span>
 <span class="cm">// F4 appends entries[4] = (t2:d=4)</span>
-
+ 
 <span class="cm">// Key: committed entries are NEVER overwritten</span>
 <span class="cm">// (idx 1,2 were committed — majority had them — F4's idx 3 conflict was NOT committed)</span></pre>
   </div>
@@ -322,13 +324,13 @@ AppendEntries({
   </div>
   <div class="cb"><div class="cb-top">Split-brain prevention via quorum<span class="cb-l">PARTITION SAFETY</span></div>
 <pre class="c"><span class="cm">// 5-node cluster partitioned into two groups:</span>
-
+ 
 Partition A: [Node 1, Node 2, Node 3]  ← has quorum (3 of 5) ✓
 Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
-
+ 
 <span class="cm">// Partition A: can elect leader, process writes → active</span>
 <span class="cm">// Partition B: cannot reach quorum → cannot elect leader → rejects all writes</span>
-
+ 
 <span class="cm">// Two active leaders simultaneously is IMPOSSIBLE:</span>
 <span class="cm">// They would each need a majority of N nodes.</span>
 <span class="cm">// Two separate majorities of N nodes requires 2 × (⌊N/2⌋ + 1) > N nodes.</span>

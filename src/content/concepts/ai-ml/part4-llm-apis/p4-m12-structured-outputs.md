@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part4-llm-apis
 order: 412
+ownHeader: true
 url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
 ---
 
@@ -153,13 +154,13 @@ City: Mumbai"</span>
 <span class="ck">#   {"name": "John", "age": "28", "city": "Mumbai"}  ← age is a string, not int!</span>
 <span class="ck">#   {"name": "John", "age": 28}  ← city missing!</span>
 <span class="ck"># You cannot reliably parse any of these</span>
-
+ 
 <span class="ck"># With structured outputs (Pydantic + Instructor)</span>
 class Person(BaseModel):
     name: str
     age:  int
     city: str
-
+ 
 person = extract(text, Person)
 print(person.age + <span class="cv">1</span>)   <span class="ck"># 29 — it's always an int. Always present.</span></pre></div>
     <div class="ins"><p>💡 <strong>Structured outputs solve three problems at once:</strong> type safety (age is always an int), completeness (required fields are always present), and consistency (same schema every time, regardless of how the model phrases its response).</p></div>
@@ -179,15 +180,15 @@ print(person.age + <span class="cv">1</span>)   <span class="ck"># 29 — it's a
     <div class="cb"><pre>from openai import OpenAI
 from pydantic import BaseModel
 from typing import List, Optional
-
+ 
 client = OpenAI()
-
+ 
 class CalendarEvent(BaseModel):
     name:       str
     date:       str         <span class="ck"># ISO format: YYYY-MM-DD</span>
     participants: List[str]
     location:   Optional[str] = None
-
+ 
 <span class="ck"># Method 1: parse() helper — simplest approach</span>
 completion = client.beta.chat.completions.parse(
     model=<span class="cs">"gpt-4o-2024-08-06"</span>,
@@ -197,13 +198,13 @@ completion = client.beta.chat.completions.parse(
     }],
     response_format=CalendarEvent,
 )
-
+ 
 event = completion.choices[<span class="cv">0</span>].message.parsed
 print(event.name)           <span class="ck"># "Meeting"</span>
 print(event.participants)   <span class="ck"># ["Alice", "Bob"]</span>
 print(event.date)           <span class="ck"># "2024-03-15"</span>
 print(type(event))          <span class="ck"># &lt;class 'CalendarEvent'&gt; — a real Python object</span>
-
+ 
 <span class="ck"># Handle refusal (model refuses to comply with the request)</span>
 if completion.choices[<span class="cv">0</span>].message.refusal:
     print(<span class="cs">f"Model refused: {completion.choices[0].message.refusal}"</span>)</pre></div>
@@ -240,46 +241,46 @@ data = json.loads(response.choices[<span class="cv">0</span>].message.content)
     <div class="cb"><pre>from pydantic import BaseModel, Field
 from typing import List, Optional, Literal
 from enum import Enum
-
+ 
 <span class="ck"># Nested models</span>
 class Address(BaseModel):
     street: str
     city:   str
     country: str
     postal_code: Optional[str] = None
-
+ 
 class Contact(BaseModel):
     name:    str
     email:   str
     phone:   Optional[str] = None
     address: Optional[Address] = None   <span class="ck"># nested model</span>
-
+ 
 <span class="ck"># Enums for controlled vocabularies</span>
 class Priority(str, Enum):
     LOW    = <span class="cs">"low"</span>
     MEDIUM = <span class="cs">"medium"</span>
     HIGH   = <span class="cs">"high"</span>
     URGENT = <span class="cs">"urgent"</span>
-
+ 
 class Ticket(BaseModel):
     title:    str
     priority: Priority               <span class="ck"># must be one of 4 values</span>
     tags:     List[str] = []
     assignee: Optional[Contact] = None
-
+ 
 <span class="ck"># Discriminated unions — different schema per type</span>
 class TextContent(BaseModel):
     type: Literal[<span class="cs">"text"</span>]
     text: str
-
+ 
 class ImageContent(BaseModel):
     type: Literal[<span class="cs">"image"</span>]
     url:  str
     alt:  Optional[str] = None
-
+ 
 from typing import Union, Annotated
 Content = Annotated[Union[TextContent, ImageContent], Field(discriminator=<span class="cs">"type"</span>)]
-
+ 
 class Post(BaseModel):
     title:    str
     contents: List[Content]   <span class="ck"># can be text or image blocks</span></pre></div>
@@ -297,23 +298,23 @@ class Post(BaseModel):
   <div class="cp-body">
     <p>Instructor is the cleanest way to get structured outputs from any LLM provider using Pydantic models. It works with OpenAI, Anthropic, Google, HuggingFace, and 15+ others using the same code interface — and adds automatic retries when validation fails.</p>
     <div class="cb"><pre>pip install instructor anthropic openai
-
+ 
 import instructor
 import anthropic
 from openai import OpenAI
 from pydantic import BaseModel
 from typing import List
-
+ 
 <span class="ck"># ── With Anthropic (Claude) ────────────────────────────</span>
 claude_client = instructor.from_anthropic(anthropic.Anthropic())
-
+ 
 class MovieReview(BaseModel):
     title:       str
     rating:      float   <span class="ck"># 1.0 to 10.0</span>
     pros:        List[str]
     cons:        List[str]
     recommended: bool
-
+ 
 review = claude_client.messages.create(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
     max_tokens=<span class="cv">1024</span>,
@@ -323,14 +324,14 @@ review = claude_client.messages.create(
     }],
     response_model=MovieReview,   <span class="ck"># ← Pydantic model as schema</span>
 )
-
+ 
 print(review.title)       <span class="ck"># "Interstellar"</span>
 print(review.rating)      <span class="ck"># 9.2  — always a float</span>
 print(review.recommended) <span class="ck"># True — always a bool</span>
-
+ 
 <span class="ck"># ── With OpenAI (GPT-4o) ───────────────────────────────</span>
 oai_client = instructor.from_openai(OpenAI())
-
+ 
 review = oai_client.chat.completions.create(
     model=<span class="cs">"gpt-4o"</span>,
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Review Interstellar"</span>}],
@@ -346,25 +347,25 @@ review = oai_client.chat.completions.create(
     <div class="cb"><pre>import instructor
 from instructor import Mode
 from pydantic import BaseModel, field_validator
-
+ 
 <span class="ck"># Instructor retries automatically when validation fails</span>
 client = instructor.from_anthropic(
     anthropic.Anthropic(),
     mode=Mode.ANTHROPIC_JSON,
     max_retries=<span class="cv">3</span>   <span class="ck"># retry up to 3 times if schema not satisfied</span>
 )
-
+ 
 class StrictRating(BaseModel):
     score: float
     label: str
-
+ 
     @field_validator(<span class="cs">"score"</span>)
     @classmethod
     def must_be_in_range(cls, v: float) -> float:
         if not (<span class="cv">1.0</span> <= v <= <span class="cv">10.0</span>):
             raise ValueError(<span class="cs">f"Score {v} must be between 1.0 and 10.0"</span>)
         return round(v, <span class="cv">1</span>)
-
+ 
     @field_validator(<span class="cs">"label"</span>)
     @classmethod
     def must_be_valid_label(cls, v: str) -> str:
@@ -372,19 +373,19 @@ class StrictRating(BaseModel):
         if v.lower() not in valid:
             raise ValueError(<span class="cs">f"Label must be one of {valid}"</span>)
         return v.lower()
-
+ 
 <span class="ck"># If model returns score=11.0, Instructor catches the validation error,</span>
 <span class="ck"># tells the model what went wrong, and asks it to try again</span>
-
+ 
 <span class="ck"># Partial extraction — stream partial objects as they are generated</span>
 from instructor import Partial
-
+ 
 class LargeReport(BaseModel):
     executive_summary: str
     key_findings:      List[str]
     recommendations:   List[str]
     conclusion:        str
-
+ 
 <span class="ck"># Stream partial object — UI can update progressively</span>
 for partial_report in client.messages.create_partial(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -407,7 +408,7 @@ class LineItem(BaseModel):
     quantity:    int
     unit_price:  float
     total:       float
-
+ 
 class Invoice(BaseModel):
     invoice_number: str
     vendor:         str
@@ -416,20 +417,20 @@ class Invoice(BaseModel):
     tax_rate:       float
     total:          float
     due_date:       str   <span class="ck"># YYYY-MM-DD</span>
-
+ 
 <span class="ck"># 2. Meeting notes → action items</span>
 class ActionItem(BaseModel):
     task:      str
     owner:     str
     due_date:  Optional[str]
     priority:  Literal[<span class="cs">"high"</span>, <span class="cs">"medium"</span>, <span class="cs">"low"</span>]
-
+ 
 class MeetingNotes(BaseModel):
     summary:     str
     decisions:   List[str]
     action_items: List[ActionItem]
     next_meeting: Optional[str]
-
+ 
 <span class="ck"># 3. Job description parser</span>
 class JobDescription(BaseModel):
     role:             str
@@ -441,7 +442,7 @@ class JobDescription(BaseModel):
     preferred_skills: List[str]
     years_experience: Optional[int]
     remote:           bool
-
+ 
 <span class="ck"># 4. Support ticket classifier</span>
 class SupportTicket(BaseModel):
     category:    Literal[<span class="cs">"billing"</span>, <span class="cs">"technical"</span>, <span class="cs">"account"</span>, <span class="cs">"general"</span>]
@@ -493,21 +494,21 @@ class SupportTicket(BaseModel):
   <div class="cp-body">
     <div class="cb"><pre>import anthropic
 import json
-
+ 
 client = anthropic.Anthropic()
-
+ 
 <span class="ck"># STEP 1: Define your Python functions</span>
 def get_weather(city: str, units: str = <span class="cs">"celsius"</span>) -> dict:
     <span class="ck"># In production: call a real weather API</span>
     return {<span class="cs">"city"</span>: city, <span class="cs">"temp"</span>: <span class="cv">28</span>, <span class="cs">"condition"</span>: <span class="cs">"sunny"</span>, <span class="cs">"units"</span>: units}
-
+ 
 def calculate(expression: str) -> dict:
     try:
         result = eval(expression, {<span class="cs">"__builtins__"</span>: {}})  <span class="ck"># safe eval</span>
         return {<span class="cs">"result"</span>: result, <span class="cs">"expression"</span>: expression}
     except Exception as e:
         return {<span class="cs">"error"</span>: str(e)}
-
+ 
 <span class="ck"># STEP 2: Describe the tools in JSON Schema</span>
 tools = [
     {
@@ -544,7 +545,7 @@ tools = [
         }
     }
 ]
-
+ 
 <span class="ck"># STEP 3: Send request with tools</span>
 response = client.messages.create(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -552,7 +553,7 @@ response = client.messages.create(
     tools=tools,
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"What's the weather in Mumbai? Also, what is 15% of 2500?"</span>}]
 )
-
+ 
 <span class="ck"># STEP 4: Execute the tool calls</span>
 tool_results = []
 for block in response.content:
@@ -566,7 +567,7 @@ for block in response.content:
             <span class="cs">"tool_use_id"</span>: block.id,
             <span class="cs">"content"</span>: json.dumps(result)
         })
-
+ 
 <span class="ck"># STEP 5: Send results back to get final response</span>
 final_response = client.messages.create(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -592,7 +593,7 @@ print(final_response.content[<span class="cv">0</span>].text)</pre></div>
     <span class="cs">"description"</span>: <span class="cs">"Search for information"</span>,
     <span class="cs">"input_schema"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>, <span class="cs">"properties"</span>: {<span class="cs">"query"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>}}}
 }
-
+ 
 <span class="ck"># GOOD tool description — specific when/what/not</span>
 {
     <span class="cs">"name"</span>: <span class="cs">"search_knowledge_base"</span>,
@@ -601,7 +602,7 @@ FAQs, and policy documents. Use this when the user asks about:
 - Product features or specifications
 - Company policies or procedures
 - Troubleshooting steps
-
+ 
 Do NOT use this for: general knowledge questions, math calculations,
 or anything not related to company products and policies."""</span>,
     <span class="cs">"input_schema"</span>: {
@@ -634,7 +635,7 @@ or anything not related to company products and policies."""</span>,
   <div class="cp-body">
     <div class="cb"><pre>from openai import OpenAI
 client = OpenAI()
-
+ 
 <span class="ck"># OpenAI uses slightly different field names</span>
 tools = [{
     <span class="cs">"type"</span>: <span class="cs">"function"</span>,                <span class="ck"># required wrapper</span>
@@ -650,14 +651,14 @@ tools = [{
         }
     }
 }]
-
+ 
 response = client.chat.completions.create(
     model=<span class="cs">"gpt-4o"</span>,
     tools=tools,
     tool_choice=<span class="cs">"auto"</span>,     <span class="ck"># "auto" | "required" | "none" | specific tool</span>
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Weather in Mumbai?"</span>}]
 )
-
+ 
 <span class="ck"># Parse tool calls</span>
 message = response.choices[<span class="cv">0</span>].message
 if message.tool_calls:
@@ -679,20 +680,20 @@ if message.tool_calls:
   <div class="cp-body">
     <div class="cb"><pre>import anthropic, json
 from typing import Any
-
+ 
 client = anthropic.Anthropic()
-
+ 
 <span class="ck"># Tool registry — maps name → function</span>
 TOOL_REGISTRY = {
     <span class="cs">"get_weather"</span>:    get_weather,
     <span class="cs">"calculate"</span>:      calculate,
     <span class="cs">"search_notes"</span>:   search_notes,
 }
-
+ 
 def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="cv">10</span>) -> str:
     """Run a complete tool loop until the model produces a final text response."""
     messages = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
-
+ 
     for turn in range(max_turns):
         response = client.messages.create(
             model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -700,7 +701,7 @@ def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="
             tools=tools,
             messages=messages
         )
-
+ 
         <span class="ck"># Check stop reason</span>
         if response.stop_reason == <span class="cs">"end_turn"</span>:
             <span class="ck"># Model finished — return text response</span>
@@ -708,19 +709,19 @@ def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="
                 if hasattr(block, <span class="cs">"text"</span>):
                     return block.text
             return <span class="cs">""</span>
-
+ 
         if response.stop_reason != <span class="cs">"tool_use"</span>:
             break   <span class="ck"># unexpected stop reason</span>
-
+ 
         <span class="ck"># Append assistant message</span>
         messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
-
+ 
         <span class="ck"># Execute all tool calls</span>
         tool_results = []
         for block in response.content:
             if block.type != <span class="cs">"tool_use"</span>:
                 continue
-
+ 
             func = TOOL_REGISTRY.get(block.name)
             if func is None:
                 result = {<span class="cs">"error"</span>: <span class="cs">f"Unknown tool: {block.name}"</span>}
@@ -729,17 +730,17 @@ def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="
                     result = func(**block.input)
                 except Exception as e:
                     result = {<span class="cs">"error"</span>: str(e), <span class="cs">"tool"</span>: block.name}
-
+ 
             tool_results.append({
                 <span class="cs">"type"</span>:        <span class="cs">"tool_result"</span>,
                 <span class="cs">"tool_use_id"</span>: block.id,
                 <span class="cs">"content"</span>:     json.dumps(result)
             })
-
+ 
         messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
-
+ 
     return <span class="cs">"Max turns reached without final response"</span>
-
+ 
 <span class="ck"># Usage</span>
 answer = run_tool_loop(
     <span class="cs">"What's the weather in Mumbai and Delhi? Which city is warmer?"</span>,
@@ -753,21 +754,21 @@ print(answer)</pre></div>
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>tool_choice — Controlling Which Tool Gets Called</h3><span class="tag tag-blue">Control</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Anthropic tool_choice options</span>
-
+ 
 <span class="ck"># "auto" (default) — model decides whether to use a tool or respond directly</span>
 tool_choice={<span class="cs">"type"</span>: <span class="cs">"auto"</span>}
-
+ 
 <span class="ck"># "any" — model MUST call a tool (useful to force structured extraction)</span>
 tool_choice={<span class="cs">"type"</span>: <span class="cs">"any"</span>}
-
+ 
 <span class="ck"># Specific tool — model MUST call this exact tool</span>
 tool_choice={<span class="cs">"type"</span>: <span class="cs">"tool"</span>, <span class="cs">"name"</span>: <span class="cs">"extract_invoice"</span>}
-
+ 
 <span class="ck"># When to use each:</span>
 <span class="ck"># "auto"     — conversational agents where tool use is optional</span>
 <span class="ck"># "any"      — when you always need structured output (extraction pipelines)</span>
 <span class="ck"># specific   — when you know exactly which tool to force (single-purpose endpoints)</span>
-
+ 
 <span class="ck"># OpenAI equivalents</span>
 tool_choice = <span class="cs">"auto"</span>       <span class="ck"># let model decide</span>
 tool_choice = <span class="cs">"required"</span>   <span class="ck"># must use a tool (= Anthropic "any")</span>
@@ -788,12 +789,12 @@ response = client.messages.create(
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>,
                <span class="cs">"content"</span>: <span class="cs">"Get weather for Mumbai, Delhi, and Bangalore"</span>}]
 )
-
+ 
 <span class="ck"># response.content may contain 3 tool_use blocks simultaneously</span>
 <span class="ck"># Execute all of them, then send all results back at once</span>
-
+ 
 import asyncio
-
+ 
 async def execute_tool_calls_parallel(tool_calls: list) -> list:
     """Execute multiple tool calls concurrently."""
     async def execute_one(block) -> dict:

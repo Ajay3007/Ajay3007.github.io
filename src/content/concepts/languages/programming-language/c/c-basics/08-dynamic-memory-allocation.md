@@ -4,6 +4,7 @@ description: "Dynamic Memory Allocation (Heap) Dynamic memory allocation gives c
 domain: languages
 track: c-fundamentals
 order: 8
+ownHeader: true
 url: /learning/programming-language/c/c-basics/dynamic-memory/
 ---
 

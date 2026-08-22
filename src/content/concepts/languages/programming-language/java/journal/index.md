@@ -3,6 +3,7 @@ title: "Java Learning Journal"
 description: "Java Learning Journal Daily entries documenting Java learning progress."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/journal/
 ---
 

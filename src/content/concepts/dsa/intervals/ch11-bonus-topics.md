@@ -4,6 +4,8 @@ description: "DSA Roadmap › Chapter 11 Bonus Topics Trie Union-Find (DSU) Mono
 domain: dsa
 track: dsa-mastery
 order: 11
+chrome: bare
+ownHeader: true
 url: /learning/dsa/intervals/ch11-bonus-topics/
 ---
 
@@ -44,7 +46,7 @@ url: /learning/dsa/intervals/ch11-bonus-topics/
       <div class="ch-code-wrap">
 <pre><code>Trie Structure: Character-by-Character Branching
   Insert: ['apple', 'app', 'apt', 'bat', 'bad']
-
+ 
               root
              /    \
             a      b
@@ -58,11 +60,11 @@ url: /learning/dsa/intervals/ch11-bonus-topics/
           e
           |
           *
-
+ 
   'app'  -> root->a->p->p*       (isEnd=true at second p)
   'apple' -> root->a->p->p->l->e* (extends 'app' branch)
   'apt'  -> root->a->p->t*       (shares 'ap' with above)
-
+ 
   Search 'app': traverse a->p->p, check isEnd -> true.
   StartsWith 'ap': traverse a->p, node exists -> true.
   Search 'ap': traverse a->p, isEnd=false -> false.</code></pre>
@@ -233,17 +235,17 @@ public:
 <pre><code>Union-Find: Union by Rank + Path Compression
   Elements: {0, 1, 2, 3, 4, 5}  Initially each element is its own set.
   parent = [0, 1, 2, 3, 4, 5]   rank = [0, 0, 0, 0, 0, 0]
-
+ 
   union(0, 1):  find(0)=0, find(1)=1. rank equal -> parent[1]=0, rank[0]++.
   union(2, 3):  find(2)=2, find(3)=3. parent[3]=2, rank[2]++.
   union(0, 2):  find(0)=0, find(2)=2. parent[2]=0, rank[0]++.
   parent = [0, 0, 0, 2, 4, 5]
-
+ 
   find(3) with PATH COMPRESSION:
     find(3) -> parent[3]=2 -> parent[2]=0 -> root=0.
     Compress: parent[3] = 0, parent[2] = 0.
     parent = [0, 0, 0, 0, 4, 5]   (3 now directly points to root 0)
-
+ 
   Sets: Set A: {0, 1, 2, 3}   Set B: {4}   Set C: {5}</code></pre>
       </div>
 
@@ -361,10 +363,10 @@ int numIslands(vector<vector<char>>& grid) {
 <pre><code>Monotonic Stack: Next Greater Element Trace
   Array: [2, 1, 5, 6, 2, 3]
   Goal: find Next Greater Element (NGE) for each index.
-
+ 
   Use a DECREASING monotonic stack. Stack stores INDICES.
   When we pop index j because nums[i] > nums[j], nums[i] is the NGE for j.
-
+ 
   i=0: nums[0]=2. Stack empty. Push 0.        stack=[0]    (values: [2])
   i=1: nums[1]=1. 1 < nums[top]=2 -> push 1.  stack=[0,1]  (values: [2,1])
   i=2: nums[2]=5. 5 > nums[1]=1 -> pop 1, NGE[1]=5.
@@ -374,7 +376,7 @@ int numIslands(vector<vector<char>>& grid) {
   i=4: nums[4]=2. 2 < nums[3]=6 -> push 4.    stack=[3,4]
   i=5: nums[5]=3. 3 > nums[4]=2 -> pop 4, NGE[4]=3. Push 5.
   End: remaining {3,5} have no NGE -> NGE[3]=NGE[5]=-1.
-
+ 
   Result: NGE = [5, 5, 6, -1, 3, -1]
   Each element pushed and popped at most once -> O(n) total.</code></pre>
       </div>

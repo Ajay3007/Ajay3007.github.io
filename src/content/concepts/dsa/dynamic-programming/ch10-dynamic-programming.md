@@ -4,6 +4,8 @@ description: "DSA Roadmap › Chapter 10 Dynamic Programming 1D DP 2D DP Knapsac
 domain: dsa
 track: dsa-mastery
 order: 10
+chrome: bare
+ownHeader: true
 url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
 ---
 
@@ -125,9 +127,9 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
           fib(3) fib(2) fib(2) fib(1)
           /   \
        fib(2) fib(1)
-
+ 
   fib(2) computed 3 times, fib(3) computed 2 times -> exponential O(2^n).
-
+ 
   fib(5) — WITH MEMOISATION:
   memo = {}
   fib(5) -> fib(4) -> fib(3) -> fib(2) -> fib(1) = 1, fib(0) = 0
@@ -136,7 +138,7 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
   fib(4) = fib(3)+fib(2) = 3 -> stored in memo[4]  <- fib(2) read from memo
   fib(3) already in memo -> return memo[3] = 2
   fib(5) = fib(4)+fib(3) = 5
-
+ 
   Each subproblem solved ONCE. Total: O(n) time, O(n) space.</code></pre>
       </div>
 
@@ -145,7 +147,7 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
 <pre><code>Coin Change: Full DP Table Trace
   coins = [1, 5, 6, 9]   amount = 11
   dp[i] = minimum coins to make amount i.  dp[0] = 0, rest = INF initially.
-
+ 
   i=0:  dp[0] = 0
   i=1:  try coin 1: dp[1-1]+1 = dp[0]+1 = 1.  dp[1] = 1
   i=2:  try coin 1: dp[1]+1 = 2.  dp[2] = 2
@@ -166,7 +168,7 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
         coin 9: dp[1]+1=2.  dp[10] = 2
   i=11: coin 1: dp[10]+1=3. coin 5: dp[6]+1=2. coin 6: dp[5]+1=2.
         coin 9: dp[2]+1=3.  dp[11] = 2
-
+ 
   Answer: dp[11] = 2  (coins 5+6 or coins 2+9).  Correct!</code></pre>
       </div>
 
@@ -175,7 +177,7 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
 <pre><code>LCS: DP Table Fill and Traceback
   s1 = 'ABCDE'   s2 = 'ACE'
   dp[i][j] = LCS length of s1[0..i-1] and s2[0..j-1]
-
+ 
        ''  A  C  E
     ''  0  0  0  0
     A   0  1  1  1
@@ -183,11 +185,11 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
     C   0  1  2  2
     D   0  1  2  2
     E   0  1  2  3   <- answer: dp[5][3] = 3
-
+ 
   Recurrence:
   if s1[i-1] == s2[j-1]: dp[i][j] = dp[i-1][j-1] + 1  (extend LCS)
   else:                  dp[i][j] = max(dp[i-1][j], dp[i][j-1])
-
+ 
   Trace the LCS: start at dp[5][3]=3.
   E==E (match): go diagonal to dp[4][2]=2. Track 'E'.
   D!=C:  max(dp[3][2], dp[4][1]) = max(2,1) -> came from dp[3][2].
@@ -202,15 +204,15 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
 <pre><code>0/1 Knapsack: DP Table Fill
   items = [(w=2,v=6), (w=3,v=10), (w=4,v=12)]   capacity W = 5
   dp[i][w] = max value using first i items with capacity w.
-
+ 
         w: 0   1   2   3   4   5
   i=0    : 0   0   0   0   0   0
   i=1(2,6) : 0   0   6   6   6   6
   i=2(3,10): 0   0   6  10  10  16  <- 16 = v1+v2 = 6+10
   i=3(4,12): 0   0   6  10  12  16
-
+ 
   Answer: dp[3][5] = 16.  Items selected: (w=2,v=6) + (w=3,v=10).
-
+ 
   Recurrence:
   if items[i-1].w > w: dp[i][w] = dp[i-1][w]                      // can't include
   else: dp[i][w] = max(dp[i-1][w],                                // exclude

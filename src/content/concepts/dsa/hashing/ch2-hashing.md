@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 2 Chapter 2 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 2
+chrome: bare
+ownHeader: true
 url: /learning/dsa/hashing/ch2-hashing/
 ---
 

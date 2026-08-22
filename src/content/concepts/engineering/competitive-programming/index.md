@@ -3,6 +3,7 @@ title: "Competitive Programming"
 description: "--- 🏆 Competitive Programming Practice, problem-solving techniques, and contest strategy."
 domain: engineering
 order: 0
+ownHeader: true
 url: /learning/competitive-programming/
 ---
 

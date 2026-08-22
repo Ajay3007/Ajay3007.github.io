@@ -3,6 +3,7 @@ title: "System Design"
 description: "🛠️ System Design Learning Hub A structured 24-week course covering Low-Level Design (all 23 GoF patterns), High-Level Design (14 modules), full system design case studies, and…"
 domain: system-design
 order: 0
+ownHeader: true
 url: /learning/system-design/
 ---
 

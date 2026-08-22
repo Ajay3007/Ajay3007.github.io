@@ -4,6 +4,7 @@ description: "Stack Frame and Call Stack The call stack tracks active function c
 domain: languages
 track: c-fundamentals
 order: 3
+ownHeader: true
 url: /learning/programming-language/c/c-basics/stack-frame/
 ---
 

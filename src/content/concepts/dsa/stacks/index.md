@@ -3,6 +3,7 @@ title: "Stacks"
 description: "📋 Practice Problems ⚡ View All Stacks Problems → 4 curated problems • Easy to Hard difficulty 📑 Table of Contents 1."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/stacks/
 ---
 

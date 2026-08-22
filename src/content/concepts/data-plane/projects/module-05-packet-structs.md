@@ -4,6 +4,7 @@ description: "Module 05 — Packet Header Structs & Parser What you learn How to
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-05-packet-structs/
 ---
 

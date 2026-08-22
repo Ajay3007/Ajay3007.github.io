@@ -4,6 +4,7 @@ description: "Logs, metrics, traces — the 3 pillars. Prometheus, distributed t
 domain: engineering
 track: backend
 order: 17
+ownHeader: true
 url: /learning/backend/m17-observability/
 ---
 

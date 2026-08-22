@@ -4,6 +4,7 @@ description: "Module B11 — ACID, Distributed Transactions & Saga Pattern Syste
 domain: system-design
 track: system-design-hld
 order: 123
+ownHeader: true
 url: /learning/system-design/hld/module-b11-notes/
 ---
 

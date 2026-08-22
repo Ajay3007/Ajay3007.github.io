@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 2A · WEEKS 4–5 🧱 vppinfra - Core Librar
 domain: data-plane
 track: vpp
 order: 2
+ownHeader: true
 url: /learning/data-plane/vpp/module-p2-vppinfra/
 ---
 
@@ -207,7 +208,7 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
 +──────────────────────────────────────────────────────+
                   ↑
             your pointer lives here
-
+ 
 <span class="cm">/* The pointer IS the array - C-array compatible */</span>
 <span class="ck">u32</span> *my_vec = 0;          <span class="cm">/* NULL == empty vec, NOT uninitialised */</span>
 vec_add1(my_vec, 42);     <span class="cm">/* grows by 1, may realloc */</span>
@@ -251,23 +252,23 @@ vec_add1(my_vec, 99);
 
 <div class="cb"><pre><span class="cm">/* Typical plugin usage: building a list of sw_if_index values */</span>
 <span class="ck">u32</span> *sw_if_indices = 0;   <span class="cm">/* NULL = empty vec */</span>
-
+ 
 <span class="cm">/* Collect all interfaces matching a condition */</span>
 pool_foreach(hw, im->hw_interfaces) {
     <span class="ck">if</span> (hw->flags & VNET_HW_INTERFACE_FLAG_LINK_UP)
         vec_add1(sw_if_indices, hw->sw_if_index);
 }
-
+ 
 <span class="cm">/* Process them */</span>
 <span class="ck">u32</span> *si;
 vec_foreach(si, sw_if_indices) {
     vnet_sw_interface_t *swif = vnet_get_sw_interface(vnm, *si);
     <span class="cm">/* ... do something with swif */</span>
 }
-
+ 
 <span class="cm">/* Reuse without realloc */</span>
 vec_reset_length(sw_if_indices);
-
+ 
 <span class="cm">/* Or free completely */</span>
 vec_free(sw_if_indices);
 sw_if_indices = 0;</pre></div>
@@ -292,12 +293,12 @@ sw_if_indices = 0;</pre></div>
 <div class="cb"><pre><span class="cm">/* Pool memory model */</span>
 pool = [  obj[0]  |  obj[1]  |  obj[2]  |  obj[3]  | ... ]
          (in use)    (FREE)     (in use)    (FREE)
-
+ 
 free_bitmap = 0b...1010   (bits set = free slots)
-
+ 
 <span class="cm">/* pool_get: find lowest set bit, clear it, return pointer */</span>
 <span class="cm">/* pool_put: set the bit at this index                     */</span>
-
+ 
 <span class="cm">/* Declaration */</span>
 <span class="ck">typedef struct</span> {
     <span class="ck">u32</span>  conn_id;
@@ -305,7 +306,7 @@ free_bitmap = 0b...1010   (bits set = free slots)
     <span class="ck">ip4_address_t</span> src, dst;
     <span class="ck">u8</span>   state;
 } my_session_t;
-
+ 
 my_session_t *session_pool = 0;   <span class="cm">/* NULL = empty pool */</span></pre></div>
 
   </div>
@@ -337,28 +338,28 @@ my_session_t *session_pool = 0;   <span class="cm">/* NULL = empty pool */</span
 <div class="cb"><pre><span class="cm">/* Complete example: per-flow session pool */</span>
 my_session_t *sessions = 0;        <span class="cm">/* pool */</span>
 <span class="ck">uword</span> *session_by_key = 0;         <span class="cm">/* hash: key → pool index */</span>
-
+ 
 <span class="cm">/* Create a session */</span>
 my_session_t *s;
 pool_get_zero(sessions, s);        <span class="cm">/* allocate + zero-fill */</span>
 <span class="ck">u32</span> session_index = s - sessions;  <span class="cm">/* derive index from pointer arithmetic */</span>
 s->conn_id = next_conn_id++;
 s->state = SESSION_STATE_INIT;
-
+ 
 <span class="cm">/* Store in hash by key for fast lookup */</span>
 hash_set(session_by_key, flow_key, session_index);
-
+ 
 <span class="cm">/* Fast-path lookup: key → index → pointer */</span>
 <span class="ck">uword</span> *val = hash_get(session_by_key, flow_key);
 <span class="ck">if</span> (val) {
     s = pool_elt_at_index(sessions, *val);
     <span class="cm">/* s is now valid - use it */</span>
 }
-
+ 
 <span class="cm">/* Destroy a session */</span>
 hash_unset(session_by_key, flow_key);
 pool_put(sessions, s);            <span class="cm">/* marks slot free */</span>
-
+ 
 <span class="cm">/* Walk all active sessions (e.g., for timeout sweep) */</span>
 pool_foreach(s, sessions) {
     <span class="ck">if</span> (now - s->last_seen > SESSION_TIMEOUT)
@@ -383,19 +384,19 @@ pool_foreach(s, sessions) {
     <p>Bihash is VPP's primary hash table for dataplane lookups. Its design is optimised for the read-heavy, write-rare workload of packet forwarding: millions of lookups per second with occasional control-plane insertions.</p>
 
 <div class="cb"><pre><span class="cm">/* Two-level structure */</span>
-
+ 
 Level 1 - Bucket Array (always in memory, fits in L2 cache):
   bucket[0]  → page pointer + lock bit
   bucket[1]  → page pointer + lock bit
   ...
   bucket[N-1]→ page pointer + lock bit
-
+ 
   hash(key) & (N-1) → selects bucket index
-
+ 
 Level 2 - KV Pages (per-bucket, allocated on demand):
   page = [ kvp[0] | kvp[1] | kvp[2] | kvp[3] | ... ]
          (BIHASH_KVP_PER_PAGE entries, default 4 or 8)
-
+ 
 Lookup:
   1. bucket_idx = hash(key) & (N-1)          O(1) - bitmask
   2. page = bucket[bucket_idx].page           O(1) - pointer deref
@@ -425,13 +426,13 @@ Lookup:
 <div class="cb"><pre><span class="cm">/* Include the specific variant you need */</span>
 <span class="cs">#include "vppinfra/bihash_8_8.h"</span>
 <span class="cs">#include "vppinfra/bihash_template.h"</span>  <span class="cm">/* defines BV() macro */</span>
-
+ 
 <span class="cm">/* BV() prepends the type name: BV(clib_bihash_init) → clib_bihash_8_8_init */</span>
 <span class="ck">typedef</span> clib_bihash_8_8_t my_hash_t;
-
+ 
 <span class="cm">/* Key-value pair type */</span>
 clib_bihash_kv_8_8_t kv;   <span class="cm">/* kv.key (u64), kv.value (u64) */</span>
-
+ 
 <span class="cm">/* Initialise (call once, control plane) */</span>
 clib_bihash_8_8_t h;
 <span class="ck">u32</span> nbuckets = 64 * 1024;   <span class="cm">/* power of 2, tuned to expected entries */</span>
@@ -447,10 +448,10 @@ clib_bihash_init_8_8(&h, <span class="cs">"my-flow-table"</span>, nbuckets, mem_
 
 <div class="cb"><pre><span class="cm">/* ── LOOKUP (fast path - called per packet) ── */</span>
 clib_bihash_kv_8_8_t kv;
-
+ 
 <span class="cm">/* Pack key: for 5-tuple flows you'd pack into 8 bytes */</span>
 kv.key = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;   <span class="cm">/* example: src+dst IP */</span>
-
+ 
 <span class="ck">if</span> (PREDICT_TRUE(
     clib_bihash_search_8_8(&h, &kv, &kv) == 0))
 {
@@ -463,13 +464,13 @@ kv.key = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;   <span class
     <span class="cm">/* Miss - new flow, create session */</span>
     goto slow_path;
 }
-
+ 
 <span class="cm">/* ── INSERT (slow path / control plane) ── */</span>
 clib_bihash_kv_8_8_t kv;
 kv.key   = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;
 kv.value = session_idx;                       <span class="cm">/* pool index */</span>
 clib_bihash_add_del_8_8(&h, &kv, 1 <span class="cm">/* is_add */</span>);
-
+ 
 <span class="cm">/* ── DELETE ── */</span>
 kv.key = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;
 kv.value = 0;                                 <span class="cm">/* value irrelevant for delete */</span>
@@ -500,14 +501,14 @@ clib_bihash_add_del_8_8(&h, &kv, 0 <span class="cm">/* is_add=0 means delete */<
 
 <div class="cb"><pre><span class="cm">/* format signature: u8 *format(u8 *s, const char *fmt, ...); */</span>
 <span class="cm">/* Returns the u8-vec with formatted output appended */</span>
-
+ 
 u8 *s = 0;   <span class="cm">/* start with empty vec */</span>
 s = format(s, <span class="cs">"Interface %d IP: %U\n"</span>,
            sw_if_index,
            format_ip4_address, &my_addr);  <span class="cm">/* %U calls format_ip4_address */</span>
 vlib_cli_output(vm, <span class="cs">"%v"</span>, s);             <span class="cm">/* %v = print u8-vec */</span>
 vec_free(s);
-
+ 
 <span class="cm">/* Writing your own format function */</span>
 <span class="ck">static</span> u8 * format_my_flow(u8 *s, va_list *args) {
     my_flow_t *f = va_arg(*args, my_flow_t *);
@@ -517,10 +518,10 @@ vec_free(s);
                f->proto);
     <span class="ck">return</span> s;
 }
-
+ 
 <span class="cm">/* Use it anywhere */</span>
 s = format(0, <span class="cs">"Flow: %U\n"</span>, format_my_flow, &my_flow);
-
+ 
 <span class="cm">/* unformat - parsing */</span>
 unformat_input_t input;
 unformat_init_string(&input, "192.168.1.1");
@@ -545,13 +546,13 @@ ip4_address_t addr;
 <div class="cb"><pre><span class="cm">/* High-resolution time - based on TSC (rdtsc) */</span>
 clib_time_t ct;
 clib_time_init(&ct);
-
+ 
 f64 now = clib_time_now(&ct);        <span class="cm">/* seconds since init, f64 */</span>
 u64 cycles = clib_cpu_time_now();    <span class="cm">/* raw TSC cycles */</span>
-
+ 
 <span class="cm">/* In graph nodes: use vlib_time_now() which is pre-computed per dispatch */</span>
 f64 now = vlib_time_now(vm);  <span class="cm">/* preferred in node functions */</span>
-
+ 
 <span class="cm">/* Timer wheel (tw_timer_*.h) for protocol timeouts */</span>
 <span class="cm">/* Used for TCP retransmit timers, NAT session expiry */</span>
 <span class="cs">#include "vppinfra/tw_timer_2t_1w_2048sl.h"</span>
@@ -568,22 +569,22 @@ tw_timer_wheel_init_2t_1w_2048sl(&tw, expired_cb, 1.0, ~0);</pre></div>
   <div class="cp-body">
 
 <div class="cb"><pre><span class="cm">/* Always use clib_mem_*, never malloc/free in VPP code */</span>
-
+ 
 <span class="cm">/* Basic allocation */</span>
 void *p = clib_mem_alloc(size);
 void *p = clib_mem_alloc_aligned(size, CLIB_CACHE_LINE_BYTES);  <span class="cm">/* 64-byte aligned */</span>
 clib_mem_free(p);
-
+ 
 <span class="cm">/* NUMA-aware allocation */</span>
 clib_mem_set_numa_affinity(numa_node);  <span class="cm">/* set before alloc */</span>
 void *p = clib_mem_alloc_aligned(size, CLIB_CACHE_LINE_BYTES);
 clib_mem_set_default_numa_affinity();   <span class="cm">/* reset */</span>
-
+ 
 <span class="cm">/* Heap introspection */</span>
 clib_mem_usage_t usage;
 clib_mem_get_heap_usage(clib_mem_get_heap(), &usage);
 <span class="cm">/* usage.bytes_used, usage.bytes_free */</span>
-
+ 
 <span class="cm">/* For per-worker allocations: use per-thread heaps */</span>
 <span class="cm">/* vlib sets up per-thread heaps automatically */</span>
 void *old_heap = clib_mem_set_heap(vm->thread_main->heap);

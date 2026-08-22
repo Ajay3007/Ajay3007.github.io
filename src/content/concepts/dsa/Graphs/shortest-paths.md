@@ -3,6 +3,7 @@ title: "Shortest Paths"
 description: "[Shortest Paths]( shortest-paths) --- --- Shortest Paths Dijkstra, Bellman-Ford, BFS on unweighted graphs."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/graphs/shortest-paths/
 ---
 

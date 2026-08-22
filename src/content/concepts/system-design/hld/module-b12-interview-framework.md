@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B12 · WEEK 22 INTERVIE
 domain: system-design
 track: system-design-hld
 order: 124
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b12-interview-framework/
 ---
 
@@ -190,19 +192,19 @@ url: /learning/system-design/hld/module-b12-interview-framework/
   </table>
   <div class="cb"><div class="cb-top">Worked example: Twitter-scale estimation out loud<span class="cb-l">TECHNIQUE</span></div>
 <pre class="c"><span class="cm">// Question: Design Twitter. "Let me estimate scale first."</span>
-
+ 
 DAU: 300M users
 Tweets written: each user tweets 0.5×/day avg → 150M tweets/day
 Reads: 100:1 ratio → 15B reads/day → 15B/86400 ≈ <span class="hl">180K read QPS</span>
 Writes: 150M/86400 ≈ <span class="hl">1,750 write QPS</span> ≈ 2K write QPS
-
+ 
 Storage per tweet: content 140B + metadata 100B + indices ~300B ≈ <span class="hl">550 bytes</span>
 Daily storage: 150M × 550B = <span class="hl">82 GB/day</span>
 10 years: 82 × 365 × 10 ≈ 300 TB (just tweet text, no media)
-
+ 
 Cache for hot tweets: 20% of reads hit 80% of data (Pareto)
 Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="hl">~18 GB hot set</span>
-
+ 
 <span class="cm">// Now I know: I need a system handling 180K reads/sec, 2K writes/sec,</span>
 <span class="cm">// ~80 GB/day new storage, 18 GB hot cache. This drives my design choices.</span></pre>
   </div>

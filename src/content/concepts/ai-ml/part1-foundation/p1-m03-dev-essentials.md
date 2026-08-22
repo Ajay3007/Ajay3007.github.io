@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part1-foundation
 order: 103
+ownHeader: true
 url: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
 ---
 
@@ -194,11 +195,11 @@ url: /learning/ai-ml/part1-foundation/p1-m03-dev-essentials/
 git config --global user.name  <span class="cs">"Ajay Kumar Gupt"</span>
 git config --global user.email <span class="cs">"your@email.com"</span>
 git config --global core.editor <span class="cs">"code --wait"</span>  <span class="ck"># VS Code as editor</span>
-
+ 
 <span class="ck"># ── START A PROJECT ───────────────────────────────────</span>
 git init                        <span class="ck"># initialise new repo in current dir</span>
 git clone &lt;url&gt;                 <span class="ck"># clone existing repo from GitHub</span>
-
+ 
 <span class="ck"># ── DAILY WORKFLOW ────────────────────────────────────</span>
 git status                      <span class="ck"># what changed? (run this constantly)</span>
 git add .                       <span class="ck"># stage all changes</span>
@@ -206,13 +207,13 @@ git add src/main.py             <span class="ck"># stage specific file</span>
 git commit -m <span class="cs">"feat: add streaming response handler"</span>
 git push origin main            <span class="ck"># push to GitHub</span>
 git pull origin main            <span class="ck"># get latest changes</span>
-
+ 
 <span class="ck"># ── HISTORY ───────────────────────────────────────────</span>
 git log --oneline               <span class="ck"># compact commit history</span>
 git log --oneline --graph       <span class="ck"># visualise branch graph</span>
 git diff                        <span class="ck"># unstaged changes</span>
 git diff --staged               <span class="ck"># staged changes (what will be committed)</span>
-
+ 
 <span class="ck"># ── UNDO ──────────────────────────────────────────────</span>
 git restore &lt;file&gt;              <span class="ck"># discard unstaged changes to a file</span>
 git restore --staged &lt;file&gt;     <span class="ck"># unstage a file</span>
@@ -226,23 +227,23 @@ git revert &lt;commit-hash&gt;        <span class="ck"># undo a commit safely (c
     <div class="cb"><pre><span class="ck"># Create and switch to a new branch</span>
 git checkout -b feature/add-rag-pipeline   <span class="ck"># create + switch</span>
 git switch -c feature/add-rag-pipeline     <span class="ck"># modern equivalent</span>
-
+ 
 <span class="ck"># List branches</span>
 git branch          <span class="ck"># local branches</span>
 git branch -a       <span class="ck"># local + remote branches</span>
-
+ 
 <span class="ck"># Switch between branches</span>
 git switch main
 git switch feature/add-rag-pipeline
-
+ 
 <span class="ck"># Merge feature branch into main</span>
 git switch main
 git merge feature/add-rag-pipeline
-
+ 
 <span class="ck"># Delete merged branch</span>
 git branch -d feature/add-rag-pipeline        <span class="ck"># local</span>
 git push origin --delete feature/add-rag-pipeline  <span class="ck"># remote</span>
-
+ 
 <span class="ck"># Push new branch to GitHub for first time</span>
 git push -u origin feature/add-rag-pipeline</pre></div>
     <div class="ins"><p>💡 <strong>Branch naming convention for AI projects:</strong> <code>feat/rag-pipeline</code>, <code>fix/token-overflow</code>, <code>docs/module-p4</code>. Keep branch names short, lowercase, hyphenated. Delete branches after merging — a clean branch list is a healthy repo.</p></div>
@@ -258,24 +259,24 @@ git push -u origin feature/add-rag-pipeline</pre></div>
 .venv/
 venv/
 env/
-
+ 
 <span class="ck"># Secrets — NEVER commit these</span>
 .env
 .env.local
 *.key
 *_secret*
-
+ 
 <span class="ck"># Python artifacts</span>
 __pycache__/
 *.py[cod]
 *.egg-info/
 dist/
 build/
-
+ 
 <span class="ck"># Jupyter</span>
 .ipynb_checkpoints/
 *.ipynb   <span class="ck"># optional — commit notebooks if they are documentation</span>
-
+ 
 <span class="ck"># Data and models — too large for Git</span>
 data/raw/
 *.csv     <span class="ck"># if large; keep small sample CSVs</span>
@@ -284,7 +285,7 @@ data/raw/
 *.bin     <span class="ck"># HuggingFace model files</span>
 chroma_db/
 *.faiss
-
+ 
 <span class="ck"># OS files</span>
 .DS_Store
 Thumbs.db</pre></div>
@@ -297,20 +298,20 @@ Thumbs.db</pre></div>
   <div class="cp-body">
     <p>Your README is the first thing a recruiter, collaborator, or future-you sees. Every project from this roadmap needs one.</p>
     <div class="cb"><pre><span class="ck"># README.md template for AI/ML projects</span>
-
+ 
 # Project Title
 One compelling sentence describing what it does and why it matters.
-
+ 
 ## Problem Statement
 What real problem does this solve? One paragraph.
-
+ 
 ## Demo
 `![screenshot or gif](assets/demo.gif)`
 Live demo: https://your-deployed-app.com
-
+ 
 ## Tech Stack
 Python · FastAPI · LangChain · ChromaDB · Docker
-
+ 
 ## Quick Start
 ```bash
 git clone https://github.com/you/project.git
@@ -319,13 +320,13 @@ cp .env.example .env          # add your API keys
 pip install -r requirements.txt
 python main.py
 ```
-
+ 
 ## Approach
 - Brief description of your methodology (3–5 bullet points)
-
+ 
 ## Results
 Key metrics achieved (e.g. RAG retrieval accuracy: 87%, latency: 340ms)
-
+ 
 ## Project Structure
 ```
 project/
@@ -354,7 +355,7 @@ cd /path/to/dir        <span class="ck"># change directory (absolute path)</span
 cd ..                  <span class="ck"># go up one level</span>
 cd ~                   <span class="ck"># go to home directory</span>
 cd -                   <span class="ck"># go back to previous directory</span>
-
+ 
 <span class="ck"># ── FILES AND DIRECTORIES ─────────────────────────────</span>
 mkdir my-project       <span class="ck"># create directory</span>
 mkdir -p a/b/c         <span class="ck"># create nested dirs in one command</span>
@@ -363,7 +364,7 @@ cp source.py dest.py   <span class="ck"># copy file</span>
 mv old.py new.py       <span class="ck"># rename or move file</span>
 rm file.py             <span class="ck"># delete file (no recycle bin!)</span>
 rm -rf directory/      <span class="ck"># delete directory recursively (irreversible)</span>
-
+ 
 <span class="ck"># ── READING FILES ─────────────────────────────────────</span>
 cat config.py          <span class="ck"># print file contents</span>
 less large_file.log    <span class="ck"># page through large file (q to quit)</span>
@@ -372,7 +373,7 @@ tail -50 app.log       <span class="ck"># last 50 lines (great for log monitorin
 tail -f app.log        <span class="ck"># follow — stream new lines in real time</span>
 grep "ERROR" app.log   <span class="ck"># search for pattern in file</span>
 grep -r "api_key" .    <span class="ck"># search recursively in all files</span>
-
+ 
 <span class="ck"># ── RUNNING PYTHON ────────────────────────────────────</span>
 python main.py                          <span class="ck"># run script</span>
 python -m uvicorn main:app --reload     <span class="ck"># run FastAPI dev server</span>
@@ -388,35 +389,35 @@ python -m pytest tests/                 <span class="ck"># run tests</span></pre
     <div class="cb"><pre><span class="ck"># Set an environment variable in the shell (temporary)</span>
 export OPENAI_API_KEY=<span class="cs">"sk-proj-..."</span>
 export ANTHROPIC_API_KEY=<span class="cs">"sk-ant-..."</span>
-
+ 
 <span class="ck"># Read it back</span>
 echo $OPENAI_API_KEY
-
+ 
 <span class="ck"># Permanent — add to ~/.bashrc or ~/.zshrc</span>
 echo 'export OPENAI_API_KEY="sk-proj-..."' >> ~/.bashrc
 source ~/.bashrc    <span class="ck"># reload without restarting terminal</span>
-
+ 
 <span class="ck"># In Python — the secure pattern for all AI projects</span>
 import os
 from dotenv import load_dotenv
-
+ 
 load_dotenv()   <span class="ck"># reads .env file from project root</span>
 api_key = os.environ.get(<span class="cs">"OPENAI_API_KEY"</span>)
-
+ 
 if not api_key:
     raise ValueError(<span class="cs">"OPENAI_API_KEY not set. Check your .env file."</span>)
-
+ 
 <span class="ck"># .env file (in project root, never committed to Git)</span>
 <span class="ck"># OPENAI_API_KEY=sk-proj-...</span>
 <span class="ck"># ANTHROPIC_API_KEY=sk-ant-...</span>
 <span class="ck"># DATABASE_URL=postgresql://...</span></pre></div>
     <div class="cb"><pre><span class="ck"># PATH — tells your shell where to find executables</span>
 echo $PATH     <span class="ck"># colon-separated list of directories</span>
-
+ 
 <span class="ck"># If 'python' command not found, your Python install dir is missing from PATH</span>
 which python   <span class="ck"># where is Python installed?</span>
 which pip      <span class="ck"># where is pip?</span>
-
+ 
 <span class="ck"># Add a directory to PATH (in ~/.bashrc)</span>
 export PATH=$PATH:/home/user/.local/bin</pre></div>
   </div>
@@ -431,16 +432,16 @@ jobs                      <span class="ck"># list background jobs</span>
 fg                        <span class="ck"># bring last job to foreground</span>
 Ctrl+C                    <span class="ck"># kill foreground process</span>
 Ctrl+Z                    <span class="ck"># suspend foreground process</span>
-
+ 
 <span class="ck"># Find and kill a process using a port (e.g. port 8000)</span>
 lsof -ti:8000             <span class="ck"># find PID using port 8000</span>
 kill -9 $(lsof -ti:8000)  <span class="ck"># kill it</span>
-
+ 
 <span class="ck"># Pipes — chain commands together</span>
 cat data.csv | grep <span class="cs">"2024"</span> | head -20    <span class="ck"># filter and preview</span>
 ps aux | grep python                    <span class="ck"># find Python processes</span>
 cat requirements.txt | wc -l            <span class="ck"># count dependencies</span>
-
+ 
 <span class="ck"># Redirect output to file</span>
 python train.py > train.log 2>&amp;1        <span class="ck"># stdout + stderr to file</span>
 python train.py 2>&amp;1 | tee train.log    <span class="ck"># write to file AND print to terminal</span></pre></div>
@@ -462,7 +463,7 @@ python train.py 2>&amp;1 | tee train.log    <span class="ck"># write to file AND
 <span class="ck"># URL      — where to send it: https://api.anthropic.com/v1/messages</span>
 <span class="ck"># HEADERS  — metadata: Content-Type, Authorization, x-api-key</span>
 <span class="ck"># BODY     — data to send (POST/PUT only): usually JSON</span>
-
+ 
 <span class="ck"># Example: what happens when you call the Anthropic API</span>
 <span class="ck"># POST https://api.anthropic.com/v1/messages</span>
 <span class="ck"># Headers:</span>
@@ -471,7 +472,7 @@ python train.py 2>&amp;1 | tee train.log    <span class="ck"># write to file AND
 <span class="ck">#   content-type: application/json</span>
 <span class="ck"># Body:</span>
 <span class="ck">#   {"model":"claude-3-5-sonnet","max_tokens":1024,"messages":[...]}</span>
-
+ 
 <span class="ck"># An HTTP response has:</span>
 <span class="ck"># STATUS CODE — 200 OK, 400 Bad Request, 401 Unauthorised, 429 Rate Limited, 500 Server Error</span>
 <span class="ck"># HEADERS     — Content-Type, rate limit remaining, request ID</span>
@@ -496,7 +497,7 @@ python train.py 2>&amp;1 | tee train.log    <span class="ck"># write to file AND
   <div class="cp-body">
     <div class="cb"><pre>import requests
 import json
-
+ 
 <span class="ck"># GET request — read data</span>
 response = requests.get(<span class="cs">"https://api.open-meteo.com/v1/forecast"</span>,
     params={
@@ -506,10 +507,10 @@ response = requests.get(<span class="cs">"https://api.open-meteo.com/v1/forecast
         <span class="cs">"timezone"</span>: <span class="cs">"Asia/Kolkata"</span>
     }
 )
-
+ 
 print(response.status_code)   <span class="ck"># 200</span>
 data = response.json()         <span class="ck"># parse JSON body</span>
-
+ 
 <span class="ck"># POST request — send data (how LLM APIs work)</span>
 response = requests.post(
     <span class="cs">"https://api.anthropic.com/v1/messages"</span>,
@@ -524,7 +525,7 @@ response = requests.post(
         <span class="cs">"messages"</span>: [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Hello!"</span>}]
     }
 )
-
+ 
 <span class="ck"># Always check status before using response</span>
 response.raise_for_status()   <span class="ck"># raises HTTPError for 4xx/5xx</span>
 result = response.json()
@@ -556,22 +557,22 @@ def call_api(url: str, payload: dict, headers: dict) -> dict:
   <div class="cp-hdr"><span class="ico">📦</span><h3>JSON Deep Dive</h3><span class="tag tag-teal">Critical for LLM Responses</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import json
-
+ 
 <span class="ck"># Serialise Python → JSON string</span>
 data = {<span class="cs">"name"</span>: <span class="cs">"Ajay"</span>, <span class="cs">"scores"</span>: [<span class="cv">85</span>, <span class="cv">92</span>], <span class="cs">"active"</span>: <span class="cv">True</span>, <span class="cs">"meta"</span>: <span class="cv">None</span>}
 json_str = json.dumps(data)              <span class="ck"># compact</span>
 json_str = json.dumps(data, indent=<span class="cv">2</span>)   <span class="ck"># pretty-printed</span>
-
+ 
 <span class="ck"># Deserialise JSON string → Python</span>
 parsed = json.loads(json_str)
-
+ 
 <span class="ck"># File I/O</span>
 with open(<span class="cs">"data.json"</span>, <span class="cs">"w"</span>) as f:
     json.dump(data, f, indent=<span class="cv">2</span>)
-
+ 
 with open(<span class="cs">"data.json"</span>) as f:
     loaded = json.load(f)
-
+ 
 <span class="ck"># Python ↔ JSON type mapping</span>
 <span class="ck"># Python dict  → JSON object   {}</span>
 <span class="ck"># Python list  → JSON array    []</span>
@@ -579,7 +580,7 @@ with open(<span class="cs">"data.json"</span>) as f:
 <span class="ck"># Python int/float → JSON number</span>
 <span class="ck"># Python True  → JSON true</span>
 <span class="ck"># Python None  → JSON null</span>
-
+ 
 <span class="ck"># Navigating nested LLM API responses</span>
 response = {
     <span class="cs">"id"</span>: <span class="cs">"msg_01"</span>,
@@ -603,22 +604,22 @@ tokens  = response.get(<span class="cs">"usage"</span>, {}).get(<span class="cs"
     <p>LLM API calls take 1–10 seconds each. If you make 10 calls sequentially, you wait 10–100 seconds. Async Python lets you start all 10 calls, then handle them as they complete — total wait ≈ the slowest single call.</p>
     <div class="cb"><pre><span class="ck"># Synchronous — sequential, blocks on each call</span>
 import time
-
+ 
 def slow_api_call(n):
     time.sleep(<span class="cv">2</span>)         <span class="ck"># simulates 2s LLM API call</span>
     return <span class="cs">f"result_{n}"</span>
-
+ 
 start = time.time()
 results = [slow_api_call(i) for i in range(<span class="cv">5</span>)]
 print(<span class="cs">f"Sync: {time.time()-start:.1f}s"</span>)  <span class="ck"># ~10.0s</span>
-
+ 
 <span class="ck"># Asynchronous — concurrent, all run simultaneously</span>
 import asyncio
-
+ 
 async def slow_api_call_async(n):
     await asyncio.sleep(<span class="cv">2</span>)   <span class="ck"># yields control while waiting</span>
     return <span class="cs">f"result_{n}"</span>
-
+ 
 async def main():
     start = time.time()
     results = await asyncio.gather(
@@ -626,7 +627,7 @@ async def main():
     )
     print(<span class="cs">f"Async: {time.time()-start:.1f}s"</span>)  <span class="ck"># ~2.0s</span>
     return results
-
+ 
 asyncio.run(main())</pre></div>
     <div class="ins"><p>💡 <strong>Async does NOT make code faster for CPU-bound work</strong> — it only helps for I/O-bound work (network calls, file reads, database queries). LLM API calls are I/O-bound. Matrix multiplications are CPU-bound. Know the difference.</p></div>
   </div>
@@ -636,7 +637,7 @@ asyncio.run(main())</pre></div>
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Async Syntax and Patterns</h3><span class="tag tag-blue">Core Syntax</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import asyncio, httpx
-
+ 
 <span class="ck"># async def — defines a coroutine (NOT a regular function)</span>
 async def fetch_weather(city: str) -> dict:
     async with httpx.AsyncClient() as client:   <span class="ck"># async HTTP client</span>
@@ -645,10 +646,10 @@ async def fetch_weather(city: str) -> dict:
             params={<span class="cs">"latitude"</span>: <span class="cv">19.07</span>, <span class="cs">"longitude"</span>: <span class="cv">72.87</span>}
         )
         return response.json()
-
+ 
 <span class="ck"># await — pauses current coroutine until awaitable completes</span>
 <span class="ck"># Can only use await INSIDE an async def function</span>
-
+ 
 <span class="ck"># asyncio.gather — run multiple coroutines concurrently</span>
 async def fetch_all_cities():
     results = await asyncio.gather(
@@ -657,7 +658,7 @@ async def fetch_all_cities():
         fetch_weather(<span class="cs">"Bangalore"</span>),
     )
     return results
-
+ 
 <span class="ck"># asyncio.run — entry point for top-level async code</span>
 if __name__ == <span class="cs">"__main__"</span>:
     results = asyncio.run(fetch_all_cities())</pre></div>
@@ -665,13 +666,13 @@ if __name__ == <span class="cs">"__main__"</span>:
 async with httpx.AsyncClient() as client:
     <span class="ck"># client is available here, closed automatically after block</span>
     response = await client.get(url)
-
+ 
 <span class="ck"># Async iteration — async for</span>
 async def stream_response():
     async with anthropic_client.messages.stream(...) as stream:
         async for text in stream.text_stream:
             print(text, end=<span class="cs">""</span>, flush=<span class="cv">True</span>)
-
+ 
 <span class="ck"># asyncio.create_task — fire and forget (don't wait immediately)</span>
 async def main():
     task1 = asyncio.create_task(fetch_weather(<span class="cs">"Mumbai"</span>))
@@ -689,21 +690,21 @@ async def main():
 async def bad():
     result = fetch_weather(<span class="cs">"Mumbai"</span>)   <span class="ck"># returns coroutine object, not result!</span>
     print(result)                       <span class="ck"># prints &lt;coroutine object ...&gt;</span>
-
+ 
 async def good():
     result = await fetch_weather(<span class="cs">"Mumbai"</span>)   <span class="ck"># correct</span>
-
+ 
 <span class="ck"># MISTAKE 2 — calling async function without await at top level</span>
 fetch_weather(<span class="cs">"Mumbai"</span>)        <span class="ck"># creates coroutine but never runs it</span>
 asyncio.run(fetch_weather(<span class="cs">"Mumbai"</span>))   <span class="ck"># correct</span>
-
+ 
 <span class="ck"># MISTAKE 3 — using time.sleep instead of asyncio.sleep in async code</span>
 async def bad_sleep():
     time.sleep(<span class="cv">2</span>)       <span class="ck"># BLOCKS the entire event loop — kills concurrency</span>
-
+ 
 async def good_sleep():
     await asyncio.sleep(<span class="cv">2</span>)   <span class="ck"># yields control to event loop</span>
-
+ 
 <span class="ck"># MISTAKE 4 — using requests (sync) in async code</span>
 <span class="ck"># Use httpx.AsyncClient() or aiohttp instead of requests in async functions</span></pre></div>
     <div class="ins"><p>💡 <strong>Rule of thumb:</strong> If you are inside an <code>async def</code> function, any blocking I/O call (requests, time.sleep, file reads with slow storage) must be replaced with its async equivalent. Mixing sync blocking calls into async code defeats the entire purpose.</p></div>
@@ -716,11 +717,11 @@ async def good_sleep():
     <div class="cb"><pre><span class="ck"># FastAPI — all route handlers can be async</span>
 from fastapi import FastAPI
 app = FastAPI()
-
+ 
 @app.get(<span class="cs">"/health"</span>)
 async def health_check():
     return {<span class="cs">"status"</span>: <span class="cs">"ok"</span>}
-
+ 
 @app.post(<span class="cs">"/chat"</span>)
 async def chat(message: str):
     <span class="ck"># await the LLM call — non-blocking</span>
@@ -730,10 +731,10 @@ async def chat(message: str):
         messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: message}]
     )
     return {<span class="cs">"reply"</span>: response.content[<span class="cv">0</span>].text}
-
+ 
 <span class="ck"># Anthropic SDK — async client</span>
 import anthropic
-
+ 
 async def ask_claude(prompt: str) -> str:
     client = anthropic.AsyncAnthropic()   <span class="ck"># async client</span>
     message = await client.messages.create(
@@ -818,7 +819,7 @@ async def ask_claude(prompt: str) -> str:
 import asyncio, httpx, json
 from pathlib import Path
 from datetime import datetime
-
+ 
 BASE_URL = <span class="cs">"https://api.open-meteo.com/v1/forecast"</span>
 CITIES = {
     <span class="cs">"Mumbai"</span>:    (<span class="cv">19.07</span>, <span class="cv">72.87</span>),
@@ -827,7 +828,7 @@ CITIES = {
     <span class="cs">"Chennai"</span>:   (<span class="cv">13.08</span>, <span class="cv">80.27</span>),
     <span class="cs">"Kolkata"</span>:   (<span class="cv">22.57</span>, <span class="cv">88.36</span>),
 }
-
+ 
 async def fetch_city(client: httpx.AsyncClient, city: str, lat: float, lon: float) -> dict:
     <span class="ck"># Your implementation here</span>
     ...</pre></div>

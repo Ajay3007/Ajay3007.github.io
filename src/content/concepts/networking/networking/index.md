@@ -3,6 +3,7 @@ title: "Networking"
 description: "--- 🌐 Networking Fundamentals of computer networks and protocols."
 domain: networking
 order: 0
+ownHeader: true
 url: /learning/networking/
 ---
 

@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part6-agents
 order: 619
+ownHeader: true
 url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
 ---
 
@@ -152,7 +153,7 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
     <div class="cb"><pre><span class="ck"># NOT an agent — you decide what to call:</span>
 weather = get_weather(<span class="cs">"Mumbai"</span>)       <span class="ck"># you chose to call this</span>
 summary = summarise(weather)          <span class="ck"># you chose to call this next</span>
-
+ 
 <span class="ck"># IS an agent — the LLM decides what to call:</span>
 <span class="ck"># User: "Should I carry an umbrella in Mumbai today?"</span>
 <span class="ck">#</span>
@@ -188,24 +189,24 @@ summary = summarise(weather)          <span class="ck"># you chose to call this 
     <p>ReAct (Reasoning + Acting) is the foundational agent pattern. Before using any framework, build it from scratch.</p>
     <div class="cb"><pre>import anthropic, json
 from typing import Any
-
+ 
 client = anthropic.Anthropic()
-
+ 
 <span class="ck"># ── Tool definitions ──────────────────────────────────</span>
 def search_web(query: str) -> str:
     return <span class="cs">f"Search results for '{query}': [simulated results about {query}]"</span>
-
+ 
 def calculate(expression: str) -> str:
     try:
         result = eval(expression, {<span class="cs">"__builtins__"</span>: {}})
         return <span class="cs">f"{expression} = {result}"</span>
     except Exception as e:
         return <span class="cs">f"Error: {e}"</span>
-
+ 
 def get_current_time() -> str:
     from datetime import datetime
     return datetime.now().strftime(<span class="cs">"%Y-%m-%d %H:%M:%S"</span>)
-
+ 
 TOOLS = [
     {<span class="cs">"name"</span>: <span class="cs">"search_web"</span>,
      <span class="cs">"description"</span>: <span class="cs">"Search the web for current information. Use when you need facts not in your training data."</span>,
@@ -220,16 +221,16 @@ TOOLS = [
      <span class="cs">"description"</span>: <span class="cs">"Get the current date and time."</span>,
      <span class="cs">"input_schema"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>, <span class="cs">"properties"</span>: {}}},
 ]
-
+ 
 TOOL_REGISTRY = {<span class="cs">"search_web"</span>: search_web,
                  <span class="cs">"calculate"</span>: calculate,
                  <span class="cs">"get_current_time"</span>: get_current_time}
-
+ 
 <span class="ck"># ── ReAct agent loop ──────────────────────────────────</span>
 def run_agent(user_message: str, system: str = <span class="cs">""</span>,
               max_turns: int = <span class="cv">10</span>) -> str:
     messages = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
-
+ 
     for turn in range(max_turns):
         response = client.messages.create(
             model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -238,18 +239,18 @@ def run_agent(user_message: str, system: str = <span class="cs">""</span>,
             tools=TOOLS,
             messages=messages
         )
-
+ 
         <span class="ck"># Agent finished — return final text</span>
         if response.stop_reason == <span class="cs">"end_turn"</span>:
             for block in response.content:
                 if hasattr(block, <span class="cs">"text"</span>):
                     return block.text
             return <span class="cs">""</span>
-
+ 
         <span class="ck"># Agent wants to use tools</span>
         if response.stop_reason == <span class="cs">"tool_use"</span>:
             messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
-
+ 
             tool_results = []
             for block in response.content:
                 if block.type != <span class="cs">"tool_use"</span>:
@@ -262,17 +263,17 @@ def run_agent(user_message: str, system: str = <span class="cs">""</span>,
                         result = func(**block.input)
                     except Exception as e:
                         result = {<span class="cs">"error"</span>: str(e)}
-
+ 
                 tool_results.append({
                     <span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
                     <span class="cs">"tool_use_id"</span>: block.id,
                     <span class="cs">"content"</span>: str(result)
                 })
-
+ 
             messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
-
+ 
     return <span class="cs">f"Agent reached max_turns ({max_turns}) without completing."</span>
-
+ 
 <span class="ck"># Run the agent</span>
 answer = run_agent(
     <span class="cs">"What is the square root of 1764, and what day of the week is it today?"</span>
@@ -292,37 +293,37 @@ print(answer)</pre></div>
     <div class="cb"><pre>from dataclasses import dataclass, field
 from typing import Any, Optional
 from datetime import datetime
-
+ 
 @dataclass
 class AgentState:
     <span class="ck"># Core</span>
     messages:      list[dict]       = field(default_factory=list)
     turn_count:    int              = <span class="cv">0</span>
     started_at:    str              = field(default_factory=lambda: datetime.utcnow().isoformat())
-
+ 
     <span class="ck"># Tool tracking</span>
     tools_called:  list[str]        = field(default_factory=list)
     tool_results:  dict[str, Any]   = field(default_factory=dict)
-
+ 
     <span class="ck"># Working memory — agent can store intermediate findings</span>
     scratch_pad:   dict[str, Any]   = field(default_factory=dict)
-
+ 
     <span class="ck"># Task tracking</span>
     goal:          str              = <span class="cs">""</span>
     subtasks:      list[str]        = field(default_factory=list)
     completed:     list[str]        = field(default_factory=list)
     status:        str              = <span class="cs">"running"</span>   <span class="ck"># running | waiting | done | failed</span>
-
+ 
     <span class="ck"># Human interaction</span>
     awaiting_approval: bool         = <span class="cv">False</span>
     pending_action:    Optional[dict] = None
-
+ 
 def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
     if state is None:
         state = AgentState(goal=user_message)
-
+ 
     state.messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message})
-
+ 
     while state.status == <span class="cs">"running"</span> and state.turn_count < <span class="cv">10</span>:
         state.turn_count += <span class="cv">1</span>
         response = client.messages.create(
@@ -331,16 +332,16 @@ def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
             tools=TOOLS,
             messages=state.messages
         )
-
+ 
         if response.stop_reason == <span class="cs">"end_turn"</span>:
             state.status = <span class="cs">"done"</span>
             for block in response.content:
                 if hasattr(block, <span class="cs">"text"</span>):
                     state.messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: block.text})
             break
-
+ 
         state.messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
-
+ 
         tool_results = []
         for block in response.content:
             if block.type != <span class="cs">"tool_use"</span>:
@@ -350,9 +351,9 @@ def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
             state.tool_results[block.id] = result
             tool_results.append({<span class="cs">"type"</span>: <span class="cs">"tool_result"</span>,
                                   <span class="cs">"tool_use_id"</span>: block.id, <span class="cs">"content"</span>: str(result)})
-
+ 
         state.messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
-
+ 
     return state</pre></div>
   </div>
 </div>
@@ -366,27 +367,27 @@ def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
   <div class="cp-body">
     <p>LangGraph models agents as graphs: nodes (functions that transform state), edges (connections between nodes), and conditional edges (routes based on current state). It adds persistence, checkpointing, and human-in-the-loop out of the box.</p>
     <div class="cb"><pre>pip install langgraph langchain-anthropic
-
+ 
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_anthropic import ChatAnthropic
 from langchain_core.messages import HumanMessage, AIMessage, ToolMessage
 from typing import TypedDict, Annotated
 import operator
-
+ 
 <span class="ck"># ── 1. Define state schema ────────────────────────────</span>
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]   <span class="ck"># reducer: add new messages</span>
-
+ 
 <span class="ck"># ── 2. Define nodes ───────────────────────────────────</span>
 llm = ChatAnthropic(model=<span class="cs">"claude-3-5-sonnet-20241022"</span>)
 llm_with_tools = llm.bind_tools(langchain_tools)   <span class="ck"># tools bound to LLM</span>
-
+ 
 def call_llm(state: AgentState) -> dict:
     <span class="cs">"""LLM node — decides what to do next."""</span>
     response = llm_with_tools.invoke(state[<span class="cs">"messages"</span>])
     return {<span class="cs">"messages"</span>: [response]}
-
+ 
 def execute_tools(state: AgentState) -> dict:
     <span class="cs">"""Tool node — executes all pending tool calls."""</span>
     last_message = state[<span class="cs">"messages"</span>][-<span class="cv">1</span>]
@@ -399,7 +400,7 @@ def execute_tools(state: AgentState) -> dict:
             tool_call_id=tool_call[<span class="cs">"id"</span>]
         ))
     return {<span class="cs">"messages"</span>: tool_results}
-
+ 
 <span class="ck"># ── 3. Conditional edge — route based on state ────────</span>
 def should_continue(state: AgentState) -> str:
     <span class="cs">"""Return 'tools' if LLM wants to call tools, 'end' if done."""</span>
@@ -407,24 +408,24 @@ def should_continue(state: AgentState) -> str:
     if hasattr(last, <span class="cs">"tool_calls"</span>) and last.tool_calls:
         return <span class="cs">"tools"</span>
     return <span class="cs">"end"</span>
-
+ 
 <span class="ck"># ── 4. Build the graph ────────────────────────────────</span>
 graph = StateGraph(AgentState)
-
+ 
 graph.add_node(<span class="cs">"llm"</span>,   call_llm)
 graph.add_node(<span class="cs">"tools"</span>, execute_tools)
-
+ 
 graph.set_entry_point(<span class="cs">"llm"</span>)
 graph.add_conditional_edges(<span class="cs">"llm"</span>, should_continue, {
     <span class="cs">"tools"</span>: <span class="cs">"tools"</span>,
     <span class="cs">"end"</span>:   END
 })
 graph.add_edge(<span class="cs">"tools"</span>, <span class="cs">"llm"</span>)   <span class="ck"># after tools, always go back to LLM</span>
-
+ 
 <span class="ck"># ── 5. Compile with checkpointer (persistence) ────────</span>
 memory  = MemorySaver()
 agent   = graph.compile(checkpointer=memory)
-
+ 
 <span class="ck"># ── 6. Run the agent ──────────────────────────────────</span>
 config  = {<span class="cs">"configurable"</span>: {<span class="cs">"thread_id"</span>: <span class="cs">"session-123"</span>}}
 result  = agent.invoke(
@@ -440,22 +441,22 @@ print(result[<span class="cs">"messages"</span>][-<span class="cv">1</span>].con
   <div class="cp-hdr"><span class="ico">📊</span><h3>LangGraph State Reducers — Advanced Patterns</h3><span class="tag tag-blue">Power Feature</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Reducers control how state is updated when nodes return new values</span>
-
+ 
 from typing import TypedDict, Annotated
 import operator
-
+ 
 class ResearchState(TypedDict):
     <span class="ck"># operator.add — appends new items to existing list</span>
     messages:    Annotated[list, operator.add]
     sources:     Annotated[list, operator.add]
-
+ 
     <span class="ck"># No reducer — node's returned value REPLACES current value</span>
     current_task: str
     is_complete:  bool
-
+ 
     <span class="ck"># Custom reducer — keep only last 10 messages</span>
     short_memory: Annotated[list, lambda old, new: (old + new)[-<span class="cv">10</span>:]]
-
+ 
 <span class="ck"># Parallel nodes — execute concurrently in the graph</span>
 graph.add_node(<span class="cs">"search"</span>,    search_node)
 graph.add_node(<span class="cs">"calculate"</span>, calc_node)
@@ -476,17 +477,17 @@ graph.add_edge([<span class="cs">"search"</span>, <span class="cs">"calculate"</
   <div class="cp-body">
     <p>Never let an agent autonomously send emails, delete data, make purchases, or call external APIs without human approval. LangGraph's interrupt mechanism pauses the graph at any node, waits for human input, then resumes.</p>
     <div class="cb"><pre>from langgraph.graph import StateGraph, END, interrupt
-
+ 
 <span class="ck"># ── Interrupt before executing a tool ─────────────────</span>
 SENSITIVE_TOOLS = {<span class="cs">"send_email"</span>, <span class="cs">"delete_record"</span>, <span class="cs">"make_payment"</span>}
-
+ 
 def execute_tools_with_approval(state: AgentState) -> dict:
     last_message = state[<span class="cs">"messages"</span>][-<span class="cv">1</span>]
     tool_results = []
-
+ 
     for tool_call in last_message.tool_calls:
         tool_name = tool_call[<span class="cs">"name"</span>]
-
+ 
         if tool_name in SENSITIVE_TOOLS:
             <span class="ck"># Pause and ask human for approval</span>
             approval = interrupt({
@@ -500,31 +501,31 @@ def execute_tools_with_approval(state: AgentState) -> dict:
                     tool_call_id=tool_call[<span class="cs">"id"</span>]
                 ))
                 continue
-
+ 
         <span class="ck"># Approved or non-sensitive — execute</span>
         result = TOOL_REGISTRY[tool_name](**tool_call[<span class="cs">"args"</span>])
         tool_results.append(ToolMessage(content=str(result),
                                         tool_call_id=tool_call[<span class="cs">"id"</span>]))
-
+ 
     return {<span class="cs">"messages"</span>: tool_results}
-
+ 
 <span class="ck"># ── Resuming after human approval ─────────────────────</span>
 <span class="ck"># When the graph is interrupted, it returns a snapshot</span>
 <span class="ck"># The human inspects and provides a response</span>
 <span class="ck"># Then you resume with Command(resume=response)</span>
-
+ 
 from langgraph.types import Command
-
+ 
 <span class="ck"># Graph pauses here, returns to caller</span>
 result = agent.invoke(task, config)
-
+ 
 <span class="ck"># Human reviews the interrupt value</span>
 pending = result[<span class="cs">"__interrupt__"</span>]
 print(<span class="cs">f"Waiting for approval: {pending[0]['value']}"</span>)
-
+ 
 <span class="ck"># Human approves (or rejects)</span>
 human_response = {<span class="cs">"approved"</span>: <span class="cv">True</span>}   <span class="ck"># or False</span>
-
+ 
 <span class="ck"># Resume the graph from where it paused</span>
 result = agent.invoke(Command(resume=human_response), config)</pre></div>
     <div class="warn"><p>⚠️ <strong>Human-in-the-loop is not optional for consequential actions.</strong> An agent that autonomously sends emails, deletes records, or makes API calls is an accident waiting to happen. Always implement interrupt-based approval for irreversible or high-stakes tool calls (OWASP LLM08: Excessive Agency).</p></div>

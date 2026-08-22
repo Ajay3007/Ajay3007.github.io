@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 1 · MODULE 02 · WEEKS 1–2 🔌 Eth
 domain: networking
 track: networking-mastery
 order: 2
+ownHeader: true
 url: /learning/networking-mastery/m02-ethernet-l2/
 ---
 
@@ -378,17 +379,17 @@ FCS/CRC        :  4 bytes  (usually stripped by NIC)
 Interframe Gap :  12 bytes (minimum idle time between frames — layer 1)
 ─────────────────────────
 Wire overhead  :  38 bytes per frame (preamble + header + FCS + IFG)
-
+ 
 <span class="cm">/* Efficiency at minimum frame size (64 bytes) */</span>
 Payload bytes  : 46 bytes (64 - 14 header - 4 FCS = 46)
 Wire bytes     : 64 + 8 preamble + 12 IFG = 84 bytes total
 Efficiency     : 46 / 84 = 54.8%  ← terrible! lots of overhead for small pkts
-
+ 
 <span class="cm">/* Efficiency at maximum frame size (1518 bytes) */</span>
 Payload bytes  : 1500 bytes
 Wire bytes     : 1518 + 8 + 12 = 1538 bytes
 Efficiency     : 1500 / 1538 = 97.5%  ← much better
-
+ 
 <span class="cm">/* This is WHY jumbo frames (MTU 9000) help in data centres */</span>
 <span class="cm">/* Fewer frames per byte = less header processing overhead */</span></pre></div>
   </div>
@@ -459,19 +460,19 @@ Efficiency     : 1500 / 1538 = 97.5%  ← much better
 
 <div class="cb"><pre><span class="cm">/* Reading MAC address bits in C (network byte order) */</span>
 uint8_t mac[6] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
-
+ 
 <span class="cm">/* Check if unicast or multicast/broadcast */</span>
 <span class="ck">if</span> (mac[0] & 0x01)
     printf(<span class="cs">"Multicast or broadcast\n"</span>);
 <span class="ck">else</span>
     printf(<span class="cs">"Unicast\n"</span>);
-
+ 
 <span class="cm">/* Check if globally or locally administered */</span>
 <span class="ck">if</span> (mac[0] & 0x02)
     printf(<span class="cs">"Locally administered MAC\n"</span>);
 <span class="ck">else</span>
     printf(<span class="cs">"Globally unique (OUI assigned)\n"</span>);
-
+ 
 <span class="cm">/* Broadcast check: all bytes == 0xFF */</span>
 <span class="ck">if</span> (memcmp(mac, "\xff\xff\xff\xff\xff\xff", 6) == 0)
     printf(<span class="cs">"Broadcast frame\n"</span>);</pre></div>
@@ -484,25 +485,25 @@ uint8_t mac[6] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
 <div class="cb"><pre><span class="cm"># Show MAC address of all interfaces</span>
 ip link show
 <span class="cm"># Output: link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff</span>
-
+ 
 <span class="cm"># Show just eth0's MAC</span>
 ip link show eth0 | awk '/ether/ {print $2}'
-
+ 
 <span class="cm"># Show MAC in /sys filesystem (useful in scripts)</span>
 cat /sys/class/net/eth0/address
-
+ 
 <span class="cm"># Temporarily spoof/change MAC address</span>
 ip link set eth0 down
 ip link set eth0 address 02:00:00:00:00:01
 ip link set eth0 up
 <span class="cm"># Note: bit 1 of first byte = 1 (locally administered)</span>
-
+ 
 <span class="cm"># Show neighbour (ARP) table — maps IP → MAC</span>
 ip neigh show
-
+ 
 <span class="cm"># Show ARP table with arp command (older)</span>
 arp -n
-
+ 
 <span class="cm"># In Wireshark: filter by MAC</span>
 <span class="cm"># eth.dst == aa:bb:cc:dd:ee:ff</span>
 <span class="cm"># eth.src == aa:bb:cc:dd:ee:ff</span>
@@ -811,16 +812,16 @@ ip link set eth0.10 up
 ip link set eth0.20 up
 ip addr add 10.10.0.1/24 dev eth0.10
 ip addr add 10.20.0.1/24 dev eth0.20
-
+ 
 <span class="cm"># Show VLAN info</span>
 cat /proc/net/vlan/config
 ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
-
+ 
 <span class="cm"># In VPP — create VLAN subinterface on a DPDK port</span>
 <span class="cm"># vppctl: create sub-interfaces GigabitEthernet0/8/0 10</span>
 <span class="cm"># vppctl: set interface state GigabitEthernet0/8/0.10 up</span>
 <span class="cm"># vppctl: set interface ip address GigabitEthernet0/8/0.10 10.10.0.1/24</span>
-
+ 
 <span class="cm"># Wireshark VLAN filter</span>
 <span class="cm"># vlan.id == 10         — show only VLAN 10 frames</span>
 <span class="cm"># vlan.priority == 6    — show high-priority tagged frames</span></pre></div>
@@ -952,7 +953,7 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
 #include &lt;net/ethernet.h&gt;
 #include &lt;net/if.h&gt;
 #include &lt;arpa/inet.h&gt;</span>
-
+ 
 <span class="ck">struct</span> arp_frame {
     <span class="cm">/* Ethernet header */</span>
     uint8_t  eth_dst[6];   <span class="cm">/* 6 bytes */</span>
@@ -969,7 +970,7 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     uint8_t  target_mac[6];
     uint8_t  target_ip[4];
 } __attribute__((packed));
-
+ 
 <span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> *argv[]) {
     <span class="ck">int</span> sock = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
     <span class="cm">/* TODO: fill frame, sendto(), receive reply */</span>

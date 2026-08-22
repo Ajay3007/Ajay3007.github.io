@@ -3,6 +3,7 @@ title: "Arrays"
 description: "Arrays Mastery Guide Welcome to the complete hub for Array."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/arrays/
 ---
 

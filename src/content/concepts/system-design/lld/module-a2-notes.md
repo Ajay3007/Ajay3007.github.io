@@ -4,6 +4,8 @@ description: "System Design Roadmap › Module A2 › Full Notes Module A2 — C
 domain: system-design
 track: system-design-lld
 order: 5
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a2-notes/
 ---
 

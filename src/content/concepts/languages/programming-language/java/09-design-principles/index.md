@@ -3,6 +3,7 @@ title: "Design Principles"
 description: "Design Principles SOLID principles and clean code practices."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/09-design-principles/
 ---
 

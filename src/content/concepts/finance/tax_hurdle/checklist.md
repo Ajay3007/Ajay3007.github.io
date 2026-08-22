@@ -3,6 +3,7 @@ title: "Checklist"
 description: "Tax Hurdle — Implementation Checklist Track progress on code improvements and enhancements."
 domain: finance
 order: 99
+ownHeader: true
 url: /learning/finance/tax_hurdle/checklist/
 ---
 

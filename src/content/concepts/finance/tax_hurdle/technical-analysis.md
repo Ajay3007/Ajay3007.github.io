@@ -3,6 +3,7 @@ title: "Technical Analysis"
 description: "Tax Hurdle — Technical Architecture & Code Analysis Deep dive into design patterns, implementation details, and code quality assessment."
 domain: finance
 order: 99
+ownHeader: true
 url: /learning/finance/tax_hurdle/technical-analysis/
 ---
 

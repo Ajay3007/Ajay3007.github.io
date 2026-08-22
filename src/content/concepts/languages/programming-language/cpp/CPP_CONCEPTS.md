@@ -3,6 +3,7 @@ title: "Cpp_Concepts"
 description: "C++ Concepts Explained Using FTP PCAP Analyzer Project This document explains important C++ concepts used in the FTP PCAP Analyzer project with simple theory, examples, and…"
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/cpp/CPP_CONCEPTS/
 ---
 

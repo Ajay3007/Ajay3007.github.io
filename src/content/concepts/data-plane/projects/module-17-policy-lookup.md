@@ -4,6 +4,7 @@ description: "Module 17 — Two-tier Policy Lookup Requires Hyperscan (libhs) ."
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-17-policy-lookup/
 ---
 

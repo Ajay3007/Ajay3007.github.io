@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 2 · MODULE 07 · WEEKS 5–6 🔍 DNS
 domain: networking
 track: networking-mastery
 order: 7
+ownHeader: true
 url: /learning/networking-mastery/m07-dns/
 ---
 
@@ -207,7 +208,7 @@ url: /learning/networking-mastery/m07-dns/
   <div class="cp-body">
     <p>DNS is a globally distributed, hierarchical, delegated database. No single server knows all DNS records — the information is distributed across millions of servers worldwide, each authoritative for a specific portion (zone) of the namespace.</p>
 <div class="cb"><pre><span class="cm">/* DNS hierarchy */</span>
-
+ 
 .                           <span class="cm"># Root zone — 13 root server clusters (a.root-servers.net through m.)</span>
 ├── com.                    <span class="cm"># TLD (Top-Level Domain) — managed by Verisign</span>
 │   ├── google.com.         <span class="cm"># Second-level domain — Google's zone</span>
@@ -217,19 +218,19 @@ url: /learning/networking-mastery/m07-dns/
 ├── in.                     <span class="cm"># Country-code TLD (India)</span>
 │   └── jio.in.             <span class="cm"># Jio's zone under .in</span>
 └── io.                     <span class="cm"># Another TLD</span>
-
+ 
 <span class="cm">/* Three types of DNS servers */</span>
-
+ 
 1. Recursive Resolver (Recursor)
    - Your network's DNS server (DHCP-assigned: 8.8.8.8, 1.1.1.1, or your ISP's)
    - Does the work: queries root → TLD → authoritative on behalf of clients
    - Caches results for the TTL duration
-
+ 
 2. Authoritative Name Server
    - Owns the actual DNS records for a zone
    - Configured by the domain owner (Google manages google.com's NS)
    - Returns definitive answers — not forwarding, not caching
-
+ 
 3. Root Name Servers
    - 13 clusters (a through m), each replicated globally via anycast
    - Know only which TLD servers to ask — do NOT know final answers
@@ -322,18 +323,18 @@ url: /learning/networking-mastery/m07-dns/
 <div class="cb"><pre><span class="cs">#include &lt;netdb.h&gt;
 #include &lt;sys/socket.h&gt;
 #include &lt;arpa/inet.h&gt;</span>
-
+ 
 <span class="cm">/* High-level: getaddrinfo() — handles DNS + IPv4/IPv6 */</span>
 <span class="ck">struct</span> addrinfo hints = {0}, *res;
 hints.ai_family   = AF_UNSPEC;     <span class="cm">/* IPv4 or IPv6 */</span>
 hints.ai_socktype = SOCK_STREAM;   <span class="cm">/* TCP */</span>
-
+ 
 <span class="ck">int</span> rc = getaddrinfo(<span class="cs">"www.google.com"</span>, <span class="cs">"443"</span>, &hints, &res);
 <span class="ck">if</span> (rc != 0) {
     fprintf(stderr, <span class="cs">"DNS error: %s\n"</span>, gai_strerror(rc));
     <span class="ck">return</span> -1;
 }
-
+ 
 <span class="cm">/* Iterate through returned addresses (may have both A and AAAA) */</span>
 <span class="ck">for</span> (<span class="ck">struct</span> addrinfo *p = res; p; p = p->ai_next) {
     <span class="ck">char</span> ipstr[INET6_ADDRSTRLEN];
@@ -349,7 +350,7 @@ hints.ai_socktype = SOCK_STREAM;   <span class="cm">/* TCP */</span>
     printf(<span class="cs">"Resolved: %s\n"</span>, ipstr);
 }
 freeaddrinfo(res);
-
+ 
 <span class="cm">/* Low-level: res_query() for custom DNS queries */</span>
 <span class="cs">#include &lt;resolv.h&gt;</span>
 uint8_t answer[512];
@@ -424,15 +425,15 @@ uint8_t answer[512];
 \x06 g  o  o  g  l  e <span class="cm"># length=6, then "google"</span>
 \x03 c  o  m           <span class="cm"># length=3, then "com"</span>
 \x00                   <span class="cm"># null terminator = root</span>
-
+ 
 Total: 1+3 + 1+6 + 1+3 + 1 = 16 bytes
-
+ 
 <span class="cm">/* DNS compression — avoid repeating names */</span>
 <span class="cm">/* A pointer (2 bytes starting with bits 11) points to a prior occurrence */</span>
 \xc0 \x0c  <span class="cm"># 0xC0 = 11000000 (pointer marker), 0x0c = offset 12 in message</span>
 <span class="cm">/* "The name at offset 12 in this message" */</span>
 <span class="cm">/* Greatly reduces packet size when multiple RRs share domain names */</span>
-
+ 
 <span class="cm">/* Parse domain name in C */</span>
 <span class="ck">int</span> parse_name(const uint8_t *msg, int msg_len, int offset, <span class="ck">char</span> *out) {
     <span class="ck">int</span> out_pos = 0;
@@ -466,7 +467,7 @@ Total: 1+3 + 1+6 + 1+3 + 1 = 16 bytes
 <div class="cb"><pre><span class="cm"># Observe DNS in action</span>
 tcpdump -i eth0 -n 'port 53' -v      <span class="cm"># capture all DNS, verbose</span>
 tcpdump -i eth0 -n 'port 53 and tcp' <span class="cm"># only TCP DNS (large responses)</span>
-
+ 
 <span class="cm"># Query DNS manually</span>
 dig www.google.com                    <span class="cm"># A query, default resolver</span>
 dig @8.8.8.8 www.google.com A        <span class="cm"># specify resolver and type</span>
@@ -556,14 +557,14 @@ nslookup -type=NS google.com         <span class="cm"># NS records</span></pre><
 google.com. TXT "v=spf1 include:_spf.google.com ~all"
 <span class="cm"># ~all = softfail (mark but deliver), -all = fail (reject), +all = pass all</span>
 <span class="cm"># NGFW checks: does sending server's IP match SPF? If not → suspicious</span>
-
+ 
 <span class="cm">/* DKIM — DomainKeys Identified Mail (RFC 6376) */</span>
 <span class="cm">/* TXT record holding public key for email signature verification */</span>
 google._domainkey.google.com. TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqh..."
 <span class="cm"># Sending server signs email header/body with private key</span>
 <span class="cm"># Receiver verifies signature using public key from DNS</span>
 <span class="cm"># NGFW can verify DKIM signatures on inbound email</span>
-
+ 
 <span class="cm">/* DMARC — Domain-based Message Authentication, Reporting and Conformance */</span>
 _dmarc.google.com. TXT "v=DMARC1; p=reject; rua=mailto:dmarc@google.com"
 <span class="cm"># p=none/quarantine/reject — what to do with SPF/DKIM failures</span>
@@ -585,22 +586,22 @@ _dmarc.google.com. TXT "v=DMARC1; p=reject; rua=mailto:dmarc@google.com"
 <div class="cb"><pre><span class="cm">/* TTL field in DNS Resource Records */</span>
 www.google.com.  300 IN A 142.250.x.x
 <span class="cm">#                ↑ TTL in seconds — cached for 300s (5 minutes)</span>
-
+ 
 <span class="cm">/* When a recursive resolver returns a cached answer */</span>
 Original TTL:  300 seconds
 Query at T=0:  resolver caches, returns TTL=300
 Query at T=60: resolver returns from cache, TTL=240  (remaining)
 Query at T=300: cache expired, resolver re-queries authoritative
-
+ 
 <span class="cm">/* TTL strategy tradeoffs */</span>
 Low TTL  (60–300s):   fast failover on IP change, but more DNS queries
 High TTL (3600–86400s): fewer queries, but changes take longer to propagate
 TTL=0:   no caching — every query goes to authoritative (rare, special cases)
-
+ 
 <span class="cm">/* Checking cached DNS on Linux */</span>
 resolvectl query www.google.com      <span class="cm"># shows TTL remaining</span>
 systemd-resolve --statistics         <span class="cm"># cache hit/miss stats</span>
-
+ 
 <span class="cm">/* Flush DNS cache */</span>
 sudo resolvectl flush-caches          <span class="cm"># systemd-resolved</span>
 sudo systemctl restart nscd           <span class="cm"># nscd</span>
@@ -615,16 +616,16 @@ ipconfig /flushdns                    <span class="cm"># Windows</span></pre></d
 <div class="cb"><pre><span class="cm">/* Negative caching (RFC 2308) */</span>
 Query:   www.doesnotexist.example.com A
 Response: RCODE=3 (NXDOMAIN)
-
+ 
 Negative TTL: taken from SOA minimum field (often 300–3600 seconds)
 Resolver caches: "www.doesnotexist.example.com A → NXDOMAIN" for TTL seconds
-
+ 
 <span class="cm">/* Why this matters for NGFW */</span>
 <span class="cm"># Malware C2 domains often use DGA (Domain Generation Algorithms)</span>
 <span class="cm"># Generates thousands of random domains per day</span>
 <span class="cm"># Only the attacker's active C2 domain resolves — rest return NXDOMAIN</span>
 <span class="cm"># Unusually high NXDOMAIN rate from a host = potential DGA/malware indicator</span>
-
+ 
 <span class="cm">/* NGFW DNS analytics: track per-client NXDOMAIN rate */</span>
 <span class="cm"># Normal: 0–5% NXDOMAIN rate</span>
 <span class="cm"># Suspicious: >20% NXDOMAIN from single host in 1 minute</span>
@@ -653,22 +654,22 @@ Resolver caches: "www.doesnotexist.example.com A → NXDOMAIN" for TTL seconds
   <div class="cp-hdr"><span class="ico">🔗</span><h3>DNSSEC Chain of Trust</h3><span class="tag tag-blue">MECHANISM</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* DNSSEC chain of trust — from root down to leaf record */</span>
-
+ 
 Root Zone (.)
   DNSKEY (KSK) → signed by root's private key (the "trust anchor")
   DNSKEY (ZSK) → signs all records in root zone
   DS record for .com → hash of .com's KSK, signed by root ZSK
-
+ 
 .com TLD Zone
   DNSKEY (KSK) → matches hash in root's DS record
   DNSKEY (ZSK) → signs all records in .com zone
   DS record for google.com → hash of google.com's KSK, signed by .com ZSK
-
+ 
 google.com Zone
   DNSKEY (KSK + ZSK) → KSK matches hash in .com's DS record
   RRSIG (www.google.com A) → digital signature over A record, signed by ZSK
   A record: www.google.com → 142.250.x.x
-
+ 
 <span class="cm">/* Resolver validation */</span>
 1. Resolver has root trust anchor pre-configured (IANA root key)
 2. Verifies .com's KSK against root's DS record
@@ -676,7 +677,7 @@ google.com Zone
 4. Verifies www.google.com A record against google.com's RRSIG
 5. If all signatures valid → AD flag set in response (Authenticated Data)
 6. If any signature fails → SERVFAIL returned to client (not the forged answer)
-
+ 
 <span class="cm">/* Check DNSSEC validation */</span>
 dig +dnssec @8.8.8.8 www.google.com A
 <span class="cm"># Look for "ad" flag in flags section — means DNSSEC validated</span>
@@ -743,38 +744,38 @@ dig +dnssec @8.8.8.8 google.com DNSKEY
 
     <h4>NGFW Implications of DoH — The Inspection Bypass Problem</h4>
 <div class="cb"><pre><span class="cm">/* The DoH bypass problem */</span>
-
+ 
 Traditional NGFW:
   Client → DNS query UDP 53 → NGFW intercepts/logs → Resolver
   NGFW sees: "who is resolving malware-c2.com?" → BLOCK + ALERT
-
+ 
 With DoH (Firefox/Chrome built-in):
   Client → HTTPS to 1.1.1.1:443 → NGFW sees encrypted HTTPS → Resolver
   NGFW sees: "HTTPS traffic to 1.1.1.1" — cannot inspect query!
   malware-c2.com resolves successfully, client connects
-
+ 
 <span class="cm">/* NGFW strategies to regain DNS visibility */</span>
-
+ 
 Strategy 1: Block known DoH resolvers by IP
   Block 1.1.1.1 (Cloudflare), 8.8.8.8 (Google), 9.9.9.9 (Quad9) to port 443
   Force clients to use internal resolver (DNS policy in DHCP)
   Limitation: new DoH resolvers added constantly, list grows
-
+ 
 Strategy 2: TLS inspection (SSL inspection)
   NGFW acts as MITM for all HTTPS connections
   Decrypts → inspects DNS-over-HTTPS → re-encrypts
   Limitation: requires deploying custom CA cert to all clients
   Limitation: many apps use certificate pinning (defeats MITM)
-
+ 
 Strategy 3: Split-horizon DNS
   Internal DNS resolver configured to intercept all DNS queries
   Forward to DoH upstream, inspect responses before returning
   Clients only use internal resolver (enforced by firewall rule)
-
+ 
 Strategy 4: Application-layer control
   Group Policy (Windows) / MDM (mobile) to disable browser DoH
   Chrome: CHROME_DNS_OVER_HTTPS=off, Firefox: network.trr.mode=0
-
+ 
 <span class="cm"># Detect DoH in traffic — Wireshark filter</span>
 <span class="cm"># HTTP/2 POST to /dns-query path = DoH</span>
 http2.headers.path == "/dns-query"</pre></div>
@@ -845,44 +846,44 @@ http2.headers.path == "/dns-query"</pre></div>
   <div class="cp-body">
     <p>DNS tunnelling is one of the most common data exfiltration techniques because DNS is almost never blocked at firewalls — it's essential for all network connectivity. Tools like <code>iodine</code>, <code>dnscat2</code>, and <code>dns2tcp</code> implement full bidirectional TCP-over-DNS tunnels.</p>
 <div class="cb"><pre><span class="cm">/* How DNS tunnelling works */</span>
-
+ 
 Attacker controls: tunnel.attacker.com NS ns.attacker.com
                    ns.attacker.com A → attacker's server
-
+ 
 Client wants to exfiltrate: "secret data"
   Encode "secret data" as base32/base64: "ONQW2YLHEBQW4"
   Query: ONQW2YLHEBQW4.tunnel.attacker.com A
-
+ 
 DNS recursive resolver → attacker's NS server
 Attacker's NS server: "resolves" the query (reads the encoded data)
 Response: 127.0.0.1 (or any IP — carries response data in AAAA/TXT/CNAME)
-
+ 
 Client reads response:
   TXT record → encoded response data from attacker
   Bidirectional channel established!
-
+ 
 <span class="cm">/* Detection signatures in DNS traffic */</span>
-
+ 
 1. Label entropy:
    Normal:     www.google.com           (low entropy, readable words)
    Tunnelling: xK2mNpQr8vBz.tunnel.c2  (high entropy, random-looking)
-
+ 
 2. Label length:
    Normal:     max 5-15 chars per label
    Tunnelling: 30-63 chars per label (max allowed by DNS)
-
+ 
 3. Query frequency:
    Normal:     1-10 DNS queries/minute to a domain
    Tunnelling: 100-1000 queries/minute to same base domain
-
+ 
 4. Query uniqueness:
    Normal:     mostly same hostnames repeated (cached)
    Tunnelling: every query to tunnel.c2.com has a UNIQUE subdomain
-
+ 
 5. Response size:
    Normal:     A record = 4 bytes, AAAA = 16 bytes
    Tunnelling: TXT record with 200+ bytes of encoded data
-
+ 
 <span class="cm">/* NGFW detection rule (pseudo-code) */</span>
 if (dns_label_entropy > 3.5 AND
     subdomain_length > 30 AND
@@ -902,12 +903,12 @@ if (dns_label_entropy > 3.5 AND
   <div class="cp-body">
     <p>DNS sinkholing redirects DNS queries for known-malicious domains to a "sinkhole" IP — either a local server that logs the connection attempt, or 0.0.0.0 (drops silently). This is the single most cost-effective threat blocking technique: one DNS record blocks an entire attack infrastructure, stopping malware C2, phishing, and malware distribution sites before any TCP connection is made.</p>
 <div class="cb"><pre><span class="cm">/* DNS sinkhole architecture */</span>
-
+ 
 Normal:
   Client → DNS: "what is malware-c2.com?"
   Resolver → Authoritative: real answer → 185.x.x.x (C2 server)
   Client → TCP connection to 185.x.x.x → malware beacons home
-
+ 
 With sinkhole:
   Client → DNS: "what is malware-c2.com?"
   NGFW intercepts query (transparent DNS proxy on UDP 53)
@@ -915,24 +916,24 @@ With sinkhole:
   NGFW returns: NXDOMAIN  (or sinkhole IP 10.0.0.254)
   Client: can't resolve domain → malware can't phone home
   NGFW logs: "host 10.0.0.5 queried known-malicious domain malware-c2.com"
-
+ 
 <span class="cm">/* Implementation approaches */</span>
-
+ 
 1. Transparent DNS proxy (most common)
    NGFW intercepts all UDP/TCP port 53 traffic
    Checks query against threat feed (bihash lookup)
    Modifies response or drops query
-
+ 
 2. RPZ (Response Policy Zones) — RFC 8020, BIND/Unbound feature
    Operator configures "fake" DNS zone with override records
    zone "rpz.local" { type master; ... }
    Any query matching RPZ zone gets overridden response
-
+ 
 3. DNS Firewall (inline)
    Full NGFW DNS proxy — receives queries, applies policy, forwards to upstream
    Can apply category filtering (block all "gambling", "adult content" domains)
    Can enforce SafeSearch DNS (redirect Google/YouTube to safe variants)
-
+ 
 <span class="cm">/* Threat intelligence feeds for DNS */</span>
 Malware domains:     abuse.ch URLhaus, Malware Domain List
 C2 infrastructure:   Emerging Threats, Talos
@@ -968,44 +969,44 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
 <span class="ck">int</span> dns_proxy_main() {
     <span class="ck">int</span> sock = socket(AF_INET, SOCK_DGRAM, 0);
     bind_to_port(sock, 53);
-
+ 
     <span class="ck">while</span> (1) {
         uint8_t buf[512];
         <span class="ck">struct</span> sockaddr_in client;
         socklen_t clen = <span class="ck">sizeof</span>(client);
-
+ 
         ssize_t n = recvfrom(sock, buf, <span class="ck">sizeof</span>(buf), 0,
                             (<span class="ck">struct</span> sockaddr *)&client, &clen);
-
+ 
         <span class="cm">/* Parse DNS header */</span>
         uint16_t txid  = ntohs(*(uint16_t *)buf);
         uint16_t flags = ntohs(*(uint16_t *)(buf + 2));
         <span class="ck">int</span> is_query = !(flags >> 15);   <span class="cm">/* QR bit = 0 → query */</span>
-
+ 
         <span class="ck">if</span> (!is_query) <span class="ck">continue</span>;         <span class="cm">/* ignore responses */</span>
-
+ 
         <span class="cm">/* Parse QNAME */</span>
         <span class="ck">char</span> domain[256];
         parse_name(buf, n, 12, domain);  <span class="cm">/* question starts at offset 12 */</span>
-
+ 
         <span class="cm">/* Check threat feed (bihash lookup by domain) */</span>
         <span class="ck">if</span> (is_malicious(domain)) {
             send_nxdomain(sock, buf, n, txid, &client, clen);
             log_blocked(client.sin_addr, domain);
             <span class="ck">continue</span>;
         }
-
+ 
         <span class="cm">/* Check domain category for content filtering */</span>
         <span class="ck">if</span> (category_blocked(domain, get_client_policy(&client))) {
             send_refused(sock, buf, n, txid, &client, clen);
             <span class="ck">continue</span>;
         }
-
+ 
         <span class="cm">/* Forward to upstream resolver */</span>
         forward_to_upstream(sock, buf, n, &client, clen);
     }
 }
-
+ 
 <span class="cm">/* Send NXDOMAIN response */</span>
 <span class="ck">void</span> send_nxdomain(int sock, uint8_t *query, int qlen,
                   uint16_t txid, <span class="ck">struct</span> sockaddr_in *client,

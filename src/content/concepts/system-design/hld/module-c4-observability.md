@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK C · MODULE C4 · WEEK 28 METRICS �
 domain: system-design
 track: system-design-hld
 order: 208
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c4-observability/
 ---
 
@@ -121,18 +123,18 @@ url: /learning/system-design/hld/module-c4-observability/
 <pre class="c"><span class="cm">// COUNTER — monotonically increasing. Use rate() to get per-second rate.</span>
 http_requests_total{method="GET", status="200"} 145231
 <span class="kw">rate</span>(http_requests_total[<span class="str">5m</span>])  <span class="cm">→ requests/sec over 5-min window</span>
-
+ 
 <span class="cm">// GAUGE — current value, can go up or down. Query directly.</span>
 process_memory_bytes 524288000          <span class="cm">→ 500MB currently in use</span>
 db_connection_pool_active 45            <span class="cm">→ 45 of 100 connections in use</span>
-
+ 
 <span class="cm">// HISTOGRAM — distribution in buckets. Enables percentile calculation.</span>
 http_request_duration_seconds_bucket{le=<span class="str">"0.05"</span>}  8920   <span class="cm">≤50ms: 8920 requests</span>
 http_request_duration_seconds_bucket{le=<span class="str">"0.1"</span>}   9543   <span class="cm">≤100ms: 9543 requests</span>
 http_request_duration_seconds_bucket{le=<span class="str">"0.5"</span>}   9981   <span class="cm">≤500ms: 9981 requests</span>
 http_request_duration_seconds_bucket{le=<span class="str">"Inf"</span>}  10000   <span class="cm">total: 10000 requests</span>
 <span class="cm">// p99: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))</span>
-
+ 
 <span class="cm">// USE method (for resources): Utilization, Saturation, Errors</span>
 <span class="cm">// RED method (for services): Rate, Errors, Duration</span></pre>
   </div>
@@ -158,17 +160,17 @@ http_request_duration_seconds_bucket{le=<span class="str">"Inf"</span>}  10000  
   <span class="str">"duration_ms"</span>:  234,
   <span class="str">"host"</span>:         <span class="str">"payment-pod-7d4b9c"</span>
 }
-
+ 
 <span class="cm">// log levels: DEBUG (dev) → INFO (business events) → WARN (recoverable)</span>
 <span class="cm">//             → ERROR (needs investigation) → FATAL (immediate action)</span>
-
+ 
 <span class="cm">// Log pipeline: App → Fluentd/Logstash → Kafka (buffer) → Elasticsearch → Kibana</span>
 <span class="cm">// Cheaper alternative: App → Promtail → Loki (label-based) → Grafana</span>
-
+ 
 <span class="cm">// TAIL-BASED SAMPLING (preferred):</span>
 <span class="cm">// Keep 100% of ERROR/WARN logs. Sample 1% of INFO. Discard DEBUG.</span>
 <span class="cm">// Preserves signal, reduces storage cost by ~50x on high-traffic services.</span>
-
+ 
 <span class="cm">// Retention tiers:</span>
 <span class="cm">// Hot  (Elasticsearch):  7 days   → fast full-text search, recent incidents</span>
 <span class="cm">// Warm (S3-backed):      30 days  → slower queries, post-incident review</span>
@@ -183,7 +185,7 @@ http_request_duration_seconds_bucket{le=<span class="str">"Inf"</span>}  10000  
   <div class="cb"><div class="cb-top">Trace waterfall — spotting the bottleneck at a glance<span class="cb-l">TRACE EXAMPLE</span></div>
 <pre class="c"><span class="cm">// Trace: place_order request (trace_id: abc123)</span>
 <span class="cm">// Each bar = one span (one service's processing time)</span>
-
+ 
 Span 1: API Gateway          |████████████████████████| 95ms total
   Span 2: Auth Service         |██| 3ms
   Span 3: Order Service          |████████████████| 80ms total
@@ -191,20 +193,20 @@ Span 1: API Gateway          |████████████████�
     Span 5: MySQL write            |████████████| <span class="er">60ms  ← BOTTLENECK</span>
     Span 6: Kafka publish          |██| 4ms
   Span 7: Notification Service   |████| 8ms
-
+ 
 <span class="cm">// Without tracing: "order service is slow" — check all of its dependencies</span>
 <span class="cm">// With tracing: "MySQL write is taking 60ms" — go check DB explain plan, indexes</span>
-
+ 
 <span class="cm">// Context propagation via HTTP headers (B3 format, used by Zipkin/Jaeger):</span>
 X-B3-TraceId:    <span class="str">abc123def456789</span>   <span class="cm">← same for all spans in this trace</span>
 X-B3-SpanId:     <span class="str">7890abcd</span>           <span class="cm">← unique per span</span>
 X-B3-ParentSpanId: <span class="str">1234efgh</span>         <span class="cm">← parent span's ID</span>
 X-B3-Sampled:    <span class="str">1</span>                  <span class="cm">← 1=sample this trace, 0=don't</span>
-
+ 
 <span class="cm">// OpenTelemetry (OTel): vendor-neutral standard</span>
 <span class="cm">// Write instrumentation once → export to Jaeger, Datadog, or any backend</span>
 <span class="cm">// SDK: Java, Python, Go, Node.js — all supported</span>
-
+ 
 <span class="cm">// Sampling strategy:</span>
 <span class="cm">// Head-based: decide at trace root (random 1%) — simple but misses rare errors</span>
 <span class="cm">// Tail-based: decide after trace completes — keep 100% of errors/slow traces</span>
@@ -242,21 +244,21 @@ SLA MUST be weaker than SLO — leave a buffer for incidents + measurement gaps.
   </div>
   <div class="cb"><div class="cb-top">Error budget calculation — the math behind the policy<span class="cb-l">MATH</span></div>
 <pre class="c"><span class="cm">// Error budget = 100% - SLO = allowed failure rate</span>
-
+ 
 SLO = <span class="hl">99.9%</span>  →  error budget = <span class="hl">0.1%</span> of requests may fail
   Over 30 days: 0.001 × 30d × 24h × 60m = <span class="gr">43.2 minutes</span> total downtime allowed
-
+ 
 SLO = <span class="hl">99.99%</span> →  error budget = <span class="hl">0.01%</span>
   Over 30 days: <span class="ye">4.38 minutes</span> total downtime allowed
-
+ 
 SLO = <span class="hl">99.5%</span>  →  error budget = <span class="hl">0.5%</span>
   Over 30 days: <span class="gr">3.6 hours</span> total downtime allowed
-
+ 
 <span class="cm">// Choose SLO based on tier, not ambition:</span>
 Critical path (payment, auth login):  <span class="ye">99.99%</span>  →  4.38 min/month
 Core product (feed, search, API):     <span class="gr">99.9%</span>   → 43.2 min/month
 Non-critical (analytics, recs, admin):<span class="gr">99.5%</span>   →  3.6 hr/month
-
+ 
 <span class="cm">// Tighter SLO = fewer feature deployments = slower iteration</span>
 <span class="cm">// Setting 99.99% for everything = no deploys ever = engineering paralysis</span></pre>
   </div>
@@ -307,7 +309,7 @@ Non-critical (analytics, recs, admin):<span class="gr">99.5%</span>   →  3.6 h
 <pre class="c"><span class="cm">// Burn rate = how fast you're consuming the error budget</span>
 <span class="cm">// Burn rate 1.0 = consuming at exactly the SLO rate (budget depletes at month end)</span>
 <span class="cm">// Burn rate 14.4 = consuming 14.4× faster → 1hr window consumes 2% of 30-day budget</span>
-
+ 
 <span class="cm">// FAST BURN — page immediately (short window catches acute outage)</span>
 <span class="kw">alert</span>: ErrorBudgetBurnFast
 <span class="kw">expr</span>: <span class="fn">rate</span>(http_errors[<span class="str">1h</span>]) / <span class="fn">rate</span>(http_requests[<span class="str">1h</span>]) > (<span class="hl">14.4</span> * 0.001)
@@ -315,18 +317,18 @@ Non-critical (analytics, recs, admin):<span class="gr">99.5%</span>   →  3.6 h
 <span class="kw">for</span>: 2m
 <span class="kw">severity</span>: <span class="er">page</span>
 <span class="kw">message</span>: <span class="str">"Fast error budget burn — action required immediately"</span>
-
+ 
 <span class="cm">// SLOW BURN — urgent ticket (longer window catches gradual degradation)</span>
 <span class="kw">alert</span>: ErrorBudgetBurnSlow
 <span class="kw">expr</span>: <span class="fn">rate</span>(http_errors[<span class="str">6h</span>]) / <span class="fn">rate</span>(http_requests[<span class="str">6h</span>]) > (<span class="hl">6</span> * 0.001)
 <span class="kw">for</span>: 15m
 <span class="kw">severity</span>: <span class="ye">ticket</span>
-
+ 
 <span class="cm">// BAD ALERT — avoid "CPU > 80%"</span>
 <span class="er">// CPU can be high while system is healthy (batch job running)</span>
 <span class="er">// CPU can be low while system is broken (stuck waiting for DB)</span>
 <span class="cm">// Alert on what users experience, not what internal resources are doing</span>
-
+ 
 <span class="cm">// Alert fatigue rule: if alert fires &gt;1/shift → raise threshold, add duration, or demote</span></pre>
   </div>
 </div>

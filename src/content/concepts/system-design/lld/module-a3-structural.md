@@ -4,6 +4,8 @@ description: "Track A · LLD · Module A3 · Week 5 Structural Patterns Adapter 
 domain: system-design
 track: system-design-lld
 order: 6
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a3-structural/
 ---
 
@@ -169,7 +171,7 @@ url: /learning/system-design/lld/module-a3-structural/
     <span class="m3-kw">void</span> <span class="m3-fn">dispense</span>();
     <span class="m3-kw">int</span>  <span class="m3-fn">getChange</span>();
 }
-
+ 
 <span class="m3-cm">// Third-party machine — incompatible interface</span>
 <span class="m3-kw">class</span> <span class="m3-cls">NewVendorMachine</span> {
     <span class="m3-kw">public void</span> <span class="m3-fn">payAmount</span>(<span class="m3-kw">double</span> rupees) { <span class="m3-cm">/* ... */</span> }
@@ -177,13 +179,13 @@ url: /learning/system-design/lld/module-a3-structural/
     <span class="m3-kw">public void</span> <span class="m3-fn">releaseItem</span>()             { <span class="m3-cm">/* ... */</span> }
     <span class="m3-kw">public double</span> <span class="m3-fn">calculateChange</span>()       { <span class="m3-kw">return</span> 5.50; }
 }
-
+ 
 <span class="m3-cm">// ADAPTER — wraps new vendor machine, speaks old interface</span>
 <span class="m3-kw">class</span> <span class="m3-cls">VendingMachineAdapter</span> <span class="m3-kw">implements</span> <span class="m3-cls">VendingMachine</span> {
     <span class="m3-kw">private final</span> <span class="m3-cls">NewVendorMachine</span> adaptee;
-
+ 
     <span class="m3-kw">public</span> <span class="m3-cls">VendingMachineAdapter</span>(<span class="m3-cls">NewVendorMachine</span> m) { <span class="m3-kw">this</span>.adaptee = m; }
-
+ 
     <span class="m3-ann">@Override</span>
     <span class="m3-kw">public void</span> <span class="m3-fn">insertCoin</span>(<span class="m3-kw">int</span> amount) {
         adaptee.<span class="m3-fn">payAmount</span>(amount / <span class="m3-str">100.0</span>); <span class="m3-cm">// paise → rupees</span>
@@ -198,7 +200,7 @@ url: /learning/system-design/lld/module-a3-structural/
     <span class="m3-ann">@Override</span>
     <span class="m3-kw">public int</span>   <span class="m3-fn">getChange</span>()  { <span class="m3-kw">return</span> (<span class="m3-kw">int</span>)(adaptee.<span class="m3-fn">calculateChange</span>() * <span class="m3-str">100</span>); }
 }
-
+ 
 <span class="m3-cm">// Client m3-code unchanged — still speaks VendingMachine</span>
 <span class="m3-cls">VendingMachine</span> vm = <span class="m3-kw">new</span> <span class="m3-cls">VendingMachineAdapter</span>(<span class="m3-kw">new</span> <span class="m3-cls">NewVendorMachine</span>());
 vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<span class="m3-fn">selectProduct</span>(<span class="m3-str">"A1"</span>); vm.<span class="m3-fn">dispense</span>();</pre></div>
@@ -216,18 +218,18 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     </div>
     <div class="m3-m3-code-section"><div class="m3-m3-code-hdr">PizzaDecorator.java<span class="m3-m3-code-lang">JAVA</span></div>
 <pre class="m3-code"><span class="m3-kw">interface</span> <span class="m3-cls">Pizza</span> { <span class="m3-cls">String</span> <span class="m3-fn">getDescription</span>(); <span class="m3-kw">double</span> <span class="m3-fn">getCost</span>(); }
-
+ 
 <span class="m3-kw">class</span> <span class="m3-cls">MargheritaPizza</span> <span class="m3-kw">implements</span> <span class="m3-cls">Pizza</span> {
     <span class="m3-kw">public</span> <span class="m3-cls">String</span> <span class="m3-fn">getDescription</span>() { <span class="m3-kw">return</span> <span class="m3-str">"Margherita"</span>; }
     <span class="m3-kw">public double</span> <span class="m3-fn">getCost</span>()        { <span class="m3-kw">return</span> <span class="m3-str">200.0</span>; }
 }
-
+ 
 <span class="m3-cm">// ABSTRACT DECORATOR — IS-A Pizza AND HAS-A Pizza</span>
 <span class="m3-kw">abstract class</span> <span class="m3-cls">ToppingDecorator</span> <span class="m3-kw">implements</span> <span class="m3-cls">Pizza</span> {
     <span class="m3-kw">protected final</span> <span class="m3-cls">Pizza</span> pizza;
     <span class="m3-kw">public</span> <span class="m3-cls">ToppingDecorator</span>(<span class="m3-cls">Pizza</span> p) { <span class="m3-kw">this</span>.pizza = p; }
 }
-
+ 
 <span class="m3-cm">// Concrete decorators — each adds exactly one topping</span>
 <span class="m3-kw">class</span> <span class="m3-cls">CheeseDecorator</span> <span class="m3-kw">extends</span> <span class="m3-cls">ToppingDecorator</span> {
     <span class="m3-kw">public</span> <span class="m3-cls">CheeseDecorator</span>(<span class="m3-cls">Pizza</span> p) { <span class="m3-kw">super</span>(p); }
@@ -239,7 +241,7 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     <span class="m3-kw">public double</span> <span class="m3-fn">getCost</span>()        { <span class="m3-kw">return</span> pizza.<span class="m3-fn">getCost</span>() + <span class="m3-str">35.0</span>; }
     <span class="m3-kw">public</span> <span class="m3-cls">MushroomDecorator</span>(<span class="m3-cls">Pizza</span> p) { <span class="m3-kw">super</span>(p); }
 }
-
+ 
 <span class="m3-cm">// Runtime composition — any order, any combination</span>
 <span class="m3-cls">Pizza</span> order = <span class="m3-kw">new</span> <span class="m3-cls">CheeseDecorator</span>(
                  <span class="m3-kw">new</span> <span class="m3-cls">MushroomDecorator</span>(
@@ -263,31 +265,31 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     <span class="m3-cls">Car</span> <span class="m3-fn">rentCar</span>(<span class="m3-cls">String</span> model, <span class="m3-cls">User</span> user);
     <span class="m3-kw">void</span> <span class="m3-fn">returnCar</span>(<span class="m3-cls">String</span> carId, <span class="m3-cls">User</span> user);
 }
-
+ 
 <span class="m3-kw">class</span> <span class="m3-cls">CarRentalProxy</span> <span class="m3-kw">implements</span> <span class="m3-cls">CarRentalService</span> {
     <span class="m3-kw">private final</span> <span class="m3-cls">CarRentalServiceImpl</span> real;
     <span class="m3-kw">private final</span> <span class="m3-cls">AuthService</span> auth;
     <span class="m3-kw">private final</span> <span class="m3-cls">Logger</span> log;
-
+ 
     <span class="m3-ann">@Override</span>
     <span class="m3-kw">public</span> <span class="m3-cls">Car</span> <span class="m3-fn">rentCar</span>(<span class="m3-cls">String</span> model, <span class="m3-cls">User</span> user) {
         <span class="m3-cm">// 1. Authorization (Protection Proxy)</span>
         <span class="m3-kw">if</span> (!auth.<span class="m3-fn">hasValidLicense</span>(user))
             <span class="m3-kw">throw new</span> <span class="m3-cls">UnauthorizedException</span>(<span class="m3-str">"No valid license"</span>);
-
+ 
         <span class="m3-cm">// 2. Pre-logging</span>
         log.<span class="m3-fn">log</span>(<span class="m3-str">"Renting "</span> + model + <span class="m3-str">" for user "</span> + user.<span class="m3-fn">getId</span>());
-
+ 
         <span class="m3-cm">// 3. Delegate to real service</span>
         <span class="m3-cls">Car</span> car = real.<span class="m3-fn">rentCar</span>(model, user);
-
+ 
         <span class="m3-cm">// 4. Post-logging</span>
         log.<span class="m3-fn">log</span>(<span class="m3-str">"Assigned car "</span> + car.<span class="m3-fn">getId</span>());
         <span class="m3-kw">return</span> car;
     }
     <span class="m3-cm">// returnCar similarly delegates after logging</span>
 }
-
+ 
 <span class="m3-cm">// Client sees same interface — proxy is completely transparent</span>
 <span class="m3-cls">CarRentalService</span> svc = <span class="m3-kw">new</span> <span class="m3-cls">CarRentalProxy</span>(real, auth, log);
 <span class="m3-cls">Car</span> c = svc.<span class="m3-fn">rentCar</span>(<span class="m3-str">"Camry"</span>, currentUser);</pre></div>
@@ -319,7 +321,7 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     <span class="m3-kw">void</span>   <span class="m3-fn">display</span>(<span class="m3-cls">String</span> indent);
     <span class="m3-kw">void</span>   <span class="m3-fn">delete</span>();
 }
-
+ 
 <span class="m3-cm">// LEAF — no children</span>
 <span class="m3-kw">class</span> <span class="m3-cls">File</span> <span class="m3-kw">implements</span> <span class="m3-cls">FileSystemComponent</span> {
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> name; <span class="m3-kw">private final long</span> size;
@@ -329,14 +331,14 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     <span class="m3-kw">public</span> <span class="m3-cls">String</span> <span class="m3-fn">getName</span>()           { <span class="m3-kw">return</span> name; }
     <span class="m3-kw">public</span> <span class="m3-cls">File</span>(<span class="m3-cls">String</span> n, <span class="m3-kw">long</span> s)   { name=n; size=s; }
 }
-
+ 
 <span class="m3-cm">// COMPOSITE — holds children, operations recurse</span>
 <span class="m3-kw">class</span> <span class="m3-cls">Directory</span> <span class="m3-kw">implements</span> <span class="m3-cls">FileSystemComponent</span> {
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> name;
     <span class="m3-kw">private final</span> <span class="m3-cls">List</span>&lt;<span class="m3-cls">FileSystemComponent</span>&gt; children = <span class="m3-kw">new</span> <span class="m3-cls">ArrayList</span>&lt;&gt;();
-
+ 
     <span class="m3-kw">public void</span> <span class="m3-fn">add</span>(<span class="m3-cls">FileSystemComponent</span> c) { children.add(c); }
-
+ 
     <span class="m3-cm">// Recursive — works for any depth of nesting</span>
     <span class="m3-kw">public long</span> <span class="m3-fn">getSize</span>() {
         <span class="m3-kw">return</span> children.stream().mapToLong(<span class="m3-cls">FileSystemComponent</span>::getSize).sum();
@@ -349,7 +351,7 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     <span class="m3-kw">public</span> <span class="m3-cls">String</span> <span class="m3-fn">getName</span>() { <span class="m3-kw">return</span> name; }
     <span class="m3-kw">public</span> <span class="m3-cls">Directory</span>(<span class="m3-cls">String</span> n) { name = n; }
 }
-
+ 
 <span class="m3-cm">// Client — no instanceof, no type checks needed</span>
 <span class="m3-cls">Directory</span> root = <span class="m3-kw">new</span> <span class="m3-cls">Directory</span>(<span class="m3-str">"root"</span>);
 root.<span class="m3-fn">add</span>(<span class="m3-kw">new</span> <span class="m3-cls">File</span>(<span class="m3-str">"README.md"</span>, <span class="m3-str">256</span>));
@@ -373,14 +375,14 @@ root.<span class="m3-fn">getSize</span>();         <span class="m3-cm">// Recurs
 <span class="m3-kw">class</span> <span class="m3-cls">SplitCalculator</span> { <span class="m3-cls">Map</span> <span class="m3-fn">calculateEqualSplit</span>(...) {...} }
 <span class="m3-kw">class</span> <span class="m3-cls">BalanceService</span>  { <span class="m3-cls">Map</span> <span class="m3-fn">getNetBalances</span>(...) {...} }
 <span class="m3-kw">class</span> <span class="m3-cls">NotificationService</span> { <span class="m3-kw">void</span> <span class="m3-fn">notifyMembers</span>(...) {...} }
-
+ 
 <span class="m3-cm">// FACADE — one class, simple operations, hides all complexity</span>
 <span class="m3-kw">class</span> <span class="m3-cls">SplitwiseFacade</span> {
     <span class="m3-kw">private final</span> <span class="m3-cls">ExpenseService</span>      expenses;
     <span class="m3-kw">private final</span> <span class="m3-cls">SplitCalculator</span>    calculator;
     <span class="m3-kw">private final</span> <span class="m3-cls">BalanceService</span>     balances;
     <span class="m3-kw">private final</span> <span class="m3-cls">NotificationService</span> notifier;
-
+ 
     <span class="m3-cm">// High-level operation — orchestrates 4 subsystems</span>
     <span class="m3-kw">public void</span> <span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-cls">String</span> groupId, <span class="m3-cls">String</span> desc,
                                       <span class="m3-kw">double</span> amount, <span class="m3-cls">String</span> paidBy,
@@ -390,13 +392,13 @@ root.<span class="m3-fn">getSize</span>();         <span class="m3-cm">// Recurs
         balances.<span class="m3-fn">updateBalances</span>(groupId, splits, paidBy);
         notifier.<span class="m3-fn">notifyExpenseAdded</span>(members, expense);
     }
-
+ 
     <span class="m3-kw">public</span> <span class="m3-cls">List</span>&lt;<span class="m3-cls">Transaction</span>&gt; <span class="m3-fn">getSimplifiedSettlements</span>(<span class="m3-cls">String</span> groupId) {
         <span class="m3-cls">Map</span>&lt;<span class="m3-cls">String</span>, <span class="m3-cls">Double</span>&gt; netBalances = balances.<span class="m3-fn">getNetBalances</span>(groupId);
         <span class="m3-kw">return</span> <span class="m3-cls">SimplifyAlgorithm</span>.<span class="m3-fn">simplify</span>(netBalances); <span class="m3-cm">// min transactions</span>
     }
 }
-
+ 
 <span class="m3-cm">// Client — one method call does what used to take 10</span>
 <span class="m3-cls">SplitwiseFacade</span> sw = <span class="m3-kw">new</span> <span class="m3-cls">SplitwiseFacade</span>();
 sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</span>, <span class="m3-str">"Dinner"</span>, <span class="m3-str">1200.0</span>, <span class="m3-str">"ajay"</span>, members);</pre></div>
@@ -418,14 +420,14 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
 <span class="m3-kw">class</span> <span class="m3-cls">SMSSender</span>   <span class="m3-kw">implements</span> <span class="m3-cls">NotificationSender</span> { <span class="m3-cm">/* ... */</span> }
 <span class="m3-kw">class</span> <span class="m3-cls">EmailSender</span> <span class="m3-kw">implements</span> <span class="m3-cls">NotificationSender</span> { <span class="m3-cm">/* ... */</span> }
 <span class="m3-kw">class</span> <span class="m3-cls">PushSender</span>  <span class="m3-kw">implements</span> <span class="m3-cls">NotificationSender</span> { <span class="m3-cm">/* ... */</span> }
-
+ 
 <span class="m3-cm">// ABSTRACTION — WHAT to send (other dimension)</span>
 <span class="m3-kw">abstract class</span> <span class="m3-cls">CricketNotification</span> {
     <span class="m3-kw">protected final</span> <span class="m3-cls">NotificationSender</span> sender; <span class="m3-cm">// THE BRIDGE</span>
     <span class="m3-kw">public</span> <span class="m3-cls">CricketNotification</span>(<span class="m3-cls">NotificationSender</span> s) { <span class="m3-kw">this</span>.sender = s; }
     <span class="m3-kw">public abstract void</span> <span class="m3-fn">notify</span>(<span class="m3-cls">String</span> recipient, <span class="m3-cls">Object</span> event);
 }
-
+ 
 <span class="m3-cm">// Refined abstractions — each is a notification type</span>
 <span class="m3-kw">class</span> <span class="m3-cls">WicketNotification</span> <span class="m3-kw">extends</span> <span class="m3-cls">CricketNotification</span> {
     <span class="m3-kw">public</span> <span class="m3-cls">WicketNotification</span>(<span class="m3-cls">NotificationSender</span> s) { <span class="m3-kw">super</span>(s); }
@@ -439,7 +441,7 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
         sender.<span class="m3-fn">send</span>(r, <span class="m3-str">"SIX! "</span> + e + <span class="m3-str">" smashes it!"</span>);
     }
 }
-
+ 
 <span class="m3-cm">// Mix and match — N types × M channels without N×M classes</span>
 <span class="m3-kw">new</span> <span class="m3-cls">WicketNotification</span>(<span class="m3-kw">new</span> <span class="m3-cls">SMSSender</span>()).<span class="m3-fn">notify</span>(<span class="m3-str">"user1"</span>, <span class="m3-str">"Kohli"</span>);
 <span class="m3-kw">new</span> <span class="m3-cls">WicketNotification</span>(<span class="m3-kw">new</span> <span class="m3-cls">EmailSender</span>()).<span class="m3-fn">notify</span>(<span class="m3-str">"fan@email"</span>, <span class="m3-str">"Rohit"</span>);
@@ -464,30 +466,30 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> spamLabel;     <span class="m3-cm">// "Telemarketer", null — shared</span>
     <span class="m3-cm">// All final — immutable, so safely shared across threads</span>
 }
-
+ 
 <span class="m3-cm">// FLYWEIGHT FACTORY — pool ensures reuse</span>
 <span class="m3-kw">class</span> <span class="m3-cls">ContactMetadataFactory</span> {
     <span class="m3-kw">private static final</span> <span class="m3-cls">Map</span>&lt;<span class="m3-cls">String</span>,<span class="m3-cls">ContactMetadata</span>&gt; pool = <span class="m3-kw">new</span> <span class="m3-cls">HashMap</span>&lt;&gt;();
-
+ 
     <span class="m3-kw">public static</span> <span class="m3-cls">ContactMetadata</span> <span class="m3-fn">get</span>(<span class="m3-cls">String</span> op, <span class="m3-cls">String</span> type, <span class="m3-cls">String</span> spam) {
         <span class="m3-cls">String</span> key = op + <span class="m3-str">"|"</span> + type + <span class="m3-str">"|"</span> + spam;
         <span class="m3-kw">return</span> pool.<span class="m3-fn">computeIfAbsent</span>(key, k -> <span class="m3-kw">new</span> <span class="m3-cls">ContactMetadata</span>(op, type, spam));
     }
 }
-
+ 
 <span class="m3-cm">// CLIENT CONTEXT — stores EXTRINSIC state (unique per contact)</span>
 <span class="m3-kw">class</span> <span class="m3-cls">PhoneContact</span> {
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> phoneNumber;  <span class="m3-cm">// unique — extrinsic</span>
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> callerName;   <span class="m3-cm">// unique — extrinsic</span>
     <span class="m3-kw">private final</span> <span class="m3-cls">ContactMetadata</span> meta; <span class="m3-cm">// SHARED — flyweight</span>
-
+ 
     <span class="m3-kw">public</span> <span class="m3-cls">PhoneContact</span>(<span class="m3-cls">String</span> num, <span class="m3-cls">String</span> name, <span class="m3-cls">String</span> op, <span class="m3-cls">String</span> type, <span class="m3-cls">String</span> spam) {
         <span class="m3-kw">this</span>.phoneNumber = num;
         <span class="m3-kw">this</span>.callerName  = name;
         <span class="m3-kw">this</span>.meta = <span class="m3-cls">ContactMetadataFactory</span>.<span class="m3-fn">get</span>(op, type, spam); <span class="m3-cm">// pool lookup</span>
     }
 }
-
+ 
 <span class="m3-cm">// Memory impact (1 billion contacts):
 // Without Flyweight: 1B × 200B metadata = 200 GB
 // With Flyweight:    ~1000 unique combos × 200B = 200 KB shared
@@ -649,13 +651,13 @@ Decorators:
   TimestampDecorator — prepends "[2024-01-15 14:23:05]"
   LevelDecorator     — prepends [INFO] / [WARN] / [ERROR]
   FileDecorator      — ALSO writes to a log file
-
+ 
 Test all 4 combinations:
   new TimestampDecorator(new LevelDecorator(new ConsoleLogger()))
   new LevelDecorator(new TimestampDecorator(new ConsoleLogger()))
   new FileDecorator(new TimestampDecorator(new ConsoleLogger()))
   new FileDecorator(new LevelDecorator(new TimestampDecorator(new ConsoleLogger())))
-
+ 
 Show output for each — confirm composition is correct.</pre>
       </div>
     </div>
@@ -666,18 +668,18 @@ Show output for each — confirm composition is correct.</pre>
         <pre>interface WeatherService {
   WeatherData getWeather(String city);  // expensive HTTP call
 }
-
+ 
 class RealWeatherService implements WeatherService {
   // Simulate 500ms HTTP call
 }
-
+ 
 class WeatherServiceProxy implements WeatherService {
   // Cache: Map&lt;city, CacheEntry(data, timestamp)&gt;
   // TTL: 5 minutes
   // Hit: return cache, log "cache hit"
   // Miss: call real service, store, log "cache miss"
 }
-
+ 
 Test: Call getWeather("Mumbai") 3 times within 5 min
       → only 1 real HTTP call, 2 cache hits
       Wait 5 min, call again → cache miss, new HTTP call</pre>
@@ -694,7 +696,7 @@ Test: Call getWeather("Mumbai") 3 times within 5 min
 4. TaxDecorator and ServiceChargeDecorator for Expense
 5. NotificationAdapter for at least 2 channels
 6. UML class diagram showing all patterns
-
+ 
 Demo scenario:
   - 5 members: Ajay, Ram, Priya, Rahul, Sita
   - Add 6 expenses (mix of split types)

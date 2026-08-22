@@ -4,6 +4,8 @@ description: "Track A · LLD · Module A4 · Weeks 6–7 Behavioral Patterns 12 
 domain: system-design
 track: system-design-lld
 order: 8
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a4-behavioral/
 ---
 
@@ -189,18 +191,18 @@ url: /learning/system-design/lld/module-a4-behavioral/
         balance -= amt; <span class="m4-kw">return true</span>;
     }
 }
-
+ 
 <span class="m4-cm">// Context — knows nothing about UPI/Wallet internals</span>
 <span class="m4-kw">class</span> <span class="m4-cls">ShoppingCart</span> {
     <span class="m4-kw">private</span> <span class="m4-cls">PaymentStrategy</span> strategy;
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">setStrategy</span>(<span class="m4-cls">PaymentStrategy</span> s) { <span class="m4-kw">this</span>.strategy = s; }
-
+ 
     <span class="m4-kw">public boolean</span> <span class="m4-fn">checkout</span>() {
         <span class="m4-kw">return</span> strategy.<span class="m4-fn">pay</span>(<span class="m4-fn">getTotal</span>()); <span class="m4-cm">// Delegates — no if/else</span>
     }
 }
-
+ 
 <span class="m4-cm">// Swap algorithm at runtime:</span>
 cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span class="m4-cls">UPIPayment</span>(<span class="m4-str">"ajay@icici"</span>));  cart.<span class="m4-fn">checkout</span>();
 cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span class="m4-cls">WalletPayment</span>(<span class="m4-str">"PAYTM"</span>, <span class="m4-str">500</span>)); cart.<span class="m4-fn">checkout</span>();</pre></div>
@@ -219,14 +221,14 @@ cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span
 <pre class="m4-code"><span class="m4-kw">interface</span> <span class="m4-cls">StockObserver</span> {
     <span class="m4-kw">void</span> <span class="m4-fn">update</span>(<span class="m4-cls">String</span> symbol, <span class="m4-kw">double</span> price, <span class="m4-kw">double</span> changePct);
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">StockTicker</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">List</span>&lt;<span class="m4-cls">StockObserver</span>&gt; observers = <span class="m4-kw">new</span> <span class="m4-cls">ArrayList</span>&lt;&gt;();
     <span class="m4-kw">private final</span> <span class="m4-cls">Map</span>&lt;<span class="m4-cls">String</span>, <span class="m4-cls">Double</span>&gt; prices = <span class="m4-kw">new</span> <span class="m4-cls">HashMap</span>&lt;&gt;();
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">subscribe</span>(<span class="m4-cls">StockObserver</span> o)   { observers.add(o); }
     <span class="m4-kw">public void</span> <span class="m4-fn">unsubscribe</span>(<span class="m4-cls">StockObserver</span> o) { observers.remove(o); }
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">updatePrice</span>(<span class="m4-cls">String</span> sym, <span class="m4-kw">double</span> newPrice) {
         <span class="m4-kw">double</span> old = prices.getOrDefault(sym, newPrice);
         <span class="m4-kw">double</span> pct = ((newPrice - old) / old) * <span class="m4-str">100</span>;
@@ -235,7 +237,7 @@ cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span
         observers.forEach(o -> o.<span class="m4-fn">update</span>(sym, newPrice, pct));
     }
 }
-
+ 
 <span class="m4-cm">// Concrete observers — totally independent of each other</span>
 <span class="m4-kw">class</span> <span class="m4-cls">MobileApp</span> <span class="m4-kw">implements</span> <span class="m4-cls">StockObserver</span> {
     <span class="m4-kw">public void</span> <span class="m4-fn">update</span>(<span class="m4-cls">String</span> s, <span class="m4-kw">double</span> p, <span class="m4-kw">double</span> chg) {
@@ -264,12 +266,12 @@ cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span
     <div class="m4-m4-code-wrap"><div class="m4-m4-code-hdr">ATMDispenser.java<span class="m4-clang" style="color:var(--p3)">JAVA</span></div>
 <pre class="m4-code"><span class="m4-kw">abstract class</span> <span class="m4-cls">CashHandler</span> {
     <span class="m4-kw">protected</span> <span class="m4-cls">CashHandler</span> next;
-
+ 
     <span class="m4-cm">// Fluent chaining: h1.setNext(h2).setNext(h3)</span>
     <span class="m4-kw">public</span> <span class="m4-cls">CashHandler</span> <span class="m4-fn">setNext</span>(<span class="m4-cls">CashHandler</span> n) { <span class="m4-kw">this</span>.next = n; <span class="m4-kw">return</span> n; }
     <span class="m4-kw">public abstract void</span> <span class="m4-fn">dispense</span>(<span class="m4-kw">int</span> amount);
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">TwoThousandHandler</span> <span class="m4-kw">extends</span> <span class="m4-cls">CashHandler</span> {
     <span class="m4-kw">public void</span> <span class="m4-fn">dispense</span>(<span class="m4-kw">int</span> amount) {
         <span class="m4-kw">int</span> notes = amount / <span class="m4-str">2000</span>, rem = amount % <span class="m4-str">2000</span>;
@@ -279,12 +281,12 @@ cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span
 }
 <span class="m4-kw">class</span> <span class="m4-cls">FiveHundredHandler</span> <span class="m4-kw">extends</span> <span class="m4-cls">CashHandler</span> { <span class="m4-cm">/* similar */</span> }
 <span class="m4-kw">class</span> <span class="m4-cls">HundredHandler</span>     <span class="m4-kw">extends</span> <span class="m4-cls">CashHandler</span> { <span class="m4-cm">/* similar */</span> }
-
+ 
 <span class="m4-cm">// Build the chain</span>
 <span class="m4-cls">CashHandler</span> atm = <span class="m4-kw">new</span> <span class="m4-cls">TwoThousandHandler</span>();
 atm.<span class="m4-fn">setNext</span>(<span class="m4-kw">new</span> <span class="m4-cls">FiveHundredHandler</span>())
    .<span class="m4-fn">setNext</span>(<span class="m4-kw">new</span> <span class="m4-cls">HundredHandler</span>());
-
+ 
 atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
 <span class="m4-cm">// → Dispensing 1×₹2000 | 3×₹500 | 2×₹100</span></pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Servlet Filters and Spring Interceptors are CoR — auth filter → logging filter → compression filter. Each handles its concern and passes to next. Order matters and is explicit."</div>
@@ -304,7 +306,7 @@ atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
     <span class="m4-kw">void</span> <span class="m4-fn">dispense</span>(<span class="m4-cls">VendingMachine</span> m);
     <span class="m4-kw">void</span> <span class="m4-fn">cancel</span>(<span class="m4-cls">VendingMachine</span> m);
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">IdleState</span> <span class="m4-kw">implements</span> <span class="m4-cls">VendingMachineState</span> {
     <span class="m4-kw">public void</span> <span class="m4-fn">insertCoin</span>(<span class="m4-cls">VendingMachine</span> m, <span class="m4-kw">int</span> amt) {
         m.<span class="m4-fn">setAmount</span>(amt);
@@ -316,14 +318,14 @@ atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
     <span class="m4-kw">public void</span> <span class="m4-fn">dispense</span>(<span class="m4-cls">VendingMachine</span> m)         { <span class="m4-cm">/* invalid */</span> }
     <span class="m4-kw">public void</span> <span class="m4-fn">cancel</span>(<span class="m4-cls">VendingMachine</span> m)           { <span class="m4-cm">/* nothing to cancel */</span> }
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">HasMoneyState</span> <span class="m4-kw">implements</span> <span class="m4-cls">VendingMachineState</span> { <span class="m4-cm">/* ... */</span> }
 <span class="m4-kw">class</span> <span class="m4-cls">DispensingState</span> <span class="m4-kw">implements</span> <span class="m4-cls">VendingMachineState</span> { <span class="m4-cm">/* ... */</span> }
-
+ 
 <span class="m4-cm">// Context — delegates everything to current state</span>
 <span class="m4-kw">class</span> <span class="m4-cls">VendingMachine</span> {
     <span class="m4-kw">private</span> <span class="m4-cls">VendingMachineState</span> state = <span class="m4-kw">new</span> <span class="m4-cls">IdleState</span>();
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">insertCoin</span>(<span class="m4-kw">int</span> amt) { state.<span class="m4-fn">insertCoin</span>(<span class="m4-kw">this</span>, amt); }
     <span class="m4-kw">public void</span> <span class="m4-fn">setState</span>(<span class="m4-cls">VendingMachineState</span> s) { <span class="m4-kw">this</span>.state = s; }
 }</pre></div>
@@ -339,34 +341,34 @@ atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
     </div>
     <div class="m4-m4-code-wrap"><div class="m4-m4-code-hdr">SmartHomeCommand.java<span class="m4-clang" style="color:var(--p5)">JAVA</span></div>
 <pre class="m4-code"><span class="m4-kw">interface</span> <span class="m4-cls">Command</span> { <span class="m4-kw">void</span> <span class="m4-fn">execute</span>(); <span class="m4-kw">void</span> <span class="m4-fn">undo</span>(); }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">LightOnCommand</span> <span class="m4-kw">implements</span> <span class="m4-cls">Command</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">Light</span> light;
     <span class="m4-kw">public void</span> <span class="m4-fn">execute</span>() { light.<span class="m4-fn">turnOn</span>(); }
     <span class="m4-kw">public void</span> <span class="m4-fn">undo</span>()    { light.<span class="m4-fn">turnOff</span>(); } <span class="m4-cm">// Inverse operation</span>
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">ACTempCommand</span> <span class="m4-kw">implements</span> <span class="m4-cls">Command</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">AC</span> ac; <span class="m4-kw">private final int</span> newTemp;
     <span class="m4-kw">private int</span> prevTemp; <span class="m4-cm">// Saved for undo</span>
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">execute</span>() { prevTemp = ac.<span class="m4-fn">getTemp</span>(); ac.<span class="m4-fn">setTemp</span>(newTemp); }
     <span class="m4-kw">public void</span> <span class="m4-fn">undo</span>()    { ac.<span class="m4-fn">setTemp</span>(prevTemp); }
 }
-
+ 
 <span class="m4-cm">// Invoker — the smart home controller</span>
 <span class="m4-kw">class</span> <span class="m4-cls">SmartHomeHub</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">Deque</span>&lt;<span class="m4-cls">Command</span>&gt; history = <span class="m4-kw">new</span> <span class="m4-cls">ArrayDeque</span>&lt;&gt;();
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">execute</span>(<span class="m4-cls">Command</span> cmd) {
         cmd.<span class="m4-fn">execute</span>(); history.<span class="m4-fn">push</span>(cmd); <span class="m4-cm">// Push to undo stack</span>
     }
-
+ 
     <span class="m4-kw">public void</span> <span class="m4-fn">undo</span>() {
         <span class="m4-kw">if</span> (!history.isEmpty()) history.<span class="m4-fn">pop</span>().<span class="m4-fn">undo</span>();
     }
 }
-
+ 
 hub.<span class="m4-fn">execute</span>(<span class="m4-kw">new</span> <span class="m4-cls">LightOnCommand</span>(bedroom));
 hub.<span class="m4-fn">execute</span>(<span class="m4-kw">new</span> <span class="m4-cls">ACTempCommand</span>(ac, <span class="m4-str">20</span>));
 hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// AC reverts to previous temp</span>
@@ -397,14 +399,14 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     <span class="m4-kw">protected void</span> <span class="m4-fn">validateData</span>() { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"Schema validation"</span>); }
     <span class="m4-kw">protected void</span> <span class="m4-fn">notifyDone</span>()   { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"Migration done"</span>); }
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">MySQLToPostgres</span> <span class="m4-kw">extends</span> <span class="m4-cls">DataMigrationPipeline</span> {
     <span class="m4-kw">protected void</span> <span class="m4-fn">extractData</span>()   { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"SELECT * FROM MySQL"</span>); }
     <span class="m4-kw">protected void</span> <span class="m4-fn">transformData</span>() { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"ENUM→text, TINYINT→bool"</span>); }
     <span class="m4-kw">protected void</span> <span class="m4-fn">loadData</span>()      { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"COPY INTO Postgres"</span>); }
     <span class="m4-kw">protected void</span> <span class="m4-fn">validateData</span>()  { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"Row count + FK check"</span>); }
 }
-
+ 
 <span class="m4-kw">new</span> <span class="m4-cls">MySQLToPostgres</span>().<span class="m4-fn">migrate</span>(); <span class="m4-cm">// Runs steps in correct order — always</span></pre></div>
     <div class="m4-tip-box"><em>Strategy vs Template Method:</em> Strategy swaps the WHOLE algorithm at runtime via composition. Template Method keeps the skeleton fixed in a base class; only specific steps vary via inheritance. Strategy = runtime; Template = compile-time.</div>
   </div>
@@ -418,10 +420,10 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     </div>
     <div class="m4-m4-code-wrap"><div class="m4-m4-code-hdr">PlaylistIterator.java<span class="m4-clang" style="color:var(--p7)">JAVA</span></div>
 <pre class="m4-code"><span class="m4-kw">interface</span> <span class="m4-cls">Iterator</span>&lt;T&gt; { <span class="m4-kw">boolean</span> <span class="m4-fn">hasNext</span>(); T <span class="m4-fn">next</span>(); }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">Playlist</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">List</span>&lt;<span class="m4-cls">Song</span>&gt; songs = <span class="m4-kw">new</span> <span class="m4-cls">ArrayList</span>&lt;&gt;();
-
+ 
     <span class="m4-kw">public</span> <span class="m4-cls">Iterator</span>&lt;<span class="m4-cls">Song</span>&gt; <span class="m4-fn">createIterator</span>() {
         <span class="m4-kw">return new</span> <span class="m4-cls">Iterator</span>&lt;<span class="m4-cls">Song</span>&gt;() {
             <span class="m4-kw">int</span> i = <span class="m4-str">0</span>;
@@ -448,14 +450,14 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     <span class="m4-kw">void</span> <span class="m4-fn">requestTakeoff</span>(<span class="m4-cls">Aircraft</span> a);
     <span class="m4-kw">void</span> <span class="m4-fn">broadcast</span>(<span class="m4-cls">String</span> msg, <span class="m4-cls">Aircraft</span> source);
 }
-
+ 
 <span class="m4-kw">abstract class</span> <span class="m4-cls">Aircraft</span> {
     <span class="m4-kw">protected final</span> <span class="m4-cls">ATC</span> atc; <span class="m4-cm">// Only knows ATC — not other aircraft</span>
     <span class="m4-kw">public void</span> <span class="m4-fn">land</span>()    { atc.<span class="m4-fn">requestLanding</span>(<span class="m4-kw">this</span>); }
     <span class="m4-kw">public void</span> <span class="m4-fn">takeoff</span>() { atc.<span class="m4-fn">requestTakeoff</span>(<span class="m4-kw">this</span>); }
     <span class="m4-kw">public abstract void</span> <span class="m4-fn">receive</span>(<span class="m4-cls">String</span> msg);
 }
-
+ 
 <span class="m4-cm">// Aircraft talk ONLY to ATC tower — never directly to each other</span>
 <span class="m4-cm">// ATC routes communication, manages runway, notifies all parties</span></pre></div>
     <div class="m4-tip-box"><em>Mediator vs Observer:</em> Observer = one-to-many (subject notifies all). Mediator = many-to-many (all peers route through hub). Chat room is Mediator — messages go hub → recipients, not sender → every recipient directly.</div>
@@ -476,16 +478,16 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     <span class="m4-cls">String</span> <span class="m4-fn">getContent</span>() { <span class="m4-kw">return</span> m4-content; }
     <span class="m4-kw">int</span>    <span class="m4-fn">getCursor</span>()  { <span class="m4-kw">return</span> cursor; }
 }
-
+ 
 <span class="m4-cm">// ORIGINATOR — creates and restores from memento</span>
 <span class="m4-kw">class</span> <span class="m4-cls">TextEditor</span> {
     <span class="m4-kw">private</span> <span class="m4-cls">StringBuilder</span> m4-content = <span class="m4-kw">new</span> <span class="m4-cls">StringBuilder</span>();
     <span class="m4-kw">private int</span> cursor = <span class="m4-str">0</span>;
-
+ 
     <span class="m4-kw">public</span> <span class="m4-cls">EditorMemento</span> <span class="m4-fn">save</span>()          { <span class="m4-kw">return new</span> <span class="m4-cls">EditorMemento</span>(m4-content.toString(), cursor); }
     <span class="m4-kw">public void</span> <span class="m4-fn">restore</span>(<span class="m4-cls">EditorMemento</span> m) { m4-content = <span class="m4-kw">new</span> <span class="m4-cls">StringBuilder</span>(m.<span class="m4-fn">getContent</span>()); cursor=m.<span class="m4-fn">getCursor</span>(); }
 }
-
+ 
 <span class="m4-cm">// CARETAKER — stores mementos, never reads inside them</span>
 <span class="m4-kw">class</span> <span class="m4-cls">UndoManager</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">Deque</span>&lt;<span class="m4-cls">EditorMemento</span>&gt; stack = <span class="m4-kw">new</span> <span class="m4-cls">ArrayDeque</span>&lt;&gt;();
@@ -508,12 +510,12 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     <span class="m4-kw">double</span> <span class="m4-fn">visit</span>(<span class="m4-cls">Food</span> f);
 }
 <span class="m4-kw">interface</span> <span class="m4-cls">Product</span> { <span class="m4-kw">double</span> <span class="m4-fn">accept</span>(<span class="m4-cls">TaxVisitor</span> v); } <span class="m4-cm">// DOUBLE DISPATCH key</span>
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">Book</span> <span class="m4-kw">implements</span> <span class="m4-cls">Product</span> {
     <span class="m4-kw">boolean</span> educational;
     <span class="m4-kw">public double</span> <span class="m4-fn">accept</span>(<span class="m4-cls">TaxVisitor</span> v) { <span class="m4-kw">return</span> v.<span class="m4-fn">visit</span>(<span class="m4-kw">this</span>); } <span class="m4-cm">// Passes self</span>
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">GSTCalculator</span> <span class="m4-kw">implements</span> <span class="m4-cls">TaxVisitor</span> {
     <span class="m4-kw">public double</span> <span class="m4-fn">visit</span>(<span class="m4-cls">Book</span> b)        { <span class="m4-kw">return</span> b.educational ? <span class="m4-str">0</span> : b.price*<span class="m4-str">0.12</span>; }
     <span class="m4-kw">public double</span> <span class="m4-fn">visit</span>(<span class="m4-cls">Electronics</span> e) { <span class="m4-kw">return</span> e.price * <span class="m4-str">0.18</span>; }
@@ -531,18 +533,18 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     </div>
     <div class="m4-m4-code-wrap"><div class="m4-m4-code-hdr">NullLogger.java<span class="m4-clang" style="color:var(--p11)">JAVA</span></div>
 <pre class="m4-code"><span class="m4-kw">interface</span> <span class="m4-cls">Logger</span> { <span class="m4-kw">void</span> <span class="m4-fn">log</span>(<span class="m4-cls">String</span> msg); <span class="m4-kw">void</span> <span class="m4-fn">error</span>(<span class="m4-cls">String</span> msg); }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">ConsoleLogger</span> <span class="m4-kw">implements</span> <span class="m4-cls">Logger</span> {
     <span class="m4-kw">public void</span> <span class="m4-fn">log</span>(<span class="m4-cls">String</span> msg)   { <span class="m4-cls">System</span>.out.println(<span class="m4-str">"[LOG] "</span>+msg); }
     <span class="m4-kw">public void</span> <span class="m4-fn">error</span>(<span class="m4-cls">String</span> msg) { <span class="m4-cls">System</span>.err.println(<span class="m4-str">"[ERR] "</span>+msg); }
 }
-
+ 
 <span class="m4-cm">// NULL OBJECT — same interface, does nothing</span>
 <span class="m4-kw">class</span> <span class="m4-cls">NullLogger</span> <span class="m4-kw">implements</span> <span class="m4-cls">Logger</span> {
     <span class="m4-kw">public void</span> <span class="m4-fn">log</span>(<span class="m4-cls">String</span> msg)   { <span class="m4-cm">/* no-op */</span> }
     <span class="m4-kw">public void</span> <span class="m4-fn">error</span>(<span class="m4-cls">String</span> msg) { <span class="m4-cm">/* no-op */</span> }
 }
-
+ 
 <span class="m4-kw">class</span> <span class="m4-cls">PaymentService</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">Logger</span> log;
     <span class="m4-kw">public</span> <span class="m4-cls">PaymentService</span>(<span class="m4-cls">Logger</span> log) {
@@ -563,7 +565,7 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     </div>
     <div class="m4-m4-code-wrap"><div class="m4-m4-code-hdr">ExpressionParser.java<span class="m4-clang" style="color:var(--p12)">JAVA</span></div>
 <pre class="m4-code"><span class="m4-kw">interface</span> <span class="m4-cls">Expression</span> { <span class="m4-kw">int</span> <span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>&lt;<span class="m4-cls">String</span>,<span class="m4-cls">Integer</span>&gt; ctx); }
-
+ 
 <span class="m4-cm">// TERMINAL — leaves of the AST</span>
 <span class="m4-kw">class</span> <span class="m4-cls">NumberExpr</span>   <span class="m4-kw">implements</span> <span class="m4-cls">Expression</span> {
     <span class="m4-kw">private final int</span> n;
@@ -573,13 +575,13 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     <span class="m4-kw">private final</span> <span class="m4-cls">String</span> name;
     <span class="m4-kw">public int</span> <span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span> ctx) { <span class="m4-kw">return</span> (<span class="m4-kw">int</span>) ctx.<span class="m4-fn">getOrDefault</span>(name, <span class="m4-str">0</span>); }
 }
-
+ 
 <span class="m4-cm">// NON-TERMINAL — composite nodes</span>
 <span class="m4-kw">class</span> <span class="m4-cls">AddExpr</span> <span class="m4-kw">implements</span> <span class="m4-cls">Expression</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">Expression</span> l, r;
     <span class="m4-kw">public int</span> <span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span> ctx) { <span class="m4-kw">return</span> l.<span class="m4-fn">interpret</span>(ctx) + r.<span class="m4-fn">interpret</span>(ctx); }
 }
-
+ 
 <span class="m4-cm">// Parse "a + b * 3" → a + (b * 3)</span>
 <span class="m4-cls">Expression</span> expr = <span class="m4-kw">new</span> <span class="m4-cls">AddExpr</span>(
     <span class="m4-kw">new</span> <span class="m4-cls">VariableExpr</span>(<span class="m4-str">"a"</span>),
@@ -692,7 +694,7 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     <span class="m4-kw">private volatile</span> <span class="m4-cls">SeatState</span> state = <span class="m4-cls">SeatState</span>.AVAILABLE;
     <span class="m4-kw">private final</span> <span class="m4-cls">ReentrantLock</span> lock = <span class="m4-kw">new</span> <span class="m4-cls">ReentrantLock</span>();
     <span class="m4-kw">private</span> <span class="m4-cls">String</span> lockedBy;
-
+ 
     <span class="m4-kw">public boolean</span> <span class="m4-fn">tryLock</span>(<span class="m4-cls">String</span> userId, <span class="m4-kw">long</span> timeoutMs) {
         <span class="m4-kw">try</span> {
             <span class="m4-kw">if</span> (lock.<span class="m4-fn">tryLock</span>(timeoutMs, <span class="m4-cls">TimeUnit</span>.MILLISECONDS)) {
@@ -799,9 +801,9 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
   subscribe(Class&lt;T&gt; eventType, Consumer&lt;T&gt; handler)
   unsubscribe(Class&lt;T&gt; eventType, Consumer&lt;T&gt; handler)
   publish(T event)
-
+ 
 Events: OrderPlaced, PaymentFailed, ItemShipped
-
+ 
 Requirements:
 - Multiple handlers per event type
 - Thread-safe: concurrent publish() + subscribe() calls
@@ -816,15 +818,15 @@ Requirements:
         <p>Combine Template Method for pipeline structure with Strategy for delivery.</p>
         <pre>Template Method skeleton (in abstract base):
   gatherData() → processData() → formatOutput() → deliver()
-
+ 
 Subclasses override formatOutput():
   HTMLReportGenerator → formatOutput() returns HTML string
   PDFReportGenerator  → formatOutput() returns byte[]
-
+ 
 Strategy for deliver() (injected, runtime-swappable):
   EmailDelivery   — sends via SMTP
   SlackDelivery   — sends via Slack webhook
-
+ 
 Show all 4 combinations work:
   new HTMLReportGenerator(new EmailDelivery()).generate()
   new HTMLReportGenerator(new SlackDelivery()).generate()
@@ -843,11 +845,11 @@ Show all 4 combinations work:
   Strategy: Pricing (Weekend 1.5x, Holiday 2x, Weekday 1.0x)
   CoR:     Availability→Payment→Confirm→Notify handler chain
   Facade:  BookingFacade.bookSeats(userId, showId, seatIds)
-
+ 
 Demo: 5 threads simultaneously try to book the last 2 seats
   → Only 2 succeed, 3 get "seat unavailable"
   → No double booking under any timing
-
+ 
 Deliverable:
   1. Full Java implementation (all classes)
   2. Concurrency test showing thread-safe behaviour

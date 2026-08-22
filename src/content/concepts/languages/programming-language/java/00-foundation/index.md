@@ -3,6 +3,7 @@ title: "Foundation"
 description: "Foundation Basic programming concepts before Java."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/00-foundation/
 ---
 

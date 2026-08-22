@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 5 · WEEKS 19–22+ 🎛️ Control Plane GoV
 domain: data-plane
 track: vpp
 order: 5
+ownHeader: true
 url: /learning/data-plane/vpp/module-p5-controlplane/
 ---
 
@@ -94,14 +95,14 @@ url: /learning/data-plane/vpp/module-p5-controlplane/
     <p>GoVPP (<code>github.com/FDio/govpp</code>) is the official Go library for VPP's binary API. It connects to VPP via a Unix socket or shared memory, sends request messages, and receives reply/notification messages. GoVPP auto-generates Go structs from VPP's <code>.api.json</code> files - so every VPP API is accessible with full type safety.</p>
 <div class="cb"><pre><span class="cm">// ── go.mod setup ──</span>
 <span class="cm">// go get go.fd.io/govpp@latest</span>
-
+ 
 package main
-
+ 
 import (
     "context"
     "fmt"
     "log"
-
+ 
     "go.fd.io/govpp"
     "go.fd.io/govpp/api"
     "go.fd.io/govpp/binapi/interface_types"
@@ -110,7 +111,7 @@ import (
     "go.fd.io/govpp/binapi/ip_types"
     "go.fd.io/govpp/core"
 )
-
+ 
 func main() {
     <span class="cm">// Connect to VPP binary API socket</span>
     conn, err := govpp.Connect("/run/vpp/api.sock")
@@ -118,14 +119,14 @@ func main() {
         log.Fatalf("connect: %v", err)
     }
     defer conn.Disconnect()
-
+ 
     <span class="cm">// Open a channel - each goroutine should have its own channel</span>
     ch, err := conn.NewAPIChannel()
     if err != nil {
         log.Fatalf("channel: %v", err)
     }
     defer ch.Close()
-
+ 
     <span class="cm">// ── Example 1: Show VPP version ──</span>
     req := &vpe.ShowVersion{}
     reply := &vpe.ShowVersionReply{}
@@ -154,13 +155,13 @@ for {
         details.InterfaceName,
         details.AdminUpDown, details.LinkUpDown)
 }
-
+ 
 <span class="cm">// ── Set interface state up ──</span>
 _, err = ch.SendRequest(&interfaces.SwInterfaceSetFlags{
     SwIfIndex: interface_types.InterfaceIndex(swIfIndex),
     Flags:     interface_types.IF_STATUS_API_FLAG_ADMIN_UP,
 }).ReceiveReply(&interfaces.SwInterfaceSetFlagsReply{})
-
+ 
 <span class="cm">// ── Add IPv4 address ──</span>
 _, err = ch.SendRequest(&interfaces.SwInterfaceAddDelAddress{
     SwIfIndex: interface_types.InterfaceIndex(swIfIndex),
@@ -173,7 +174,7 @@ _, err = ch.SendRequest(&interfaces.SwInterfaceAddDelAddress{
         Len: 24,
     },
 }).ReceiveReply(&interfaces.SwInterfaceAddDelAddressReply{})
-
+ 
 <span class="cm">// ── Add a static route ──</span>
 _, err = ch.SendRequest(&ip.IPRouteAddDel{
     IsAdd: true,
@@ -212,13 +213,13 @@ _, err = ch.SendRequest(&ip.IPRouteAddDel{
 notifChan := make(chan api.Message, 100)
 sub, err := conn.WatchEvent(context.Background(), (*interfaces.SwInterfaceEvent)(nil))
 if err != nil { log.Fatalf("subscribe: %v", err) }
-
+ 
 <span class="cm">// Enable notifications (VPP won't send events without this)</span>
 ch.SendRequest(&interfaces.WantInterfaceEvents{
     EnableDisable: 1,
     PID:           uint32(os.Getpid()),
 }).ReceiveReply(&interfaces.WantInterfaceEventsReply{})
-
+ 
 <span class="cm">// Process events in a goroutine</span>
 go func() {
     for {
@@ -229,24 +230,24 @@ go func() {
             ev.SwIfIndex, ev.AdminUpDown, ev.LinkUpDown)
     }
 }()
-
+ 
 <span class="cm">// ── Multi-channel pattern: one channel per worker goroutine ──</span>
 type VPPWorker struct {
     ch api.Channel
 }
-
+ 
 func NewWorker(conn api.Connection) (*VPPWorker, error) {
     ch, err := conn.NewAPIChannel()
     if err != nil { return nil, err }
     return &VPPWorker{ch: ch}, nil
 }
-
+ 
 <span class="cm">// Each goroutine has its OWN channel - no sharing, no locking</span>
 for i := 0; i < numWorkers; i++ {
     w, _ := NewWorker(conn)
     go w.processBatch(routes[i])
 }
-
+ 
 <span class="cm">// ── Bulk route programming - batch via channel ──</span>
 func (w *VPPWorker) programRoutes(routes []Route) error {
     for _, r := range routes {
@@ -274,7 +275,7 @@ func (w *VPPWorker) programRoutes(routes []Route) error {
     <p>The Stats API is VPP's high-performance telemetry interface. It exposes per-node, per-interface, per-worker, and per-error counters via a <strong>shared memory segment</strong> - no IPC, no socket round-trip. A monitoring agent can read millions of counters per second without impacting the VPP dataplane.</p>
 <div class="cb"><pre><span class="cm">// ── GoVPP Stats client ──</span>
 import "go.fd.io/govpp/adapter/statsclient"
-
+ 
 func monitorVPP() {
     <span class="cm">// Connect to stats segment (separate from binary API socket)</span>
     client := statsclient.NewStatsClient("/run/vpp/stats.sock")
@@ -282,7 +283,7 @@ func monitorVPP() {
         log.Fatalf("stats connect: %v", err)
     }
     defer client.Disconnect()
-
+ 
     <span class="cm">// ── Poll interface counters ──</span>
     ifCounters, err := client.GetInterfaceCounters()
     for _, ifc := range ifCounters {
@@ -291,7 +292,7 @@ func monitorVPP() {
             ifc.RxPackets, ifc.RxBytes,
             ifc.TxPackets, ifc.TxBytes)
     }
-
+ 
     <span class="cm">// ── Poll per-node stats (show run equivalent) ──</span>
     nodeCounters, err := client.GetNodeCounters()
     for _, nc := range nodeCounters {
@@ -300,14 +301,14 @@ func monitorVPP() {
             nc.NodeName, nc.Calls, nc.Vectors,
             float64(nc.Vectors)/float64(nc.Calls))
     }
-
+ 
     <span class="cm">// ── Poll error counters (show error equivalent) ──</span>
     errCounters, err := client.GetErrorCounters()
     for _, ec := range errCounters {
         if ec.Value == 0 { continue }
         fmt.Printf("%-50s  %d\n", ec.CounterName, ec.Value)
     }
-
+ 
     <span class="cm">// ── Continuous monitoring loop ──</span>
     ticker := time.NewTicker(1 * time.Second)
     for range ticker.C {
@@ -333,21 +334,21 @@ func monitorVPP() {
     <p>vpp_papi (<code>src/vpp-api/python/vpp_papi/</code>) provides Python bindings for VPP's binary API. It is the same library used by VPP's Python test framework. Use it for automation scripts, management integrations, and quick prototyping.</p>
 <div class="cb"><pre>from vpp_papi import VPPApiClient
 import socket
-
+ 
 <span class="cm"># Connect to VPP</span>
 vpp = VPPApiClient(apifiles=["/usr/share/vpp/api/core/"],
                    server_address="/run/vpp/api.sock")
 vpp.connect("my-python-agent")
-
+ 
 <span class="cm"># ── Show version ──</span>
 rv = vpp.api.show_version()
 print(f"VPP: {rv.version}")
-
+ 
 <span class="cm"># ── List interfaces ──</span>
 for intf in vpp.api.sw_interface_dump():
     print(f"  [{intf.sw_if_index}] {intf.interface_name.rstrip(chr(0))} "
           f"link={'up' if intf.link_up_down else 'down'}")
-
+ 
 <span class="cm"># ── Create a TAP interface ──</span>
 rv = vpp.api.tap_create_v3(
     id=0,
@@ -361,7 +362,7 @@ rv = vpp.api.tap_create_v3(
     }
 )
 print(f"TAP created: sw_if_index={rv.sw_if_index}")
-
+ 
 <span class="cm"># ── Add an IP route ──</span>
 vpp.api.ip_route_add_del(
     is_add=True,
@@ -375,15 +376,15 @@ vpp.api.ip_route_add_del(
                    "weight": 1, "preference": 0}]
     }
 )
-
+ 
 <span class="cm"># ── Subscribe to interface events ──</span>
 @vpp.register_event_callback
 def on_interface_event(msg_name, msg):
     if msg_name == "sw_interface_event":
         print(f"Interface {msg.sw_if_index} link {'up' if msg.link_up_down else 'down'}")
-
+ 
 vpp.api.want_interface_events(enable_disable=1, pid=0)
-
+ 
 vpp.disconnect()</pre></div>
   </div>
 </div>
@@ -399,11 +400,11 @@ vpp.disconnect()</pre></div>
 <div class="cb"><pre><span class="cm"># Step 1: Find which NUMA node your Mellanox NIC is on</span>
 cat /sys/bus/pci/devices/0000:03:00.0/numa_node
 <span class="cm"># e.g. output: 0  → NUMA 0</span>
-
+ 
 <span class="cm"># Step 2: Find NUMA-local CPU cores</span>
 lscpu | grep -A5 "NUMA node0"
 <span class="cm"># e.g. NUMA node0 CPU(s): 0-11,24-35</span>
-
+ 
 <span class="cm"># Step 3: Configure startup.conf to use NUMA-local cores</span>
 cpu {
   main-core 0          <span class="cm"># core 0 on NUMA 0</span>
@@ -415,7 +416,7 @@ dpdk {
 buffers {
   buffers-per-numa 262144   <span class="cm"># 256K buffers on NUMA 0</span>
 }
-
+ 
 <span class="cm"># Step 4: Verify with VPP</span>
 <span class="cm"># vppctl: show interface rx-placement</span>
 <span class="cm"># Verify each queue is on the worker thread whose core is NUMA-local to the NIC</span></pre></div>

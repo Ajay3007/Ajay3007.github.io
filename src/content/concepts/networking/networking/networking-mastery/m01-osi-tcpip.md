@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 1 · MODULE 01 · WEEK 1 📡 OSI and 
 domain: networking
 track: networking-mastery
 order: 1
+ownHeader: true
 url: /learning/networking-mastery/m01-osi-tcpip/
 ---
 
@@ -547,7 +548,7 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p>Understanding which layer a protocol belongs to is crucial — it tells you which device processes it, what header format to look for, and what tools to use for debugging.</p>
 
 <div class="cb"><pre><span class="cm">/* In your OS — the TCP/IP stack as seen by a C program */</span>
-
+ 
 Your application code
     ↓ calls socket(), send(), recv()
 <span class="ck">OS socket API</span>          <span class="cm">← TCP/IP Application layer boundary</span>

@@ -4,6 +4,7 @@ description: "Module B7 — Design WhatsApp (Real-Time Messaging) System Design 
 domain: system-design
 track: system-design-hld
 order: 115
+ownHeader: true
 url: /learning/system-design/hld/module-b7-notes/
 ---
 

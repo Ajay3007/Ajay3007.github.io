@@ -3,6 +3,7 @@ title: "Multithreading"
 description: "Multithreading Threads, concurrency, and synchronization."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/06-multithreading/
 ---
 

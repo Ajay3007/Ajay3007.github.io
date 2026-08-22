@@ -110,6 +110,58 @@
   --radius-card: var(--radius-card);
 }
 
+
+/* ==========================================================================
+   Legacy token compatibility  (migration only)
+   --------------------------------------------------------------------------
+   The 31 per-page stylesheets and the inline <style> blocks inside migrated
+   content reference the token names Jekyll's base.css defined — ~2,950 times,
+   led by --text-color (765) and --border-color (801). Without them those
+   `var(--x, #fallback)` declarations silently fall back to their light-theme
+   defaults, which is how a migrated page ended up as a white card with
+   invisible bold text on a dark site.
+
+   Defined once here as aliases onto the semantic tokens, so they flip with the
+   theme like everything else. This whole block retires as pages convert from
+   hand-written HTML to components.
+   ========================================================================== */
+
+:root {
+  /* Jekyll's own palette names, used directly by the bespoke pages */
+  --ink: var(--fg);
+  --body: var(--muted);
+  --dim: var(--subtle);
+  --faint: var(--line-strong);
+  --panel: var(--surface);
+  --panel-2: var(--surface-hover);
+  --rule: var(--line);
+  --accent-dim: var(--accent-border);
+  --warm: var(--warm);
+
+  /* Older semantic aliases that predate them */
+  --primary-color: var(--fg);
+  --secondary-color: var(--accent);
+  --accent-color: var(--accent);
+  --text-color: var(--muted);
+  --light-text: var(--subtle);
+  --bg-color: var(--bg);
+  --bg-gradient-end: var(--bg);
+  --card-bg: var(--surface);
+  --border-color: var(--line);
+  --shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+  --shadow-sm: 0 2px 8px rgb(0 0 0 / 0.35);
+
+  /* Component-scoped leftovers */
+  --code-bg: var(--surface);
+  --code-text: var(--accent);
+  --pre-bg: var(--surface);
+  --post-meta-bg: var(--surface);
+  --sidebar-bg: var(--surface);
+  --problem-card-bg: var(--surface);
+  --problem-title-color: var(--fg);
+  --problem-sub-text: var(--subtle);
+}
+
 /* ==========================================================================
    Base
    ========================================================================== */
@@ -129,6 +181,11 @@ html {
 }
 
 body {
+  /* `clip` rather than `hidden`: it stops the page scrolling sideways when a
+     migrated layout declares min-width:580px, without creating a scroll
+     container, which would break the sticky header. Wide blocks still get
+     their own scrollbar via .legacy-content below, so nothing is unreachable. */
+  overflow-x: clip;
   background: var(--bg);
   color: var(--muted);
   font-family: var(--font-sans);
@@ -168,6 +225,20 @@ h4:hover > .heading-anchor { opacity: 1; }
   font-weight: var(--shiki-dark-font-weight) !important;
   text-decoration: var(--shiki-dark-text-decoration) !important;
 }
+
+/* Migrated content contains hand-built layouts with fixed widths. Left alone
+   they widen the page itself and every other element lays out to that width,
+   which is what horizontal scrolling on mobile actually is. Wide children
+   scroll inside their own box instead; the page never does. */
+.legacy-content { overflow-x: auto; }
+.legacy-content img,
+.legacy-content table,
+.legacy-content pre { max-width: 100%; }
+
+/* Hand-written <pre> in migrated content holds ASCII diagrams and aligned
+   tables. Tailwind's preflight leaves it inheriting the body line-height,
+   which spaces those out; preformatted text wants to be tight. */
+pre { line-height: 1.45; }
 
 /* KaTeX: keep long displayed equations scrollable instead of overflowing. */
 .katex-display {

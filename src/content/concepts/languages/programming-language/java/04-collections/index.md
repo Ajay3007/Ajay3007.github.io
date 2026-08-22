@@ -3,6 +3,7 @@ title: "Collections"
 description: "Collections List, Set, Map, and Java Collections Framework."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/04-collections/
 ---
 

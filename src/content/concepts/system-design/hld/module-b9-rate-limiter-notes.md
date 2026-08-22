@@ -4,6 +4,7 @@ description: "Module B9 — Design a Rate Limiter System Design Mastery Course T
 domain: system-design
 track: system-design-hld
 order: 119
+ownHeader: true
 url: /learning/system-design/hld/module-b9-notes/
 ---
 

@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 2 · MODULE 08 · WEEK 6 🌍 HTTP/1.1
 domain: networking
 track: networking-mastery
 order: 8
+ownHeader: true
 url: /learning/networking-mastery/m08-http/
 ---
 
@@ -242,7 +243,7 @@ url: /learning/networking-mastery/m08-http/
   <div class="cp-hdr"><span class="ico">🌐</span><h3>HTTP in the Protocol Stack</h3><span class="tag tag-blue">POSITION</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Protocol stack comparison */</span>
-
+ 
 HTTP/1.1 and HTTP/2:          HTTP/3:
 ┌─────────────────┐           ┌─────────────────┐
 │   HTTP/1.1 or   │           │     HTTP/3       │
@@ -254,12 +255,12 @@ HTTP/1.1 and HTTP/2:          HTTP/3:
 ├─────────────────┤           ├─────────────────┤
 │      IP         │           │      IP          │
 └─────────────────┘           └─────────────────┘
-
+ 
 <span class="cm">/* HTTP is always text-based in HTTP/1.1 (line-delimited) */</span>
 <span class="cm">/* HTTP/2 is binary framing over the same TCP+TLS */</span>
 <span class="cm">/* HTTP/3 moves the entire stack to UDP with QUIC handling */</span>
 <span class="cm">/* reliability, ordering, and encryption that TCP+TLS provided */</span>
-
+ 
 <span class="cm">/* Check which HTTP version a server uses */</span>
 curl -v --http1.1 https://google.com 2>&1 | grep '< HTTP'
 curl -v --http2    https://google.com 2>&1 | grep '< HTTP'
@@ -299,7 +300,7 @@ curl -v --http3    https://google.com 2>&1 | grep '< HTTP'  <span class="cm"># i
 <span class="hm-hdr-name">Set-Cookie:</span> <span class="hm-hdr-val">session=abc123; HttpOnly; Secure; SameSite=Strict</span>
 <span class="hm-hdr-name">X-Request-ID:</span> <span class="hm-hdr-val">7f3a9c2d</span>
 <span class="hm-hdr-name">Date:</span> <span class="hm-hdr-val">Wed, 18 Mar 2026 10:00:00 GMT</span>
-
+ 
 <span class="hm-body">{"id":42,"name":"Ajay","role":"admin"}</span></pre>
     </div>
   </div>
@@ -348,14 +349,14 @@ curl -v --http3    https://google.com 2>&1 | grep '< HTTP'  <span class="cm"># i
 HTTP/1.1 200 OK
 Transfer-Encoding: chunked
 Content-Type: text/html
-
+ 
 <span class="cv">1a</span>               <span class="hm-comment">← chunk size in hex: 0x1a = 26 bytes</span>
 This is the first chunk.
 <span class="cv">13</span>               <span class="hm-comment">← 0x13 = 19 bytes</span>
 And the second chunk.
 <span class="cv">0</span>                <span class="hm-comment">← zero-length chunk = end of body</span>
                  <span class="hm-comment">← trailing CRLF</span>
-
+ 
 <span class="cm">/* Used for: streaming responses, server-sent events */</span>
 <span class="cm">/* server starts sending before it knows total size */</span></pre></div>
   </div>
@@ -473,30 +474,30 @@ And the second chunk.
   <div class="cp-body">
     <p>Security headers are HTTP response headers that instruct the browser to enable security protections. A WAF or NGFW proxy can inject missing security headers into responses:</p>
 <div class="cb"><pre><span class="cm">/* Security headers — every production server should send these */</span>
-
+ 
 <span class="hm-hdr-name">Strict-Transport-Security:</span> <span class="hm-hdr-val">max-age=31536000; includeSubDomains; preload</span>
 <span class="hm-comment">  # HSTS: browser must use HTTPS for this domain for 1 year
   # Prevents SSL stripping attacks
   # preload: submit to browser preload list</span>
-
+ 
 <span class="hm-hdr-name">Content-Security-Policy:</span> <span class="hm-hdr-val">default-src 'self'; script-src 'self' cdn.example.com; object-src 'none'</span>
 <span class="hm-comment">  # CSP: whitelist of allowed content sources
   # Prevents XSS by blocking inline scripts and untrusted sources</span>
-
+ 
 <span class="hm-hdr-name">X-Frame-Options:</span> <span class="hm-hdr-val">DENY</span>
 <span class="hm-comment">  # Prevent clickjacking — page cannot be embedded in iframe
   # Superseded by CSP frame-ancestors, but still widely needed</span>
-
+ 
 <span class="hm-hdr-name">X-Content-Type-Options:</span> <span class="hm-hdr-val">nosniff</span>
 <span class="hm-comment">  # Browser must not MIME-sniff — prevents content-type confusion attacks</span>
-
+ 
 <span class="hm-hdr-name">Referrer-Policy:</span> <span class="hm-hdr-val">strict-origin-when-cross-origin</span>
 <span class="hm-comment">  # Controls what goes in Referer header on cross-origin requests
   # Prevents leaking sensitive URLs to third parties</span>
-
+ 
 <span class="hm-hdr-name">Permissions-Policy:</span> <span class="hm-hdr-val">camera=(), microphone=(), geolocation=(self)</span>
 <span class="hm-comment">  # Restrict browser APIs — prevent malicious pages accessing camera/mic</span>
-
+ 
 <span class="hm-hdr-name">Set-Cookie:</span> <span class="hm-hdr-val">session=abc; HttpOnly; Secure; SameSite=Strict; Path=/</span>
 <span class="hm-comment">  # HttpOnly: JS cannot access cookie (prevents XSS cookie theft)
   # Secure: only sent over HTTPS
@@ -562,7 +563,7 @@ And the second chunk.
 +-----------------------------------------------+
 |                  Frame Payload                 |
 +-----------------------------------------------+
-
+ 
 <span class="cm">/* Frame types */</span>
 Type 0x0 DATA:        <span class="cs">request/response body data</span>
 Type 0x1 HEADERS:     <span class="cs">request/response headers (HPACK compressed)</span>
@@ -574,7 +575,7 @@ Type 0x6 PING:        <span class="cs">keepalive and RTT measurement</span>
 Type 0x7 GOAWAY:      <span class="cs">graceful connection shutdown — last processed stream ID</span>
 Type 0x8 WINDOW_UPDATE:<span class="cs">flow control — increase receive window</span>
 Type 0x9 CONTINUATION:<span class="cs">continue HEADERS frame if too large for one frame</span>
-
+ 
 <span class="cm">/* HEADERS frame example — HPACK compressed */</span>
 <span class="cm">/* Static table entry: :method GET = index 2, :path / = index 4 */</span>
 \x82           <span class="cm"># :method = GET  (index 2 from static table)</span>
@@ -598,11 +599,11 @@ Type 0x9 CONTINUATION:<span class="cs">continue HEADERS frame if too large for o
 Request 1 — first time User-Agent is sent:
   Header: user-agent: Mozilla/5.0 (Linux; Android 11)
   Wire bytes: ~45 bytes (literal encoding, added to dynamic table at index 62)
-
+ 
 Request 2 — same User-Agent:
   Wire bytes: \xbe (1 byte = index 62 in dynamic table)
   Savings: 98%
-
+ 
 <span class="cm">/* CRIME and BREACH attacks — why HPACK must be careful */</span>
 <span class="cm"># If attacker can inject chosen plaintext adjacent to secrets in compressed data,</span>
 <span class="cm"># they can observe compression ratio to infer secret values byte by byte.</span>
@@ -650,15 +651,15 @@ Request 2 — same User-Agent:
 │  - CRYPTO frames: TLS handshake messages            │
 │  - PADDING, PING, CONNECTION_CLOSE, etc.            │
 └─────────────────────────────────────────────────────┘
-
+ 
 <span class="cm">/* QUIC connection establishment — 1-RTT */</span>
 Client → Server: Initial (ClientHello inside CRYPTO frame)
 Server → Client: Initial (ServerHello, certificates, Finished) + Handshake + 1-RTT data
 Client → Server: Handshake (Finished) + 1-RTT data ← FIRST DATA HERE
-
+ 
 vs TLS over TCP: SYN → SYN+ACK → ACK → ClientHello → ServerHello...Finished → data
                  That's 2 RTTs minimum before data flows.
-
+ 
 <span class="cm">/* 0-RTT resumption */</span>
 Client received a "session ticket" from prior connection:
 Client → Server: 0-RTT data immediately (with replay-protected pre-shared key)
@@ -719,15 +720,15 @@ Caveat: 0-RTT data is replay-vulnerable — only safe for idempotent requests (G
 curl -I https://cloudflare.com | grep -i alt-svc
 <span class="cm"># alt-svc: h3=":443"; ma=86400</span>
 <span class="cm"># "I support HTTP/3 (h3) on port 443, this hint is valid for 86400 seconds"</span>
-
+ 
 <span class="cm"># Test HTTP/3 with curl (requires --http3 support)</span>
 curl --http3 -v https://cloudflare.com 2>&1 | head -20
-
+ 
 <span class="cm"># Wireshark capture of QUIC traffic</span>
 <span class="cm"># Filter: udp.port == 443 (QUIC uses UDP 443)</span>
 <span class="cm"># QUIC packets appear as "QUIC" in protocol column</span>
 <span class="cm"># Content is encrypted — only metadata visible without TLS keys</span>
-
+ 
 <span class="cm"># Provide TLS keys to Wireshark for decryption</span>
 SSLKEYLOGFILE=/tmp/keys.log curl --http3 https://cloudflare.com
 <span class="cm"># In Wireshark: Edit → Preferences → Protocols → TLS → Master Secret log</span></pre></div>
@@ -764,19 +765,19 @@ RTT 1: → TCP ACK + TLS ClientHello (with key_share)
         ← TLS ServerHello + Certificate + CertVerify + Finished (encrypted)
 RTT 2: → TLS Finished + HTTP GET   ← HTTP response arrives
                                       ← DATA arrives
-
+ 
 <span class="cm">/* HTTP/2 over TLS 1.3 — same, but ALPN negotiates h2 in handshake */</span>
 TLS ClientHello includes: ALPN extension ["h2", "http/1.1"]
 TLS ServerHello includes: ALPN selected "h2"
 After handshake: HTTP/2 binary framing on the same connection
-
+ 
 <span class="cm">/* HTTP/3 over QUIC — 1 RTT (0-RTT for returning clients) */</span>
 RTT 0: → QUIC Initial (ClientHello in CRYPTO frame)
         ← QUIC Initial+Handshake (ServerHello+Cert+Finished)
            + 1-RTT data (server can already send response!)
 RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
         ← (server was already sending response from RTT 0)
-
+ 
 <span class="cm">/* ALPN — Application-Layer Protocol Negotiation */</span>
 <span class="cm"># Allows HTTP version negotiation within TLS handshake</span>
 <span class="cm"># No extra round-trip needed</span>

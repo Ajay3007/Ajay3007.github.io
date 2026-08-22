@@ -3,6 +3,7 @@ title: "Variable Arguments (Varargs) in Java"
 description: "Variable Arguments (Varargs) in Java Complete guide to varargs usage, rules, pitfalls, and best practices."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/01-basics/var-args/
 ---
 

@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B7 · WEEK 17 REAL-TIME
 domain: system-design
 track: system-design-hld
 order: 114
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b7-whatsapp/
 ---
 
@@ -114,21 +116,21 @@ GET /ws HTTP/1.1
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-
+ 
 <span class="cm">// Server responds:</span>
 HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
-
+ 
 <span class="cm">// 2. TCP connection stays open — frames flow bidirectionally</span>
 Client → Server: <span class="str">{"type":"message","to":456,"content":"Hey!"}</span>
 Server → Client: <span class="str">{"type":"message","from":123,"content":"What's up?"}</span>
 Server → Client: <span class="str">{"type":"ack","msgId":7890,"status":"delivered"}</span>
-
+ 
 <span class="cm">// 3. Heartbeat every 30s — keeps connection alive through NAT</span>
 Server → Client: PING
 Client → Server: PONG
-
+ 
 <span class="cm">// 4. On disconnect: client reconnects, fetches offline messages via REST</span>
 GET /messages/offline?since=<span class="str">"last_message_id"</span></pre>
   </div>
@@ -155,11 +157,11 @@ GET /messages/offline?since=<span class="str">"last_message_id"</span></pre>
 <pre class="c"><span class="cm">// Bob is offline: message stored in Cassandra (already done — Step 2 above)</span>
 <span class="cm">// Also: store message_id in inbox:{bobId} sorted set</span>
 ZADD <span class="str">inbox:bob</span> <span class="cy">{message_id}</span> <span class="cy">{message_id}</span>
-
+ 
 <span class="cm">// Bob reconnects (WebSocket upgrade):</span>
 <span class="cm">// 1. REST call to fetch missed messages</span>
 GET /messages/offline?userId=bob&since=<span class="cy">{lastReadMessageId}</span>
-
+ 
 <span class="cm">// 2. Server queries Cassandra for all conversations Bob participates in</span>
 <span class="cm">// 3. Returns all messages with message_id > lastReadMessageId</span>
 <span class="cm">// 4. Push to Bob's new WebSocket connection</span>
@@ -197,7 +199,7 @@ ALTER TABLE messages ADD delivered_count INT DEFAULT 0;
 ALTER TABLE messages ADD read_count INT DEFAULT 0;
 <span class="cm">-- ✓✓ shown when delivered_count = group_size</span>
 <span class="cm">-- ✓✓ blue when read_count = group_size</span>
-
+ 
 <span class="cm">-- Option B: per-recipient receipts table (more granular, scales better)</span>
 CREATE TABLE message_receipts (
     message_id    BIGINT,
@@ -230,17 +232,17 @@ CREATE TABLE message_receipts (
   <div class="cb"><div class="cb-top">Presence read + subscriber-based push<span class="cb-l">REDIS</span></div>
 <pre class="c"><span class="cm">// Write: every 30s heartbeat via WebSocket</span>
 SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <span class="str">"online"</span>   <span class="cm">// 45s TTL > 30s heartbeat interval</span>
-
+ 
 <span class="cm">// Read: check if user is online</span>
 <span class="kw">String</span> val = redis.<span class="fn">get</span>(<span class="str">"presence:"</span> + userId);
 <span class="kw">if</span> (val != <span class="kw">null</span>) <span class="kw">return</span> <span class="str">"Online"</span>;
 <span class="kw">else</span> <span class="kw">return</span> <span class="str">"Last seen at "</span> + db.<span class="fn">getLastSeen</span>(userId);
-
+ 
 <span class="cm">// Scaling the writes:</span>
 <span class="cm">// 100M active users × 1 write/30s = 3.3M writes/sec</span>
 <span class="cm">// Redis Cluster: shard by hash(userId) across 10+ nodes</span>
 <span class="cm">// Each node handles ~330K writes/sec → achievable</span>
-
+ 
 <span class="cm">// Subscriber-based presence notifications (avoids fan-out to all contacts):</span>
 <span class="cm">// Bob opens chat with Alice → subscribe to presence:{aliceId}</span>
 <span class="cm">// Alice comes online → notify only active subscribers (open chat windows)</span>
@@ -279,15 +281,15 @@ SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <spa
     <span class="cm">// 1. Message already stored in Cassandra by Chat Server</span>
     UUID groupId = e.groupId;
     <span class="kw">long</span> messageId = e.messageId;
-
+ 
     <span class="cm">// 2. Fetch all group members (paginated from Cassandra/Redis)</span>
     List&lt;Long&gt; members = groupService.<span class="fn">getMembers</span>(groupId);
-
+ 
     <span class="kw">for</span> (<span class="kw">long</span> memberId : members) {
         <span class="kw">if</span> (memberId == e.senderId) <span class="kw">continue</span>;  <span class="cm">// skip sender</span>
-
+ 
         String serverAddr = redis.<span class="fn">get</span>(<span class="str">"session:"</span> + memberId);
-
+ 
         <span class="kw">if</span> (serverAddr != <span class="kw">null</span>) {
             <span class="cm">// Online: route to their Chat Server</span>
             chatRouter.<span class="fn">deliver</span>(serverAddr, memberId, messageId);
@@ -333,18 +335,18 @@ SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <spa
 <pre class="c"><span class="cm">// Step 1: Client requests pre-signed upload URL</span>
 POST /media/upload/presign
 Response: <span class="str">{uploadUrl: "https://s3.../media/uuid.jpg?X-Amz-Signature=...", mediaId: "uuid"}</span>
-
+ 
 <span class="cm">// Step 2: Client uploads directly to S3 (NOT through Chat Server)</span>
 PUT https://s3.amazonaws.com/wa-media/uuid.jpg
 Content-Type: image/jpeg
 Body: [encrypted image bytes]
-
+ 
 <span class="cm">// Step 3: Client sends message with media reference</span>
 WS: <span class="str">{type:"message", to:456, mediaId:"uuid", mediaType:"image", thumbnail:"base64..."}</span>
-
+ 
 <span class="cm">// Step 4: Recipient downloads from CDN (not Chat Server)</span>
 GET https://cdn.wa.me/media/uuid.jpg  <span class="cm">← edge-cached, fast</span>
-
+ 
 <span class="cm">// Benefits:</span>
 <span class="cm">// Chat servers handle only ~200 byte WS frames (never MB of media)</span>
 <span class="cm">// S3 + CDN handle bandwidth independently</span>

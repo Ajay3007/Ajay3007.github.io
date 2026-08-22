@@ -3,6 +3,7 @@ title: "Summary"
 description: "Tax Hurdle Project — Complete Summary & Documentation A consolidated reference guide for the Tax Hurdle investment tax calculation system."
 domain: finance
 order: 99
+ownHeader: true
 url: /learning/finance/tax_hurdle/summary/
 ---
 

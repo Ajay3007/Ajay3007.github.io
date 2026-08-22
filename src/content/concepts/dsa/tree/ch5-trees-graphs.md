@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 5 Chapter 5 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 5
+chrome: bare
+ownHeader: true
 url: /learning/dsa/tree/ch5-trees-graphs/
 ---
 
@@ -45,7 +47,7 @@ url: /learning/dsa/tree/ch5-trees-graphs/
        4   5     6     ← leaves (depth 2)
       /
      7                 ← leaf (depth 3)
-
+ 
 root:    node with no parent (node 1)
 leaf:    node with no children — leaves: 5, 6, 7
 height:  longest root-to-leaf path = 3 (1→2→4→7)
@@ -529,13 +531,13 @@ void morrisInOrder(TreeNode* root) {
 </div>
 <div class="dsa-pattern-box">
 <pre style="font-size:0.82rem;margin:0;color:var(--text-color);">Morris Inorder Traversal walk-through on: [4, 2, 6, 1, 3, 5, 7]
-
+ 
         4
        / \
       2   6
      / \ / \
     1  3 5  7
-
+ 
 Step 1: curr=4, pred of 4 is 3 (rightmost of left subtree).
         Thread 3→4. Move curr to 2.
 Step 2: curr=2, pred of 2 is 1. Thread 1→2. Move curr to 1.
@@ -546,7 +548,7 @@ Step 5: curr=3, no left. Print 3. Move right → follows thread to 4.
 Step 6: curr=4, thread found (pred 3→4). Remove thread.
         Print 4. Move right to 6.
 ... continues printing 5, 6, 7.
-
+ 
 Output: 1 2 3 4 5 6 7  ✓
 </pre>
 </div>

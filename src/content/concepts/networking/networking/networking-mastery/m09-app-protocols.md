@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 2 · MODULE 09 · WEEK 7 · PHASE 2 FI
 domain: networking
 track: networking-mastery
 order: 9
+ownHeader: true
 url: /learning/networking-mastery/m09-app-protocols/
 ---
 
@@ -246,7 +247,7 @@ url: /learning/networking-mastery/m09-app-protocols/
   <div class="cp-body">
     <p>Email delivery involves multiple agents. Understanding which component speaks to which — and on which port — is essential for NGFW policy:</p>
 <div class="cb"><pre><span class="cm">/* Email delivery pipeline */</span>
-
+ 
 Your mail client (MUA — Mail User Agent)
   |
   | TCP 587 (SMTP Submission, STARTTLS + AUTH)
@@ -261,12 +262,12 @@ Recipient's MX server (MTA — Mail Transfer Agent)
   ↓
 Recipient's mail client (MUA)
   ← TCP 993/IMAP or 995/POP3 (client downloads mail)
-
+ 
 <span class="cm">/* Why three different ports? */</span>
 Port 25:  Server-to-server relay. NOT for clients (ISPs block outbound 25 to prevent spam from compromised machines).
 Port 587: Client submission. Requires AUTH (login). Most ISPs and firewalls allow this.
 Port 465:  Legacy SMTPS — TLS from connection open. Superseded by 587+STARTTLS but still used.
-
+ 
 <span class="cm">/* DNS MX lookup before SMTP connection */</span>
 dig gmail.com MX
 <span class="cv">; gmail.com MX 5 gmail-smtp-in.l.google.com.</span>
@@ -282,7 +283,7 @@ dig gmail.com MX
 
     <div class="proto-session">
 <pre><span class="sc">220 mail.example.com ESMTP Postfix (Ubuntu)</span>          <span class="si">← Server greeting</span>
-
+ 
 <span class="cc">EHLO sending-server.jio.com</span>                           <span class="si">← Extended HELLO — announces capabilities</span>
 <span class="sc">250-mail.example.com</span>
 <span class="sc">250-PIPELINING</span>                                        <span class="si">← Multiple commands without waiting</span>
@@ -290,29 +291,29 @@ dig gmail.com MX
 <span class="sc">250-STARTTLS</span>                                          <span class="si">← Can upgrade to TLS</span>
 <span class="sc">250-AUTH LOGIN PLAIN XOAUTH2</span>                         <span class="si">← Supported auth mechanisms</span>
 <span class="sc">250 DSN</span>                                               <span class="si">← Delivery Status Notification support</span>
-
+ 
 <span class="cc">STARTTLS</span>                                              <span class="si">← Upgrade connection to TLS</span>
 <span class="sc">220 2.0.0 Ready to start TLS</span>
 <span class="si">[TLS handshake occurs — all subsequent SMTP is encrypted]</span>
 <span class="cc">EHLO sending-server.jio.com</span>                           <span class="si">← Must re-EHLO after STARTTLS</span>
 <span class="sc">250 mail.example.com ...</span>
-
+ 
 <span class="cc">AUTH LOGIN</span>                                            <span class="si">← Authenticate (client to server only)</span>
 <span class="sc">334 VXNlcm5hbWU6</span>                                     <span class="si">← "Username:" base64 encoded</span>
 <span class="cc">YWpheUBqaW8uY29t</span>                                     <span class="si">← username base64 encoded</span>
 <span class="sc">334 UGFzc3dvcmQ6</span>                                     <span class="si">← "Password:" base64 encoded</span>
 <span class="cc">cGFzc3dvcmQxMjM=</span>                                     <span class="si">← password base64 encoded</span>
 <span class="sc">235 2.7.0 Authentication successful</span>
-
+ 
 <span class="cc">MAIL FROM:&lt;ajay@jio.com&gt;</span>                             <span class="si">← Envelope sender (RETURN-PATH)</span>
 <span class="sc">250 2.1.0 Ok</span>
-
+ 
 <span class="cc">RCPT TO:&lt;colleague@example.com&gt;</span>                      <span class="si">← Envelope recipient</span>
 <span class="sc">250 2.1.5 Ok</span>
-
+ 
 <span class="cc">RCPT TO:&lt;boss@example.com&gt;</span>                           <span class="si">← Multiple recipients allowed</span>
 <span class="sc">250 2.1.5 Ok</span>
-
+ 
 <span class="cc">DATA</span>                                                  <span class="si">← Start message body</span>
 <span class="sc">354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;</span>
 <span class="cc">From: Ajay Kumar &lt;ajay@jio.com&gt;</span>                      <span class="si">← Message headers (RFC 5322)</span>
@@ -325,7 +326,7 @@ dig gmail.com MX
 <span class="cc">Hi, can we meet at 2pm tomorrow?</span>
 <span class="cc">.</span>                                                     <span class="si">← Single dot on line = end of message</span>
 <span class="sc">250 2.0.0 Ok: queued as A1B2C3D4</span>
-
+ 
 <span class="cc">QUIT</span>
 <span class="sc">221 2.0.0 Bye</span></pre>
     </div>
@@ -387,7 +388,7 @@ telnet mail.victim.com 25
 <span class="cc">From: CEO Real Name &lt;ceo@real-company.com&gt;</span> <span class="si">← Message header — identical to envelope</span>
 <span class="cc">Subject: Urgent wire transfer needed</span>
 <span class="cc">.</span>
-
+ 
 <span class="cm">/* Without SPF/DKIM/DMARC the receiving server has no way to detect this */</span>
 <span class="cm">/* Employee sees ceo@real-company.com — looks completely legitimate */</span></pre></div>
   </div>
@@ -424,22 +425,22 @@ telnet mail.victim.com 25
     </table>
 
 <div class="cb"><pre><span class="cm">/* SMTP receiving server checks — in order */</span>
-
+ 
 1. Connect from IP 1.2.3.4, MAIL FROM:&lt;ajay@jio.com&gt;
-
+ 
 2. SPF check: DNS lookup TXT jio.com → "v=spf1 include:_spf.jio.com -all"
    Is 1.2.3.4 in _spf.jio.com? If yes: SPF PASS. If no: SPF FAIL.
-
+ 
 3. DKIM check: Find DKIM-Signature header in message DATA.
    Lookup DNS TXT selector._domainkey.jio.com → get public key.
    Verify signature over specified headers + body. Match? DKIM PASS.
-
+ 
 4. DMARC check: DNS TXT _dmarc.jio.com → "v=DMARC1; p=reject; rua=mailto:..."
    Does SPF domain or DKIM d= tag align with From: header domain?
    If p=reject and both fail → REJECT the message (return 5xx).
    If p=quarantine → deliver to spam folder.
    If p=none → deliver but send report.
-
+ 
 <span class="cm">/* Verify SMTP auth headers in received email */</span>
 <span class="cm"># In Gmail: "Show original" → look for:</span>
 Authentication-Results: mx.google.com;
@@ -489,7 +490,7 @@ Authentication-Results: mx.google.com;
       <div>
         <h4>Active FTP (PORT command)</h4>
 <div class="cb"><pre><span class="cc">CLIENT                SERVER</span>
-
+ 
 <span class="cm">/* Control channel */</span>
   → TCP connect to :21
   ← 220 FTP Ready
@@ -497,13 +498,13 @@ Authentication-Results: mx.google.com;
   ← 331 Password:
   → PASS secret
   ← 230 Logged in
-
+ 
 <span class="cm">/* Client tells server where to call back */</span>
   → PORT 10,0,0,5,196,160
   <span class="si">← IP: 10.0.0.5</span>
   <span class="si">  Port: 196*256+160 = 50336</span>
   ← 200 PORT command OK
-
+ 
   → LIST
   ← 150 Opening data connection
 <span class="cm">/* Data channel — server initiates! */</span>
@@ -515,7 +516,7 @@ Authentication-Results: mx.google.com;
       <div>
         <h4>Passive FTP (PASV command)</h4>
 <div class="cb"><pre><span class="cc">CLIENT                SERVER</span>
-
+ 
 <span class="cm">/* Control channel */</span>
   → TCP connect to :21
   ← 220 FTP Ready
@@ -523,14 +524,14 @@ Authentication-Results: mx.google.com;
   ← 331 Password:
   → PASS secret
   ← 230 Logged in
-
+ 
 <span class="cm">/* Client asks server to listen */</span>
   → PASV
   ← 227 Entering Passive Mode
   <span class="si">  (192,168,1,100,200,45)</span>
   <span class="si">  IP: 192.168.1.100</span>
   <span class="si">  Port: 200*256+45 = 51245</span>
-
+ 
   → LIST
   ← 150 Opening data connection
 <span class="cm">/* Data channel — CLIENT initiates */</span>
@@ -595,35 +596,35 @@ Authentication-Results: mx.google.com;
   <div class="cp-hdr"><span class="ico">💻</span><h3>FTP ALG in Action — Passive FTP Through NAT</h3><span class="tag tag-blue">ALG WALKTHROUGH</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Passive FTP through NAT — without ALG (broken) */</span>
-
+ 
 Client private IP:  10.0.0.5
 Client public IP:   203.0.113.5 (NAT)
 FTP server:         198.51.100.10
-
+ 
 Client → NAT → Server: PASV
 Server → NAT → Client: 227 Entering Passive Mode (198,51,100,10,200,45)
                          <span class="si">← Server's real IP + port (this part is fine)</span>
 Client → NAT → Server: TCP connect to 198.51.100.10:51245
                          Works! Client always initiates in passive mode.
-
+ 
 <span class="cm">/* Now the problem: Active FTP through NAT (broken) */</span>
 Client → NAT → Server: PORT 10,0,0,5,196,160
                          <span class="si">← Client sends its PRIVATE IP!</span>
 Server tries to connect to 10.0.0.5:50336 <span class="se">← private, unreachable!</span>
 <span class="se">Connection fails.</span>
-
+ 
 <span class="cm">/* Active FTP through NAT — with FTP ALG */</span>
 Client → NAT (ALG sees PORT command):
   Original: PORT 10,0,0,5,196,160
   ALG rewrites to: PORT 203,0,113,5,196,160   <span class="si">← replaces private IP with public IP</span>
   ALG adds dynamic firewall rule:
     PERMIT TCP from 198.51.100.10:20 to 203.0.113.5:50336
-
+ 
 Client → NAT (ALG-rewritten) → Server: PORT 203,0,113,5,196,160
 Server → NAT → Client: TCP connect from :20 to 203.0.113.5:50336
                         NAT translates to 10.0.0.5:50336  Works!
 ALG removes dynamic rule when data channel closes.
-
+ 
 <span class="cm">/* PASV through NAT with server behind NAT (also needs ALG) */</span>
 Server is at private 192.168.1.100, public 203.0.113.10
 Server responds: 227 Entering Passive Mode (192,168,1,100,200,45)
@@ -647,11 +648,11 @@ ALG on server-side NAT rewrites to: (203,0,113,10,200,45)
 <div class="cb"><pre><span class="cm"># Linux FTP client usage</span>
 ftp ftp.example.com          <span class="cm"># plain FTP (avoid)</span>
 sftp user@sftp.example.com   <span class="cm"># SFTP over SSH (recommended)</span>
-
+ 
 <span class="cm"># Check FTP ALG status in Linux conntrack</span>
 sudo modprobe nf_conntrack_ftp
 sudo cat /proc/net/nf_conntrack | grep ftp
-
+ 
 <span class="cm"># VPP FTP ALG (conceptual)</span>
 <span class="cm"># vppctl: set ftp alg enable  — loads ftp-alg plugin</span>
 <span class="cm"># Plugin inspects TCP port 21 streams, rewrites PORT/PASV payloads</span></pre></div>
@@ -709,20 +710,20 @@ sudo cat /proc/net/nf_conntrack | grep ftp
 <div class="cb"><pre><span class="cm">/* After lease assignment — lease lifecycle */</span>
 T1 (renewal time = lease/2 = 43200s):
   Client unicasts DHCP Request to same server → DHCP ACK → lease renewed
-
+ 
 T2 (rebind time = lease × 0.875 = 75600s):
   If T1 renewal failed: client broadcasts DHCP Request to any server
   Any server can renew the lease at this point
-
+ 
 Lease expiry:
   If rebind failed: client must release IP, restart DORA from scratch
   Client cannot use the IP after lease expires
-
+ 
 <span class="cm">/* DHCP Release — client relinquishing IP */</span>
 <span class="cm"># When client disconnects gracefully, sends DHCP Release</span>
 <span class="cm"># Server returns IP to available pool immediately</span>
 <span class="cm"># Many mobile clients DON'T send Release on WiFi disconnect (battery saving)</span>
-
+ 
 <span class="cm">/* Check DHCP on Linux */</span>
 dhclient eth0                              <span class="cm"># request DHCP lease</span>
 dhclient -r eth0                           <span class="cm"># release lease</span>
@@ -801,13 +802,13 @@ aa:bb:cc:dd:ee:ff  192.168.1.50   86400s    10    GigE0/1
 11:22:33:44:55:66  192.168.1.51   86400s    10    GigE0/2
 <span class="cm"># Built by snooping DHCP ACK messages on trusted ports</span>
 <span class="cm"># Only the real DHCP server (trusted port) should send ACKs</span>
-
+ 
 <span class="cm">/* NGFW uses this for identity-based logging */</span>
 <span class="cm"># DNS query from 192.168.1.50 → look up in DHCP snooping table</span>
 <span class="cm"># → hostname "ajay-laptop" (from Option 12 in Discover)</span>
 <span class="cm"># → MAC aa:bb:cc:dd:ee:ff</span>
 <span class="cm"># Log: "ajay-laptop (aa:bb:cc:dd:ee:ff / 192.168.1.50) queried malware.com"</span>
-
+ 
 <span class="cm">/* Dynamic ARP Inspection uses the binding table */</span>
 <span class="cm"># ARP from GigE0/1: "aa:bb:cc:dd:ee:ff owns 192.168.1.50"</span>
 <span class="cm"># Match binding table → VALID, forward</span>
@@ -846,7 +847,7 @@ aa:bb:cc:dd:ee:ff  192.168.1.50   86400s    10    GigE0/1
   <div class="cp-hdr"><span class="ico">📊</span><h3>Protocol-Specific NGFW Inspection Architecture</h3><span class="tag tag-orange">ARCHITECTURE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* SMTP inspection pipeline in NGFW */</span>
-
+ 
 Inbound SMTP:
   1. TCP accept on :25 (SMTP proxy mode)
   2. Banner response: "220 ngfw.example.com ESMTP"
@@ -862,9 +863,9 @@ Inbound SMTP:
   12. Apply spam score (RBL check, heuristics, ML model)
   13. If allowed: forward to internal mail server
   14. Log result: allowed/blocked/quarantined + scores
-
+ 
 <span class="cm">/* FTP ALG pipeline */</span>
-
+ 
 Outbound FTP:
   1. Track TCP connections to :21 as FTP control sessions
   2. Parse commands in control stream
@@ -874,9 +875,9 @@ Outbound FTP:
   6. On data channel connection: apply file inspection policy
   7. On data channel close: remove dynamic entry
   8. Log: client, server, files transferred (via CWD/RETR/STOR tracking)
-
+ 
 <span class="cm">/* DHCP identity tracking */</span>
-
+ 
 On DHCP ACK intercept:
   Extract: client MAC (chaddr), offered IP (yiaddr), hostname (option 12)
   Update identity table: IP → MAC → hostname → lease_expiry

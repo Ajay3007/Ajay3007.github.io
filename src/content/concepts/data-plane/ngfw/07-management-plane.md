@@ -4,6 +4,7 @@ description: "📊 Management Plane — Turning Packets into Dashboards We've tr
 domain: data-plane
 track: ngfw
 order: 7
+ownHeader: true
 url: /learning/data-plane/ngfw/management-plane/
 ---
 

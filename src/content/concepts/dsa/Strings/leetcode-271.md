@@ -3,6 +3,7 @@ title: "Leetcode 271. Encode and Decode Strings"
 description: "[Problem Description]( problem-description) 2."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/strings/leetcode-271/
 ---
 

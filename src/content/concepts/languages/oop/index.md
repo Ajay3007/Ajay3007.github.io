@@ -3,6 +3,7 @@ title: "Object Oriented Programming (OOPs)"
 description: "--- 🧩 Object Oriented Programming (OOPs) Core OOP concepts, SOLID principles, and design patterns."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/oop/
 ---
 

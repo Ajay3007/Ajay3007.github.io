@@ -3,6 +3,7 @@ title: "C Language"
 description: "C Language Master the basics to advanced concepts of C programming."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/c/
 ---
 

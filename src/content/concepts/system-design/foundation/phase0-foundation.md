@@ -3,6 +3,8 @@ title: "Phase 0 — Foundation Primer"
 description: "// system design mastery phase 0 Foundation Primer Weeks 1 2 Topics 5 Tasks 5 Track Universal All Learners & 127760; Internet & 9881; OS Fundamentals & 128451; Database Basics…"
 domain: system-design
 order: 99
+chrome: bare
+ownHeader: true
 url: /learning/system-design/foundation/phase0-foundation/
 ---
 
@@ -50,7 +52,7 @@ url: /learning/system-design/foundation/phase0-foundation/
       <p style="margin:8px 0;font-size:13px;color:var(--ink2)">Ordered reliable delivery via 3-way handshake, ACKs, retransmission, flow + congestion control.</p>
       <pre><span class="cg">SYN</span> &#8594; <span class="ca">SYN-ACK</span> &#8594; <span class="cg">ACK</span>
 <span class="cm">&#91;connected&#93;</span>
-
+ 
 TCP: reliable &#8594; <span class="cm">HTTP, DB</span>
 UDP: fast &#8594; <span class="cm">video, DNS</span></pre>
     </div>
@@ -120,7 +122,7 @@ UDP: fast &#8594; <span class="cm">video, DNS</span></pre>
 Thread <span class="cr">WAITS</span> (idle)
 I/O completes
 Thread continues
-
+ 
 10K connections
 = 10K idle threads
 = ~10 GB RAM wasted</pre>
@@ -131,7 +133,7 @@ Thread continues
 Thread continues work
 OS notifies on complete
 (callback / future)
-
+ 
 10K connections
 = 1 thread handles all
 = minimal RAM used</pre>
@@ -192,10 +194,10 @@ Without Isolation:  Third tx reads mid-transfer = <span class="cr">wrong balance
       <pre>No index:
 SELECT * WHERE email='x@y.com'
 &rarr; full table scan &rarr; <span class="cr">O(n)</span>
-
+ 
 With B-tree index:
 &rarr; tree traversal &rarr; <span class="cg">O(log n)</span>
-
+ 
 Composite index (A,B,C):
 <span class="cg">&#10003;</span> query on A
 <span class="cg">&#10003;</span> query on (A,B)

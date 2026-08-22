@@ -3,6 +3,7 @@ title: "Readme"
 description: "TaxHrd Project — Complete Delivery Package 🎉 PROJECT COMPLETED SUCCESSFULLY All documentation for the TaxHrd project has been created and organized."
 domain: finance
 order: 99
+ownHeader: true
 url: /learning/finance/README/
 ---
 

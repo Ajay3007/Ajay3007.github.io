@@ -4,6 +4,7 @@ description: "Function Pointers A function pointer stores the address of a funct
 domain: languages
 track: c-fundamentals
 order: 7
+ownHeader: true
 url: /learning/programming-language/c/c-basics/function-pointers/
 ---
 

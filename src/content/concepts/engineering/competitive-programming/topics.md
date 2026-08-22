@@ -3,6 +3,7 @@ title: "Competitive Programming Topics"
 description: "[Competitive Programming — Topics]( competitive-programming-topics) 1.1."
 domain: engineering
 order: 99
+ownHeader: true
 url: /learning/competitive-programming/topics/
 ---
 

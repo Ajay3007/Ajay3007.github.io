@@ -4,6 +4,8 @@ description: "System Design Roadmap › LLD Hub › Module A6 › Full Notes Mod
 domain: system-design
 track: system-design-lld
 order: 13
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a6-notes/
 ---
 

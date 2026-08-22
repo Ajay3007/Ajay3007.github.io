@@ -4,6 +4,8 @@ description: "Module C5 · Week 29 · Track C — Advanced Topics Prerequisites:
 domain: system-design
 track: system-design-hld
 order: 211
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c5-notes/
 ---
 

@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part7-production
 order: 726
+ownHeader: true
 url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
 ---
 
@@ -137,7 +138,7 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
     <div class="cb"><pre>import sqlite3, hashlib, json
 from datetime import datetime
 from typing import Optional
-
+ 
 <span class="ck"># ── DB-backed prompt registry ─────────────────────────</span>
 def init_prompt_db():
     with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
@@ -153,7 +154,7 @@ def init_prompt_db():
             created_at  TEXT NOT NULL,
             UNIQUE(name, version))"""</span>)
         conn.execute(<span class="cs">"CREATE INDEX IF NOT EXISTS idx_name ON prompts(name, is_active)"</span>)
-
+ 
 def register_prompt(name: str, content: str, author: str = <span class="cs">""</span>, notes: str = <span class="cs">""</span>) -> int:
     """Register a new version of a prompt. Returns version number."""
     h   = hashlib.sha256(content.encode()).hexdigest()[:12]
@@ -165,7 +166,7 @@ def register_prompt(name: str, content: str, author: str = <span class="cs">""</
         conn.execute(<span class="cs">"""INSERT INTO prompts (name,version,content,hash,author,notes,created_at)
             VALUES (?,?,?,?,?,?,?)"""</span>, (name, version, content, h, author, notes, now))
     return version
-
+ 
 def activate_prompt(name: str, version: int):
     """Activate a specific version — all others for this name become inactive."""
     with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
@@ -173,7 +174,7 @@ def activate_prompt(name: str, version: int):
         conn.execute(
             <span class="cs">"UPDATE prompts SET is_active=1 WHERE name=? AND version=?"</span>,
             (name, version))
-
+ 
 def get_active_prompt(name: str) -> Optional[dict]:
     with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
         row = conn.execute(
@@ -182,19 +183,19 @@ def get_active_prompt(name: str) -> Optional[dict]:
     if not row:
         return None
     return {<span class="cs">"content"</span>: row[<span class="cv">0</span>], <span class="cs">"version"</span>: row[<span class="cv">1</span>], <span class="cs">"hash"</span>: row[<span class="cv">2</span>]}
-
+ 
 def rollback_prompt(name: str, to_version: int):
     """Rollback to a previous version."""
     activate_prompt(name, to_version)
     print(<span class="cs">f"Rolled back {name!r} to version {to_version}"</span>)
-
+ 
 def list_prompt_history(name: str) -> list[dict]:
     with sqlite3.connect(<span class="cs">"prompts.db"</span>) as conn:
         rows = conn.execute(<span class="cs">"""SELECT version, hash, author, is_active, created_at, notes
             FROM prompts WHERE name=? ORDER BY version DESC"""</span>, (name,)).fetchall()
     return [{<span class="cs">"version"</span>: r[<span class="cv">0</span>], <span class="cs">"hash"</span>: r[<span class="cv">1</span>], <span class="cs">"author"</span>: r[<span class="cv">2</span>],
              <span class="cs">"active"</span>: bool(r[<span class="cv">3</span>]), <span class="cs">"created"</span>: r[<span class="cv">4</span>], <span class="cs">"notes"</span>: r[<span class="cv">5</span>]} for r in rows]
-
+ 
 <span class="ck"># Usage workflow:</span>
 <span class="ck"># v1 = register_prompt("rag_system", "You are a helpful assistant...")     → version 1</span>
 <span class="ck"># activate_prompt("rag_system", 1)                                          → live</span>
@@ -215,12 +216,12 @@ def list_prompt_history(name: str) -> list[dict]:
 <span class="ck"># ├── rag_system.v1.txt        ← archived version</span>
 <span class="ck"># ├── chat_system.txt</span>
 <span class="ck"># └── agent_system.txt</span>
-
+ 
 from pathlib import Path
 import hashlib
-
+ 
 PROMPT_DIR = Path(<span class="cs">"prompts"</span>)
-
+ 
 def load_prompt(name: str) -> str:
     """Load prompt from file. Falls back to DB if file not found."""
     path = PROMPT_DIR / <span class="cs">f"{name}.txt"</span>
@@ -229,7 +230,7 @@ def load_prompt(name: str) -> str:
     <span class="ck"># Fall back to DB</span>
     p = get_active_prompt(name)
     return p[<span class="cs">"content"</span>] if p else <span class="cs">""</span>
-
+ 
 def prompt_changed(name: str) -> bool:
     """Detect if the file version differs from the DB active version."""
     file_content = load_prompt(name)
@@ -238,7 +239,7 @@ def prompt_changed(name: str) -> bool:
         return <span class="cv">True</span>
     file_hash = hashlib.sha256(file_content.encode()).hexdigest()[:12]
     return file_hash != db_version[<span class="cs">"hash"</span>]
-
+ 
 <span class="ck"># CI/CD hook: on prompt file change, require test pass before merge</span>
 <span class="ck"># .github/workflows/test-prompts.yml</span>
 <span class="ck"># jobs:</span>
@@ -257,9 +258,9 @@ def prompt_changed(name: str) -> bool:
   <div class="cp-hdr"><span class="ico">🧪</span><h3>Prompt Regression Testing</h3><span class="tag tag-navy">Test Before Deploy</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import pytest, anthropic
-
+ 
 client = anthropic.Anthropic()
-
+ 
 def call_with_prompt(prompt_content: str, user_message: str) -> str:
     response = client.messages.create(
         model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -268,12 +269,12 @@ def call_with_prompt(prompt_content: str, user_message: str) -> str:
         messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_message}]
     )
     return response.content[<span class="cv">0</span>].text
-
+ 
 <span class="ck"># ── Deterministic assertions (temperature=0) ──────────</span>
 <span class="ck"># These must pass for every prompt version before activation</span>
-
+ 
 RAG_PROMPT_V2 = load_prompt_version(<span class="cs">"rag_system"</span>, version=<span class="cv">2</span>)
-
+ 
 def test_rag_stays_grounded():
     """Prompt must refuse to answer from outside context."""
     reply = call_with_prompt(RAG_PROMPT_V2,
@@ -281,23 +282,23 @@ def test_rag_stays_grounded():
     forbidden = [<span class="cs">"Paris"</span>, <span class="cs">"France"</span>]
     for word in forbidden:
         assert word not in reply, <span class="cs">f"Hallucinated '{word}' outside context"</span>
-
+ 
 def test_rag_uses_context():
     """Prompt must use provided context."""
     ctx = <span class="cs">"The DPDK mempool is initialised with rte_mempool_create()."</span>
     reply = call_with_prompt(RAG_PROMPT_V2,
                              <span class="cs">f"Context: {ctx}\n\nHow is DPDK mempool initialised?"</span>)
     assert <span class="cs">"rte_mempool_create"</span> in reply
-
+ 
 def test_rag_declines_gracefully():
     """Prompt must produce the exact 'I don't know' phrase when context empty."""
     reply = call_with_prompt(RAG_PROMPT_V2,
                              <span class="cs">"Context: [no documents retrieved]\n\nWhat is VPP?"</span>)
     assert <span class="cs">"don't have"</span> in reply.lower() or <span class="cs">"not contain"</span> in reply.lower()
-
+ 
 <span class="ck"># ── LLM-as-judge tests (non-deterministic behaviour) ──</span>
 from eval_helpers import judge_faithfulness
-
+ 
 def test_rag_faithfulness_score():
     """Faithfulness must be >= 0.85 on held-out test set."""
     scores = []
@@ -307,7 +308,7 @@ def test_rag_faithfulness_score():
         scores.append(v.score)
     avg = sum(scores) / len(scores)
     assert avg >= <span class="cv">0.85</span>, <span class="cs">f"Faithfulness {avg:.3f} < 0.85 threshold"</span>
-
+ 
 <span class="ck"># Run: pytest tests/test_prompts.py -v</span>
 <span class="ck"># If tests pass: activate_prompt("rag_system", 2)</span>
 <span class="ck"># If tests fail: do NOT activate — investigate and fix prompt</span></pre></div>
@@ -323,13 +324,13 @@ def test_rag_faithfulness_score():
   <div class="cp-body">
     <div class="cb"><pre>import sqlite3
 from datetime import datetime, timedelta
-
+ 
 MODEL_PRICES = {
     <span class="cs">"claude-3-5-sonnet-20241022"</span>: (<span class="cv">3.0</span>/<span class="cv">1e6</span>, <span class="cv">15.0</span>/<span class="cv">1e6</span>),
     <span class="cs">"claude-3-haiku-20240307"</span>:    (<span class="cv">0.25</span>/<span class="cv">1e6</span>, <span class="cv">1.25</span>/<span class="cv">1e6</span>),
     <span class="cs">"gpt-4o"</span>:                     (<span class="cv">2.5</span>/<span class="cv">1e6</span>, <span class="cv">10.0</span>/<span class="cv">1e6</span>),
 }
-
+ 
 def init_cost_db():
     with sqlite3.connect(<span class="cs">"costs.db"</span>) as conn:
         conn.execute(<span class="cs">"""CREATE TABLE IF NOT EXISTS llm_calls (
@@ -347,7 +348,7 @@ def init_cost_db():
             CREATE INDEX IF NOT EXISTS idx_user    ON llm_calls(user_id);
             CREATE INDEX IF NOT EXISTS idx_model   ON llm_calls(model);
         """</span>)
-
+ 
 def log_llm_call(model: str, endpoint: str, user_id: str,
                  input_tok: int, output_tok: int, latency_ms: float,
                  cached: bool = <span class="cv">False</span>):
@@ -359,7 +360,7 @@ def log_llm_call(model: str, endpoint: str, user_id: str,
             VALUES (?,?,?,?,?,?,?,?,?)"""</span>,
             (datetime.utcnow().isoformat(), model, endpoint, user_id,
              input_tok, output_tok, cost, latency_ms, int(cached)))
-
+ 
 <span class="ck"># ── Reporting queries ─────────────────────────────────</span>
 def cost_report(days: int = <span class="cv">30</span>) -> dict:
     cutoff = (datetime.utcnow() - timedelta(days=days)).isoformat()
@@ -397,29 +398,29 @@ def cost_report(days: int = <span class="cv">30</span>) -> dict:
   <div class="cp-body">
     <div class="cb"><pre>import redis, hashlib, json
 from typing import Optional
-
+ 
 r = redis.Redis(host=<span class="cs">"localhost"</span>, port=<span class="cv">6379</span>, decode_responses=<span class="cv">True</span>)
-
+ 
 <span class="ck"># ── Exact match cache ─────────────────────────────────</span>
 <span class="ck"># Same prompt + same system → same deterministic response</span>
 <span class="ck"># Only valid for temperature=0 calls</span>
-
+ 
 def cache_key(system: str, messages: list, model: str) -> str:
     payload = json.dumps({<span class="cs">"system"</span>: system, <span class="cs">"messages"</span>: messages,
                           <span class="cs">"model"</span>: model}, sort_keys=<span class="cv">True</span>)
     return <span class="cs">f"llm:resp:{hashlib.md5(payload.encode()).hexdigest()}"</span>
-
+ 
 def get_cached(system: str, messages: list, model: str,
                ttl_seconds: int = <span class="cv">3600</span>) -> Optional[str]:
     """Check cache. Returns cached response or None."""
     key = cache_key(system, messages, model)
     return r.get(key)
-
+ 
 def set_cached(system: str, messages: list, model: str,
                response: str, ttl_seconds: int = <span class="cv">3600</span>):
     key = cache_key(system, messages, model)
     r.setex(key, ttl_seconds, response)
-
+ 
 async def cached_llm_call(system: str, messages: list,
                            model: str = <span class="cs">"claude-3-5-sonnet-20241022"</span>,
                            temperature: float = <span class="cv">0.0</span>) -> tuple[str, bool]:
@@ -428,42 +429,42 @@ async def cached_llm_call(system: str, messages: list,
         cached = get_cached(system, messages, model)
         if cached:
             return cached, <span class="cv">True</span>
-
+ 
     response = await llm_client.messages.create(
         model=model, max_tokens=<span class="cv">1024</span>, temperature=temperature,
         system=system, messages=messages
     )
     text = response.content[<span class="cv">0</span>].text
-
+ 
     if temperature == <span class="cv">0.0</span>:
         set_cached(system, messages, model, text)
-
+ 
     return text, <span class="cv">False</span>
-
+ 
 <span class="ck"># ── Semantic cache — cache similar (not just identical) queries ──</span>
 <span class="ck"># 1. Embed the query</span>
 <span class="ck"># 2. Search cached embeddings for cosine similarity > threshold</span>
 <span class="ck"># 3. Return cached response if similar enough</span>
-
+ 
 import numpy as np
-
+ 
 class SemanticCache:
     def __init__(self, similarity_threshold: float = <span class="cv">0.95</span>, ttl: int = <span class="cv">3600</span>):
         self.threshold = similarity_threshold
         self.ttl = ttl
         self._entries: list[dict] = []   <span class="ck"># in-prod: use vector DB</span>
-
+ 
     def _cosine_sim(self, a, b) -> float:
         a, b = np.array(a), np.array(b)
         return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + <span class="cv">1e-8</span>))
-
+ 
     def get(self, query_embedding: list[float]) -> Optional[str]:
         for entry in self._entries:
             sim = self._cosine_sim(query_embedding, entry[<span class="cs">"embedding"</span>])
             if sim >= self.threshold:
                 return entry[<span class="cs">"response"</span>]
         return None
-
+ 
     def set(self, query_embedding: list[float], response: str):
         self._entries.append({<span class="cs">"embedding"</span>: query_embedding, <span class="cs">"response"</span>: response})</pre></div>
     <div class="ins"><p>💡 <strong>Cache hit rate is a key business metric.</strong> Even a 20% cache hit rate on RAG queries means 20% fewer LLM API calls — directly reducing cost and latency. Track cache_savings in your cost report (see Tab 3) to show the value of caching to stakeholders.</p></div>
@@ -480,7 +481,7 @@ class SemanticCache:
     <p>Anthropic's prompt caching caches the KV computation for large system prompts and documents. When the same cached prefix is sent again within 5 minutes, you pay 90% less for those tokens.</p>
     <div class="cb"><pre>import anthropic
 client = anthropic.Anthropic()
-
+ 
 <span class="ck"># ── Cache a large system prompt ───────────────────────</span>
 <span class="ck"># Use when: same large system prompt sent with every request</span>
 response = client.messages.create(
@@ -493,12 +494,12 @@ response = client.messages.create(
     }],
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: user_question}]
 )
-
+ 
 <span class="ck"># First call: cache_creation_input_tokens = N (full price)</span>
 <span class="ck"># Subsequent calls within 5 min: cache_read_input_tokens = N (10% price)</span>
 print(<span class="cs">f"Cache write: {response.usage.cache_creation_input_tokens}"</span>)
 print(<span class="cs">f"Cache read:  {response.usage.cache_read_input_tokens}"</span>)
-
+ 
 <span class="ck"># ── Cache a large document for RAG ────────────────────</span>
 <span class="ck"># Use when: same large document referenced in many queries</span>
 response = client.messages.create(
@@ -515,7 +516,7 @@ response = client.messages.create(
         ]
     }]
 )
-
+ 
 <span class="ck"># ── When prompt caching is worth it ───────────────────</span>
 <span class="ck"># Break-even: cache_write_cost = 1.25× normal. Cache reads = 0.1× normal.</span>
 <span class="ck"># Break-even after 2 cache reads. If a prompt is used 10+ times per 5 min → always worth it.</span>

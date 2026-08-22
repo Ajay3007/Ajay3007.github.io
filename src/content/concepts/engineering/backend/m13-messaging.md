@@ -4,6 +4,7 @@ description: "Kafka internals, RabbitMQ patterns, Saga, Outbox, CQRS, Event Sour
 domain: engineering
 track: backend
 order: 13
+ownHeader: true
 url: /learning/backend/m13-messaging/
 ---
 

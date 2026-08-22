@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part8-specialisation
 order: 99
+ownHeader: true
 url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
 ---
 
@@ -100,9 +101,9 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
     <div class="cb"><pre>import pandas as pd
 import anthropic
 import json
-
+ 
 client = anthropic.Anthropic()
-
+ 
 def ai_eda_assistant(df: pd.DataFrame, domain: str = "general") -> dict:
     """LLM-powered EDA: generates hypotheses and analysis plan."""
     summary = {
@@ -113,15 +114,15 @@ def ai_eda_assistant(df: pd.DataFrame, domain: str = "general") -> dict:
         "numeric_summary": df.describe().round(3).to_dict(),
         "sample_3_rows": df.head(3).to_dict(orient="records"),
     }
-
+ 
     response = client.messages.create(
         model="claude-3-5-sonnet-20241022",
         max_tokens=1500,
         messages=[{"role": "user", "content": f"""You are a senior data scientist specialising in {domain}.
-
+ 
 Dataset summary:
 {json.dumps(summary, indent=2, default=str)}
-
+ 
 Respond as JSON with these keys:
 - data_quality_issues: list of 3 specific issues (missing data, outliers, skew, etc.)
 - analysis_hypotheses: list of 5 testable hypotheses specific to this data
@@ -129,16 +130,16 @@ Respond as JSON with these keys:
 - viz_code: Python matplotlib/seaborn code for the single most informative plot
 - business_questions: list of 3 questions a stakeholder would want answered"""}]
     )
-
+ 
     try:
         result = json.loads(response.content[0].text)
     except json.JSONDecodeError:
         # Strip markdown fences if present
         text = response.content[0].text.replace("```json", "").replace("```", "").strip()
         result = json.loads(text)
-
+ 
     return result
-
+ 
 # Example usage
 df = pd.read_csv("network_metrics.csv")
 insights = ai_eda_assistant(df, domain="network performance monitoring")
@@ -153,12 +154,12 @@ print(insights["analysis_hypotheses"])</pre></div>
   <div class="cp-hdr"><span class="ico">🗃</span><h3>Natural Language to SQL with DuckDB</h3><span class="tag">Query Interface</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install duckdb
-
+ 
 import duckdb
 import anthropic
-
+ 
 client = anthropic.Anthropic()
-
+ 
 def nl_to_sql(question: str, table_name: str, schema: str) -> pd.DataFrame:
     """Convert natural language question to DuckDB SQL and execute."""
     response = client.messages.create(
@@ -170,23 +171,23 @@ def nl_to_sql(question: str, table_name: str, schema: str) -> pd.DataFrame:
     )
     sql = response.content[0].text.strip().strip("```sql").strip("```").strip()
     print(f"Generated SQL: {sql}")
-
+ 
     conn = duckdb.connect()
     conn.execute(f"CREATE TABLE {table_name} AS SELECT * FROM read_csv_auto('{table_name}.csv')")
     result = conn.execute(sql).df()
     conn.close()
     return result
-
+ 
 # FastAPI endpoint: natural language data querying
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+ 
 app = FastAPI()
-
+ 
 class QueryRequest(BaseModel):
     question: str
     table: str
-
+ 
 @app.post("/query")
 async def query_data(request: QueryRequest) -> dict:
     # Get schema from DuckDB
@@ -194,9 +195,9 @@ async def query_data(request: QueryRequest) -> dict:
     conn.execute(f"CREATE TABLE t AS SELECT * FROM read_csv_auto('{request.table}.csv') LIMIT 0")
     schema = conn.execute("DESCRIBE t").df().to_dict(orient="records")
     conn.close()
-
+ 
     schema_str = ", ".join([f"{r['column_name']} {r['column_type']}" for r in schema])
-
+ 
     result = nl_to_sql(request.question, request.table, schema_str)
     return {
         "question": request.question,
@@ -204,7 +205,7 @@ async def query_data(request: QueryRequest) -> dict:
         "results": result.to_dict(orient="records"),
         "row_count": len(result)
     }
-
+ 
 # Usage examples:
 # "What is the average packet latency by port type in the last 7 days?"
 # "Which top 5 sources have the highest error rate this month?"
@@ -226,9 +227,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import train_test_split, cross_val_score
 import anthropic
-
+ 
 client = anthropic.Anthropic()
-
+ 
 def suggest_features(df: pd.DataFrame, target: str) -> list[str]:
     """LLM suggests feature engineering transformations."""
     response = client.messages.create(
@@ -238,14 +239,14 @@ def suggest_features(df: pd.DataFrame, target: str) -> list[str]:
             f"""Dataset columns: {list(df.columns)}
 Target: {target}
 Sample row: {df.head(1).to_dict(orient='records')[0]}
-
+ 
 Suggest 5 pandas feature transformations as single-line expressions.
 Format: new_col = expression
 Only output the 5 lines, nothing else."""}]
     )
     lines = [l.strip() for l in response.content[0].text.strip().split("\n") if "=" in l]
     return lines[:5]
-
+ 
 def apply_features(df: pd.DataFrame, feature_code: list[str]) -> pd.DataFrame:
     df = df.copy()
     for line in feature_code:
@@ -256,25 +257,25 @@ def apply_features(df: pd.DataFrame, feature_code: list[str]) -> pd.DataFrame:
         except Exception as e:
             print(f"Skipping feature '{line}': {e}")
     return df
-
+ 
 def build_and_evaluate(df: pd.DataFrame, target: str) -> dict:
     numeric_cols = df.select_dtypes(include="number").columns.drop(target, errors="ignore").tolist()
     categorical_cols = df.select_dtypes(include="object").columns.tolist()
-
+ 
     preprocessor = ColumnTransformer([
         ("num", StandardScaler(), numeric_cols),
         ("cat", OneHotEncoder(handle_unknown="ignore", sparse_output=False), categorical_cols),
     ])
-
+ 
     pipeline = Pipeline([
         ("pre", preprocessor),
         ("clf", GradientBoostingClassifier(n_estimators=100, random_state=42)),
     ])
-
+ 
     X, y = df.drop(columns=[target]), df[target]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     pipeline.fit(X_train, y_train)
-
+ 
     cv_scores = cross_val_score(pipeline, X, y, cv=5)
     return {
         "cv_accuracy_mean": round(cv_scores.mean(), 4),
@@ -291,51 +292,51 @@ def build_and_evaluate(df: pd.DataFrame, target: str) -> dict:
   <div class="cp-hdr"><span class="ico">🔍</span><h3>SHAP + LLM Narrative for Stakeholders</h3><span class="tag">Interpretability</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install shap
-
+ 
 import shap
 import numpy as np
 import anthropic
-
+ 
 client = anthropic.Anthropic()
-
+ 
 def explain_and_narrate(pipeline, X_test, y_test, feature_names: list) -> dict:
     """Generate SHAP explanation + plain-English narrative for non-technical stakeholders."""
-
+ 
     # Compute SHAP values on the classifier (after preprocessing)
     clf = pipeline.named_steps["clf"]
     X_transformed = pipeline.named_steps["pre"].transform(X_test)
-
+ 
     explainer = shap.TreeExplainer(clf)
     shap_values = explainer.shap_values(X_transformed)
-
+ 
     # For binary classification, shap_values may be a list
     if isinstance(shap_values, list):
         shap_values = shap_values[1]
-
+ 
     # Top features by mean absolute SHAP value
     mean_abs_shap = np.abs(shap_values).mean(axis=0)
     top_n = min(5, len(feature_names))
     top_indices = mean_abs_shap.argsort()[-top_n:][::-1]
     top_features = [(feature_names[i], round(float(mean_abs_shap[i]), 4)) for i in top_indices]
-
+ 
     accuracy = pipeline.score(X_test, y_test)
-
+ 
     # LLM-generated executive narrative
     response = client.messages.create(
         model="claude-3-haiku-20240307",
         max_tokens=400,
         messages=[{"role": "user", "content":
             f"""Write a 2-paragraph executive summary of this predictive model for a non-technical audience.
-
+ 
 Model accuracy: {accuracy:.1%}
 Top 5 most predictive features (name, importance score):
 {chr(10).join(f'  {f}: {v}' for f, v in top_features)}
-
+ 
 Paragraph 1: What the model does and how confident we should be.
 Paragraph 2: What the most important factors are (explain in plain language, avoid ML jargon).
 Do not use terms like SHAP, feature importance, or model architecture."""}]
     )
-
+ 
     return {
         "accuracy":     round(accuracy, 4),
         "top_features": top_features,

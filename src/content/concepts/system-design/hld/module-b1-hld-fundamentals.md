@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY COURSE TRACK B · HIGH-LEVEL DESIGN · MODUL
 domain: system-design
 track: system-design-hld
 order: 102
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b1-hld-fundamentals/
 ---
 
@@ -103,9 +105,9 @@ url: /learning/system-design/hld/module-b1-hld-fundamentals/
   <div class="sec-rule">CAP only covers partitions. PACELC adds the non-partition case.</div>
 <pre class="mono"><span class="hl-rust">P → Partition: choose A or C  (same as CAP)</span>
 <span class="hl-och">E → Else (no partition): choose Latency or Consistency</span>
-
+ 
 PACELC(P:A/C ; E:L/C)
-
+ 
 Cassandra:   <span class="hl-fad">PA/EL</span>  — available during partition; low latency normally
 DynamoDB:    <span class="hl-fad">PA/EL</span>  — same profile as Cassandra
 HBase:       <span class="hl-fad">PC/EC</span>  — consistent always; accepts higher latency
@@ -183,12 +185,12 @@ MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre
   Requires majority quorum before returning → adds 1+ network round trips
   Typical latency: 5–50ms extra per operation
   <span class="hl-grn">✓</span> Correct always  <span class="hl-rust">✗</span> Slower
-
+ 
 <span class="hl-fad">Eventual consistency (async replication):</span>
   Write returns immediately after local write → low latency
   Replicas catch up asynchronously
   <span class="hl-grn">✓</span> Fast, available  <span class="hl-rust">✗</span> Reads may be stale (replication lag)
-
+ 
 <span class="hl-fad">Tunable consistency (Cassandra):</span>
   Per-query consistency level: ONE, QUORUM, ALL
   QUORUM write + QUORUM read → strong consistency
@@ -231,12 +233,12 @@ MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre
   <div class="sec-hd" style="margin-top:24px">Active-Passive (Failover)</div>
 <pre class="mono">Normal:    [Client] ──→ [Active Node]      [Passive] (standby, synced)
 Failover:  [Client] ──→ [Passive Node]     [Active]  (dead/recovering)
-
+ 
 Variants:
   Hot standby:  Passive running + synced → failover in seconds
   Warm standby: Passive needs startup → minutes
   Cold standby: Passive needs provisioning → minutes to hours
-
+ 
 <span class="hl-rust">Challenge: Split-brain</span>
   Network partition → both nodes think they're active primary
   Both accept writes → divergent, irreconcilable state
@@ -246,13 +248,13 @@ Variants:
 <pre class="mono">Normal: [Client] ──→ [Load Balancer] ──→ Node A (active, serving)
                                      ──→ Node B (active, serving)
                                      ──→ Node C (active, serving)
-
+ 
 All nodes handle reads AND writes simultaneously.
 Conflict resolution required:
   - Last-write-wins (timestamp)
   - CRDTs (Conflict-free Replicated Data Types)
   - Application-level merge logic
-
+ 
 Used in: Cassandra, DynamoDB, Akamai CDN, most NoSQL at scale</pre>
 </div>
 
@@ -365,16 +367,16 @@ Used in: Cassandra, DynamoDB, Akamai CDN, most NoSQL at scale</pre>
 
   <div class="sec-hd" style="margin-top:24px">Little's Law</div>
 <pre class="mono">L = λ × W
-
+ 
 L  =  average items in system (queue depth)
 λ  =  arrival rate (throughput, requests/sec)
 W  =  average time in system (latency, seconds)
-
+ 
 <span class="hl-rust">Example:</span>
   Service handles 100 req/sec (λ = 100)
   Average latency is 50ms   (W = 0.05s)
   Avg concurrent requests:  L = 100 × 0.05 = <span class="hl-och">5 concurrent requests</span>
-
+ 
 <span class="hl-rust">Key insight:</span>
   If latency grows (W↑) and arrival rate stays constant (λ=const),
   queue depth grows (L↑). Eventually queue overflows → system collapse.
@@ -406,18 +408,18 @@ W  =  average time in system (latency, seconds)
   Reads: 100 tweets/user/day
   Writes: 2 tweets/user/day
   Avg tweet size: ~1 KB (text + metadata)
-
+ 
 <span class="hl-rust">Read QPS:</span>    300M × 100 ÷ 86,400 ≈ <span class="hl-och">350,000 reads/sec</span>
              Peak (3×): ~1M reads/sec
-
+ 
 <span class="hl-rust">Write QPS:</span>   300M × 2 ÷ 86,400 ≈ <span class="hl-och">7,000 writes/sec</span>
              Peak (3×): ~21,000 writes/sec
-
+ 
 <span class="hl-rust">Storage (5 years):</span>
   300M × 2 tweets/day × 365 × 5 × 1 KB
   = 300M × 3,650 × 1,000 bytes
   ≈ <span class="hl-och">1.1 PB</span> (tweets only, excluding media)
-
+ 
 <span class="hl-rust">Bandwidth:</span>
   Reads:  1M req/s × 1 KB = <span class="hl-och">1 GB/sec</span>
   Writes: 21K req/s × 1 KB ≈ <span class="hl-och">21 MB/sec</span></pre>
@@ -430,9 +432,9 @@ UUID:               16 bytes      Timestamp:  4 bytes
 Image (compressed): 100 KB – 5 MB
 HD video 1 min:     ~60 MB (H.264 compressed)
 4K video 1 min:     ~375 MB
-
+ 
 <span class="hl-rust">Units:</span>   1 KB = 10³    1 MB = 10⁶    1 GB = 10⁹    1 TB = 10¹²    1 PB = 10¹⁵
-
+ 
 <span class="hl-rust">Rule of 86,400:</span>  1 req/sec → 86,400 req/day ≈ 100K req/day
 <span class="hl-rust">Rule of 30M:</span>     1 req/sec → ~2.5M req/month ≈ 30M req/year</pre>
   </div>

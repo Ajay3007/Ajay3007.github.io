@@ -3,6 +3,7 @@ title: "4G/5G Networks"
 description: "📡 4G/5G Networks Deep dive into modern cellular network technologies: 4G LTE and 5G architecture, protocols, authentication, and practical applications."
 domain: networking
 order: 0
+ownHeader: true
 url: /learning/4g-5g/
 ---
 

@@ -4,6 +4,7 @@ description: "🛡️ NGFW from First Principles This is the \"why before the ho
 domain: data-plane
 track: ngfw
 order: 1
+ownHeader: true
 url: /learning/data-plane/ngfw/first-principles/
 ---
 

@@ -3,6 +3,7 @@ title: "Data Plane"
 description: "Data Plane Dataplane Engineer Roadmap (0 → Production Ready) 🚀 ⚡ VPP Mastery Roadmap ⚡ DPDK Mastery Roadmap 🛠 SASE DP — 21 Hands-on C Modules 🛡️ NGFW — Build a Firewall on…"
 domain: data-plane
 order: 0
+ownHeader: true
 url: /learning/data-plane/
 ---
 

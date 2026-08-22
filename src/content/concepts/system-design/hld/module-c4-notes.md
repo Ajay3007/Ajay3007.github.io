@@ -4,6 +4,8 @@ description: "Module C4 · Week 28 · Track C — Advanced Topics Prerequisites:
 domain: system-design
 track: system-design-hld
 order: 209
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c4-notes/
 ---
 

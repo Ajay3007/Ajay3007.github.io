@@ -3,6 +3,7 @@ title: "Java Methods – Declaration & Access Specifiers"
 description: "Java Methods – Declaration & Access Specifiers Complete guide to method declaration, components, and access control in Java."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/01-basics/java-method/
 ---
 

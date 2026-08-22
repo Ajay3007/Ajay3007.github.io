@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 3 Chapter 3 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 3
+chrome: bare
+ownHeader: true
 url: /learning/dsa/linked-list/ch3-linked-lists/
 ---
 

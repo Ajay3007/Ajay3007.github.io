@@ -4,6 +4,7 @@ description: "DPDK MASTERY · PHASE 1 OF 3 · MODULE B Hugepages, mempool mbuf H
 domain: data-plane
 track: dpdk
 order: 1
+ownHeader: true
 url: /learning/data-plane/dpdk/module-p1-memory/
 ---
 

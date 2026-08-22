@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 1 · MODULE 03 · WEEK 2 🌐 IPv4 Dee
 domain: networking
 track: networking-mastery
 order: 3
+ownHeader: true
 url: /learning/networking-mastery/m03-ipv4/
 ---
 
@@ -262,7 +263,7 @@ url: /learning/networking-mastery/m03-ipv4/
   <div class="cp-body">
     <p>IP sits at Layer 3 of the OSI model — above Ethernet (L2) and below TCP/UDP (L4). Every TCP connection, every UDP datagram, every DNS query, every HTTP request — they all travel inside IP packets.</p>
 <div class="cb"><pre><span class="cm">/* Stack position of IPv4 */</span>
-
+ 
 Application layer:  HTTP data ("GET /index.html...")
                          ↓ TCP wraps with segment header
 Transport layer:    [TCP hdr: sport=52341 dport=80] + [HTTP data]
@@ -479,13 +480,13 @@ Physical layer:     01001000 01010100 01010100...</pre></div>
 IP address:   192.168.1.100  =  11000000.10101000.00000001.01100100
 Subnet mask:  255.255.255.0  =  11111111.11111111.11111111.00000000
                                  ←──── Network portion ────→ ←Host→
-
+ 
 <span class="cm">/* AND operation: IP & mask = Network address */</span>
 Network addr: 192.168.1.0    =  11000000.10101000.00000001.00000000
-
+ 
 <span class="cm">/* Broadcast: network with all host bits = 1 */</span>
 Broadcast:    192.168.1.255  =  11000000.10101000.00000001.11111111
-
+ 
 <span class="cm">/* Usable hosts: from .1 to .254 (254 hosts for /24) */</span>
 First host:   192.168.1.1
 Last host:    192.168.1.254</pre></div>
@@ -582,28 +583,28 @@ Last host:    192.168.1.254</pre></div>
 <div class="cb"><pre><span class="cs">#include &lt;stdio.h&gt;
 #include &lt;arpa/inet.h&gt;
 #include &lt;stdint.h&gt;</span>
-
+ 
 <span class="ck">int</span> main() {
     <span class="cm">/* IP and prefix */</span>
     uint32_t ip     = inet_addr(<span class="cs">"192.168.10.100"</span>);  <span class="cm">/* network byte order */</span>
     uint32_t prefix = 26;
-
+ 
     <span class="cm">/* Build mask: ~0 shifted left by (32-prefix) bits */</span>
     uint32_t mask = htonl(~0u << (32 - prefix));    <span class="cm">/* 0xFFFFFFC0 = /26 */</span>
-
+ 
     <span class="cm">/* Network address = ip AND mask */</span>
     uint32_t network   = ip & mask;
-
+ 
     <span class="cm">/* Broadcast = network OR (NOT mask) */</span>
     uint32_t broadcast = network | ~mask;
-
+ 
     <span class="cm">/* First and last host */</span>
     uint32_t first = htonl(ntohl(network) + 1);
     uint32_t last  = htonl(ntohl(broadcast) - 1);
-
+ 
     <span class="cm">/* Usable host count */</span>
     uint32_t hosts = ntohl(broadcast) - ntohl(network) - 1;
-
+ 
     <span class="ck">char</span> buf[INET_ADDRSTRLEN];
     printf(<span class="cs">"Network:   %s\n"</span>, inet_ntop(AF_INET, &network,   buf, <span class="ck">sizeof</span>(buf)));
     printf(<span class="cs">"Broadcast: %s\n"</span>, inet_ntop(AF_INET, &broadcast, buf, <span class="ck">sizeof</span>(buf)));
@@ -652,7 +653,7 @@ Last host:    192.168.1.254</pre></div>
 
 <div class="cb"><pre><span class="cm">/* Bogon filter — drop these source IPs at internet-facing interface */</span>
 <span class="cm">/* These are source addresses that should NEVER arrive from the internet */</span>
-
+ 
 Bogon source ranges to block:
   10.0.0.0/8          RFC 1918 private
   172.16.0.0/12       RFC 1918 private
@@ -666,7 +667,7 @@ Bogon source ranges to block:
   192.0.2.0/24        TEST-NET-1
   198.51.100.0/24     TEST-NET-2
   203.0.113.0/24      TEST-NET-3
-
+ 
 <span class="cm">/* Unicas Reverse Path Forwarding (uRPF) — a smarter bogon filter */</span>
 <span class="cm">/* Router drops packets if the source IP has no route back via the */</span>
 <span class="cm">/* same interface the packet arrived on — prevents spoofed sources */</span></pre></div>
@@ -694,12 +695,12 @@ Hop 3: ISP router 2   TTL: 62 → 61   (decremented, forwarded)
 ...
 Hop 12: Google router  TTL: 52 → 51   (decremented, forwarded)
 Hop 13: 8.8.8.8        TTL: 51        (received — destination reached)
-
+ 
 <span class="cm">/* If TTL hits 0 at an intermediate router: */</span>
 Router discards packet + sends ICMP Type 11, Code 0 (Time Exceeded)
 Sender receives ICMP with source IP of the discarding router
 → This is how traceroute works! (see ICMP tab)</span>
-
+ 
 <span class="cm">/* Default TTL values by OS */</span>
 Linux:   64    (set in /proc/sys/net/ipv4/ip_default_ttl)
 Windows: 128
@@ -717,18 +718,18 @@ macOS:   64</pre></div>
 
 <div class="cb"><pre><span class="cm">/* Example routing table on a Linux router */</span>
 $ ip route show
-
+ 
 10.0.0.0/8       via 192.168.1.1 dev eth0        <span class="cm"># Match any 10.x.x.x</span>
 10.10.0.0/16     via 192.168.1.2 dev eth0        <span class="cm"># More specific match</span>
 10.10.1.0/24     dev eth1 proto kernel scope link <span class="cm"># Most specific — local</span>
 0.0.0.0/0        via 203.0.113.1 dev eth2         <span class="cm"># Default route (catch-all)</span>
-
+ 
 <span class="cm">/* LPM example: packet destined for 10.10.1.55 */</span>
 Matches 0.0.0.0/0    → /0  — too broad
 Matches 10.0.0.0/8   → /8  — candidate
 Matches 10.10.0.0/16 → /16 — more specific
 Matches 10.10.1.0/24 → /24 — MOST SPECIFIC → this one wins
-
+ 
 <span class="cm">/* Router actions after lookup: */</span>
 1. Decrement TTL (if TTL becomes 0: drop + send ICMP Time Exceeded)
 2. Recompute IP header checksum (TTL changed)
@@ -877,20 +878,20 @@ Matches 10.10.1.0/24 → /24 — MOST SPECIFIC → this one wins
 Round 1: Send 3 packets with TTL=1
   → First router decrements to 0, drops, sends ICMP Time Exceeded
   → Reveal: first hop IP = 192.168.1.1 (your gateway)
-
+ 
 Round 2: Send 3 packets with TTL=2
   → Second router decrements to 0, drops, sends ICMP Time Exceeded
   → Reveal: second hop IP = 10.10.1.1 (ISP edge router)
-
+ 
 Round 3: Send 3 packets with TTL=3
   → Third router... and so on until destination replies
-
+ 
 <span class="cm">/* Two implementations */</span>
 <span class="cs">traceroute</span> on Linux: sends UDP packets to high port (33434+)
                      destination replies with ICMP Port Unreachable (type 3, code 3)
 <span class="cs">tracert</span>   on Windows: sends ICMP Echo Requests
                      destination replies with Echo Reply (type 0)
-
+ 
 <span class="cm">/* Run it */</span>
 $ traceroute -n 8.8.8.8    <span class="cm"># -n skips DNS resolution (faster)</span>
 $ traceroute -I 8.8.8.8    <span class="cm"># -I uses ICMP instead of UDP</span>

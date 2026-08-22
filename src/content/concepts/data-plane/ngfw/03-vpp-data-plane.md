@@ -4,6 +4,7 @@ description: "⚙️ The VPP Data Plane — Graph, Nodes & Feature Arcs [Module 
 domain: data-plane
 track: ngfw
 order: 3
+ownHeader: true
 url: /learning/data-plane/ngfw/vpp-data-plane/
 ---
 

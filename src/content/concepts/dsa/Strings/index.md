@@ -3,6 +3,7 @@ title: "Strings"
 description: "📋 Practice Problems ⚡ View All Strings Problems → 9 curated problems with solutions • Easy to Hard difficulty 📑 Table of Contents 1."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/strings/
 ---
 

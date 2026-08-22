@@ -4,6 +4,7 @@ description: "🚶 Packet Walkthrough — One Connection, End to End [Module 03]
 domain: data-plane
 track: ngfw
 order: 4
+ownHeader: true
 url: /learning/data-plane/ngfw/packet-walkthrough/
 ---
 

@@ -4,6 +4,7 @@ description: "Module 13 — Atomic Counters + Per-lcore Stats Pure C — fully r
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-13-atomic-stats/
 ---
 

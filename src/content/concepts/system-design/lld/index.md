@@ -4,6 +4,7 @@ description: "⚙️ Low-Level Design (LLD) Design classes, components, and inte
 domain: system-design
 track: system-design-lld
 order: 0
+ownHeader: true
 url: /learning/system-design/lld/
 ---
 

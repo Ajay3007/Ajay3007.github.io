@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 4 · MODULE 18 · WEEK 16 · PHASE 4 F
 domain: networking
 track: networking-mastery
 order: 18
+ownHeader: true
 url: /learning/networking-mastery/m18-vpp/
 ---
 
@@ -133,31 +134,31 @@ url: /learning/networking-mastery/m18-vpp/
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>VPP Startup Configuration</h3><span class="tag tag-blue">SETUP</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm"># /etc/vpp/startup.conf — key sections</span>
-
+ 
 unix {
   nodaemon
   log /var/log/vpp/vpp.log
   full-coredump
   cli-listen /run/vpp/cli.sock   <span class="cm"># vppctl connects here</span>
 }
-
+ 
 dpdk {
   dev 0000:01:00.0 { name eth0 num-rx-queues 4 num-tx-queues 4 }
   dev 0000:01:00.1 { name eth1 num-rx-queues 4 num-tx-queues 4 }
   num-mbufs 131072
   socket-mem 2048,0   <span class="cm"># 2GB hugepages on NUMA 0</span>
 }
-
+ 
 cpu {
   main-core 0                   <span class="cm"># main thread (management)</span>
   corelist-workers 2,3,4,5      <span class="cm"># 4 worker threads</span>
 }
-
+ 
 buffers {
   buffers-per-numa 131072
   default data-size 2048
 }
-
+ 
 <span class="cm"># Start VPP</span>
 sudo systemctl start vpp
 sudo vppctl show version
@@ -213,10 +214,10 @@ show run
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* VPP graph: directed acyclic graph of processing nodes */</span>
 <span class="cm">/* Each edge carries a vlib_frame_t — an array of buffer indices */</span>
-
+ 
 Default IP4 forwarding path:
   dpdk-input → ethernet-input → ip4-input → ip4-lookup → ip4-rewrite → interface-output
-
+ 
 With ACL and NAT inserted:
   dpdk-input → ethernet-input → ip4-input
     → [ip4-unicast feature arc]:
@@ -227,28 +228,28 @@ With ACL and NAT inserted:
         nat44-ed-out2in-worker    (NAT outbound)
         acl-plugin-out-ip4-fa     (egress ACL)
     → interface-output
-
+ 
 <span class="cm">/* Node types */</span>
 VLIB_NODE_TYPE_INPUT:    Poll loop entry (dpdk-input, tap-inject)
 VLIB_NODE_TYPE_INTERNAL: Processing nodes (ip4-lookup, acl-plugin)
 VLIB_NODE_TYPE_PRE_INPUT: Runs before INPUT (for scheduling)
 VLIB_NODE_TYPE_PROCESS:  Background process threads
-
+ 
 <span class="cm">/* vlib_frame_t — the unit of work between nodes */</span>
 typedef struct {
     u16  n_vectors;         <span class="cm">/* number of packets in this frame */</span>
     u32  vector_offset;     <span class="cm">/* offset to u32[] array of buffer indices */</span>
 } vlib_frame_t;
-
+ 
 <span class="cm">/* Get the array of buffer indices from a frame */</span>
 u32 *bufs = vlib_frame_vector_args(frame);
 <span class="cm">/* bufs[0..n_vectors-1] are indices into vlib_main.buffer_pool */</span>
-
+ 
 <span class="cm">/* Get packet data from a buffer index */</span>
 vlib_buffer_t *b = vlib_get_buffer(vm, bufs[0]);
 ip4_header_t  *ip = vlib_buffer_get_current(b);
 <span class="cm">/* vlib_buffer_get_current(b) = b->data + b->current_data */</span>
-
+ 
 <span class="cm">/* Key node commands */</span>
 show vlib graph           <span class="cm"># all nodes and their next-node connections</span>
 show vlib graph ip4-input <span class="cm"># next nodes of ip4-input</span>
@@ -269,19 +270,19 @@ show errors               <span class="cm"># error counters per node</span></pre
 <span class="cs">#include &lt;vnet/vnet.h&gt;
 #include &lt;vnet/plugin/plugin.h&gt;
 #include &lt;vpp/app/version.h&gt;</span>
-
+ 
 VLIB_PLUGIN_REGISTER() = {
     .version     = VPP_BUILD_VER,
     .description = <span class="cs">"Packet counter plugin"</span>,
 };
-
+ 
 typedef enum { MY_NEXT_IP4_LOOKUP, MY_NEXT_DROP, MY_N_NEXT } my_next_t;
-
+ 
 typedef struct {
     u64 pkt_count[VLIB_MAX_WORKERS + 1];  <span class="cm">/* per-thread, no locking */</span>
 } my_main_t;
 my_main_t my_main;
-
+ 
 VLIB_NODE_FN(my_counter_node)(vlib_main_t *vm,
                                vlib_node_runtime_t *node,
                                vlib_frame_t *frame)
@@ -290,7 +291,7 @@ VLIB_NODE_FN(my_counter_node)(vlib_main_t *vm,
     u32 *from  = vlib_frame_vector_args(frame);
     u16 nexts[VLIB_FRAME_SIZE], *next = nexts;
     u64 pkts = 0;
-
+ 
     <span class="cm">/* ── 4x unrolled loop with prefetch ─────────────── */</span>
     <span class="ck">while</span> (n_left >= 8) {
         <span class="cm">/* Prefetch packet data 4 ahead */</span>
@@ -298,14 +299,14 @@ VLIB_NODE_FN(my_counter_node)(vlib_main_t *vm,
         vlib_prefetch_buffer_with_index(vm, from[5], LOAD);
         vlib_prefetch_buffer_with_index(vm, from[6], LOAD);
         vlib_prefetch_buffer_with_index(vm, from[7], LOAD);
-
+ 
         <span class="cm">/* Get 4 buffers */</span>
         vlib_buffer_t *b0 = vlib_get_buffer(vm, from[0]);
         vlib_buffer_t *b1 = vlib_get_buffer(vm, from[1]);
         vlib_buffer_t *b2 = vlib_get_buffer(vm, from[2]);
         vlib_buffer_t *b3 = vlib_get_buffer(vm, from[3]);
         (void)b0; (void)b1; (void)b2; (void)b3;
-
+ 
         next[0] = next[1] = next[2] = next[3] = MY_NEXT_IP4_LOOKUP;
         from += 4; next += 4; n_left -= 4; pkts += 4;
     }
@@ -314,14 +315,14 @@ VLIB_NODE_FN(my_counter_node)(vlib_main_t *vm,
         next[0] = MY_NEXT_IP4_LOOKUP;
         from++; next++; n_left--; pkts++;
     }
-
+ 
     my_main.pkt_count[vm->thread_index] += pkts;
-
+ 
     vlib_buffer_enqueue_to_next(vm, node,
         vlib_frame_vector_args(frame), nexts, frame->n_vectors);
     return frame->n_vectors;
 }
-
+ 
 VLIB_REGISTER_NODE(my_counter_node) = {
     .name          = <span class="cs">"my-counter"</span>,
     .vector_size   = sizeof(u32),
@@ -332,10 +333,10 @@ VLIB_REGISTER_NODE(my_counter_node) = {
         [MY_NEXT_DROP]       = <span class="cs">"error-drop"</span>,
     },
 };
-
+ 
 <span class="cm">/* Insert into ip4-unicast feature arc on an interface */</span>
 <span class="cm">/* vnet_feature_enable_disable("ip4-unicast", "my-counter", sw_if_index, 1, 0, 0); */</span>
-
+ 
 <span class="cm">/* CMakeLists.txt */</span>
 <span class="cm"># add_vpp_plugin(my_plugin SOURCES my_node.c API_FILES my_plugin.api)</span>
 <span class="cm"># Plugins auto-loaded from /usr/lib/vpp_plugins/ at VPP startup</span></pre></div>
@@ -352,21 +353,21 @@ VLIB_REGISTER_NODE(my_counter_node) = {
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>VPP FIB Architecture</h3><span class="tag tag-blue">FIB</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* VPP FIB is a three-layer structure */</span>
-
+ 
 Layer 1: IP4 FIB table (per VRF)
   Hash table → O(1) exact match for /32 host routes
   mtrie       → LPM for all other prefixes (4-level trie, 8 bits/level)
-
+ 
 Layer 2: Load-Balance (LB) object
   Created when a prefix has multiple equal-cost next-hops (ECMP)
   Contains N hash buckets, each pointing to an adjacency
   Flow-hash over 5-tuple selects bucket (consistent per flow)
-
+ 
 Layer 3: Adjacency
   Pre-built rewrite string: "dst_mac src_mac ethertype" (14 bytes)
   Stored as raw bytes — ip4-rewrite just memcpy's directly into packet
   Interface index for output
-
+ 
 <span class="cm">/* FIB inspection commands */</span>
 show ip fib                     <span class="cm"># entire IPv4 FIB (can be huge)</span>
 show ip fib table 0             <span class="cm"># VRF 0 (default)</span>
@@ -376,11 +377,11 @@ show ip fib summary             <span class="cm"># count of prefixes by length</
 show ip adjacency               <span class="cm"># all adjacency objects</span>
 show ip adjacency 42            <span class="cm"># specific adjacency: rewrite bytes, interface</span>
 show ip adjacency summary       <span class="cm"># count by type (glean/rewrite/midchain)</span>
-
+ 
 <span class="cm">/* Route management */</span>
 ip route add 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
 ip route del 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
-
+ 
 <span class="cm">/* ECMP: add same prefix twice = LB with 2 buckets */</span>
 ip route add 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
 ip route add 10.0.0.0/8 via 192.168.1.2 GigabitEthernet0/8/1
@@ -388,11 +389,11 @@ show ip fib 10.0.0.0/8
 <span class="cm"># Displays: load-balance [index N] buckets 2</span>
 <span class="cm">#             [0]: adj[via 192.168.1.1 GigE0/8/0]</span>
 <span class="cm">#             [1]: adj[via 192.168.1.2 GigE0/8/1]</span>
-
+ 
 <span class="cm">/* Null routes — blackhole */</span>
 ip route add 192.0.2.0/24 drop
 ip route add 198.51.100.0/24 local  <span class="cm"># deliver to local stack</span>
-
+ 
 <span class="cm">/* Multiple VRFs (for tenant isolation in NGFW) */</span>
 ip table add 100
 ip route add table 100 0.0.0.0/0 via 10.100.0.1 GigabitEthernet0/8/0
@@ -409,26 +410,26 @@ set interface ip table GigabitEthernet0/8/2 100  <span class="cm"># assign inter
   <div class="cp-hdr"><span class="ico">🔌</span><h3>VPP Control Plane Interfaces</h3><span class="tag tag-amber">VAPI</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Three control interfaces */</span>
-
+ 
 1. vppctl CLI — interactive and scripted
    vppctl show version
    vppctl ip route add 0.0.0.0/0 via 10.0.0.1
    echo "show ip fib summary" | vppctl
    vppctl exec /etc/vpp/setup.vpp   <span class="cm"># run a config file</span>
-
+ 
 2. Python VAPI — programmatic automation
 import vpp_papi
 from vpp_papi import VPP
-
+ 
 vpp = VPP(['/usr/share/vpp/api/vpe.api.json',
            '/usr/share/vpp/api/interface.api.json',
            '/usr/share/vpp/api/ip.api.json'])
 vpp.connect('my-control-app')
-
+ 
 <span class="cm"># Show version</span>
 rv = vpp.api.show_version()
 print(f"VPP version: {rv.version.decode()}")
-
+ 
 <span class="cm"># Add an IP route</span>
 from ipaddress import ip_address, ip_network
 rv = vpp.api.ip_route_add_del(
@@ -443,17 +444,17 @@ rv = vpp.api.ip_route_add_del(
                    'proto': 0}]
     }
 )
-
+ 
 <span class="cm"># Create loopback interface</span>
 rv = vpp.api.create_loopback()
 sw_if_index = rv.sw_if_index
-
+ 
 vpp.disconnect()
-
+ 
 3. VAT2 (JSON-based API test tool)
    <span class="cm"># vat2 show_version</span>
    <span class="cm"># vat2 show_interface sw_if_index 0</span>
-
+ 
 <span class="cm">/* Useful diagnostic commands */</span>
 show interface                    <span class="cm"># all interfaces, TX/RX stats</span>
 show hardware-interfaces          <span class="cm"># NIC capabilities, link state</span>
@@ -477,7 +478,7 @@ show log                          <span class="cm"># VPP log buffer</span></pre>
   <div class="cp-body">
     <p>VPP's feature arc system lets you insert custom processing nodes into the packet pipeline without modifying VPP core. The <code>ip4-unicast</code> arc is the primary insertion point for NGFW functions on inbound IPv4 traffic.</p>
 <div class="cb"><pre><span class="cm">/* NGFW pipeline using VPP feature arcs */</span>
-
+ 
 ip4-input
   ↓ [ip4-unicast feature arc — ordered by feature weight]
   ├── acl-plugin-in-ip4-fa      (stateful conntrack + ACL rules)
@@ -491,24 +492,24 @@ ip4-lookup → ip4-rewrite
   └── acl-plugin-out-ip4-fa     (egress ACL)
   ↓
 interface-output
-
+ 
 <span class="cm">/* Enable your plugin on an interface */</span>
 vnet_feature_enable_disable(<span class="cs">"ip4-unicast"</span>, <span class="cs">"my-ngfw-dpi"</span>, sw_if_index, 1, 0, 0);
-
+ 
 <span class="cm">/* VPP ACL plugin — built-in stateful firewall */</span>
 <span class="cm"># Create an ACL (permit HTTPS, permit HTTP, deny all)</span>
 acl_add_replace acl_index 0 r {is_permit 1 proto 6 dst_port 443 443 dst_ip 0.0.0.0/0},
                                {is_permit 1 proto 6 dst_port 80  80  dst_ip 0.0.0.0/0},
                                {is_permit 0}
-
+ 
 <span class="cm"># Apply to interface (inbound = filter traffic entering through eth0)</span>
 set acl-list interface GigabitEthernet0/8/0 input 0
-
+ 
 <span class="cm">/* VPP NAT44 — stateful NAT */</span>
 nat44 enable sessions 65536
 set interface nat44 in GigabitEthernet0/8/0 out GigabitEthernet0/8/1
 nat44 add interface address GigabitEthernet0/8/1
-
+ 
 <span class="cm">/* Connection tracking for custom node */</span>
 <span class="cm">/* Access conntrack state from within your node: */</span>
 clib_bihash_kv_16_8_t kv;
@@ -538,33 +539,33 @@ vppctl show run
 <span class="cm">#   ip4-lookup         active  1000  32000    2.84e+06     32.0      89</span>
 <span class="cm">#   ip4-rewrite        active  1000  32000    1.44e+06     32.0      45</span>
 <span class="cm">#   my-ngfw-dpi        active  1000  32000    9.60e+06     32.0     300</span>
-
+ 
 <span class="cm"># Clk/Vec = CPU cycles per packet in this node (at 3GHz: 300 cycles = 100ns)</span>
 <span class="cm"># Sum of all Clk/Vec = total cycles per packet through the pipeline</span>
 <span class="cm"># my-ngfw-dpi is the bottleneck here (300 cycles vs 60-89 for built-ins)</span>
-
+ 
 <span class="cm">/* Optimisation workflow */</span>
 1. Run: vppctl clear run; sleep 5; vppctl show run
 2. Identify highest Clk/Vec node (your bottleneck)
 3. Check: are we prefetching? 4x unrolled? NUMA-local memory?
 4. Profile: perf stat -e cycles,cache-misses -C 2 sleep 5
 5. Check vector sizes: Vectors/Call < 8 = under-loaded (not batching enough)
-
+ 
 <span class="cm">/* show errors — drop counter diagnosis */</span>
 vppctl show errors
 <span class="cm"># ip4-input: ip4 src address is multicast    12</span>
 <span class="cm"># ip4-input: ip4 spoofed local-address       5</span>
 <span class="cm"># acl-plugin-in-ip4-fa: ACL deny packets  4821</span>
-
+ 
 <span class="cm">/* Buffer pressure — detect mempool exhaustion */</span>
 vppctl show buffers
 <span class="cm"># If "allocated" approaches "total": mempool running low → increase num-mbufs</span>
-
+ 
 <span class="cm">/* Per-interface counters */</span>
 vppctl show interface GigabitEthernet0/8/0
 <span class="cm"># RX packets/bytes, TX packets/bytes, drops, errors</span>
 vppctl clear interfaces   <span class="cm"># reset counters</span>
-
+ 
 <span class="cm">/* Packet capture in VPP (pcap trace) */</span>
 pcap dispatch trace on max 1000 file /tmp/vpp.pcap
 <span class="cm"># ... generate traffic ...</span>

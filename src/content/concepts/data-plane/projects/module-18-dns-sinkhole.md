@@ -4,6 +4,7 @@ description: "Module 18 — DNS Sinkhole Pure C — fully runnable."
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-18-dns-sinkhole/
 ---
 

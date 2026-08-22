@@ -3,6 +3,7 @@ title: "High-Level Design"
 description: "--- 📋 Executive Summary Document: High-Level System Design Type: Technical Documentation Reading Time: ~25 min Last Updated: December 2025 📊 Quick Stats Metric Value --------…"
 domain: system-design
 order: 99
+ownHeader: true
 url: /learning/system-design/high-level/
 ---
 

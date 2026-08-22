@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 3 · MODULE 12 · WEEK 10 🌍 BGP Int
 domain: networking
 track: networking-mastery
 order: 12
+ownHeader: true
 url: /learning/networking-mastery/m12-bgp/
 ---
 
@@ -139,11 +140,11 @@ url: /learning/networking-mastery/m12-bgp/
 16-bit ASNs (legacy): 1–65535
   Private range:      64512–65535 (like RFC 1918 for IPs)
   Public range:       1–64511
-
+ 
 32-bit ASNs (modern): 1–4294967295
   Private range:      4200000000–4294967294
   Public range:       everything else
-
+ 
 <span class="cm">/* AS relationships */</span>
 Transit:   AS-A pays AS-B to carry traffic to/from the internet
            (customer → provider relationship)
@@ -151,7 +152,7 @@ Peering:   AS-A and AS-B exchange traffic for free
            (both benefit — settlement-free peering)
 IXP:       Internet Exchange Point — physical location where
            many ASes peer simultaneously (AMS-IX, DE-CIX, NIXI)
-
+ 
 <span class="cm">/* Look up any ASN */</span>
 whois -h whois.radb.net AS55836
 bgp.he.net/AS55836   <span class="cm"># HE BGP toolkit</span></pre></div>
@@ -193,23 +194,23 @@ R1 ←→ R2, R1 ←→ R3, R1 ←→ R4
 R2 ←→ R3, R2 ←→ R4
 R3 ←→ R4
 Total: N(N-1)/2 = 6 sessions for 4 routers
-
+ 
 <span class="cm">/* With Route Reflector RR */</span>
 R1 (RR) ←→ R2 (client)
 R1 (RR) ←→ R3 (client)
 R1 (RR) ←→ R4 (client)
 Total: N-1 = 3 sessions!
-
+ 
 RR re-advertises routes received from:
   - iBGP client → to ALL other iBGP clients and eBGP peers
   - eBGP peer   → to ALL iBGP clients
   - Non-client iBGP → to clients only (NOT to other non-clients)
-
+ 
 <span class="cm">/* RR adds ORIGINATOR-ID and CLUSTER-LIST attributes to prevent loops */</span>
 ORIGINATOR-ID: Router-ID of the original route source
 CLUSTER-LIST:  List of route reflector clusters the route passed through
 If router receives a route with its own Router-ID in ORIGINATOR-ID → discard
-
+ 
 <span class="cm">/* FRR BGP Route Reflector config */</span>
 router bgp 65001
   neighbor 10.0.0.2 remote-as 65001
@@ -228,7 +229,7 @@ router bgp 65001
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* BGP uses TCP port 179 — sessions are manually configured */</span>
 <span class="cm">/* Unlike OSPF (auto-discovers neighbours), BGP peers must be explicitly configured */</span>
-
+ 
 <span class="cm">/* BGP FSM (Finite State Machine) */</span>
 Idle        → (start) → Connect
 Connect     → TCP connection attempt → (success) OpenSent / (fail) Active
@@ -236,26 +237,26 @@ Active      → retry TCP connection
 OpenSent    → TCP connected, OPEN sent, waiting for peer's OPEN
 OpenConfirm → Both OPENs received, waiting for KEEPALIVE
 Established → Session up! Exchanging routes via UPDATE messages
-
+ 
 <span class="cm">/* BGP OPEN message fields */</span>
 Version:        4 (BGPv4)
 My AS:          local AS number
 Hold Time:      max seconds between messages (negotiate min of peers' values)
 BGP Identifier: router-id (32-bit)
 Optional Params: capabilities (4-octet ASN, route-refresh, multiprotocol)
-
+ 
 <span class="cm">/* BGP Message Types */</span>
 OPEN:        Session establishment — exchange capabilities
 UPDATE:      Route advertisements and withdrawals
 KEEPALIVE:   Heartbeat — prevents Hold Timer expiry (default every HoldTime/3)
 NOTIFICATION:Error notification — followed by TCP teardown
 ROUTE-REFRESH: Request peer to re-send full routing table (RFC 2918)
-
+ 
 <span class="cm">/* BGP timers */</span>
 Connect Retry: 120s (retry TCP connect after failure)
 Hold Timer:    90s default (reset on any BGP message)
 Keepalive:     HoldTime/3 = 30s default
-
+ 
 <span class="cm">/* FRR BGP basic config */</span>
 router bgp 65001
   bgp router-id 1.1.1.1
@@ -311,7 +312,7 @@ router bgp 65001
     <p>When BGP receives multiple paths to the same prefix, it selects one "best path" to install in the FIB and advertise to peers. The selection follows a strict ordered list of criteria — evaluated in sequence, stopping at the first differentiating criterion.</p>
 <div class="cb"><pre><span class="cm">/* BGP best-path selection — in order (Cisco/FRR) */</span>
 <span class="cm">/* Mnemonic: "We Love Oranges As Oranges Mean Pure Refreshment" */</span>
-
+ 
 1.  Weight           (Cisco proprietary) — higher preferred. Local to router.
 2.  LOCAL-PREF       Higher preferred. Shared within AS.
 3.  Locally Originated  Routes originated by this router preferred.
@@ -324,11 +325,11 @@ router bgp 65001
 10. Lowest Router-ID of advertising router.
 11. Shortest CLUSTER-LIST length (Route Reflector environments).
 12. Lowest neighbour IP address (tie-break).
-
+ 
 <span class="cm">/* Verify best path selection */</span>
 show ip bgp 10.0.0.0/8          <span class="cm"># show all paths, best marked with ">"</span>
 show ip bgp 10.0.0.0/8 bestpath <span class="cm"># show why this path was chosen</span>
-
+ 
 <span class="cm">/* Policy knobs to influence best-path */</span>
 LOCAL-PREF: control which exit from your AS preferred (inbound traffic)
 AS-PATH prepend: make your AS look farther away (discourage inbound traffic on a path)
@@ -349,36 +350,36 @@ Communities: tag routes and have neighbours apply policy based on tags</pre></di
   <div class="cp-hdr"><span class="ico">📋</span><h3>Route Maps and Filtering Tools</h3><span class="tag tag-green">POLICY</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* BGP filtering tools */</span>
-
+ 
 1. Prefix lists — match by prefix/length
    ip prefix-list BLOCK-DEFAULT seq 5 deny 0.0.0.0/0
    ip prefix-list ALLOW-ALL    seq 10 permit 0.0.0.0/0 le 32
-
+ 
 2. AS-PATH access lists — match by regex on AS-PATH
    ip as-path access-list 1 permit ^65002$    <span class="cm"># only AS 65002</span>
    ip as-path access-list 2 permit ^65002_    <span class="cm"># originated by 65002</span>
    ip as-path access-list 3 deny .*           <span class="cm"># deny all</span>
-
+ 
 3. Community lists — match by community value
    ip community-list 1 permit 65001:100
-
+ 
 4. Route maps — combine match + set operations
    route-map POLICY permit 10
      match ip address prefix-list MY-PREFIXES
      set local-preference 200
      set community 65001:100 additive
    route-map POLICY deny 20  <span class="cm"># deny everything else</span>
-
+ 
 <span class="cm">/* Apply to BGP peer */</span>
 router bgp 65001
   neighbor 203.0.113.1 route-map POLICY in   <span class="cm"># filter incoming updates</span>
   neighbor 203.0.113.1 route-map POLICY out  <span class="cm"># filter outgoing updates</span>
-
+ 
 <span class="cm">/* AS-PATH prepending — make path look longer to discourage use */</span>
 route-map SET-PREPEND permit 10
   set as-path prepend 65001 65001 65001  <span class="cm"># prepend own AS 3 times</span>
 <span class="cm"># Result: route appears 3 hops further away on this path</span>
-
+ 
 <span class="cm">/* Communities for ISP signaling */</span>
 <span class="cm"># Send community 65002:100 to ISP → they set your LOCAL-PREF to 100 (low)</span>
 <span class="cm"># Send community 65002:200 → they set LOCAL-PREF to 200 (high = prefer this path)</span>
@@ -412,33 +413,33 @@ route-map SET-PREPEND permit 10
   <div class="cp-body">
     <p>RPKI (RFC 6480) is the cryptographic solution to BGP prefix hijacking. IP address holders (using their RIR account) create signed certificates called <strong>Route Origin Authorizations (ROAs)</strong> that state "AS X is authorised to originate prefix P/len". Routers with RPKI-enabled BGP validate incoming routes against the ROA database.</p>
 <div class="cb"><pre><span class="cm">/* RPKI Route Origin Validation (ROV) */</span>
-
+ 
 ROA: "192.0.2.0/24 may be originated by AS64496, max-length /24"
 Signed by: the IP address holder's RIR certificate chain
-
+ 
 Router receives BGP update: 192.0.2.0/24 from AS64497
   RPKI check:
     Valid:   prefix+origin matches a ROA → install, prefer
     Invalid: prefix+origin contradicts ROA (wrong AS) → DROP (or low pref)
     Unknown: no ROA exists for this prefix → accept (no info)
-
+ 
 <span class="cm">/* Validation states */</span>
 Valid:   Route passes RPKI validation — safe to use
 Invalid: Route fails RPKI — likely hijack → should be dropped
 Unknown: No ROA exists — treat as before RPKI (accept, lower preference)
-
+ 
 <span class="cm">/* FRR RPKI config */</span>
 rpki
   rpki cache rpki.example.com 3323 preference 1  <span class="cm"># RTR server</span>
-
+ 
 router bgp 65001
   bgp bestpath prefix-validate allow-invalid     <span class="cm"># don't drop invalid (log only)</span>
   <span class="cm"># For production: configure route-map to drop invalid routes</span>
-
+ 
 route-map FROM-PEER deny 5
   match rpki invalid   <span class="cm"># drop RPKI-invalid routes</span>
 route-map FROM-PEER permit 10
-
+ 
 <span class="cm">/* Check RPKI status */</span>
 show bgp ipv4 unicast 192.0.2.0/24  <span class="cm"># shows "rpki: valid/invalid/not found"</span></pre></div>
 

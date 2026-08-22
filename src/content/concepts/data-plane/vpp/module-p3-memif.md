@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 3B · WEEKS 10–11 🔗 memif - Shared Memor
 domain: data-plane
 track: vpp
 order: 3
+ownHeader: true
 url: /learning/data-plane/vpp/module-p3-memif/
 ---
 
@@ -108,7 +109,7 @@ url: /learning/data-plane/vpp/module-p3-memif/
       <li><strong>Data plane (shared memory):</strong> After handshake, both sides mmap the same physical memory regions. TX/RX rings (ring buffers of memif_desc_t descriptors) in this shared memory allow zero-copy packet passing - no copies, no system calls, no kernel involvement.</li>
     </ul>
 <div class="cb"><pre><span class="cm">/* memif topology */</span>
-
+ 
 Process A (VPP master)              Process B (VPP slave / DPDK app)
 ┌──────────────────────┐            ┌──────────────────────┐
 │  memif server        │            │  memif client        │
@@ -118,7 +119,7 @@ Process A (VPP master)              Process B (VPP slave / DPDK app)
 │  TX ring (A→B)       │            │  RX ring (reads A→B) │
 │  RX ring (B→A)       │            │  TX ring (writes B→A)│
 └──────────────────────┘            └──────────────────────┘
-
+ 
 <span class="cm">/* Key properties */</span>
 Zero copies:   packet data never leaves shared memory
 No syscalls:   data path uses only memory reads/writes
@@ -138,11 +139,11 @@ Region 0: Control - ring headers, metadata
   offset 0: memif_shm_t { cookie, version, ... }
   offset N: memif_ring_t[0] { head, tail, flags, desc[ring_size] }
   offset M: memif_ring_t[1] { ... }  <span class="cm">/* one ring per queue */</span>
-
+ 
 Region 1+: Data - packet buffers
   Large contiguous buffer space subdivided into fixed-size slots
   Each slot = memif_buffer_size bytes (default 2048)
-
+ 
 <span class="cm">/* Descriptor - one per buffer slot */</span>
 <span class="ck">typedef struct</span> {
     <span class="ck">u16</span>  flags;         <span class="cm">/* MEMIF_DESC_FLAG_NEXT = chained buffer */</span>
@@ -151,7 +152,7 @@ Region 1+: Data - packet buffers
     <span class="ck">u32</span>  offset;        <span class="cm">/* byte offset within the region */</span>
     <span class="ck">u32</span>  metadata;      <span class="cm">/* opaque: user can store anything */</span>
 } memif_desc_t;
-
+ 
 <span class="cm">/* Ring header */</span>
 <span class="ck">typedef struct</span> {
     <span class="ck">u16</span>  head;          <span class="cm">/* producer writes here */</span>
@@ -159,7 +160,7 @@ Region 1+: Data - packet buffers
     <span class="ck">u16</span>  flags;         <span class="cm">/* MEMIF_RING_FLAG_MASK_INT: disable interrupts */</span>
     memif_desc_t desc[ring_size];
 } memif_ring_t;
-
+ 
 <span class="cm">/* TX side: advance head after filling descriptors */</span>
 <span class="cm">/* RX side: read from tail, advance tail after processing */</span>
 <span class="cm">/* ring is full when (head - tail) == ring_size */</span></pre></div>
@@ -181,37 +182,37 @@ Region 1+: Data - packet buffers
   <div class="cp-hdr"><span class="ico">💻</span><h3>Complete memif CLI Reference</h3><span class="tag tag-teal">CLI</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm"># ── VPP INSTANCE A: server (master) ──</span>
-
+ 
 <span class="cm"># Create a memif socket (path to Unix socket file)</span>
 create memif socket id 1 filename /run/vpp/memif-a.sock
-
+ 
 <span class="cm"># Create memif interface in server (master) mode</span>
 create interface memif id 0 socket-id 1 master rx-queues 2 tx-queues 2 \
   ring-size 1024 buffer-size 2048
-
+ 
 <span class="cm"># Bring up and configure</span>
 set interface state memif0/0 up
 set interface ip address memif0/0 10.10.0.1/30
-
+ 
 <span class="cm"># ── VPP INSTANCE B: client (slave) ──</span>
 create memif socket id 1 filename /run/vpp/memif-a.sock
 create interface memif id 0 socket-id 1 slave rx-queues 2 tx-queues 2 \
   ring-size 1024 buffer-size 2048
 set interface state memif0/0 up
 set interface ip address memif0/0 10.10.0.2/30
-
+ 
 <span class="cm"># Verify connection status</span>
 show memif
 <span class="cm"># Should show: id 0, socket memif-a.sock, state connected, role master</span>
-
+ 
 show interface memif0/0
 <span class="cm"># Should show: link-up, rx/tx packet counters</span>
-
+ 
 <span class="cm"># ── Zero-copy mode (VPP ↔ VPP only) ──</span>
 <span class="cm"># Both sides must use VPP's memif plugin</span>
 <span class="cm"># Add 'zero-copy' to the create command:</span>
 create interface memif id 1 socket-id 1 master zero-copy
-
+ 
 <span class="cm"># ── L2 bridge use case (two memif ports in a VPP bridge domain) ──</span>
 create bridge-domain 10 learn 1 forward 1 flood 1
 set interface l2 bridge memif0/0 10
@@ -239,17 +240,17 @@ set interface l2 bridge memif0/1 10</pre></div>
     <p>libmemif (<code>extras/libmemif/</code>) is a standalone C library that implements the memif protocol. Any process - DPDK app, Python via ctypes, Go via cgo - can use it to create a memif peer that connects to VPP without running a full VPP instance.</p>
 <div class="cb"><pre><span class="cm">/* Include */</span>
 <span class="cs">#include "libmemif.h"</span>
-
+ 
 <span class="cm">/* Step 1: Initialise the library */</span>
 memif_init(NULL, <span class="cs">"my_app"</span>, NULL, NULL, NULL);
-
+ 
 <span class="cm">/* Step 2: Create a socket (path must match VPP's socket) */</span>
 memif_socket_handle_t sock;
 memif_socket_args_t sock_args = {
     .path = <span class="cs">"/run/vpp/memif-a.sock"</span>,
 };
 memif_create_socket(&sock, &sock_args, NULL);
-
+ 
 <span class="cm">/* Step 3: Create the memif connection as client (slave) */</span>
 memif_conn_handle_t conn;
 memif_conn_args_t args = {
@@ -263,12 +264,12 @@ memif_conn_args_t args = {
 };
 memif_create(&conn, &args,
     on_connect_cb, on_disconnect_cb, on_interrupt_cb, NULL);
-
+ 
 <span class="cm">/* Step 4: Poll the socket (drives connection setup) */</span>
 <span class="ck">while</span> (running) {
     memif_poll_event(sock, 0 <span class="cm">/* timeout ms */</span>);
 }
-
+ 
 <span class="cm">/* Step 5: TX - after on_connect_cb fires */</span>
 memif_buffer_t bufs[16];
 <span class="ck">u16</span> n_alloc;
@@ -280,7 +281,7 @@ memif_buffer_alloc(conn, 0 <span class="cm">/* queue */</span>, bufs, 16, &n_all
 }
 <span class="ck">u16</span> n_tx;
 memif_tx_burst(conn, 0, bufs, n_alloc, &n_tx);
-
+ 
 <span class="cm">/* Step 6: RX */</span>
 memif_buffer_t rx_bufs[256];
 <span class="ck">u16</span> n_rx;
@@ -304,7 +305,7 @@ memif_refill_queue(conn, 0, n_rx, 0);</pre></div>
 create memif socket id 1 filename /run/vpp/memif-dpdk.sock
 create interface memif id 0 socket-id 1 master rx-queues 1 tx-queues 1
 set interface state memif0/0 up
-
+ 
 <span class="cm"># ── DPDK testpmd side: connect as slave ──</span>
 dpdk-testpmd \
   --vdev="net_memif,socket=/run/vpp/memif-dpdk.sock,id=0,role=slave" \
@@ -313,13 +314,13 @@ dpdk-testpmd \
      --port-topology=chained \
      --rxq=1 --txq=1 \
      --nb-cores=1
-
+ 
 <span class="cm"># ── In testpmd interactive shell ──</span>
 testpmd> set fwd txonly
 testpmd> start
 <span class="cm"># Now VPP receives packets on memif0/0</span>
 <span class="cm"># Check: vppctl show interface memif0/0</span>
-
+ 
 <span class="cm"># ── For zero-copy (DPDK side must match VPP buffer layout) ──</span>
 --vdev="net_memif,socket=/run/vpp/memif-dpdk.sock,id=0,role=slave,zero-copy=yes"
 <span class="cm"># zero-copy requires DPDK mbufs sized to match VPP's buffer-size (2048)</span></pre></div>

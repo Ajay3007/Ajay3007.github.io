@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part3-classical-ml
 order: 308
+ownHeader: true
 url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
 ---
 
@@ -131,18 +132,18 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.datasets import load_breast_cancer
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 X, y = load_breast_cancer(return_X_y=True, as_frame=True)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,
                                                       stratify=y, random_state=42)
-
+ 
 # ── Basic decision tree ───────────────────────────────
 # criterion="gini": Gini impurity (default, slightly faster)
 # criterion="entropy": information gain (often similar results)
 # max_depth: most important hyperparameter. None = overfit!
 # min_samples_split: minimum samples needed to split a node
 # min_samples_leaf: minimum samples required in a leaf node
-
+ 
 dt = DecisionTreeClassifier(
     max_depth=4,           # limit depth to prevent overfitting
     min_samples_leaf=5,    # at least 5 samples per leaf
@@ -152,17 +153,17 @@ dt = DecisionTreeClassifier(
 dt.fit(X_train, y_train)
 print(f"Train accuracy: {dt.score(X_train, y_train):.4f}")
 print(f"Test accuracy:  {dt.score(X_test, y_test):.4f}")
-
+ 
 # ── Visualise the tree ────────────────────────────────
 fig, ax = plt.subplots(figsize=(20, 8))
 plot_tree(dt, feature_names=X.columns, class_names=["malignant", "benign"],
           filled=True, rounded=True, ax=ax, fontsize=8)
 plt.tight_layout()
 plt.savefig("decision_tree.png", dpi=100)
-
+ 
 # Text representation (shareable without plot)
 print(export_text(dt, feature_names=list(X.columns)))
-
+ 
 # ── Overfitting demonstration ─────────────────────────
 train_scores, test_scores = [], []
 depths = range(1, 20)
@@ -171,7 +172,7 @@ for d in depths:
     dt_d.fit(X_train, y_train)
     train_scores.append(dt_d.score(X_train, y_train))
     test_scores.append(dt_d.score(X_test, y_test))
-
+ 
 plt.figure(figsize=(8, 4))
 plt.plot(depths, train_scores, label="Train", marker="o", markersize=4)
 plt.plot(depths, test_scores,  label="Test",  marker="s", markersize=4)
@@ -193,14 +194,14 @@ plt.axvline(depths[np.argmax(test_scores)], color="red", linestyle="--",
     <div class="cb"><pre>from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score, GridSearchCV
 import pandas as pd
-
+ 
 # ── How Random Forest works ───────────────────────────
 # 1. Bootstrap: sample N rows WITH replacement (bagging)
 # 2. Feature subsampling: at each split, only consider sqrt(n_features) features
 # 3. Train one deep tree per bootstrap sample
 # 4. Predict: majority vote of all trees (reduces variance)
 # Result: lower variance than single tree, still low bias
-
+ 
 rf = RandomForestClassifier(
     n_estimators=100,      # number of trees (more = better until diminishing returns)
     max_depth=None,        # trees are grown deep (bagging reduces variance)
@@ -211,22 +212,22 @@ rf = RandomForestClassifier(
     oob_score=True         # out-of-bag evaluation (free validation!)
 )
 rf.fit(X_train, y_train)
-
+ 
 print(f"OOB Score:    {rf.oob_score_:.4f}")   # no held-out set needed!
 print(f"Train Acc:    {rf.score(X_train, y_train):.4f}")
 print(f"Test Acc:     {rf.score(X_test, y_test):.4f}")
-
+ 
 # Cross-validation
 cv_scores = cross_val_score(rf, X, y, cv=5, scoring="f1")
 print(f"CV F1: {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
-
+ 
 # ── Hyperparameter tuning ─────────────────────────────
 # Key hyperparameters to tune:
 # n_estimators: 100-500 (more is almost always better, just slower)
 # max_depth: None or 10-30 (deep is OK for RF due to averaging)
 # max_features: "sqrt", "log2", or float (0.3 = 30% of features)
 # min_samples_leaf: 1-10 (increasing reduces overfitting)
-
+ 
 param_grid = {
     "n_estimators": [100, 200],
     "max_features": ["sqrt", 0.3],
@@ -251,7 +252,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score, RandomizedSearchCV
 from scipy.stats import loguniform
-
+ 
 # ── SVM concept ───────────────────────────────────────
 # Finds the hyperplane that maximises the margin between classes
 # Support vectors: the training points closest to the decision boundary
@@ -259,7 +260,7 @@ from scipy.stats import loguniform
 #   Small C: wide margin, allows more misclassification (regularised)
 #   Large C: narrow margin, fewer misclassifications (overfit risk)
 # Kernel: maps data to higher-dimensional space for non-linear boundaries
-
+ 
 # ── CRITICAL: SVM requires feature scaling ────────────
 svm_pipe = Pipeline([
     ("scaler", StandardScaler()),   # SVM is NOT scale-invariant
@@ -267,17 +268,17 @@ svm_pipe = Pipeline([
                    probability=True, random_state=42)),
 ])
 svm_pipe.fit(X_train, y_train)
-
+ 
 print(f"Test Accuracy: {svm_pipe.score(X_test, y_test):.4f}")
-
+ 
 # Get probabilities for ROC-AUC
 proba = svm_pipe.predict_proba(X_test)[:, 1]
-
+ 
 # ── Kernel choice ─────────────────────────────────────
 # "linear": good for high-dimensional sparse data (text)
 # "rbf": good default for most tabular data (radial basis function)
 # "poly": polynomial kernel (degree parameter)
-
+ 
 # ── Hyperparameter search ─────────────────────────────
 # C and gamma interact — tune together with log-uniform distribution
 param_dist = {
@@ -305,29 +306,29 @@ print(f"Best CV F1: {rs.best_score_:.4f}")</pre></div>
                              PrecisionRecallDisplay)
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+ 
 y_pred  = model.predict(X_test)
 y_proba = model.predict_proba(X_test)[:, 1]
-
+ 
 # ── The four classification outcomes ─────────────────
 # True Positive  (TP): predicted positive, actually positive
 # True Negative  (TN): predicted negative, actually negative
 # False Positive (FP): predicted positive, actually negative (Type I error)
 # False Negative (FN): predicted negative, actually positive (Type II error)
-
+ 
 # ── Core metrics ──────────────────────────────────────
 accuracy  = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)  # TP / (TP + FP)
 recall    = recall_score(y_test, y_pred)     # TP / (TP + FN) = sensitivity
 f1        = f1_score(y_test, y_pred)         # harmonic mean of precision & recall
 roc_auc   = roc_auc_score(y_test, y_proba)  # area under ROC curve
-
+ 
 print(f"Accuracy:  {accuracy:.4f}")
 print(f"Precision: {precision:.4f}   (when I say positive, how often am I right?)")
 print(f"Recall:    {recall:.4f}   (how many actual positives did I catch?)")
 print(f"F1 Score:  {f1:.4f}   (harmonic mean of precision and recall)")
 print(f"ROC-AUC:   {roc_auc:.4f}  (probability correct positive ranked above negative)")
-
+ 
 # ── Confusion matrix ──────────────────────────────────
 cm = confusion_matrix(y_test, y_pred)
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
@@ -335,20 +336,20 @@ sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
             xticklabels=["Pred Neg", "Pred Pos"],
             yticklabels=["Actual Neg", "Actual Pos"], ax=axes[0])
 axes[0].set_title("Confusion Matrix")
-
+ 
 # ROC curve
 RocCurveDisplay.from_estimator(model, X_test, y_test, ax=axes[1])
 axes[1].set_title(f"ROC Curve (AUC={roc_auc:.3f})")
 plt.tight_layout()
-
+ 
 # Full classification report
 print(classification_report(y_test, y_pred, target_names=["Neg", "Pos"]))
-
+ 
 # ── Threshold tuning ──────────────────────────────────
 # Default threshold = 0.5. Adjust based on business need.
 # Lower threshold (e.g. 0.3): catch more positives (higher recall, lower precision)
 # Higher threshold (e.g. 0.7): more confident positives (higher precision, lower recall)
-
+ 
 thresholds = [0.3, 0.4, 0.5, 0.6, 0.7]
 for t in thresholds:
     y_t = (y_proba >= t).astype(int)
@@ -370,12 +371,12 @@ from imblearn.pipeline import Pipeline as ImbPipeline
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, classification_report
 import numpy as np
-
+ 
 # ── Detect class imbalance ────────────────────────────
 print(pd.Series(y_train).value_counts())
 print(pd.Series(y_train).value_counts(normalize=True))
 # If 95% negative, 5% positive → severe imbalance
-
+ 
 # ── Solution 1: class_weight="balanced" (easiest) ────
 # Adjusts sample weights so each class contributes equally to loss
 # No data modification, no SMOTE complexity
@@ -386,23 +387,23 @@ rf_balanced = RandomForestClassifier(
 )
 rf_balanced.fit(X_train, y_train)
 print(f"F1 (balanced weights): {f1_score(y_test, rf_balanced.predict(X_test)):.4f}")
-
+ 
 # Compute weights manually
 classes = np.unique(y_train)
 weights = compute_class_weight("balanced", classes=classes, y=y_train)
 weight_dict = dict(zip(classes, weights))
 print(f"Class weights: {weight_dict}")
-
+ 
 # ── Solution 2: SMOTE — Synthetic Minority Oversampling ──
 # Generates synthetic minority-class samples by interpolating between
 # existing minority samples in feature space
 # USE: when minority class has <10% representation
-
+ 
 smote = SMOTE(random_state=42, k_neighbors=5)
 X_res, y_res = smote.fit_resample(X_train, y_train)
 print(f"Before SMOTE: {pd.Series(y_train).value_counts().to_dict()}")
 print(f"After SMOTE:  {pd.Series(y_res).value_counts().to_dict()}")
-
+ 
 # SMOTE MUST be inside a pipeline (not applied to test data)
 imb_pipe = ImbPipeline([
     ("smote", SMOTE(random_state=42)),
@@ -411,7 +412,7 @@ imb_pipe = ImbPipeline([
 from sklearn.model_selection import cross_val_score
 cv_f1 = cross_val_score(imb_pipe, X_train, y_train, cv=5, scoring="f1")
 print(f"SMOTE Pipeline CV F1: {cv_f1.mean():.3f}")
-
+ 
 # ── Solution 3: Threshold tuning ─────────────────────
 # Default 0.5 threshold biased toward majority class
 # For imbalanced data, optimal threshold is often lower
@@ -433,7 +434,7 @@ print(f"Optimal threshold: {best_threshold:.3f}")</pre></div>
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.inspection import permutation_importance
-
+ 
 # ── Method 1: Tree-based feature importance ───────────
 # Built into sklearn tree models
 # Based on total reduction in Gini impurity due to each feature
@@ -441,31 +442,31 @@ from sklearn.inspection import permutation_importance
 importances = pd.Series(rf.feature_importances_, index=X.columns)
 importances.sort_values(ascending=False).head(15).plot(kind="barh")
 plt.title("Random Forest Feature Importance")
-
+ 
 # ── Method 2: Permutation Importance ─────────────────
 # Shuffle each feature independently, measure performance drop
 # More reliable than built-in importance, not biased by cardinality
 # SLOW on large datasets
-
+ 
 result = permutation_importance(rf, X_test, y_test, n_repeats=10,
                                  random_state=42, scoring="f1")
 perm_df = pd.DataFrame({"importance": result.importances_mean,
                           "std": result.importances_std},
                          index=X.columns).sort_values("importance", ascending=False)
 print(perm_df.head(10))
-
+ 
 # ── Method 3: SHAP Values ─────────────────────────────
 # SHapley Additive exPlanations — game-theory-based feature contributions
 # Explains EACH individual prediction (not just global importance)
 # For tree models: exact (fast); for others: approximation
-
+ 
 explainer = shap.TreeExplainer(rf)
 shap_values = explainer.shap_values(X_test)
-
+ 
 # Summary plot: global feature importance + direction
 shap.summary_plot(shap_values[:, :, 1], X_test, plot_type="bar")    # bar
 shap.summary_plot(shap_values[:, :, 1], X_test)                      # beeswarm (better)
-
+ 
 # Individual prediction explanation
 idx = 0  # first test sample
 shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],

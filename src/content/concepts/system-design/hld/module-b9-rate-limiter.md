@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B9 · WEEK 19 RATE LIMI
 domain: system-design
 track: system-design-hld
 order: 118
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b9-rate-limiter/
 ---
 
@@ -95,17 +97,17 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
   <div class="cb"><div class="cb-top">Fixed window: simple Redis INCR per time bucket<span class="cb-l">REDIS</span></div>
 <pre class="c"><span class="cm">// Key: ratelimit:{userId}:{window_minute}</span>
 <span class="cm">// Limit: 100 req/min</span>
-
+ 
 <span class="kw">function</span> <span class="fn">checkLimit</span>(userId) {
   window = Math.<span class="fn">floor</span>(Date.<span class="fn">now</span>() / <span class="cy">60000</span>)   <span class="cm">// minute bucket</span>
   key = <span class="str">`rl:${userId}:${window}`</span>
-  
+ 
   count = redis.<span class="fn">incr</span>(key)
   <span class="kw">if</span> (count == <span class="cy">1</span>) redis.<span class="fn">expire</span>(key, <span class="cy">120</span>)  <span class="cm">// set TTL on first request</span>
-  
+ 
   <span class="kw">return</span> count <= <span class="cy">100</span>
 }
-
+ 
 <span class="cm">// Memory: O(1) — just one counter per user</span>
 <span class="cm">// Speed: one INCR + one EXPIRE (conditional)</span></pre>
   </div>
@@ -149,12 +151,12 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
   now     = Date.<span class="fn">now</span>()           <span class="cm">// ms</span>
   window  = <span class="cy">60000</span>                <span class="cm">// 60s in ms</span>
   cutoff  = now - window
-
+ 
   redis.<span class="fn">zremrangebyscore</span>(<span class="str">`rl:${userId}`</span>, <span class="cy">0</span>, cutoff)  <span class="cm">// remove old</span>
   count = redis.<span class="fn">zcard</span>(<span class="str">`rl:${userId}`</span>)               <span class="cm">// count remaining</span>
-
+ 
   <span class="kw">if</span> (count >= <span class="cy">100</span>) <span class="kw">return</span> <span class="er">REJECT</span>
-
+ 
   redis.<span class="fn">zadd</span>(<span class="str">`rl:${userId}`</span>, now, now)             <span class="cm">// log this request</span>
   redis.<span class="fn">expire</span>(<span class="str">`rl:${userId}`</span>, <span class="cy">120</span>)              <span class="cm">// TTL cleanup</span>
   <span class="kw">return</span> <span class="ok">ALLOW</span>
@@ -182,18 +184,18 @@ estimated_rate = 100 × 0.983 + 95 = 98.3 + 95 = <span style="color:var(--red)">
   now     = Math.<span class="fn">floor</span>(Date.<span class="fn">now</span>() / <span class="cy">1000</span>)
   bucket  = Math.<span class="fn">floor</span>(now / windowSec)
   elapsed = (now % windowSec) / windowSec
-
+ 
   keyCurr = <span class="str">`rl:${userId}:${bucket}`</span>
   keyPrev = <span class="str">`rl:${userId}:${bucket - 1}`</span>
-
+ 
   [prevCount, currCount] = redis.<span class="fn">mget</span>(keyPrev, keyCurr)
   prevCount = prevCount || <span class="cy">0</span>
   currCount = currCount || <span class="cy">0</span>
-
+ 
   rate = prevCount * (<span class="cy">1</span> - elapsed) + currCount
-
+ 
   <span class="kw">if</span> (rate >= limit) <span class="kw">return</span> <span class="er">REJECT</span>
-
+ 
   redis.<span class="fn">incr</span>(keyCurr)
   redis.<span class="fn">expire</span>(keyCurr, windowSec * <span class="cy">2</span>)
   <span class="kw">return</span> <span class="ok">ALLOW</span>
@@ -236,18 +238,18 @@ estimated_rate = 100 × 0.983 + 95 = 98.3 + 95 = <span style="color:var(--red)">
   <div class="cb"><div class="cb-top">Token bucket — Redis Lua for atomicity<span class="cb-l">LUA</span></div>
 <pre class="c"><span class="cm">-- KEYS[1] = bucket key</span>
 <span class="cm">-- ARGV[1] = capacity, ARGV[2] = rate/sec, ARGV[3] = now_ms</span>
-
+ 
 <span class="kw">local</span> capacity = tonumber(ARGV[<span class="cy">1</span>])
 <span class="kw">local</span> rate     = tonumber(ARGV[<span class="cy">2</span>])
 <span class="kw">local</span> now      = tonumber(ARGV[<span class="cy">3</span>])
-
+ 
 <span class="kw">local</span> bucket   = redis.<span class="fn">call</span>(<span class="str">"HMGET"</span>, KEYS[<span class="cy">1</span>], <span class="str">"tokens"</span>, <span class="str">"last"</span>)
 <span class="kw">local</span> tokens   = tonumber(bucket[<span class="cy">1</span>] or capacity)
 <span class="kw">local</span> last     = tonumber(bucket[<span class="cy">2</span>] or now)
-
+ 
 <span class="kw">local</span> elapsed  = (now - last) / <span class="cy">1000</span>   <span class="cm">-- seconds</span>
 tokens = math.<span class="fn">min</span>(capacity, tokens + elapsed * rate)
-
+ 
 <span class="kw">if</span> tokens >= <span class="cy">1</span> <span class="kw">then</span>
     tokens = tokens - <span class="cy">1</span>
     redis.<span class="fn">call</span>(<span class="str">"HMSET"</span>, KEYS[<span class="cy">1</span>], <span class="str">"tokens"</span>, tokens, <span class="str">"last"</span>, now)
@@ -288,12 +290,12 @@ Thread B: GET tokens → <span class="cy">1</span>             <span class="cm">
 Thread A: SET tokens 0                 <span class="cm">// decrements to 0, allows request</span>
 Thread B: SET tokens 0                 <span class="cm">// also decrements to 0, ALSO allows request</span>
 <span class="er">// Result: 2 requests allowed when only 1 token existed!</span>
-
+ 
 <span class="cm">// With Lua script — CORRECT:</span>
 <span class="cm">// Redis executes Lua scripts atomically</span>
 <span class="cm">// No other Redis command can interleave between Lua lines</span>
 <span class="cm">// Equivalent to a Redis MULTI/EXEC transaction but faster</span>
-
+ 
 <span class="cm">// Execute Lua script in application code:</span>
 <span class="kw">const</span> script = redis.<span class="fn">createScript</span>(luaCode);
 <span class="kw">const</span> result = <span class="kw">await</span> script.<span class="fn">eval</span>(
@@ -334,19 +336,19 @@ Thread B: SET tokens 0                 <span class="cm">// also decrements to 0,
   <span class="kw">try</span> {
     <span class="kw">return</span> redis.<span class="fn">checkLimit</span>(userId)
   } <span class="kw">catch</span> (RedisUnavailable) {
-    
+ 
     <span class="cm">// Option A: Fail-Open (allow all)</span>
     <span class="kw">return</span> <span class="ok">ALLOW</span>
     <span class="cm">// Pro: service stays up, users unaffected</span>
     <span class="cm">// Con: during Redis outage, limits not enforced → potential abuse</span>
     <span class="cm">// Use for: internal services, non-critical limits</span>
-    
+ 
     <span class="cm">// Option B: Fail-Closed (reject all)</span>
     <span class="kw">return</span> <span class="er">REJECT</span>
     <span class="cm">// Pro: strict — no abuse during outage</span>
     <span class="cm">// Con: service degraded for ALL users when Redis is down</span>
     <span class="cm">// Use for: financial APIs, security-critical endpoints</span>
-    
+ 
     <span class="cm">// Option C: Local fallback (temporary local counter)</span>
     <span class="kw">return</span> localFallback.<span class="fn">checkLimit</span>(userId)  <span class="cm">// in-memory, less accurate</span>
     <span class="cm">// Best of both worlds for most production systems</span>
@@ -378,14 +380,14 @@ Thread B: SET tokens 0                 <span class="cm">// also decrements to 0,
   <span class="str">"limit"</span>: <span class="cy">100</span>,
   <span class="str">"window"</span>: <span class="str">"1 minute"</span>
 }
-
+ 
 <span class="cm">// Good client behavior (using Retry-After):</span>
 <span class="kw">if</span> (response.status === <span class="cy">429</span>) {
   retryAfter = response.headers.<span class="fn">get</span>(<span class="str">'Retry-After'</span>)
   <span class="kw">await</span> <span class="fn">sleep</span>(retryAfter * <span class="cy">1000</span>)
   <span class="kw">return</span> <span class="fn">retry</span>(request)  <span class="cm">// not immediately — that hammers the server</span>
 }
-
+ 
 <span class="cm">// Include on EVERY response (not just 429):</span>
 <span class="cm">// Allows clients to monitor their quota proactively</span>
 X-RateLimit-Limit:     <span class="cy">100</span>

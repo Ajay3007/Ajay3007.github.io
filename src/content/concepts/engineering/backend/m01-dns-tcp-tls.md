@@ -4,6 +4,7 @@ description: "Backend Engineering · Phase 0 · Module 1 DNS, TCP TLS Deep Dive 
 domain: engineering
 track: backend
 order: 1
+ownHeader: true
 url: /learning/backend/m01-dns-tcp-tls/
 ---
 
@@ -313,20 +314,20 @@ url: /learning/backend/m01-dns-tcp-tls/
 <span class="ck">#include</span> <span class="cv">&lt;arpa/inet.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-
+ 
 <span class="cm">/* Resolve hostname → IP(s), prefer IPv4 */</span>
 <span class="ck">int</span> resolve_host(<span class="ck">const char</span> *host, <span class="ck">char</span> out_ip[<span class="cv">INET6_ADDRSTRLEN</span>]) {
     <span class="ck">struct</span> addrinfo hints, *res, *rp;
     <span class="ck">memset</span>(&amp;hints, <span class="cv">0</span>, <span class="ck">sizeof</span>(hints));
     hints.ai_family   = AF_UNSPEC;    <span class="cm">/* IPv4 or IPv6 */</span>
     hints.ai_socktype = SOCK_STREAM;  <span class="cm">/* TCP */</span>
-
+ 
     <span class="ck">int</span> rc = getaddrinfo(host, <span class="cs">NULL</span>, &amp;hints, &amp;res);
     <span class="ck">if</span> (rc != <span class="cv">0</span>) {
         fprintf(stderr, <span class="cs">"getaddrinfo: %s\n"</span>, gai_strerror(rc));
         <span class="ck">return</span> -<span class="cv">1</span>;
     }
-
+ 
     <span class="ck">for</span> (rp = res; rp != <span class="cs">NULL</span>; rp = rp->ai_next) {
         <span class="ck">void</span> *addr;
         <span class="ck">if</span> (rp->ai_family == AF_INET) {
@@ -340,7 +341,7 @@ url: /learning/backend/m01-dns-tcp-tls/
         printf(<span class="cs">"Resolved %s → %s\n"</span>, host, out_ip);
         <span class="ck">break</span>;  <span class="cm">/* take first result */</span>
     }
-
+ 
     freeaddrinfo(res);
     <span class="ck">return</span> <span class="cv">0</span>;
 }</pre></div>
@@ -452,16 +453,16 @@ url: /learning/backend/m01-dns-tcp-tls/
 <span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-
+ 
 <span class="ck">int</span> main(<span class="ck">void</span>) {
     <span class="cm">/* 1. Create socket */</span>
     <span class="ck">int</span> server_fd = socket(AF_INET, SOCK_STREAM, <span class="cv">0</span>);
-
+ 
     <span class="cm">/* 2. Allow port reuse (survive TIME_WAIT on restart) */</span>
     <span class="ck">int</span> opt = <span class="cv">1</span>;
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &amp;opt, <span class="ck">sizeof</span>(opt));
     setsockopt(server_fd, SOL_SOCKET, SO_REUSEPORT, &amp;opt, <span class="ck">sizeof</span>(opt));
-
+ 
     <span class="cm">/* 3. Bind to port 8080, all interfaces */</span>
     <span class="ck">struct</span> sockaddr_in addr = {
         .sin_family      = AF_INET,
@@ -469,11 +470,11 @@ url: /learning/backend/m01-dns-tcp-tls/
         .sin_addr.s_addr = INADDR_ANY
     };
     bind(server_fd, (<span class="ck">struct</span> sockaddr *)&amp;addr, <span class="ck">sizeof</span>(addr));
-
+ 
     <span class="cm">/* 4. Mark as passive; backlog=128 = max pending SYNs in accept queue */</span>
     listen(server_fd, <span class="cv">128</span>);
     printf(<span class="cs">"Listening on :8080\n"</span>);
-
+ 
     <span class="ck">while</span> (<span class="cv">1</span>) {
         <span class="cm">/* 5. Accept — blocks until 3-way handshake completes */</span>
         <span class="ck">struct</span> sockaddr_in client_addr;
@@ -481,19 +482,19 @@ url: /learning/backend/m01-dns-tcp-tls/
         <span class="ck">int</span> conn_fd = accept(server_fd,
                              (<span class="ck">struct</span> sockaddr *)&amp;client_addr,
                              &amp;client_len);
-
+ 
         <span class="cm">/* 6. Disable Nagle for low-latency responses */</span>
         setsockopt(conn_fd, IPPROTO_TCP, TCP_NODELAY, &amp;opt, <span class="ck">sizeof</span>(opt));
-
+ 
         <span class="cm">/* 7. Read request (simplified — real code loops until \r\n\r\n) */</span>
         <span class="ck">char</span> buf[<span class="cv">4096</span>];
         ssize_t n = recv(conn_fd, buf, <span class="ck">sizeof</span>(buf) - <span class="cv">1</span>, <span class="cv">0</span>);
         buf[n] = <span class="cv">'\0'</span>;
-
+ 
         <span class="cm">/* 8. Send response */</span>
         <span class="ck">const char</span> *resp = <span class="cs">"HTTP/1.1 200 OK\r\nContent-Length: 5\r\n\r\nHello"</span>;
         send(conn_fd, resp, strlen(resp), <span class="cv">0</span>);
-
+ 
         <span class="cm">/* 9. Graceful close — sends FIN, drains */</span>
         close(conn_fd);
     }
@@ -764,17 +765,17 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;errno.h&gt;</span>
-
+ 
 <span class="ck">int</span> tcp_connect(<span class="ck">const char</span> *host, <span class="ck">const char</span> *port) {
     <span class="ck">struct</span> addrinfo hints = {
         .ai_family   = AF_UNSPEC,
         .ai_socktype = SOCK_STREAM
     };
     <span class="ck">struct</span> addrinfo *res;
-
+ 
     <span class="ck">int</span> rc = getaddrinfo(host, port, &amp;hints, &amp;res);
     <span class="ck">if</span> (rc) { fprintf(stderr, <span class="cs">"DNS: %s\n"</span>, gai_strerror(rc)); <span class="ck">return</span> -<span class="cv">1</span>; }
-
+ 
     <span class="ck">int</span> fd = -<span class="cv">1</span>;
     <span class="ck">for</span> (<span class="ck">struct</span> addrinfo *rp = res; rp; rp = rp->ai_next) {
         fd = socket(rp->ai_family, rp->ai_socktype, rp->ai_protocol);
@@ -786,19 +787,19 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     <span class="ck">if</span> (fd < <span class="cv">0</span>) perror(<span class="cs">"connect"</span>);
     <span class="ck">return</span> fd;
 }
-
+ 
 <span class="ck">int</span> main(<span class="ck">void</span>) {
     <span class="ck">int</span> fd = tcp_connect(<span class="cs">"httpbin.org"</span>, <span class="cs">"80"</span>);
     <span class="ck">if</span> (fd < <span class="cv">0</span>) <span class="ck">return</span> <span class="cv">1</span>;
-
+ 
     <span class="ck">const char</span> *req = <span class="cs">"GET /get HTTP/1.1\r\nHost: httpbin.org\r\nConnection: close\r\n\r\n"</span>;
     write(fd, req, strlen(req));
-
+ 
     <span class="ck">char</span> buf[<span class="cv">4096</span>];
     ssize_t n;
     <span class="ck">while</span> ((n = read(fd, buf, <span class="ck">sizeof</span>(buf))) > <span class="cv">0</span>)
         fwrite(buf, <span class="cv">1</span>, n, stdout);
-
+ 
     close(fd);
 }</pre></div>
 
@@ -810,53 +811,53 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
-
+ 
 <span class="cm">/* Compile: gcc tls_client.c -lssl -lcrypto -o tls_client */</span>
-
+ 
 <span class="ck">static int</span> tcp_connect_fd(<span class="ck">const char</span> *host, <span class="ck">const char</span> *port);  <span class="cm">/* as above */</span>
-
+ 
 <span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> **argv) {
     <span class="ck">const char</span> *host = argc > <span class="cv">1</span> ? argv[<span class="cv">1</span>] : <span class="cs">"example.com"</span>;
-
+ 
     <span class="cm">/* 1. Init OpenSSL */</span>
     SSL_library_init();
     SSL_load_error_strings();
     OpenSSL_add_all_algorithms();
-
+ 
     <span class="cm">/* 2. Create TLS context — prefer TLS 1.3 */</span>
     SSL_CTX *ctx = SSL_CTX_new(TLS_client_method());
     SSL_CTX_set_min_proto_version(ctx, TLS1_2_VERSION);
-
+ 
     <span class="cm">/* 3. Load system CA bundle for cert verification */</span>
     SSL_CTX_set_default_verify_paths(ctx);
     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL);
-
+ 
     <span class="cm">/* 4. TCP connect */</span>
     <span class="ck">int</span> fd = tcp_connect_fd(host, <span class="cs">"443"</span>);
     <span class="ck">if</span> (fd < <span class="cv">0</span>) { SSL_CTX_free(ctx); <span class="ck">return</span> <span class="cv">1</span>; }
-
+ 
     <span class="cm">/* 5. Wrap socket in SSL */</span>
     SSL *ssl = SSL_new(ctx);
     SSL_set_fd(ssl, fd);
-
+ 
     <span class="cm">/* 6. Set SNI so server returns correct cert */</span>
     SSL_set_tlsext_host_name(ssl, host);
-
+ 
     <span class="cm">/* 7. Set hostname for cert validation */</span>
     SSL_set_hostflags(ssl, X509_CHECK_FLAG_NO_PARTIAL_WILDCARDS);
     SSL_set1_host(ssl, host);
-
+ 
     <span class="cm">/* 8. TLS handshake */</span>
     <span class="ck">int</span> err = SSL_connect(ssl);
     <span class="ck">if</span> (err != <span class="cv">1</span>) {
         ERR_print_errors_fp(stderr);
         <span class="ck">goto</span> cleanup;
     }
-
+ 
     <span class="cm">/* 9. Print negotiated cipher and protocol */</span>
     printf(<span class="cs">"TLS version : %s\n"</span>, SSL_get_version(ssl));
     printf(<span class="cs">"Cipher suite: %s\n"</span>, SSL_get_cipher(ssl));
-
+ 
     <span class="cm">/* 10. Print server cert info */</span>
     X509 *cert = SSL_get_peer_certificate(ssl);
     <span class="ck">if</span> (cert) {
@@ -867,19 +868,19 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
         printf(<span class="cs">"Cert issuer : %s\n"</span>, buf);
         X509_free(cert);
     }
-
+ 
     <span class="cm">/* 11. Send HTTP request */</span>
     <span class="ck">char</span> req[<span class="cv">512</span>];
     snprintf(req, <span class="ck">sizeof</span>(req),
              <span class="cs">"GET / HTTP/1.1\r\nHost: %s\r\nConnection: close\r\n\r\n"</span>, host);
     SSL_write(ssl, req, strlen(req));
-
+ 
     <span class="cm">/* 12. Read response */</span>
     <span class="ck">char</span> rbuf[<span class="cv">4096</span>];
     <span class="ck">int</span> n;
     <span class="ck">while</span> ((n = SSL_read(ssl, rbuf, <span class="ck">sizeof</span>(rbuf))) > <span class="cv">0</span>)
         fwrite(rbuf, <span class="cv">1</span>, n, stdout);
-
+ 
 cleanup:
     SSL_shutdown(ssl);
     SSL_free(ssl);
@@ -894,11 +895,11 @@ cleanup:
 <span class="ck">#include</span> <span class="cv">&lt;pthread.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-
+ 
 <span class="ck">static void</span> *handle_client(<span class="ck">void</span> *arg) {
     <span class="ck">int</span> fd = (<span class="ck">int</span>)(intptr_t)arg;
     pthread_detach(pthread_self());  <span class="cm">/* auto-reclaim resources */</span>
-
+ 
     <span class="ck">char</span> buf[<span class="cv">4096</span>];
     ssize_t n;
     <span class="ck">while</span> ((n = recv(fd, buf, <span class="ck">sizeof</span>(buf), <span class="cv">0</span>)) > <span class="cv">0</span>) {
@@ -909,16 +910,16 @@ cleanup:
     close(fd);
     <span class="ck">return</span> <span class="cs">NULL</span>;
 }
-
+ 
 <span class="ck">int</span> main(<span class="ck">void</span>) {
     <span class="ck">int</span> srv = socket(AF_INET, SOCK_STREAM, <span class="cv">0</span>);
     setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, &amp;(<span class="ck">int</span>){<span class="cv">1</span>}, <span class="ck">sizeof</span>(<span class="ck">int</span>));
-
+ 
     <span class="ck">struct</span> sockaddr_in a = {AF_INET, htons(<span class="cv">8080</span>), .sin_addr.s_addr=INADDR_ANY};
     bind(srv, (<span class="ck">struct</span> sockaddr *)&amp;a, <span class="ck">sizeof</span>(a));
     listen(srv, <span class="cv">128</span>);
     printf(<span class="cs">"Echo server :8080\n"</span>);
-
+ 
     <span class="ck">while</span> (<span class="cv">1</span>) {
         <span class="ck">int</span> conn = accept(srv, <span class="cs">NULL</span>, <span class="cs">NULL</span>);
         <span class="ck">if</span> (conn < <span class="cv">0</span>) { perror(<span class="cs">"accept"</span>); <span class="ck">continue</span>; }

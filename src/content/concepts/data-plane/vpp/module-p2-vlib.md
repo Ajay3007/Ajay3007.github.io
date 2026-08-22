@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 2B · WEEKS 5–6 ⚙️ vlib - Graph Dispatc
 domain: data-plane
 track: vpp
 order: 2
+ownHeader: true
 url: /learning/data-plane/vpp/module-p2-vlib/
 ---
 
@@ -151,12 +152,12 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   <span class="c-type">u32</span> n_left_from, *from;
   from        = vlib_frame_vector_args(frame);   <span class="c-comment">/* array of buf indices */</span>
   n_left_from = frame->n_vectors;
-
+ 
   <span class="c-comment">/* ... process packets ... */</span>
-
+ 
   <span class="c-key">return</span> frame->n_vectors;   <span class="c-comment">/* always return vectors processed */</span>
 }
-
+ 
 <span class="c-comment">/* Node registration - at file scope, executed at startup */</span>
 <span class="c-macro">VLIB_REGISTER_NODE</span> (my_node) = {
   .function      = my_node_fn,
@@ -173,7 +174,7 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   <span class="c-comment">/* Optional: for show run output */</span>
   .format_trace  = format_my_node_trace,
 };
-
+ 
 <span class="c-comment">/* Error strings (for show error) */</span>
 <span class="c-key">static char</span> *my_node_error_strings[] = {
 <span class="c-macro">#define</span> _(n, s) s,
@@ -202,16 +203,16 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   <span class="c-key">foreach</span> input_node:
     vectors = input_node.fn(vm, node, frame);
     <span class="c-comment">/* vectors returned drives adaptive polling rate */</span>
-
+ 
   <span class="c-comment">/* 2. Run INTERNAL nodes that have pending frames */</span>
   <span class="c-key">while</span> pending_frames:
     dispatch_node(next_pending_node);
     <span class="c-comment">/* this may enqueue more frames to other nodes */</span>
-
+ 
   <span class="c-comment">/* 3. Run PROCESS nodes that are ready */</span>
   <span class="c-key">foreach</span> ready_process:
     resume_process(proc);
-
+ 
   <span class="c-comment">/* 4. Adaptive sleep if no work (avoids busy-spin at 0 pps) */</span>
   <span class="c-key">if</span> (total_vectors == 0):
     sleep_us(min(sleep_us * 2, max_sleep_us));
@@ -234,16 +235,16 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   <span class="c-type">u32</span>  <span class="c-key">frame_flags</span>;
   <span class="c-comment">/* followed immediately by: u32 buffer_indices[n_vectors] */</span>
 } <span class="c-type">vlib_frame_t</span>;
-
+ 
 <span class="c-comment">/* Get the buffer index array from a frame */</span>
 <span class="c-type">u32</span> *from = vlib_frame_vector_args(frame);
-
+ 
 <span class="c-comment">/* Enqueue packet(s) to a next node */</span>
 <span class="c-type">vlib_frame_t</span> *f = vlib_get_next_frame(vm, node, MY_NEXT_INDEX);
 <span class="c-type">u32</span> *to = vlib_frame_vector_args(f);
 to[0] = buf_index;
 vlib_put_next_frame(vm, node, MY_NEXT_INDEX, <span class="c-comment">/* n_left_to_next= */</span> n_remaining);
-
+ 
 <span class="c-comment">/* Modern API: enqueue by next index array (preferred for multi-next nodes) */</span>
 <span class="c-type">u16</span> nexts[VLIB_FRAME_SIZE];
 nexts[i] = MY_NODE_NEXT_IP4_LOOKUP;
@@ -270,25 +271,25 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
 <span class="c-type">typedef struct</span> {
   <span class="c-comment">/* ── Cache line 0: hot fields ──────────────────────── */</span>
   <span class="c-type">CLIB_CACHE_LINE_ALIGN_MARK</span>(cacheline0);
-
+ 
   <span class="c-type">u32</span> <span class="c-key">current_data</span>;    <span class="c-comment">/* offset from data_u8[] to current L2/L3 header */</span>
   <span class="c-type">u16</span> <span class="c-key">current_length</span>;  <span class="c-comment">/* bytes of valid data from current_data onwards */</span>
   <span class="c-type">u16</span> <span class="c-key">flags</span>;           <span class="c-comment">/* VLIB_BUFFER_IS_TRACED, etc. */</span>
-
+ 
   <span class="c-type">u32</span> <span class="c-key">flow_id</span>;         <span class="c-comment">/* per-packet flow identifier */</span>
   <span class="c-type">u32</span> <span class="c-key">next_buffer</span>;     <span class="c-comment">/* chained buffer index (for multi-seg packets) */</span>
   <span class="c-type">u32</span> <span class="c-key">current_config_index</span>; <span class="c-comment">/* feature arc state */</span>
   <span class="c-type">u8</span>  <span class="c-key">error</span>;           <span class="c-comment">/* error code set by any node */</span>
   <span class="c-type">u8</span>  <span class="c-key">n_add_refs</span>;      <span class="c-comment">/* reference count for cloning */</span>
-
+ 
   <span class="c-comment">/* ── Cache line 1: opaque per-node scratch space ───── */</span>
   <span class="c-type">CLIB_CACHE_LINE_ALIGN_MARK</span>(cacheline1);
   <span class="c-type">vnet_buffer_opaque_t</span> <span class="c-key">opaque</span>;   <span class="c-comment">/* vnet_buffer(b)->ip.adj_index, etc. */</span>
-
+ 
   <span class="c-comment">/* ── Cache line 2: second opaque area ──────────────── */</span>
   <span class="c-type">CLIB_CACHE_LINE_ALIGN_MARK</span>(cacheline2);
   <span class="c-type">vnet_buffer_opaque2_t</span> <span class="c-key">opaque2</span>; <span class="c-comment">/* for your plugin's scratch data */</span>
-
+ 
   <span class="c-comment">/* ── Cache line 3+: packet data ─────────────────────  */</span>
   <span class="c-type">u8</span> <span class="c-key">pre_data</span>[VLIB_BUFFER_PRE_DATA_SIZE]; <span class="c-comment">/* pre-data area (for encap) */</span>
   <span class="c-type">u8</span> <span class="c-key">data_u8</span>[0];    <span class="c-comment">/* actual packet bytes start here */</span>
@@ -303,34 +304,34 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
 
 <div class="code-block"><pre><span class="c-comment">/* Get pointer to current header (L2, L3, or wherever we are) */</span>
 <span class="c-type">void</span> *hdr = vlib_buffer_get_current(b);
-
+ 
 <span class="c-comment">/* Advance past current header (e.g. past Ethernet to reach IP) */</span>
 vlib_buffer_advance(b, <span class="c-key">sizeof</span>(<span class="c-type">ethernet_header_t</span>));
 <span class="c-comment">/* current_data += sizeof(eth_hdr); current_length -= sizeof(eth_hdr) */</span>
-
+ 
 <span class="c-comment">/* Step back (e.g. to prepend an encap header) */</span>
 vlib_buffer_advance(b, -<span class="c-key">sizeof</span>(<span class="c-type">ip4_header_t</span>));
-
+ 
 <span class="c-comment">/* Access vnet buffer opaque (contains L3/L4 metadata) */</span>
 <span class="c-type">vnet_buffer_opaque_t</span> *vo = vnet_buffer(b);
 <span class="c-type">u32</span> adj_idx   = vo->ip.adj_index[VLIB_TX];
 <span class="c-type">u32</span> sw_if_idx = vo->sw_if_index[VLIB_RX];
-
+ 
 <span class="c-comment">/* Get buffer from index (O(1) - base + offset) */</span>
 <span class="c-type">vlib_buffer_t</span> *b = vlib_get_buffer(vm, buf_index);
-
+ 
 <span class="c-comment">/* Get buffer index from pointer */</span>
 <span class="c-type">u32</span> bi = vlib_get_buffer_index(vm, b);
-
+ 
 <span class="c-comment">/* Prefetch next buffer's header - critical for dual-loop perf */</span>
 <span class="c-type">vlib_buffer_t</span> *p2 = vlib_get_buffer(vm, from[2]);
 <span class="c-macro">CLIB_PREFETCH</span>(&p2->data, <span class="c-key">sizeof</span>(*ip0), LOAD);
-
+ 
 <span class="c-comment">/* Allocate and free buffers */</span>
 <span class="c-type">u32</span> bi;
 vlib_buffer_alloc(vm, &bi, <span class="c-val">1</span>);    <span class="c-comment">/* allocate 1 buffer */</span>
 vlib_buffer_free(vm, &bi, <span class="c-val">1</span>);     <span class="c-comment">/* free 1 buffer */</span>
-
+ 
 <span class="c-comment">/* Clone a buffer (reference counting) */</span>
 vlib_buffer_clone(vm, src_bi, &dst_bi, <span class="c-val">1</span>, head_end_offset);</pre></div>
 
@@ -373,10 +374,10 @@ my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vl
 {
   <span class="c-type">u32</span> n_left_from, *from;
   <span class="c-type">u16</span> nexts[VLIB_FRAME_SIZE], *next = nexts;
-
+ 
   from        = vlib_frame_vector_args(frame);
   n_left_from = frame->n_vectors;
-
+ 
   <span class="c-comment">/* ── Prefetch first 4 buffers before entering loop ── */</span>
   {
     <span class="c-type">vlib_buffer_t</span> *p;
@@ -385,12 +386,12 @@ my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vl
     p = vlib_get_buffer(vm, from[2]); <span class="c-macro">vlib_prefetch_buffer_header</span>(p, LOAD);
     p = vlib_get_buffer(vm, from[3]); <span class="c-macro">vlib_prefetch_buffer_header</span>(p, LOAD);
   }
-
+ 
   <span class="c-comment">/* ── DUAL LOOP: 2 packets per iteration ─────────── */</span>
   <span class="c-key">while</span> (n_left_from >= <span class="c-val">4</span>) {
     <span class="c-type">vlib_buffer_t</span> *b0, *b1;
     <span class="c-type">u32</span> bi0, bi1;
-
+ 
     <span class="c-comment">/* Prefetch 2 buffers ahead (hides DRAM latency) */</span>
     {
       <span class="c-type">vlib_buffer_t</span> *p2 = vlib_get_buffer(vm, from[2]);
@@ -400,30 +401,30 @@ my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vl
       <span class="c-macro">CLIB_PREFETCH</span>(p2->data, CLIB_CACHE_LINE_BYTES, LOAD);
       <span class="c-macro">CLIB_PREFETCH</span>(p3->data, CLIB_CACHE_LINE_BYTES, LOAD);
     }
-
+ 
     bi0 = from[0]; bi1 = from[1];
     from += 2; n_left_from -= 2;
-
+ 
     b0 = vlib_get_buffer(vm, bi0);   <span class="c-comment">/* now in cache - no stall */</span>
     b1 = vlib_get_buffer(vm, bi1);
-
+ 
     <span class="c-comment">/* ── YOUR PROCESSING LOGIC FOR b0 AND b1 ── */</span>
     <span class="c-type">ip4_header_t</span> *ip0 = vlib_buffer_get_current(b0);
     <span class="c-type">ip4_header_t</span> *ip1 = vlib_buffer_get_current(b1);
-
+ 
     next[0] = classify_packet(ip0);   <span class="c-comment">/* determine next node */</span>
     next[1] = classify_packet(ip1);
     next += 2;
     <span class="c-comment">/* ─────────────────────────────────────────── */</span>
   }
-
+ 
   <span class="c-comment">/* ── SINGLE LOOP: handle remaining 0-3 packets ── */</span>
   <span class="c-key">while</span> (n_left_from > <span class="c-val">0</span>) {
     <span class="c-type">vlib_buffer_t</span> *b0 = vlib_get_buffer(vm, from[0]);
     next[0] = classify_packet(vlib_buffer_get_current(b0));
     from++; next++; n_left_from--;
   }
-
+ 
   <span class="c-comment">/* Enqueue all packets to their respective next nodes */</span>
   vlib_buffer_enqueue_to_next(vm, node, vlib_frame_vector_args(frame),
                               nexts, frame->n_vectors);
@@ -441,12 +442,12 @@ my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vl
 <div class="code-block"><pre><span class="c-comment">/* Bulk fetch all buffer pointers - compiler can vectorise */</span>
 <span class="c-type">vlib_buffer_t</span> *bufs[VLIB_FRAME_SIZE];
 vlib_get_buffers(vm, from, bufs, n_vectors);
-
+ 
 <span class="c-comment">/* Now iterate bufs[] directly */</span>
 <span class="c-key">for</span> (<span class="c-type">int</span> i = <span class="c-val">0</span>; i < n_vectors; i++) {
   nexts[i] = my_classify(bufs[i]);
 }
-
+ 
 vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
     <p>Use the qs pattern for new nodes. Use the hand-written dual-loop when you need ultra-precise prefetch control for memory-intensive operations (e.g., FIB lookup with pointer chasing).</p>
   </div>
@@ -473,16 +474,16 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
 <div class="code-block"><pre><span class="c-comment">/* Get the current worker's vlib_main_t (in node function context) */</span>
 <span class="c-type">vlib_main_t</span> *vm = ...;   <span class="c-comment">/* already passed to your node function */</span>
 <span class="c-type">u32</span> thread_index = vm->thread_index;   <span class="c-comment">/* 0 = main, 1..N = workers */</span>
-
+ 
 <span class="c-comment">/* Access another thread's vlib_main */</span>
 <span class="c-type">vlib_main_t</span> *wm = vlib_get_main_by_index(worker_idx);
-
+ 
 <span class="c-comment">/* Per-worker data in your plugin - index by thread_index */</span>
 <span class="c-type">typedef struct</span> {
   <span class="c-type">my_flow_t</span>       *flow_pool;
   <span class="c-type">clib_bihash_8_8_t</span> flow_table;
 } <span class="c-type">my_worker_t</span>;
-
+ 
 <span class="c-type">my_main_t</span> *mm = &my_main;
 <span class="c-type">my_worker_t</span> *w = vec_elt_at_index(mm->workers, vm->thread_index);</pre></div>
 
@@ -529,7 +530,7 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
   <span class="c-type">u8</span>  error;
   <span class="c-type">u32</span> flow_id;
 } <span class="c-type">my_node_trace_t</span>;
-
+ 
 <span class="c-comment">/* Step 2: format function - called by 'show trace' */</span>
 <span class="c-key">static</span> <span class="c-type">u8</span> *
 format_my_node_trace (<span class="c-type">u8</span> *s, <span class="c-type">va_list</span> *args) {
@@ -540,7 +541,7 @@ format_my_node_trace (<span class="c-type">u8</span> *s, <span class="c-type">va
              t->sw_if_index, t->next_index, t->flow_id);
   <span class="c-key">return</span> s;
 }
-
+ 
 <span class="c-comment">/* Step 3: in your node function, check trace flag and record */</span>
 <span class="c-key">if</span> (<span class="c-macro">PREDICT_FALSE</span>(b0->flags & VLIB_BUFFER_IS_TRACED)) {
   <span class="c-type">my_node_trace_t</span> *t = vlib_add_trace(vm, node, b0, <span class="c-key">sizeof</span>(*t));
@@ -548,7 +549,7 @@ format_my_node_trace (<span class="c-type">u8</span> *s, <span class="c-type">va
   t->next_index  = next0;
   t->flow_id     = b0->flow_id;
 }
-
+ 
 <span class="c-comment">/* Step 4: in VLIB_REGISTER_NODE, set: */</span>
 <span class="c-comment">/* .format_trace = format_my_node_trace */</span></pre></div>
 
@@ -564,20 +565,20 @@ format_my_node_trace (<span class="c-type">u8</span> *s, <span class="c-type">va
   _(PROCESSED,   "packets processed") \
   _(NO_FLOW,     "flow not found")    \
   _(CHECKSUM,    "checksum error")
-
+ 
 <span class="c-key">typedef enum</span> {
 <span class="c-macro">#define</span> _(n,s) MY_NODE_ERROR_##n,
   <span class="c-macro">foreach_my_node_error</span>
 <span class="c-macro">#undef</span> _
   MY_NODE_N_ERROR,
 } <span class="c-type">my_node_error_t</span>;
-
+ 
 <span class="c-key">static char</span> * my_node_error_strings[] = {
 <span class="c-macro">#define</span> _(n,s) s,
   <span class="c-macro">foreach_my_node_error</span>
 <span class="c-macro">#undef</span> _
 };
-
+ 
 <span class="c-comment">/* Increment a counter (atomic, safe from any worker) */</span>
 vlib_node_increment_counter(vm, my_node.index,
                             MY_NODE_ERROR_PROCESSED, n_processed);</pre></div>

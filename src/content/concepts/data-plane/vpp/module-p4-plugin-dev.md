@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 4 · WEEKS 14–18 🔨 Plugin Development Sc
 domain: data-plane
 track: vpp
 order: 4
+ownHeader: true
 url: /learning/data-plane/vpp/module-p4-plugin-dev/
 ---
 
@@ -103,7 +104,7 @@ cd vpp
 extras/emacs/make-plugin.sh
 <span class="cm"># Prompts for: plugin name (e.g. "classify")</span>
 <span class="cm"># Generates: src/plugins/classify/</span>
-
+ 
 <span class="cm"># Generated file layout:</span>
 src/plugins/classify/
 ├── CMakeLists.txt        <span class="cm"># cmake build rules</span>
@@ -122,19 +123,19 @@ src/plugins/classify/
 <span class="ck">typedef struct</span> {
     <span class="cm">/* Per-worker data - allocated as a vec, indexed by thread_index */</span>
     classify_per_worker_t *per_worker;
-
+ 
     <span class="cm">/* Global state (bihash tables, pool of rules, config) */</span>
     clib_bihash_8_8_t flow_table;
     classify_rule_t *rules;           <span class="cm">/* pool */</span>
     <span class="ck">u32</span>  rule_count;
-
+ 
     <span class="cm">/* vlib / vnet handles cached for fast access */</span>
     vlib_main_t    *vlib_main;
     vnet_main_t    *vnet_main;
 } classify_main_t;
-
+ 
 <span class="ck">extern</span> classify_main_t classify_main;
-
+ 
 <span class="cm">/* Per-worker struct - thread-local, no locking needed */</span>
 <span class="ck">typedef struct</span> {
     <span class="ck">u64</span>  n_classified;
@@ -152,7 +153,7 @@ VLIB_PLUGIN_REGISTER () = {
     .version = VPP_BUILD_VER,
     .description = "Packet classifier plugin",
 };
-
+ 
 <span class="cm">/* Init function - runs once after all plugins are loaded */</span>
 <span class="ck">static</span> clib_error_t *
 classify_init (vlib_main_t *vm)
@@ -160,22 +161,22 @@ classify_init (vlib_main_t *vm)
     classify_main_t *cm = &classify_main;
     cm->vlib_main  = vm;
     cm->vnet_main  = vnet_get_main();
-
+ 
     <span class="cm">/* Allocate per-worker structs */</span>
     vec_validate_init_empty(cm->per_worker,
         vlib_num_workers(), (classify_per_worker_t){0});
-
+ 
     <span class="cm">/* Init bihash - 64K buckets, 128MB backing */</span>
     clib_bihash_init_8_8(&cm->flow_table, "classify-flow",
                          64 * 1024, 128 << 20);
-
+ 
     <span class="cm">/* Register API message handlers */</span>
     classify_api_hookup(vm);
-
+ 
     <span class="ck">return</span> 0;
 }
 VLIB_INIT_FUNCTION (classify_init);
-
+ 
 <span class="cm">/* Config function - parses startup.conf stanza if any */</span>
 VLIB_CONFIG_FUNCTION (classify_config, "classify");
 </pre></div>
@@ -191,11 +192,11 @@ VLIB_CONFIG_FUNCTION (classify_config, "classify");
   <div class="cp-body">
     <p>VPP's binary API is the programmatic control-plane interface - used by vppctl, GoVPP, vpp_papi, and any management agent. API messages are defined in <code>.api</code> files and compiled into C, Go, and Python stubs automatically.</p>
 <div class="cb"><pre><span class="cm">/* classify.api - message definitions */</span>
-
+ 
 <span class="cm">/* Option: API version */</span>
 option version = "1.0.0";
 import "vnet/interface_types.api";
-
+ 
 <span class="cm">/* ── Add a classifier rule ── */</span>
 autoreply define classify_add_rule {
     u32  client_index;
@@ -209,10 +210,10 @@ autoreply define classify_add_rule {
     u8   action;                            <span class="cm">/* 0=pass, 1=drop, 2=redirect */</span>
     u32  redirect_sw_if_index;
 };
-
+ 
 <span class="cm">/* autoreply generates a _reply message automatically */</span>
 <span class="cm">/* VPP sends: typedef classify_add_rule_reply_t { i32 retval; } */</span>
-
+ 
 <span class="cm">/* ── Dump all rules (uses dump+details pattern) ── */</span>
 define classify_rule_dump {
     u32 client_index;
@@ -240,24 +241,24 @@ vl_api_classify_add_rule_t_handler (vl_api_classify_add_rule_t *mp)
     classify_main_t *cm = &classify_main;
     vl_api_classify_add_rule_reply_t *rmp;
     <span class="ck">int</span> rv = 0;
-
+ 
     <span class="cm">/* Validate input */</span>
     <span class="ck">u32</span> sw_if_index = ntohl(mp->sw_if_index);
     <span class="ck">if</span> (!vnet_sw_interface_is_valid(vnet_get_main(), sw_if_index)) {
         rv = VNET_API_ERROR_INVALID_SW_IF_INDEX;
         <span class="ck">goto</span> done;
     }
-
+ 
     <span class="cm">/* Add rule - hold a vlib barrier since we're modifying global state */</span>
     vlib_worker_thread_barrier_sync(cm->vlib_main);
     rv = classify_add_rule_internal(cm, mp);
     vlib_worker_thread_barrier_release(cm->vlib_main);
-
+ 
 done:
     <span class="cm">/* Send reply */</span>
     REPLY_MACRO(VL_API_CLASSIFY_ADD_RULE_REPLY);
 }
-
+ 
 <span class="cm">/* Registration glue */</span>
 <span class="ck">static</span> <span class="ck">void</span>
 classify_api_hookup (vlib_main_t *vm)
@@ -283,13 +284,13 @@ VLIB_CLI_COMMAND (classify_add_rule_command, <span class="ck">static</span>) = {
     .short_help = <span class="cs">"classify add rule &lt;if&gt; src &lt;ip&gt; dst &lt;ip&gt; [proto &lt;N&gt;] [drop|pass]"</span>,
     .function = classify_add_rule_command_fn,
 };
-
+ 
 VLIB_CLI_COMMAND (classify_show_command, <span class="ck">static</span>) = {
     .path = <span class="cs">"show classify"</span>,
     .short_help = <span class="cs">"show classify [interface &lt;if&gt;]"</span>,
     .function = classify_show_command_fn,
 };
-
+ 
 <span class="cm">/* ── Implementation ── */</span>
 <span class="ck">static</span> clib_error_t *
 classify_add_rule_command_fn (vlib_main_t *vm,
@@ -301,7 +302,7 @@ classify_add_rule_command_fn (vlib_main_t *vm,
     <span class="ck">u8</span>  protocol = 0;
     <span class="ck">int</span> drop = 0;
     clib_error_t *error = 0;
-
+ 
     <span class="cm">/* Parse arguments */</span>
     <span class="ck">while</span> (unformat_check_input(input) != UNFORMAT_END_OF_INPUT) {
         <span class="ck">if</span> (unformat(input, <span class="cs">"%U"</span>, unformat_vnet_sw_interface,
@@ -321,19 +322,19 @@ classify_add_rule_command_fn (vlib_main_t *vm,
             <span class="ck">goto</span> done;
         }
     }
-
+ 
     <span class="ck">if</span> (sw_if_index == ~0) {
         error = clib_error_return(0, <span class="cs">"Interface required"</span>);
         <span class="ck">goto</span> done;
     }
-
+ 
     classify_add_rule_internal(cm, sw_if_index, &src, &dst, protocol, drop);
     vlib_cli_output(vm, <span class="cs">"Rule added (sw_if_index %d)\n"</span>, sw_if_index);
-
+ 
 done:
     <span class="ck">return</span> error;
 }
-
+ 
 <span class="cm">/* ── Show command ── */</span>
 <span class="ck">static</span> clib_error_t *
 classify_show_command_fn (vlib_main_t *vm,
@@ -342,15 +343,15 @@ classify_show_command_fn (vlib_main_t *vm,
     classify_main_t *cm = &classify_main;
     classify_rule_t *rule;
     <span class="ck">u32</span> sw_if_index = ~0;
-
+ 
     <span class="ck">if</span> (unformat(input, <span class="cs">"%U"</span>, unformat_vnet_sw_interface,
                   vnet_get_main(), &sw_if_index))
         ;
-
+ 
     <span class="cm">/* Print header */</span>
     vlib_cli_output(vm, <span class="cs">"%-5s %-16s %-16s %-6s %-6s %-10s %-10s\n"</span>,
                     <span class="cs">"ID"</span>, <span class="cs">"SRC"</span>, <span class="cs">"DST"</span>, <span class="cs">"PROTO"</span>, <span class="cs">"ACTION"</span>, <span class="cs">"PACKETS"</span>, <span class="cs">"BYTES"</span>);
-
+ 
     pool_foreach(rule, cm->rules) {
         <span class="ck">if</span> (sw_if_index != ~0 && rule->sw_if_index != sw_if_index)
             continue;
@@ -380,7 +381,7 @@ classify_show_command_fn (vlib_main_t *vm,
     foreach_classify_error
 <span class="cs">#undef _</span>
 };
-
+ 
 VLIB_REGISTER_NODE (classify_node) = {
     .name = <span class="cs">"pkt-classify"</span>,
     .vector_size = <span class="ck">sizeof</span>(u32),
@@ -394,65 +395,65 @@ VLIB_REGISTER_NODE (classify_node) = {
     },
     .format_trace = format_classify_trace,
 };
-
+ 
 VLIB_NODE_FN (classify_node) (vlib_main_t *vm,
     vlib_node_runtime_t *node, vlib_frame_t *frame)
 {
     classify_main_t *cm = &classify_main;
     <span class="ck">u32</span> thread_index = vm->thread_index;
     classify_per_worker_t *pw = &cm->per_worker[thread_index];
-
+ 
     <span class="ck">u32</span> n_left_from, *from;
     from = vlib_frame_vector_args(frame);
     n_left_from = frame->n_vectors;
-
+ 
     <span class="ck">u16</span> nexts[VLIB_FRAME_SIZE];
     <span class="ck">u16</span> *next = nexts;
-
+ 
     <span class="cm">/* Quad loop */</span>
     <span class="ck">while</span> (n_left_from >= 8) {
         vlib_buffer_t *b0, *b1, *b2, *b3;
         ip4_header_t *ip0, *ip1, *ip2, *ip3;
         clib_bihash_kv_8_8_t kv;
-
+ 
         vlib_prefetch_buffer_with_index(vm, from[4], LOAD);
         vlib_prefetch_buffer_with_index(vm, from[5], LOAD);
         vlib_prefetch_buffer_with_index(vm, from[6], LOAD);
         vlib_prefetch_buffer_with_index(vm, from[7], LOAD);
-
+ 
         vlib_get_buffers(vm, from, &b0, 4);
-
+ 
         ip0 = vlib_buffer_get_current(b0);
         ip1 = vlib_buffer_get_current(b1);
         ip2 = vlib_buffer_get_current(b2);
         ip3 = vlib_buffer_get_current(b3);
-
+ 
         <span class="cm">/* Macro: pack 5-tuple into u64 key for bihash_8_8 lookup */</span>
 <span class="cs">#define CLASSIFY_KEY(ip) \</span>
         ((((u64)(ip)->src_address.as_u32) << 32) | (ip)->dst_address.as_u32)
-
+ 
         kv.key = CLASSIFY_KEY(ip0);
         next[0] = (clib_bihash_search_8_8(&cm->flow_table, &kv, &kv) == 0)
                   ? (u16)kv.value : CLASSIFY_NEXT_PASS;
-
+ 
         kv.key = CLASSIFY_KEY(ip1);
         next[1] = (clib_bihash_search_8_8(&cm->flow_table, &kv, &kv) == 0)
                   ? (u16)kv.value : CLASSIFY_NEXT_PASS;
-
+ 
         kv.key = CLASSIFY_KEY(ip2);
         next[2] = (clib_bihash_search_8_8(&cm->flow_table, &kv, &kv) == 0)
                   ? (u16)kv.value : CLASSIFY_NEXT_PASS;
-
+ 
         kv.key = CLASSIFY_KEY(ip3);
         next[3] = (clib_bihash_search_8_8(&cm->flow_table, &kv, &kv) == 0)
                   ? (u16)kv.value : CLASSIFY_NEXT_PASS;
-
+ 
         pw->n_classified += 4;
         from += 4; next += 4; n_left_from -= 4;
     }
-
+ 
     <span class="cm">/* Dual and single drain loops omitted for brevity - same pattern */</span>
-
+ 
     vlib_buffer_enqueue_to_next(vm, node,
         vlib_frame_vector_args(frame), nexts, frame->n_vectors);
     <span class="ck">return</span> frame->n_vectors;
@@ -475,39 +476,39 @@ VLIB_NODE_FN (classify_node) (vlib_main_t *vm,
     FLOW_STATE_FIN_WAIT,
     FLOW_STATE_CLOSED,
 } flow_state_t;
-
+ 
 <span class="cm">/* Flow entry - stored in a pool */</span>
 <span class="ck">typedef struct</span> {
     <span class="cm">/* Key (also used as bihash lookup) */</span>
     ip4_address_t src, dst;
     <span class="ck">u16</span>  src_port, dst_port;
     <span class="ck">u8</span>   protocol;
-
+ 
     <span class="cm">/* State */</span>
     flow_state_t state;
     f64  last_seen;          <span class="cm">/* vlib_time_now() */</span>
     <span class="ck">u64</span>  n_packets, n_bytes;
-
+ 
     <span class="cm">/* Timer wheel handle */</span>
     <span class="ck">u32</span>  timer_handle;
 } flow_entry_t;
-
+ 
 <span class="cm">/* Fast path: per-packet state update */</span>
 VLIB_NODE_FN(flow_track_node)(vlib_main_t *vm, ...) {
     <span class="cm">/* ... dual loop ... */</span>
     f64 now = vlib_time_now(vm);
-
+ 
     <span class="cm">/* Lookup flow */</span>
     clib_bihash_kv_16_8_t kv;
     pack_5tuple(&kv.key, ip0, tcp0);
-
+ 
     <span class="ck">if</span> (PREDICT_TRUE(clib_bihash_search_16_8(&fm->flow_table, &kv, &kv) == 0)) {
         <span class="cm">/* Existing flow */</span>
         flow_entry_t *f = pool_elt_at_index(fm->flows, kv.value);
         f->last_seen = now;
         f->n_packets++;
         f->n_bytes += b0->current_length;
-
+ 
         <span class="cm">/* State transition on TCP flags */</span>
         <span class="ck">if</span> (tcp0->flags & TCP_FLAG_FIN)
             f->state = FLOW_STATE_FIN_WAIT;
@@ -518,7 +519,7 @@ VLIB_NODE_FN(flow_track_node)(vlib_main_t *vm, ...) {
         next0 = FLOW_NEXT_SLOW_PATH;
     }
 }
-
+ 
 <span class="cm">/* Timeout sweep - runs in a PROCESS node once per second */</span>
 VLIB_NODE_FN(flow_timeout_process)(vlib_main_t *vm, ...) {
     <span class="ck">while</span> (1) {
@@ -551,41 +552,41 @@ VLIB_NODE_FN(flow_timeout_process)(vlib_main_t *vm, ...) {
 from framework import VppTestCase
 from scapy.layers.inet import IP, TCP, UDP, Ether
 from vpp_papi import VppEnum
-
+ 
 class TestClassify(VppTestCase):
     """Packet Classifier Plugin Tests"""
-
+ 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-
+ 
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-
+ 
     def setUp(self):
         super().setUp()
         <span class="cm"># Create two loopback interfaces for testing</span>
         self.create_loopback_interfaces(2)
         self.lo0, self.lo1 = self.lo_interfaces
-
+ 
         for i in self.lo_interfaces:
             i.admin_up()
             i.config_ip4()
             i.resolve_arp()
-
+ 
         <span class="cm"># Enable classify feature on lo0</span>
         self.vapi.classify_enable_disable(
             sw_if_index=self.lo0.sw_if_index,
             enable=1
         )
-
+ 
     def tearDown(self):
         for i in self.lo_interfaces:
             i.unconfig_ip4()
             i.admin_down()
         super().tearDown()
-
+ 
     def test_drop_rule(self):
         """Verify DROP rule drops matching packets"""
         <span class="cm"># Add DROP rule for src 10.0.0.100 → dst 10.0.0.200</span>
@@ -595,15 +596,15 @@ class TestClassify(VppTestCase):
             dst_ip=socket.inet_aton("10.0.0.200"),
             action=1  <span class="cm"># DROP</span>
         )
-
+ 
         <span class="cm"># Craft and send matching packet</span>
         pkts = [Ether() / IP(src="10.0.0.100", dst="10.0.0.200") / TCP()]
         self.send_and_assert_no_replies(self.lo0, pkts)
-
+ 
         <span class="cm"># Verify drop counter incremented</span>
         stats = self.vapi.classify_stats_get()
         self.assertEqual(stats.n_dropped, 1)
-
+ 
     def test_pass_rule(self):
         """Verify non-matching packets pass through"""
         pkts = [Ether() / IP(src="10.0.1.1", dst="10.0.1.2") / UDP()]

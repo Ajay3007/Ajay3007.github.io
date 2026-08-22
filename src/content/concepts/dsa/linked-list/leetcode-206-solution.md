@@ -3,6 +3,7 @@ title: "Reverse Linked List - Solution"
 description: "🔗 Reverse Linked List - Solution LeetCode 206 Difficulty: Easy --- Approach Use an iterative three-pointer technique to reverse the linked list in-place: - Maintain three…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/leetcode-206-solution/
 ---
 

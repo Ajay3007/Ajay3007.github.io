@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part7-production
 order: 725
+ownHeader: true
 url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
 ---
 
@@ -135,15 +136,15 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
   <div class="cp-hdr"><span class="ico">📊</span><h3>Prometheus Metrics for AI APIs</h3><span class="tag tag-navy">Measure Everything</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install prometheus-client prometheus-fastapi-instrumentator
-
+ 
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
 from prometheus_fastapi_instrumentator import Instrumentator
 from fastapi import FastAPI, Response
-
+ 
 <span class="ck"># ── Standard HTTP metrics (auto-instrumented) ─────────</span>
 Instrumentator().instrument(app).expose(app)
 <span class="ck"># Provides: http_requests_total, http_request_duration_seconds</span>
-
+ 
 <span class="ck"># ── Custom AI-specific metrics ────────────────────────</span>
 <span class="ck"># Token usage counter — track cost per model per endpoint</span>
 llm_tokens = Counter(
@@ -151,7 +152,7 @@ llm_tokens = Counter(
     <span class="cs">"Total LLM tokens used"</span>,
     labelnames=[<span class="cs">"model"</span>, <span class="cs">"endpoint"</span>, <span class="cs">"token_type"</span>]   <span class="ck"># input | output</span>
 )
-
+ 
 <span class="ck"># LLM call latency histogram</span>
 llm_latency = Histogram(
     <span class="cs">"llm_call_duration_seconds"</span>,
@@ -159,22 +160,22 @@ llm_latency = Histogram(
     labelnames=[<span class="cs">"model"</span>, <span class="cs">"endpoint"</span>],
     buckets=[<span class="cv">0.5</span>, <span class="cv">1.0</span>, <span class="cv">2.0</span>, <span class="cv">5.0</span>, <span class="cv">10.0</span>, <span class="cv">30.0</span>]
 )
-
+ 
 <span class="ck"># RAG retrieval quality gauge</span>
 rag_avg_score = Gauge(
     <span class="cs">"rag_retrieval_score_avg"</span>,
     <span class="cs">"Rolling average RAG retrieval similarity score"</span>
 )
-
+ 
 <span class="ck"># Active agent sessions</span>
 active_agents = Gauge(
     <span class="cs">"agent_sessions_active"</span>,
     <span class="cs">"Number of currently running agent sessions"</span>
 )
-
+ 
 <span class="ck"># Usage example inside an endpoint</span>
 import time
-
+ 
 async def call_llm_instrumented(prompt: str, model: str, endpoint: str) -> str:
     start = time.perf_counter()
     try:
@@ -188,7 +189,7 @@ async def call_llm_instrumented(prompt: str, model: str, endpoint: str) -> str:
         return reply
     finally:
         llm_latency.labels(model=model, endpoint=endpoint).observe(time.perf_counter() - start)
-
+ 
 <span class="ck"># Expose metrics endpoint</span>
 @app.get(<span class="cs">"/metrics"</span>)
 async def metrics():
@@ -201,7 +202,7 @@ async def metrics():
   <div class="cp-hdr"><span class="ico">📈</span><h3>Grafana Dashboard Setup</h3><span class="tag tag-blue">Visualise</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Add Prometheus + Grafana to docker-compose.yml</span>
-
+ 
 <span class="ck"># prometheus service</span>
 <span class="cs">  prometheus:</span>
 <span class="cs">    image: prom/prometheus:latest</span>
@@ -209,7 +210,7 @@ async def metrics():
 <span class="cs">      - "9090:9090"</span>
 <span class="cs">    volumes:</span>
 <span class="cs">      - ./prometheus.yml:/etc/prometheus/prometheus.yml</span>
-
+ 
 <span class="ck"># grafana service</span>
 <span class="cs">  grafana:</span>
 <span class="cs">    image: grafana/grafana:latest</span>
@@ -219,7 +220,7 @@ async def metrics():
 <span class="cs">      GF_SECURITY_ADMIN_PASSWORD: admin</span>
 <span class="cs">    volumes:</span>
 <span class="cs">      - grafana_data:/var/lib/grafana</span>
-
+ 
 <span class="ck"># prometheus.yml — scrape your FastAPI app</span>
 <span class="cs">global:</span>
 <span class="cs">  scrape_interval: 15s</span>
@@ -227,7 +228,7 @@ async def metrics():
 <span class="cs">  - job_name: "ai-api"</span>
 <span class="cs">    static_configs:</span>
 <span class="cs">      - targets: ["api:8000"]</span>   <span class="ck"># Docker service name</span>
-
+ 
 <span class="ck"># Key Grafana panels for an AI API:</span>
 <span class="ck"># 1. Request rate: rate(http_requests_total[5m])</span>
 <span class="ck"># 2. p95 latency: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))</span>
@@ -245,10 +246,10 @@ async def metrics():
   <div class="cp-hdr"><span class="ico">📋</span><h3>Production Log Pipeline</h3><span class="tag tag-navy">Queryable Logs</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install structlog python-json-logger
-
+ 
 import structlog, logging, sys
 from pythonjsonlogger import jsonlogger
-
+ 
 <span class="ck"># ── Production structlog configuration ────────────────</span>
 def configure_logging(environment: str = <span class="cs">"production"</span>):
     if environment == <span class="cs">"development"</span>:
@@ -272,19 +273,19 @@ def configure_logging(environment: str = <span class="cs">"production"</span>):
                 structlog.processors.JSONRenderer()
             ]
         )
-
+ 
 logger = structlog.get_logger()
-
+ 
 <span class="ck"># ── Request correlation — trace a request through all logs</span>
 import uuid
 from starlette.middleware.base import BaseHTTPMiddleware
-
+ 
 class CorrelationMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         <span class="ck"># Use incoming X-Request-ID or generate new one</span>
         request_id = request.headers.get(<span class="cs">"X-Request-ID"</span>, str(uuid.uuid4())[:8])
         user_id    = getattr(request.state, <span class="cs">"user"</span>, {}).get(<span class="cs">"user_id"</span>, <span class="cs">"anon"</span>)
-
+ 
         <span class="ck"># Bind to context — all logs in this request include these fields</span>
         structlog.contextvars.bind_contextvars(
             request_id=request_id,
@@ -295,7 +296,7 @@ class CorrelationMiddleware(BaseHTTPMiddleware):
         structlog.contextvars.clear_contextvars()
         response.headers[<span class="cs">"X-Request-ID"</span>] = request_id
         return response
-
+ 
 <span class="ck"># All logs now include request_id and user_id automatically</span>
 <span class="ck"># Output: {"event":"llm_called","model":"claude...","request_id":"a3f7b2","user_id":"user_1",...}</span>
 <span class="ck"># Query in CloudWatch/Datadog/Loki: request_id="a3f7b2" → all logs for that request</span></pre></div>
@@ -310,14 +311,14 @@ class CorrelationMiddleware(BaseHTTPMiddleware):
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Distributed Tracing with OpenTelemetry</h3><span class="tag tag-navy">End-to-End</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install opentelemetry-api opentelemetry-sdk             opentelemetry-instrumentation-fastapi             opentelemetry-exporter-otlp
-
+ 
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.instrumentation.httpx import HTTPXClientInstrumentor
-
+ 
 <span class="ck"># Setup tracing — sends to Jaeger or any OTLP-compatible backend</span>
 provider = TracerProvider()
 provider.add_span_processor(
@@ -325,26 +326,26 @@ provider.add_span_processor(
 )
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
-
+ 
 <span class="ck"># Auto-instrument FastAPI and all HTTPX calls (LLM API calls)</span>
 FastAPIInstrumentor.instrument_app(app)
 HTTPXClientInstrumentor().instrument()
 <span class="ck"># Every FastAPI request and every LLM API call now has a trace span</span>
-
+ 
 <span class="ck"># Manual spans for custom work</span>
 async def rag_pipeline(question: str) -> dict:
     with tracer.start_as_current_span(<span class="cs">"rag.retrieve"</span>) as span:
         span.set_attribute(<span class="cs">"query.length"</span>, len(question))
         chunks = await retrieve(question)
         span.set_attribute(<span class="cs">"chunks.count"</span>, len(chunks))
-
+ 
     with tracer.start_as_current_span(<span class="cs">"rag.generate"</span>) as span:
         span.set_attribute(<span class="cs">"model"</span>, <span class="cs">"claude-3-5-sonnet-20241022"</span>)
         answer = await generate(question, chunks)
         span.set_attribute(<span class="cs">"answer.length"</span>, len(answer))
-
+ 
     return {<span class="cs">"answer"</span>: answer, <span class="cs">"chunks"</span>: chunks}
-
+ 
 <span class="ck"># Trace view in Jaeger UI:</span>
 <span class="ck"># [GET /rag/ask 450ms]</span>
 <span class="ck">#   └─ [rag.retrieve 120ms] chunks=5</span>
@@ -362,11 +363,11 @@ async def rag_pipeline(question: str) -> dict:
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Sentry for exception tracking</span>
 pip install sentry-sdk[fastapi]
-
+ 
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 from sentry_sdk.integrations.celery import CeleryIntegration
-
+ 
 sentry_sdk.init(
     dsn=os.environ[<span class="cs">"SENTRY_DSN"</span>],
     environment=os.environ.get(<span class="cs">"ENVIRONMENT"</span>, <span class="cs">"production"</span>),
@@ -376,18 +377,18 @@ sentry_sdk.init(
 )
 <span class="ck"># Any unhandled exception now appears in Sentry with full context:
 # stack trace, request headers, user ID, environment, breadcrumbs</span>
-
+ 
 <span class="ck"># Add user context so Sentry shows which user triggered the error</span>
 from sentry_sdk import set_user, set_extra
-
+ 
 async def call_with_sentry_context(user: dict, func, *args):
     set_user({<span class="cs">"id"</span>: user[<span class="cs">"user_id"</span>], <span class="cs">"email"</span>: user.get(<span class="cs">"email"</span>)})
     set_extra(<span class="cs">"request_tier"</span>, user.get(<span class="cs">"tier"</span>))
     return await func(*args)
-
+ 
 <span class="ck"># Prometheus alert rules (prometheus-alerts.yml)</span>
 <span class="ck"># Copy into Alertmanager for PagerDuty / Slack / email alerts</span>
-
+ 
 ALERT_RULES = <span class="cs">"""
 groups:
   - name: ai_api_alerts
@@ -399,7 +400,7 @@ groups:
           severity: critical
         annotations:
           summary: "Error rate above 5% for 2 minutes"
-
+ 
       - alert: HighLLMLatency
         expr: histogram_quantile(0.95, rate(llm_call_duration_seconds_bucket[5m])) > 15
         for: 3m
@@ -407,7 +408,7 @@ groups:
           severity: warning
         annotations:
           summary: "LLM p95 latency above 15s"
-
+ 
       - alert: TokenCostSpike
         expr: rate(llm_tokens_total[1h]) * 3600 > 500000
         for: 5m
@@ -429,13 +430,13 @@ groups:
     <div class="cb"><pre><span class="ck"># ── Rotating API keys — never embed keys in clients ───</span>
 import secrets, hashlib, sqlite3
 from datetime import datetime
-
+ 
 def generate_api_key() -> tuple[str, str]:
     """Returns (raw_key, hashed_key). Store only the hash."""
     raw = <span class="cs">f"sk-{secrets.token_urlsafe(32)}"</span>
     hsh = hashlib.sha256(raw.encode()).hexdigest()
     return raw, hsh
-
+ 
 def create_user_api_key(user_id: str, name: str = <span class="cs">"default"</span>) -> str:
     raw, hsh = generate_api_key()
     with sqlite3.connect(<span class="cs">"keys.db"</span>) as conn:
@@ -445,7 +446,7 @@ def create_user_api_key(user_id: str, name: str = <span class="cs">"default"</sp
         conn.execute(<span class="cs">"INSERT INTO api_keys VALUES (?,?,?,?,?,1)"</span>,
                      (hsh, user_id, name, datetime.utcnow().isoformat(), None))
     return raw   <span class="ck"># show raw key to user ONCE — never store it</span>
-
+ 
 async def validate_api_key(raw_key: str) -> dict | None:
     hsh = hashlib.sha256(raw_key.encode()).hexdigest()
     with sqlite3.connect(<span class="cs">"keys.db"</span>) as conn:
@@ -456,17 +457,17 @@ async def validate_api_key(raw_key: str) -> dict | None:
             conn.execute(<span class="cs">"UPDATE api_keys SET last_used=? WHERE hash=?"</span>,
                          (datetime.utcnow().isoformat(), hsh))
     return {<span class="cs">"user_id"</span>: row[<span class="cv">0</span>], <span class="cs">"key_name"</span>: row[<span class="cv">1</span>]} if row else None
-
+ 
 def revoke_api_key(hsh: str):
     with sqlite3.connect(<span class="cs">"keys.db"</span>) as conn:
         conn.execute(<span class="cs">"UPDATE api_keys SET is_active=0 WHERE hash=?"</span>, (hsh,))
-
+ 
 <span class="ck"># ── OAuth2 with Google (social login) ─────────────────</span>
 pip install authlib httpx
-
+ 
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
-
+ 
 config = Config(<span class="cs">".env"</span>)
 oauth = OAuth(config)
 oauth.register(
@@ -476,12 +477,12 @@ oauth.register(
     client_secret=config(<span class="cs">"GOOGLE_CLIENT_SECRET"</span>),
     client_kwargs={<span class="cs">"scope"</span>: <span class="cs">"openid email profile"</span>},
 )
-
+ 
 @router.get(<span class="cs">"/auth/google"</span>)
 async def google_login(request: Request):
     redirect_uri = request.url_for(<span class="cs">"google_callback"</span>)
     return await oauth.google.authorize_redirect(request, redirect_uri)
-
+ 
 @router.get(<span class="cs">"/auth/google/callback"</span>, name=<span class="cs">"google_callback"</span>)
 async def google_callback(request: Request):
     token   = await oauth.google.authorize_access_token(request)

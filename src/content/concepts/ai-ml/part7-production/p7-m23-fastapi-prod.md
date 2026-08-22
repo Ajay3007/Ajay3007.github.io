@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part7-production
 order: 723
+ownHeader: true
 url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 ---
 
@@ -154,11 +155,11 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 <span class="ck"># └── services/</span>
 <span class="ck">#     ├── llm.py       ← LLM call wrappers</span>
 <span class="ck">#     └── rag.py       ← retrieval pipeline</span>
-
+ 
 <span class="ck"># config.py — all settings from environment</span>
 from pydantic_settings import BaseSettings
 from functools import lru_cache
-
+ 
 class Settings(BaseSettings):
     anthropic_api_key: str
     openai_api_key:    str = <span class="cs">""</span>
@@ -167,21 +168,21 @@ class Settings(BaseSettings):
     api_key_secret:    str = <span class="cs">"change-me-in-production"</span>
     max_requests_per_minute: int = <span class="cv">60</span>
     environment:       str = <span class="cs">"development"</span>
-
+ 
     class Config:
         env_file = <span class="cs">".env"</span>
-
+ 
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-
+ 
 <span class="ck"># main.py — app factory with lifespan</span>
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 import anthropic, chromadb
-
+ 
 app_state = {}
-
+ 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     <span class="ck"># Startup: initialise shared resources once</span>
@@ -193,9 +194,9 @@ async def lifespan(app: FastAPI):
     <span class="ck"># Shutdown: clean up</span>
     await app_state[<span class="cs">"llm_client"</span>].close()
     print(<span class="cs">"✓ App stopped"</span>)
-
+ 
 app = FastAPI(title=<span class="cs">"AI API"</span>, version=<span class="cs">"1.0.0"</span>, lifespan=lifespan)
-
+ 
 <span class="ck"># Mount routers</span>
 from routers import chat, rag, admin
 app.include_router(chat.router,  prefix=<span class="cs">"/chat"</span>,  tags=[<span class="cs">"chat"</span>])
@@ -213,44 +214,44 @@ app.include_router(admin.router, prefix=<span class="cs">"/admin"</span>, tags=[
   <div class="cp-body">
     <div class="cb"><pre>from fastapi import Depends, Request
 import anthropic
-
+ 
 <span class="ck"># dependencies.py — all shared resource providers</span>
-
+ 
 def get_llm_client(request: Request) -> anthropic.AsyncAnthropic:
     """Provide the shared LLM client initialised at startup."""
     return request.app.state.llm_client   <span class="ck"># stored in lifespan</span>
-
+ 
 def get_settings_dep() -> Settings:
     return get_settings()
-
+ 
 def get_vector_db(request: Request):
     return request.app.state.vector_db
-
+ 
 <span class="ck"># Alternative: use app_state dict from lifespan</span>
 def get_llm(request: Request) -> anthropic.AsyncAnthropic:
     return app_state[<span class="cs">"llm_client"</span>]
-
+ 
 <span class="ck"># In routers — inject dependencies cleanly</span>
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import Annotated
-
+ 
 router = APIRouter()
-
+ 
 class ChatRequest(BaseModel):
     message:    str
     session_id: str = <span class="cs">""</span>
     max_tokens: int = <span class="cv">1024</span>
-
+ 
 class ChatResponse(BaseModel):
     reply:      str
     session_id: str
     tokens_used: int
-
+ 
 <span class="ck"># Type-aliased dependency for cleaner signatures</span>
 LLMDep      = Annotated[anthropic.AsyncAnthropic, Depends(get_llm_client)]
 SettingsDep = Annotated[Settings, Depends(get_settings_dep)]
-
+ 
 @router.post(<span class="cs">"/message"</span>, response_model=ChatResponse)
 async def send_message(
     request: ChatRequest,
@@ -282,20 +283,20 @@ async def send_message(
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 import time, uuid, structlog
-
+ 
 logger = structlog.get_logger()
-
+ 
 <span class="ck"># ── 1. Request ID + Timing middleware ─────────────────</span>
 class RequestLoggingMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         request_id = str(uuid.uuid4())[:8]
         start      = time.perf_counter()
-
+ 
         <span class="ck"># Attach request_id to context for all logs in this request</span>
         structlog.contextvars.bind_contextvars(request_id=request_id)
-
+ 
         response = await call_next(request)
-
+ 
         elapsed = round((time.perf_counter() - start) * <span class="cv">1000</span>, <span class="cv">1</span>)
         logger.info(<span class="cs">"http_request"</span>,
                     method=request.method,
@@ -303,29 +304,29 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
                     status=response.status_code,
                     latency_ms=elapsed,
                     request_id=request_id)
-
+ 
         response.headers[<span class="cs">"X-Request-ID"</span>] = request_id
         structlog.contextvars.clear_contextvars()
         return response
-
+ 
 <span class="ck"># ── 2. Rate limiting middleware ───────────────────────</span>
 import asyncio
 from collections import defaultdict
-
+ 
 class RateLimitMiddleware(BaseHTTPMiddleware):
     def __init__(self, app, calls_per_minute: int = <span class="cv">60</span>):
         super().__init__(app)
         self.calls_per_minute = calls_per_minute
         self._counts: dict[str, list] = defaultdict(list)
-
+ 
     def _get_client_id(self, request: Request) -> str:
         return request.headers.get(<span class="cs">"X-API-Key"</span>, request.client.host)
-
+ 
     async def dispatch(self, request: Request, call_next) -> Response:
         client_id = self._get_client_id(request)
         now       = time.time()
         window    = [t for t in self._counts[client_id] if now - t < <span class="cv">60</span>]
-
+ 
         if len(window) >= self.calls_per_minute:
             return Response(
                 content=<span class="cs">'{"detail":"Rate limit exceeded. Try again in 60 seconds."}',
@@ -335,11 +336,11 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             )
         self._counts[client_id] = window + [now]
         return await call_next(request)
-
+ 
 <span class="ck"># ── 3. Global exception handler ───────────────────────</span>
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
-
+ 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     logger.error(<span class="cs">"unhandled_exception"</span>, path=request.url.path, error=str(exc))
@@ -348,7 +349,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={<span class="cs">"detail"</span>: <span class="cs">"Internal server error"</span>,
                  <span class="cs">"request_id"</span>: request.headers.get(<span class="cs">"X-Request-ID"</span>)}
     )
-
+ 
 <span class="ck"># ── Register all middleware ────────────────────────────</span>
 app.add_middleware(RequestLoggingMiddleware)
 app.add_middleware(RateLimitMiddleware, calls_per_minute=<span class="cv">60</span>)
@@ -368,16 +369,16 @@ app.add_middleware(CORSMiddleware,
   <div class="cp-body">
     <div class="cb"><pre>from fastapi import BackgroundTasks
 import asyncio
-
+ 
 <span class="ck"># ── Background tasks — fire and forget ───────────────</span>
 <span class="ck"># Use for: logging, analytics, cache warming, notifications</span>
 <span class="ck"># Do NOT use for: work the user needs to see in the response</span>
-
+ 
 async def log_usage_async(user_id: str, tokens: int, cost: float):
     """Run after response is sent — user doesn't wait for this."""
     await asyncio.sleep(<span class="cv">0</span>)   <span class="ck"># yield to event loop</span>
     await db.insert_usage(user_id, tokens, cost)
-
+ 
 @router.post(<span class="cs">"/chat"</span>)
 async def chat_with_logging(
     request: ChatRequest,
@@ -386,7 +387,7 @@ async def chat_with_logging(
 ):
     response = await client.messages.create(...)
     reply    = response.content[<span class="cv">0</span>].text
-
+ 
     <span class="ck"># Schedule logging AFTER response is sent</span>
     background_tasks.add_task(
         log_usage_async,
@@ -395,26 +396,26 @@ async def chat_with_logging(
         cost=response.usage.output_tokens * <span class="cv">15e-6</span>
     )
     return {<span class="cs">"reply"</span>: reply}   <span class="ck"># returned immediately; logging runs after</span>
-
+ 
 <span class="ck"># ── Never block the event loop ────────────────────────</span>
 import asyncio
-
+ 
 <span class="ck"># BAD: blocks the entire event loop — other requests wait</span>
 @router.get(<span class="cs">"/bad"</span>)
 async def bad_endpoint():
     import time
     time.sleep(<span class="cv">5</span>)   <span class="ck"># blocks! no other requests can run during this</span>
     return {<span class="cs">"ok"</span>: <span class="cv">True</span>}
-
+ 
 <span class="ck"># GOOD: yields to event loop</span>
 @router.get(<span class="cs">"/good"</span>)
 async def good_endpoint():
     await asyncio.sleep(<span class="cv">5</span>)   <span class="ck"># other requests run while waiting</span>
     return {<span class="cs">"ok"</span>: <span class="cv">True</span>}
-
+ 
 <span class="ck"># For CPU-bound work: run in thread pool</span>
 import functools
-
+ 
 @router.post(<span class="cs">"/embed"</span>)
 async def embed_text(text: str):
     loop  = asyncio.get_event_loop()
@@ -438,15 +439,15 @@ async def embed_text(text: str):
     <div class="cb"><pre>from fastapi import Security, HTTPException, status
 from fastapi.security import APIKeyHeader
 import secrets, hashlib
-
+ 
 API_KEY_HEADER = APIKeyHeader(name=<span class="cs">"X-API-Key"</span>, auto_error=<span class="cv">False</span>)
-
+ 
 <span class="ck"># ── Simple API key validation ─────────────────────────</span>
 VALID_KEYS = {  <span class="ck"># in prod, store hashed keys in DB</span>
     hashlib.sha256(<span class="cs">"sk-dev-key-1"</span>.encode()).hexdigest(): {<span class="cs">"user_id"</span>: <span class="cs">"user_1"</span>, <span class="cs">"tier"</span>: <span class="cs">"free"</span>},
     hashlib.sha256(<span class="cs">"sk-prod-key-1"</span>.encode()).hexdigest(): {<span class="cs">"user_id"</span>: <span class="cs">"user_2"</span>, <span class="cs">"tier"</span>: <span class="cs">"pro"</span>},
 }
-
+ 
 async def require_api_key(api_key: str = Security(API_KEY_HEADER)):
     if not api_key:
         raise HTTPException(status_code=<span class="cv">401</span>, detail=<span class="cs">"API key required"</span>)
@@ -455,31 +456,31 @@ async def require_api_key(api_key: str = Security(API_KEY_HEADER)):
     if not user:
         raise HTTPException(status_code=<span class="cv">403</span>, detail=<span class="cs">"Invalid API key"</span>)
     return user
-
+ 
 <span class="ck"># Type alias for clean signatures</span>
 AuthUser = Annotated[dict, Security(require_api_key)]
-
+ 
 @router.post(<span class="cs">"/ask"</span>)
 async def ask(request: RAGRequest, user: AuthUser, client: LLMDep):
     <span class="ck"># user = {"user_id": "user_2", "tier": "pro"}</span>
     if user[<span class="cs">"tier"</span>] == <span class="cs">"free"</span> and len(request.question) > <span class="cv">500</span>:
         raise HTTPException(status_code=<span class="cv">402</span>, detail=<span class="cs">"Upgrade to Pro for longer questions"</span>)
     ...
-
+ 
 <span class="ck"># ── JWT with python-jose ──────────────────────────────</span>
 pip install python-jose[cryptography]
-
+ 
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-
+ 
 SECRET_KEY = <span class="cs">"your-256-bit-secret"</span>   <span class="ck"># from environment in prod</span>
 ALGORITHM  = <span class="cs">"HS256"</span>
-
+ 
 def create_access_token(user_id: str, expires_minutes: int = <span class="cv">60</span>) -> str:
     payload = {<span class="cs">"sub"</span>: user_id,
                <span class="cs">"exp"</span>: datetime.utcnow() + timedelta(minutes=expires_minutes)}
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
+ 
 async def get_current_user_jwt(token: str = Security(oauth2_scheme)) -> str:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
@@ -498,19 +499,19 @@ async def get_current_user_jwt(token: str = Security(oauth2_scheme)) -> str:
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># ── Development server ────────────────────────────────</span>
 uvicorn app.main:app --reload --port 8000
-
+ 
 <span class="ck"># ── Production: gunicorn manages uvicorn workers ──────</span>
 <span class="ck"># workers = (2 × CPU cores) + 1 is the standard formula</span>
 gunicorn app.main:app   --worker-class uvicorn.workers.UvicornWorker   --workers 4   --bind 0.0.0.0:8000   --timeout 120   --graceful-timeout 30   --access-logfile -   --error-logfile -
-
+ 
 <span class="ck"># ── Health check endpoints ────────────────────────────</span>
 <span class="ck"># /health — fast liveness check (load balancer uses this)</span>
 <span class="ck"># /ready  — readiness check (DB connected, model loaded)</span>
-
+ 
 @router.get(<span class="cs">"/health"</span>)
 async def health():
     return {<span class="cs">"status"</span>: <span class="cs">"ok"</span>, <span class="cs">"timestamp"</span>: datetime.utcnow().isoformat()}
-
+ 
 @router.get(<span class="cs">"/ready"</span>)
 async def readiness(client: LLMDep, request: Request):
     checks = {}
@@ -523,7 +524,7 @@ async def readiness(client: LLMDep, request: Request):
         checks[<span class="cs">"llm"</span>] = <span class="cs">"ok"</span>
     except Exception as e:
         checks[<span class="cs">"llm"</span>] = <span class="cs">f"error: {e}"</span>
-
+ 
     <span class="ck"># Check vector DB</span>
     try:
         vdb = request.app.state.vector_db
@@ -531,7 +532,7 @@ async def readiness(client: LLMDep, request: Request):
         checks[<span class="cs">"vector_db"</span>] = <span class="cs">"ok"</span>
     except Exception as e:
         checks[<span class="cs">"vector_db"</span>] = <span class="cs">f"error: {e}"</span>
-
+ 
     all_ok = all(v == <span class="cs">"ok"</span> for v in checks.values())
     return JSONResponse(
         status_code=<span class="cv">200</span> if all_ok else <span class="cv">503</span>,

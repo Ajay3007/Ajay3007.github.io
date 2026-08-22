@@ -3,6 +3,7 @@ title: "Binary Search Tree"
 description: "[Binary Search Tree (BST)]( binary-search-tree-bst) --- --- Binary Search Tree (BST) Ordered structure: insert/search/delete."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/tree/binary-search-tree/
 ---
 

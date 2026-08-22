@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part3-classical-ml
 order: 309
+ownHeader: true
 url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
 ---
 
@@ -130,7 +131,7 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import root_mean_squared_error, roc_auc_score
 import pandas as pd, numpy as np
-
+ 
 # ── How gradient boosting works ───────────────────────
 # 1. Fit a shallow tree (weak learner) to the data
 # 2. Compute residuals: where did the model err?
@@ -138,10 +139,10 @@ import pandas as pd, numpy as np
 # 4. Add this tree to the ensemble with a learning rate
 # 5. Repeat N times (n_estimators)
 # Final prediction = sum of all tree outputs
-
+ 
 # ── XGBoost sklearn API (easier) ─────────────────────
 from xgboost import XGBClassifier, XGBRegressor
-
+ 
 # Regression
 model = XGBRegressor(
     n_estimators=500,       # number of boosting rounds
@@ -156,7 +157,7 @@ model = XGBRegressor(
     n_jobs=-1,
     # Missing values: XGBoost handles natively — no imputation needed!
 )
-
+ 
 # ── Early stopping: prevent overfitting automatically ─
 X_tr, X_val, y_tr, y_val = train_test_split(X_train, y_train,
                                               test_size=0.15, random_state=42)
@@ -167,13 +168,13 @@ model.fit(
 )
 # Training stops when validation metric hasn't improved for N rounds
 # model.best_ntree_limit: optimal number of trees found
-
+ 
 print(f"Best iteration: {model.best_iteration}")
 print(f"Test RMSE: {root_mean_squared_error(y_test, model.predict(X_test)):,.0f}")
-
+ 
 # ── Cross-validation with early stopping ─────────────
 import xgboost as xgb
-
+ 
 dtrain = xgb.DMatrix(X_train, label=y_train)
 params = {
     "max_depth": 5,
@@ -206,14 +207,14 @@ print(f"Best CV RMSE: {cv_results['test-rmse-mean'].min():,.1f}")</pre></div>
   <div class="cp-body">
     <div class="cb"><pre>import lightgbm as lgb
 from sklearn.model_selection import cross_val_score
-
+ 
 # ── LightGBM vs XGBoost ───────────────────────────────
 # LightGBM: leaf-wise tree growth (vs XGBoost level-wise)
 # → faster training, better accuracy on large datasets
 # → more prone to overfitting with small datasets (use num_leaves carefully)
 # Native categorical feature support (no OHE needed!)
 # Much faster on datasets > 100k rows
-
+ 
 model_lgb = lgb.LGBMRegressor(
     n_estimators=1000,
     learning_rate=0.05,
@@ -228,19 +229,19 @@ model_lgb = lgb.LGBMRegressor(
     random_state=42,
     verbose=-1,
 )
-
+ 
 # Native categorical support
 # Specify categorical columns — LightGBM handles them without OHE
 cat_features = ["MSZoning", "Neighborhood", "SaleType"]
 df[cat_features] = df[cat_features].astype("category")
-
+ 
 model_lgb.fit(
     X_tr, y_tr,
     eval_set=[(X_val, y_val)],
     callbacks=[lgb.early_stopping(50), lgb.log_evaluation(100)]
 )
 print(f"Best iteration: {model_lgb.best_iteration_}")
-
+ 
 # ── LightGBM cross-validation ─────────────────────────
 lgb_train = lgb.Dataset(X_train, label=y_train)
 params = {
@@ -269,15 +270,15 @@ print(f"Best round: {best_round}, CV RMSE: {min(cv_result['valid rmse-mean']):,.
 from sklearn.model_selection import cross_val_score
 from xgboost import XGBRegressor
 import numpy as np
-
+ 
 # ── Why Optuna beats GridSearchCV ─────────────────────
 # GridSearch: exhaustively tries all combinations (exponential time)
 # RandomSearch: random sampling (efficient but dumb)
 # Optuna/Bayesian: uses past trials to guess promising regions
 # → finds good params in far fewer trials than GridSearch
-
+ 
 optuna.logging.set_verbosity(optuna.logging.WARNING)
-
+ 
 def objective(trial):
     """Called by Optuna for each trial. Returns the metric to optimise."""
     params = {
@@ -297,21 +298,21 @@ def objective(trial):
     scores = cross_val_score(model, X_train, y_train, cv=3,
                              scoring="neg_root_mean_squared_error")
     return -scores.mean()  # Optuna minimises by default, so negate RMSE
-
+ 
 # ── Run Optuna study ──────────────────────────────────
 study = optuna.create_study(direction="minimize",
                              sampler=optuna.samplers.TPESampler(seed=42))
 study.optimize(objective, n_trials=50, show_progress_bar=True)
-
+ 
 best_params = study.best_params
 print(f"Best RMSE: {study.best_value:,.0f}")
 print(f"Best params: {best_params}")
-
+ 
 # ── Use best params for final model ───────────────────
 best_model = XGBRegressor(**best_params)
 best_model.fit(X_train, y_train)
 print(f"Test RMSE: {root_mean_squared_error(y_test, best_model.predict(X_test)):,.0f}")
-
+ 
 # ── Visualise Optuna results ──────────────────────────
 from optuna.visualization import (plot_optimization_history,
                                    plot_param_importances,
@@ -319,7 +320,7 @@ from optuna.visualization import (plot_optimization_history,
 # Shows how RMSE improved over trials
 fig = plot_optimization_history(study)
 fig.show()
-
+ 
 # Shows which hyperparameters had the most impact
 fig = plot_param_importances(study)
 fig.show()</pre></div>
@@ -338,29 +339,29 @@ from imblearn.pipeline import Pipeline as ImbPipeline
 from xgboost import XGBClassifier
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.metrics import classification_report
-
+ 
 # ── SMOTE — Synthetic Minority Oversampling ───────────
 # Creates synthetic minority class samples by interpolating between
 # k nearest neighbours of existing minority samples
 # Result: balanced classes (50/50 by default)
 smote = SMOTE(random_state=42, k_neighbors=5, sampling_strategy=1.0)
-
+ 
 # ── ADASYN — Adaptive Synthetic Sampling ─────────────
 # Like SMOTE but creates MORE synthetic samples near the decision boundary
 # (where the classifier struggles most)
 adasyn = ADASYN(random_state=42, n_neighbors=5)
-
+ 
 # ── BorderlineSMOTE ───────────────────────────────────
 # Only oversamples minority points near the decision boundary
 # More targeted than vanilla SMOTE
 bl_smote = BorderlineSMOTE(random_state=42, kind="borderline-1")
-
+ 
 # ── SMOTETomek: oversample + undersample ──────────────
 # Apply SMOTE to create synthetic minority samples
 # Then remove Tomek links (ambiguous majority samples near boundary)
 # Best of both: less noisy than pure SMOTE
 smote_tomek = SMOTETomek(random_state=42)
-
+ 
 # ── XGBoost alternative: scale_pos_weight ─────────────
 # For binary classification: no resampling needed
 # scale_pos_weight = sum(negative) / sum(positive)
@@ -368,10 +369,10 @@ neg = (y_train == 0).sum()
 pos = (y_train == 1).sum()
 scale = neg / pos
 print(f"scale_pos_weight: {scale:.2f}")
-
+ 
 xgb_imb = XGBClassifier(scale_pos_weight=scale, n_estimators=300,
                           random_state=42, n_jobs=-1)
-
+ 
 # ── Compare strategies with CV ────────────────────────
 strategies = {
     "XGB no correction":   ImbPipeline([("xgb", XGBClassifier(n_estimators=300, random_state=42))]),
@@ -396,7 +397,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from xgboost import XGBClassifier
 from sklearn.model_selection import cross_val_score
-
+ 
 # ── Voting Ensemble ───────────────────────────────────
 # Simplest ensemble: combine predictions from multiple models
 # hard voting: majority class vote
@@ -406,16 +407,16 @@ voting = VotingClassifier(estimators=[
     ("xgb", XGBClassifier(n_estimators=200, random_state=42)),
     ("lr",  LogisticRegression(max_iter=1000)),
 ], voting="soft", n_jobs=-1)
-
+ 
 cv_voting = cross_val_score(voting, X_train, y_train, cv=5, scoring="roc_auc")
 print(f"Voting CV AUC: {cv_voting.mean():.3f}")
-
+ 
 # ── Stacking ──────────────────────────────────────────
 # Level-0 estimators: base models, trained on K-fold subsets
 # Level-1 estimator: meta-learner trained on base model predictions
 # Stacking uses cross-validation to generate level-0 predictions
 # to avoid the meta-learner overfitting to training data
-
+ 
 stacking = StackingClassifier(
     estimators=[
         ("rf",  RandomForestClassifier(n_estimators=100, n_jobs=-1, random_state=42)),
@@ -430,7 +431,7 @@ stacking = StackingClassifier(
 )
 cv_stacking = cross_val_score(stacking, X_train, y_train, cv=5, scoring="roc_auc")
 print(f"Stacking CV AUC: {cv_stacking.mean():.3f}")
-
+ 
 # ── Manual blending (simpler, less rigorous than stacking) ──
 # Train models on train split, blend predictions on val split
 X_tr, X_val, y_tr, y_val = train_test_split(X_train, y_train, test_size=0.2)
@@ -449,38 +450,38 @@ print(f"Blend AUC: {roc_auc_score(y_val, blend):.3f}")</pre></div>
     <div class="cb"><pre>import shap
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 # ── SHAP for tree models (exact, fast) ────────────────
 explainer = shap.TreeExplainer(xgb_model)
 shap_values = explainer(X_test)
-
+ 
 # shap_values.values: shape (n_samples, n_features)
 # shap_values.base_values: baseline prediction (average model output)
 # shap_values.data: feature values
-
+ 
 # ── Summary plot (global feature importance + direction) ─
 shap.summary_plot(shap_values, X_test)
 # Each row = one feature. Points = individual samples.
 # Red = high feature value, Blue = low feature value
 # x-axis: SHAP value (positive = pushes prediction higher)
-
+ 
 # ── Bar plot (average |SHAP| per feature) ────────────
 shap.summary_plot(shap_values, X_test, plot_type="bar")
-
+ 
 # ── Dependence plot: how one feature interacts with another ──
 # Shows: SHAP(GrLivArea) vs GrLivArea, coloured by OverallQual
 shap.dependence_plot("GrLivArea", shap_values.values, X_test,
                       interaction_index="OverallQual")
-
+ 
 # ── Waterfall plot for a single prediction ────────────
 # Why did the model predict $250k for this specific house?
 idx = 0
 shap.plots.waterfall(shap_values[idx])
-
+ 
 # ── Force plot: interactive individual prediction ─────
 shap.force_plot(explainer.expected_value, shap_values.values[idx],
                 X_test.iloc[idx], matplotlib=True)
-
+ 
 # ── SHAP for non-tree models (KernelExplainer - slow) ─
 # Use when you need SHAP for non-tree models
 # KernelSHAP approximates SHAP values using a weighted linear model

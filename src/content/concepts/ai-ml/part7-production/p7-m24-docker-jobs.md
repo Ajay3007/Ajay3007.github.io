@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part7-production
 order: 724
+ownHeader: true
 url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
 ---
 
@@ -138,40 +139,40 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
   <div class="cp-hdr"><span class="ico">🐳</span><h3>Production Dockerfile — Multi-Stage Build</h3><span class="tag tag-navy">Container</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Dockerfile — production multi-stage build</span>
-
+ 
 <span class="ck"># ── Stage 1: dependency builder ───────────────────────</span>
 FROM python:3.12-slim AS builder
-
+ 
 WORKDIR /build
 COPY requirements.txt .
-
+ 
 <span class="ck"># Install dependencies into /install — separate from app code</span>
 RUN pip install --no-cache-dir --prefix=/install -r requirements.txt
-
+ 
 <span class="ck"># ── Stage 2: production image ─────────────────────────</span>
 FROM python:3.12-slim AS production
-
+ 
 <span class="ck"># Create non-root user — never run as root in production</span>
 RUN useradd --create-home --shell /bin/bash appuser
-
+ 
 WORKDIR /app
-
+ 
 <span class="ck"># Copy installed packages from builder stage</span>
 COPY --from=builder /install /usr/local
-
+ 
 <span class="ck"># Copy only app code — not tests, docs, or dev files</span>
 COPY app/ ./app/
 COPY --chown=appuser:appuser . .
-
+ 
 <span class="ck"># Switch to non-root user</span>
 USER appuser
-
+ 
 <span class="ck"># Expose port</span>
 EXPOSE 8000
-
+ 
 <span class="ck"># Health check — Docker monitors this</span>
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3   CMD python -c "import httpx; httpx.get('http://localhost:8000/admin/health').raise_for_status()"
-
+ 
 <span class="ck"># Production command: gunicorn managing uvicorn workers</span>
 CMD ["gunicorn", "app.main:app",
      "--worker-class", "uvicorn.workers.UvicornWorker",
@@ -194,7 +195,7 @@ chroma_db/         <span class="ck"># mount as volume, not baked in</span>
     <div class="cb"><pre><span class="ck"># Build and run</span>
 docker build -t ai-api:latest .
 docker run -p 8000:8000   --env-file .env   -v $(pwd)/chroma_db:/app/chroma_db   ai-api:latest
-
+ 
 <span class="ck"># Inspect image layers (find what's making it large)</span>
 docker history ai-api:latest
 <span class="ck"># Or use dive: https://github.com/wagoodman/dive</span></pre></div>
@@ -211,9 +212,9 @@ docker history ai-api:latest
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># docker-compose.yml — complete AI app stack</span>
 version: <span class="cs">"3.9"</span>
-
+ 
 services:
-
+ 
   <span class="ck"># ── FastAPI app ──────────────────────────────────────</span>
   api:
     build: .
@@ -233,7 +234,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-
+ 
   <span class="ck"># ── Celery worker ────────────────────────────────────</span>
   worker:
     build: .
@@ -246,7 +247,7 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
-
+ 
   <span class="ck"># ── Celery Beat (scheduled tasks) ────────────────────</span>
   beat:
     build: .
@@ -257,7 +258,7 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
-
+ 
   <span class="ck"># ── Redis (message broker + result backend) ──────────</span>
   redis:
     image: redis:7-alpine
@@ -272,11 +273,11 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
-
+ 
 volumes:
   chroma_data:
   redis_data:
-
+ 
 <span class="ck"># Commands</span>
 <span class="ck"># docker compose up --build -d    # start all services detached</span>
 <span class="ck"># docker compose logs -f api      # follow api logs</span>
@@ -323,14 +324,14 @@ volumes:
   <div class="cp-hdr"><span class="ico">🌿</span><h3>Celery — Distributed Task Queue</h3><span class="tag tag-navy">Standard</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install celery redis
-
+ 
 <span class="ck"># app/worker.py — Celery app and task definitions</span>
 from celery import Celery
 from celery.utils.log import get_task_logger
 import anthropic, os
-
+ 
 logger = get_task_logger(__name__)
-
+ 
 <span class="ck"># Celery app — Redis as broker AND result backend</span>
 celery_app = Celery(
     <span class="cs">"ai_tasks"</span>,
@@ -346,7 +347,7 @@ celery_app.conf.update(
     task_time_limit=<span class="cv">360</span>,        <span class="ck"># hard kill after 6 min</span>
     worker_max_tasks_per_child=<span class="cv">50</span>  <span class="ck"># restart worker after 50 tasks (memory leak prevention)</span>
 )
-
+ 
 <span class="ck"># ── Task: ingest documents ────────────────────────────</span>
 @celery_app.task(
     bind=<span class="cv">True</span>,
@@ -363,7 +364,7 @@ def ingest_documents(self, document_paths: list[str], collection: str) -> dict:
     except Exception as exc:
         logger.error(<span class="cs">f"Ingestion failed: {exc}"</span>)
         raise self.retry(exc=exc, countdown=<span class="cv">60</span>)   <span class="ck"># retry with 60s delay</span>
-
+ 
 <span class="ck"># ── Task: run research agent ──────────────────────────</span>
 @celery_app.task(
     bind=<span class="cv">True</span>,
@@ -376,10 +377,10 @@ def run_agent_task(self, goal: str, session_id: str) -> dict:
         return result
     except Exception as exc:
         raise self.retry(exc=exc, countdown=<span class="cv">30</span>)
-
+ 
 <span class="ck"># ── Scheduled tasks (beat) ────────────────────────────</span>
 from celery.schedules import crontab
-
+ 
 celery_app.conf.beat_schedule = {
     <span class="cs">"daily-index-cleanup"</span>: {
         <span class="cs">"task"</span>: <span class="cs">"tasks.cleanup_stale_documents"</span>,
@@ -405,26 +406,26 @@ from pydantic import BaseModel
 from celery.result import AsyncResult
 from typing import Any, Optional
 import uuid
-
+ 
 router = APIRouter(prefix=<span class="cs">"/jobs"</span>, tags=[<span class="cs">"jobs"</span>])
-
+ 
 class JobSubmitResponse(BaseModel):
     job_id:  str
     status:  str = <span class="cs">"queued"</span>
     message: str
-
+ 
 class JobStatusResponse(BaseModel):
     job_id:   str
     status:   str       <span class="ck"># queued | started | success | failure | revoked</span>
     progress: Optional[float] = None   <span class="ck"># 0.0 – 1.0</span>
     result:   Optional[Any]  = None    <span class="ck"># populated when status=success</span>
     error:    Optional[str]  = None    <span class="ck"># populated when status=failure</span>
-
+ 
 <span class="ck"># ── Submit: returns job_id immediately ────────────────</span>
 class IngestRequest(BaseModel):
     document_paths: list[str]
     collection:     str = <span class="cs">"default"</span>
-
+ 
 @router.post(<span class="cs">"/ingest"</span>, status_code=<span class="cv">202</span>, response_model=JobSubmitResponse)
 async def submit_ingestion(request: IngestRequest):
     task = ingest_documents.delay(
@@ -436,12 +437,12 @@ async def submit_ingestion(request: IngestRequest):
         status=<span class="cs">"queued"</span>,
         message=<span class="cs">f"Ingestion job queued. Poll /jobs/{task.id} for status."</span>
     )
-
+ 
 <span class="ck"># ── Poll: check job status ────────────────────────────</span>
 @router.get(<span class="cs">"/{job_id}"</span>, response_model=JobStatusResponse)
 async def get_job_status(job_id: str):
     result = AsyncResult(job_id, app=celery_app)
-
+ 
     match result.state:
         case <span class="cs">"PENDING"</span>:
             return JobStatusResponse(job_id=job_id, status=<span class="cs">"queued"</span>)
@@ -457,13 +458,13 @@ async def get_job_status(job_id: str):
                                      error=str(result.info))
         case _:
             return JobStatusResponse(job_id=job_id, status=result.state.lower())
-
+ 
 <span class="ck"># ── Cancel a job ──────────────────────────────────────</span>
 @router.delete(<span class="cs">"/{job_id}"</span>)
 async def cancel_job(job_id: str):
     celery_app.control.revoke(job_id, terminate=<span class="cv">True</span>)
     return {<span class="cs">"message"</span>: <span class="cs">f"Job {job_id} cancelled"</span>}
-
+ 
 <span class="ck"># ── Report progress from inside a task ────────────────</span>
 @celery_app.task(bind=<span class="cv">True</span>)
 def batch_embed_task(self, texts: list[str]) -> dict:

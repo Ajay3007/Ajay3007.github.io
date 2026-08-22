@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 6 · MODULE 26 · WEEKS 25–26 · CUR
 domain: networking
 track: networking-mastery
 order: 26
+ownHeader: true
 url: /learning/networking-mastery/m26-policy-capstone/
 ---
 
@@ -171,11 +172,11 @@ Rule 47:
   time:      work-hours (Mon-Fri 08:00-18:00)
   action:    deny
   log:       yes
-
+ 
 /* Challenge: at packet time, we only have a five-tuple + app_id */
 /* We need to evaluate 10K+ rules in nanoseconds */
 /* Solution: compile rules into optimised lookup structures */
-
+ 
 /* Step 1: Decompose rules into primitive match fields */
 typedef struct compiled_rule {
     /* IP prefix ranges (compiled from address objects) */
@@ -201,26 +202,26 @@ typedef struct compiled_rule {
     uint32_t hit_count;
     uint64_t last_hit_ns;
 } compiled_rule_t;
-
+ 
 /* Step 2: Build classifier structures */
-
+ 
 /* For IP-range matching: interval tree or PATRICIA trie */
 /* For most rules: two-level hash (zone pair → rule subset) */
-
+ 
 typedef struct policy_table {
     /* Index 1: zone pair (src_zone × dst_zone) → rule_list */
     /* Typical: 10 zones → 100 zone pairs → small list per pair */
     rule_list_t zone_rules[MAX_ZONES][MAX_ZONES];
-
+ 
     /* For each zone pair: sorted by specificity for first-match */
     /* More specific rules listed first: /32 before /24 before /0 */
-
+ 
     /* Index 2: 5-tuple prefix hash for most common rules */
     /* Pre-computed: all /32 source + /32 dest combinations → direct action */
     rte_hash_t *exact_match_cache;
-
+ 
 } policy_table_t;
-
+ 
 /* Step 3: Fast-path lookup */
 uint8_t policy_lookup(policy_table_t *pt, session_t *s) {
     /* Fast path: exact match cache (pre-populated for common flows) */
@@ -228,7 +229,7 @@ uint8_t policy_lookup(policy_table_t *pt, session_t *s) {
     if (rte_hash_lookup_data(pt->exact_match_cache,
                               &s->key, (void **)&action) >= 0)
         return action;
-
+ 
     /* Slow path: walk rule list for this zone pair */
     rule_list_t *rl = &pt->zone_rules[s->src_zone][s->dst_zone];
     for (int i = 0; i < rl->n_rules; i++) {
@@ -260,30 +261,30 @@ uint8_t policy_lookup(policy_table_t *pt, session_t *s) {
 /* Rules evaluated in order; FIRST matching rule wins */
 /* Implication: rule ordering MATTERS CRITICALLY */
 /* More specific rules must come BEFORE less specific rules */
-
+ 
 /* Example — correct ordering (first-match) */
 Rule 1: src=10.1.0.5/32   dst=8.8.8.8/32  proto=UDP port=53  → PERMIT
 Rule 2: src=10.1.0.5/32   dst=any         proto=any           → DENY (block this host)
 Rule 3: src=10.1.0.0/24   dst=any         proto=any           → PERMIT
 Rule 99: src=any           dst=any                            → DENY (implicit)
-
+ 
 /* Packet from 10.1.0.5 → 8.8.8.8:53 → matches Rule 1 → PERMIT */
 /* Packet from 10.1.0.5 → 1.2.3.4    → matches Rule 2 → DENY */
 /* Packet from 10.1.0.10 → anywhere   → matches Rule 3 → PERMIT */
-
+ 
 /* If Rule 3 were placed before Rule 2: Rule 2 would never fire! */
-
+ 
 /* Best-match semantics (BGP routing, some firewall vendors) */
 /* Most specific matching rule wins (longest prefix) */
 /* Rule ordering does NOT matter */
 /* More complex to implement but harder to get wrong */
 /* Used by: Juniper SRX (route-based mode), some SDN firewalls */
-
+ 
 /* Shadow rule detection — compiler-time check */
 /* Rule A is "shadowed" by Rule B if: */
 /*   Rule B appears before Rule A AND Rule B matches all packets Rule A would match */
 /* Shadow = Rule A can never fire (dead code) */
-
+ 
 int detect_shadow(compiled_rule_t *rules, int n) {
     for (int i = 1; i < n; i++) {
         for (int j = 0; j < i; j++) {
@@ -295,12 +296,12 @@ int detect_shadow(compiled_rule_t *rules, int n) {
         }
     }
 }
-
+ 
 /* Rule conflict detection */
 /* Rule A and Rule B conflict if: same traffic can match both */
 /* but they have different actions */
 /* Resolution: first-match resolves automatically, but warn admin */
-
+ 
 /* Policy diff — show changes between two policy versions */
 void policy_diff(policy_table_t *old_pt, policy_table_t *new_pt) {
     /* For each rule in new: present in old? Same action? */
@@ -320,7 +321,7 @@ void policy_diff(policy_table_t *old_pt, policy_table_t *new_pt) {
   <div class="cp-hdr"><span class="ico">🔷</span><h3>Security Zones and Inter-Zone Policy</h3><span class="tag tag-teal">ZONES</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* Security zones: logical groups of interfaces/subnets with same trust level */
-
+ 
 Zone model (typical enterprise NGFW):
   INTERNET  — untrusted external connections (trust=0)
   DMZ       — public-facing servers: web, DNS, SMTP (trust=10)
@@ -329,12 +330,12 @@ Zone model (typical enterprise NGFW):
   MGMT      — management network: SSH/SNMP to NGFW itself (trust=90)
   VPN       — remote access VPN clients (trust=40)
   GUEST     — guest WiFi (trust=5)
-
+ 
 /* Default inter-zone policy (implicit) */
 Same-zone:   PERMIT (traffic within same zone flows freely)
 Cross-zone:  DENY (all inter-zone traffic denied unless explicitly permitted)
 /* This is the zero-trust baseline */
-
+ 
 /* Zone definitions in VPP / iproute2 terms */
 typedef struct {
     char     name[32];
@@ -345,7 +346,7 @@ typedef struct {
     uint8_t  n_interfaces;
     uint8_t  n_subnets;
 } security_zone_t;
-
+ 
 /* Zone determination for a packet */
 uint8_t get_src_zone(session_t *s, security_zone_t *zones, int n_zones) {
     /* Check which interface the packet arrived on */
@@ -356,7 +357,7 @@ uint8_t get_src_zone(session_t *s, security_zone_t *zones, int n_zones) {
                 return zones[z].zone_id;
     return ZONE_UNKNOWN;
 }
-
+ 
 /* Standard inter-zone policy matrix */
 /*
   FROM/TO   INTERNET  DMZ    TRUST  SERVERS  MGMT   VPN   GUEST
@@ -367,15 +368,15 @@ uint8_t get_src_zone(session_t *s, security_zone_t *zones, int n_zones) {
   MGMT        deny    deny   deny   deny     -      deny  deny
   VPN         lim     lim    any    lim      deny   -     deny
   GUEST       HTTP/S  deny   deny   deny     deny   deny  -
-
+ 
   lim = limited (specific ports only)
 */
-
+ 
 /* Intra-zone security (lateral movement prevention) */
 /* Even within TRUST zone, east-west traffic can be restricted */
 /* Micro-segmentation: HR-VLAN cannot reach Finance-VLAN directly */
 /* Implementation: sub-zones, or additional per-prefix rules */
-
+ 
 /* Zone policy for your Jio NGFW project */
 /* CUSTOMER-LAN: customer traffic requiring NGFW inspection */
 /* CORE: peering/transit links */
@@ -398,7 +399,7 @@ typedef struct ngfw_log_record {
     uint64_t session_start_ns;
     uint64_t session_end_ns;
     uint32_t duration_ms;
-
+ 
     /* Five-tuple */
     char     src_ip[40];         /* text form */
     char     dst_ip[40];
@@ -406,26 +407,26 @@ typedef struct ngfw_log_record {
     uint16_t dst_port;
     uint8_t  proto;
     char     proto_str[8];       /* "TCP", "UDP", "ICMP" */
-
+ 
     /* Policy */
     uint32_t policy_id;
     char     policy_name[64];
     char     src_zone[32];
     char     dst_zone[32];
     char     action[16];         /* "permit", "deny", "reset" */
-
+ 
     /* Application */
     uint16_t app_id;
     char     app_name[64];       /* "HTTPS", "Netflix", "BitTorrent" */
     char     url_category[32];   /* "Streaming", "Social Media", etc. */
     char     url[512];           /* if HTTP inspection active */
-
+ 
     /* Traffic */
     uint64_t bytes_sent;
     uint64_t bytes_received;
     uint64_t pkts_sent;
     uint64_t pkts_received;
-
+ 
     /* Security */
     uint8_t  ssl_inspected;
     char     tls_sni[256];
@@ -433,19 +434,19 @@ typedef struct ngfw_log_record {
     uint16_t threat_id;
     char     threat_name[128];
     uint8_t  threat_severity;    /* 1=critical, 2=high, 3=medium, 4=low */
-
+ 
     /* NAT */
     char     nat_src_ip[40];
     uint16_t nat_src_port;
 } ngfw_log_record_t;
-
+ 
 /* High-performance logging architecture */
 /* Problem: at 1M flows/second, synchronous write blocks forwarding */
 /* Solution: lockless ring buffer → background logger thread */
-
+ 
 #define LOG_RING_SIZE  (1 << 20)   /* 1M entries */
 rte_ring_t *log_ring;
-
+ 
 /* In forwarding thread (non-blocking) */
 void session_close_log(session_t *s) {
     ngfw_log_record_t *rec = log_record_alloc();  /* from pool */
@@ -455,7 +456,7 @@ void session_close_log(session_t *s) {
         log_record_free(rec);
     }
 }
-
+ 
 /* In logger thread (background) */
 void *logger_thread(void *arg) {
     ngfw_log_record_t *recs[64];
@@ -474,13 +475,13 @@ void *logger_thread(void *arg) {
         }
     }
 }
-
+ 
 /* SIEM integration targets */
 /* Kafka → Elasticsearch → Kibana (ELK stack): standard for large-scale */
 /* Splunk: popular commercial SIEM */
 /* Graylog: open-source alternative */
 /* syslog-ng / rsyslog: for traditional syslog-based SIEMs */
-
+ 
 /* CEF (Common Event Format) for interoperability */
 /* "CEF:0|Jio|NGFW|1.0|100|Connection Denied|3|src=10.1.0.5 dst=8.8.8.8 ..." */</pre></div>
   </div>
@@ -496,7 +497,7 @@ void *logger_thread(void *arg) {
   <div class="cp-body">
 <div class="cb"><pre>/* Complete NGFW packet processing pipeline */
 /* Built on VPP (from M18) with all modules integrated */
-
+ 
 INGRESS PACKET (from NIC via DPDK)
   │
   ▼
@@ -550,7 +551,7 @@ INGRESS PACKET (from NIC via DPDK)
   │
   ▼
 [interface-output]    TX queue, DPDK PMD transmit, batch to NIC
-
+ 
 /* Control plane (separate from data plane) */
 Control Plane Components:
   Policy Manager:      compile and install policy tables
@@ -564,7 +565,7 @@ Control Plane Components:
 
 <div class="cb"><pre>/* Performance targets for production NGFW on 10G dual-port Mellanox */
 /* (Based on your team's ConnectX infrastructure) */
-
+ 
 Throughput:         10 Gbps bidirectional (line rate)
 Sessions:           1M concurrent
 New sessions/sec:   100K/s (TCP with 3-way handshake)
@@ -574,7 +575,7 @@ Latency (add):      <100µs for established flows (DPDK)
 Latency (add):      <500µs for new flows (session creation + policy eval)
 CPU cores needed:   6–10 worker cores + 2 management cores
 Memory:             16GB (1M sessions + DPI state + threat intel)
-
+ 
 /* VPP worker affinity */
 /* Workers 0-3: packet processing (pinned to NUMA 0, same as NIC) */
 /* Workers 4-5: SSL inspection offload (CPU-intensive) */
@@ -592,37 +593,37 @@ Memory:             16GB (1M sessions + DPI state + threat intel)
   <div class="cp-hdr"><span class="ico">📏</span><h3>NGFW Performance Testing Methodology</h3><span class="tag tag-green">BENCHMARKING</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* NGFW performance testing: RFC 2544 + security-specific extensions */
-
+ 
 /* Tool: TRex (Cisco) — stateful traffic generator running on DPDK */
 /* Alternative: Ixia, Spirent (commercial); MoonGen (academic) */
-
+ 
 /* Test 1: Maximum Throughput (Raw forwarding, no inspection) */
 /* Establish baseline: how fast can the data plane forward? */
 /* Packet sizes: 64B, 128B, 256B, 512B, 1024B, 1518B */
 /* Target: line rate (14.88 Mpps at 10Gbps for 64B packets) */
-
+ 
 /* Test 2: Connections Per Second */
 /* Generate new TCP connections rapidly */
 /* Measure: how many SYN→SYN-ACK→ACK→FIN per second */
 /* Bottleneck: session table insertion, policy evaluation */
 /* Target: 100K+ CPS */
-
+ 
 /* Test 3: Maximum Concurrent Sessions */
 /* Fill session table: open millions of connections, keep alive */
 /* Measure: throughput degradation as table fills */
 /* Observe: when does hash collision rate become significant? */
-
+ 
 /* Test 4: DPI Impact */
 /* Repeat Test 1 with DPI enabled */
 /* Compare throughput with DPI on vs off */
 /* Test with: 100 sigs, 1000 sigs, 10000 sigs */
 /* Measure: Gbps lost per 1000 additional signatures */
-
+ 
 /* Test 5: SSL Inspection Throughput */
 /* TLS 1.3 connections at various key sizes */
 /* Compare: AES-128-GCM vs AES-256-GCM vs ChaCha20-Poly1305 */
 /* With hardware offload (QAT or Mellanox IPsec): compare vs software */
-
+ 
 /* TRex stateful test configuration */
 /*
 port: 0
@@ -636,7 +637,7 @@ port: 0
         request_size: 512
         response_size: 4096
 */
-
+ 
 /* Metrics to capture */
 typedef struct perf_metrics {
     double   throughput_gbps;
@@ -651,7 +652,7 @@ typedef struct perf_metrics {
     double   cpu_util_pct;
     double   dpi_scan_gbps;
 } perf_metrics_t;
-
+ 
 /* Monitoring during tests */
 watch -n 1 'vppctl show run summary'      /* VPP node performance */
 watch -n 1 'vppctl show interface'         /* TX/RX stats */
@@ -702,7 +703,7 @@ numastat -m                                /* NUMA memory access */</pre></div>
   CLI:               vppctl + custom NGFW CLI (using vppctl framework)
   Testing:           TRex for traffic generation; Suricata for IDS validation
 */
-
+ 
 /* Decision: why VPP over custom DPDK */
 /* Custom DPDK requires reimplementing: IPv4/IPv6 forwarding, ARP/ND,   */
 /* routing, fragmentation, GRE, VxLAN, MPLS, etc. — years of work       */

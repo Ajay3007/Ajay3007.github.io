@@ -103,7 +103,7 @@ const currentPath = Astro.url.pathname;
           <span>{SITE.title}</span>
         </a>
 
-        <nav class="hidden gap-5 text-[13.5px] md:flex" aria-label="Main">
+        <nav id="site-nav" class="hidden gap-5 text-[13.5px] md:flex" aria-label="Main">
           {
             NAV.map((item) => {
               const active = currentPath === item.href || currentPath.startsWith(item.href);
@@ -126,6 +126,16 @@ const currentPath = Astro.url.pathname;
         <div class="ml-auto flex items-center gap-2">
           <button
             type="button"
+            id="nav-toggle"
+            class="rounded border border-line px-2 py-1 text-[12px] text-muted transition-colors hover:border-line-strong hover:text-fg md:hidden"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="site-nav"
+          >
+            ☰
+          </button>
+          <button
+            type="button"
             id="theme-toggle"
             class="rounded border border-line px-2 py-1 text-[12px] text-muted transition-colors hover:border-line-strong hover:text-fg"
             aria-label="Toggle colour theme"
@@ -136,6 +146,23 @@ const currentPath = Astro.url.pathname;
         </div>
       </div>
     </header>
+
+    {/* Mobile navigation. The Jekyll header lost its toggle at some point and
+        left nav.js querying a .nav-toggle that no longer existed, so small
+        screens had no navigation at all. */}
+    <nav id="mobile-nav" class="hidden border-b border-line bg-bg md:hidden" aria-label="Main (mobile)">
+      <ul class="mx-auto max-w-(--container-wide) px-5 py-2">
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} class="block py-2 text-[15px] text-muted transition-colors hover:text-accent">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
 
     <main id="main" data-pagefind-body={indexable ? '' : undefined}>
       <slot />
@@ -151,6 +178,12 @@ const currentPath = Astro.url.pathname;
     </footer>
 
     <script is:inline>
+      document.getElementById('nav-toggle')?.addEventListener('click', (e) => {
+        const nav = document.getElementById('mobile-nav');
+        const open = nav?.classList.toggle('hidden') === false;
+        e.currentTarget.setAttribute('aria-expanded', String(open));
+      });
+
       document.getElementById('theme-toggle')?.addEventListener('click', () => {
         const dark = document.documentElement.classList.toggle('dark');
         try {

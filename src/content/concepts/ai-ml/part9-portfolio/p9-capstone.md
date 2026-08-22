@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part9-portfolio
 order: 99
+ownHeader: true
 url: /learning/ai-ml/part9-portfolio/p9-capstone/
 ---
 
@@ -167,35 +168,35 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
       <div class="readme-body">
 <pre style="font-family:monospace;font-size:.83rem;line-height:1.8;color:var(--text-color,#222);white-space:pre-wrap">
 # Project Name — One-Line Value Proposition
-
+ 
 [`![Deploy](badge-url)`](live-demo-url) [`![Python](badge-url)`](pypi) [`![License](badge-url)`](license)
-
+ 
 > **[Live Demo](https://your-demo-url.com)** | Built with Claude + FastAPI + ChromaDB
-
+ 
 ## What It Does
 2–3 sentences. What problem does it solve? Who is it for? What's the result?
 "A production-ready RAG API that lets you query your private documents in plain English,
 with grounded answers and citations. Faithfulness: 0.91 on 30-question eval set."
-
+ 
 ## Demo
 [GIF or screenshot of the app working — this is the most important element]
-
+ 
 ## Architecture
 [Simple ASCII or Mermaid diagram showing: User → API → LLM/Vector DB → Response]
-
+ 
 ## Tech Stack
 - **LLM**: Claude 3.5 Sonnet via Anthropic API
 - **Retrieval**: ChromaDB + Cohere reranker (two-stage, retrieve-50 → rerank-5)
 - **Backend**: FastAPI + Celery + Redis
 - **Deployment**: Docker + Railway
-
+ 
 ## Results
 | Metric | Score |
 |--------|-------|
 | RAG Faithfulness | 0.91 |
 | Context Recall @5 | 0.84 |
 | p95 Query Latency | 1.2s |
-
+ 
 ## Quick Start
 ```bash
 git clone https://github.com/you/project
@@ -203,7 +204,7 @@ cp .env.example .env  # add your API keys
 docker compose up
 # Open http://localhost:8000/docs
 ```
-
+ 
 ## Key Technical Decisions
 - Used two-stage retrieval (vector → reranker) because baseline hit_rate@5 was 0.65; improved to 0.84
 - Chose ChromaDB over Pinecone for self-hosting cost control at this scale
@@ -215,17 +216,17 @@ docker compose up
 pip install terminalizer
 terminalizer record demo
 terminalizer render demo -o demo.gif
-
+ 
 # Or use asciinema for terminal demos
 pip install asciinema
 asciinema rec demo.cast
 asciinema upload demo.cast  # get a shareable URL
-
+ 
 # Add shields.io badges to README
 # https://img.shields.io/badge/Python-3.12-blue
 # https://img.shields.io/badge/FastAPI-0.109-green
 # https://img.shields.io/badge/Live_Demo-Click_Here-orange
-
+ 
 # Pin your best repos on GitHub profile:
 # Profile → Customize profile → Pin repositories → select 3</pre></div>
   </div>
@@ -249,22 +250,22 @@ asciinema upload demo.cast  # get a shareable URL
     <h4>The STAR-Metric Formula for Each Bullet</h4>
     <div class="cb"><pre># BAD — describes what you did
 "Built a RAG system using ChromaDB and the Anthropic API"
-
+ 
 # GOOD — leads with impact, shows measurement
 "Built production RAG API serving 500+ queries/day: 0.91 faithfulness score,
 1.2s p95 latency, 90% cost reduction via Anthropic prompt caching"
-
+ 
 # BAD — vague agent project
 "Developed an AI agent using LangGraph"
-
+ 
 # GOOD — quantified with production details
 "Shipped LangGraph research agent with circuit breaker (capped at $0.50/session),
 human-in-the-loop approval for sensitive tools, structured logging — reduced
 manual research time by 60% for 3 team members"
-
+ 
 # BAD — generic Python experience
 "Used Python for backend development"
-
+ 
 # GOOD — specific AI engineering context
 "Led migration of 4 microservices to async FastAPI with LLM integration;
 added Prometheus metrics and Grafana dashboards reducing MTTD from 2h to 8min"</pre></div>
@@ -275,12 +276,12 @@ RAG · Retrieval-Augmented Generation · LLM · Large Language Models
 Anthropic Claude · OpenAI GPT · prompt engineering · fine-tuning
 LangChain · LangGraph · LlamaIndex · vector database · embeddings
 ChromaDB · Pinecone · Qdrant · pgvector · semantic search · reranking
-
+ 
 # Infrastructure keywords
 FastAPI · async Python · Docker · Docker Compose · Celery · Redis
 Prometheus · Grafana · structlog · distributed tracing · OpenTelemetry
 GitHub Actions · CI/CD · blue-green deployment
-
+ 
 # ML/Eval keywords (if Track B)
 HuggingFace · PEFT · LoRA · QLoRA · Unsloth · vLLM · GGUF
 SHAP · model evaluation · evals · DeepEval · Ragas</pre></div>
@@ -304,17 +305,17 @@ SHAP · model evaluation · evals · DeepEval · Ragas</pre></div>
     </ul>
     <h4>Warm Outreach Template (DM to AI engineer at target company)</h4>
     <div class="cb"><pre>Hi [Name],
-
+ 
 I've been following [Company]'s work on [specific thing — blog post, open source project, paper].
 I noticed [specific observation showing you did your research].
-
+ 
 I'm an AI engineer with [X years] background in [your domain — networking, distributed systems].
 I've been building RAG systems and LangGraph agents this year and published a few things:
 [link to best project].
-
+ 
 I'd love to hear how [Company] is approaching [specific technical problem they work on].
 Happy to share what I've learned from my production RAG work if that's useful.
-
+ 
 [Name]</pre></div>
     <div class="ins"><p>💡 <strong>Warm outreach (specific, researched DM) converts 10-20% of the time. Cold applications convert 1-3%.</strong> Find engineers at target companies on LinkedIn. Read what they post. Comment thoughtfully for a week before DM-ing. When you DM, reference something specific about their work — not a generic "I'm interested in your company."</p></div>
     <h4>Job Boards That Work for AI Engineering</h4>
@@ -344,22 +345,22 @@ Happy to share what I've learned from my production RAG work if that's useful.
       <li>"How do you handle an agent that gets stuck in a loop?" → fingerprinting, max_turns, circuit breaker, structured recovery</li>
     </ul>
     <div class="cb"><pre># Framework for AI system design answers:
-
+ 
 # 1. Clarify requirements
 # "How many queries/day? What latency SLA? What's the document corpus size?
 #  Is accuracy or speed more important? What's the budget?"
-
+ 
 # 2. High-level architecture (draw boxes)
 # User → API → [Retrieval: embed query → vector search → rerank] → [LLM: generate] → Response
-
+ 
 # 3. Deep dive on the interesting parts
 # "For retrieval, I'd use two-stage: ChromaDB top-50 then Cohere reranker to top-5.
 #  Baseline hit_rate@5 is ~0.65; with reranking it's ~0.84 in my experience."
-
+ 
 # 4. Scale and reliability
 # "For 1M+ documents I'd use Qdrant or Pinecone. For cost, I'd cache
 #  embeddings and responses. For reliability, retries with exponential backoff."
-
+ 
 # 5. Evaluation
 # "I'd run Ragas on a 50-question ground truth set. Monitor faithfulness drift in prod."</pre></div>
     <h4>Coding Questions You'll Actually See</h4>

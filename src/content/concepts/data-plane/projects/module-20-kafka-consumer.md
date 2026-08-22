@@ -4,6 +4,7 @@ description: "Module 20 — Kafka Consumer (Policy Sync) Requires librdkafka ."
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-20-kafka-consumer/
 ---
 

@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 1 Chapter 1 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 1
+chrome: bare
+ownHeader: true
 url: /learning/dsa/arrays/ch1-arrays-strings/
 ---
 

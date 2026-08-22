@@ -4,6 +4,7 @@ description: "Module 04 — Hash Map What you learn How to implement an open-add
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-04-hash-map/
 ---
 

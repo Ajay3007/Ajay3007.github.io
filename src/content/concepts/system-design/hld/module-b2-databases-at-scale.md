@@ -4,6 +4,8 @@ description: "Track B · HLD · Module B2 · Week 12 Databases at Scale Indexing
 domain: system-design
 track: system-design-hld
 order: 104
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b2-databases-at-scale/
 ---
 
@@ -80,17 +82,17 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     <div class="code-top">Covering Index — query satisfied entirely from index<span class="code-lang">SQL</span></div>
 <pre class="code"><span class="cm">-- Table: orders (10M rows)</span>
 <span class="cm">-- Query: SELECT user_id, created_at FROM orders WHERE user_id = 5</span>
-
+ 
 <span class="cm">-- Regular index on user_id:</span>
 <span class="cm">--   1. B-tree lookup → row pointer</span>
 <span class="cm">--   2. Fetch row from heap (random disk I/O) to read created_at</span>
-
+ 
 <span class="cm">-- Covering index on (user_id, created_at):</span>
 <span class="kw">CREATE INDEX</span> idx_covering <span class="kw">ON</span> orders(user_id, created_at);
 <span class="cm">--   1. B-tree lookup → both columns found IN the index leaf</span>
 <span class="cm">--   2. NO heap access at all → drastically reduced I/O</span>
 <span class="cm">--   ✅ PostgreSQL calls this "Index Only Scan"</span>
-
+ 
 <span class="cm">-- Index design for common queries:</span>
 <span class="kw">CREATE INDEX</span> idx_user   <span class="kw">ON</span> orders(user_id);                  <span class="cm">-- Q1: orders by user</span>
 <span class="kw">CREATE INDEX</span> idx_rest_t <span class="kw">ON</span> orders(restaurant_id, created_at); <span class="cm">-- Q2: restaurant + time range</span>
@@ -256,22 +258,22 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
   <div class="code-wrap">
     <div class="code-top">Strategies to handle stale reads<span class="code-lang">PATTERNS</span></div>
 <pre class="code"><span class="cm">Problem: User updates profile → reads from replica → sees old data (lag ~100ms–2s)</span>
-
+ 
 <span class="hl">Strategy 1: Read-your-own-writes</span>
   <span class="cm">Route user's reads to PRIMARY for their own data only.</span>
   <span class="cm">How: track last_write_time per user; if recent → route to primary.</span>
   <span class="cm">Cost: extra load on primary for the write author's reads.</span>
-
+ 
 <span class="hl">Strategy 2: Monotonic Reads</span>
   <span class="cm">Always route same user to same replica.</span>
   <span class="cm">Prevents user seeing data "go backwards" (newer on one replica, older on next).</span>
   <span class="cm">How: Hash(userId) % numReplicas → sticky routing.</span>
-
+ 
 <span class="hl">Strategy 3: Semi-Synchronous Replication</span>
   <span class="cm">Primary waits for ACK from at least 1 replica before confirming write.</span>
   <span class="cm">Zero data loss on primary crash (at least 1 replica has the write).</span>
   <span class="cm">Cost: write latency += 1 network RTT to replica.</span>
-
+ 
 <span class="hl">Strategy 4: Route critical paths to primary</span>
   <span class="cm">Payment confirmation, inventory check → always read from primary.</span>
   <span class="cm">Profile photos, comment counts → can read from replica.</span></pre>
@@ -351,20 +353,20 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
 <pre class="code"><span class="cm">Problem: SELECT COUNT(*) FROM orders GROUP BY restaurant_id</span>
 <span class="cm">         orders are sharded by user_id → restaurant data is spread across all shards</span>
 <span class="cm">         → Must query ALL shards and merge results in application layer</span>
-
+ 
 <span class="hl">Solution 1: Denormalise (NoSQL pattern)</span>
   <span class="cm">Embed related data in the same document.</span>
   <span class="cm">User document includes their recent orders → no cross-shard JOIN needed.</span>
-
+ 
 <span class="hl">Solution 2: Co-locate by access pattern</span>
   <span class="cm">Shard ALL of a user's data by user_id.</span>
   <span class="cm">Query "all my orders" stays on one shard.</span>
   <span class="cm">But "all orders for this restaurant" still requires scatter-gather.</span>
-
+ 
 <span class="hl">Solution 3: Separate analytics store</span>
   <span class="cm">Write events to Kafka → consume into data warehouse (BigQuery, Redshift).</span>
   <span class="cm">Cross-tenant/cross-shard analytics run on the warehouse, not the OLTP DB.</span>
-
+ 
 <span class="hl">Solution 4: Accept scatter-gather for rare queries</span>
   <span class="cm">Fan out to all shards, merge in application layer, cache the result aggressively.</span></pre>
   </div>
@@ -428,13 +430,13 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     total         DECIMAL(10,2),
     created_at    TIMESTAMP
 );
-
+ 
 Query patterns:
   Q1: All orders for a specific user (most frequent)
   Q2: Recent orders for a restaurant ordered by time
   Q3: All pending orders (dashboard refresh every 5s)
   Q4: Orders by user in a date range
-
+ 
 For each query:
   1. Design the optimal index (name columns + order)
   2. Explain the B-tree traversal path

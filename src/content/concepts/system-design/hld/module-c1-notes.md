@@ -4,6 +4,8 @@ description: "Module C1 · Week 25 · Track C — Advanced Topics Prerequisites:
 domain: system-design
 track: system-design-hld
 order: 203
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c1-notes/
 ---
 

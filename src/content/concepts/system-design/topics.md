@@ -3,6 +3,7 @@ title: "System Design Topics"
 description: "[System Design — Topics]( system-design-topics) 1.1."
 domain: system-design
 order: 99
+ownHeader: true
 url: /learning/system-design/topics/
 ---
 

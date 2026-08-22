@@ -4,6 +4,7 @@ description: "Backend Engineering · Phase 2 · Module 6 SQL Indexing The differ
 domain: engineering
 track: backend
 order: 6
+ownHeader: true
 url: /learning/backend/m06-sql-indexing/
 ---
 
@@ -278,16 +279,16 @@ url: /learning/backend/m06-sql-indexing/
   <div class="cp-body">
     <p>A composite index <code>(a, b, c)</code> can satisfy queries that filter on: <code>a</code>, <code>(a, b)</code>, or <code>(a, b, c)</code>. It <strong>cannot</strong> be used for queries that only filter on <code>b</code> or <code>c</code> alone, because the B-tree is sorted by <code>a</code> first.</p>
     <div class="cb"><pre><span class="sql-cm">-- Index: (user_id, status, created_at)</span>
-
+ 
 <span class="sql-cm">-- ✅ Uses index (full prefix)</span>
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> orders
 <span class="sql-kw">WHERE</span> user_id = <span class="sql-num">42</span> <span class="sql-kw">AND</span> status = <span class="sql-str">'pending'</span>
 <span class="sql-kw">ORDER BY</span> created_at <span class="sql-kw">DESC</span>;
-
+ 
 <span class="sql-cm">-- ✅ Uses index (partial prefix, range on last)</span>
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> orders
 <span class="sql-kw">WHERE</span> user_id = <span class="sql-num">42</span> <span class="sql-kw">AND</span> created_at > <span class="sql-str">'2026-01-01'</span>;
-
+ 
 <span class="sql-cm">-- ❌ Cannot use this index (no leading column)</span>
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> orders
 <span class="sql-kw">WHERE</span> status = <span class="sql-str">'pending'</span>;  <span class="sql-cm">-- needs separate index on (status)</span></pre></div>
@@ -304,12 +305,12 @@ url: /learning/backend/m06-sql-indexing/
 <span class="sql-kw">CREATE INDEX</span> idx_jobs_pending
   <span class="sql-kw">ON</span> jobs(created_at)
   <span class="sql-kw">WHERE</span> status = <span class="sql-str">'pending'</span>;
-
+ 
 <span class="sql-cm">-- Partial unique constraint: only one active record per user</span>
 <span class="sql-kw">CREATE UNIQUE INDEX</span> idx_subscriptions_active_user
   <span class="sql-kw">ON</span> subscriptions(user_id)
   <span class="sql-kw">WHERE</span> cancelled_at <span class="sql-kw">IS NULL</span>;
-
+ 
 <span class="sql-cm">-- Query MUST include the partial index predicate to use it</span>
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> jobs
 <span class="sql-kw">WHERE</span> status = <span class="sql-str">'pending'</span> <span class="sql-kw">AND</span> created_at < now() - interval <span class="sql-str">'5 minutes'</span>;</pre></div>
@@ -323,14 +324,14 @@ url: /learning/backend/m06-sql-indexing/
     <p>When queries apply a function to a column in <code>WHERE</code>, a plain column index is useless — the function result isn't in the index. Expression indexes solve this.</p>
     <div class="cb"><pre><span class="sql-cm">-- ❌ Index on email NOT used — function applied to column</span>
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> users <span class="sql-kw">WHERE</span> <span class="sql-fn">lower</span>(email) = <span class="sql-str">'alice@example.com'</span>;
-
+ 
 <span class="sql-cm">-- ✅ Create expression index to match the query</span>
 <span class="sql-kw">CREATE INDEX</span> idx_users_email_lower
   <span class="sql-kw">ON</span> users(<span class="sql-fn">lower</span>(email));
-
+ 
 <span class="sql-cm">-- Now the query above uses the index.
 -- The index stores lower(email) values, not raw email values.</span>
-
+ 
 <span class="sql-cm">-- Other common examples:</span>
 <span class="sql-kw">CREATE INDEX</span> ON events(date_trunc(<span class="sql-str">'day'</span>, created_at));
 <span class="sql-kw">CREATE INDEX</span> ON products((metadata->>
@@ -394,7 +395,7 @@ url: /learning/backend/m06-sql-indexing/
                   ->  <span class="ep-node">Index Scan on users u</span>  (cost=<span class="ep-cost">0.29..75.00</span> rows=<span class="ep-rows">800</span> width=<span class="ep-width">8</span>)
                                             (actual time=<span class="ep-cost">0.060..0.800</span> rows=<span class="ep-rows">823</span> loops=<span class="ep-rows">1</span>)
                          Index Cond: (status = 'active')
-
+ 
 Planning Time: 0.842 ms
 Execution Time: <span class="ep-good">18.521 ms</span>
 </pre></div>
@@ -461,13 +462,13 @@ users = <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> us
 <span class="sql-kw">FOR</span> u <span class="sql-kw">IN</span> users:
     posts = <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> posts <span class="sql-kw">WHERE</span> user_id = u.id;  <span class="sql-cm">-- 100 queries</span>
 <span class="sql-cm">-- Total: 101 queries. On 50ms RTT: ~5 seconds.</span>
-
+ 
 <span class="sql-cm">-- ✅ Solution 1: JOIN</span>
 <span class="sql-kw">SELECT</span> u.*, p.title, p.created_at
 <span class="sql-kw">FROM</span> users u
 <span class="sql-kw">LEFT JOIN</span> posts p <span class="sql-kw">ON</span> p.user_id = u.id
 <span class="sql-kw">LIMIT</span> <span class="sql-num">100</span>;  <span class="sql-cm">-- 1 query</span>
-
+ 
 <span class="sql-cm">-- ✅ Solution 2: Batch load (IN clause)</span>
 user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> posts
@@ -498,7 +499,7 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">JOIN</span> (<span class="sql-kw">SELECT</span> user_id, <span class="sql-fn">sum</span>(amount) <span class="sql-kw">AS</span> total
       <span class="sql-kw">FROM</span> orders <span class="sql-kw">GROUP BY</span> user_id) o
 <span class="sql-kw">ON</span> o.user_id = u.id;
-
+ 
 <span class="sql-cm">-- CTE (WITH) — same query, more readable</span>
 <span class="sql-kw">WITH</span> order_totals <span class="sql-kw">AS</span> (
   <span class="sql-kw">SELECT</span> user_id, <span class="sql-fn">sum</span>(amount) <span class="sql-kw">AS</span> total
@@ -508,7 +509,7 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">SELECT</span> u.name, ot.total
 <span class="sql-kw">FROM</span> users u
 <span class="sql-kw">JOIN</span> order_totals ot <span class="sql-kw">ON</span> ot.user_id = u.id;
-
+ 
 <span class="sql-cm">-- Recursive CTE: walk a tree/graph (org hierarchy, comments thread)</span>
 <span class="sql-kw">WITH RECURSIVE</span> org_tree <span class="sql-kw">AS</span> (
   <span class="sql-kw">SELECT</span> id, name, manager_id, <span class="sql-num">0</span> <span class="sql-kw">AS</span> depth
@@ -537,20 +538,20 @@ user_ids = [1, 2, 3, ..., 100];
     <span class="sql-kw">ORDER BY</span> order_count <span class="sql-kw">DESC</span>
   ) <span class="sql-kw">AS</span> country_rank
 <span class="sql-kw">FROM</span> users;
-
+ 
 <span class="sql-cm">-- Running total (cumulative sum)</span>
 <span class="sql-kw">SELECT</span>
   created_at::date,
   revenue,
   <span class="sql-fn">sum</span>(revenue) <span class="sql-kw">OVER</span> (<span class="sql-kw">ORDER BY</span> created_at::date) <span class="sql-kw">AS</span> running_total
 <span class="sql-kw">FROM</span> daily_sales;
-
+ 
 <span class="sql-cm">-- Row number for cursor pagination (stable ordering)</span>
 <span class="sql-kw">SELECT</span> *, <span class="sql-fn">row_number</span>() <span class="sql-kw">OVER</span> (<span class="sql-kw">ORDER BY</span> id) <span class="sql-kw">AS</span> rn
 <span class="sql-kw">FROM</span> events
 <span class="sql-kw">WHERE</span> id > :last_cursor
 <span class="sql-kw">LIMIT</span> <span class="sql-num">50</span>;
-
+ 
 <span class="sql-cm">-- Lag/Lead: compare row with previous/next</span>
 <span class="sql-kw">SELECT</span>
   date,
@@ -568,12 +569,12 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">ON CONFLICT</span> (user_id) <span class="sql-kw">DO UPDATE</span>
   <span class="sql-kw">SET</span> login_count = user_stats.login_count + <span class="sql-num">1</span>,
       last_seen   = <span class="sql-kw">EXCLUDED</span>.last_seen;  <span class="sql-cm">-- EXCLUDED = the rejected row</span>
-
+ 
 <span class="sql-cm">-- Insert and ignore duplicates</span>
 <span class="sql-kw">INSERT INTO</span> events (id, payload)
 <span class="sql-kw">VALUES</span> ($1, $2)
 <span class="sql-kw">ON CONFLICT</span> (id) <span class="sql-kw">DO NOTHING</span>;
-
+ 
 <span class="sql-cm">-- Returning the affected rows (useful for getting auto-generated IDs)</span>
 <span class="sql-kw">INSERT INTO</span> users (name, email)
 <span class="sql-kw">VALUES</span> ($1, $2)
@@ -747,13 +748,13 @@ user_ids = [1, 2, 3, ..., 100];
     <p>Advisory locks are arbitrary integer locks managed by the application — PostgreSQL doesn't tie them to any table row. Useful for distributed mutual exclusion (e.g., ensuring only one instance runs a cron job).</p>
     <div class="cb"><pre><span class="sql-cm">-- Acquire exclusive advisory lock (blocks if held by another session)</span>
 <span class="sql-kw">SELECT</span> pg_advisory_lock(<span class="sql-num">12345</span>);
-
+ 
 <span class="sql-cm">-- Non-blocking try: returns true/false</span>
 <span class="sql-kw">SELECT</span> pg_try_advisory_lock(<span class="sql-num">12345</span>);
-
+ 
 <span class="sql-cm">-- Transaction-scoped (auto-released on commit/rollback)</span>
 <span class="sql-kw">SELECT</span> pg_advisory_xact_lock(<span class="sql-num">12345</span>);
-
+ 
 <span class="sql-cm">-- Release session-scoped lock explicitly</span>
 <span class="sql-kw">SELECT</span> pg_advisory_unlock(<span class="sql-num">12345</span>);</pre></div>
   </div>
@@ -768,10 +769,10 @@ user_ids = [1, 2, 3, ..., 100];
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;libpq-fe.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdlib.h&gt;</span>
-
+ 
 <span class="cm">/* Compile: gcc db.c -lpq -o db
    Requires: libpq-dev package (apt install libpq-dev)  */</span>
-
+ 
 PGconn *db_connect(<span class="ck">const char</span> *connstr) {
     PGconn *conn = PQconnectdb(connstr);
     <span class="ck">if</span> (PQstatus(conn) != CONNECTION_OK) {
@@ -781,14 +782,14 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
     }
     <span class="ck">return</span> conn;
 }
-
+ 
 <span class="ck">int</span> main(<span class="ck">void</span>) {
     <span class="cm">/* Connection string: can also use env vars PGHOST, PGPORT, PGUSER etc */</span>
     PGconn *conn = db_connect(
         <span class="cs">"host=localhost port=5432 dbname=myapp user=myuser password=secret"</span>
     );
     <span class="ck">if</span> (!conn) <span class="ck">return</span> <span class="cv">1</span>;
-
+ 
     printf(<span class="cs">"Connected to PostgreSQL %s\n"</span>, PQparameterStatus(conn, <span class="cs">"server_version"</span>));
     PQfinish(conn);
     <span class="ck">return</span> <span class="cv">0</span>;
@@ -796,7 +797,7 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
 
 <h3>Prepared Statements (Parameterised Queries)</h3>
 <div class="cb"><pre><span class="cm">/* Always use prepared statements — never string-concatenate user input */</span>
-
+ 
 <span class="ck">int</span> get_user_by_id(PGconn *conn, <span class="ck">int</span> user_id) {
     <span class="cm">/* Prepare once, execute many times */</span>
     PGresult *prep = PQprepare(conn,
@@ -811,12 +812,12 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
         <span class="ck">return</span> -<span class="cv">1</span>;
     }
     PQclear(prep);
-
+ 
     <span class="cm">/* Execute: pass parameter as string (libpq converts) */</span>
     <span class="ck">char</span> id_str[<span class="cv">16</span>];
     snprintf(id_str, <span class="ck">sizeof</span>(id_str), <span class="cs">"%d"</span>, user_id);
     <span class="ck">const char</span> *params[] = { id_str };
-
+ 
     PGresult *res = PQexecPrepared(conn,
         <span class="cs">"get_user"</span>,   <span class="cm">/* statement name */</span>
         <span class="cv">1</span>,             <span class="cm">/* nParams */</span>
@@ -825,17 +826,17 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
         <span class="cs">NULL</span>,          <span class="cm">/* paramFormats (NULL = all text) */</span>
         <span class="cv">0</span>              <span class="cm">/* resultFormat: 0=text, 1=binary */</span>
     );
-
+ 
     <span class="ck">if</span> (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, <span class="cs">"Query failed: %s\n"</span>, PQresultErrorMessage(res));
         PQclear(res);
         <span class="ck">return</span> -<span class="cv">1</span>;
     }
-
+ 
     <span class="ck">int</span> rows = PQntuples(res);
     <span class="ck">int</span> cols = PQnfields(res);
     printf(<span class="cs">"Got %d rows, %d cols\n"</span>, rows, cols);
-
+ 
     <span class="ck">for</span> (<span class="ck">int</span> r = <span class="cv">0</span>; r < rows; r++) {
         <span class="ck">for</span> (<span class="ck">int</span> c = <span class="cv">0</span>; c < cols; c++) {
             printf(<span class="cs">"  %s = %s\n"</span>,
@@ -843,7 +844,7 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
                    PQgetisnull(res, r, c) ? <span class="cs">"(null)"</span> : PQgetvalue(res, r, c));
         }
     }
-
+ 
     PQclear(res);
     <span class="ck">return</span> rows;
 }</pre></div>
@@ -854,18 +855,18 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
     PGresult *r = PQexec(conn, <span class="cs">"BEGIN"</span>);
     <span class="ck">if</span> (PQresultStatus(r) != PGRES_COMMAND_OK) { PQclear(r); <span class="ck">return</span> -<span class="cv">1</span>; }
     PQclear(r);
-
+ 
     <span class="cm">/* Debit — lock the row first with FOR UPDATE */</span>
     <span class="ck">char</span> from_str[<span class="cv">16</span>], to_str[<span class="cv">16</span>], amt_str[<span class="cv">16</span>];
     snprintf(from_str, <span class="ck">sizeof</span>(from_str), <span class="cs">"%d"</span>, from_id);
     snprintf(to_str,   <span class="ck">sizeof</span>(to_str),   <span class="cs">"%d"</span>, to_id);
     snprintf(amt_str,  <span class="ck">sizeof</span>(amt_str),  <span class="cs">"%d"</span>, amount_cents);
-
+ 
     <span class="ck">const char</span> *debit_params[] = { amt_str, from_str };
     r = PQexecParams(conn,
         <span class="cs">"UPDATE accounts SET balance = balance - $1 WHERE id = $2 AND balance >= $1"</span>,
         <span class="cv">2</span>, <span class="cs">NULL</span>, debit_params, <span class="cs">NULL</span>, <span class="cs">NULL</span>, <span class="cv">0</span>);
-
+ 
     <span class="ck">if</span> (PQresultStatus(r) != PGRES_COMMAND_OK ||
         strcmp(PQcmdTuples(r), <span class="cs">"1"</span>) != <span class="cv">0</span>) {  <span class="cm">/* 0 rows = insufficient balance */</span>
         PQclear(r);
@@ -873,20 +874,20 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
         <span class="ck">return</span> -<span class="cv">1</span>;
     }
     PQclear(r);
-
+ 
     <span class="cm">/* Credit */</span>
     <span class="ck">const char</span> *credit_params[] = { amt_str, to_str };
     r = PQexecParams(conn,
         <span class="cs">"UPDATE accounts SET balance = balance + $1 WHERE id = $2"</span>,
         <span class="cv">2</span>, <span class="cs">NULL</span>, credit_params, <span class="cs">NULL</span>, <span class="cs">NULL</span>, <span class="cv">0</span>);
-
+ 
     <span class="ck">if</span> (PQresultStatus(r) != PGRES_COMMAND_OK) {
         PQclear(r);
         PQexec(conn, <span class="cs">"ROLLBACK"</span>);
         <span class="ck">return</span> -<span class="cv">1</span>;
     }
     PQclear(r);
-
+ 
     <span class="cm">/* COMMIT */</span>
     r = PQexec(conn, <span class="cs">"COMMIT"</span>);
     <span class="ck">int</span> ok = PQresultStatus(r) == PGRES_COMMAND_OK;
@@ -896,18 +897,18 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
 
 <h3>Minimal Connection Pool in C</h3>
 <div class="cb"><pre><span class="cm">/* Production uses PgBouncer. This illustrates the concept. */</span>
-
+ 
 <span class="ck">#define</span> POOL_SIZE <span class="cv">8</span>
-
+ 
 <span class="ck">typedef struct</span> {
     PGconn  *conn;
     <span class="ck">int</span>      in_use;
     pthread_mutex_t lock;
 } conn_slot_t;
-
+ 
 <span class="ck">static</span> conn_slot_t pool[POOL_SIZE];
 <span class="ck">static</span> pthread_mutex_t pool_lock = PTHREAD_MUTEX_INITIALIZER;
-
+ 
 <span class="ck">void</span> pool_init(<span class="ck">const char</span> *connstr) {
     <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cv">0</span>; i < POOL_SIZE; i++) {
         pool[i].conn   = PQconnectdb(connstr);
@@ -915,7 +916,7 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
         pthread_mutex_init(&amp;pool[i].lock, <span class="cs">NULL</span>);
     }
 }
-
+ 
 PGconn *pool_acquire(<span class="ck">void</span>) {
     pthread_mutex_lock(&amp;pool_lock);
     <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cv">0</span>; i < POOL_SIZE; i++) {
@@ -928,7 +929,7 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
     pthread_mutex_unlock(&amp;pool_lock);
     <span class="ck">return</span> <span class="cs">NULL</span>;  <span class="cm">/* pool exhausted */</span>
 }
-
+ 
 <span class="ck">void</span> pool_release(PGconn *conn) {
     pthread_mutex_lock(&amp;pool_lock);
     <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cv">0</span>; i < POOL_SIZE; i++) {

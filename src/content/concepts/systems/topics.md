@@ -3,6 +3,7 @@ title: "Operating Systems Topics"
 description: "[Operating Systems — Topics]( operating-systems-topics) 1.1."
 domain: systems
 order: 99
+ownHeader: true
 url: /learning/operating-systems/topics/
 ---
 

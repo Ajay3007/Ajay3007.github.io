@@ -4,6 +4,8 @@ description: "TRACK A · LLD · MODULE A1 · WEEK 3 S O L I D Principles + OOP +
 domain: system-design
 track: system-design-lld
 order: 2
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a1-solid/
 ---
 
@@ -614,13 +616,13 @@ class Report {
   void uploadToS3() { ... }
   void emailReport(String to) { ... }
 }
-
+ 
 // Snippet B — which principle?
 class Square extends Rectangle {
   void setWidth(int w)  { this.width=w; this.height=w; }
   void setHeight(int h) { this.width=h; this.height=h; }
 }
-
+ 
 // Snippet C — which principle?
 interface Printable {
   void print(); void scan(); void fax(); void copy();
@@ -631,7 +633,7 @@ class BasicPrinter implements Printable {
   void fax()   { throw new UnsupportedOperationException(); }
   void copy()  { throw new UnsupportedOperationException(); }
 }
-
+ 
 // Snippet D — which principle?
 class NotificationService {
   void notify(String type, String message) {
@@ -653,7 +655,7 @@ class NotificationService {
       <div class="m1-task-body">
         <p>Draw the UML class diagram with these entities. Include all attributes, methods, relationships with correct symbols, and multiplicities.</p>
         <pre>Entities: Library, Member, Book, BookCopy, Loan, Librarian
-
+ 
 Requirements:
 - A Library has many Members and many BookCopies
 - A Book can have multiple BookCopies
@@ -661,7 +663,7 @@ Requirements:
 - A Librarian manages loans
 - Members have a borrowing limit (max 3 books)
 - BookCopy has status: AVAILABLE, BORROWED, RESERVED
-
+ 
 Include: composition vs aggregation distinction
          inheritance if Librarian IS-A Member
          all multiplicities on every relationship</pre>
@@ -679,7 +681,7 @@ Include: composition vs aggregation distinction
         <p>Draw a sequence diagram for the complete order placement flow including the failure path.</p>
         <pre>Actors: Customer, OrderService, PaymentService,
         InventoryService, EmailService
-
+ 
 Happy path:
 1. Customer → OrderService: placeOrder(cart)
 2. OrderService → PaymentService: validatePayment(card)
@@ -688,7 +690,7 @@ Happy path:
 5. InventoryService → OrderService: reservationId
 6. OrderService → EmailService: sendConfirmation(email)
 7. OrderService → Customer: orderId
-
+ 
 Also model: what happens when payment fails?
             Show the failure path as an alt block</pre>
       </div>
@@ -707,36 +709,36 @@ Also model: what happens when payment fails?
   private int totalSpots = 100;
   private int occupiedSpots = 0;
   private List&lt;String[]&gt; parkedVehicles = new ArrayList&lt;&gt;();
-
+ 
   public String parkVehicle(String vehicleType, String plate) {
     if (occupiedSpots &gt;= totalSpots) return "Lot is full";
-
+ 
     // ← VIOLATION: what principle? why?
     double rate;
     if (vehicleType.equals("CAR"))   rate = 20.0;
     else if (vehicleType.equals("BIKE"))  rate = 10.0;
     else if (vehicleType.equals("TRUCK")) rate = 40.0;
     else return "Unknown vehicle type";
-
+ 
     // ← VIOLATION: what principle? why?
     String ticketId = "T" + System.currentTimeMillis();
     parkedVehicles.add(new String[]{ticketId, plate,
       vehicleType, String.valueOf(System.currentTimeMillis()),
       String.valueOf(rate)});
     occupiedSpots++;
-
+ 
     // ← VIOLATION: what principle? why?
     System.out.println("Parked " + vehicleType);
-
+ 
     // ← VIOLATION: what principle? why?
     saveToDatabase(ticketId, plate);
     return ticketId;
   }
-
+ 
   private void saveToDatabase(String id, String plate) {
     System.out.println("Saving to MySQL: " + id);  // hardcoded!
   }
-
+ 
   public double calculateBill(String ticketId) {
     // billing logic crammed here ← VIOLATION: what principle?
     for (String[] v : parkedVehicles) {
@@ -750,7 +752,7 @@ Also model: what happens when payment fails?
     return 0;
   }
 }
-
+ 
 Deliverable:
 1. List each violation (principle + explanation)
 2. Refactored Java code (multiple classes)

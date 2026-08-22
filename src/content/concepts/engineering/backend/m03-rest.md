@@ -4,6 +4,7 @@ description: "Backend Engineering · Phase 1 · Module 3 REST API Design Design 
 domain: engineering
 track: backend
 order: 3
+ownHeader: true
 url: /learning/backend/m03-rest/
 ---
 
@@ -852,7 +853,7 @@ DELETE /orders/5</div>
 <h3>HTTP Request Parsing in C (Minimal)</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-
+ 
 <span class="ck">typedef struct</span> {
     <span class="ck">char</span> method[<span class="cv">16</span>];
     <span class="ck">char</span> path[<span class="cv">256</span>];
@@ -862,17 +863,17 @@ DELETE /orders/5</div>
     <span class="ck">int</span>  content_length;
     <span class="ck">char</span> body[<span class="cv">8192</span>];
 } http_request_t;
-
+ 
 <span class="ck">int</span> parse_request(<span class="ck">const char</span> *raw, http_request_t *req) {
     <span class="cm">/* Parse request line: "METHOD /path HTTP/1.1\r\n" */</span>
     <span class="ck">if</span> (sscanf(raw, <span class="cs">"%15s %255s %15s"</span>,
                req->method, req->path, req->version) != <span class="cv">3</span>)
         <span class="ck">return</span> -<span class="cv">1</span>;
-
+ 
     <span class="cm">/* Parse headers line by line */</span>
     <span class="ck">const char</span> *p = strstr(raw, <span class="cs">"\r\n"</span>) + <span class="cv">2</span>;
     req->content_length = <span class="cv">0</span>;
-
+ 
     <span class="ck">while</span> (p &amp;&amp; *p != <span class="cv">'\r'</span>) {
         <span class="ck">if</span> (strncasecmp(p, <span class="cs">"Host: "</span>, <span class="cv">6</span>) == <span class="cv">0</span>)
             sscanf(p + <span class="cv">6</span>, <span class="cs">"%255[^\r]"</span>, req->host);
@@ -883,7 +884,7 @@ DELETE /orders/5</div>
         p = strstr(p, <span class="cs">"\r\n"</span>);
         <span class="ck">if</span> (p) p += <span class="cv">2</span>;
     }
-
+ 
     <span class="cm">/* Body starts after \r\n\r\n */</span>
     <span class="ck">const char</span> *body_start = strstr(raw, <span class="cs">"\r\n\r\n"</span>);
     <span class="ck">if</span> (body_start &amp;&amp; req->content_length > <span class="cv">0</span>) {
@@ -903,14 +904,14 @@ DELETE /orders/5</div>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;time.h&gt;</span>
-
+ 
 <span class="ck">typedef struct</span> {
     <span class="ck">int</span>  status;
     <span class="ck">char</span> content_type[<span class="cv">64</span>];
     <span class="ck">char</span> body[<span class="cv">65536</span>];
     <span class="ck">int</span>  body_len;
 } http_response_t;
-
+ 
 <span class="ck">int</span> build_response(http_response_t *resp, <span class="ck">char</span> *out, <span class="ck">int</span> out_size) {
     <span class="ck">const char</span> *status_text;
     <span class="ck">switch</span> (resp->status) {
@@ -923,13 +924,13 @@ DELETE /orders/5</div>
         <span class="ck">case</span> <span class="cv">500</span>: status_text = <span class="cs">"Internal Server Error"</span>; <span class="ck">break</span>;
         <span class="ck">default</span>:  status_text = <span class="cs">"Unknown"</span>;
     }
-
+ 
     <span class="cm">/* RFC 7231 date format */</span>
     <span class="ck">char</span> date_buf[<span class="cv">64</span>];
     time_t now = time(<span class="cs">NULL</span>);
     strftime(date_buf, <span class="ck">sizeof</span>(date_buf),
              <span class="cs">"%a, %d %b %Y %H:%M:%S GMT"</span>, gmtime(&amp;now));
-
+ 
     <span class="ck">int</span> n = snprintf(out, out_size,
         <span class="cs">"HTTP/1.1 %d %s\r\n"</span>
         <span class="cs">"Content-Type: %s\r\n"</span>
@@ -941,12 +942,12 @@ DELETE /orders/5</div>
         resp->content_type,
         resp->body_len,
         date_buf);
-
+ 
     <span class="ck">if</span> (n + resp->body_len >= out_size) <span class="ck">return</span> -<span class="cv">1</span>;
     memcpy(out + n, resp->body, resp->body_len);
     <span class="ck">return</span> n + resp->body_len;
 }
-
+ 
 <span class="cm">/* Helper: respond with JSON */</span>
 <span class="ck">void</span> respond_json(<span class="ck">int</span> fd, <span class="ck">int</span> status, <span class="ck">const char</span> *json) {
     http_response_t resp = {
@@ -955,12 +956,12 @@ DELETE /orders/5</div>
     };
     strncpy(resp.content_type, <span class="cs">"application/json"</span>, <span class="ck">sizeof</span>(resp.content_type));
     memcpy(resp.body, json, resp.body_len);
-
+ 
     <span class="ck">char</span> out[<span class="cv">66000</span>];
     <span class="ck">int</span> len = build_response(&amp;resp, out, <span class="ck">sizeof</span>(out));
     <span class="ck">if</span> (len > <span class="cv">0</span>) send(fd, out, len, MSG_NOSIGNAL);
 }
-
+ 
 <span class="cm">/* Helper: RFC 7807 problem response */</span>
 <span class="ck">void</span> respond_problem(<span class="ck">int</span> fd, <span class="ck">int</span> status, <span class="ck">const char</span> *type,
                       <span class="ck">const char</span> *title, <span class="ck">const char</span> *detail) {
@@ -973,12 +974,12 @@ DELETE /orders/5</div>
         <span class="cs">"\"detail\":\"%s\""</span>
         <span class="cs">"}"</span>,
         type, title, status, detail);
-
+ 
     http_response_t resp = { .status = status };
     strncpy(resp.content_type, <span class="cs">"application/problem+json"</span>, <span class="ck">sizeof</span>(resp.content_type));
     resp.body_len = strlen(body);
     memcpy(resp.body, body, resp.body_len);
-
+ 
     <span class="ck">char</span> out[<span class="cv">66000</span>];
     <span class="ck">int</span> len = build_response(&amp;resp, out, <span class="ck">sizeof</span>(out));
     <span class="ck">if</span> (len > <span class="cv">0</span>) send(fd, out, len, MSG_NOSIGNAL);
@@ -989,11 +990,11 @@ DELETE /orders/5</div>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdlib.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
-
+ 
 <span class="cm">/* Compile: gcc rest_client.c -lcurl -o rest_client */</span>
-
+ 
 <span class="ck">typedef struct</span> { <span class="ck">char</span> *data; <span class="ck">size_t</span> len; } buf_t;
-
+ 
 <span class="ck">static size_t</span> write_cb(<span class="ck">void</span> *ptr, <span class="ck">size_t</span> sz, <span class="ck">size_t</span> nmemb, buf_t *b) {
     <span class="ck">size_t</span> n = sz * nmemb;
     b->data = realloc(b->data, b->len + n + <span class="cv">1</span>);
@@ -1002,72 +1003,72 @@ DELETE /orders/5</div>
     b->data[b->len] = <span class="cv">'\0'</span>;
     <span class="ck">return</span> n;
 }
-
+ 
 <span class="cm">/* GET /users/42 with Bearer token */</span>
 <span class="ck">int</span> get_user(<span class="ck">const char</span> *base_url, <span class="ck">int</span> user_id, <span class="ck">const char</span> *token) {
     CURL *curl = curl_easy_init();
     <span class="ck">if</span> (!curl) <span class="ck">return</span> -<span class="cv">1</span>;
-
+ 
     <span class="ck">char</span> url[<span class="cv">256</span>];
     snprintf(url, <span class="ck">sizeof</span>(url), <span class="cs">"%s/users/%d"</span>, base_url, user_id);
-
+ 
     buf_t resp = {<span class="cs">NULL</span>, <span class="cv">0</span>};
-
+ 
     <span class="cm">/* Auth header */</span>
     <span class="ck">char</span> auth[<span class="cv">512</span>];
     snprintf(auth, <span class="ck">sizeof</span>(auth), <span class="cs">"Authorization: Bearer %s"</span>, token);
     <span class="ck">struct</span> curl_slist *hdrs = curl_slist_append(<span class="cs">NULL</span>, auth);
     hdrs = curl_slist_append(hdrs, <span class="cs">"Accept: application/json"</span>);
-
+ 
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hdrs);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &amp;resp);
-
+ 
     CURLcode rc = curl_easy_perform(curl);
     <span class="ck">long</span> http_code = <span class="cv">0</span>;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &amp;http_code);
-
+ 
     <span class="ck">if</span> (rc == CURLE_OK) {
         printf(<span class="cs">"HTTP %ld\n%s\n"</span>, http_code, resp.data);
     } <span class="ck">else</span> {
         fprintf(stderr, <span class="cs">"curl error: %s\n"</span>, curl_easy_strerror(rc));
     }
-
+ 
     free(resp.data);
     curl_slist_free_all(hdrs);
     curl_easy_cleanup(curl);
     <span class="ck">return</span> rc == CURLE_OK ? <span class="cv">0</span> : -<span class="cv">1</span>;
 }
-
+ 
 <span class="cm">/* POST /users with JSON body */</span>
 <span class="ck">int</span> create_user(<span class="ck">const char</span> *base_url, <span class="ck">const char</span> *json_body) {
     CURL *curl = curl_easy_init();
     <span class="ck">if</span> (!curl) <span class="ck">return</span> -<span class="cv">1</span>;
-
+ 
     <span class="ck">char</span> url[<span class="cv">256</span>];
     snprintf(url, <span class="ck">sizeof</span>(url), <span class="cs">"%s/users"</span>, base_url);
-
+ 
     buf_t resp = {<span class="cs">NULL</span>, <span class="cv">0</span>};
     <span class="ck">struct</span> curl_slist *hdrs = curl_slist_append(<span class="cs">NULL</span>, <span class="cs">"Content-Type: application/json"</span>);
     hdrs = curl_slist_append(hdrs, <span class="cs">"Accept: application/json"</span>);
-
+ 
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_POST, <span class="cv">1L</span>);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, json_body);
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, hdrs);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_cb);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &amp;resp);
-
+ 
     CURLcode rc = curl_easy_perform(curl);
     <span class="ck">long</span> http_code = <span class="cv">0</span>;
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &amp;http_code);
-
+ 
     <span class="ck">if</span> (rc == CURLE_OK) {
         printf(<span class="cs">"HTTP %ld\n%s\n"</span>, http_code, resp.data);
         <span class="cm">/* 201: check Location header for new resource URL */</span>
     }
-
+ 
     free(resp.data);
     curl_slist_free_all(hdrs);
     curl_easy_cleanup(curl);
@@ -1076,24 +1077,24 @@ DELETE /orders/5</div>
 
 <h3>Simple Router in C</h3>
 <div class="cb"><pre><span class="ck">typedef void</span> (*handler_fn)(<span class="ck">int</span> fd, http_request_t *req);
-
+ 
 <span class="ck">typedef struct</span> {
     <span class="ck">const char</span> *method;
     <span class="ck">const char</span> *path_prefix;
     handler_fn  handler;
 } route_t;
-
+ 
 <span class="ck">void</span> handle_get_users  (<span class="ck">int</span> fd, http_request_t *req);
 <span class="ck">void</span> handle_get_user   (<span class="ck">int</span> fd, http_request_t *req);
 <span class="ck">void</span> handle_create_user(<span class="ck">int</span> fd, http_request_t *req);
-
+ 
 <span class="ck">static</span> route_t routes[] = {
     { <span class="cs">"GET"</span>,    <span class="cs">"/users/"</span>, handle_get_user   },  <span class="cm">/* /users/42 */</span>
     { <span class="cs">"GET"</span>,    <span class="cs">"/users"</span>,  handle_get_users  },  <span class="cm">/* /users    */</span>
     { <span class="cs">"POST"</span>,   <span class="cs">"/users"</span>,  handle_create_user},
     { <span class="cs">NULL</span>,     <span class="cs">NULL</span>,      <span class="cs">NULL</span>              }
 };
-
+ 
 <span class="ck">void</span> dispatch(<span class="ck">int</span> fd, http_request_t *req) {
     <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cv">0</span>; routes[i].method; i++) {
         <span class="ck">if</span> (strcmp(req->method, routes[i].method) == <span class="cv">0</span> &amp;&amp;

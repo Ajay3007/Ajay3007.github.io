@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 6 · MODULE 25 · WEEK 24 🚨 IDS/IPS
 domain: networking
 track: networking-mastery
 order: 25
+ownHeader: true
 url: /learning/networking-mastery/m25-ids-ips/
 ---
 
@@ -158,7 +159,7 @@ url: /learning/networking-mastery/m25-ids-ips/
   <div class="cp-body">
 <div class="cb"><pre>/* Snort/Suricata rule structure */
 /* action proto src_ip src_port direction dst_ip dst_port (options) */
-
+ 
 alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (
     msg:"ET SCAN SSH Brute Force";
     flow:established,to_server;
@@ -166,28 +167,28 @@ alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (
     sid:2001219; rev:7;
     classtype:attempted-admin;
 )
-
+ 
 /* Rule header fields */
 action:    alert|drop|pass|reject|rejectsrc|rejectdst|rejectboth
 proto:     tcp|udp|icmp|ip|http|dns|tls|smb|dcerpc
 direction: -> (one way) | <> (both directions)
 src/dst:   IP/CIDR, negation with !, list [1.1.1.1, 2.2.2.2],
            variables: $HOME_NET, $EXTERNAL_NET, $HTTP_SERVERS, $SMTP_SERVERS
-
+ 
 /* Critical options */
-
+ 
 /* Content matching */
 content:"malware.exe";          /* match literal bytes */
 content:"|48 65 6c 6c 6f|";   /* hex bytes */
 content:"SELECT";nocase;        /* case-insensitive */
 content:"UNION"; distance:0; within:10; /* relative to last match */
 pcre:"/SELECT.{0,10}FROM/is";  /* PCRE regex */
-
+ 
 /* Flow control */
 flow:established,to_server;   /* only on established, client→server */
 flow:established,to_client;   /* server→client replies */
 flow:stateless;                /* match even on non-established */
-
+ 
 /* HTTP-specific options (Suricata HTTP engine) */
 http.method; content:"POST";          /* match HTTP method */
 http.uri; content:"/admin";           /* match URI path */
@@ -195,7 +196,7 @@ http.host; content:"evil.example";    /* match Host header */
 http.user_agent; content:"sqlmap";    /* match User-Agent */
 http.stat_code; content:"200";        /* match status code */
 http.response_body; content:"error";  /* match response body */
-
+ 
 /* TLS options */
 tls.sni; content:"evil.onion";        /* match SNI */
 tls.subject; content:"CN=Meterpreter"; /* match cert subject */
@@ -203,7 +204,7 @@ tls.issuerdn; content:"CN=evil-ca";   /* match cert issuer */
 tls.fingerprint; content:"ab:cd:ef:..."; /* match cert fingerprint */
 ja3_hash; content:"51c64c77e60f3980eea90869b68c58a8"; /* JA3 */
 ja3s_hash; content:"...";              /* JA3S */
-
+ 
 /* Thresholds and suppression */
 threshold:type limit,track by_src,count 1,seconds 60;
 /* Only alert once per source IP per 60s (suppress noisy alerts) */
@@ -211,7 +212,7 @@ threshold:type both,track by_src,count 10,seconds 1;
 /* Alert if >10 in 1s (rate-based detection: port scan, brute force) */
 threshold:type threshold,track by_src,count 5,seconds 10;
 /* Alert every 5th occurrence per source per 10s */
-
+ 
 /* Reference and classification */
 reference:url,attack.mitre.org/techniques/T1021/;
 classtype:attempted-user;    /* trojan-activity, attempted-recon, etc. */
@@ -230,23 +231,23 @@ rev:3;                       /* revision number */</pre></div>
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Suricata Architecture</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* Suricata thread model */
-
+ 
 Receive threads (RX):
   Read packets from NIC (AF_PACKET, AF_XDP, DPDK, PCAP)
   Decode: Ethernet → IP → TCP/UDP → application headers
   Distribute to worker threads (via flow hash for ordering)
-
+ 
 Worker threads (decode + detect):
   Each thread handles a subset of flows
   Per-flow state: conntrack + app-layer parsers + detect engine
   Hyperscan/AC for payload inspection
   Produces: alert events, flow records, file extracts
-
+ 
 Output threads:
   Write alerts: EVE JSON, Unified2 (for Snort-compatible output)
   Write flow records: NetFlow-like summaries
   Write extracted files: malware samples, documents from HTTP/SMTP
-
+ 
 /* Suricata packet flow */
 Packet → RX Thread → Flow Hash → Worker Thread:
   1. IP defragmentation (reassemble fragments)
@@ -255,7 +256,7 @@ Packet → RX Thread → Flow Hash → Worker Thread:
   4. Rule detection (Hyperscan + keyword matching)
   5. Action (alert/drop/pass)
   6. Logging (EVE JSON)
-
+ 
 /* Suricata AF_XDP mode (high performance) */
 suricata:
   af-xdp:
@@ -264,16 +265,16 @@ suricata:
     xdp-mode: driver
     use-mmap: yes
     ring-size: 2048
-
+ 
 /* Suricata IPS mode (inline with NFQUEUE or AF_PACKET) */
 # NFQUEUE mode: Netfilter sends packets to Suricata for verdict
 iptables -A FORWARD -j NFQUEUE --queue-num 0
-
+ 
 suricata:
   nfq:
     mode: accept
     fail-open: yes   /* pass traffic if Suricata crashes */
-
+ 
 # AF_PACKET IPS mode (bypass when possible)
 suricata:
   af-packet:
@@ -282,7 +283,7 @@ suricata:
       cluster-type: cluster_flow
       copy-mode: ips
       copy-iface: eth1   /* forward to eth1 if not dropped */
-
+ 
 /* Suricata EVE JSON output — structured logging */
 {
   "timestamp": "2024-01-15T10:23:45.123456+0000",
@@ -321,18 +322,18 @@ suricata:
   <div class="cp-hdr"><span class="ico">📊</span><h3>Network Anomaly Detection Techniques</h3><span class="tag tag-purple">ANOMALY DETECTION</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* Anomaly detection: build a model of "normal" and alert on deviations */
-
+ 
 /* 1. Port scan detection */
 /* Normal: one source contacts a few services */
 /* Anomaly: one source contacts many distinct ports */
-
+ 
 typedef struct {
     uint32_t src_ip;
     uint16_t ports_contacted[1024];  /* bitmap of dst_ports in last 60s */
     uint32_t unique_ports;
     uint64_t window_start_ns;
 } portscan_tracker_t;
-
+ 
 void portscan_update(portscan_tracker_t *t, uint16_t dst_port,
                      uint64_t now_ns) {
     /* Reset window if expired */
@@ -350,15 +351,15 @@ void portscan_update(portscan_tracker_t *t, uint16_t dst_port,
     if (t->unique_ports > 100)    /* threshold */
         alert(PORTSCAN, t->src_ip);
 }
-
+ 
 /* 2. DDoS detection — per-destination traffic volume */
 /* Track bytes/packets to each destination per second */
 /* Alert when rate exceeds N × average (N=10 for 10x normal) */
-
+ 
 /* 3. DNS anomaly — high query rate or long labels (tunnelling) */
 /* Normal DNS: 10–100 queries/minute from a host */
 /* DNS tunnelling: hundreds/sec; query labels contain base32/hex data */
-
+ 
 typedef struct {
     uint32_t src_ip;
     uint32_t queries_in_window;
@@ -366,7 +367,7 @@ typedef struct {
     float    avg_label_length;   /* exponential moving average */
     float    label_entropy;      /* Shannon entropy of label chars */
 } dns_tracker_t;
-
+ 
 float shannon_entropy(const char *label, int len) {
     int freq[256] = {0};
     for (int i = 0; i < len; i++) freq[(unsigned char)label[i]]++;
@@ -382,12 +383,12 @@ float shannon_entropy(const char *label, int len) {
 /* DNS label entropy: normal words ~3.5 bits/char */
 /* Base32 encoded data: ~4.7 bits/char (higher — more uniform distribution) */
 /* Threshold: label entropy > 4.0 in labels > 15 chars → suspicious */
-
+ 
 /* 4. Connection profile anomaly */
 /* Build per-host baseline: typical ports, destinations, bytes/hour */
 /* Alert when deviation exceeds Z-score threshold */
 /* Implemented as exponential moving average + standard deviation */
-
+ 
 float ewma_update(float prev_avg, float new_val, float alpha) {
     return alpha * new_val + (1 - alpha) * prev_avg;
 }
@@ -409,7 +410,7 @@ float ewma_update(float prev_avg, float new_val, float alpha) {
 /* For each (src_ip, dst_ip, dst_port) tuple that has multiple connections: */
 /* Compute the inter-arrival times (IAT) between connection attempts */
 /* A beacon has low variance in IAT (periodic) */
-
+ 
 typedef struct {
     uint32_t src_ip;
     uint32_t dst_ip;
@@ -417,22 +418,22 @@ typedef struct {
     uint64_t timestamps[64];   /* last 64 connection timestamps (ns) */
     uint32_t count;
 } beacon_tracker_t;
-
+ 
 typedef struct {
     float    period;       /* estimated beacon period in seconds */
     float    jitter;       /* standard deviation as fraction of period */
     float    score;        /* 0.0 = random, 1.0 = perfect beacon */
 } beacon_result_t;
-
+ 
 beacon_result_t detect_beacon(beacon_tracker_t *t) {
     if (t->count < 8) return (beacon_result_t){0};  /* not enough data */
-
+ 
     /* Compute inter-arrival times */
     float iats[63];
     int n = MIN(t->count - 1, 63);
     for (int i = 0; i < n; i++)
         iats[i] = (t->timestamps[i+1] - t->timestamps[i]) / 1e9;  /* seconds */
-
+ 
     /* Mean and standard deviation of IAT */
     float mean = 0, variance = 0;
     for (int i = 0; i < n; i++) mean += iats[i];
@@ -440,31 +441,31 @@ beacon_result_t detect_beacon(beacon_tracker_t *t) {
     for (int i = 0; i < n; i++) variance += (iats[i] - mean) * (iats[i] - mean);
     variance /= n;
     float stddev = sqrtf(variance);
-
+ 
     /* Coefficient of variation: stddev / mean */
     /* Perfect beacon: CV = 0 */
     /* Cobalt Strike with 30% jitter: CV ≈ 0.17 */
     /* Random HTTP browsing: CV ≈ 0.8–2.0 */
     float cv = stddev / mean;
-
+ 
     beacon_result_t r = {
         .period = mean,
         .jitter = cv,
         .score  = MAX(0.0f, 1.0f - (cv / 0.5f))  /* 1.0 if CV=0, 0 if CV>0.5 */
     };
-
+ 
     /* Alert thresholds */
     if (r.score > 0.7 && mean > 10.0f && mean < 3600.0f)
         alert_beacon(t->src_ip, t->dst_ip, t->dst_port, &r);
-
+ 
     return r;
 }
-
+ 
 /* Cobalt Strike beacon periods to watch for */
 /* Default sleep: 60s */
 /* Common configs: 5s, 30s, 60s, 300s, 3600s */
 /* Jitter: 10–50% (controlled randomisation) */
-
+ 
 /* HTTPS beacon evasion — how beacons hide */
 /* Malleable C2 profiles: beacon looks like legitimate browser traffic */
 /* User-Agent: Mozilla/5.0 (matching current Chrome) */
@@ -491,7 +492,7 @@ JA3 hashes:     Malware TLS fingerprints
 Certificate:    Fingerprints of rogue/malware certificates
 Email headers:  From addresses, subject patterns for phishing
 User-Agents:    Known malware/scanner User-Agent strings
-
+ 
 /* Threat intel feed sources */
 Open source:
   Feodo Tracker:    https://feodotracker.abuse.ch/  (Emotet, TrickBot C2)
@@ -500,30 +501,30 @@ Open source:
   MISP:             community threat sharing platform
   AlienVault OTX:   open threat exchange IoCs
   EmergingThreats:  Suricata/Snort rule feed
-
+ 
 Commercial:
   Recorded Future, CrowdStrike Intelligence, FireEye iSIGHT,
   IBM X-Force Exchange, VirusTotal Intelligence
-
+ 
 /* Integration architecture */
 typedef struct {
     /* IP blacklist — hash set for O(1) lookup */
     rte_hash_t   *bad_ips;      /* uint32_t → threat_info_t */
-
+ 
     /* Domain blacklist — trie for fast prefix/suffix matching */
     domain_trie_t *bad_domains;  /* "evil.com" → threat_info_t */
-
+ 
     /* URL blacklist — hash of full URLs */
     rte_hash_t   *bad_urls;
-
+ 
     /* JA3 blacklist — hash set */
     rte_hash_t   *bad_ja3;
-
+ 
     /* Metadata */
     uint64_t      last_update_ns;
     uint32_t      total_entries;
 } threat_intel_db_t;
-
+ 
 typedef struct {
     uint8_t  threat_type;    /* MALWARE_C2, PHISHING, BOTNET, SCANNER... */
     uint8_t  confidence;     /* 0–100 confidence score */
@@ -531,26 +532,26 @@ typedef struct {
     uint32_t last_seen;
     char     malware_family[32];
 } threat_info_t;
-
+ 
 /* Inline check in NGFW forwarding path */
 int check_threat_intel(session_t *s, threat_intel_db_t *db) {
     threat_info_t *ti;
-
+ 
     /* Check destination IP */
     if (rte_hash_lookup_data(db->bad_ips, &s->key.dst_ip, (void **)&ti) >= 0) {
         session_set_threat(s, ti);
         return 1;  /* block or alert */
     }
-
+ 
     /* Check JA3 (populated by TLS parser) */
     if (s->ja3[0] && rte_hash_lookup_data(db->bad_ja3, s->ja3, (void **)&ti) >= 0) {
         session_set_threat(s, ti);
         return 1;
     }
-
+ 
     return 0;
 }
-
+ 
 /* Feed update — live reload without restart */
 /* Double-buffered: build new table in background, atomic swap */
 void threat_intel_update(threat_intel_db_t **live, const char *feed_url) {
@@ -573,19 +574,19 @@ void threat_intel_update(threat_intel_db_t **live, const char *feed_url) {
   <div class="cp-body">
 <div class="cb"><pre>/* DNS provides unique visibility: malware must resolve C2 domains */
 /* Every DNS query is visible (unless DoH or encrypted DNS) */
-
+ 
 /* 1. Domain Generation Algorithm (DGA) detection */
 /* Malware generates hundreds of random domains per day */
 /* Tries each until one resolves (C2 server registered one of them) */
 /* Human-unreadable: "x7kqp2mntb.com", "ajwhfksdfh.net" */
-
+ 
 /* DGA detection signals: */
 /* - Domain > 15 chars in SLD (second-level domain) */
 /* - High consonant-to-vowel ratio (no pronounceable words) */
 /* - High character entropy (random character distribution) */
 /* - Domain never seen before (no historical resolution) */
 /* - Multiple NXDOMAIN responses in sequence */
-
+ 
 /* Feature extraction for DGA classification */
 typedef struct {
     char     domain[256];
@@ -596,7 +597,7 @@ typedef struct {
     int      unique_chars;     /* distinct characters used */
     int      max_run;          /* longest run of same character class */
 } domain_features_t;
-
+ 
 int is_dga(const domain_features_t *f) {
     /* Simple heuristic classifier */
     int score = 0;
@@ -608,11 +609,11 @@ int is_dga(const domain_features_t *f) {
     return score >= 5;   /* threshold */
     /* For production: use ML model (random forest) trained on labelled data */
 }
-
+ 
 /* 2. DNS tunnelling detection */
 /* Data exfiltration or C2 via DNS TXT/NULL queries */
 /* Payload encoded in subdomain: c29tZWRhdGE.evil.com */
-
+ 
 /* DNS tunnelling signals: */
 /* - Long FQDN (>50 chars including subdomain) */
 /* - High-entropy subdomain (base32/hex encoded data) */
@@ -620,10 +621,10 @@ int is_dga(const domain_features_t *f) {
 /* - High query rate to the same parent domain */
 /* - DNS responses contain large TXT records */
 /* - Asymmetric traffic: many queries, large responses */
-
+ 
 void detect_dns_tunnel(dns_info_t *di, dns_tracker_t *t) {
     float label_h = shannon_entropy(di->subdomain, strlen(di->subdomain));
-
+ 
     /* Score this query */
     int score = 0;
     if (strlen(di->fqdn) > 50)    score += 3;
@@ -631,15 +632,15 @@ void detect_dns_tunnel(dns_info_t *di, dns_tracker_t *t) {
     if (di->qtype == DNS_TXT)     score += 2;
     if (di->qtype == DNS_NULL)    score += 3;
     if (t->queries_in_window > 60) score += 2;  /* high rate */
-
+ 
     if (score >= 6)
         alert(DNS_TUNNEL, di, score);
 }
-
+ 
 /* 3. Fast-flux DNS detection */
 /* Botnet hides C2: domain has many A records, all short TTL, all IPs change */
 /* Detection: multiple A records returned, TTL < 60s, IPs span many ASNs */
-
+ 
 /* 4. DNS over HTTPS (DoH) bypass detection */
 /* Clients send DNS queries to port 443 (HTTPS) to bypass DNS monitoring */
 /* Detection: block well-known DoH resolvers (1.1.1.1:443/dns-query, 8.8.8.8:443) */
@@ -661,67 +662,67 @@ void detect_dns_tunnel(dns_info_t *di, dns_tracker_t *t) {
 /* At 10 Gbps with 64-byte packets: 19.5 Mpps */
 /* 0.01% = 1950 false blocks per second → completely unusable */
 /* Tuning is as important as detection capability */
-
+ 
 /* Step 1: Profile your traffic before enabling IPS */
 /* Run in IDS mode for 2 weeks. Collect EVE JSON. Analyse alerts. */
 /* Key question: which rules fire most? Are those FPs or TPs? */
-
+ 
 /* Alert classification */
 /* TP (True Positive):  Real attack. Alert is correct. */
 /* FP (False Positive): Legitimate traffic wrongly alerted. */
 /* FN (False Negative): Real attack missed (no alert). */
 /* TN (True Negative):  Legitimate traffic, no alert. */
-
+ 
 /* Tuning approaches */
-
+ 
 1. Threshold tuning:
    /* Rule fires every packet — add threshold to reduce noise */
    alert:threshold:type limit,track by_src,count 1,seconds 300;
    /* Only alert once per source per 5 minutes */
-
+ 
 2. Suppress rules for known-good sources:
    suppress gen_id 1, sig_id 2001219, track by_src, ip 10.1.0.0/24;
    /* Suppress SSH brute force rule for internal hosts */
-
+ 
 3. Pass rules (whitelist before detect):
    pass tcp $TRUSTED_SCANNERS any -> $HOME_NET any
    /* Vulnerability scanner — don't alert on its port scans */
-
+ 
 4. Score-based alerting:
    /* Don't block on single rule match */
    /* Accumulate score across multiple correlated events */
    /* Block only when score > threshold */
-
+ 
 typedef struct {
     uint32_t src_ip;
     uint32_t score;          /* accumulated threat score */
     uint64_t reset_time_ns;  /* when to reset score */
     char     events[16][64]; /* last 16 contributing events */
 } threat_score_t;
-
+ 
 void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
     ts->score += weight;
     /* Log contributing event */
     snprintf(ts->events[ts->score % 16], 64, "%s", sig);
-
+ 
     if (ts->score >= 100) {
         quarantine_host(ts->src_ip);   /* automatic response */
         ts->score = 0;
     }
 }
-
+ 
 /* Score weights */
 /* JA3 matches known malware:  30 points */
 /* DNS query to known-bad domain: 40 points */
 /* Port scan (>50 ports/min):  20 points */
 /* Connection to C2 IP:         70 points */
 /* Lateral movement (SMB spray): 50 points */
-
+ 
 /* 5. Exception list maintenance */
 /* Keep a structured exception database */
 /* Every exception needs: justification, owner, expiry date */
 /* Exceptions without expiry become permanent security holes */
-
+ 
 /* 6. Rule set management */
 /* Emerging Threats Pro rules: ~40,000 rules */
 /* Typical production deployment: enable 20% of rules */

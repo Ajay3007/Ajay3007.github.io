@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 7 Chapter 7 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 7
+chrome: bare
+ownHeader: true
 url: /learning/dsa/greedy/ch7-greedy/
 ---
 
@@ -84,14 +86,14 @@ url: /learning/dsa/greedy/ch7-greedy/
 <pre><code>Interval Scheduling: Earliest-Finish-Time Greedy
   Problem: select maximum number of non-overlapping intervals.
   Intervals: [1,4], [3,5], [0,6], [5,7], [3,9], [5,10], [6,11], [8,12], [8,11], [2,14]
-
+ 
   Greedy rule: ALWAYS pick the interval with the EARLIEST END TIME
   that does not conflict with the last selected interval.
   Proof: finishing early leaves maximum room for future intervals.
-
+ 
   Sort by end time:
   [1,4] [3,5] [0,6] [5,7] [3,9] [5,10] [6,11] [8,11] [8,12] [2,14]
-
+ 
   Step 1: Pick [1,4].  last_end = 4.
   Step 2: [3,5]  start=3 < last_end=4 -> SKIP
   Step 3: [0,6]  start=0 < 4          -> SKIP
@@ -102,7 +104,7 @@ url: /learning/dsa/greedy/ch7-greedy/
   Step 8: [8,11] start=8 >= 7         -> PICK.  last_end = 11.
   Step 9: [8,12] start=8 < 11         -> SKIP
   Step 10:[2,14] start=2 < 11         -> SKIP
-
+ 
   Selected: [1,4], [5,7], [8,11]  =  3 intervals.  Optimal!</code></pre>
 </div>
 
@@ -113,23 +115,23 @@ url: /learning/dsa/greedy/ch7-greedy/
   nums = [2, 3, 1, 1, 4]
   nums[i] = max jump length FROM index i.
   Question: can you reach the last index?
-
+ 
   Greedy: track 'maxReach' = farthest index reachable so far.
-
+ 
   i=0: maxReach = max(0, 0+nums[0]) = max(0, 0+2) = 2
   i=1: i=1 <= maxReach=2, ok. maxReach = max(2, 1+3) = 4
   i=2: i=2 <= maxReach=4, ok. maxReach = max(4, 2+1) = 4
   i=3: i=3 <= maxReach=4, ok. maxReach = max(4, 3+1) = 4
   i=4: i=4 <= maxReach=4, ok. maxReach = max(4, 4+4) = 8
   maxReach >= last index (4) -> return true.
-
+ 
   Impossible example: nums = [3, 2, 1, 0, 4]
   i=0: maxReach = 3
   i=1: maxReach = max(3, 1+2) = 3
   i=2: maxReach = max(3, 2+1) = 3
   i=3: maxReach = max(3, 3+0) = 3
   i=4: i=4 > maxReach=3 -> STUCK.  Return false.
-
+ 
   Key insight: if we ever reach a position where i > maxReach,
   we are stuck in a 'zero island' with no way forward.</code></pre>
 </div>
@@ -139,11 +141,11 @@ url: /learning/dsa/greedy/ch7-greedy/
 <span class="ch-code-label">Kadane trace</span>
 <pre><code>Kadane's Algorithm: Maximum Subarray Trace
   nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
-
+ 
   Greedy insight: extend current subarray if it helps; restart if current sum < 0.
   'currSum' = best sum ending at current index.
   'maxSum'  = best sum seen so far.
-
+ 
   i=0: currSum = max(-2, -2)  = -2.  maxSum = -2
   i=1: currSum = max( 1, -2+1)=  1.  maxSum =  1
   i=2: currSum = max(-3,  1-3)= -2.  maxSum =  1
@@ -153,9 +155,9 @@ url: /learning/dsa/greedy/ch7-greedy/
   i=6: currSum = max( 1,  5+1)=  6.  maxSum =  6   <- peak
   i=7: currSum = max(-5,  6-5)=  1.  maxSum =  6
   i=8: currSum = max( 4,  1+4)=  5.  maxSum =  6
-
+ 
   Answer: maxSum = 6  (subarray [4, -1, 2, 1])
-
+ 
   Greedy rule: if adding current element to currSum makes it negative,
   it is better to start fresh from the current element (restart).</code></pre>
 </div>

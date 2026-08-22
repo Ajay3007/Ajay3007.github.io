@@ -4,6 +4,7 @@ description: "Structures in C Structure groups variables of different types."
 domain: languages
 track: c-fundamentals
 order: 9
+ownHeader: true
 url: /learning/programming-language/c/c-basics/structures/
 ---
 

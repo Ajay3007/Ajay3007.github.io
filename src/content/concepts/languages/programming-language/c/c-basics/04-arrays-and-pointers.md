@@ -4,6 +4,7 @@ description: "Arrays and Pointers Arrays and pointers are different but connecte
 domain: languages
 track: c-fundamentals
 order: 4
+ownHeader: true
 url: /learning/programming-language/c/c-basics/arrays-and-pointers/
 ---
 

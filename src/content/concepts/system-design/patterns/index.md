@@ -3,6 +3,7 @@ title: "Design Patterns"
 description: "🎨 Design Patterns Reusable patterns for common design problems."
 domain: system-design
 order: 0
+ownHeader: true
 url: /learning/system-design/patterns/
 ---
 

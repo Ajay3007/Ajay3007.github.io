@@ -3,6 +3,7 @@ title: "Data Structures & Algorithms"
 description: "🧠 Data Structures & Algorithms {{ total }} Problems Curated {{ solved }} Solved 📋 View All Problems → --- Topics 📐 Arrays Sliding window, two pointers, prefix sums, Kadane's."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/
 ---
 

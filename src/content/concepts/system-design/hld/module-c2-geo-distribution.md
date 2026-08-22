@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK C · MODULE C2 · WEEK 26 GEO-DISTR
 domain: system-design
 track: system-design-hld
 order: 204
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-c2-geo-distribution/
 ---
 
@@ -103,17 +105,17 @@ url: /learning/system-design/hld/module-c2-geo-distribution/
   <div class="cb"><div class="cb-top">Latency math: why synchronous global consensus is impractical<span class="cb-l">CALCULATION</span></div>
 <pre class="c"><span class="cm">// Raft cluster: US-East (leader), EU-West, AP-Southeast</span>
 <span class="cm">// Quorum = 2 of 3. Client writes from US-East.</span>
-
+ 
 Write latency = time until quorum ACK
   US-East → EU-West round trip:  <span class="te">~85ms</span>
   US-East → AP-Southeast RT:     <span class="te">~140ms</span>
-
+ 
 Quorum write latency = min(EU-West RTT, AP-Southeast RTT) = <span class="er">~85ms</span>
 <span class="cm">// must wait for 1 of 2 remote nodes to ACK</span>
-
+ 
 <span class="cm">// This means every write to your database takes 85ms minimum.</span>
 <span class="cm">// A 10ms SLA is IMPOSSIBLE with synchronous global Raft.</span>
-
+ 
 <span class="cm">// Solution: non-voting replicas (CockroachDB style)</span>
 <span class="cm">// US-East: 2 voting replicas (quorum = 2, all local → ~1ms write latency)</span>
 <span class="cm">// EU-West: 1 non-voting replica (async replication, ~1s lag)</span>
@@ -212,22 +214,22 @@ Quorum write latency = min(EU-West RTT, AP-Southeast RTT) = <span class="er">~85
     <span class="kw">def</span> <span class="fn">__init__</span>(self, node_id, num_nodes):
         self.node_id = node_id
         self.counts = [<span class="te">0</span>] * num_nodes   <span class="cm"># slot per node</span>
-
+ 
     <span class="kw">def</span> <span class="fn">increment</span>(self):
         self.counts[self.node_id] += <span class="te">1</span>  <span class="cm"># only increment OWN slot</span>
-
+ 
     <span class="kw">def</span> <span class="fn">value</span>(self):
         <span class="kw">return</span> <span class="fn">sum</span>(self.counts)
-
+ 
     <span class="kw">def</span> <span class="fn">merge</span>(self, other):             <span class="cm"># merge another replica</span>
         self.counts = [<span class="fn">max</span>(a, b)
             <span class="kw">for</span> a, b <span class="kw">in</span> <span class="fn">zip</span>(self.counts, other.counts)]
-
+ 
 <span class="cm"># Simulation: 3 nodes</span>
 A = <span class="fn">GCounter</span>(<span class="te">0</span>, <span class="te">3</span>); A.<span class="fn">increment</span>(); A.<span class="fn">increment</span>(); A.<span class="fn">increment</span>()  <span class="cm"># [3,0,0]</span>
 B = <span class="fn">GCounter</span>(<span class="te">1</span>, <span class="te">3</span>); B.<span class="fn">increment</span>(); B.<span class="fn">increment</span>()                 <span class="cm"># [0,2,0]</span>
 C = <span class="fn">GCounter</span>(<span class="te">2</span>, <span class="te">3</span>); C.<span class="fn">increment</span>()                                <span class="cm"># [0,0,1]</span>
-
+ 
 A.<span class="fn">merge</span>(B); A.<span class="fn">merge</span>(C)  <span class="cm"># [3,2,1] → value = 6</span>
 B.<span class="fn">merge</span>(A); B.<span class="fn">merge</span>(C)  <span class="cm"># [3,2,1] → value = 6</span>
 <span class="cm"># All replicas converge to 6 regardless of merge order ✓</span></pre>
@@ -243,24 +245,24 @@ B.<span class="fn">merge</span>(A); B.<span class="fn">merge</span>(C)  <span cl
 <span class="cm">// Each region: accepts reads AND writes independently</span>
 <span class="cm">// Replication: asynchronous, bidirectional, ~1s lag</span>
 <span class="cm">// Conflict resolution: LAST-WRITE-WINS (timestamp-based)</span>
-
+ 
 <span class="cm">// GOOD USES (LWW acceptable):</span>
 <span class="ok">✓</span> User sessions: {user_id → session_token, last_seen}
 <span class="ok">✓</span> User preferences: {user_id → theme, language, notifications}
 <span class="ok">✓</span> Shopping cart: {user_id → cart_items} (last write wins per user)
 <span class="ok">✓</span> Configuration flags: {feature_flag → enabled/disabled}
-
+ 
 <span class="cm">// BAD USES (LWW causes data loss):</span>
 <span class="er">✗</span> Financial balances: concurrent increments → one lost
   User in US adds $100, user in EU adds $50 simultaneously
   One write wins → balance shows +$100 OR +$50, not +$150
 <span class="er">✗</span> Inventory: concurrent decrements → overselling
 <span class="er">✗</span> Leaderboard rankings: concurrent score updates
-
+ 
 <span class="cm">// For counters: use DynamoDB Streams + Lambda to consolidate</span>
 <span class="cm">// Or: use a CRDT service (PN-Counter semantics)</span>
 <span class="cm">// Or: route all writes for a given key to its "home" region</span>
-
+ 
 <span class="cm">// Cost: each additional replica region ≈ 2× storage + throughput costs</span>
 <span class="cm">// Replication lag: typically ~1s, can spike to ~5s under high load</span></pre>
   </div>
@@ -273,23 +275,23 @@ B.<span class="fn">merge</span>(A); B.<span class="fn">merge</span>(C)  <span cl
   <div class="cb"><div class="cb-top">Table locality modes — the key CockroachDB multi-region concept<span class="cb-l">COCKROACHDB SQL</span></div>
 <pre class="c"><span class="cm">-- Set survival goal: lose an entire region without data loss</span>
 ALTER DATABASE mydb SURVIVE REGION FAILURE;
-
+ 
 <span class="cm">-- REGIONAL BY ROW: each row pinned to its home region</span>
 <span class="cm">-- EU user's rows stored in EU region → EU reads/writes at 5ms latency</span>
 ALTER TABLE users SET LOCALITY REGIONAL BY ROW AS region;
-
+ 
 <span class="cm">-- User in EU: crdb_region='eu-west-1' → row stored in EU → fast local access</span>
 INSERT INTO users (id, name, crdb_region) VALUES (1, 'Alice', 'eu-west-1');
-
+ 
 <span class="cm">-- REGIONAL TABLE: entire table anchored to one region</span>
 <span class="cm">-- Good for: tables only accessed from one region</span>
 ALTER TABLE eu_compliance_log SET LOCALITY REGIONAL IN 'eu-west-1';
-
+ 
 <span class="cm">-- GLOBAL: replicated everywhere, optimized for reads everywhere</span>
 <span class="cm">-- Writes need global consensus (slower), reads are local (fast)</span>
 <span class="cm">-- Good for: product catalog, reference data, configuration</span>
 ALTER TABLE product_catalog SET LOCALITY GLOBAL;
-
+ 
 <span class="cm">-- Follower reads: slightly stale (~4.8s) but instant from any region</span>
 <span class="cm">-- Good for: analytics, dashboards, non-critical reads</span>
 SELECT * FROM orders AS OF SYSTEM TIME follower_read_timestamp()
@@ -391,17 +393,17 @@ WHERE user_id = 123;</pre>
 <span class="cm">// Incident: detect=15min, page team=5min, fix=30min → 50 min per incident</span>
 <span class="cm">// → Budget allows ZERO incidents that go over 52 min/year</span>
 <span class="cm">// → Need automatic failover with RTO < 30s</span>
-
+ 
 <span class="cm">// Payment service (financial data):</span>
 RPO = <span class="ok">0</span>      → synchronous replication  (zero data loss)
 RTO = <span class="ok">30s</span>    → hot standby, auto-promote (no manual steps)
 Cost:         higher write latency, expensive hot standby
-
+ 
 <span class="cm">// Analytics service (aggregate counts):</span>
 RPO = <span class="yel">minutes</span> → periodic snapshots         (some loss OK)
 RTO = <span class="yel">hours</span>   → restore from snapshot      (downtime OK)
 Cost:         cheap backup storage, no standby infra
-
+ 
 <span class="cm">// Product catalog (semi-static data):</span>
 RPO = <span class="yel">seconds</span> → async replication           (small loss OK)
 RTO = <span class="yel">minutes</span> → warm standby, semi-auto    (brief outage OK)

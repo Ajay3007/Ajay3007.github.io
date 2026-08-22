@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part8-specialisation
 order: 99
+ownHeader: true
 url: /learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/
 ---
 
@@ -103,13 +104,13 @@ url: /learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/
     <div class="cb"><pre>// app/components/chat.tsx — streaming chat with skeleton loader
 "use client"
 import { useChat } from "ai/react"
-
+ 
 export function ChatInterface() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     api: "/api/chat",
     onError: (error) => console.error("Chat error:", error),
   })
-
+ 
   return (
     &lt;div className="flex flex-col h-screen"&gt;
       &lt;div className="flex-1 overflow-y-auto p-4 space-y-4"&gt;
@@ -125,7 +126,7 @@ export function ChatInterface() {
             &lt;/div&gt;
           &lt;/div&gt;
         ))}
-
+ 
         {/* Skeleton loader — shows between user message and first token */}
         {isLoading &amp;&amp; messages[messages.length-1]?.role === "user" &amp;&amp; (
           &lt;div className="flex space-x-1 p-3"&gt;
@@ -135,7 +136,7 @@ export function ChatInterface() {
           &lt;/div&gt;
         )}
       &lt;/div&gt;
-
+ 
       &lt;form onSubmit={handleSubmit} className="p-4 border-t flex gap-2"&gt;
         &lt;input
           value={input}
@@ -166,19 +167,19 @@ import { anthropic } from "@ai-sdk/anthropic"
 import { z } from "zod"
 import { getServerSession } from "next-auth"
 import { checkUsageLimit, incrementUsage } from "@/lib/usage"
-
+ 
 export async function POST(req: Request) {
   const session = await getServerSession()
   if (!session) return new Response("Unauthorized", { status: 401 })
-
+ 
   // Check usage limit for user's tier
   const withinLimit = await checkUsageLimit(session.user.id, session.user.tier)
   if (!withinLimit) {
     return Response.json({ error: "Daily limit reached. Upgrade to Pro." }, { status: 429 })
   }
-
+ 
   const { messages } = await req.json()
-
+ 
   const result = await streamText({
     model: anthropic("claude-3-5-sonnet-20241022"),
     system: "You are a helpful assistant. Answer questions clearly and concisely.",
@@ -198,25 +199,25 @@ export async function POST(req: Request) {
       await incrementUsage(session.user.id, usage.totalTokens)
     }
   })
-
+ 
   return result.toDataStreamResponse()
 }
-
+ 
 // lib/usage.ts — Redis-backed usage tracking
 import { redis } from "./redis"
-
+ 
 const TIER_LIMITS = {
   free: 10,
   pro: 500,
   team: 5000,
 }
-
+ 
 export async function checkUsageLimit(userId: string, tier: string): Promise&lt;boolean&gt; {
   const key = `usage:${userId}:${new Date().toISOString().split("T")[0]}`
   const count = parseInt(await redis.get(key) || "0")
   return count &lt; (TIER_LIMITS[tier as keyof typeof TIER_LIMITS] ?? 10)
 }
-
+ 
 export async function incrementUsage(userId: string, tokens: number) {
   const key = `usage:${userId}:${new Date().toISOString().split("T")[0]}`
   await redis.incr(key)
@@ -234,14 +235,14 @@ export async function incrementUsage(userId: string, tokens: number) {
     <div class="cb"><pre>// app/api/stripe/checkout/route.ts
 import Stripe from "stripe"
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-
+ 
 export async function POST(req: Request) {
   const session = await getServerSession()
   if (!session) return new Response("Unauthorized", { status: 401 })
-
+ 
   const { priceId } = await req.json()
   const origin = req.headers.get("origin")
-
+ 
   const checkoutSession = await stripe.checkout.sessions.create({
     customer_email: session.user.email!,
     line_items: [{ price: priceId, quantity: 1 }],
@@ -250,16 +251,16 @@ export async function POST(req: Request) {
     cancel_url: `${origin}/pricing`,
     metadata: { userId: session.user.id }
   })
-
+ 
   return Response.json({ url: checkoutSession.url })
 }
-
+ 
 // app/api/stripe/webhook/route.ts — update DB on payment events
 export async function POST(req: Request) {
   const body = await req.text()
   const sig = req.headers.get("stripe-signature")!
   const event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
-
+ 
   switch (event.type) {
     case "checkout.session.completed":
       await db.user.update({
@@ -267,7 +268,7 @@ export async function POST(req: Request) {
         data: { tier: "pro", stripeSubscriptionId: event.data.object.subscription as string }
       })
       break
-
+ 
     case "customer.subscription.deleted":
       await db.user.update({
         where: { stripeSubscriptionId: event.data.object.id },
@@ -291,7 +292,7 @@ import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
 import GitHub from "next-auth/providers/github"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-
+ 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(db),
   providers: [
@@ -307,19 +308,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }
   }
 })
-
+ 
 // middleware.ts — protect routes and enforce limits
 import { auth } from "@/auth"
-
+ 
 export default auth((req) => {
   const isAuth = !!req.auth
-
+ 
   // Protect dashboard routes
   if (req.nextUrl.pathname.startsWith("/dashboard") && !isAuth) {
     return Response.redirect(new URL("/login", req.url))
   }
 })
-
+ 
 export const config = {
   matcher: ["/dashboard/:path*", "/api/chat/:path*"]
 }</pre></div>

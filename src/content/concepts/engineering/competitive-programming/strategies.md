@@ -3,6 +3,7 @@ title: "Strategies"
 description: "[Strategies]( strategies) --- --- Strategies Templates, problem sets, and tracking."
 domain: engineering
 order: 99
+ownHeader: true
 url: /learning/competitive-programming/strategies/
 ---
 

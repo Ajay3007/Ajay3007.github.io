@@ -4,6 +4,8 @@ description: "System Design Roadmap › Module A1 › Full Notes Module A1 — S
 domain: system-design
 track: system-design-lld
 order: 3
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a1-notes/
 ---
 

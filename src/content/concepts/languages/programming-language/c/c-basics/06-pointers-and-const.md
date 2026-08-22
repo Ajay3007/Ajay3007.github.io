@@ -4,6 +4,7 @@ description: "Pointers and const Rule: ✅ const binds to left side; if none, bi
 domain: languages
 track: c-fundamentals
 order: 6
+ownHeader: true
 url: /learning/programming-language/c/c-basics/pointers-const/
 ---
 

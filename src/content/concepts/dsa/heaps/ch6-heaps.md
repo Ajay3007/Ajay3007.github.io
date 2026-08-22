@@ -4,6 +4,8 @@ description: "All Roadmaps › DSA Mastery › Chapter 6 Chapter 6 · Intermedia
 domain: dsa
 track: dsa-mastery
 order: 6
+chrome: bare
+ownHeader: true
 url: /learning/dsa/heaps/ch6-heaps/
 ---
 

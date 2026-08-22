@@ -4,6 +4,7 @@ description: "Module 02 — Logger What you learn How to write a thread-safe, le
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-02-logger/
 ---
 

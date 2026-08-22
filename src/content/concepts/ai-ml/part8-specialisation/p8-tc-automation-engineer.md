@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part8-specialisation
 order: 99
+ownHeader: true
 url: /learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/
 ---
 
@@ -99,16 +100,16 @@ url: /learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/
   <div class="cp-body">
     <p>MCP is Anthropic's open standard for connecting AI to external tools. Build an MCP server once and it works with Claude Desktop, Claude Code, and any other MCP-compatible client.</p>
     <div class="cb"><pre>pip install mcp
-
+ 
 # mcp_server.py — expose your tools to any MCP client
 from mcp.server import Server
 from mcp.types import Tool, TextContent
 import mcp.server.stdio as stdio
 from mcp.server.models import InitializationOptions
 import asyncio
-
+ 
 server = Server("my-enterprise-tools")
-
+ 
 @server.list_tools()
 async def list_tools():
     return [
@@ -144,7 +145,7 @@ async def list_tools():
             }
         )
     ]
-
+ 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict):
     if name == "search_knowledge_base":
@@ -157,14 +158,14 @@ async def call_tool(name: str, arguments: dict):
     elif name == "get_user_info":
         user = await lookup_user(arguments["identifier"])
         return [TextContent(type="text", text=str(user))]
-
+ 
 async def main():
     async with stdio.stdio_server() as (read, write):
         await server.run(read, write, InitializationOptions(server_name="my-enterprise-tools"))
-
+ 
 if __name__ == "__main__":
     asyncio.run(main())
-
+ 
 # Register in ~/.config/claude/claude_desktop_config.json:
 # {
 #   "mcpServers": {
@@ -186,7 +187,7 @@ if __name__ == "__main__":
     <div class="cb"><pre># Run n8n locally
 docker run -it --rm -p 5678:5678 -v ~/.n8n:/home/node/.n8n n8nio/n8n
 # Open http://localhost:5678
-
+ 
 # n8n workflow: AI email triage
 # [Gmail trigger: new email arrives]
 #   -> [HTTP Request: POST to your FastAPI /classify {subject, body}]
@@ -194,25 +195,25 @@ docker run -it --rm -p 5678:5678 -v ~/.n8n:/home/node/.n8n n8nio/n8n
 #       -> billing: [Stripe API: fetch customer] -> [Gmail: send billing reply]
 #       -> technical: [Jira: create ticket] -> [Slack: notify #eng-support]
 #       -> general: [HTTP: POST /generate-reply] -> [Gmail: send AI reply]
-
+ 
 # Your FastAPI endpoint that n8n calls:
 from fastapi import FastAPI
 from pydantic import BaseModel
 import instructor, anthropic
 from typing import Literal
-
+ 
 app = FastAPI()
 instr_client = instructor.from_anthropic(anthropic.Anthropic())
-
+ 
 class EmailRequest(BaseModel):
     subject: str
     body: str
-
+ 
 class ClassifyResponse(BaseModel):
     category: Literal["billing", "technical", "general", "complaint"]
     confidence: float
     suggested_response: str
-
+ 
 @app.post("/classify")
 async def classify_email(request: EmailRequest) -> ClassifyResponse:
     return instr_client.messages.create(
@@ -223,7 +224,7 @@ async def classify_email(request: EmailRequest) -> ClassifyResponse:
             f"Subject: {request.subject}\nBody: {request.body[:500]}"}],
         response_model=ClassifyResponse
     )
-
+ 
 @app.post("/generate-reply")
 async def generate_reply(request: EmailRequest) -> dict:
     # Use RAG to ground the reply in documentation
@@ -245,35 +246,35 @@ async def generate_reply(request: EmailRequest) -> dict:
   <div class="cp-hdr"><span class="ico">💬</span><h3>Slack Bot with AI Responses</h3><span class="tag">Chat Integration</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install slack-sdk slack-bolt
-
+ 
 from slack_bolt import App
 from slack_bolt.adapter.fastapi import SlackRequestHandler
 import anthropic
-
+ 
 slack_app = App(token=os.environ["SLACK_BOT_TOKEN"],
                 signing_secret=os.environ["SLACK_SIGNING_SECRET"])
 handler = SlackRequestHandler(slack_app)
 client = anthropic.Anthropic()
-
+ 
 @slack_app.event("app_mention")
 def handle_mention(event, say, client_slack):
     user_message = event["text"]
     channel = event["channel"]
     user = event["user"]
-
+ 
     # Show typing indicator
     client_slack.reactions_add(channel=channel, timestamp=event["ts"], name="thinking_face")
-
+ 
     # Classify and respond
     category = classify_request(user_message)
-
+ 
     if category == "technical":
         # RAG-powered answer
         result = rag_query(user_message)
         response = result["answer"]
         sources = "\n".join([f"• {s['source']}" for s in result["sources"][:3]])
         say(f"{response}\n\nSources:\n{sources}", thread_ts=event["ts"])
-
+ 
     elif category == "ticket":
         # Create Jira ticket
         ticket = create_jira_ticket(
@@ -282,7 +283,7 @@ def handle_mention(event, say, client_slack):
         )
         say(f"Created Jira ticket: *{ticket['key']}*\n{ticket['url']}",
             thread_ts=event["ts"])
-
+ 
     else:
         # General AI response
         response = client.messages.create(
@@ -290,14 +291,14 @@ def handle_mention(event, say, client_slack):
             messages=[{"role": "user", "content": user_message}]
         )
         say(response.content[0].text, thread_ts=event["ts"])
-
+ 
     # Remove thinking indicator
     client_slack.reactions_remove(channel=channel, timestamp=event["ts"], name="thinking_face")
-
+ 
 # FastAPI handler for Slack events
 from fastapi import FastAPI, Request
 api = FastAPI()
-
+ 
 @api.post("/slack/events")
 async def endpoint(req: Request):
     return await handler.handle(req)</pre></div>
@@ -312,7 +313,7 @@ async def endpoint(req: Request):
   <div class="cp-body">
     <div class="cb"><pre>import requests
 import os
-
+ 
 # ── Jira: create tickets from AI classification ────────
 def create_jira_ticket(summary: str, description: str,
                         priority: str = "Medium", project: str = "ENG") -> dict:
@@ -335,7 +336,7 @@ def create_jira_ticket(summary: str, description: str,
     )
     data = response.json()
     return {"key": data["key"], "url": f"{os.environ['JIRA_BASE_URL']}/browse/{data['key']}"}
-
+ 
 # ── Notion: append AI summary to a page ───────────────
 def append_to_notion_page(page_id: str, ai_summary: str):
     requests.patch(
@@ -347,18 +348,18 @@ def append_to_notion_page(page_id: str, ai_summary: str):
             "icon": {"emoji": "🤖"}
         }}]}
     )
-
+ 
 # ── Webhook receiver: receive event, classify, act ────
 from fastapi import FastAPI, BackgroundTasks
-
+ 
 app = FastAPI()
-
+ 
 @app.post("/webhook/{source}")
 async def receive_webhook(source: str, payload: dict, background_tasks: BackgroundTasks):
     # Return 200 immediately (webhooks timeout at 30s)
     background_tasks.add_task(process_webhook, source, payload)
     return {"status": "received"}
-
+ 
 async def process_webhook(source: str, payload: dict):
     try:
         if source == "github":

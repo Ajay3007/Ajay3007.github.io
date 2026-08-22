@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 6 · MODULE 24 · WEEK 23 🔬 Deep Pa
 domain: networking
 track: networking-mastery
 order: 24
+ownHeader: true
 url: /learning/networking-mastery/m24-dpi/
 ---
 
@@ -129,7 +130,7 @@ url: /learning/networking-mastery/m24-dpi/
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>DPI Architecture — Three Inspection Layers</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* Three-layer DPI architecture */
-
+ 
 Layer 1: Protocol dissection (deterministic, fast)
   Parse packet structure according to known protocol specs.
   HTTP: parse method, URL, Host header, Content-Type.
@@ -137,34 +138,34 @@ Layer 1: Protocol dissection (deterministic, fast)
   TLS:  parse ClientHello extensions (SNI, ALPN, cipher suites).
   Cost: O(header_length) — fast, deterministic.
   Accuracy: 100% for well-formed packets.
-
+ 
 Layer 2: Signature matching (pattern matching engine)
   Match payload against a database of application/threat signatures.
   "GET /admin/login" + User-Agent: sqlmap → SQL injection scan
   "\x4d\x5a\x90" at offset 0 → Windows PE executable (malware download)
   Cost: O(payload_length × signature_complexity) — Hyperscan makes this fast.
   Accuracy: high for known threats; zero for novel/unknown.
-
+ 
 Layer 3: Behavioural / heuristic analysis
   Track flow statistics over time: packet rates, sizes, timing, entropy.
   High-entropy payload + base32/hex subdomains → DNS tunnelling.
   Regular 30-second beacons to same IP → C2 communication.
   Cost: O(1) per packet with accumulated per-flow statistics.
   Accuracy: probabilistic; tune false-positive rate.
-
+ 
 /* DPI integration with conntrack */
-
+ 
 First packet of new flow:
   1. conntrack: create session entry
   2. DPI: begin protocol dissection — what protocol is this?
   3. DPI: run signature pass on first N bytes
   4. If identified: update session->app_id, cache for fast path
-
+ 
 Fast path (identified flow):
   1. conntrack: session lookup — found, app_id known
   2. Apply cached action (permit/block/rate-limit)
   3. DPI: optionally continue L3 analysis (malware scan in background)
-
+ 
 /* DPI state per flow */
 typedef struct dpi_state {
     uint16_t protocol;       /* partially identified protocol */
@@ -200,23 +201,23 @@ typedef struct dpi_state {
     </table>
 
 <div class="cb"><pre>/* Why Aho-Corasick is the standard for multi-pattern matching */
-
+ 
 Problem: we have 50,000 signatures. For each packet payload:
   Naive:       50,000 × strlen(payload) operations → completely unusable
   Aho-Corasick: O(strlen(payload) + matches) — single pass through text
                  All 50,000 patterns matched simultaneously
-
+ 
 How it works:
   1. Build a finite automaton (trie + failure links) from all patterns
   2. Feed the text through the automaton one byte at a time
   3. Automaton visits exactly one state per input byte
   4. On entering a match state: output all matching patterns
   5. No backtracking, no re-scanning
-
+ 
 Build time:  O(total_pattern_bytes) — done once at startup
 Memory:      O(total_pattern_bytes × alphabet_size)
 Match time:  O(text_length + matches) — linear scan, ideal for DPI
-
+ 
 /* Trade-off: AC uses a lot of memory (trie nodes × 256 transitions) */
 /* For 50K signatures × 10 bytes average = 500KB × 256 = 128MB minimum */
 /* Optimisation: use compressed transition tables for sparse alphabets */</pre></div>
@@ -239,7 +240,7 @@ typedef struct ac_node {
     int          output;                /* pattern ID or -1 */
     int          output_link;           /* chain of outputs at this state */
 } ac_node_t;
-
+ 
 typedef struct {
     ac_node_t *nodes;
     int        n_nodes;
@@ -248,7 +249,7 @@ typedef struct {
     const char **patterns;
     int          n_patterns;
 } ac_trie_t;
-
+ 
 /* Build phase 1: insert all patterns into the trie */
 void ac_insert(ac_trie_t *ac, const char *pattern, int pat_id) {
     int cur = 0;  /* start at root */
@@ -263,11 +264,11 @@ void ac_insert(ac_trie_t *ac, const char *pattern, int pat_id) {
     }
     ac->nodes[cur].output = pat_id;  /* mark as accepting state */
 }
-
+ 
 /* Build phase 2: compute failure links (BFS) */
 void ac_build_failure(ac_trie_t *ac) {
     int queue[1024*1024], head = 0, tail = 0;
-
+ 
     /* Root's children: fail link → root */
     for (int c = 0; c < AC_ALPHABET; c++) {
         int ch = ac->nodes[0].children[c];
@@ -278,7 +279,7 @@ void ac_build_failure(ac_trie_t *ac) {
             ac->nodes[0].children[c] = 0;  /* loop at root */
         }
     }
-
+ 
     while (head < tail) {
         int u = queue[head++];
         /* Output link: chain patterns matched at suffix of current prefix */
@@ -287,7 +288,7 @@ void ac_build_failure(ac_trie_t *ac) {
             ac->nodes[u].output_link = fl;
         else
             ac->nodes[u].output_link = ac->nodes[fl].output_link;
-
+ 
         for (int c = 0; c < AC_ALPHABET; c++) {
             int v = ac->nodes[u].children[c];
             if (v != -1) {
@@ -300,10 +301,10 @@ void ac_build_failure(ac_trie_t *ac) {
         }
     }
 }
-
+ 
 /* Search: feed text through automaton */
 typedef void (*match_cb)(int pat_id, int offset, void *ctx);
-
+ 
 void ac_search(ac_trie_t *ac, const uint8_t *text, size_t len,
                match_cb cb, void *ctx) {
     int state = 0;
@@ -317,7 +318,7 @@ void ac_search(ac_trie_t *ac, const uint8_t *text, size_t len,
         }
     }
 }
-
+ 
 /* Per-flow DPI: carry state across TCP segments */
 /* The automaton state at the end of segment N is the start state for N+1 */
 void dpi_process_segment(dpi_state_t *dpi, const uint8_t *data, size_t len) {
@@ -347,10 +348,10 @@ void dpi_process_segment(dpi_state_t *dpi, const uint8_t *data, size_t len) {
 - Block mode: one-shot match on a buffer
 - Vectored mode: match across a list of non-contiguous buffers
 - Reports all matches (not just first)
-
+ 
 /* Hyperscan NGFW integration */
 #include <hs/hs.h>
-
+ 
 /* Compile patterns at startup */
 const char *patterns[] = {
     "(?i)select.{0,20}from.{0,20}where",   /* SQL injection */
@@ -367,19 +368,19 @@ const unsigned int flags[] = {
     HS_FLAG_CASELESS,
 };
 const unsigned int ids[] = { SIG_SQLI, SIG_XSS, SIG_EICAR, SIG_DLP_CRED, SIG_CMDINJ };
-
+ 
 hs_database_t *db;
 hs_compile_error_t *err;
 hs_compile_multi(patterns, flags, ids,
     sizeof(patterns)/sizeof(*patterns), HS_MODE_STREAM, NULL, &db, &err);
-
+ 
 /* Per-connection: create a scratch space (thread-local) and stream */
 hs_scratch_t *scratch;
 hs_alloc_scratch(db, &scratch);
-
+ 
 hs_stream_t *stream;   /* one stream per TCP connection */
 hs_open_stream(db, 0, &stream);
-
+ 
 /* Per-packet: scan the payload */
 static int on_match(unsigned int id, unsigned long long from,
                     unsigned long long to, unsigned int flags, void *ctx) {
@@ -388,14 +389,14 @@ static int on_match(unsigned int id, unsigned long long from,
     r->match_offset = to;
     return 0;   /* 0 = continue; 1 = stop after first match */
 }
-
+ 
 hs_scan_stream(stream, (const char *)payload, payload_len,
                0, scratch, on_match, &result);
-
+ 
 /* On connection close: */
 hs_close_stream(stream, scratch, on_match, &result);
 hs_free_scratch(scratch);
-
+ 
 /* Performance: 3–10 Gbps per core for typical NGFW signature sets */
 /* Hyperscan consistently outperforms Aho-Corasick for regex patterns */
 /* Fallback: PCRE for patterns Hyperscan can't compile (rare edge cases) */</pre></div>
@@ -420,7 +421,7 @@ typedef struct {
     uint32_t content_length;
     int      is_complete;     /* headers fully received */
 } http_request_t;
-
+ 
 int http_dissect_request(const uint8_t *data, size_t len,
                           http_request_t *req, dpi_state_t *dpi) {
     /* Find end of headers: \r\n\r\n */
@@ -430,36 +431,36 @@ int http_dissect_request(const uint8_t *data, size_t len,
         buffer_append(dpi, data, len);
         return HTTP_NEED_MORE;
     }
-
+ 
     /* Parse request line: "GET /path HTTP/1.1\r\n" */
     const char *p = (const char *)data;
     const char *sp1 = memchr(p, ' ', hdr_end - (uint8_t *)p);
     if (!sp1) return HTTP_PARSE_ERROR;
     memcpy(req->method, p, sp1 - p);
-
+ 
     const char *sp2 = memchr(sp1 + 1, ' ', hdr_end - (uint8_t *)(sp1+1));
     if (!sp2) return HTTP_PARSE_ERROR;
     memcpy(req->url, sp1 + 1, sp2 - sp1 - 1);
-
+ 
     /* Parse headers line by line */
     const char *line = strchr(p, '\n') + 1;
     while (line < (const char *)hdr_end) {
         const char *eol = memchr(line, '\r', hdr_end - (uint8_t *)line);
         if (!eol) break;
-
+ 
         if (strncasecmp(line, "Host:", 5) == 0)
             memcpy(req->host, line + 6, MIN(eol - line - 6, 255));
         else if (strncasecmp(line, "User-Agent:", 11) == 0)
             memcpy(req->user_agent, line + 12, MIN(eol - line - 12, 511));
         else if (strncasecmp(line, "Content-Length:", 15) == 0)
             req->content_length = atoi(line + 16);
-
+ 
         line = eol + 2;  /* skip \r\n */
     }
     req->is_complete = 1;
     return HTTP_OK;
 }
-
+ 
 /* DNS dissector — fast path for the most common DPI target */
 int dns_dissect(const uint8_t *data, size_t len, dns_info_t *di) {
     if (len < 12) return DNS_TOO_SHORT;
@@ -469,7 +470,7 @@ int dns_dissect(const uint8_t *data, size_t len, dns_info_t *di) {
     di->is_response = (flags >> 15) & 1;
     di->rcode       = flags & 0xF;
     di->qdcount     = ntohs(hdr[2]);
-
+ 
     /* Parse QNAME from question section (offset 12) */
     int off = 12;
     char *qn = di->qname;
@@ -481,7 +482,7 @@ int dns_dissect(const uint8_t *data, size_t len, dns_info_t *di) {
         qn += label_len; off += label_len;
     }
     *qn = '\0';
-
+ 
     di->qtype  = (off + 3 < len) ? ntohs(*(uint16_t *)(data + off + 1)) : 0;
     di->qclass = (off + 5 < len) ? ntohs(*(uint16_t *)(data + off + 3)) : 0;
     return DNS_OK;
@@ -498,42 +499,42 @@ int dns_dissect(const uint8_t *data, size_t len, dns_info_t *di) {
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>Multi-Layer App ID Engine</h3><span class="tag tag-purple">APP ID</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* Application identification: multiple signals combined */
-
+ 
 Signal 1: Well-known ports (quick heuristic, not reliable)
   dst_port 80  → likely HTTP (but could be anything)
   dst_port 443 → likely HTTPS/TLS
   dst_port 53  → likely DNS
   dst_port 22  → likely SSH
 Reliability: 60-70% (many apps use non-standard ports)
-
+ 
 Signal 2: Protocol banner / handshake signature
   "SSH-2.0-"        → SSH
   "GET / HTTP/1"    → HTTP/1.1
   "\x16\x03\x03"   → TLS 1.2 (ContentType=22, Version=3.3)
   "\x16\x03\x01"   → TLS 1.0 ClientHello (even for TLS 1.3 compat)
   DNS message structure at offset 0
-
+ 
 Signal 3: TLS SNI / ALPN (for HTTPS flows without inspection)
   SNI "netflix.com"        → Netflix
   SNI "api.whatsapp.com"   → WhatsApp
   ALPN "h3"                → HTTP/3
   ALPN "h2"                → HTTP/2
-
+ 
 Signal 4: Certificate Subject / Issuer
   cert issued by "Let's Encrypt" to "*.zoom.us" → Zoom
   cert issued by "DigiCert" to "*.facebook.com" → Facebook
-
+ 
 Signal 5: JA3 TLS fingerprint
   JA3 = MD5(SSLVersion,Ciphers,Extensions,EllipticCurves,CurveFormats)
   Each TLS client library has a characteristic fingerprint
   Known malware JA3: "51c64c77e60f3980eea90869b68c58a8" → Metasploit
   Firefox JA3: distinct from Chrome, distinct from curl
-
+ 
 Signal 6: Deep payload (requires inspection)
   HTTP Host header → exact destination domain
   HTTP User-Agent  → client application
   BitTorrent handshake "\x13BitTorrent protocol" → P2P
-
+ 
 /* App ID state machine */
 typedef enum {
     APPID_UNKNOWN,
@@ -541,17 +542,17 @@ typedef enum {
     APPID_IDENTIFIED,   /* confident identification */
     APPID_ENCRYPTED,    /* TLS — can't inspect further without SSL bump */
 } appid_state_t;
-
+ 
 uint16_t identify_application(session_t *s, const uint8_t *payload,
                                uint16_t plen, int is_fwd) {
     dpi_state_t *dpi = s->dpi_state;
-
+ 
     /* Fast: check if already identified */
     if (s->app_id != APPID_UNKNOWN) return s->app_id;
-
+ 
     /* Layer 1: port-based heuristic */
     uint16_t hint = port_to_appid(s->key.dst_port);
-
+ 
     /* Layer 2: TLS check — first 3 bytes */
     if (plen >= 3 && payload[0] == 0x16 &&
         (payload[1] == 3) && (payload[2] <= 4)) {
@@ -566,7 +567,7 @@ uint16_t identify_application(session_t *s, const uint8_t *payload,
         }
         return APPID_ENCRYPTED;
     }
-
+ 
     /* Layer 3: protocol signature matching */
     s->app_id = signature_match(payload, plen, hint);
     return s->app_id;
@@ -584,17 +585,17 @@ uint16_t identify_application(session_t *s, const uint8_t *payload,
   <div class="cp-body">
 <div class="cb"><pre>/* JA3 — TLS ClientHello fingerprint */
 /* Identifies the TLS CLIENT LIBRARY regardless of what's inside TLS */
-
+ 
 JA3 = MD5(SSLVersion + "," + Ciphers + "," + Extensions + "," +
            EllipticCurves + "," + EllipticCurvePointFormats)
-
+ 
 Fields extracted from TLS ClientHello:
   SSLVersion:              TLS record version (e.g., 771 = TLS 1.2 compat)
   Ciphers:                 cipher suite IDs, hyphen-separated, sorted
   Extensions:              extension type codes, hyphen-separated
   EllipticCurves:          supported groups extension values
   EllipticCurvePointFormats: point format extension values
-
+ 
 /* JA3 construction example */
 ClientHello has:
   Version: 0x0303 (771)
@@ -602,26 +603,26 @@ ClientHello has:
   Extensions: [0, 5, 10, 11, 13, 17, 23, 35, 51, 65281, ...]
   Supported Groups: [0x001d, 0x0017, 0x0018, ...]  (X25519, P-256, P-384)
   Point Formats: [0]  (uncompressed)
-
+ 
 JA3_string = "771,4865-4866-4867-49195-49196,...,0-5-10-11-13-17-23-35-51-65281,...,29-23-24,...,0"
 JA3_hash   = MD5(JA3_string) = "bfbe6f6dba10b5d82e96766f4de6d75a"
-
+ 
 /* Computing JA3 from libpcap capture */
 #include <pcap.h>
 /* Parse TLS record: type=22 (handshake), find ClientHello (type=1) */
 /* Extract all fields, build string, MD5 */
-
+ 
 /* JA3S — Server fingerprint */
 JA3S = MD5(SSLVersion + "," + Cipher + "," + Extensions)
 /* Identifies the TLS SERVER implementation */
 /* JA3 + JA3S pair = unique fingerprint of a specific client-server pair */
-
+ 
 /* JA4 (2023, John Althouse) — improvements over JA3 */
 /* Format: TLSVersion_SNI_NumCiphers_NumExtensions_ALPN_hash(ciphers)_hash(extensions) */
 /* More human-readable, more stable, better collision resistance */
 JA4 = "t13d1516h2_8daaf6152771_02713d6af862"
 /* t=TLS, 13=1.3, d=SNI present, 1516=1.3 first two cipher bytes, h2=ALPN */
-
+ 
 /* JARM — Active TLS server fingerprinting */
 /* Send 10 specially crafted ClientHellos to target server */
 /* Hash the sequence of ServerHellos received */
@@ -629,7 +630,7 @@ JA4 = "t13d1516h2_8daaf6152771_02713d6af862"
 /* Useful for: identifying C2 servers, distinguishing Cobalt Strike from nginx */
 jarm "104.244.42.1" → "2ad2ad0002ad2ad00042d42d000000506d7c848..." → Cloudflare
 jarm "52.x.x.x"     → "07d14d16d21d21d07c07d14d07d21d56c8798..." → Cobalt Strike
-
+ 
 /* NGFW JA3 database */
 known_malware_ja3 = {
     "51c64c77e60f3980eea90869b68c58a8": "Metasploit/Meterpreter",
@@ -674,13 +675,13 @@ known_malware_ja3 = {
   <div class="cp-hdr"><span class="ico">⚡</span><h3>VPP DPI Plugin Architecture</h3><span class="tag tag-green">VPP DPI</span></div>
   <div class="cp-body">
 <div class="cb"><pre>/* DPI in VPP: custom graph node in ip4-unicast feature arc */
-
+ 
 Pipeline with DPI:
   dpdk-input → ethernet-input → ip4-input
     → acl-plugin-in-ip4-fa (conntrack, first pass ACL)
     → ngfw-dpi-node         (L7 identification and signature match)
     → ip4-lookup → ip4-rewrite → interface-output
-
+ 
 /* DPI node implementation pattern */
 VLIB_NODE_FN(ngfw_dpi_node)(vlib_main_t *vm,
                               vlib_node_runtime_t *node,
@@ -689,62 +690,62 @@ VLIB_NODE_FN(ngfw_dpi_node)(vlib_main_t *vm,
     u32 n_left = frame->n_vectors;
     u32 *from  = vlib_frame_vector_args(frame);
     u16 nexts[VLIB_FRAME_SIZE];
-
+ 
     while (n_left >= 4) {
         vlib_prefetch_buffer_with_index(vm, from[2], LOAD);
         vlib_prefetch_buffer_with_index(vm, from[3], LOAD);
-
+ 
         vlib_buffer_t *b0 = vlib_get_buffer(vm, from[0]);
         vlib_buffer_t *b1 = vlib_get_buffer(vm, from[1]);
-
+ 
         /* Get session from buffer metadata (set by acl-plugin) */
         u32 sess_idx0 = vnet_buffer2(b0)->session_index;
         u32 sess_idx1 = vnet_buffer2(b1)->session_index;
         session_t *s0 = pool_elt_at_index(session_pool, sess_idx0);
         session_t *s1 = pool_elt_at_index(session_pool, sess_idx1);
-
+ 
         /* Get payload */
         ip4_header_t *ip0 = vlib_buffer_get_current(b0);
         uint8_t *payload0 = (uint8_t *)ip0 + ip0->ip_version_and_header_length * 4;
         /* ... (skip TCP/UDP header) ... */
-
+ 
         /* Classify if not yet done */
         if (s0->app_id == APPID_UNKNOWN)
             s0->app_id = dpi_classify(s0, payload0, payload_len0);
-
+ 
         /* Signature match */
         dpi_result_t r0 = {0};
         if (s0->dpi_state)
             hs_scan_stream(s0->dpi_state->hs_stream,
                            (const char *)payload0, payload_len0,
                            0, dpi_scratch, dpi_on_match, &r0);
-
+ 
         nexts[0] = r0.blocked ? NGFW_DPI_NEXT_DROP : NGFW_DPI_NEXT_PERMIT;
         nexts[1] = /* similar for b1 */;
-
+ 
         from += 2; n_left -= 2; nexts += 2;
     }
     /* scalar tail */
-
+ 
     vlib_buffer_enqueue_to_next(vm, node,
         vlib_frame_vector_args(frame), nexts, frame->n_vectors);
     return frame->n_vectors;
 }
-
+ 
 /* Per-flow Hyperscan stream allocation */
 void dpi_session_create(session_t *s) {
     dpi_state_t *dpi = clib_mem_alloc(sizeof(dpi_state_t));
     hs_open_stream(dpi_db, 0, &dpi->hs_stream);
     s->dpi_state = dpi;
 }
-
+ 
 void dpi_session_destroy(session_t *s) {
     dpi_state_t *dpi = s->dpi_state;
     hs_close_stream(dpi->hs_stream, dpi_scratch, NULL, NULL);
     clib_mem_free(dpi);
     s->dpi_state = NULL;
 }
-
+ 
 /* Performance considerations */
 /* Hyperscan stream allocation: ~microseconds — do at session creation */
 /* Per-packet scan: microseconds for typical payloads at 1K+ signatures */

@@ -3,6 +3,7 @@ title: "Linked List"
 description: "Linked List Singly & doubly lists, cycle detection, reverse operations."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/linked-list/
 ---
 

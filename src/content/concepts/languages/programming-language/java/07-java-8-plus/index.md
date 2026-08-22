@@ -3,6 +3,7 @@ title: "Java 8+"
 description: "Java 8+ Lambdas, Streams, Optional, and modern Java features."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/07-java-8-plus/
 ---
 

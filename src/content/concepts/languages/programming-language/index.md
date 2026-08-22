@@ -3,6 +3,7 @@ title: "Programming Languages"
 description: "[Programming Languages]( programming-languages) --- --- Programming Languages Explore the basics to advanced concepts of various programming languages."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/
 ---
 

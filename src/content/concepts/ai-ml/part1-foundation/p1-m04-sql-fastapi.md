@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part1-foundation
 order: 104
+ownHeader: true
 url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
 ---
 
@@ -175,7 +176,7 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
     <div class="cb"><pre><span class="ck">-- SQL is not case-sensitive for keywords, but convention is UPPERCASE</span>
 <span class="ck">-- Single-line comment: --</span>
 <span class="ck">-- Multi-line: /* ... */</span>
-
+ 
 <span class="ck">-- Create a table</span>
 CREATE TABLE students (
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -184,7 +185,7 @@ CREATE TABLE students (
     grade   TEXT,
     created_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
-
+ 
 <span class="ck">-- Insert rows</span>
 INSERT INTO students (name, score, grade) VALUES ('Alice', 92.5, 'A');
 INSERT INTO students (name, score, grade) VALUES ('Bob',   78.0, 'C');
@@ -199,7 +200,7 @@ INSERT INTO students (name, score, grade) VALUES ('Charlie',85.5, 'B');</pre></d
 SELECT * FROM students;                     <span class="ck">-- all columns, all rows</span>
 SELECT name, score FROM students;           <span class="ck">-- specific columns</span>
 SELECT DISTINCT grade FROM students;        <span class="ck">-- unique values only</span>
-
+ 
 <span class="ck">-- WHERE — filter rows</span>
 SELECT * FROM students WHERE score > 80;
 SELECT * FROM students WHERE grade = 'A' AND score >= 90;
@@ -207,15 +208,15 @@ SELECT * FROM students WHERE grade IN ('A', 'B');
 SELECT * FROM students WHERE name LIKE 'A%';   <span class="ck">-- starts with A</span>
 SELECT * FROM students WHERE score BETWEEN 70 AND 90;
 SELECT * FROM students WHERE grade IS NULL;    <span class="ck">-- NULL check</span>
-
+ 
 <span class="ck">-- ORDER BY — sort results</span>
 SELECT * FROM students ORDER BY score DESC;        <span class="ck">-- highest first</span>
 SELECT * FROM students ORDER BY grade ASC, score DESC;  <span class="ck">-- multi-column</span>
-
+ 
 <span class="ck">-- LIMIT and OFFSET — pagination</span>
 SELECT * FROM students ORDER BY score DESC LIMIT 10;          <span class="ck">-- top 10</span>
 SELECT * FROM students ORDER BY score DESC LIMIT 10 OFFSET 20; <span class="ck">-- page 3</span>
-
+ 
 <span class="ck">-- Computed columns and aliases</span>
 SELECT name,
        score,
@@ -235,7 +236,7 @@ SELECT AVG(score)        AS class_average  FROM students;
 SELECT MAX(score)        AS highest        FROM students;
 SELECT MIN(score)        AS lowest         FROM students;
 SELECT SUM(score)        AS total_points   FROM students;
-
+ 
 <span class="ck">-- GROUP BY — aggregate per group</span>
 SELECT grade,
        COUNT(*)    AS student_count,
@@ -244,13 +245,13 @@ SELECT grade,
 FROM students
 GROUP BY grade
 ORDER BY avg_score DESC;
-
+ 
 <span class="ck">-- HAVING — filter AFTER grouping (WHERE filters before)</span>
 SELECT grade, AVG(score) AS avg_score
 FROM students
 GROUP BY grade
 HAVING AVG(score) > 80;    <span class="ck">-- only grades with class avg > 80</span>
-
+ 
 <span class="ck">-- Rule: WHERE filters rows BEFORE grouping</span>
 <span class="ck">--       HAVING filters groups AFTER aggregation</span></pre></div>
     <div class="ins"><p>💡 <strong>SQL execution order</strong> (not the same as write order): FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT. Understanding this prevents "column not found in WHERE" errors when using aliases.</p></div>
@@ -262,11 +263,11 @@ HAVING AVG(score) > 80;    <span class="ck">-- only grades with class avg > 80</
   <div class="cp-body">
     <div class="cb"><pre>import sqlite3
 import pandas as pd
-
+ 
 <span class="ck"># ── sqlite3 — standard library, no install needed ──</span>
 conn = sqlite3.connect(<span class="cs">"students.db"</span>)    <span class="ck"># creates file if not exists</span>
 cursor = conn.cursor()
-
+ 
 <span class="ck"># Execute SQL</span>
 cursor.execute(<span class="cs">"""
     CREATE TABLE IF NOT EXISTS students (
@@ -276,30 +277,30 @@ cursor.execute(<span class="cs">"""
     )
 """</span>)
 conn.commit()
-
+ 
 <span class="ck"># Insert with parameterised query (NEVER use f-strings for SQL!)</span>
 cursor.execute(<span class="cs">"INSERT INTO students (name, score) VALUES (?, ?)"</span>,
                (<span class="cs">"Alice"</span>, <span class="cv">92.5</span>))
 conn.commit()
-
+ 
 <span class="ck"># Bulk insert</span>
 students = [(<span class="cs">"Bob"</span>, <span class="cv">78</span>), (<span class="cs">"Charlie"</span>, <span class="cv">85</span>), (<span class="cs">"Diana"</span>, <span class="cv">91</span>)]
 cursor.executemany(<span class="cs">"INSERT INTO students (name, score) VALUES (?, ?)"</span>, students)
 conn.commit()
-
+ 
 <span class="ck"># Query results → Python list of tuples</span>
 cursor.execute(<span class="cs">"SELECT * FROM students WHERE score > 80 ORDER BY score DESC"</span>)
 rows = cursor.fetchall()
 for row in rows:
     print(row)   <span class="ck"># (1, "Alice", 92.5)</span>
-
+ 
 <span class="ck"># Query results → Pandas DataFrame (most useful pattern)</span>
 df = pd.read_sql_query(
     <span class="cs">"SELECT name, score FROM students ORDER BY score DESC"</span>,
     conn
 )
 print(df.head())
-
+ 
 conn.close()   <span class="ck"># always close when done</span></pre></div>
     <div class="warn"><p>⚠️ <strong>Never use string formatting or f-strings to build SQL queries.</strong> <code>f"SELECT * FROM users WHERE name = '{user_input}'"</code> is a SQL injection vulnerability. Always use parameterised queries with <code>?</code> placeholders. This is the most critical SQL security rule.</p></div>
   </div>
@@ -318,20 +319,20 @@ conn.close()   <span class="ck"># always close when done</span></pre></div>
     <div class="cb"><pre><span class="ck">-- Sample tables</span>
 <span class="ck">-- students: id, name, score, dept_id</span>
 <span class="ck">-- departments: id, name, building</span>
-
+ 
 <span class="ck">-- INNER JOIN — only rows that match in BOTH tables</span>
 SELECT s.name, s.score, d.name AS department
 FROM   students     s
 JOIN   departments  d ON s.dept_id = d.id;
-
+ 
 <span class="ck">-- LEFT JOIN — all students, even those with no department</span>
 SELECT s.name, s.score, d.name AS department
 FROM   students     s
 LEFT JOIN departments d ON s.dept_id = d.id;
 <span class="ck">-- d.name will be NULL for students with no matching dept_id</span>
-
+ 
 <span class="ck">-- RIGHT JOIN (SQLite doesn't support — use LEFT JOIN with tables swapped)</span>
-
+ 
 <span class="ck">-- Self-join — join a table to itself</span>
 <span class="ck">-- Find all students who scored higher than Alice</span>
 SELECT b.name, b.score
@@ -363,7 +364,7 @@ WHERE  a.name = 'Alice';</pre></div>
 SELECT name, score
 FROM   students
 WHERE  score > (SELECT AVG(score) FROM students);
-
+ 
 <span class="ck">-- Subquery in FROM — treat query result as a table</span>
 SELECT grade, avg_score
 FROM (
@@ -372,7 +373,7 @@ FROM (
     GROUP  BY grade
 ) AS grade_stats
 WHERE avg_score > 75;
-
+ 
 <span class="ck">-- CTE (Common Table Expression) — readable named subquery</span>
 WITH above_avg AS (
     SELECT name, score
@@ -400,25 +401,25 @@ JOIN   top_dept t ON d.id = t.dept_id;</pre></div>
     <div class="cb"><pre><span class="ck">-- UPDATE — modify existing rows</span>
 UPDATE students SET grade = 'A' WHERE score >= 90;
 UPDATE students SET score = score * 1.05 WHERE grade = 'B';  <span class="ck">-- 5% bonus</span>
-
+ 
 <span class="ck">-- DELETE — remove rows</span>
 DELETE FROM students WHERE score < 40;
 DELETE FROM students WHERE name = 'Bob';
-
+ 
 <span class="ck">-- TRUNCATE equivalent in SQLite</span>
 DELETE FROM students;   <span class="ck">-- removes all rows, table structure remains</span>
-
+ 
 <span class="ck">-- Indexes — speed up queries on large tables</span>
 CREATE INDEX idx_students_score ON students(score);
 CREATE INDEX idx_students_grade ON students(grade);
 CREATE UNIQUE INDEX idx_students_email ON students(email);
-
+ 
 <span class="ck">-- When to create an index:</span>
 <span class="ck">-- Columns frequently used in WHERE, ORDER BY, or JOIN conditions</span>
 <span class="ck">-- Foreign key columns</span>
 <span class="ck">-- High-cardinality columns (many unique values)</span>
 <span class="ck">-- NOT on columns with very few unique values (e.g. boolean flag)</span>
-
+ 
 <span class="ck">-- Check query plan (does it use the index?)</span>
 EXPLAIN QUERY PLAN SELECT * FROM students WHERE score > 80;</pre></div>
   </div>
@@ -435,20 +436,20 @@ EXPLAIN QUERY PLAN SELECT * FROM students WHERE score > 80;</pre></div>
   <div class="cp-body">
     <p>FastAPI is the dominant Python framework for building AI APIs. It is fast (ASGI, async-first), automatically generates interactive docs, and uses Pydantic for validation — the same library used by LangChain, OpenAI SDK, and Anthropic SDK under the hood.</p>
     <div class="cb"><pre>pip install fastapi uvicorn[standard]
-
+ 
 <span class="ck"># Minimal FastAPI app — save as main.py</span>
 from fastapi import FastAPI
-
+ 
 app = FastAPI(title=<span class="cs">"My AI API"</span>, version=<span class="cs">"1.0.0"</span>)
-
+ 
 @app.get(<span class="cs">"/"</span>)
 def root():
     return {<span class="cs">"message"</span>: <span class="cs">"AI API is running"</span>}
-
+ 
 @app.get(<span class="cs">"/health"</span>)
 def health():
     return {<span class="cs">"status"</span>: <span class="cs">"ok"</span>}
-
+ 
 <span class="ck"># Run the server</span>
 <span class="ck"># uvicorn main:app --reload</span>
 <span class="ck"># Open http://127.0.0.1:8000/docs  ← interactive Swagger UI</span>
@@ -463,15 +464,15 @@ def health():
     <div class="cb"><pre>from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from typing import Optional
-
+ 
 app = FastAPI()
-
+ 
 <span class="ck"># PATH PARAMETER — part of the URL path</span>
 <span class="ck"># GET /students/42</span>
 @app.get(<span class="cs">"/students/{student_id}"</span>)
 def get_student(student_id: int):   <span class="ck"># FastAPI validates type automatically</span>
     return {<span class="cs">"student_id"</span>: student_id}
-
+ 
 <span class="ck"># QUERY PARAMETER — after the ? in URL</span>
 <span class="ck"># GET /students?min_score=80&limit=10</span>
 @app.get(<span class="cs">"/students"</span>)
@@ -481,13 +482,13 @@ def list_students(
     grade: Optional[str] = None               <span class="ck"># truly optional</span>
 ):
     return {<span class="cs">"min_score"</span>: min_score, <span class="cs">"limit"</span>: limit, <span class="cs">"grade"</span>: grade}
-
+ 
 <span class="ck"># REQUEST BODY — JSON in POST/PUT body</span>
 class CreateStudentRequest(BaseModel):
     name:  str
     score: float
     grade: Optional[str] = None
-
+ 
 <span class="ck"># POST /students</span>
 @app.post(<span class="cs">"/students"</span>, status_code=<span class="cv">201</span>)
 def create_student(student: CreateStudentRequest):
@@ -501,11 +502,11 @@ def create_student(student: CreateStudentRequest):
   <div class="cp-hdr"><span class="ico">🚨</span><h3>Error Handling and HTTP Exceptions</h3><span class="tag tag-teal">Production Pattern</span></div>
   <div class="cp-body">
     <div class="cb"><pre>from fastapi import FastAPI, HTTPException, status
-
+ 
 app = FastAPI()
-
+ 
 STUDENTS_DB = {<span class="cv">1</span>: {<span class="cs">"name"</span>: <span class="cs">"Alice"</span>, <span class="cs">"score"</span>: <span class="cv">92</span>}}
-
+ 
 @app.get(<span class="cs">"/students/{student_id}"</span>)
 def get_student(student_id: int):
     student = STUDENTS_DB.get(student_id)
@@ -515,18 +516,18 @@ def get_student(student_id: int):
             detail=<span class="cs">f"Student {student_id} not found"</span>
         )
     return student
-
+ 
 <span class="ck"># Custom exception handler</span>
 from fastapi import Request
 from fastapi.responses import JSONResponse
-
+ 
 @app.exception_handler(ValueError)
 async def value_error_handler(request: Request, exc: ValueError):
     return JSONResponse(
         status_code=<span class="cv">400</span>,
         content={<span class="cs">"error"</span>: <span class="cs">"validation_error"</span>, <span class="cs">"detail"</span>: str(exc)}
     )
-
+ 
 <span class="ck"># Health check endpoint — essential for production</span>
 @app.get(<span class="cs">"/health"</span>, tags=[<span class="cs">"monitoring"</span>])
 def health_check():
@@ -542,10 +543,10 @@ def health_check():
   <div class="cp-body">
     <div class="cb"><pre>from fastapi import FastAPI, BackgroundTasks
 import asyncio, anthropic
-
+ 
 app = FastAPI()
 client = anthropic.AsyncAnthropic()
-
+ 
 <span class="ck"># Async endpoint — non-blocking LLM call</span>
 @app.post(<span class="cs">"/chat"</span>)
 async def chat(message: str):
@@ -555,10 +556,10 @@ async def chat(message: str):
         messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: message}]
     )
     return {<span class="cs">"reply"</span>: response.content[<span class="cv">0</span>].text}
-
+ 
 <span class="ck"># Streaming endpoint — sends tokens as they arrive</span>
 from fastapi.responses import StreamingResponse
-
+ 
 @app.post(<span class="cs">"/chat/stream"</span>)
 async def chat_stream(message: str):
     async def generate():
@@ -570,12 +571,12 @@ async def chat_stream(message: str):
             async for text in stream.text_stream:
                 yield text
     return StreamingResponse(generate(), media_type=<span class="cs">"text/plain"</span>)
-
+ 
 <span class="ck"># Background task — fire and forget</span>
 def log_request(message: str):
     with open(<span class="cs">"requests.log"</span>, <span class="cs">"a"</span>) as f:
         f.write(<span class="cs">f"{message}\n"</span>)
-
+ 
 @app.post(<span class="cs">"/chat/logged"</span>)
 async def chat_logged(message: str, background_tasks: BackgroundTasks):
     background_tasks.add_task(log_request, message)  <span class="ck"># runs after response</span>
@@ -596,23 +597,23 @@ async def chat_logged(message: str, background_tasks: BackgroundTasks):
     <div class="cb"><pre>from pydantic import BaseModel, Field, field_validator
 from typing import Optional, List
 from datetime import datetime
-
+ 
 <span class="ck"># Basic model — define schema with type annotations</span>
 class Student(BaseModel):
     name:  str
     score: float
     grade: Optional[str] = None
-
+ 
 s = Student(name=<span class="cs">"Alice"</span>, score=<span class="cv">92.5</span>)
 print(s.model_dump())          <span class="ck"># {"name":"Alice","score":92.5,"grade":null}</span>
 print(s.model_dump_json())     <span class="ck"># JSON string</span>
-
+ 
 <span class="ck"># Validation — Pydantic raises ValidationError on wrong types</span>
 try:
     bad = Student(name=<span class="cs">"Bob"</span>, score=<span class="cs">"not-a-number"</span>)
 except Exception as e:
     print(e)   <span class="ck"># score: Input should be a valid number</span>
-
+ 
 <span class="ck"># Field — add constraints and documentation</span>
 class LLMRequest(BaseModel):
     model:       str   = Field(default=<span class="cs">"claude-3-5-sonnet-20241022"</span>)
@@ -620,20 +621,20 @@ class LLMRequest(BaseModel):
     max_tokens:  int   = Field(default=<span class="cv">1024</span>, ge=<span class="cv">1</span>, le=<span class="cv">8192</span>)
     temperature: float = Field(default=<span class="cv">0.7</span>, ge=<span class="cv">0.0</span>, le=<span class="cv">2.0</span>)
     tags: List[str]    = Field(default_factory=list)
-
+ 
 <span class="ck"># Custom validator</span>
 class RegistrationForm(BaseModel):
     username: str
     email:    str
     age:      int
-
+ 
     @field_validator('email')
     @classmethod
     def email_must_contain_at(cls, v: str) -> str:
         if <span class="cs">'@'</span> not in v:
             raise ValueError(<span class="cs">'must be a valid email address'</span>)
         return v.lower()
-
+ 
     @field_validator('age')
     @classmethod
     def age_must_be_adult(cls, v: int) -> int:
@@ -650,14 +651,14 @@ class RegistrationForm(BaseModel):
     <div class="cb"><pre>from pydantic import BaseModel
 from typing import List
 import instructor, anthropic
-
+ 
 <span class="ck"># Define the structure you want the LLM to return</span>
 class InvoiceLineItem(BaseModel):
     description: str
     quantity:    int
     unit_price:  float
     total:       float
-
+ 
 class Invoice(BaseModel):
     invoice_number: str
     customer_name:  str
@@ -665,10 +666,10 @@ class Invoice(BaseModel):
     subtotal:       float
     tax:            float
     total:          float
-
+ 
 <span class="ck"># Instructor patches the client to enforce the schema</span>
 client = instructor.from_anthropic(anthropic.Anthropic())
-
+ 
 <span class="ck"># The LLM MUST return data matching the Invoice schema</span>
 invoice = client.messages.create(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -699,9 +700,9 @@ from pydantic import BaseModel
 from typing import Optional, List
 import sqlite3
 from contextlib import contextmanager
-
+ 
 app = FastAPI(title=<span class="cs">"Student API"</span>)
-
+ 
 <span class="ck"># Database connection context manager</span>
 @contextmanager
 def get_db():
@@ -711,7 +712,7 @@ def get_db():
         yield conn
     finally:
         conn.close()
-
+ 
 <span class="ck"># Create table on startup</span>
 @app.on_event(<span class="cs">"startup"</span>)
 def startup():
@@ -725,19 +726,19 @@ def startup():
             )
         """</span>)
         conn.commit()
-
+ 
 <span class="ck"># Pydantic models</span>
 class StudentCreate(BaseModel):
     name:  str
     score: float
     grade: Optional[str] = None
-
+ 
 class StudentResponse(BaseModel):
     id:    int
     name:  str
     score: float
     grade: Optional[str]
-
+ 
 <span class="ck"># POST /students — create</span>
 @app.post(<span class="cs">"/students"</span>, response_model=StudentResponse, status_code=<span class="cv">201</span>)
 def create_student(student: StudentCreate):
@@ -751,7 +752,7 @@ def create_student(student: StudentCreate):
             <span class="cs">"SELECT * FROM students WHERE id = ?"</span>, (cursor.lastrowid,)
         ).fetchone()
     return dict(row)
-
+ 
 <span class="ck"># GET /students — list all</span>
 @app.get(<span class="cs">"/students"</span>, response_model=List[StudentResponse])
 def list_students(min_score: float = <span class="cv">0.0</span>):
@@ -761,7 +762,7 @@ def list_students(min_score: float = <span class="cv">0.0</span>):
             (min_score,)
         ).fetchall()
     return [dict(row) for row in rows]
-
+ 
 <span class="ck"># GET /students/{id} — get one</span>
 @app.get(<span class="cs">"/students/{student_id}"</span>, response_model=StudentResponse)
 def get_student(student_id: int):
@@ -772,7 +773,7 @@ def get_student(student_id: int):
     if not row:
         raise HTTPException(status_code=<span class="cv">404</span>, detail=<span class="cs">"Student not found"</span>)
     return dict(row)
-
+ 
 <span class="ck"># DELETE /students/{id}</span>
 @app.delete(<span class="cs">"/students/{student_id}"</span>, status_code=<span class="cv">204</span>)
 def delete_student(student_id: int):
@@ -792,29 +793,29 @@ def delete_student(student_id: int):
     <div class="cb"><pre><span class="ck"># Option 1 — FastAPI /docs (Swagger UI)</span>
 <span class="ck"># Go to http://127.0.0.1:8000/docs in browser</span>
 <span class="ck"># Click any endpoint → "Try it out" → fill fields → Execute</span>
-
+ 
 <span class="ck"># Option 2 — curl from terminal</span>
 <span class="ck"># Create a student</span>
 curl -X POST http://localhost:8000/students   -H "Content-Type: application/json"   -d '{"name": "Alice", "score": 92.5, "grade": "A"}'
-
+ 
 <span class="ck"># Get all students with score > 80</span>
 curl "http://localhost:8000/students?min_score=80"
-
+ 
 <span class="ck"># Get specific student</span>
 curl http://localhost:8000/students/1
-
+ 
 <span class="ck"># Option 3 — Python test client (best for automated tests)</span>
 from fastapi.testclient import TestClient
 from main import app   <span class="ck"># import your FastAPI app</span>
-
+ 
 client = TestClient(app)
-
+ 
 def test_create_student():
     response = client.post(<span class="cs">"/students"</span>,
         json={<span class="cs">"name"</span>: <span class="cs">"Alice"</span>, <span class="cs">"score"</span>: <span class="cv">92.5</span>})
     assert response.status_code == <span class="cv">201</span>
     assert response.json()[<span class="cs">"name"</span>] == <span class="cs">"Alice"</span>
-
+ 
 def test_get_missing_student():
     response = client.get(<span class="cs">"/students/999"</span>)
     assert response.status_code == <span class="cv">404</span></pre></div>

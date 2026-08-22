@@ -3,6 +3,7 @@ title: "C++ Language"
 description: "[Lambda Functions in Modern C++]( lambda-functions-in-modern-c) 1.1."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/cpp/lambda-functions
 ---
 

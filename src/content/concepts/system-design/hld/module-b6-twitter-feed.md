@@ -4,6 +4,8 @@ description: "Track B · HLD Case Study · Module B6 · Week 16 TWITTER/ X FEED 
 domain: system-design
 track: system-design-hld
 order: 112
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b6-twitter-feed/
 ---
 
@@ -80,12 +82,12 @@ url: /learning/system-design/hld/module-b6-twitter-feed/
 <pre class="c"><span class="cm">// User U follows 500 people. Naive read-time approach:</span>
 SELECT tweet_id FROM tweets WHERE user_id IN (followee_1, followee_2, ... followee_500)
 ORDER BY created_at DESC LIMIT 200;
-
+ 
 <span class="cm">// Cost: 500 DB queries (or 1 massive IN query) per timeline load</span>
 <span class="cm">// 320,000 timeline reads/sec × 500 queries = </span><span class="er">160,000,000 queries/sec</span>
 <span class="cm">// A well-tuned MySQL handles ~100,000 QPS → need 1,600 DB nodes</span>
 <span class="cm">// Merge latency: 500 streams × network roundtrip → 200–500ms → SLA violation</span>
-
+ 
 <span class="cm">// Conclusion: pure read-time fan-out is IMPOSSIBLE at Twitter scale</span>
 <span class="cm">// We must pre-compute (at least partially) the home timeline</span></pre>
   </div>
@@ -136,25 +138,25 @@ ORDER BY created_at DESC LIMIT 200;
   <div class="sh">Timeline Read — Hybrid Merge</div>
   <div class="cb"><div class="cb-top">How timeline service assembles the feed<span class="cb-l">PSEUDOCODE</span></div>
 <pre class="c"><span class="kw">function</span> <span class="fn">getHomeTimeline</span>(userId, limit=200):
-
+ 
     <span class="cm">// 1. Pre-computed portion (fan-out-on-write tweets)</span>
     precomputed = redis.<span class="fn">ZREVRANGE</span>(<span class="str">"timeline:"</span> + userId, 0, limit * 2, WITHSCORES)
     <span class="cm">//    O(log N) — fast, covers all normal users the person follows</span>
-
+ 
     <span class="cm">// 2. Celebrity injection (fan-out-on-read portion)</span>
     celebrities = socialGraph.<span class="fn">getCelebrityFollowees</span>(userId)
     <span class="cm">//    Typically &lt;50 celebrities per user (manageable)</span>
-
+ 
     celeb_tweets = []
     <span class="kw">for</span> celeb <span class="kw">in</span> celebrities:
         recent = tweetCache.<span class="fn">getRecentTweets</span>(celeb.userId, n=50)
         celeb_tweets.<span class="fn">extend</span>(recent)
     <span class="cm">//    50 celebrities × 50 tweets = 2,500 tweet fetches (cached in Redis)</span>
-
+ 
     <span class="cm">// 3. Merge by timestamp + deduplicate retweets</span>
     merged = <span class="fn">mergeSortedByTimestamp</span>(precomputed, celeb_tweets)
     <span class="kw">return</span> merged[:limit]
-
+ 
     <span class="cm">// Total latency: ~5–20ms (all Redis operations)</span></pre>
   </div>
 
@@ -164,7 +166,7 @@ ORDER BY created_at DESC LIMIT 200;
   → INSERT INTO tweets (tweet_id=snowflake(), user_id, content, ...) <span class="ok">✓ durable</span>
   → HSET tweet:{id} userId content likeCount ...                    <span class="ok">✓ cached</span>
   → Kafka.publish(<span class="str">"tweet-created"</span>, {tweetId, userId, followerCount})
-
+ 
 [Fanout Worker] consumes from Kafka:
   <span class="kw">if</span> followerCount &lt; <span class="cy">10_000</span>:
       followers = socialGraph.<span class="fn">getFollowers</span>(userId)    <span class="cm">// read from graph DB</span>
@@ -214,19 +216,19 @@ ORDER BY created_at DESC LIMIT 200;
 <pre class="c"><span class="cm">// Key pattern: timeline:{userId}</span>
 <span class="cm">// Type: Sorted Set — score = tweet timestamp (epoch ms)</span>
 <span class="cm">// Members: tweet_id strings</span>
-
+ 
 redis.<span class="fn">ZADD</span>(<span class="str">"timeline:123"</span>, <span class="cy">1700000500000</span>, <span class="str">"tweet_abc"</span>)
 redis.<span class="fn">ZADD</span>(<span class="str">"timeline:123"</span>, <span class="cy">1700000400000</span>, <span class="str">"tweet_def"</span>)
-
+ 
 <span class="cm">// Read top 200:</span>
 tweetIds = redis.<span class="fn">ZREVRANGE</span>(<span class="str">"timeline:123"</span>, 0, 199)   <span class="cm">// O(log N + 200)</span>
-
+ 
 <span class="cm">// Batch hydrate (pipeline, single roundtrip):</span>
 tweets = redis.<span class="fn">PIPELINE</span> { tweetIds.<span class="fn">map</span>(id => <span class="fn">HGETALL</span>(<span class="str">"tweet:"</span>+id)) }
-
+ 
 <span class="cm">// Trim timeline to 1000 entries (memory bound):</span>
 redis.<span class="fn">ZREMRANGEBYRANK</span>(<span class="str">"timeline:123"</span>, 0, -<span class="cy">1001</span>)  <span class="cm">// keep newest 1000</span>
-
+ 
 <span class="cm">// Memory: 300M users × 1000 IDs × 8 bytes = 2.4 TB → Redis cluster</span></pre>
   </div>
 </div>
@@ -290,12 +292,12 @@ redis.<span class="fn">ZREMRANGEBYRANK</span>(<span class="str">"timeline:123"</
   <div class="cb"><div class="cb-top">Why synchronous UPDATE like_count fails<span class="cb-l">MATH</span></div>
 <pre class="c"><span class="cm">// A viral tweet receives 5M likes in 10 minutes</span>
 <span class="cm">// = 8,333 likes/sec at peak</span>
-
+ 
 <span class="cm">// Naive: UPDATE tweets SET like_count = like_count + 1 WHERE tweet_id = ?</span>
 <span class="cm">// Problem: 8,333 concurrent UPDATE ops on SAME row = row-level lock contention</span>
 <span class="cm">// MySQL handles ~10K single-row updates/sec → this saturates the primary</span>
 <span class="cm">// And we have thousands of tweets being liked simultaneously</span>
-
+ 
 <span class="cm">// Solution: decouple write from increment</span></pre>
   </div>
   <div class="count-flow">
@@ -323,7 +325,7 @@ Tweet stores: media_ids: [<span class="str">"s3://tweets-raw/2024/01/img_abc.jpg
 CDN serves: https://pbs.twimg.com/media/img_abc.jpg
 <span class="cm">// CDN cache hit rate: 99%+ for viral content</span>
 <span class="cm">// Without CDN: 100M impressions × 500KB = 50TB bandwidth from S3 → $$$</span>
-
+ 
 <span class="cm">// VIDEO UPLOAD (async transcoding):</span>
 Client → S3 raw → <span class="fn">Lambda trigger</span> → <span class="ok">Transcoding worker</span>
   Transcodes to HLS (HTTP Live Streaming) at multiple bitrates:
@@ -337,17 +339,17 @@ Client → S3 raw → <span class="fn">Lambda trigger</span> → <span class="ok
 <pre class="c"><span class="cm">// Kafka stream: every tweet → extract hashtags</span>
 Tweet: <span class="str">"Just watched #Oppenheimer, amazing! #movies"</span>
 Extract: [<span class="str">"#Oppenheimer"</span>, <span class="str">"#movies"</span>]
-
+ 
 <span class="cm">// Flink/Storm: count per hashtag in 1-hour sliding window</span>
 <span class="cm">// Min-heap: maintain top-30 hashtags globally + per-region</span>
-
+ 
 <span class="cm">// Store in Redis sorted set:</span>
 redis.<span class="fn">ZINCRBY</span>(<span class="str">"trending:global"</span>, 1, <span class="str">"#Oppenheimer"</span>)
 redis.<span class="fn">ZINCRBY</span>(<span class="str">"trending:US"</span>, 1, <span class="str">"#Oppenheimer"</span>)
-
+ 
 <span class="cm">// Read top 10:</span>
 redis.<span class="fn">ZREVRANGE</span>(<span class="str">"trending:global"</span>, 0, 9, WITHSCORES)
-
+ 
 <span class="cm">// Refresh: recalculate every 5 minutes</span>
 <span class="cm">// Geographic trending: separate sorted set per region</span></pre>
   </div>

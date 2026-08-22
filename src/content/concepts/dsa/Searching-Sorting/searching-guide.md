@@ -3,6 +3,7 @@ title: "Searching Algorithms Master Guide"
 description: "🔎 Searching Algorithms Master Guide Searching is a core topic in computer science and interviews."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/searching-sorting/searching-guide/
 ---
 

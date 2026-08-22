@@ -4,6 +4,7 @@ description: "Module 03 — Ring Buffer (SPSC, lock-free) What you learn How to 
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-03-ring-buffer/
 ---
 

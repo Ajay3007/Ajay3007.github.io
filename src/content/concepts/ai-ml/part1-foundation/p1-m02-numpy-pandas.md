@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part1-foundation
 order: 102
+ownHeader: true
 url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
 ---
 
@@ -191,7 +192,7 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
   <div class="cp-hdr"><span class="ico">🔢</span><h3>NumPy Array Fundamentals</h3><span class="tag tag-purple">Week 1</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import numpy as np
-
+ 
 <span class="ck"># Creating arrays</span>
 a = np.array([<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>, <span class="cv">4</span>, <span class="cv">5</span>])              <span class="ck"># from Python list</span>
 b = np.zeros((<span class="cv">3</span>, <span class="cv">4</span>))                      <span class="ck"># 3×4 matrix of zeros</span>
@@ -199,7 +200,7 @@ c = np.ones((<span class="cv">2</span>, <span class="cv">3</span>), dtype=np.flo
 d = np.arange(<span class="cv">0</span>, <span class="cv">10</span>, <span class="cv">2</span>)                   <span class="ck"># [0, 2, 4, 6, 8]</span>
 e = np.linspace(<span class="cv">0</span>, <span class="cv">1</span>, <span class="cv">5</span>)                  <span class="ck"># [0, 0.25, 0.5, 0.75, 1.0]</span>
 f = np.random.randn(<span class="cv">3</span>, <span class="cv">3</span>)                <span class="ck"># 3×3 standard normal</span>
-
+ 
 <span class="ck"># Key attributes</span>
 print(a.shape)    <span class="ck"># (5,)     — 1D with 5 elements</span>
 print(b.shape)    <span class="ck"># (3, 4)   — 2D: 3 rows, 4 cols</span>
@@ -213,23 +214,23 @@ print(b.size)     <span class="ck"># 12       — total elements</span></pre></d
   <div class="cp-hdr"><span class="ico">✂️</span><h3>Indexing, Slicing and Boolean Masking</h3><span class="tag tag-blue">Essential</span></div>
   <div class="cp-body">
     <div class="cb"><pre>arr = np.array([[<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>],[<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>],[<span class="cv">7</span>,<span class="cv">8</span>,<span class="cv">9</span>]])
-
+ 
 <span class="ck"># Indexing — [row, col]</span>
 print(arr[<span class="cv">0</span>, <span class="cv">1</span>])       <span class="ck"># 2  — row 0, col 1</span>
 print(arr[-<span class="cv">1</span>, -<span class="cv">1</span>])     <span class="ck"># 9  — last row, last col</span>
-
+ 
 <span class="ck"># Slicing — [row_start:row_end, col_start:col_end]</span>
 print(arr[<span class="cv">0</span>:2, <span class="cv">1</span>:])    <span class="ck"># [[2,3],[5,6]]  — rows 0-1, cols 1+</span>
 print(arr[:, <span class="cv">0</span>])        <span class="ck"># [1, 4, 7]  — entire first column</span>
 print(arr[<span class="cv">1</span>, :])         <span class="ck"># [4, 5, 6]  — entire second row</span>
-
+ 
 <span class="ck"># Boolean masking — critical for data filtering</span>
 scores = np.array([<span class="cv">55</span>, <span class="cv">72</span>, <span class="cv">88</span>, <span class="cv">43</span>, <span class="cv">95</span>, <span class="cv">61</span>])
 mask   = scores > <span class="cv">70</span>
 print(mask)             <span class="ck"># [F, T, T, F, T, F]</span>
 print(scores[mask])     <span class="ck"># [72, 88, 95]  — fancy indexing</span>
 print(scores[scores > <span class="cv">70</span>])  <span class="ck"># same — inline</span>
-
+ 
 <span class="ck"># Combine conditions</span>
 print(scores[(scores > <span class="cv">60</span>) &amp; (scores &lt; <span class="cv">90</span>)])  <span class="ck"># [72, 88, 61]</span></pre></div>
     <div class="warn"><p>⚠️ <strong>NumPy slices are VIEWS, not copies.</strong> Modifying a slice modifies the original array. Always use <code>arr.copy()</code> when you need an independent copy. This is the single most common NumPy bug.</p></div>
@@ -242,19 +243,19 @@ print(scores[(scores > <span class="cv">60</span>) &amp; (scores &lt; <span clas
     <p>Vectorised operations apply element-wise without Python loops — this is where NumPy's speed comes from.</p>
     <div class="cb"><pre>a = np.array([<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>, <span class="cv">4</span>])
 b = np.array([<span class="cv">10</span>, <span class="cv">20</span>, <span class="cv">30</span>, <span class="cv">40</span>])
-
+ 
 <span class="ck"># Element-wise — no loops needed</span>
 print(a + b)          <span class="ck"># [11, 22, 33, 44]</span>
 print(a * b)          <span class="ck"># [10, 40, 90, 160]</span>
 print(a ** <span class="cv">2</span>)         <span class="ck"># [1, 4, 9, 16]</span>
 print(np.sqrt(a))     <span class="ck"># [1.0, 1.41, 1.73, 2.0]</span>
-
+ 
 <span class="ck"># Statistical functions</span>
 print(np.mean(a))     <span class="ck"># 2.5</span>
 print(np.std(a))      <span class="ck"># 1.118...</span>
 print(np.sum(a))      <span class="ck"># 10</span>
 print(np.min(a), np.max(a), np.argmax(a))  <span class="ck"># 1  4  3</span>
-
+ 
 <span class="ck"># Broadcasting — smaller array stretches to match larger</span>
 matrix = np.ones((<span class="cv">3</span>, <span class="cv">4</span>))
 row    = np.array([<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>, <span class="cv">4</span>])    <span class="ck"># shape (4,)</span>
@@ -274,17 +275,17 @@ a = np.arange(<span class="cv">12</span>)
 print(a.reshape(<span class="cv">3</span>, <span class="cv">4</span>))    <span class="ck"># 3 rows, 4 cols</span>
 print(a.reshape(<span class="cv">2</span>, -<span class="cv">1</span>))    <span class="ck"># -1 = infer (becomes 2×6)</span>
 print(a.flatten())           <span class="ck"># back to 1D</span>
-
+ 
 <span class="ck"># Transpose — swap rows and cols</span>
 m = np.array([[<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>],[<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>]])
 print(m.T)    <span class="ck"># shape (2,3) → (3,2)</span>
-
+ 
 <span class="ck"># Stacking arrays</span>
 x = np.array([<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>])
 y = np.array([<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>])
 print(np.vstack([x, y]))    <span class="ck"># [[1,2,3],[4,5,6]]  vertical</span>
 print(np.hstack([x, y]))    <span class="ck"># [1,2,3,4,5,6]  horizontal</span>
-
+ 
 <span class="ck"># Matrix multiplication — critical for ML</span>
 A = np.array([[<span class="cv">1</span>,<span class="cv">2</span>],[<span class="cv">3</span>,<span class="cv">4</span>]])
 B = np.array([[<span class="cv">5</span>,<span class="cv">6</span>],[<span class="cv">7</span>,<span class="cv">8</span>]])
@@ -306,24 +307,24 @@ print(A * B)          <span class="ck"># element-wise (NOT matrix multiply)</spa
   <div class="cp-body">
     <div class="cb"><pre>import pandas as pd
 import numpy as np
-
+ 
 <span class="ck"># Series — 1D labelled array (a single column)</span>
 s = pd.Series([<span class="cv">10</span>, <span class="cv">20</span>, <span class="cv">30</span>], index=[<span class="cs">"a"</span>, <span class="cs">"b"</span>, <span class="cs">"c"</span>])
 print(s[<span class="cs">"b"</span>])    <span class="ck"># 20</span>
 print(s.dtype)   <span class="ck"># int64</span>
-
+ 
 <span class="ck"># DataFrame — 2D table (rows × columns)</span>
 df = pd.DataFrame({
     <span class="cs">"name"</span>:  [<span class="cs">"Alice"</span>, <span class="cs">"Bob"</span>, <span class="cs">"Charlie"</span>],
     <span class="cs">"score"</span>: [<span class="cv">85</span>, <span class="cv">92</span>, <span class="cv">78</span>],
     <span class="cs">"grade"</span>: [<span class="cs">"B"</span>, <span class="cs">"A"</span>, <span class="cs">"C"</span>]
 })
-
+ 
 <span class="ck"># Loading from files</span>
 df = pd.read_csv(<span class="cs">"students.csv"</span>)
 df = pd.read_json(<span class="cs">"data.json"</span>)
 df = pd.read_excel(<span class="cs">"report.xlsx"</span>)
-
+ 
 <span class="ck"># First look at a dataset</span>
 print(df.head(<span class="cv">5</span>))      <span class="ck"># first 5 rows</span>
 print(df.tail(<span class="cv">3</span>))      <span class="ck"># last 3 rows</span>
@@ -341,17 +342,17 @@ print(df.describe())    <span class="ck"># count, mean, std, min, quartiles, max
 df.loc[<span class="cv">0</span>]                       <span class="ck"># row with index label 0</span>
 df.loc[<span class="cv">0</span>, <span class="cs">"name"</span>]               <span class="ck"># cell: row 0, column "name"</span>
 df.loc[<span class="cv">0</span>:<span class="cv">2</span>, [<span class="cs">"name"</span>,<span class="cs">"score"</span>]]   <span class="ck"># rows 0-2, two columns (INCLUSIVE)</span>
-
+ 
 <span class="ck"># .iloc — position-based indexing (like NumPy)</span>
 df.iloc[<span class="cv">0</span>]            <span class="ck"># first row</span>
 df.iloc[<span class="cv">0</span>, <span class="cv">1</span>]         <span class="ck"># row 0, column 1 (exclusive end)</span>
 df.iloc[<span class="cv">0</span>:<span class="cv">3</span>, :<span class="cv">2</span>]      <span class="ck"># first 3 rows, first 2 cols</span>
 df.iloc[-<span class="cv">1</span>]           <span class="ck"># last row</span>
-
+ 
 <span class="ck"># Boolean filtering — the most common pattern</span>
 high_scores = df[df[<span class="cs">"score"</span>] > <span class="cv">80</span>]
 top_students = df[(df[<span class="cs">"score"</span>] > <span class="cv">80</span>) &amp; (df[<span class="cs">"grade"</span>] == <span class="cs">"A"</span>)]
-
+ 
 <span class="ck"># Selecting columns</span>
 df[<span class="cs">"name"</span>]             <span class="ck"># returns Series</span>
 df[[<span class="cs">"name"</span>, <span class="cs">"score"</span>]]  <span class="ck"># returns DataFrame with 2 cols</span></pre></div>
@@ -366,24 +367,24 @@ df[[<span class="cs">"name"</span>, <span class="cs">"score"</span>]]  <span cla
     <div class="cb"><pre><span class="ck"># Detecting and handling NaN (missing values)</span>
 print(df.isnull().sum())          <span class="ck"># count NaN per column</span>
 print(df.isnull().sum() / len(df))  <span class="ck"># percentage missing</span>
-
+ 
 df.dropna()                       <span class="ck"># drop rows with ANY NaN</span>
 df.dropna(subset=[<span class="cs">"score"</span>])       <span class="ck"># drop only if score is NaN</span>
 df.dropna(thresh=<span class="cv">3</span>)              <span class="ck"># keep rows with at least 3 non-NaN</span>
 df.fillna(<span class="cv">0</span>)                     <span class="ck"># fill all NaN with 0</span>
 df[<span class="cs">"score"</span>].fillna(df[<span class="cs">"score"</span>].mean())  <span class="ck"># fill with column mean</span>
 df[<span class="cs">"score"</span>].ffill()              <span class="ck"># forward fill (time series)</span>
-
+ 
 <span class="ck"># Duplicates</span>
 df.duplicated().sum()             <span class="ck"># count duplicate rows</span>
 df.drop_duplicates()              <span class="ck"># remove all duplicates</span>
 df.drop_duplicates(subset=[<span class="cs">"name"</span>])  <span class="ck"># based on specific cols</span>
-
+ 
 <span class="ck"># Type conversion</span>
 df[<span class="cs">"score"</span>] = df[<span class="cs">"score"</span>].astype(float)
 df[<span class="cs">"date"</span>]  = pd.to_datetime(df[<span class="cs">"date"</span>])
 df[<span class="cs">"grade"</span>] = df[<span class="cs">"grade"</span>].astype(<span class="cs">"category"</span>)  <span class="ck"># saves memory</span>
-
+ 
 <span class="ck"># String cleaning</span>
 df[<span class="cs">"name"</span>] = df[<span class="cs">"name"</span>].str.strip().str.lower()
 df[<span class="cs">"email"</span>] = df[<span class="cs">"email"</span>].str.contains(<span class="cs">"@"</span>)  <span class="ck"># returns bool Series</span></pre></div>
@@ -396,26 +397,26 @@ df[<span class="cs">"email"</span>] = df[<span class="cs">"email"</span>].str.co
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># groupby() — the most powerful Pandas operation</span>
 <span class="ck"># Pattern: split data into groups → apply function → combine results</span>
-
+ 
 df = pd.DataFrame({
     <span class="cs">"city"</span>:  [<span class="cs">"Mumbai"</span>, <span class="cs">"Delhi"</span>, <span class="cs">"Mumbai"</span>, <span class="cs">"Delhi"</span>, <span class="cs">"Mumbai"</span>],
     <span class="cs">"sales"</span>: [<span class="cv">100</span>, <span class="cv">200</span>, <span class="cv">150</span>, <span class="cv">180</span>, <span class="cv">120</span>],
     <span class="cs">"month"</span>: [<span class="cs">"Jan"</span>, <span class="cs">"Jan"</span>, <span class="cs">"Feb"</span>, <span class="cs">"Feb"</span>, <span class="cs">"Mar"</span>]
 })
-
+ 
 <span class="ck"># Basic aggregations</span>
 df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].mean()     <span class="ck"># mean sales per city</span>
 df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].sum()      <span class="ck"># total sales per city</span>
 df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].count()    <span class="ck"># number of records per city</span>
-
+ 
 <span class="ck"># Multiple aggregations at once</span>
 df.groupby(<span class="cs">"city"</span>).agg({
     <span class="cs">"sales"</span>: [<span class="cs">"sum"</span>, <span class="cs">"mean"</span>, <span class="cs">"count"</span>]
 })
-
+ 
 <span class="ck"># Group by multiple columns</span>
 df.groupby([<span class="cs">"city"</span>, <span class="cs">"month"</span>])[<span class="cs">"sales"</span>].sum()
-
+ 
 <span class="ck"># transform — adds group stat back to original rows</span>
 df[<span class="cs">"city_avg"</span>] = df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].transform(<span class="cs">"mean"</span>)
 df[<span class="cs">"pct_of_city"</span>] = df[<span class="cs">"sales"</span>] / df[<span class="cs">"city_avg"</span>]</pre></div>
@@ -428,15 +429,15 @@ df[<span class="cs">"pct_of_city"</span>] = df[<span class="cs">"sales"</span>] 
     <div class="cb"><pre><span class="ck"># merge — SQL-style join on a key column</span>
 users  = pd.DataFrame({<span class="cs">"id"</span>: [<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>], <span class="cs">"name"</span>: [<span class="cs">"Alice"</span>,<span class="cs">"Bob"</span>,<span class="cs">"Charlie"</span>]})
 orders = pd.DataFrame({<span class="cs">"user_id"</span>: [<span class="cv">1</span>,<span class="cv">1</span>,<span class="cv">2</span>], <span class="cs">"amount"</span>: [<span class="cv">50</span>,<span class="cv">75</span>,<span class="cv">30</span>]})
-
+ 
 pd.merge(orders, users, left_on=<span class="cs">"user_id"</span>, right_on=<span class="cs">"id"</span>, how=<span class="cs">"left"</span>)
 <span class="ck"># how: "inner"(default), "left", "right", "outer"</span>
-
+ 
 <span class="ck"># concat — stack DataFrames vertically or horizontally</span>
 train = pd.read_csv(<span class="cs">"train.csv"</span>)
 test  = pd.read_csv(<span class="cs">"test.csv"</span>)
 full  = pd.concat([train, test], ignore_index=<span class="cv">True</span>)   <span class="ck"># vertical stack</span>
-
+ 
 <span class="ck"># pivot_table — Excel-style pivot</span>
 pivot = df.pivot_table(
     values=<span class="cs">"sales"</span>,
@@ -453,19 +454,19 @@ pivot = df.pivot_table(
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Parse dates on read</span>
 df = pd.read_csv(<span class="cs">"data.csv"</span>, parse_dates=[<span class="cs">"date"</span>])
-
+ 
 <span class="ck"># Convert string column to datetime</span>
 df[<span class="cs">"date"</span>] = pd.to_datetime(df[<span class="cs">"date"</span>])
-
+ 
 <span class="ck"># .dt accessor — extract components</span>
 df[<span class="cs">"year"</span>]    = df[<span class="cs">"date"</span>].dt.year
 df[<span class="cs">"month"</span>]   = df[<span class="cs">"date"</span>].dt.month
 df[<span class="cs">"weekday"</span>] = df[<span class="cs">"date"</span>].dt.day_name()    <span class="ck"># "Monday", "Tuesday"...</span>
 df[<span class="cs">"quarter"</span>] = df[<span class="cs">"date"</span>].dt.quarter
-
+ 
 <span class="ck"># Rolling window — used for moving averages (COVID 7-day rolling avg)</span>
 df[<span class="cs">"rolling_7"</span>] = df[<span class="cs">"cases"</span>].rolling(window=<span class="cv">7</span>).mean()
-
+ 
 <span class="ck"># Resample — aggregate by time period</span>
 df.set_index(<span class="cs">"date"</span>).resample(<span class="cs">"M"</span>)[<span class="cs">"sales"</span>].sum()  <span class="ck"># monthly totals</span></pre></div>
   </div>
@@ -486,7 +487,7 @@ df[df[<span class="cs">"age"</span>] > <span class="cv">30</span>]
 df[(df[<span class="cs">"age"</span>] > <span class="cv">30</span>) &amp; (df[<span class="cs">"city"</span>] == <span class="cs">"Mumbai"</span>)]
 df[df[<span class="cs">"name"</span>].isin([<span class="cs">"Alice"</span>, <span class="cs">"Bob"</span>])]
 df[~df[<span class="cs">"score"</span>].isna()]   <span class="ck"># ~ inverts boolean</span>
-
+ 
 <span class="ck"># 2. Chain operations — readable pipeline</span>
 result = (df
     .dropna(subset=[<span class="cs">"score"</span>])
@@ -496,21 +497,21 @@ result = (df
     .sort_values(ascending=<span class="cv">False</span>)
     .head(<span class="cv">10</span>)
 )
-
+ 
 <span class="ck"># 3. apply() with lambda — transform column values</span>
 df[<span class="cs">"score_normalised"</span>] = df[<span class="cs">"score"</span>].apply(lambda x: (x - <span class="cv">50</span>) / <span class="cv">50</span>)
 df[<span class="cs">"grade"</span>] = df[<span class="cs">"score"</span>].apply(lambda x: <span class="cs">"A"</span> if x>=<span class="cv">90</span> else <span class="cs">"B"</span> if x>=<span class="cv">80</span> else <span class="cs">"C"</span>)
-
+ 
 <span class="ck"># 4. Always .copy() on subsets</span>
 df_clean = df[df[<span class="cs">"score"</span>] > <span class="cv">0</span>].copy()
-
+ 
 <span class="ck"># 5. pd.get_dummies — one-hot encoding (used in every ML project)</span>
 df_encoded = pd.get_dummies(df, columns=[<span class="cs">"city"</span>, <span class="cs">"grade"</span>])
-
+ 
 <span class="ck"># 6. value_counts — quick frequency distribution</span>
 df[<span class="cs">"city"</span>].value_counts()
 df[<span class="cs">"city"</span>].value_counts(normalize=<span class="cv">True</span>)  <span class="ck"># proportions</span>
-
+ 
 <span class="ck"># 7. nunique — number of unique values per column</span>
 df.nunique()   <span class="ck"># quick cardinality check before one-hot encoding</span></pre></div>
   </div>
@@ -523,15 +524,15 @@ df.nunique()   <span class="ck"># quick cardinality check before one-hot encodin
 X = df[[<span class="cs">"age"</span>, <span class="cs">"score"</span>, <span class="cs">"income"</span>]].values   <span class="ck"># .values returns ndarray</span>
 y = df[<span class="cs">"target"</span>].to_numpy()                   <span class="ck"># explicit and preferred</span>
 print(X.shape)   <span class="ck"># (n_samples, n_features)</span>
-
+ 
 <span class="ck"># NumPy array → DataFrame</span>
 arr = np.random.randn(<span class="cv">100</span>, <span class="cv">3</span>)
 df2 = pd.DataFrame(arr, columns=[<span class="cs">"x1"</span>, <span class="cs">"x2"</span>, <span class="cs">"x3"</span>])
-
+ 
 <span class="ck"># Apply NumPy functions to Pandas columns</span>
 df[<span class="cs">"log_income"</span>] = np.log(df[<span class="cs">"income"</span>] + <span class="cv">1</span>)  <span class="ck"># log transform</span>
 df[<span class="cs">"z_score"</span>]   = (df[<span class="cs">"score"</span>] - df[<span class="cs">"score"</span>].mean()) / df[<span class="cs">"score"</span>].std()
-
+ 
 <span class="ck"># The full ML data prep pipeline</span>
 <span class="ck"># 1. Load with pd.read_csv</span>
 <span class="ck"># 2. Clean with Pandas (drop NaN, fix types, remove duplicates)</span>
@@ -555,10 +556,10 @@ df[<span class="cs">"z_score"</span>]   = (df[<span class="cs">"score"</span>] -
     <div class="cb"><pre><span class="ck"># Slow — Python loop over rows (never do this)</span>
 for i, row in df.iterrows():
     df.at[i, <span class="cs">"new_col"</span>] = row[<span class="cs">"score"</span>] * <span class="cv">2</span>
-
+ 
 <span class="ck"># Fast — vectorised (1000× faster)</span>
 df[<span class="cs">"new_col"</span>] = df[<span class="cs">"score"</span>] * <span class="cv">2</span>
-
+ 
 <span class="ck"># Check memory usage</span>
 df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024</span>**<span class="cv">2</span>   <span class="ck"># MB</span></pre></div>
   </div>

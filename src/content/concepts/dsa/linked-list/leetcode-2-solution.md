@@ -3,6 +3,7 @@ title: "Add Two Numbers - Solution"
 description: "Add Two Numbers — Two Approaches LeetCode 2 Difficulty: Medium Approach 1: Dummy-Node Version (New List) Intuition Each linked list represents a number in reverse order, where…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/leetcode-2-solution/
 ---
 

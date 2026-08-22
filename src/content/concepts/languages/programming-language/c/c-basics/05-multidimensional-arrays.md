@@ -4,6 +4,7 @@ description: "Multidimensional Arrays & Pointers C stores multidimensional array
 domain: languages
 track: c-fundamentals
 order: 5
+ownHeader: true
 url: /learning/programming-language/c/c-basics/multidimensional-arrays/
 ---
 

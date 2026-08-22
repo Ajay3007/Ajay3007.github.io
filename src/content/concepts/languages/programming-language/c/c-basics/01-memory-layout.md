@@ -4,6 +4,7 @@ description: "Memory Layout in C Memory layout means how your program’s code +
 domain: languages
 track: c-fundamentals
 order: 1
+ownHeader: true
 url: /learning/programming-language/c/c-basics/memory-layout/
 ---
 

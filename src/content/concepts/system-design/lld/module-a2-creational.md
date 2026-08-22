@@ -4,6 +4,8 @@ description: "TRACK A · LLD · MODULE A2 · WEEK 4 CREATIONAL PATTERNS Singleto
 domain: system-design
 track: system-design-lld
 order: 4
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a2-creational/
 ---
 
@@ -583,20 +585,20 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
         <pre>1. A game needs 1,000 enemy soldiers. Each has complex AI
    state (navigation, behaviour tree, inventory) but
    they're all nearly identical.
-
+ 
 2. A reporting system builds PDFs with required fields
    (title, date, author) and 12 optional fields (logo,
    watermark, footer, page numbers, custom message...).
-
+ 
 3. An OS needs to create UI elements (Button, TextBox,
    Dialog) consistently across Windows, macOS, Linux.
-
+ 
 4. A payment system must write every transaction to a
    single audit file that persists for the app's lifetime.
-
+ 
 5. A notification service creates the right notification
    object based on user's channel (EMAIL, SMS, PUSH, WEBHOOK).
-
+ 
 Output: Pattern + 2-sentence justification for each.</pre>
       </div>
     </div>
@@ -617,7 +619,7 @@ Output: Pattern + 2-sentence justification for each.</pre>
 - releaseConnection(conn): returns connection to pool
 - Thread-safe: multiple threads calling simultaneously
 - Explain in comments why your synchronisation is correct
-
+ 
 Bonus: Add a timeout to getConnection() that throws
        ConnectionTimeoutException after N milliseconds.</pre>
       </div>
@@ -635,20 +637,20 @@ Bonus: Add a timeout to getConnection() that throws
         <pre>Required fields:
   url    (String)      — must start with http:// or https://
   method (enum)        — GET, POST, PUT, DELETE
-
+ 
 Optional fields (with defaults):
   headers        (Map&lt;String,String&gt;)  default: empty map
   body           (String)              default: null
   timeoutMs      (int)                 default: 30000
   followRedirects(boolean)             default: true
   retryCount     (int)                 default: 0
-
+ 
 Validation rules (throw IllegalStateException on violation):
   - URL must start with http:// or https://
   - body only valid for POST or PUT requests
   - timeoutMs must be > 0
   - retryCount must be >= 0
-
+ 
 Usage should look like:
   HttpRequest req = new HttpRequest.Builder("https://api.com/users", POST)
       .header("Authorization", "Bearer token")
@@ -675,7 +677,7 @@ Usage should look like:
       ShoppingCart shallowClone() { ... }
       ShoppingCart deepClone()   { ... }
   }
-
+ 
 Test to write:
   1. Create cart1 with 2 items
   2. shallowClone() → cart2
@@ -684,7 +686,7 @@ Test to write:
   5. deepClone() → cart3
   6. Modify cart3.items.get(0).quantity = 99
   7. Assert: cart1.items.get(0).quantity is UNCHANGED
-
+ 
 Explain in comments: why does this happen? When is
 shallow clone intentional? When is it a bug?</pre>
       </div>

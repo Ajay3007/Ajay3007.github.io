@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 5 · MODULE 20 · WEEK 18 🔒 TLS Int
 domain: networking
 track: networking-mastery
 order: 20
+ownHeader: true
 url: /learning/networking-mastery/m20-tls/
 ---
 
@@ -123,7 +124,7 @@ url: /learning/networking-mastery/m20-tls/
   <div class="cp-hdr"><span class="ico">🤝</span><h3>TLS 1.3 Full Handshake</h3><span class="tag tag-blue">HANDSHAKE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* TLS 1.3 Handshake — message flow */</span>
-
+ 
 CLIENT                                           SERVER
   │                                                │
   │─── ClientHello ────────────────────────────→  │
@@ -165,7 +166,7 @@ CLIENT                                           SERVER
   │    • Client's HMAC over transcript             │
   │                                                │
   │←→  {Application Data (AEAD encrypted)} ←────→ │
-
+ 
 RTT count: 1 full RTT before application data can flow
            (ClientHello → ServerHello+Cert+Finished → ClientFinished+AppData)</pre></div>
     <div class="ins"><p>💡 <strong>Key insight:</strong> In TLS 1.3, the server can send encrypted extensions, its certificate, and its Finished message all in one flight — before receiving anything from the client beyond ClientHello. This is possible because ECDHE allows the server to derive encryption keys immediately after seeing the client's key share. The client verifies the server's Finished HMAC to confirm the handshake wasn't tampered with.</p></div>
@@ -181,7 +182,7 @@ RTT count: 1 full RTT before application data can flow
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* TLS 1.3 Key Schedule (RFC 8446 §7.1) */</span>
 <span class="cm">/* All derivations use HKDF with the negotiated hash (SHA-256 or SHA-384) */</span>
-
+ 
 0 (Early Secret)
   ├─ Early Traffic Keys (for 0-RTT data, if resuming with PSK)
   │
@@ -204,11 +205,11 @@ Master Secret
   │   → server_write_iv
   ├─ exporter_master_secret (for channel binding)
   └─ resumption_master_secret (for session tickets / PSK resumption)
-
+ 
 <span class="cm">/* Nonce construction — prevents nonce reuse */</span>
 <span class="cm">/* For each record: nonce = write_iv XOR sequence_number (64-bit, left-padded) */</span>
 <span class="cm">/* Sequence number increments with each record → unique nonce per record */</span>
-
+ 
 <span class="cm">/* Key update (post-handshake) */</span>
 <span class="cm">/* Either side can send KeyUpdate message → derive new traffic keys */</span>
 new_secret = HKDF-Expand-Label(current_secret, "traffic upd", "", hash_len)
@@ -229,41 +230,41 @@ new_secret = HKDF-Expand-Label(current_secret, "traffic upd", "", hash_len)
 +------------------+------------------+------------------+
 | Payload (up to 16384 bytes)                            |
 +--------------------------------------------------------+
-
+ 
 Content Types:
   20 = change_cipher_spec (legacy, sent for TLS 1.2 compat)
   21 = alert             (error notification)
   22 = handshake         (ClientHello, ServerHello, Certificate, etc.)
   23 = application_data  (encrypted payload)
-
+ 
 Version field in TLS 1.3:
   Outer record: 0x0303 (TLS 1.2) — for middlebox compatibility
   Inner content_type (inside AEAD ciphertext): real type
-
+ 
 <span class="cm">/* TLS 1.3 Application Data record layout */</span>
 +------+--------+--------+----------------------------------+----------+
 | 0x17 | 0x0303 | length | Encrypted(application_data +     | auth_tag |
 |  23  | TLS1.2 | 2B     | inner_content_type) — AEAD       | 16B      |
 +------+--------+--------+----------------------------------+----------+
-
+ 
 <span class="cm">/* AEAD inputs for encrypting a record */</span>
 Plaintext:  application_data bytes + inner_content_type (1 byte at end)
 AAD:        TLS record header (5 bytes: type + version + length)
 Key:        write_key (from key schedule)
 Nonce:      write_iv XOR (seq_number as 12-byte big-endian)
-
+ 
 <span class="cm">/* Maximum record size */</span>
 16384 bytes (2^14) of plaintext per record
 + 256 bytes of padding (optional, hides true record size)
 + 16 bytes auth tag
 = up to 16657 bytes per record
-
+ 
 <span class="cm">/* Alert record format (2 bytes inside TLS record) */</span>
 Level:       1=warning, 2=fatal
 Description: 0=close_notify, 10=unexpected_message, 20=bad_record_mac,
              42=bad_certificate, 48=unknown_ca, 70=protocol_version,
              80=internal_error, 100=no_renegotiation, 112=unrecognized_name (SNI)
-
+ 
 <span class="cm">/* Wireshark TLS decryption */</span>
 SSLKEYLOGFILE=/tmp/keys.log curl https://example.com
 <span class="cm"># In Wireshark: Edit → Preferences → TLS → Master-Secret log file → /tmp/keys.log</span>
@@ -301,7 +302,7 @@ TLS_AES_256_GCM_SHA384          (higher security)
 TLS_CHACHA20_POLY1305_SHA256    (mobile/ARM performance)
 TLS_AES_128_CCM_SHA256          (constrained IoT)
 TLS_AES_128_CCM_8_SHA256        (constrained IoT, shorter tag)
-
+ 
 <span class="cm"># Note: no key exchange or auth in TLS 1.3 cipher suites</span>
 <span class="cm"># Key exchange is always ECDHE (negotiated separately in supported_groups)</span>
 <span class="cm"># Authentication is always certificate-based (negotiated in signature_algs)</span></pre></div>
@@ -316,38 +317,38 @@ TLS_AES_128_CCM_8_SHA256        (constrained IoT, shorter tag)
   <div class="cp-hdr"><span class="ico">⚡</span><h3>PSK and 0-RTT Early Data</h3><span class="tag tag-green">0-RTT</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* TLS 1.3 session resumption via PSK (Pre-Shared Key) */</span>
-
+ 
 After a successful TLS 1.3 handshake, the server sends a NewSessionTicket:
   - Contains a PSK (pre-shared key) encrypted with a server-only ticket key
   - Includes a ticket_lifetime (e.g., 7 days)
   - Client stores this opaque blob
-
+ 
 On reconnect, client includes the PSK in ClientHello:
   - pre_shared_key extension: ticket blob
   - psk_key_exchange_modes: psk_dhe_ke (PSK + ephemeral DH — recommended)
                             or psk_ke (PSK only — no forward secrecy!)
   - early_data extension: client wants to send 0-RTT data
-
+ 
 <span class="cm">/* 0-RTT early data — zero round-trip cost */</span>
-
+ 
 Standard 1-RTT:     ClientHello → ServerHello+Cert+Finished → {AppData}
 0-RTT resumption:   ClientHello + {EarlyData} → ServerHello → {AppData}
                     ↑ Application data piggybacks on ClientHello!
-
+ 
 <span class="cm">/* 0-RTT security limitations */</span>
 Replay attack risk:
   Attacker captures ClientHello+EarlyData, replays it to server.
   Server has no way to distinguish replay from original!
-  
+ 
   Mitigations:
   1. Only use 0-RTT for idempotent requests (GET, not POST)
   2. Server-side replay detection (store nonces, use anti-replay window)
   3. Accept risk for non-sensitive use (performance vs security tradeoff)
-
+ 
 0-RTT does NOT provide forward secrecy for early data:
   If PSK ticket key is compromised → early data decryptable
   Post-handshake application data DOES have forward secrecy (ECDHE)
-
+ 
 <span class="cm">/* NGFW considerations for 0-RTT */</span>
 <span class="cm"># 0-RTT early data is encrypted with the early_traffic_key</span>
 <span class="cm"># Without the PSK or TLS session keys, NGFW cannot decrypt 0-RTT</span>
@@ -365,35 +366,35 @@ Replay attack risk:
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Standard TLS: only server is authenticated */</span>
 <span class="cm">/* mTLS (mutual TLS): both server AND client present certificates */</span>
-
+ 
 <span class="cm">/* mTLS handshake additions */</span>
 After sending Certificate + CertificateVerify + Finished, server sends:
   CertificateRequest: list of acceptable CA DNs for client certificates
-
+ 
 Client responds with:
   Certificate: client's X.509 certificate (or empty if none available)
   CertificateVerify: signature over handshake transcript with client private key
   Finished: as normal
-
+ 
 <span class="cm">/* Use cases for mTLS */</span>
 Service mesh (Istio, Linkerd): all microservices authenticate each other
 Zero-trust networks: every connection requires client cert (device identity)
 API security: client apps authenticate with cert instead of API keys
 IoT devices: device certificates for mutual auth to backend
 NGFW policy: require client cert for access to sensitive internal resources
-
+ 
 <span class="cm">/* Configure nginx for mTLS */</span>
 ssl_client_certificate /etc/ssl/ca.pem;  # CA that signed client certs
 ssl_verify_client on;                     # require client cert
 ssl_verify_depth 2;                       # allow one intermediate CA
-
+ 
 <span class="cm">/* OpenSSL mTLS server in C */</span>
 SSL_CTX *ctx = SSL_CTX_new(TLS_server_method());
 SSL_CTX_load_verify_locations(ctx, <span class="cs">"ca.pem"</span>, NULL);
 SSL_CTX_use_certificate_file(ctx, <span class="cs">"server.pem"</span>, SSL_FILETYPE_PEM);
 SSL_CTX_use_PrivateKey_file(ctx, <span class="cs">"server.key"</span>, SSL_FILETYPE_PEM);
 SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT, NULL);
-
+ 
 <span class="cm">/* After SSL_accept(): inspect client certificate */</span>
 X509 *client_cert = SSL_get_peer_certificate(ssl);
 X509_NAME *subj = X509_get_subject_name(client_cert);
@@ -412,26 +413,26 @@ X509_free(client_cert);</pre></div>
   <div class="cp-hdr"><span class="ico">🔬</span><h3>How SSL/TLS Inspection Works</h3><span class="tag tag-red">SSL INSPECTION</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* SSL inspection (TLS MITM proxy) — the NGFW's view */</span>
-
+ 
 Normal TLS:
   Client ←── TLS ──→ Server
   Client trusts server's cert from a real CA
   NGFW sees: encrypted bytes → cannot inspect content
-
+ 
 SSL inspection:
   Client ←── TLS ──→ NGFW ←── TLS ──→ Server
-  
+ 
   NGFW-Server leg:
     NGFW establishes TLS to the real server
     Validates server's real certificate
     NGFW has the session keys → can decrypt/inspect server responses
-  
+ 
   Client-NGFW leg:
     NGFW generates a certificate for the domain
     Signs it with the corporate CA (deployed to all managed devices)
     Client validates against corporate CA → succeeds
     NGFW has these session keys too → can decrypt/inspect client requests
-
+ 
 <span class="cm">/* What SSL inspection reveals */</span>
 Full HTTP URL path (not just hostname)
 All HTTP request/response headers
@@ -439,26 +440,26 @@ Request bodies (POST data, form submissions)
 Response bodies (file downloads → malware scanning)
 WebSocket data
 gRPC payloads
-
+ 
 <span class="cm">/* What SSL inspection breaks */</span>
 Certificate pinning: apps that pin to specific certs (Twitter app, many banking apps)
 HPKP (deprecated): HTTP Public Key Pinning
 Client certificates (mTLS): NGFW must handle client cert forwarding
 QUIC/HTTP3: QUIC encrypts more aggressively, harder to intercept
-
+ 
 <span class="cm">/* NGFW SSL inspection bypass list (do NOT inspect) */</span>
 Banking domains (privacy regulation)
 Healthcare portals (HIPAA)
 Legal/HR applications (attorney-client privilege)
 Apps known to use certificate pinning
 Internal PKI-protected services (use different trust chain)
-
+ 
 <span class="cm">/* Implementing basic TLS termination in C with OpenSSL */</span>
 SSL_CTX *server_ctx = SSL_CTX_new(TLS_server_method());
 <span class="cm">/* Load your generated cert for the target domain */</span>
 SSL_CTX_use_certificate(server_ctx, generated_cert);
 SSL_CTX_use_PrivateKey(server_ctx, generated_key);
-
+ 
 SSL_CTX *client_ctx = SSL_CTX_new(TLS_client_method());
 <span class="cm">/* Connect to real server */</span>
 SSL *client_ssl = SSL_new(client_ctx);

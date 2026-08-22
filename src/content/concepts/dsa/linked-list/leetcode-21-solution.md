@@ -3,6 +3,7 @@ title: "Merge Two Sorted Lists - Solution"
 description: "Merge Two Sorted Lists - Solution LeetCode 21 Difficulty: Easy --- Intuition Both input linked lists are already sorted."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/leetcode-21-solution/
 ---
 

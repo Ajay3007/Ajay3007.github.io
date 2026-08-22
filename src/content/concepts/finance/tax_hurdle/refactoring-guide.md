@@ -3,6 +3,7 @@ title: "Refactoring Guide"
 description: "Tax Hurdle — Code Improvement Refactoring Guide Step-by-step improvements with before/after code examples."
 domain: finance
 order: 99
+ownHeader: true
 url: /learning/finance/tax_hurdle/refactoring-guide/
 ---
 

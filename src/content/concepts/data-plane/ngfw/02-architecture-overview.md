@@ -4,6 +4,7 @@ description: "🧭 Architecture Overview — The Three Planes in Practice [Modul
 domain: data-plane
 track: ngfw
 order: 2
+ownHeader: true
 url: /learning/data-plane/ngfw/architecture-overview/
 ---
 

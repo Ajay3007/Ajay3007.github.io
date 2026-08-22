@@ -4,6 +4,8 @@ description: "System Design Roadmap › HLD Hub › Module B3 › Full Notes ⚡
 domain: system-design
 track: system-design-hld
 order: 107
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b3-notes/
 ---
 

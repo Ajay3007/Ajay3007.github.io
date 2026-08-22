@@ -4,6 +4,8 @@ description: "Track B · HLD Case Study · Module B5 · Week 15 URL Shortener EN
 domain: system-design
 track: system-design-hld
 order: 110
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b5-url-shortener/
 ---
 
@@ -147,16 +149,16 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   <div class="sh">Read Path (redirect — must be &lt;10ms)</div>
   <div class="cb"><div class="cb-top">Step-by-step redirect flow<span class="cb-l">FLOW</span></div>
 <pre class="c">GET /abc1234
-
+ 
 1. Check <span class="hl">in-process cache</span> (Caffeine): ~<span class="ok">100ns</span>
    HIT (60%): return HTTP 302 immediately ✅
-
+ 
 2. Check <span class="hl">Redis cache</span>: ~<span class="ok">0.5ms</span>
    HIT (39%): populate L1 cache, return HTTP 302 ✅
-
+ 
 3. Cache MISS (1%): query <span class="hl">MySQL read replica</span>: ~<span class="am">5ms</span>
    Populate Redis (TTL 24h), populate L1 (TTL 5min), return HTTP 302 ✅
-
+ 
 4. <span class="hl">Async</span> (does NOT block redirect):
    Publish click event to Kafka → Analytics consumer updates click_count</pre>
   </div>
@@ -196,7 +198,7 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   <div class="cb"><div class="cb-top">Encode / decode — implement from scratch in interview<span class="cb-l">JAVA</span></div>
 <pre class="c"><span class="kw">private static final</span> String ALPHABET = <span class="str">"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>;
 <span class="kw">private static final int</span> BASE = <span class="am">62</span>;
-
+ 
 <span class="kw">public static</span> String <span class="fn">encode</span>(<span class="kw">long</span> id) {
     <span class="kw">if</span> (id == <span class="am">0</span>) <span class="kw">return</span> <span class="str">"0"</span>;
     StringBuilder sb = <span class="kw">new</span> StringBuilder();
@@ -206,7 +208,7 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     }
     <span class="kw">return</span> sb.<span class="fn">reverse</span>().<span class="fn">toString</span>();
 }
-
+ 
 <span class="kw">public static long</span> <span class="fn">decode</span>(String code) {
     <span class="kw">long</span> result = <span class="am">0</span>;
     <span class="kw">for</span> (<span class="kw">char</span> c : code.<span class="fn">toCharArray</span>()) {
@@ -214,7 +216,7 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     }
     <span class="kw">return</span> result;
 }
-
+ 
 <span class="cm">// encode(0)         → "0"</span>
 <span class="cm">// encode(62)        → "10"  (like binary: 1×62 + 0)</span>
 <span class="cm">// encode(123456789) → "8M0kX"</span>
@@ -283,14 +285,14 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     <span class="cm">// L1: in-process</span>
     String url = l1Cache.<span class="fn">getIfPresent</span>(shortCode);
     <span class="kw">if</span> (url != <span class="kw">null</span>) <span class="kw">return</span> url;
-
+ 
     <span class="cm">// L2: Redis</span>
     url = redis.<span class="fn">get</span>(<span class="str">"url:"</span> + shortCode);
     <span class="kw">if</span> (url != <span class="kw">null</span>) {
         l1Cache.<span class="fn">put</span>(shortCode, url);    <span class="cm">// populate L1</span>
         <span class="kw">return</span> url;
     }
-
+ 
     <span class="cm">// DB: only 1% of traffic</span>
     UrlRecord rec = db.<span class="fn">findByShortCode</span>(shortCode);
     <span class="kw">if</span> (rec == <span class="kw">null</span> || rec.<span class="fn">isExpired</span>()) <span class="kw">return null</span>;
@@ -298,7 +300,7 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     l1Cache.<span class="fn">put</span>(shortCode, rec.longUrl);
     <span class="kw">return</span> rec.longUrl;
 }
-
+ 
 <span class="cm">// Invalidation: on URL delete</span>
 <span class="kw">public void</span> <span class="fn">deleteUrl</span>(String shortCode) {
     db.<span class="fn">softDelete</span>(shortCode);

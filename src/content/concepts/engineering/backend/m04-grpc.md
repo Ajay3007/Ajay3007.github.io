@@ -4,6 +4,7 @@ description: "Proto3 syntax, all 4 streaming modes, Protobuf wire encoding, gRPC
 domain: engineering
 track: backend
 order: 4
+ownHeader: true
 url: /learning/backend/m04-grpc/
 ---
 

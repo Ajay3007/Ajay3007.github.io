@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 5 · MODULE 22 · WEEK 20 · PHASE 5 F
 domain: networking
 track: networking-mastery
 order: 22
+ownHeader: true
 url: /learning/networking-mastery/m22-ssl-inspection/
 ---
 
@@ -134,17 +135,17 @@ url: /learning/networking-mastery/m22-ssl-inspection/
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Full SSL Inspection Flow</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* SSL Inspection — two separate TLS sessions */</span>
-
+ 
 STEP 1: Client initiates connection
   Client → NGFW: TCP SYN to server IP
   NGFW intercepts (transparent proxy mode — no client config needed)
-
+ 
 STEP 2: NGFW connects to real server
   NGFW → Real Server: TCP connect, TLS ClientHello
   NGFW validates server certificate (chain, expiry, revocation)
   NGFW completes TLS handshake with real server
   NGFW now has session keys → can decrypt all server responses
-
+ 
 STEP 3: NGFW generates certificate for client
   NGFW reads SNI from client's ClientHello (or from server cert)
   NGFW dynamically generates a certificate:
@@ -154,25 +155,25 @@ STEP 3: NGFW generates certificate for client
     Validity: short (24–72 hours, not original cert lifetime)
     Key: new ephemeral key (never the real server's key)
   NGFW signs cert with its private CA key
-
+ 
 STEP 4: NGFW completes TLS with client
   NGFW → Client: TLS ServerHello with generated certificate
   Client validates: checks chain → NGFW cert → NGFW CA → trust store
   Client trusts because NGFW CA was deployed to device trust store
   Client completes TLS handshake with NGFW
-
+ 
 STEP 5: Inspection
   Every HTTP request from client → NGFW decrypts → inspects → forwards to server
   Every HTTP response from server → NGFW decrypts → inspects → forwards to client
   Inspection can: scan for malware, check URLs, apply DLP, log everything
-
+ 
 <span class="cm">/* Transparency — is the client aware? */</span>
 Technical: YES — the certificate presented is signed by NGFW CA, not real CA.
          The certificate serial/key differ from the real server's cert.
          A careful user or security-aware app CAN detect this.
 User-visible: Usually NOT — URL bar still shows padlock, correct hostname.
 Legal: Must inform users that inspection is occurring (employee policy, consent).
-
+ 
 <span class="cm">/* Performance considerations */</span>
 Each SSL inspection = 2× TLS sessions: NGFW-client + NGFW-server
 CPU cost: 2× TLS handshakes per connection
@@ -190,7 +191,7 @@ Session resumption: NGFW must manage its own session cache client-side
   <div class="cp-hdr"><span class="ico">📜</span><h3>Dynamic Certificate Generation with OpenSSL</h3><span class="tag tag-teal">CERT GEN</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Dynamic certificate generation — runs for every new HTTPS connection */</span>
-
+ 
 <span class="ck">int</span> generate_inspection_cert(
         const char *hostname,        <span class="cm">/* from SNI or server cert CN */</span>
         X509 *real_server_cert,      <span class="cm">/* for SAN list preservation */</span>
@@ -201,47 +202,47 @@ Session resumption: NGFW must manage its own session cache client-side
 {
     <span class="cm">/* 1. Generate ephemeral key (EC P-256 for speed) */</span>
     EVP_PKEY *pkey = EVP_EC_gen(<span class="cs">"P-256"</span>);
-
+ 
     <span class="cm">/* 2. Create certificate */</span>
     X509 *cert = X509_new();
     X509_set_version(cert, 2);      <span class="cm">/* version 3 */</span>
-    
+ 
     <span class="cm">/* Random serial number (each cert needs unique serial) */</span>
     BIGNUM *serial = BN_new();
     BN_rand(serial, 64, 0, 0);
     BN_to_ASN1_INTEGER(serial, X509_get_serialNumber(cert));
-    
+ 
     <span class="cm">/* Short validity — 24 hours */</span>
     X509_gmtime_adj(X509_getm_notBefore(cert), 0);
     X509_gmtime_adj(X509_getm_notAfter(cert), 86400);
-    
+ 
     <span class="cm">/* Subject: CN = hostname */</span>
     X509_NAME *name = X509_NAME_new();
     X509_NAME_add_entry_by_txt(name, <span class="cs">"CN"</span>, MBSTRING_ASC,
         (unsigned char *)hostname, -1, -1, 0);
     X509_set_subject_name(cert, name);
-    
+ 
     <span class="cm">/* Issuer: our CA */</span>
     X509_set_issuer_name(cert, X509_get_subject_name(ca_cert));
-    
+ 
     <span class="cm">/* Subject Alt Names — copy from real server cert */</span>
     copy_san_extension(cert, real_server_cert);
-    
+ 
     <span class="cm">/* Key usage */</span>
     add_key_usage(cert, KU_DIGITAL_SIGNATURE | KU_KEY_ENCIPHERMENT);
     add_ext_key_usage(cert, NID_server_auth);
-    
+ 
     <span class="cm">/* Attach public key */</span>
     X509_set_pubkey(cert, pkey);
-    
+ 
     <span class="cm">/* Sign with CA key */</span>
     X509_sign(cert, ca_key, EVP_sha256());
-    
+ 
     *out_cert = cert;
     *out_key  = pkey;
     return 0;
 }
-
+ 
 <span class="cm">/* Performance optimisation: certificate caching */</span>
 <span class="cm">/* Generating a new cert takes ~1ms (EC key gen + sign) */</span>
 <span class="cm">/* Cache by hostname: hash(SNI) → (cert, key) */</span>
@@ -258,48 +259,48 @@ Session resumption: NGFW must manage its own session cache client-side
   <div class="cp-hdr"><span class="ico">🏛️</span><h3>NGFW CA Lifecycle and Deployment</h3><span class="tag tag-purple">CA MANAGEMENT</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Creating the NGFW inspection CA */</span>
-
+ 
 <span class="cm"># Generate 4096-bit RSA CA key (CA key compromise = all inspection certs compromised)</span>
 openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out ngfw-ca.key
-
+ 
 <span class="cm"># Create self-signed CA certificate (10 year validity)</span>
 openssl req -new -x509 -key ngfw-ca.key -out ngfw-ca.crt -days 3650 \
   -subj "/C=IN/O=Jio Platforms/OU=Network Security/CN=Jio NGFW Inspection CA" \
   -extensions v3_ca
-
+ 
 <span class="cm"># Verify CA cert</span>
 openssl x509 -in ngfw-ca.crt -text -noout | grep -A5 "Basic Constraints"
 <span class="cm"># Must show: CA:TRUE</span>
-
+ 
 <span class="cm">/* Security hardening of CA key */</span>
 <span class="cm"># Store CA private key in HSM (Hardware Security Module) if possible</span>
 <span class="cm"># If software: encrypt with strong passphrase, restrict file permissions</span>
 chmod 400 ngfw-ca.key
 <span class="cm"># Or use PKCS#11 engine to access HSM from OpenSSL:</span>
 <span class="cm"># openssl engine pkcs11 -pre MODULE_PATH:/usr/lib/softhsm/libsofthsm2.so</span>
-
+ 
 <span class="cm">/* CA distribution — push to all managed endpoints */</span>
-
+ 
 Windows (Group Policy):
   Computer Configuration → Policies → Windows Settings → Public Key Policies
   → Trusted Root Certification Authorities → Import ngfw-ca.crt
-
+ 
 Linux (system-wide):
   sudo cp ngfw-ca.crt /usr/local/share/ca-certificates/ngfw-ca.crt
   sudo update-ca-certificates
-
+ 
 macOS (MDM):
   Deploy via MDM profile → Certificate payload → Always Trust
-
+ 
 Android/iOS (MDM):
   Deploy via MDM → Certificate profile → Install as trusted CA
-
+ 
 <span class="cm">/* CA rotation — periodic key replacement */</span>
 <span class="cm"># CA key should be rotated every 2-3 years</span>
 <span class="cm"># Process: generate new CA key → deploy new CA cert → phase out old</span>
 <span class="cm"># Overlap period: both CAs active simultaneously during rollout</span>
 <span class="cm"># Use sub-CA: root CA signs a sub-CA cert used for signing; rotate sub-CA annually</span>
-
+ 
 <span class="cm">/* Sub-CA architecture (recommended for enterprise) */</span>
 Offline Root CA (air-gapped, 4096-bit RSA, 20-year cert)
   └── Online Sub-CA (HSM-backed, ECDSA P-384, 5-year cert)
@@ -330,7 +331,7 @@ Offline Root CA (air-gapped, 4096-bit RSA, 20-year cert)
 
 <div class="cb"><pre><span class="cm">/* Bypass decision flowchart in NGFW */</span>
 For each new TLS connection:
-
+ 
 1. Is destination in bypass-by-IP list? → BYPASS
 2. Is destination in bypass-by-domain list? → BYPASS
 3. Is URL category in bypass-category list? → BYPASS
@@ -339,21 +340,21 @@ For each new TLS connection:
 6. Does server cert use domain-validated DV from known CA? → INSPECT
 7. Is client in inspection-exempt group? → BYPASS
 8. Default: INSPECT
-
+ 
 <span class="cm">/* Squeezing more visibility without full inspection */</span>
 <span class="cm">/* Even without decryption, TLS metadata reveals a lot: */</span>
-
+ 
 JA3/JA3S fingerprint:
   Hash of TLS ClientHello parameters (cipher suites, extensions, curves)
   Identifies the TLS client library (Chrome, Firefox, curl, Python, malware)
   Malware often has distinctive JA3 hashes
   JA3 = MD5(SSLVersion, Ciphers, Extensions, EllipticCurves, EllipticCurveFormats)
-
+ 
 Certificate analysis:
   Self-signed cert for common domains → likely malware C2
   Cert issued <1 hour ago → suspicious (malware uses short-lived Let's Encrypt certs)
   Cert from unknown CA → block or alert
-
+ 
 QUIC/HTTP3 detection:
   Alt-Svc header in HTTP response suggests QUIC support
   NGFW must block UDP 443 to force HTTP/2 (for inspection)
@@ -372,44 +373,44 @@ QUIC/HTTP3 detection:
 App embeds expected certificate or public key directly in its binary.
 On each TLS connection: compares server cert to pinned value.
 If mismatch → connection refused (even if chain validates correctly).
-
+ 
 Types:
   Leaf pinning:   pin the exact leaf certificate
   Public key pin: pin the subject public key (survives cert renewal)
   CA pin:         pin a specific CA — accepts any cert from that CA only
   SPKI pin:       Subject Public Key Info hash (RFC 7469 HPKP — now deprecated)
-
+ 
 Result with SSL inspection:
   NGFW presents forged cert signed by NGFW CA, with different key.
   Pinned app: "Expected key X, got key Y" → TLS abort.
   App logs: "Certificate validation failed" / "SSL error" / silent failure.
-
+ 
 <span class="cm">/* Detection: how to identify pinned apps */</span>
 <span class="cm"># Symptom: app works without SSL inspection, fails with inspection</span>
 <span class="cm"># Test: enable inspection → app fails; disable → app works</span>
 <span class="cm"># Tool: mitmproxy bypass detection log</span>
 <span class="cm"># Android: frida-based SSLUnpinning script (for testing/research)</span>
-
+ 
 <span class="cm">/* NGFW handling strategies */</span>
-
+ 
 Option 1: Bypass list (most practical)
   Add known-pinning apps/domains to bypass list.
   Risk: bypass allows uninspected traffic.
   Examples: Twitter app, Facebook app, many banking apps, Signal, WhatsApp.
-
+ 
 Option 2: MDM enforcement
   Deploy MDM policy that disables cert pinning override.
   Only works for MDM-managed devices — not personal devices.
-
+ 
 Option 3: Application block
   If app uses pinning and you can't inspect it → block the app entirely.
   Heavy-handed but used for high-security environments.
-
+ 
 Option 4: Zero-trust network access (ZTNA)
   Replace SSL inspection with ZTNA agent on endpoint.
   Agent inspects traffic before it leaves the device (no MITM needed).
   Increasingly the modern alternative to network-based SSL inspection.
-
+ 
 <span class="cm">/* Known apps using certificate pinning (partial list) */</span>
 Strong pinning: WhatsApp, Signal, most banking apps, Twitter native app
 Partial pinning: Chrome (HSTS preload), Firefox (for mozilla.org)
@@ -427,56 +428,56 @@ Historical: Google Chrome (Chrome pins Symantec certs — removed 2018)</pre></d
 <div class="cb"><pre><span class="cm">/* Current TLS: SNI is cleartext */</span>
 ClientHello contains:
   server_name (SNI) extension: "accounts.google.com"  ← VISIBLE TO NGFW
-
+ 
 This allows:
   - NGFW URL filtering by hostname
   - ISP traffic monitoring
   - Country-level censorship
   - Passive TLS fingerprinting
-
+ 
 <span class="cm">/* ECH — Encrypted ClientHello (TLS 1.3 extension, draft RFC) */</span>
 New model:
   Outer ClientHello: SNI = "cloudflare.com" (the CDN/front)  ← visible
   Inner ClientHello: SNI = "accounts.google.com"              ← ENCRYPTED
-
+ 
 How:
   Server publishes an ECH public key in DNS (HTTPS record type 65)
   Client fetches ECH key via DoH (bypassing ISP DNS)
   Client encrypts inner ClientHello with ECH public key
   Only the target server (with ECH private key) can decrypt inner ClientHello
-
+ 
 <span class="cm">/* ECH impact on NGFW */</span>
 Without SSL inspection: NGFW sees only outer SNI (CDN domain, not real destination)
                         URL filtering by hostname becomes impossible for ECH sites
                         Malware can hide its C2 domain behind Cloudflare/CDN with ECH
-
+ 
 With SSL inspection: NGFW terminates TLS before ECH → can still decrypt everything
                      But NGFW must now connect to CDN as outer client,
                      then somehow route to real backend — complex for transparent proxy
-
+ 
 <span class="cm">/* Current status (2025) */</span>
 ECH is in RFC draft stage (draft-ietf-tls-esni)
 Cloudflare, Fastly deploying ECH for their customers
 Firefox and Chrome have ECH support behind flags or partial rollout
 Major browser adoption + CDN deployment = ECH becomes common by 2026-2027
-
+ 
 <span class="cm">/* NGFW strategic responses to ECH */</span>
 1. DNS-based filtering:
    Block DNS HTTPS records (type 65) → ECH key not available → fallback to plain SNI
    Risk: browsers may treat as network error and retry with DoH
-
+ 
 2. TLS fingerprint-based detection:
    JA4+ fingerprints identify TLS libraries even without SNI
    Combine with IP reputation, QUIC fingerprinting
-
+ 
 3. Endpoint-based inspection (ZTNA agent):
    Agent on endpoint can inspect before encryption
    Avoids the network MITM problem entirely
-
+ 
 4. DNS-over-HTTPS interception:
    Intercept all DoH queries (force internal resolver)
    Prevents ECH key retrieval for controlled environments
-
+ 
 <span class="cm">/* Takeaway for NGFW engineers */</span>
 <span class="cm"># The long-term trend is toward more encryption, not less</span>
 <span class="cm"># ECH + QUIC + DoH create a world where network-based inspection weakens</span>

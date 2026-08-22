@@ -3,6 +3,7 @@ title: "System Design Fundamentals"
 description: "📖 Fundamentals Core concepts and principles for system design."
 domain: system-design
 order: 0
+ownHeader: true
 url: /learning/system-design/fundamentals/
 ---
 

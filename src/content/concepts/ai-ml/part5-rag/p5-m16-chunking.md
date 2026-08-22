@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part5-rag
 order: 516
+ownHeader: true
 url: /learning/ai-ml/part5-rag/p5-m16-chunking/
 ---
 
@@ -178,7 +179,7 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
 <span class="ck"># → embedding captures a complete idea</span>
 <span class="ck"># → LLM gets enough context to answer</span>
 <span class="ck"># → small enough for high precision retrieval</span>
-
+ 
 <span class="ck"># The overlap problem:</span>
 <span class="ck"># Without overlap — answers that span chunk boundaries are lost</span>
 <span class="ck"># "The mempool must be... [CHUNK BOUNDARY] ...initialised before the port"</span>
@@ -245,14 +246,14 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
     <h4>Overlap — How Much?</h4>
     <div class="cb"><pre><span class="ck"># Overlap = how many tokens repeat between adjacent chunks</span>
 <span class="ck"># Rule of thumb: 10–20% of chunk size</span>
-
+ 
 chunk_size = <span class="cv">500</span>   <span class="ck"># tokens</span>
 overlap    = <span class="cv">50</span>    <span class="ck"># tokens — 10% overlap</span>
-
+ 
 <span class="ck"># Chunk 1: tokens 0-500</span>
 <span class="ck"># Chunk 2: tokens 450-950  (50 token overlap)</span>
 <span class="ck"># Chunk 3: tokens 900-1400 (50 token overlap)</span>
-
+ 
 <span class="ck"># Too little overlap (0): boundary-spanning answers lost</span>
 <span class="ck"># Too much overlap (50%): doubles storage, slows indexing, redundant retrieval</span>
 <span class="ck"># Sweet spot: 50-100 tokens for chunk_size=500</span></pre></div>
@@ -282,7 +283,7 @@ overlap    = <span class="cv">50</span>    <span class="ck"># tokens — 10% ove
   <div class="cp-hdr"><span class="ico">🔧</span><h3>LangChain Text Splitters — The Standard Toolkit</h3><span class="tag tag-emerald">Production Tools</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install langchain langchain-text-splitters tiktoken
-
+ 
 from langchain_text_splitters import (
     RecursiveCharacterTextSplitter,
     CharacterTextSplitter,
@@ -290,7 +291,7 @@ from langchain_text_splitters import (
     PythonCodeTextSplitter,
     TokenTextSplitter,
 )
-
+ 
 <span class="ck"># ── 1. RecursiveCharacterTextSplitter — your default ──</span>
 <span class="ck"># Tries to split on: \n\n, \n, " ", "" in that order</span>
 <span class="ck"># Produces naturally bounded chunks (paragraphs, then sentences)</span>
@@ -302,7 +303,7 @@ splitter = RecursiveCharacterTextSplitter(
 )
 chunks = splitter.split_text(long_text)
 print(<span class="cs">f"{len(chunks)} chunks, avg length: {sum(len(c) for c in chunks)//len(chunks)}"</span>)
-
+ 
 <span class="ck"># ── 2. Token-based splitting (recommended for LLM context) ──</span>
 <span class="ck"># Characters are misleading — tokens are what the LLM actually counts</span>
 splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
@@ -311,10 +312,10 @@ splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
     chunk_overlap=<span class="cv">40</span>       <span class="ck"># TOKENS of overlap</span>
 )
 chunks = splitter.split_text(long_text)
-
+ 
 <span class="ck"># ── 3. Document splitting — preserves metadata ───────</span>
 from langchain_core.documents import Document
-
+ 
 docs = [Document(page_content=text, metadata={<span class="cs">"source"</span>: <span class="cs">"dpdk_guide.pdf"</span>, <span class="cs">"page"</span>: <span class="cv">1</span>})]
 split_docs = splitter.split_documents(docs)
 <span class="ck"># Each chunk keeps metadata from parent document</span>
@@ -327,7 +328,7 @@ print(split_docs[<span class="cv">0</span>].metadata)   <span class="ck"># {"sou
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># ── Markdown — split on headers ───────────────────────</span>
 from langchain_text_splitters import MarkdownHeaderTextSplitter
-
+ 
 headers_to_split_on = [
     (<span class="cs">"#"</span>,  <span class="cs">"h1"</span>),
     (<span class="cs">"##"</span>, <span class="cs">"h2"</span>),
@@ -337,23 +338,23 @@ md_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on
 md_docs = md_splitter.split_text(markdown_text)
 <span class="ck"># Each doc has metadata: {"h1": "DPDK Guide", "h2": "Memory Management"}</span>
 <span class="ck"># This lets you filter by section during retrieval</span>
-
+ 
 <span class="ck"># Then apply size-based splitting to large sections</span>
 secondary_splitter = RecursiveCharacterTextSplitter(chunk_size=<span class="cv">500</span>, chunk_overlap=<span class="cv">50</span>)
 final_chunks = secondary_splitter.split_documents(md_docs)
-
+ 
 <span class="ck"># ── Python code — split on function/class boundaries ──</span>
 python_splitter = PythonCodeTextSplitter(chunk_size=<span class="cv">1000</span>, chunk_overlap=<span class="cv">0</span>)
 code_chunks = python_splitter.split_text(python_source_code)
 <span class="ck"># Splits at: class def, def, comments, then fallback to character</span>
-
+ 
 <span class="ck"># ── Custom separators for any format ──────────────────</span>
 <span class="ck"># C/C++ code</span>
 cpp_splitter = RecursiveCharacterTextSplitter(
     separators=[<span class="cs">"\n\n"</span>, <span class="cs">"\nvoid "</span>, <span class="cs">"\nstatic "</span>, <span class="cs">"\nint "</span>, <span class="cs">"\n"</span>, <span class="cs">" "</span>],
     chunk_size=<span class="cv">800</span>, chunk_overlap=<span class="cv">80</span>
 )
-
+ 
 <span class="ck"># RST documentation</span>
 rst_splitter = RecursiveCharacterTextSplitter(
     separators=[<span class="cs">"\n\n\n"</span>, <span class="cs">"\n\n"</span>, <span class="cs">".. "</span>, <span class="cs">"\n"</span>],
@@ -366,21 +367,21 @@ rst_splitter = RecursiveCharacterTextSplitter(
   <div class="cp-hdr"><span class="ico">🧠</span><h3>Semantic Chunking — Split on Topic Changes</h3><span class="tag tag-teal">Highest Quality</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install langchain-experimental
-
+ 
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_openai import OpenAIEmbeddings
-
+ 
 <span class="ck"># SemanticChunker splits where embedding similarity drops</span>
 <span class="ck"># → natural topic boundaries, not arbitrary character counts</span>
 embeddings = OpenAIEmbeddings(model=<span class="cs">"text-embedding-3-small"</span>)
-
+ 
 semantic_splitter = SemanticChunker(
     embeddings,
     breakpoint_threshold_type=<span class="cs">"percentile"</span>,  <span class="ck"># "percentile" | "standard_deviation" | "interquartile"</span>
     breakpoint_threshold_amount=<span class="cv">95</span>           <span class="ck"># split where similarity drop is in top 5%</span>
 )
 chunks = semantic_splitter.split_text(long_text)
-
+ 
 <span class="ck"># Trade-offs vs recursive:</span>
 <span class="ck"># ✓ Better topical coherence — each chunk covers one idea</span>
 <span class="ck"># ✓ Variable chunk sizes adapt to content</span>
@@ -401,10 +402,10 @@ chunks = semantic_splitter.split_text(long_text)
   <div class="cp-hdr"><span class="ico">📄</span><h3>Loading Documents — PDF, DOCX, HTML, Markdown</h3><span class="tag tag-emerald">Source Agnostic</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install pymupdf python-docx beautifulsoup4 unstructured
-
+ 
 <span class="ck"># ── PDF — PyMuPDF (fastest, best quality) ────────────</span>
 import fitz   <span class="ck"># PyMuPDF</span>
-
+ 
 def load_pdf(path: str) -> list[dict]:
     """Load PDF, return list of {text, page, source} dicts."""
     doc = fitz.open(path)
@@ -419,19 +420,19 @@ def load_pdf(path: str) -> list[dict]:
             })
     doc.close()
     return pages
-
+ 
 <span class="ck"># ── DOCX ─────────────────────────────────────────────</span>
 from docx import Document as DocxDocument
-
+ 
 def load_docx(path: str) -> str:
     doc = DocxDocument(path)
     paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
     return <span class="cs">"\n\n"</span>.join(paragraphs)
-
+ 
 <span class="ck"># ── HTML ─────────────────────────────────────────────</span>
 from bs4 import BeautifulSoup
 import requests
-
+ 
 def load_html(url: str) -> str:
     response = requests.get(url, timeout=<span class="cv">10</span>)
     soup = BeautifulSoup(response.text, <span class="cs">"html.parser"</span>)
@@ -439,17 +440,17 @@ def load_html(url: str) -> str:
     for tag in soup.find_all([<span class="cs">"script"</span>, <span class="cs">"style"</span>, <span class="cs">"nav"</span>, <span class="cs">"footer"</span>, <span class="cs">"header"</span>]):
         tag.decompose()
     return soup.get_text(separator=<span class="cs">"\n"</span>, strip=<span class="cv">True</span>)
-
+ 
 <span class="ck"># ── Markdown ──────────────────────────────────────────</span>
 from pathlib import Path
-
+ 
 def load_markdown(path: str) -> str:
     return Path(path).read_text(encoding=<span class="cs">"utf-8"</span>)
-
+ 
 <span class="ck"># ── Directory loader — batch ingest ───────────────────</span>
 import os
 from pathlib import Path
-
+ 
 def load_directory(dir_path: str, extensions: list[str] = [<span class="cs">".txt"</span>, <span class="cs">".md"</span>, <span class="cs">".pdf"</span>]) -> list[dict]:
     docs = []
     for path in Path(dir_path).rglob(<span class="cs">"*"</span>):
@@ -471,25 +472,25 @@ def load_directory(dir_path: str, extensions: list[str] = [<span class="cs">".tx
   <div class="cp-hdr"><span class="ico">🧹</span><h3>Text Cleaning — Remove Noise Before Chunking</h3><span class="tag tag-blue">Quality Gate</span></div>
   <div class="cp-body">
     <div class="cb"><pre>import re
-
+ 
 def clean_text(text: str) -> str:
     """Clean extracted text before chunking."""
     <span class="ck"># Remove excessive whitespace</span>
     text = re.sub(r<span class="cs">'\s+'</span>, <span class="cs">' '</span>, text)           <span class="ck"># collapse spaces/tabs</span>
     text = re.sub(r<span class="cs">'\n{3,}'</span>, <span class="cs">'\n\n'</span>, text)     <span class="ck"># max 2 consecutive newlines</span>
-
+ 
     <span class="ck"># Remove PDF artefacts (page numbers, headers, footers)</span>
     text = re.sub(r<span class="cs">'\nPage \d+ of \d+\n'</span>, <span class="cs">'\n'</span>, text)
     text = re.sub(r<span class="cs">'\n\d+\n'</span>, <span class="cs">'\n'</span>, text)        <span class="ck"># standalone page numbers</span>
-
+ 
     <span class="ck"># Remove non-printable characters</span>
     text = re.sub(r<span class="cs">'[^\x20-\x7E\n]'</span>, <span class="cs">' '</span>, text)
-
+ 
     <span class="ck"># Remove URLs if not relevant</span>
     <span class="ck"># text = re.sub(r'https?://\S+', '', text)</span>
-
+ 
     return text.strip()
-
+ 
 def is_noise_chunk(chunk: str, min_words: int = <span class="cv">10</span>) -> bool:
     """Return True if the chunk is too short or mostly noise to be useful."""
     words = chunk.split()
@@ -500,7 +501,7 @@ def is_noise_chunk(chunk: str, min_words: int = <span class="cv">10</span>) -> b
     if alpha_ratio < <span class="cv">0.4</span>:
         return <span class="cv">True</span>
     return <span class="cv">False</span>
-
+ 
 <span class="ck"># Filter after chunking</span>
 chunks = [c for c in raw_chunks if not is_noise_chunk(c)]</pre></div>
   </div>
@@ -510,14 +511,14 @@ chunks = [c for c in raw_chunks if not is_noise_chunk(c)]</pre></div>
   <div class="cp-hdr"><span class="ico">📦</span><h3>Unstructured — Universal Document Parser</h3><span class="tag tag-teal">Production Grade</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install unstructured[all-docs]
-
+ 
 from unstructured.partition.auto import partition
 from unstructured.chunking.title import chunk_by_title
-
+ 
 <span class="ck"># Auto-detect format and extract elements</span>
 <span class="ck"># Works for: PDF, DOCX, HTML, PPTX, XLSX, EML, images (with OCR)</span>
 elements = partition(filename=<span class="cs">"document.pdf"</span>)
-
+ 
 <span class="ck"># Each element has a type and metadata</span>
 for elem in elements[:5]:
     print(f<span class="cs">"{elem.category:15} | {str(elem)[:60]}"</span>)
@@ -525,7 +526,7 @@ for elem in elements[:5]:
 <span class="ck"># NarrativeText   | This guide explains the Data Plane Development Kit</span>
 <span class="ck"># Table           | | Feature | Status | Notes |</span>
 <span class="ck"># Image           | [Image: figure1.png]</span>
-
+ 
 <span class="ck"># Chunk by section title — respects document structure</span>
 chunks = chunk_by_title(
     elements,
@@ -533,7 +534,7 @@ chunks = chunk_by_title(
     new_after_n_chars=<span class="cv">800</span>,
     combine_text_under_n_chars=<span class="cv">200</span>
 )
-
+ 
 <span class="ck"># Convert to dicts for ingestion</span>
 for chunk in chunks:
     text = str(chunk)
@@ -560,7 +561,7 @@ chunk_metadata = {
     <span class="cs">"chunk_idx"</span>:   <span class="cv">42</span>,                <span class="ck"># position in document</span>
     <span class="cs">"char_count"</span>:  <span class="cv">487</span>,
 }
-
+ 
 <span class="ck"># Good metadata per chunk (for serious RAG)</span>
 chunk_metadata = {
     <span class="cs">"source"</span>:      <span class="cs">"dpdk-programmers-guide-v23.pdf"</span>,
@@ -575,7 +576,7 @@ chunk_metadata = {
     <span class="cs">"language"</span>:    <span class="cs">"en"</span>,
     <span class="cs">"token_count"</span>: <span class="cv">412</span>,
 }
-
+ 
 <span class="ck"># For web content</span>
 web_chunk_metadata = {
     <span class="cs">"url"</span>:         <span class="cs">"https://doc.dpdk.org/guides/prog_guide/mempool_lib.html"</span>,
@@ -593,21 +594,21 @@ web_chunk_metadata = {
     <p>Anthropic published a technique (2024) that dramatically improves retrieval: before embedding each chunk, prepend a short LLM-generated summary that situates the chunk within the full document. This gives the embedding model more context to work with.</p>
     <div class="cb"><pre><span class="ck"># Contextual Retrieval — add document context to each chunk before embedding</span>
 <span class="ck"># Cost: 1 cheap LLM call per chunk (use Haiku). Quality gain: significant.</span>
-
+ 
 CONTEXT_PROMPT = <span class="cs">"""&lt;document&gt;
 {full_document}
 &lt;/document&gt;
-
+ 
 The chunk below is part of this document. Write a short 1-2 sentence
 context that situates this chunk within the document. Focus on what
 section this is from and what concept it explains.
-
+ 
 &lt;chunk&gt;
 {chunk}
 &lt;/chunk&gt;
-
+ 
 Context:"""</span>
-
+ 
 async def add_context(chunk: str, full_doc: str) -> str:
     """Prepend LLM-generated context to chunk before embedding."""
     response = await haiku_client.messages.create(
@@ -620,7 +621,7 @@ async def add_context(chunk: str, full_doc: str) -> str:
     )
     context = response.content[<span class="cv">0</span>].text.strip()
     return <span class="cs">f"{context}\n\n{chunk}"</span>   <span class="ck"># context-enriched chunk ready to embed</span>
-
+ 
 <span class="ck"># Apply to all chunks before embedding</span>
 async def enrich_chunks(chunks: list[str], full_doc: str) -> list[str]:
     return await asyncio.gather(*[add_context(c, full_doc) for c in chunks])</pre></div>
@@ -644,7 +645,7 @@ from typing import Optional
 import chromadb
 from chromadb.utils import embedding_functions
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-
+ 
 @dataclass
 class IngestionConfig:
     chunk_size:    int   = <span class="cv">500</span>
@@ -654,7 +655,7 @@ class IngestionConfig:
     collection_name: str = <span class="cs">"documents"</span>
     chroma_path:    str  = <span class="cs">"./chroma_db"</span>
     add_context:    bool = <span class="cv">False</span>   <span class="ck"># enable LLM context enrichment</span>
-
+ 
 class DocumentIngestionPipeline:
     def __init__(self, config: IngestionConfig = IngestionConfig()):
         self.config   = config
@@ -673,26 +674,26 @@ class DocumentIngestionPipeline:
             embedding_function=self.ef,
             metadata={<span class="cs">"hnsw:space"</span>: <span class="cs">"cosine"</span>}
         )
-
+ 
     def _doc_id(self, text: str, meta: dict) -> str:
         """Stable ID based on content hash — prevents duplicate ingestion."""
         key = json.dumps({<span class="cs">"text"</span>: text, <span class="cs">"source"</span>: meta.get(<span class="cs">"source"</span>, <span class="cs">""</span>)})
         return hashlib.md5(key.encode()).hexdigest()
-
+ 
     def ingest_text(self, text: str, metadata: dict = {}) -> int:
         """Ingest a single text string. Returns number of chunks added."""
         <span class="ck"># Clean</span>
         text = clean_text(text)
         if not text.strip():
             return <span class="cv">0</span>
-
+ 
         <span class="ck"># Chunk</span>
         chunks = self.splitter.split_text(text)
         chunks = [c for c in chunks if len(c) >= self.config.min_chunk_len]
-
+ 
         if not chunks:
             return <span class="cv">0</span>
-
+ 
         <span class="ck"># Build IDs, documents, metadatas</span>
         ids, docs, metas = [], [], []
         for i, chunk in enumerate(chunks):
@@ -706,16 +707,16 @@ class DocumentIngestionPipeline:
             ids.append(self._doc_id(chunk, chunk_meta))
             docs.append(chunk)
             metas.append(chunk_meta)
-
+ 
         <span class="ck"># Add to ChromaDB (skips existing IDs automatically)</span>
         self.collection.upsert(ids=ids, documents=docs, metadatas=metas)
         return len(chunks)
-
+ 
     def ingest_file(self, path: str) -> int:
         """Auto-detect file type and ingest."""
         path = Path(path)
         meta = {<span class="cs">"source"</span>: str(path), <span class="cs">"filename"</span>: path.name}
-
+ 
         if path.suffix == <span class="cs">".pdf"</span>:
             total = <span class="cv">0</span>
             for page in load_pdf(str(path)):
@@ -727,9 +728,9 @@ class DocumentIngestionPipeline:
             text = path.read_text(encoding=<span class="cs">"utf-8"</span>)
         else:
             raise ValueError(<span class="cs">f"Unsupported file type: {path.suffix}"</span>)
-
+ 
         return self.ingest_text(text, meta)
-
+ 
     def ingest_directory(self, dir_path: str) -> dict:
         """Ingest all supported files in a directory."""
         results = {<span class="cs">"files"</span>: <span class="cv">0</span>, <span class="cs">"chunks"</span>: <span class="cv">0</span>, <span class="cs">"errors"</span>: []}
@@ -742,7 +743,7 @@ class DocumentIngestionPipeline:
                 except Exception as e:
                     results[<span class="cs">"errors"</span>].append({<span class="cs">"file"</span>: str(path), <span class="cs">"error"</span>: str(e)})
         return results
-
+ 
     def query(self, text: str, n_results: int = <span class="cv">5</span>, where: dict = None) -> list[dict]:
         """Semantic search — returns list of {text, score, metadata}."""
         kwargs = {<span class="cs">"query_texts"</span>: [text], <span class="cs">"n_results"</span>: n_results,

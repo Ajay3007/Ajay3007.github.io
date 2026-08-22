@@ -3,6 +3,7 @@ title: "Processes"
 description: "[Processes]( processes) --- --- Processes Key ideas, algorithms, and pitfalls."
 domain: systems
 order: 99
+ownHeader: true
 url: /learning/operating-systems/processes/
 ---
 

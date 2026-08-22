@@ -4,6 +4,7 @@ description: "Module 10 — NIC Port Initialization Reference code — requires 
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-10-port-init/
 ---
 

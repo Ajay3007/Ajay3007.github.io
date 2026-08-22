@@ -3,6 +3,7 @@ title: "Examples"
 description: "[Lambda Examples (Runnable C++ files)]( lambda-examples-runnable-c-files) 1.1."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/cpp/lambda-functions/examples/
 ---
 

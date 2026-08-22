@@ -3,6 +3,7 @@ title: "Static Methods in Java"
 description: "Static Methods in Java Complete guide to static methods, method hiding, overriding behavior, and design considerations."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/01-basics/static-method/
 ---
 

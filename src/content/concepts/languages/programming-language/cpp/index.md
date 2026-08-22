@@ -3,6 +3,7 @@ title: "C++ Language"
 description: "[[Lambda Functions](/learning/programming-language/cpp/lambda-functions)]( lambda-functions-lambda-functions-index-md) --- 🎯 Main Topics Covered 1."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/cpp/
 ---
 

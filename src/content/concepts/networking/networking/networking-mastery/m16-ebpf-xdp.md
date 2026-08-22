@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 4 · MODULE 16 · WEEK 14 🔮 eBPF an
 domain: networking
 track: networking-mastery
 order: 16
+ownHeader: true
 url: /learning/networking-mastery/m16-ebpf-xdp/
 ---
 
@@ -153,40 +154,40 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
   r1-r5: function arguments (calling convention)
   r6-r9: callee-saved (preserved across helper calls)
   r10: read-only frame pointer (stack base)
-
+ 
 512 bytes of stack space per eBPF program
 Pointer arithmetic allowed but bounds-checked by verifier
 No unbounded loops (kernel ≥5.3 allows bounded loops)
 Max instruction count: 1 million (kernel ≥5.2)
-
+ 
 <span class="cm">/* eBPF program lifecycle */</span>
-
+ 
 1. Write eBPF program in C with restricted syntax
    (No: user function calls, global vars, unbounded loops)
-
+ 
 2. Compile with clang + libbpf:
    clang -O2 -target bpf -c prog.c -o prog.o
-
+ 
 3. Load into kernel via bpf() syscall:
    bpf(BPF_PROG_LOAD, &attr, sizeof(attr))
-
+ 
 4. Verifier validates:
    - All code paths terminate (DAG, no infinite loops)
    - All memory accesses in bounds
    - Helper function signatures correct
    - Pointer arithmetic safe
    If verification fails: EACCES/EINVAL with verifier log
-
+ 
 5. JIT compiler: eBPF bytecode → native x86-64 machine code
    Zero interpretation overhead at runtime
-
+ 
 6. Attach to hook point:
    XDP: bpf_set_link_xdp_fd(ifindex, prog_fd, flags)
    TC:  tc filter add dev eth0 ingress bpf obj prog.o
-
+ 
 7. Program executes for every packet at hook point
    Returns action code (XDP_DROP, XDP_PASS, etc.)
-
+ 
 <span class="cm">/* eBPF helper functions */</span>
 <span class="cm"># eBPF programs cannot call arbitrary kernel functions</span>
 <span class="cm"># They call only whitelisted "helper functions"</span>
@@ -216,7 +217,7 @@ BPF_MAP_TYPE_PERCPU_HASH: Per-CPU hash (no lock contention)
 BPF_MAP_TYPE_PERF_EVENT_ARRAY: Send events to userspace perf ring
 BPF_MAP_TYPE_RINGBUF:    Lock-free ring buffer (kernel 5.8+)
 BPF_MAP_TYPE_DEVMAP:     Interface index map for XDP_REDIRECT
-
+ 
 <span class="cm">/* Defining a map in eBPF C program */</span>
 <span class="ck">struct</span> {
     __uint(type,        BPF_MAP_TYPE_HASH);
@@ -224,7 +225,7 @@ BPF_MAP_TYPE_DEVMAP:     Interface index map for XDP_REDIRECT
     __type(key,         __u32);     <span class="cm">/* src IP */</span>
     __type(value,       __u64);     <span class="cm">/* packet count */</span>
 } pkt_count SEC(<span class="cs">".maps"</span>);
-
+ 
 <span class="cm">/* Using the map in eBPF program */</span>
 __u32 src_ip = iph->saddr;
 __u64 *count = bpf_map_lookup_elem(&pkt_count, &src_ip);
@@ -234,18 +235,18 @@ __u64 *count = bpf_map_lookup_elem(&pkt_count, &src_ip);
     __u64 one = 1;
     bpf_map_update_elem(&pkt_count, &src_ip, &one, BPF_ANY);
 }
-
+ 
 <span class="cm">/* Reading map from userspace (libbpf) */</span>
 <span class="ck">struct</span> bpf_object *obj = bpf_object__open(<span class="cs">"prog.o"</span>);
 bpf_object__load(obj);
 <span class="ck">struct</span> bpf_map *map = bpf_object__find_map_by_name(obj, <span class="cs">"pkt_count"</span>);
 <span class="ck">int</span> map_fd = bpf_map__fd(map);
-
+ 
 __u32 key = inet_addr(<span class="cs">"192.168.1.5"</span>);
 __u64 value;
 bpf_map_lookup_elem(map_fd, &key, &value);
 printf(<span class="cs">"Packets from 192.168.1.5: %llu\n"</span>, value);
-
+ 
 <span class="cm">/* BPF LPM trie for IP blocklist */</span>
 <span class="ck">struct</span> lpm_key {
     __u32 prefixlen;
@@ -272,7 +273,7 @@ bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
 #include &lt;linux/ip.h&gt;
 #include &lt;bpf/bpf_helpers.h&gt;
 #include &lt;bpf/bpf_endian.h&gt;</span>
-
+ 
 <span class="cm">/* Map: blocked source IPs → 1 */</span>
 <span class="ck">struct</span> {
     __uint(type,        BPF_MAP_TYPE_HASH);
@@ -280,7 +281,7 @@ bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
     __type(key,         __u32);  <span class="cm">/* IPv4 src addr */</span>
     __type(value,       __u8);   <span class="cm">/* 1 = blocked */</span>
 } blocklist SEC(<span class="cs">".maps"</span>);
-
+ 
 <span class="cm">/* Map: per-IP packet counters */</span>
 <span class="ck">struct</span> {
     __uint(type,        BPF_MAP_TYPE_PERCPU_HASH);
@@ -288,29 +289,29 @@ bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
     __type(key,         __u32);
     __type(value,       __u64);
 } pkt_stats SEC(<span class="cs">".maps"</span>);
-
+ 
 SEC(<span class="cs">"xdp"</span>)
 <span class="ck">int</span> xdp_firewall_prog(<span class="ck">struct</span> xdp_md *ctx)
 {
     <span class="ck">void</span> *data_end = (void *)(long)ctx->data_end;
     <span class="ck">void</span> *data     = (void *)(long)ctx->data;
-
+ 
     <span class="cm">/* Parse Ethernet header */</span>
     <span class="ck">struct</span> ethhdr *eth = data;
     <span class="ck">if</span> (data + sizeof(*eth) > data_end)
         return XDP_DROP;  <span class="cm">/* malformed — drop */</span>
-
+ 
     <span class="cm">/* Only handle IPv4 */</span>
     <span class="ck">if</span> (eth->h_proto != bpf_htons(ETH_P_IP))
         return XDP_PASS;
-
+ 
     <span class="cm">/* Parse IP header */</span>
     <span class="ck">struct</span> iphdr *iph = data + sizeof(*eth);
     <span class="ck">if</span> (data + sizeof(*eth) + sizeof(*iph) > data_end)
         return XDP_DROP;
-
+ 
     __u32 src = iph->saddr;
-
+ 
     <span class="cm">/* Update per-IP packet counter */</span>
     __u64 *stat = bpf_map_lookup_elem(&pkt_stats, &src);
     <span class="ck">if</span> (stat) {
@@ -319,17 +320,17 @@ SEC(<span class="cs">"xdp"</span>)
         __u64 one = 1;
         bpf_map_update_elem(&pkt_stats, &src, &one, BPF_NOEXIST);
     }
-
+ 
     <span class="cm">/* Check blocklist */</span>
     __u8 *blocked = bpf_map_lookup_elem(&blocklist, &src);
     <span class="ck">if</span> (blocked && *blocked == 1)
         return XDP_DROP;
-
+ 
     return XDP_PASS;
 }
-
+ 
 char _license[] SEC(<span class="cs">"license"</span>) = <span class="cs">"GPL"</span>;
-
+ 
 <span class="cm">/* Compile and load */</span>
 <span class="cm">// clang -O2 -target bpf -c xdp_firewall.c -o xdp_firewall.o</span>
 <span class="cm">// ip link set dev eth0 xdp obj xdp_firewall.o sec xdp</span>
@@ -346,20 +347,20 @@ char _license[] SEC(<span class="cs">"license"</span>) = <span class="cs">"GPL"<
   <div class="cp-body">
     <p>TC (traffic control) eBPF programs run later in the stack than XDP — after sk_buff allocation. This gives them access to richer metadata: conntrack state, socket information, routing decisions, VLAN tags. They can also generate new packets and redirect to sockets.</p>
 <div class="cb"><pre><span class="cm">/* TC BPF key differences from XDP */</span>
-
+ 
 Access to sk_buff → can read:
   - skb->mark, skb->priority (for QoS)
   - skb->sk (associated socket — if known)
   - conntrack state (via helper bpf_skb_get_tunnel_key)
   - Full packet headers (same as XDP) + can modify them
   - Can call bpf_sk_lookup_tcp() to find socket
-
+ 
 Return values (different from XDP!):
   TC_ACT_OK (0):       pass to next TC filter/action
   TC_ACT_SHOT (2):     drop packet
   TC_ACT_REDIRECT (7): redirect to another interface or socket
   TC_ACT_STOLEN (4):   take ownership (used for skb→socket delivery)
-
+ 
 <span class="cm">/* TC BPF for packet marking (QoS) */</span>
 SEC(<span class="cs">"tc"</span>)
 <span class="ck">int</span> mark_voip(<span class="ck">struct</span> __sk_buff *skb) {
@@ -381,7 +382,7 @@ SEC(<span class="cs">"tc"</span>)
     }
     return TC_ACT_OK;
 }
-
+ 
 <span class="cm">/* Attach TC eBPF */</span>
 <span class="cm"># tc qdisc add dev eth0 clsact</span>
 <span class="cm"># tc filter add dev eth0 ingress bpf obj tc_qos.o sec tc direct-action</span>
@@ -398,23 +399,23 @@ SEC(<span class="cs">"tc"</span>)
   <div class="cp-body">
     <p>AF_XDP is a socket type that allows userspace applications to receive and send packets directly from/to NIC memory with zero kernel copies. Unlike DPDK, AF_XDP keeps the NIC under kernel control — only selected packet queues are redirected to userspace.</p>
 <div class="cb"><pre><span class="cm">/* AF_XDP architecture */</span>
-
+ 
 NIC Queue N → [XDP program runs in driver] → XDP_REDIRECT → AF_XDP socket
 NIC Queue 0 → [passes to kernel network stack normally]
-
+ 
 <span class="cm">/* UMEM — userspace memory region registered with kernel */</span>
 void *umem_area = mmap(NULL, UMEM_SIZE, PROT_READ|PROT_WRITE,
                        MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
-
+ 
 struct xsk_umem *umem;
 xsk_umem__create(&umem, umem_area, UMEM_SIZE, &fill_ring, &comp_ring, NULL);
-
+ 
 <span class="cm">/* Four rings between kernel and userspace */</span>
 Fill ring   (userspace → kernel): "here are free buffers you can fill with RX packets"
 Completion ring (kernel → userspace): "here are TX buffers I'm done with"
 RX ring     (kernel → userspace): "here are received packets"
 TX ring     (userspace → kernel): "here are packets to transmit"
-
+ 
 <span class="cm">/* Receive loop */</span>
 <span class="ck">while</span> (1) {
     rcvd = xsk_ring_cons__peek(&sock->rx, BATCH, &idx_rx);
@@ -429,7 +430,7 @@ TX ring     (userspace → kernel): "here are packets to transmit"
     <span class="cm">/* Refill fill ring so kernel has buffers for next batch */</span>
     replenish_fill_ring(sock, rcvd);
 }
-
+ 
 <span class="cm">/* XDP program to steer traffic to AF_XDP socket */</span>
 <span class="ck">struct</span> {
     __uint(type,        BPF_MAP_TYPE_XSKMAP);
@@ -437,7 +438,7 @@ TX ring     (userspace → kernel): "here are packets to transmit"
     __type(key,         __u32);
     __type(value,       __u32);
 } xsks_map SEC(<span class="cs">".maps"</span>);
-
+ 
 SEC(<span class="cs">"xdp_sock"</span>)
 <span class="ck">int</span> xdp_redirect_to_xsk(<span class="ck">struct</span> xdp_md *ctx) {
     __u32 queue = ctx->rx_queue_index;
@@ -456,38 +457,38 @@ SEC(<span class="cs">"xdp_sock"</span>)
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Essential eBPF Tools</h3><span class="tag tag-amber">TOOLING</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* bpftool — Swiss Army knife for eBPF */</span>
-
+ 
 <span class="cm"># List all loaded eBPF programs</span>
 bpftool prog list
 bpftool prog show id 42
-
+ 
 <span class="cm"># Dump eBPF bytecode (disassemble)</span>
 bpftool prog dump xlated id 42
-
+ 
 <span class="cm"># Show JIT-compiled machine code</span>
 bpftool prog dump jited id 42
-
+ 
 <span class="cm"># List all BPF maps</span>
 bpftool map list
 bpftool map dump id 7         <span class="cm"># dump all entries</span>
 bpftool map lookup id 7 key 0x01 0x02 0x03 0x04   <span class="cm"># lookup specific key</span>
 bpftool map update id 7 key 0x01 0x02 0x03 0x04 value 0x01  <span class="cm"># add to blocklist</span>
-
+ 
 <span class="cm"># Show XDP programs attached to interfaces</span>
 bpftool net list
 ip link show  <span class="cm"># also shows "xdp" flag if XDP is attached</span>
-
+ 
 <span class="cm"># Perf output from bpf_trace_printk()</span>
 cat /sys/kernel/debug/tracing/trace_pipe
-
+ 
 <span class="cm">/* bpftrace — high-level eBPF tracing language */</span>
-
+ 
 <span class="cm"># Trace every TCP connection</span>
 bpftrace -e 'kprobe:tcp_connect { printf("connect: pid=%d\n", pid); }'
-
+ 
 <span class="cm"># Count packets by protocol</span>
 bpftrace -e 'tracepoint:net:netif_receive_skb { @[args->protocol] = count(); }'
-
+ 
 <span class="cm"># Track kernel networking function latency</span>
 bpftrace -e '
 kprobe:ip_rcv { @start[tid] = nsecs; }
@@ -495,7 +496,7 @@ kretprobe:ip_rcv /@start[tid]/ {
   @latency = hist(nsecs - @start[tid]);
   delete(@start[tid]);
 }'
-
+ 
 <span class="cm">/* Cilium's eBPF-based Kubernetes networking */</span>
 <span class="cm"># cilium status — health of eBPF programs</span>
 <span class="cm"># cilium monitor — real-time packet events</span>

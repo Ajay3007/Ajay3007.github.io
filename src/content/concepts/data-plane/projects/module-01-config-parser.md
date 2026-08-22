@@ -4,6 +4,7 @@ description: "Module 01 — Config Parser What you learn How to write a config f
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-01-config-parser/
 ---
 

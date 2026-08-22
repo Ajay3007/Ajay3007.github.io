@@ -4,6 +4,7 @@ description: "🛠️ Contributor's Guide — Working on the Platform The previo
 domain: data-plane
 track: ngfw
 order: 8
+ownHeader: true
 url: /learning/data-plane/ngfw/contributor-guide/
 ---
 

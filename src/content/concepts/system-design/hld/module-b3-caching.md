@@ -4,6 +4,8 @@ description: "TRACK B · HLD · MODULE B3 · WEEK 13 CACHING Cache-Aside · Writ
 domain: system-design
 track: system-design-hld
 order: 106
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b3-caching/
 ---
 
@@ -153,18 +155,18 @@ url: /learning/system-design/hld/module-b3-caching/
 <pre class="code"><span class="kw">class</span> <span class="cls">UserService</span> {
     <span class="kw">private final</span> <span class="cls">Cache</span>  cache;
     <span class="kw">private final</span> <span class="cls">UserDB</span> db;
-
+ 
     <span class="kw">public</span> <span class="cls">User</span> <span class="fn">getUser</span>(<span class="kw">long</span> userId) {
         <span class="cls">String</span> key = <span class="str">"user:"</span> + userId;
-
+ 
         <span class="cls">User</span> cached = cache.<span class="fn">get</span>(key);
         <span class="kw">if</span> (cached != <span class="kw">null</span>) <span class="kw">return</span> cached;   <span class="cm">// ✅ CACHE HIT</span>
-
+ 
         <span class="cls">User</span> user = db.<span class="fn">findById</span>(userId);        <span class="cm">// DB query</span>
         cache.<span class="fn">set</span>(key, user, <span class="cls">Duration</span>.<span class="fn">ofMinutes</span>(<span class="str">30</span>)); <span class="cm">// Populate with TTL</span>
         <span class="kw">return</span> user;                            <span class="cm">// CACHE MISS</span>
     }
-
+ 
     <span class="kw">public void</span> <span class="fn">updateUser</span>(<span class="kw">long</span> userId, <span class="cls">UserUpdate</span> update) {
         db.<span class="fn">update</span>(userId, update);
         cache.<span class="fn">delete</span>(<span class="str">"user:"</span> + userId); <span class="cm">// ← DELETE safer than SET (avoids stale-write race)</span>
@@ -205,7 +207,7 @@ url: /learning/system-design/hld/module-b3-caching/
     <span class="kw">private final</span> <span class="cls">Map</span>&lt;<span class="kw">int</span>, <span class="cls">Node</span>&gt;             map = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
     <span class="kw">private final</span> <span class="cls">Node</span>                        head, tail; <span class="cm">// Sentinel nodes</span>
     <span class="kw">private final</span> <span class="cls">ReentrantReadWriteLock</span>      lock = <span class="kw">new</span> <span class="cls">ReentrantReadWriteLock</span>();
-
+ 
     <span class="kw">public int</span> <span class="fn">get</span>(<span class="kw">int</span> key) {
         lock.<span class="fn">readLock</span>().<span class="fn">lock</span>();
         <span class="kw">try</span> {
@@ -215,7 +217,7 @@ url: /learning/system-design/hld/module-b3-caching/
             <span class="kw">return</span> n.val;
         } <span class="kw">finally</span> { lock.<span class="fn">readLock</span>().<span class="fn">unlock</span>(); }
     }
-
+ 
     <span class="kw">public void</span> <span class="fn">put</span>(<span class="kw">int</span> key, <span class="kw">int</span> val) {
         lock.<span class="fn">writeLock</span>().<span class="fn">lock</span>();
         <span class="kw">try</span> {
@@ -249,13 +251,13 @@ url: /learning/system-design/hld/module-b3-caching/
 }
 <span class="cm">// Next read misses → fetches fresh from DB → repopulates</span>
 <span class="cm">// Safe: avoids stale-write race condition</span>
-
+ 
 <span class="hl">Strategy 2: Version-Based Keys (no explicit invalidation)</span>
 <span class="cm">// Embed version in key. When data changes, bump version.</span>
 <span class="str">"product:42:v8"</span>  →  <span class="str">"product:42:v9"</span>   <span class="cm">// old key naturally expires via TTL</span>
 <span class="cm">// Application always reads latest version key.</span>
 <span class="cm">// Great for: config data, feature flags, rarely-changing reference data</span>
-
+ 
 <span class="hl">Strategy 3: Event-Based (CDC + Kafka)</span>
 <span class="cm">// DB → Change Data Capture → Kafka → Cache Invalidation Service → Redis.delete(key)</span>
 DB_writes → Debezium/CDC → Kafka.<span class="fn">publish</span>(change_event) → CacheConsumer → cache.<span class="fn">delete</span>(key)
@@ -271,7 +273,7 @@ Thread B: <span class="fn">SELECT</span> product WHERE id=42 → MISS   <span cl
 Thread A: cache.<span class="fn">delete</span>(<span class="str">"product:42"</span>)         <span class="cm">// invalidates</span>
 Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span>, stale_val) <span class="cm">// writes OLD value back!</span>
 <span class="cm">// Result: cache holds stale data indefinitely until TTL expires 😱</span>
-
+ 
 <span class="hl">Prevention:</span>
 <span class="cm">  1. Use TTL as a safety net — even if stale, it expires eventually</span>
 <span class="cm">  2. Use CAS (Compare-And-Set) — only write to cache if key still absent</span>
@@ -317,7 +319,7 @@ Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span
 <span class="cls">String</span> <span class="fn">get</span>(<span class="cls">String</span> key) {
     <span class="cls">String</span> val = cache.<span class="fn">get</span>(key);
     <span class="kw">if</span> (val != <span class="kw">null</span>) <span class="kw">return</span> val;                 <span class="cm">// HIT — fast path</span>
-
+ 
     <span class="cm">// MISS — exactly ONE thread refreshes; others wait</span>
     <span class="kw">boolean</span> locked = cache.<span class="fn">setnx</span>(<span class="str">"lock:"</span>+key, <span class="str">"1"</span>, <span class="str">10_seconds</span>);
     <span class="kw">if</span> (locked) {
@@ -330,13 +332,13 @@ Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span
         <span class="cls">Thread</span>.<span class="fn">sleep</span>(<span class="str">50</span>); <span class="kw">return</span> <span class="fn">get</span>(key); <span class="cm">// Retry — lock holder will populate cache</span>
     }
 }
-
+ 
 <span class="hl">Strategy 2: Probabilistic Early Expiration (PER)</span>
 <span class="cm">// Before TTL expires, probabilistically start refreshing</span>
 <span class="kw">if</span> (ttlRemaining &lt; -<span class="fn">Math.log</span>(<span class="fn">random</span>()) * recomputeTime) {
     <span class="fn">refresh</span>(); <span class="cm">// One request triggers early refresh; others get (slightly stale) cached value</span>
 }
-
+ 
 <span class="hl">Strategy 3: Background Refresh (keep popular keys always warm)</span>
 <span class="cm">// Scheduled job: refresh popular keys 30s before TTL expires</span>
 <span class="cm">// Requires: popularity tracking (hit count per key)</span>
@@ -443,12 +445,12 @@ ZRANGEBYSCORE rate:user:42 (now-60) now
 <pre class="code"><span class="cm">// Per-user: 100 requests per 60-second window</span>
 <span class="cm">// ZADD rate_limit:{userId} {timestamp_ms} {unique_request_id}</span>
 <span class="cm">// ZRANGEBYSCORE rate_limit:{userId} (now-60000) now → requests in last 60s</span>
-
+ 
 <span class="kw">boolean</span> <span class="fn">isAllowed</span>(<span class="cls">String</span> userId, <span class="kw">int</span> limit, <span class="kw">long</span> windowMs) {
     <span class="kw">long</span>   now        = <span class="cls">System</span>.<span class="fn">currentTimeMillis</span>();
     <span class="kw">long</span>   windowStart = now - windowMs;
     <span class="cls">String</span> key        = <span class="str">"rate:"</span> + userId;
-
+ 
     <span class="kw">return</span> redis.<span class="fn">pipeline</span>(pipe -> {
         pipe.<span class="fn">zremrangebyscore</span>(key, <span class="str">0</span>, windowStart);          <span class="cm">// Remove expired entries</span>
         pipe.<span class="fn">zadd</span>(key, now, <span class="cls">UUID</span>.<span class="fn">randomUUID</span>().<span class="fn">toString</span>()); <span class="cm">// Add this request</span>
@@ -500,16 +502,16 @@ ZRANGEBYSCORE rate:user:42 (now-60) now
 <span class="hl">Cache-Control: max-age=31536000, immutable</span>
 <span class="cm">// CDN caches for 1 year. Use hash-based filenames for cache busting.</span>
 app.js → app.<span class="str">8f3d92ab</span>.js   <span class="cm">// Content hash in filename → new deploy = new URL = fresh CDN cache</span>
-
+ 
 <span class="cm">// DYNAMIC content (API responses, partially personalised pages)</span>
 <span class="hl">Cache-Control: max-age=60, stale-while-revalidate=30</span>
 <span class="cm">// CDN caches for 60s. During next 30s after expiry, serve stale while fetching fresh.</span>
 <span class="cm">// Eliminates miss latency for CDN — no thundering herd at origin.</span>
-
+ 
 <span class="cm">// PRIVATE content (user-specific responses)</span>
 <span class="hl">Cache-Control: private, no-store</span>
 <span class="cm">// CDN does NOT cache. Request always reaches origin. Each user's data is unique.</span>
-
+ 
 <span class="cm">// Vary header — separate cache per encoding/format</span>
 <span class="hl">Vary: Accept-Encoding</span>
 <span class="cm">// CDN stores separate versions for gzip and uncompressed.</span></pre>
@@ -554,13 +556,13 @@ app.js → app.<span class="str">8f3d92ab</span>.js   <span class="cm">// Conten
 <pre>API:
   int get(int key)                          → -1 if absent or expired
   void put(int key, int value, long ttlMs)  → evict LRU if at capacity
-
+ 
 Requirements:
   - O(1) get and put (DoublyLinkedList + HashMap)
   - Thread-safe: concurrent get/put from multiple threads
   - TTL per entry: expired entries not returned, evicted lazily on access
   - Bonus: background sweeper thread evicts expired entries proactively
-
+ 
 Test: 8 threads × 100K ops, verify:
   - Zero ConcurrentModificationException
   - Eviction order correct (LRU evicted first, not MRU)
@@ -587,23 +589,23 @@ Test: 8 threads × 100K ops, verify:
       <div class="task-bd">
         <p>Implement a distributed rate limiter: 100 requests per 60-second window per user. Multi-server deployment with shared Redis.</p>
 <pre>Implement all three and compare:
-
+ 
 A) Fixed Window Counter:
    INCR rate:{userId}:{minute}
    EXPIRE rate:{userId}:{minute} 60
    Simple but allows burst at window boundary:
    100 at 0:59 + 100 at 1:00 = 200 requests in 2 seconds
-
+ 
 B) Sliding Window Log (Sorted Set):
    ZADD rate:{userId} {timestamp} {requestId}
    ZREMRANGEBYSCORE to remove old entries
    ZCARD for count in window
    Exact but O(requests) memory per user
-
+ 
 C) Sliding Window Counter (hybrid):
    Count of previous window × (1 - elapsed/window) + current window count
    Approximate but O(1) memory
-
+ 
 For each:
   - Show Redis commands
   - Time complexity per request

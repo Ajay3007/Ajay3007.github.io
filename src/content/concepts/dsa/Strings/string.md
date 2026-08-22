@@ -3,6 +3,7 @@ title: "String"
 description: "[📘 DSA: Strings Learning Roadmap (Beginner → Advanced)]( -dsa-strings-learning-roadmap-beginner-advanced) 1.1."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/strings/string/
 ---
 

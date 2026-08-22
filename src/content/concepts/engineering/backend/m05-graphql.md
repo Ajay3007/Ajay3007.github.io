@@ -4,6 +4,7 @@ description: "SDL type system, query/mutation/subscription execution, resolver c
 domain: engineering
 track: backend
 order: 5
+ownHeader: true
 url: /learning/backend/m05-graphql/
 ---
 

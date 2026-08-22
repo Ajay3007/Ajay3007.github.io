@@ -3,6 +3,7 @@ title: "Two Pointers"
 description: "Two Pointers Technique Summary: The two pointers technique is a powerful pattern for solving array and string problems efficiently."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/arrays/two-pointers/
 ---
 

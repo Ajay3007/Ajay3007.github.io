@@ -3,6 +3,7 @@ title: "Heaps"
 description: "🏔️ Heaps (Priority Queues) Min-heap: parent ≤ children."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/heaps/
 ---
 

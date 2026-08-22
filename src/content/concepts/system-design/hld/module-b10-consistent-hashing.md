@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B10 · WEEK 20 CONSISTE
 domain: system-design
 track: system-design-hld
 order: 120
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b10-consistent-hashing/
 ---
 
@@ -188,19 +190,19 @@ WeakNode     ( 8 cores): <span class="pu"> 75 vnodes</span>  → handles 0.5× d
 <pre class="c"><span class="kw">public class</span> <span class="hl">ConsistentHashRing</span> {
     <span class="kw">private final</span> TreeMap&lt;Integer, String&gt; ring = <span class="kw">new</span> <span class="fn">TreeMap</span>&lt;&gt;();
     <span class="kw">private final int</span> VNODES = <span class="cy">150</span>;
-
+ 
     <span class="kw">private int</span> <span class="fn">hash</span>(String key) {
         <span class="kw">return</span> Hashing.murmur3_32().<span class="fn">hashString</span>(key, UTF_8).<span class="fn">asInt</span>();
     }
-
+ 
     <span class="kw">public void</span> <span class="fn">addNode</span>(String node) {
         <span class="kw">for</span> (<span class="kw">int</span> v = <span class="cy">0</span>; v &lt; VNODES; v++) ring.<span class="fn">put</span>(<span class="fn">hash</span>(node + <span class="str">"#"</span> + v), node);
     }
-
+ 
     <span class="kw">public void</span> <span class="fn">removeNode</span>(String node) {
         <span class="kw">for</span> (<span class="kw">int</span> v = <span class="cy">0</span>; v &lt; VNODES; v++) ring.<span class="fn">remove</span>(<span class="fn">hash</span>(node + <span class="str">"#"</span> + v));
     }
-
+ 
     <span class="kw">public</span> String <span class="fn">getNode</span>(String key) {
         <span class="kw">if</span> (ring.<span class="fn">isEmpty</span>()) <span class="kw">throw new</span> IllegalStateException(<span class="str">"No nodes"</span>);
         Map.Entry&lt;Integer, String&gt; e = ring.<span class="fn">ceilingEntry</span>(<span class="fn">hash</span>(key));
@@ -267,10 +269,10 @@ curl http://payment-service.default.svc.cluster.local:<span class="cy">8080</spa
 { <span class="str">"Name"</span>: <span class="str">"payment-service"</span>, <span class="str">"ID"</span>: <span class="str">"payment-1"</span>,
   <span class="str">"Address"</span>: <span class="str">"10.0.1.23"</span>, <span class="str">"Port"</span>: <span class="cy">8080</span>,
   <span class="str">"Check"</span>: { <span class="str">"HTTP"</span>: <span class="str">"http://10.0.1.23:8080/health"</span>, <span class="str">"Interval"</span>: <span class="str">"10s"</span> } }
-
+ 
 GET /v1/health/service/payment-service?passing=<span class="kw">true</span>
 <span class="cm">// → returns healthy instances only</span>
-
+ 
 GET /v1/health/service/payment-service?passing=true&amp;index=<span class="cy">50</span>&amp;wait=<span class="cy">30s</span>
 <span class="cm">// → long-poll: blocks until change or timeout → client auto-refreshes</span></pre>
   </div>
@@ -300,7 +302,7 @@ getChildren /services/payment [WATCH]
     <span class="str">"redis"</span>:    <span class="str">"connected"</span>,
     <span class="str">"disk"</span>:     <span class="str">"98% free"</span>
   }, <span class="str">"version"</span>: <span class="str">"2.3.1"</span> }
-
+ 
 <span class="cm">// Registry sees 503 → removes from routing pool</span>
 <span class="cm">// Consul default: 2 consecutive failures → deregister</span>
 <span class="cm">// Check interval 10s → failure detected within 20–30s</span></pre>
@@ -348,10 +350,10 @@ getChildren /services/payment [WATCH]
   <div class="cb"><div class="cb-top">Gossip vs Raft<span class="cb-l">COMPARISON</span></div>
 <pre class="c"><span class="cm">// GOSSIP: eventually consistent, O(log N), no leader, scales to 1000s of nodes</span>
 <span class="cm">// Use for: cluster membership, failure detection</span>
-
+ 
 <span class="cm">// RAFT: strongly consistent, leader-based, quorum required, ~5-7 nodes practical</span>
 <span class="cm">// Use for: config store, leader election, distributed locks</span>
-
+ 
 <span class="cm">// Consul uses BOTH:</span>
 <span class="cm">//   Gossip (SWIM) for membership + failure detection</span>
 <span class="cm">//   Raft for KV store + service catalog consistency</span></pre>

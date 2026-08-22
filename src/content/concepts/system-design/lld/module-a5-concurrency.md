@@ -4,6 +4,8 @@ description: "TRACK A · LLD · MODULE A5 · WEEK 8 · LIVE Concurrency in LLD T
 domain: system-design
 track: system-design-lld
 order: 10
+chrome: bare
+ownHeader: true
 url: /learning/system-design/lld/module-a5-concurrency/
 ---
 
@@ -130,17 +132,17 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <div class="code-hdr">volatile vs synchronized vs Atomic<span class="clang">JAVA</span></div>
 <pre class="code"><span class="cm">// ❌ BROKEN — race condition on count++</span>
 <span class="kw">class</span> <span class="cls">BrokenCounter</span>   { <span class="kw">private int</span> count = <span class="num">0</span>; <span class="kw">void</span> <span class="fn">inc</span>() { count++; } }
-
+ 
 <span class="cm">// ❌ STILL BROKEN — volatile fixes visibility, not atomicity</span>
 <span class="kw">class</span> <span class="cls">VolatileCounter</span>  { <span class="kw">private volatile int</span> count = <span class="num">0</span>; <span class="kw">void</span> <span class="fn">inc</span>() { count++; } }
-
+ 
 <span class="cm">// ✅ FIXED — synchronized ensures atomicity + visibility</span>
 <span class="kw">class</span> <span class="cls">SyncCounter</span>      { <span class="kw">private int</span> count = <span class="num">0</span>; <span class="kw">synchronized void</span> <span class="fn">inc</span>() { count++; } }
-
+ 
 <span class="cm">// ✅ FIXED — lock-free CAS, better than synchronized for single counter</span>
 <span class="kw">class</span> <span class="cls">AtomicCounter</span>    { <span class="kw">private final</span> <span class="cls">AtomicInteger</span> count = <span class="kw">new</span> <span class="cls">AtomicInteger</span>(<span class="num">0</span>);
                            <span class="kw">void</span> <span class="fn">inc</span>() { count.<span class="fn">incrementAndGet</span>(); } }
-
+ 
 <span class="cm">// volatile IS correct for simple flags (single writer, no compound op)</span>
 <span class="kw">class</span> <span class="cls">Service</span> {
     <span class="kw">private volatile boolean</span> running = <span class="kw">true</span>;   <span class="cm">// ✅ correct: simple write/read</span>
@@ -174,14 +176,14 @@ url: /learning/system-design/lld/module-a5-concurrency/
 <pre class="code"><span class="kw">class</span> <span class="cls">BankAccount</span> {
     <span class="kw">private double</span>              balance = <span class="num">0</span>;
     <span class="kw">private final</span> <span class="cls">ReentrantLock</span> lock = <span class="kw">new</span> <span class="cls">ReentrantLock</span>(<span class="kw">true</span>); <span class="cm">// fair=true</span>
-
+ 
     <span class="cm">// Basic lock — ALWAYS unlock in finally</span>
     <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) {
         lock.<span class="fn">lock</span>();
         <span class="kw">try</span>     { balance += amount; }
         <span class="kw">finally</span> { lock.<span class="fn">unlock</span>(); }  <span class="cm">// ← never skip this</span>
     }
-
+ 
     <span class="cm">// tryLock — non-blocking, returns false if unavailable</span>
     <span class="kw">public boolean</span> <span class="fn">tryDeposit</span>(<span class="kw">double</span> amount) {
         <span class="kw">if</span> (lock.<span class="fn">tryLock</span>()) {
@@ -190,7 +192,7 @@ url: /learning/system-design/lld/module-a5-concurrency/
         }
         <span class="kw">return false</span>;
     }
-
+ 
     <span class="cm">// tryLock with timeout — blocks at most N ms</span>
     <span class="kw">public boolean</span> <span class="fn">tryDepositTimeout</span>(<span class="kw">double</span> amount, <span class="kw">long</span> ms)
             <span class="kw">throws</span> <span class="cls">InterruptedException</span> {
@@ -211,21 +213,21 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <span class="kw">private final</span> <span class="cls">ReadWriteLock</span>        rwLock = <span class="kw">new</span> <span class="cls">ReentrantReadWriteLock</span>();
     <span class="kw">private final</span> <span class="cls">Lock</span>                 rLock  = rwLock.<span class="fn">readLock</span>();
     <span class="kw">private final</span> <span class="cls">Lock</span>                 wLock  = rwLock.<span class="fn">writeLock</span>();
-
+ 
     <span class="cm">// ✅ MANY threads can read simultaneously</span>
     <span class="kw">public</span> <span class="cls">String</span> <span class="fn">get</span>(<span class="cls">String</span> key) {
         rLock.<span class="fn">lock</span>();
         <span class="kw">try</span>     { <span class="kw">return</span> cache.<span class="fn">get</span>(key); }
         <span class="kw">finally</span> { rLock.<span class="fn">unlock</span>(); }
     }
-
+ 
     <span class="cm">// ✅ EXCLUSIVE — blocks all readers + other writers</span>
     <span class="kw">public void</span> <span class="fn">put</span>(<span class="cls">String</span> key, <span class="cls">String</span> val) {
         wLock.<span class="fn">lock</span>();
         <span class="kw">try</span>     { cache.<span class="fn">put</span>(key, val); }
         <span class="kw">finally</span> { wLock.<span class="fn">unlock</span>(); }
     }
-
+ 
     <span class="cm">// Double-checked pattern — read fast path, write fallback</span>
     <span class="kw">public</span> <span class="cls">String</span> <span class="fn">computeIfAbsent</span>(<span class="cls">String</span> key, <span class="cls">Function</span>&lt;<span class="cls">String</span>,<span class="cls">String</span>&gt; fn) {
         rLock.<span class="fn">lock</span>();                             <span class="cm">// 1. Try read (fast path)</span>
@@ -256,18 +258,18 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <span class="kw">private final</span> <span class="cls">BlockingQueue</span>&lt;<span class="cls">LogEvent</span>&gt; queue =
         <span class="kw">new</span> <span class="cls">LinkedBlockingQueue</span>&lt;&gt;(<span class="num">1000</span>); <span class="cm">// Bounded — backpressure!</span>
     <span class="kw">private volatile boolean</span> running = <span class="kw">true</span>;
-
+ 
     <span class="cm">// PRODUCER — any app thread calls this</span>
     <span class="kw">public void</span> <span class="fn">log</span>(<span class="cls">String</span> level, <span class="cls">String</span> msg) {
         <span class="kw">try</span> {
             queue.<span class="fn">put</span>(<span class="kw">new</span> <span class="cls">LogEvent</span>(level, msg)); <span class="cm">// Blocks if queue full (backpressure)</span>
         } <span class="kw">catch</span> (<span class="cls">InterruptedException</span> e) { <span class="cls">Thread</span>.currentThread().<span class="fn">interrupt</span>(); }
     }
-
+ 
     <span class="kw">public boolean</span> <span class="fn">tryLog</span>(<span class="cls">String</span> level, <span class="cls">String</span> msg) {
         <span class="kw">return</span> queue.<span class="fn">offer</span>(<span class="kw">new</span> <span class="cls">LogEvent</span>(level, msg)); <span class="cm">// Non-blocking, drops if full</span>
     }
-
+ 
     <span class="cm">// CONSUMER — background thread drains queue</span>
     <span class="kw">private void</span> <span class="fn">consume</span>() {
         <span class="kw">while</span> (running || !queue.<span class="fn">isEmpty</span>()) {
@@ -289,7 +291,7 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <span class="kw">private final</span> <span class="cls">ReentrantLock</span> lock     = <span class="kw">new</span> <span class="cls">ReentrantLock</span>();
     <span class="kw">private final</span> <span class="cls">Condition</span>     notFull  = lock.<span class="fn">newCondition</span>();
     <span class="kw">private final</span> <span class="cls">Condition</span>     notEmpty = lock.<span class="fn">newCondition</span>();
-
+ 
     <span class="kw">public void</span> <span class="fn">put</span>(T item) <span class="kw">throws</span> <span class="cls">InterruptedException</span> {
         lock.<span class="fn">lock</span>();
         <span class="kw">try</span> {
@@ -298,7 +300,7 @@ url: /learning/system-design/lld/module-a5-concurrency/
             notEmpty.<span class="fn">signal</span>();  <span class="cm">// Wake one consumer</span>
         } <span class="kw">finally</span> { lock.<span class="fn">unlock</span>(); }
     }
-
+ 
     <span class="kw">public</span> T <span class="fn">take</span>() <span class="kw">throws</span> <span class="cls">InterruptedException</span> {
         lock.<span class="fn">lock</span>();
         <span class="kw">try</span> {
@@ -318,23 +320,23 @@ url: /learning/system-design/lld/module-a5-concurrency/
 <pre class="code"><span class="kw">class</span> <span class="cls">DBConnectionPool</span> {
     <span class="kw">private final</span> <span class="cls">Semaphore</span>         sem;
     <span class="kw">private final</span> <span class="cls">Queue</span>&lt;<span class="cls">Connection</span>&gt;  pool = <span class="kw">new</span> <span class="cls">ConcurrentLinkedQueue</span>&lt;&gt;();
-
+ 
     <span class="kw">public</span> <span class="cls">DBConnectionPool</span>(<span class="kw">int</span> max) {
         sem = <span class="kw">new</span> <span class="cls">Semaphore</span>(max, <span class="kw">true</span>);  <span class="cm">// fair=true: FIFO, no starvation</span>
         <span class="kw">for</span> (<span class="kw">int</span> i=<span class="num">0</span>; i&lt;max; i++) pool.<span class="fn">offer</span>(<span class="fn">createConnection</span>());
     }
-
+ 
     <span class="kw">public</span> <span class="cls">Connection</span> <span class="fn">acquire</span>() <span class="kw">throws</span> <span class="cls">InterruptedException</span> {
         sem.<span class="fn">acquire</span>();         <span class="cm">// Blocks until a slot is free</span>
         <span class="kw">return</span> pool.<span class="fn">poll</span>();
     }
-
+ 
     <span class="kw">public</span> <span class="cls">Connection</span> <span class="fn">acquire</span>(<span class="kw">long</span> ms) <span class="kw">throws</span> <span class="cls">InterruptedException</span> {
         <span class="kw">if</span> (!sem.<span class="fn">tryAcquire</span>(ms, <span class="cls">TimeUnit</span>.MILLISECONDS))
             <span class="kw">throw new</span> <span class="cls">TimeoutException</span>(<span class="str">"No connection in "</span>+ms+<span class="str">"ms"</span>);
         <span class="kw">return</span> pool.<span class="fn">poll</span>();
     }
-
+ 
     <span class="kw">public void</span> <span class="fn">release</span>(<span class="cls">Connection</span> c) {
         pool.<span class="fn">offer</span>(c);
         sem.<span class="fn">release</span>();         <span class="cm">// Signal one slot free → unblocks next waiter</span>
@@ -445,27 +447,27 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <span class="kw">private final double</span> refillRatePerMs;
     <span class="kw">private double</span>       tokens;
     <span class="kw">private long</span>         lastRefill;
-
+ 
     <span class="kw">public</span> <span class="cls">TokenBucketRateLimiter</span>(<span class="kw">long</span> capacity, <span class="kw">long</span> rps) {
         <span class="kw">this</span>.capacity        = capacity;
         <span class="kw">this</span>.refillRatePerMs = rps / <span class="num">1000.0</span>;
         <span class="kw">this</span>.tokens          = capacity;   <span class="cm">// Start full</span>
         <span class="kw">this</span>.lastRefill      = <span class="cls">System</span>.<span class="fn">currentTimeMillis</span>();
     }
-
+ 
     <span class="kw">private void</span> <span class="fn">refill</span>() {
         <span class="kw">long</span> now = <span class="cls">System</span>.<span class="fn">currentTimeMillis</span>();
         tokens = <span class="cls">Math</span>.<span class="fn">min</span>(capacity, tokens + (now - lastRefill) * refillRatePerMs);
         lastRefill = now;
     }
-
+ 
     <span class="cm">// Non-blocking — returns false if rate exceeded</span>
     <span class="kw">public synchronized boolean</span> <span class="fn">tryAcquire</span>() {
         <span class="fn">refill</span>();
         <span class="kw">if</span> (tokens &gt;= <span class="num">1</span>) { tokens--; <span class="kw">return true</span>; }
         <span class="kw">return false</span>;
     }
-
+ 
     <span class="cm">// Blocking — waits until token available</span>
     <span class="kw">public synchronized void</span> <span class="fn">acquire</span>() <span class="kw">throws</span> <span class="cls">InterruptedException</span> {
         <span class="kw">while</span> (<span class="kw">true</span>) {
@@ -476,14 +478,14 @@ url: /learning/system-design/lld/module-a5-concurrency/
         }
     }
 }
-
+ 
 <span class="cm">// Per-user limiter — each user gets own bucket</span>
 <span class="kw">class</span> <span class="cls">UserRateLimiter</span> {
     <span class="kw">private final</span> <span class="cls">ConcurrentHashMap</span>&lt;<span class="cls">String</span>, <span class="cls">TokenBucketRateLimiter</span>&gt; buckets
         = <span class="kw">new</span> <span class="cls">ConcurrentHashMap</span>&lt;&gt;();
     <span class="kw">private final</span> <span class="cls">Map</span>&lt;<span class="cls">Tier</span>,<span class="cls">Long</span>&gt; limits = <span class="cls">Map</span>.of(
         <span class="cls">Tier</span>.FREE,<span class="num">10L</span>, <span class="cls">Tier</span>.PRO,<span class="num">100L</span>, <span class="cls">Tier</span>.ENTERPRISE,<span class="num">1000L</span>);
-
+ 
     <span class="kw">public boolean</span> <span class="fn">tryAcquire</span>(<span class="cls">String</span> userId, <span class="cls">Tier</span> tier) {
         <span class="kw">return</span> buckets.<span class="fn">computeIfAbsent</span>(userId,
             k -> <span class="kw">new</span> <span class="cls">TokenBucketRateLimiter</span>(limits.get(tier)*<span class="num">10</span>, limits.get(tier))
@@ -531,16 +533,16 @@ url: /learning/system-design/lld/module-a5-concurrency/
           <div class="code-hdr">Key concurrency design<span class="clang">JAVA</span></div>
 <pre class="code"><span class="cm">// 1. Semaphore limits concurrent parkers per type</span>
 sem.<span class="fn">acquire</span>();  <span class="cm">// blocks if no spots</span>
-
+ 
 <span class="cm">// 2. CAS claims specific spot — no explicit lock</span>
 <span class="kw">if</span> (spot.occupied.<span class="fn">compareAndSet</span>(<span class="kw">false</span>, <span class="kw">true</span>)) { ...claim... }
-
+ 
 <span class="cm">// 3. ReadWriteLock on display board</span>
 <span class="cm">//    many readers, write only on park/unpark</span>
-
+ 
 <span class="cm">// 4. AtomicInteger for available count — no lock</span>
 availableCar.<span class="fn">decrementAndGet</span>();
-
+ 
 <span class="cm">// 5. TokenBucket at entry gate — 5 entries/sec</span>
 <span class="kw">if</span> (!entryLimiter.<span class="fn">tryAcquire</span>()) <span class="kw">throw</span> rateLimitEx;</pre>
         </div>
@@ -570,12 +572,12 @@ availableCar.<span class="fn">decrementAndGet</span>();
           <div class="code-hdr">Key concurrency design<span class="clang">JAVA</span></div>
 <pre class="code"><span class="cm">// 1. Producer: non-blocking publish</span>
 queue.<span class="fn">offer</span>(msg);  <span class="cm">// false if full — backpressure</span>
-
+ 
 <span class="cm">// 2. CopyOnWriteArrayList: safe to iterate</span>
 <span class="cm">//    while other threads subscribe/unsubscribe</span>
 subscribers.<span class="fn">computeIfAbsent</span>(topic,
     k -> <span class="kw">new</span> <span class="cls">CopyOnWriteArrayList</span>&lt;&gt;()).<span class="fn">add</span>(h);
-
+ 
 <span class="cm">// 3. Dispatcher fans out to thread pool</span>
 <span class="kw">for</span> (<span class="cls">MessageHandler</span> h : handlers) {
     dispatchPool.<span class="fn">submit</span>(() -> {
@@ -583,7 +585,7 @@ subscribers.<span class="fn">computeIfAbsent</span>(topic,
         <span class="kw">catch</span> (<span class="cls">Exception</span> e) { <span class="cm">/* isolated */</span> }
     });
 }
-
+ 
 <span class="cm">// 4. Shutdown: drain queue before stopping</span>
 running = <span class="kw">false</span>;
 pool.<span class="fn">awaitTermination</span>(<span class="num">30</span>, <span class="cls">TimeUnit</span>.SECONDS);</pre>
@@ -610,7 +612,7 @@ class Config {
         return instance;
     }
 }
-
+ 
 // B — Check-then-act
 class TicketSeller {
     private int tickets = 100;
@@ -619,7 +621,7 @@ class TicketSeller {
         return false;
     }
 }
-
+ 
 // C — Compound AtomicInteger
 AtomicInteger count = new AtomicInteger(0);
 public int getAndDoubleIfEven() {
@@ -627,7 +629,7 @@ public int getAndDoubleIfEven() {
         return count.getAndAdd(count.get());
     return count.get();
 }
-
+ 
 // D — Visibility
 class Worker {
     boolean done = false;
@@ -644,15 +646,15 @@ class Worker {
         <pre>API:
   int  get(int key)           // O(1), returns -1 if absent
   void put(int key, int val)  // O(1), evicts LRU on capacity exceeded
-
+ 
 Approach: LinkedHashMap (accessOrder=true) + ReentrantReadWriteLock
           OR: ConcurrentHashMap + ConcurrentLinkedDeque + explicit sync
-
+ 
 Requirements:
   - Correct under 8 concurrent threads × 100k operations
   - No ConcurrentModificationException
   - LRU eviction order correct under concurrent access
-
+ 
 Bonus: Benchmark vs Collections.synchronizedMap(new LinkedHashMap())
   Measure: throughput (ops/sec), latency p50/p99</pre>
       </div>
@@ -664,20 +666,20 @@ Bonus: Benchmark vs Collections.synchronizedMap(new LinkedHashMap())
         <p>Implement and then fix the classic deadlock problem.</p>
         <pre>Setup: 5 philosophers, 5 forks (shared between adjacent pairs)
 Lifecycle: think() → pickBothForks() → eat() → putDownForks()
-
+ 
 Step 1: Implement naive version — show it deadlocks
   (5 threads all pick left fork simultaneously → circular wait)
-
+ 
 Step 2: Fix with lock ordering
   Odd philosophers:  pick left, then right
   Even philosophers: pick right, then left
   → Breaks circular wait
-
+ 
 Step 3: Fix with arbitrator (Semaphore)
   Only 4 philosophers allowed to try picking up forks at once
   → At most 4 can compete, guaranteeing one can always complete
   new Semaphore(4) wrapping pickBothForks()
-
+ 
 Verify: 100 rounds, each philosopher eats at least once (no starvation)</pre>
       </div>
     </div>
@@ -692,20 +694,20 @@ Verify: 100 rounds, each philosopher eats at least once (no starvation)</pre>
   - Ticket: vehicleId, spotId, entryTime, UUID
   - Fee: first 2h free, ₹50/hour after
   - Entry rate limit: 5 vehicles/sec (Token Bucket)
-
+ 
 Concurrency mechanisms:
   Spot claim:      AtomicBoolean.compareAndSet (lock-free)
   Type counting:   AtomicInteger (lock-free)
   Capacity guard:  Semaphore(N, fair=true)
   Display board:   ReadWriteLock (concurrent reads)
   Entry gate:      TokenBucketRateLimiter (synchronized)
-
+ 
 Correctness proof (JUnit assertions):
   1. Zero double-bookings: assert each spotId assigned to ≤ 1 vehicle
   2. Count invariant: final available + occupied == initial capacity
   3. All tickets have valid entry timestamps
   4. Fee calculation correct for 0, 2, 3, 5 hour durations
-
+ 
 Deliverable: Full Java code + JUnit test + UML with sync annotations</pre>
       </div>
     </div>

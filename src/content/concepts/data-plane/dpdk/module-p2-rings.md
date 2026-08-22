@@ -4,6 +4,7 @@ description: "DPDK MASTERY · PHASE 2 OF 3 · MODULE B rte ring, Distributor App
 domain: data-plane
 track: dpdk
 order: 2
+ownHeader: true
 url: /learning/data-plane/dpdk/module-p2-rings/
 ---
 

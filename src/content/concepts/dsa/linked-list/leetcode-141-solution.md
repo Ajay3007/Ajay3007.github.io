@@ -3,6 +3,7 @@ title: "Linked List Cycle - Solution"
 description: "Linked List Cycle - Solution LeetCode 141 Difficulty: Easy --- Approach Problem Detect if a linked list has a cycle."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/leetcode-141-solution/
 ---
 

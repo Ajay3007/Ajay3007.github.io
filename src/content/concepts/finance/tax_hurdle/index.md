@@ -3,6 +3,7 @@ title: "Tax Hurdle Documentation Hub"
 description: "📖 Tax Hurdle Documentation Hub Complete documentation suite for the Tax Hurdle investment tax calculation system."
 domain: finance
 order: 0
+ownHeader: true
 url: /learning/finance/tax_hurdle/
 ---
 

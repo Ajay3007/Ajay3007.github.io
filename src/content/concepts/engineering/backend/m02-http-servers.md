@@ -4,6 +4,7 @@ description: "HTTP request parsing, header internals, epoll event loops, middlew
 domain: engineering
 track: backend
 order: 2
+ownHeader: true
 url: /learning/backend/m02-http-servers/
 ---
 

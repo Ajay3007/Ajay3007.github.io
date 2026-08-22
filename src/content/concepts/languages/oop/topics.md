@@ -3,6 +3,7 @@ title: "OOP Topics"
 description: "[Object Oriented Programming — Topics]( object-oriented-programming-topics) 1.1."
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/oop/topics/
 ---
 

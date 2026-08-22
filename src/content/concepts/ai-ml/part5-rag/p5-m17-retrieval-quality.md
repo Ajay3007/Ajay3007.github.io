@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part5-rag
 order: 517
+ownHeader: true
 url: /learning/ai-ml/part5-rag/p5-m17-retrieval-quality/
 ---
 
@@ -184,12 +185,12 @@ def diagnose_retrieval(query: str, collection, expected_source: str = None):
                                include=[<span class="cs">"documents"</span>, <span class="cs">"distances"</span>, <span class="cs">"metadatas"</span>])
     docs  = results[<span class="cs">"documents"</span>][<span class="cv">0</span>]
     dists = results[<span class="cs">"distances"</span>][<span class="cv">0</span>]
-
+ 
     print(<span class="cs">f"Top-20 similarity scores: {[round(1-d,3) for d in dists]}"</span>)
     <span class="ck"># If correct chunk is rank 8+: semantic drift → reranker</span>
     <span class="ck"># If all scores < 0.5: vocabulary mismatch → HyDE or query rewrite</span>
     <span class="ck"># If scores are clustered (0.82, 0.81, 0.80...): redundancy → MMR</span>
-
+ 
     <span class="ck"># 2. Check if expected chunk exists at all</span>
     if expected_source:
         found = any(expected_source in m.get(<span class="cs">"source"</span>, <span class="cs">""</span>)
@@ -211,11 +212,11 @@ def diagnose_retrieval(query: str, collection, expected_source: str = None):
 REWRITE_PROMPT = <span class="cs">"""Rewrite the following user question to be more likely to
 match technical documentation. Make it precise and use domain terminology.
 Output only the rewritten question, nothing else.
-
+ 
 User question: {query}
-
+ 
 Rewritten:"""</span>
-
+ 
 def rewrite_query(query: str) -> str:
     response = client.messages.create(
         model=<span class="cs">"claude-3-haiku-20240307"</span>,
@@ -224,7 +225,7 @@ def rewrite_query(query: str) -> str:
                    <span class="cs">"content"</span>: REWRITE_PROMPT.format(query=query)}]
     )
     return response.content[<span class="cv">0</span>].text.strip()
-
+ 
 <span class="ck"># "how do I make packets go faster?" →</span>
 <span class="ck"># "methods to improve packet processing throughput and reduce latency in DPDK"</span></pre></div>
   </div>
@@ -237,11 +238,11 @@ def rewrite_query(query: str) -> str:
 MULTI_QUERY_PROMPT = <span class="cs">"""Generate {n} different search queries that all ask about
 the same topic from different angles. The queries will be used to search
 technical documentation.
-
+ 
 Original query: {query}
-
+ 
 Output only the queries, one per line, numbered 1-{n}:"""</span>
-
+ 
 def multi_query_retrieve(query: str, collection, n_variants: int = <span class="cv">3</span>,
                           n_results: int = <span class="cv">5</span>) -> list[dict]:
     <span class="ck"># Generate query variants</span>
@@ -257,7 +258,7 @@ def multi_query_retrieve(query: str, collection, n_variants: int = <span class="
         q = line.lstrip(<span class="cs">"0123456789. "</span>).strip()
         if q:
             queries.append(q)
-
+ 
     <span class="ck"># Retrieve for each query, merge results by ID</span>
     seen_ids = set()
     all_results = []
@@ -271,7 +272,7 @@ def multi_query_retrieve(query: str, collection, n_variants: int = <span class="
             if id_ not in seen_ids:
                 seen_ids.add(id_)
                 all_results.append({<span class="cs">"text"</span>: doc, <span class="cs">"score"</span>: <span class="cv">1</span>-dist, <span class="cs">"meta"</span>: meta})
-
+ 
     <span class="ck"># Sort by score and return top-K unique</span>
     return sorted(all_results, key=lambda x: x[<span class="cs">"score"</span>], reverse=<span class="cv">True</span>)</pre></div>
     <div class="ins"><p>💡 <strong>Multi-query expansion is one of the cheapest quality improvements.</strong> 3-4 Haiku calls cost ~$0.001 and dramatically improve recall — especially when users phrase queries very differently from how your documents are written. LangChain ships a <code>MultiQueryRetriever</code> that implements this pattern.</p></div>
@@ -287,14 +288,14 @@ def multi_query_retrieve(query: str, collection, n_variants: int = <span class="
 <span class="ck"># Original: "What is the max burst size for rte_ring_enqueue_burst?"</span>
 <span class="ck"># Step-back: "How do DPDK ring buffer enqueue operations work?"</span>
 <span class="ck"># → retrieves conceptual overview → LLM can reason to the specific answer</span>
-
+ 
 STEPBACK_PROMPT = <span class="cs">"""Given this specific question, write a more general version
 that asks about the underlying concept or principle.
-
+ 
 Specific: {query}
-
+ 
 General:"""</span>
-
+ 
 async def step_back_retrieve(query: str, collection) -> list[dict]:
     <span class="ck"># Generate step-back query</span>
     response = await async_client.messages.create(
@@ -303,12 +304,12 @@ async def step_back_retrieve(query: str, collection) -> list[dict]:
         messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: STEPBACK_PROMPT.format(query=query)}]
     )
     abstract_query = response.content[<span class="cv">0</span>].text.strip()
-
+ 
     <span class="ck"># Retrieve for both queries concurrently</span>
     specific_task  = asyncio.create_task(async_retrieve(query,          collection))
     abstract_task  = asyncio.create_task(async_retrieve(abstract_query, collection))
     specific, abstract = await asyncio.gather(specific_task, abstract_task)
-
+ 
     <span class="ck"># Combine: abstract provides background, specific provides targeted answer</span>
     return abstract[:<span class="cv">2</span>] + specific[:<span class="cv">3</span>]   <span class="ck"># 2 background + 3 specific</span></pre></div>
   </div>
@@ -329,12 +330,12 @@ async def step_back_retrieve(query: str, collection) -> list[dict]:
 <span class="ck">#</span>
 <span class="ck"># Why not use the cross-encoder for all 50,000 chunks?</span>
 <span class="ck"># Cross-encoders are ~100x slower — fine for 50, too slow for 50,000</span>
-
+ 
 pip install cohere
-
+ 
 import cohere
 co = cohere.Client()   <span class="ck"># COHERE_API_KEY from environment</span>
-
+ 
 def retrieve_and_rerank(
     query: str,
     collection,
@@ -348,10 +349,10 @@ def retrieve_and_rerank(
     )
     docs  = results[<span class="cs">"documents"</span>][<span class="cv">0</span>]
     metas = results[<span class="cs">"metadatas"</span>][<span class="cv">0</span>]
-
+ 
     if not docs:
         return []
-
+ 
     <span class="ck"># Stage 2: Cohere reranker</span>
     rerank_response = co.rerank(
         model=<span class="cs">"rerank-english-v3.0"</span>,
@@ -360,7 +361,7 @@ def retrieve_and_rerank(
         top_n=return_k,
         return_documents=<span class="cv">True</span>
     )
-
+ 
     return [
         {
             <span class="cs">"text"</span>:      hit.document.text,
@@ -370,7 +371,7 @@ def retrieve_and_rerank(
         }
         for hit in rerank_response.results
     ]
-
+ 
 <span class="ck"># Usage</span>
 results = retrieve_and_rerank(<span class="cs">"How does DPDK mempool work?"</span>, collection)
 for r in results:
@@ -383,23 +384,23 @@ for r in results:
   <div class="cp-hdr"><span class="ico">🆓</span><h3>Free Reranking — Cross-Encoders with sentence-transformers</h3><span class="tag tag-blue">No API Cost</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install sentence-transformers
-
+ 
 from sentence_transformers import CrossEncoder
-
+ 
 <span class="ck"># Free cross-encoder models (smaller than Cohere, still effective)</span>
 <span class="ck"># ms-marco-MiniLM-L-6-v2 — fastest, reasonable quality</span>
 <span class="ck"># ms-marco-MiniLM-L-12-v2 — better quality, slower</span>
 <span class="ck"># cross-encoder/ms-marco-electra-base — best free quality</span>
-
+ 
 reranker = CrossEncoder(<span class="cs">"cross-encoder/ms-marco-MiniLM-L-6-v2"</span>)
-
+ 
 def rerank_local(query: str, docs: list[str], top_k: int = <span class="cv">5</span>) -> list[tuple]:
     """Returns (score, doc) pairs sorted by relevance."""
     pairs  = [(query, doc) for doc in docs]
     scores = reranker.predict(pairs)
     ranked = sorted(zip(scores, docs), reverse=<span class="cv">True</span>)
     return ranked[:top_k]
-
+ 
 <span class="ck"># Use in two-stage pipeline</span>
 stage1_docs  = [r[<span class="cs">"text"</span>] for r in stage1_results]
 reranked     = rerank_local(query, stage1_docs, top_k=<span class="cv">5</span>)
@@ -421,15 +422,15 @@ final_chunks = [doc for score, doc in reranked]</pre></div>
 <span class="ck"># HyDE search: generate a hypothetical document → embed that → find similar chunks</span>
 <span class="ck"># "make packets go faster" → generates paragraph using "throughput", "mbps", "pps"</span>
 <span class="ck"># → now embedding matches real doc language</span>
-
+ 
 HYDE_PROMPT = <span class="cs">"""Write a short technical document passage (2-3 sentences) that would
 directly answer the following question. Write as if you are an expert
 writing documentation. Use precise technical terminology.
-
+ 
 Question: {query}
-
+ 
 Technical passage:"""</span>
-
+ 
 def hyde_retrieve(query: str, collection, n_results: int = <span class="cv">5</span>) -> list[dict]:
     <span class="ck"># Step 1: generate hypothetical document</span>
     response = client.messages.create(
@@ -439,7 +440,7 @@ def hyde_retrieve(query: str, collection, n_results: int = <span class="cv">5</s
                    <span class="cs">"content"</span>: HYDE_PROMPT.format(query=query)}]
     )
     hypothetical_doc = response.content[<span class="cv">0</span>].text.strip()
-
+ 
     <span class="ck"># Step 2: embed the hypothetical doc and search</span>
     results = collection.query(
         query_texts=[hypothetical_doc],   <span class="ck"># ← key: search with generated doc, not original query</span>
@@ -455,13 +456,13 @@ def hyde_retrieve(query: str, collection, n_results: int = <span class="cv">5</s
             results[<span class="cs">"metadatas"</span>][<span class="cv">0</span>]
         )
     ]
-
+ 
 <span class="ck"># Hybrid: retrieve with both original query and HyDE, merge</span>
 def hybrid_hyde(query: str, collection, n_results: int = <span class="cv">5</span>) -> list[dict]:
     standard = collection.query(query_texts=[query], n_results=n_results,
                                 include=[<span class="cs">"documents"</span>, <span class="cs">"distances"</span>, <span class="cs">"metadatas"</span>, <span class="cs">"ids"</span>])
     hyde_res  = hyde_retrieve(query, collection, n_results=n_results)
-
+ 
     <span class="ck"># Merge unique results, original query results get slight preference</span>
     seen = set()
     merged = []
@@ -489,11 +490,11 @@ def hybrid_hyde(query: str, collection, n_results: int = <span class="cv">5</spa
   <div class="cp-body">
     <p>MMR balances relevance and diversity. Without it, your top-5 chunks might all be near-identical paragraphs from the same section. MMR ensures each selected chunk adds new information.</p>
     <div class="cb"><pre>import numpy as np
-
+ 
 def cosine_sim(a, b):
     a, b = np.array(a), np.array(b)
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + <span class="cv">1e-8</span>))
-
+ 
 def mmr(
     query_vec: list[float],
     candidate_vecs: list[list[float]],
@@ -509,29 +510,29 @@ def mmr(
     selected_idx   = []
     selected_vecs  = []
     remaining_idx  = list(range(len(candidate_docs)))
-
+ 
     for _ in range(min(top_k, len(candidate_docs))):
         best_score, best_idx = -<span class="cv">1</span>, -<span class="cv">1</span>
-
+ 
         for idx in remaining_idx:
             relevance = cosine_sim(query_vec, candidate_vecs[idx])
-
+ 
             if not selected_vecs:
                 redundancy = <span class="cv">0</span>
             else:
                 redundancy = max(cosine_sim(candidate_vecs[idx], sv)
                                  for sv in selected_vecs)
-
+ 
             score = lambda_param * relevance - (<span class="cv">1</span> - lambda_param) * redundancy
             if score > best_score:
                 best_score, best_idx = score, idx
-
+ 
         selected_idx.append(best_idx)
         selected_vecs.append(candidate_vecs[best_idx])
         remaining_idx.remove(best_idx)
-
+ 
     return [candidate_docs[i] for i in selected_idx]
-
+ 
 <span class="ck"># Practical example</span>
 <span class="ck"># 1. Retrieve top-20 with embeddings</span>
 <span class="ck"># 2. Apply MMR to select 5 diverse chunks</span>
@@ -557,38 +558,38 @@ test_set = [
      <span class="cs">"expected_section"</span>: <span class="cs">"Ring Library"</span>},
     <span class="ck"># ... 20+ test cases</span>
 ]
-
+ 
 def hit_rate(results: list[dict], expected_source: str, k: int = <span class="cv">5</span>) -> float:
     """1 if expected source appears in top-k, else 0."""
     top_k = results[:k]
     return <span class="cv">1.0</span> if any(expected_source in r[<span class="cs">"meta"</span>].get(<span class="cs">"source"</span>, <span class="cs">""</span>)
                          for r in top_k) else <span class="cv">0.0</span>
-
+ 
 def mrr(results: list[dict], expected_source: str) -> float:
     """Mean Reciprocal Rank — higher rank = higher score."""
     for i, r in enumerate(results):
         if expected_source in r[<span class="cs">"meta"</span>].get(<span class="cs">"source"</span>, <span class="cs">""</span>):
             return <span class="cv">1.0</span> / (i + <span class="cv">1</span>)
     return <span class="cv">0.0</span>
-
+ 
 def evaluate_pipeline(retrieval_fn, test_set: list[dict], k: int = <span class="cv">5</span>) -> dict:
     hit_rates, mrrs = [], []
     for test in test_set:
         results = retrieval_fn(test[<span class="cs">"query"</span>])
         hit_rates.append(hit_rate(results, test[<span class="cs">"expected_source"</span>], k))
         mrrs.append(mrr(results, test[<span class="cs">"expected_source"</span>]))
-
+ 
     return {
         <span class="cs">f"hit_rate@{k}"</span>: round(sum(hit_rates) / len(hit_rates), <span class="cv">3</span>),
         <span class="cs">"mrr"</span>:         round(sum(mrrs) / len(mrrs), <span class="cv">3</span>),
         <span class="cs">"n_queries"</span>:   len(test_set),
     }
-
+ 
 <span class="ck"># Compare pipelines</span>
 baseline = evaluate_pipeline(lambda q: basic_retrieve(q), test_set)
 reranked = evaluate_pipeline(lambda q: retrieve_and_rerank(q, collection), test_set)
 hyde_res = evaluate_pipeline(lambda q: hyde_retrieve(q, collection), test_set)
-
+ 
 print(<span class="cs">f"Baseline:  {baseline}"</span>)  <span class="ck"># {"hit_rate@5": 0.65, "mrr": 0.48}</span>
 print(<span class="cs">f"Reranked:  {reranked}"</span>)  <span class="ck"># {"hit_rate@5": 0.82, "mrr": 0.67}</span>
 print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hit_rate@5": 0.74, "mrr": 0.55}</span></pre></div>

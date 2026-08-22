@@ -4,6 +4,7 @@ description: "Padding, Alignment & Packing Structure size may be bigger than exp
 domain: languages
 track: c-fundamentals
 order: 10
+ownHeader: true
 url: /learning/programming-language/c/c-basics/padding-packing/
 ---
 

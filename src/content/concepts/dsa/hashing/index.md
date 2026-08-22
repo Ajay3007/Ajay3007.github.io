@@ -3,6 +3,7 @@ title: "Hashing"
 description: "️⃣ Hashing (Hashmaps & Sets) Hash maps offer O(1) average insert, lookup, and delete."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/hashing/
 ---
 

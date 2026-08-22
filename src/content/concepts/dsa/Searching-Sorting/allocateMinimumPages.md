@@ -3,6 +3,7 @@ title: "Sorting"
 description: "[Code]( code) --- --- Problem Link - [Allocate Minimum Pages - GFG](https://www.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1){:target=\" blank\"…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/searching-sorting/allocateMinimumPages/
 ---
 

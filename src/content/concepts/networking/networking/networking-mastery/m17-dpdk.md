@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 4 · MODULE 17 · WEEK 15 🚀 High-Pe
 domain: networking
 track: networking-mastery
 order: 17
+ownHeader: true
 url: /learning/networking-mastery/m17-dpdk/
 ---
 
@@ -111,27 +112,27 @@ url: /learning/networking-mastery/m17-dpdk/
   <div class="cp-body">
     <p>You already have 2.5 years of DPDK experience — this module deepens that foundation with the theoretical underpinning of each performance technique, connecting your practical knowledge to the "why".</p>
 <div class="cb"><pre><span class="cm">/* Why kernel forwarding is slow — root causes */</span>
-
+ 
 1. Interrupt overhead (eliminated by PMD polling):
    10G at 64B = 14.8M packets/s = 14.8M IRQs/s
    Each IRQ: context switch + cache invalidation ≈ 1000 cycles = 14.8T cycles/s wasted
-
+ 
 2. Memory allocation (eliminated by mempool):
    kmalloc()/kfree() per sk_buff → fragmentation, lock contention
    DPDK mempool: pre-allocated, lock-free, O(1)
-
+ 
 3. Memory copies (eliminated by zero-copy design):
    NIC → DMA buffer → sk_buff → socket rcvbuf → userspace
    DPDK: NIC DMA → mbuf in hugepage → application (1 copy from NIC)
-
+ 
 4. Cache misses (eliminated by hugepages + NUMA pinning):
    4KB pages: 1GB of packet buffers = 262,144 TLB entries → TLB thrash
    2MB hugepages: same 1GB = 512 TLB entries → fits in TLB
-
+ 
 5. Lock contention (eliminated by per-core design):
    Kernel routing: locks on ARP cache, routing table, socket buffers
    DPDK: each core owns its own queues and mempools → no locks
-
+ 
 <span class="cm">/* Performance numbers */</span>
 Kernel stack:   ~1-3 Mpps per core (64B packets)
 DPDK (Intel):   ~30-80 Mpps per core
@@ -149,22 +150,22 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* DPDK EAL — abstracts OS and hardware */</span>
 <span class="cm">/* Manages: hugepages, NUMA, CPU affinity, PCI devices, logging */</span>
-
+ 
 <span class="cm">/* Minimal DPDK application skeleton */</span>
 <span class="cs">#include &lt;rte_eal.h&gt;
 #include &lt;rte_ethdev.h&gt;
 #include &lt;rte_mbuf.h&gt;</span>
-
+ 
 <span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> **argv) {
     <span class="cm">/* EAL init: parses EAL args, sets up hugepages, maps devices */</span>
     <span class="ck">int</span> ret = rte_eal_init(argc, argv);
     <span class="ck">if</span> (ret < 0) rte_exit(EXIT_FAILURE, <span class="cs">"EAL init failed\n"</span>);
     argc -= ret; argv += ret;  <span class="cm">/* remaining args are app-specific */</span>
-
+ 
     <span class="cm">/* Check available ports */</span>
     uint16_t nb_ports = rte_eth_dev_count_avail();
     printf(<span class="cs">"Available ports: %u\n"</span>, nb_ports);
-
+ 
     <span class="cm">/* Create mempool (see Tab 2) */</span>
     <span class="ck">struct</span> rte_mempool *mp = rte_pktmbuf_pool_create(
         <span class="cs">"MBUF_POOL"</span>,          <span class="cm">/* name */</span>
@@ -173,27 +174,27 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
         0,                    <span class="cm">/* priv_size */</span>
         RTE_MBUF_DEFAULT_BUF_SIZE,
         rte_socket_id());     <span class="cm">/* NUMA socket */</span>
-
+ 
     <span class="cm">/* Configure each port */</span>
     uint16_t port_id;
     RTE_ETH_FOREACH_DEV(port_id) {
         port_init(port_id, mp);
     }
-
+ 
     <span class="cm">/* Launch worker on each lcore */</span>
     rte_eal_mp_remote_launch(lcore_main, NULL, CALL_MAIN);
-
+ 
     rte_eal_cleanup();
     return 0;
 }
-
+ 
 <span class="cm">/* Key EAL command-line arguments */</span>
 -l 0-3          <span class="cm"># use lcores 0,1,2,3 (logical CPU cores)</span>
 -n 4            <span class="cm"># 4 memory channels</span>
 --socket-mem 2048  <span class="cm"># 2GB hugepage memory on socket 0</span>
 --vdev eth_pcap0,iface=eth0  <span class="cm"># use pcap driver (for testing without real NIC)</span>
 -a 0000:01:00.0 <span class="cm"># allow only this PCI device</span>
-
+ 
 <span class="cm">/* Hugepage setup (required before DPDK runs) */</span>
 echo 2048 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 mkdir -p /mnt/huge
@@ -217,41 +218,41 @@ mount -t hugetlbfs nodev /mnt/huge</pre></div>
     uint16_t         data_off;       <span class="cm">/* offset to first byte of data (headroom) */</span>
     uint16_t         data_len;       <span class="cm">/* data length in THIS mbuf segment */</span>
     uint32_t         pkt_len;        <span class="cm">/* total packet length (all segments) */</span>
-
+ 
     <span class="cm">/* Segmentation (chained mbufs for large packets) */</span>
     struct rte_mbuf *next;           <span class="cm">/* next segment in chain (NULL if only one) */</span>
     uint8_t          nb_segs;        <span class="cm">/* number of segments */</span>
-
+ 
     <span class="cm">/* Offload flags */</span>
     uint64_t         ol_flags;       <span class="cm">/* PKT_TX_IP_CKSUM, PKT_RX_RSS_HASH, etc. */</span>
     uint32_t         packet_type;    <span class="cm">/* RTE_PTYPE_L3_IPV4, L4_TCP, etc. */</span>
     uint32_t         hash.rss;       <span class="cm">/* RSS hash computed by NIC */</span>
-
+ 
     <span class="cm">/* Port and queue */</span>
     uint16_t         port;
     uint32_t         seqn;
 };
-
+ 
 <span class="cm">/* Accessing packet data */</span>
 <span class="ck">struct</span> rte_ipv4_hdr *ip = rte_pktmbuf_mtod_offset(m,
     <span class="ck">struct</span> rte_ipv4_hdr *, sizeof(<span class="ck">struct</span> rte_ether_hdr));
 uint32_t src_ip = rte_be_to_cpu_32(ip->src_addr);
 uint32_t dst_ip = rte_be_to_cpu_32(ip->dst_addr);
-
+ 
 <span class="cm">/* Prepend header (like skb_push) */</span>
 <span class="ck">struct</span> rte_ether_hdr *eth = (<span class="ck">struct</span> rte_ether_hdr *)
     rte_pktmbuf_prepend(m, sizeof(<span class="ck">struct</span> rte_ether_hdr));
-
+ 
 <span class="cm">/* rte_mempool — pre-allocated, lock-free pool */</span>
 <span class="cm">/* Pool has: global ring + per-lcore cache (avoids lock on common case) */</span>
-
+ 
 <span class="cm">/* Allocate mbuf from pool */</span>
 <span class="ck">struct</span> rte_mbuf *m = rte_pktmbuf_alloc(mp);
 <span class="ck">if</span> (!m) { <span class="cm">/* pool exhausted — back-pressure or drop */</span> }
-
+ 
 <span class="cm">/* Free mbuf back to pool */</span>
 rte_pktmbuf_free(m);  <span class="cm">/* returns to per-lcore cache, then global ring */</span>
-
+ 
 <span class="cm">/* Bulk allocate/free (amortizes pool overhead) */</span>
 <span class="ck">struct</span> rte_mbuf *mbufs[32];
 rte_pktmbuf_alloc_bulk(mp, mbufs, 32);
@@ -274,46 +275,46 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
     };
     <span class="ck">const int</span> rx_rings = 1, tx_rings = 1;
     uint16_t nb_rxd = 1024, nb_txd = 1024;
-
+ 
     rte_eth_dev_configure(port, rx_rings, tx_rings, &port_conf);
     rte_eth_dev_adjust_nb_rx_tx_desc(port, &nb_rxd, &nb_txd);
-
+ 
     <span class="cm">/* Setup RX queue on NUMA-local socket */</span>
     rte_eth_rx_queue_setup(port, 0, nb_rxd,
         rte_eth_dev_socket_id(port), NULL, mp);
     <span class="cm">/* Setup TX queue */</span>
     rte_eth_tx_queue_setup(port, 0, nb_txd,
         rte_eth_dev_socket_id(port), NULL);
-
+ 
     rte_eth_dev_start(port);
     rte_eth_promiscuous_enable(port);
     return 0;
 }
-
+ 
 <span class="cm">/* Core forwarding loop — the main performance-critical loop */</span>
 <span class="ck">static int</span> lcore_main(void *arg) {
     uint16_t port;
     <span class="ck">struct</span> rte_mbuf *bufs[BURST_SIZE];  <span class="cm">/* BURST_SIZE = 32 */</span>
-
+ 
     RTE_ETH_FOREACH_DEV(port) {
         <span class="ck">if</span> (rte_eth_dev_socket_id(port) > 0 &&
             rte_eth_dev_socket_id(port) != (<span class="ck">int</span>)rte_socket_id())
             printf(<span class="cs">"WARNING: port %u is on remote NUMA\n"</span>, port);
     }
-
+ 
     printf(<span class="cs">"Core %u forwarding. [Ctrl+C to quit]\n"</span>, rte_lcore_id());
-
+ 
     <span class="ck">while</span> (1) {
         RTE_ETH_FOREACH_DEV(port) {
             <span class="cm">/* POLL: pull up to BURST_SIZE packets from NIC RX queue */</span>
             uint16_t nb_rx = rte_eth_rx_burst(port, 0, bufs, BURST_SIZE);
             <span class="ck">if</span> (nb_rx == 0) <span class="ck">continue</span>;  <span class="cm">/* nothing received */</span>
-
+ 
             <span class="cm">/* Process each packet */</span>
             <span class="ck">for</span> (uint16_t i = 0; i < nb_rx; i++) {
                 process_packet(bufs[i]);  <span class="cm">/* L3 lookup, NAT, filter... */</span>
             }
-
+ 
             <span class="cm">/* Burst transmit — send all processed packets */</span>
             uint16_t nb_tx = rte_eth_tx_burst(port ^ 1, 0, bufs, nb_rx);
             <span class="cm">/* Free any packets that failed to transmit */</span>
@@ -322,7 +323,7 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
         }
     }
 }
-
+ 
 <span class="cm">/* Why burst size matters for performance */</span>
 <span class="cm"># Burst=1:  function call overhead dominates → low throughput</span>
 <span class="cm"># Burst=32: amortize call overhead, fill cache with packet data → optimal</span>
@@ -341,7 +342,7 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
 <div class="cb"><pre><span class="cm">/* RSS — Receive Side Scaling */</span>
 <span class="cm">/* NIC hashes packet 5-tuple → assigns to RX queue → specific lcore */</span>
 <span class="cm">/* Ensures packets of same flow always go to same core (session affinity) */</span>
-
+ 
 <span class="ck">struct</span> rte_eth_conf port_conf = {
     .rxmode = {
         .mq_mode = RTE_ETH_MQ_RX_RSS,
@@ -353,11 +354,11 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
         },
     },
 };
-
+ 
 <span class="cm">/* Per-packet RSS hash (computed by NIC hardware) */</span>
 <span class="ck">if</span> (m->ol_flags & RTE_MBUF_F_RX_RSS_HASH)
     uint32_t hash = m->hash.rss;  <span class="cm">/* use for flow table lookup */</span>
-
+ 
 <span class="cm">/* Symmetric RSS — ensure fwd and return packets land on same core */</span>
 <span class="cm">/* Standard RSS: hash(sIP,dIP,sPort,dPort) — fwd and return differ! */</span>
 <span class="cm">/* Symmetric: hash(sIP^dIP, sPort^dPort) — XOR makes it symmetric */</span>
@@ -369,19 +370,19 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
     0x77, 0xcb, 0x2d, 0xa3, 0x80, 0x30, 0xf2, 0x0c,
     0x6a, 0x42, 0xb7, 0x3b, 0xbe, 0xac, 0x01, 0xfa,
 };</span>
-
+ 
 <span class="cm">/* Flow Director — exact-match steering beyond RSS */</span>
 <span class="cm">/* Program specific 5-tuples → specific queue */</span>
 <span class="ck">struct</span> rte_flow_attr attr = { .ingress = 1 };
 <span class="ck">struct</span> rte_flow_item pattern[4];
 <span class="ck">struct</span> rte_flow_action action[2];
-
+ 
 <span class="cm">/* Match IPv4 + TCP dst port 80 */</span>
 <span class="ck">struct</span> rte_flow_item_ipv4 ipv4_spec = { .hdr.dst_addr = htonl(0xc0a80001) };
 <span class="ck">struct</span> rte_flow_item_tcp  tcp_spec  = { .hdr.dst_port = htons(80) };
 <span class="cm">/* → send to queue 3 */</span>
 <span class="ck">struct</span> rte_flow_action_queue queue_action = { .index = 3 };
-
+ 
 <span class="cm">/* Create the flow rule */</span>
 <span class="ck">struct</span> rte_flow_error error;
 <span class="ck">struct</span> rte_flow *flow = rte_flow_create(port_id, &attr,
@@ -400,32 +401,32 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
 <span class="cm">/* Each lcore processes packets end-to-end: RX → all processing → TX */</span>
 <span class="cm">/* Pros: no inter-core communication, lowest latency */</span>
 <span class="cm">/* Cons: all processing must fit in one core's budget */</span>
-
+ 
 lcore 0: RX port 0 → classify → ACL → NAT → TX port 1
 lcore 1: RX port 1 → classify → ACL → NAT → TX port 0
 lcore 2: RX port 2 → classify → ACL → NAT → TX port 3
-
+ 
 <span class="cm">/* Model 2: Pipeline (assembly line) */</span>
 <span class="cm">/* Different cores handle different stages; communicate via ring queues */</span>
 <span class="cm">/* Pros: each stage specialised, cache-friendly per stage */</span>
 <span class="cm">/* Cons: ring enqueue/dequeue latency, pipeline stalls */</span>
-
+ 
 lcore 0 (RX):      NIC → mbuf → enqueue to classify_ring
 lcore 1 (Classify): dequeue → L3 parse → enqueue to acl_ring
 lcore 2 (ACL):     dequeue → policy check → enqueue to nat_ring
 lcore 3 (NAT+TX):  dequeue → NAT → NIC TX
-
+ 
 <span class="cm">/* rte_ring — lock-free SPSC/MPSC/SPMC/MPMC ring queue */</span>
 <span class="ck">struct</span> rte_ring *ring = rte_ring_create(<span class="cs">"MY_RING"</span>, 4096,
     rte_socket_id(), RING_F_SP_ENQ | RING_F_SC_DEQ);
-
+ 
 <span class="cm">/* Enqueue (producer side) */</span>
 rte_ring_enqueue_burst(ring, (<span class="ck">void</span> **)mbufs, nb_mbufs, NULL);
-
+ 
 <span class="cm">/* Dequeue (consumer side) */</span>
 uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs,
     BURST_SIZE, NULL);
-
+ 
 <span class="cm">/* DPDK Graph framework (DPDK 20.11+) */</span>
 <span class="cm">/* Modern way to build pipelines: graph of nodes, edges are rte_rings */</span>
 <span class="cm">/* Nodes: ip4_lookup, ip4_rewrite, acl_classify, etc. */</span>
@@ -444,7 +445,7 @@ uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs
 <span class="cm"># Kernel boot: isolcpus=4-7,nohz_full=4-7,rcu_nocbs=4-7</span>
 <span class="cm"># DPDK EAL: -l 4-7  (use cores 4-7)</span>
 <span class="cm"># These cores will spin 100% polling — don't share with OS</span>
-
+ 
 <span class="cm">/* 2. NUMA awareness — memory on same socket as NIC */</span>
 <span class="ck">if</span> (rte_eth_dev_socket_id(port) != (<span class="ck">int</span>)rte_socket_id()) {
     printf(<span class="cs">"NUMA mismatch: NIC on socket %d, core on socket %d\n"</span>,
@@ -455,20 +456,20 @@ uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs
 <span class="cm">/* Mempool MUST be on same NUMA as NIC: */</span>
 rte_pktmbuf_pool_create(<span class="cs">"MP"</span>, N, 256, 0, BUF_SIZE,
     rte_eth_dev_socket_id(port));  <span class="cm">/* NOT rte_socket_id() */</span>
-
+ 
 <span class="cm">/* 3. Prefetching — hide memory latency */</span>
 <span class="ck">for</span> (i = 0; i < nb_rx; i++) {
     <span class="ck">if</span> (i + 4 < nb_rx)
         rte_prefetch0(rte_pktmbuf_mtod(bufs[i + 4], void *));
     process_packet(bufs[i]);  <span class="cm">/* by the time we process [i], [i+4] is in L1 */</span>
 }
-
+ 
 <span class="cm">/* 4. TX descriptor writeback — reduce PCIe round trips */</span>
 <span class="ck">struct</span> rte_eth_txconf txconf = {
     .tx_thresh = { .pthresh = 32, .hthresh = 0, .wthresh = 0 },
     .tx_free_thresh = 32,        <span class="cm">/* free 32 at once, not 1 by 1 */</span>
 };
-
+ 
 <span class="cm">/* 5. Offloads — hardware helps software */</span>
 <span class="ck">struct</span> rte_eth_conf port_conf = {
     .rxmode.offloads = RTE_ETH_RX_OFFLOAD_CHECKSUM |  <span class="cm">/* HW validates cksum */</span>
@@ -476,7 +477,7 @@ rte_pktmbuf_pool_create(<span class="cs">"MP"</span>, N, 256, 0, BUF_SIZE,
     .txmode.offloads = RTE_ETH_TX_OFFLOAD_IPV4_CKSUM | <span class="cm">/* HW fills IP cksum */</span>
                        RTE_ETH_TX_OFFLOAD_TCP_CKSUM,   <span class="cm">/* HW fills TCP cksum */</span>
 };
-
+ 
 <span class="cm">/* 6. Measuring performance */</span>
 uint64_t hz = rte_get_timer_hz();
 uint64_t start = rte_get_timer_cycles();

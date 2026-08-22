@@ -3,6 +3,7 @@ title: "Sliding Window Technique"
 description: "🪟 Sliding Window Technique Sliding Window is a fundamental technique used for solving problems involving contiguous subarrays or substrings ."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/arrays/sliding-window/
 ---
 

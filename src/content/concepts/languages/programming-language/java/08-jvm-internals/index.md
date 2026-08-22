@@ -3,6 +3,7 @@ title: "JVM Internals"
 description: "JVM Internals Memory management, garbage collection, and JVM architecture."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/08-jvm-internals/
 ---
 

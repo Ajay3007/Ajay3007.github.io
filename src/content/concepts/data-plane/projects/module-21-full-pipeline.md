@@ -4,6 +4,7 @@ description: "Module 21 — Full Pipeline (Annotated Assembly) Runs standalone w
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-21-full-pipeline/
 ---
 

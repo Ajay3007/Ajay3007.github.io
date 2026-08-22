@@ -3,6 +3,7 @@ title: "Dynamic Programming"
 description: "--- 📋 Executive Summary Document: Dynamic Programming Mastery Type: Technical Documentation Reading Time: ~18 min Last Updated: December 2025 📊 Quick Stats Metric Value…"
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/dynamic-programming/
 ---
 

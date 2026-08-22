@@ -4,6 +4,7 @@ description: "🛡️ NGFW — Next-Generation Firewall A modern firewall is no 
 domain: data-plane
 track: ngfw
 order: 0
+ownHeader: true
 url: /learning/data-plane/ngfw/
 ---
 

@@ -4,6 +4,8 @@ description: "DSA Roadmap › Chapter 12 Interview Cheat Sheet Complete Referenc
 domain: dsa
 track: dsa-mastery
 order: 12
+chrome: bare
+ownHeader: true
 url: /learning/dsa/ch12-cheat-sheet/
 ---
 

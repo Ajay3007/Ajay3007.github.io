@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B14 · WEEK 16 CONTAINE
 domain: system-design
 track: system-design-hld
 order: 128
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b14-kubernetes/
 ---
 

@@ -3,6 +3,7 @@ title: "Singly Linked List"
 description: "📘 Singly Linked List – Basics & Problem-Solving Guide Complete guide to singly linked lists, fundamental operations, patterns, and interview strategies."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/singly-linked-list/
 ---
 

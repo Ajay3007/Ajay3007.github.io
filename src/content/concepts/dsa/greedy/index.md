@@ -3,6 +3,7 @@ title: "Greedy Algorithms"
 description: "🌿 Greedy Algorithms Greedy algorithms make the locally optimal choice at each step, hoping it leads to a globally optimal solution."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/greedy/
 ---
 

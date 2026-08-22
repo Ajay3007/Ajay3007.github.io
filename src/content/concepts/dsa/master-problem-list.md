@@ -3,6 +3,7 @@ title: "Master Problem List"
 description: "📋 Master Problem List {{ site.data.problems.problems size }} Total Problems {{ site.data.problems.problems where: \"solved\", true size }} Solved ✓ {{…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/master-problem-list/
 ---
 

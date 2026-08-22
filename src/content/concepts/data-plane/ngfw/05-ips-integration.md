@@ -4,6 +4,7 @@ description: "🔬 IPS Integration — Snort over Shared Memory In [Module 04](/
 domain: data-plane
 track: ngfw
 order: 5
+ownHeader: true
 url: /learning/data-plane/ngfw/ips-integration/
 ---
 

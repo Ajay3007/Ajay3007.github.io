@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part6-agents
 order: 622
+ownHeader: true
 url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
 ---
 
@@ -231,28 +232,28 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
     <div class="cb"><pre>import anthropic
 from pydantic import BaseModel
 import instructor
-
+ 
 judge_client = instructor.from_anthropic(anthropic.Anthropic())
-
+ 
 class JudgeVerdict(BaseModel):
     score:      float   <span class="ck"># 0.0 to 1.0</span>
     reasoning:  str
     passed:     bool    <span class="ck"># True if score >= threshold</span>
-
+ 
 <span class="ck"># ── Faithfulness judge ────────────────────────────────</span>
 FAITHFULNESS_JUDGE = <span class="cs">"""You are an expert evaluator. Determine whether every factual
 claim in the ANSWER is directly supported by the CONTEXT.
-
+ 
 Score 1.0: All claims are explicitly stated in the context.
 Score 0.5: Most claims supported, some extrapolation.
 Score 0.0: Major claims not in context — hallucination present.
-
+ 
 CONTEXT:
 {context}
-
+ 
 ANSWER:
 {answer}"""</span>
-
+ 
 def judge_faithfulness(context: str, answer: str,
                         threshold: float = <span class="cv">0.7</span>) -> JudgeVerdict:
     result = judge_client.messages.create(
@@ -265,17 +266,17 @@ def judge_faithfulness(context: str, answer: str,
     )
     result.passed = result.score >= threshold
     return result
-
+ 
 <span class="ck"># ── Task success judge ────────────────────────────────</span>
 TASK_SUCCESS_JUDGE = <span class="cs">"""Did the AI agent successfully complete the following task?
-
+ 
 ORIGINAL TASK: {task}
 AGENT'S OUTPUT: {output}
-
+ 
 Score 1.0: Task fully completed — all requirements met.
 Score 0.5: Task partially completed — some requirements missing.
 Score 0.0: Task failed — output does not address the task."""</span>
-
+ 
 def judge_task_success(task: str, output: str) -> JudgeVerdict:
     return judge_client.messages.create(
         model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -301,9 +302,9 @@ def judge_task_success(task: str, output: str) -> JudgeVerdict:
 <span class="ck"># Step 2: run your judge on the same 50</span>
 <span class="ck"># Step 3: compute correlation (Pearson r or Spearman ρ)</span>
 <span class="ck"># Step 4: if r < 0.7, iterate on the judge prompt</span>
-
+ 
 from scipy.stats import pearsonr, spearmanr
-
+ 
 def calibrate_judge(human_scores: list[float], judge_scores: list[float]) -> dict:
     pearson_r, _ = pearsonr(human_scores, judge_scores)
     spearman_r, _ = spearmanr(human_scores, judge_scores)
@@ -335,36 +336,36 @@ RAG_TEST_SET = [
     },
     <span class="ck"># ... 20+ test cases</span>
 ]
-
+ 
 <span class="ck"># Run full eval loop</span>
 async def evaluate_rag_pipeline(pipeline, test_set: list) -> dict:
     scores = {<span class="cs">"faithfulness"</span>: [], <span class="cs">"relevancy"</span>: [], <span class="cs">"hit_rate"</span>: [],
               <span class="cs">"cost_usd"</span>: [], <span class="cs">"latency_ms"</span>: []}
-
+ 
     for case in test_set:
         import time
         t_start = time.perf_counter()
         result  = await pipeline.query(case[<span class="cs">"question"</span>])
         latency = (time.perf_counter() - t_start) * <span class="cv">1000</span>
-
+ 
         <span class="ck"># Metric 1: Faithfulness</span>
         faith = judge_faithfulness(
             context=<span class="cs">" ".join(s[<span class="cs">"text"</span>] for s in result[<span class="cs">"sources"</span>]),
             answer=result[<span class="cs">"answer"</span>]
         )
         scores[<span class="cs">"faithfulness"</span>].append(faith.score)
-
+ 
         <span class="ck"># Metric 2: Answer relevancy (does answer address the question?)</span>
         relevancy = judge_answer_relevancy(case[<span class="cs">"question"</span>], result[<span class="cs">"answer"</span>])
         scores[<span class="cs">"relevancy"</span>].append(relevancy.score)
-
+ 
         <span class="ck"># Metric 3: Source hit rate</span>
         expected = case[<span class="cs">"expected_source"</span>]
         hit = any(expected in s.get(<span class="cs">"source"</span>, <span class="cs">""</span>) for s in result[<span class="cs">"sources"</span>])
         scores[<span class="cs">"hit_rate"</span>].append(float(hit))
-
+ 
         scores[<span class="cs">"latency_ms"</span>].append(latency)
-
+ 
     def avg(lst): return round(sum(lst) / len(lst), <span class="cv">3</span>) if lst else <span class="cv">0</span>
     return {k: avg(v) for k, v in scores.items()}</pre></div>
   </div>
@@ -381,7 +382,7 @@ async def evaluate_rag_pipeline(pipeline, test_set: list) -> dict:
 <span class="ck"># 1. The "right answer" may not be unique</span>
 <span class="ck"># 2. The path matters, not just the destination</span>
 <span class="ck"># 3. Tool calls have side effects that are hard to undo</span>
-
+ 
 @dataclass
 class AgentTestCase:
     task:              str
@@ -390,7 +391,7 @@ class AgentTestCase:
     forbidden_tools:   list[str] = None   <span class="ck"># tools that must NOT be called</span>
     max_turns:         int = <span class="cv">10</span>
     max_cost_usd:      float = <span class="cv">0.50</span>
-
+ 
 AGENT_TEST_SET = [
     AgentTestCase(
         task=<span class="cs">"Find the square root of 1764 and the current time"</span>,
@@ -405,7 +406,7 @@ AGENT_TEST_SET = [
         forbidden_tools=[<span class="cs">"send_email"</span>],   <span class="ck"># should not email anyone</span>
     ),
 ]
-
+ 
 class AgentEvaluator:
     def evaluate(self, agent_fn, test_case: AgentTestCase) -> dict:
         result = agent_fn(test_case.task)
@@ -413,25 +414,25 @@ class AgentEvaluator:
         output       = result.get(<span class="cs">"answer"</span>, <span class="cs">""</span>)
         turns        = result.get(<span class="cs">"turns_used"</span>, <span class="cv">0</span>)
         cost         = result.get(<span class="cs">"cost_usd"</span>, <span class="cv">0</span>)
-
+ 
         <span class="ck"># Task success — LLM judge</span>
         success = judge_task_success(test_case.task, output)
-
+ 
         <span class="ck"># Required tools coverage</span>
         tool_coverage = <span class="cv">1.0</span>
         if test_case.required_tools:
             called_set  = set(tools_called)
             required    = set(test_case.required_tools)
             tool_coverage = len(called_set & required) / len(required)
-
+ 
         <span class="ck"># Forbidden tools check</span>
         forbidden_used = []
         if test_case.forbidden_tools:
             forbidden_used = [t for t in tools_called if t in test_case.forbidden_tools]
-
+ 
         <span class="ck"># Efficiency: did it use more turns than needed?</span>
         efficiency = min(<span class="cv">1.0</span>, (test_case.max_turns - turns) / test_case.max_turns + <span class="cv">0.5</span>)
-
+ 
         return {
             <span class="cs">"task_success"</span>:   success.score,
             <span class="cs">"task_passed"</span>:    success.passed,
@@ -442,7 +443,7 @@ class AgentEvaluator:
             <span class="cs">"efficiency"</span>:     efficiency,
             <span class="cs">"judge_reasoning"</span>: success.reasoning,
         }
-
+ 
     def evaluate_batch(self, agent_fn, test_set) -> dict:
         results   = [self.evaluate(agent_fn, tc) for tc in test_set]
         successes = [r[<span class="cs">"task_success"</span>] for r in results]
@@ -465,7 +466,7 @@ class AgentEvaluator:
   <div class="cp-hdr"><span class="ico">🔧</span><h3>DeepEval — Production Eval Framework</h3><span class="tag tag-violet">Framework</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install deepeval
-
+ 
 from deepeval import evaluate
 from deepeval.metrics import (
     AnswerRelevancyMetric, FaithfulnessMetric,
@@ -473,7 +474,7 @@ from deepeval.metrics import (
     HallucinationMetric, ToxicityMetric,
 )
 from deepeval.test_case import LLMTestCase
-
+ 
 <span class="ck"># Define metrics</span>
 metrics = [
     AnswerRelevancyMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
@@ -481,7 +482,7 @@ metrics = [
     ContextualPrecisionMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
     ContextualRecallMetric(threshold=<span class="cv">0.7</span>, model=<span class="cs">"gpt-4o"</span>),
 ]
-
+ 
 <span class="ck"># Create a test case</span>
 test_case = LLMTestCase(
     input=<span class="cs">"How does DPDK mempool work?"</span>,
@@ -489,14 +490,14 @@ test_case = LLMTestCase(
     expected_output=<span class="cs">"rte_mempool_create() creates a fixed-size pool..."</span>,   <span class="ck"># optional</span>
     retrieval_context=[<span class="cs">"The DPDK mempool library provides an API to allocate..."</span>]
 )
-
+ 
 <span class="ck"># Run evaluation</span>
 results = evaluate([test_case], metrics)
-
+ 
 <span class="ck"># Use in pytest for CI/CD regression testing</span>
 from deepeval import assert_test
 import pytest
-
+ 
 @pytest.mark.parametrize(<span class="cs">"test_case"</span>, my_test_cases)
 def test_rag_quality(test_case):
     assert_test(test_case, metrics)</pre></div>
@@ -507,14 +508,14 @@ def test_rag_quality(test_case):
   <div class="cp-hdr"><span class="ico">📈</span><h3>Ragas — RAG Assessment Framework</h3><span class="tag tag-blue">RAG Specific</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install ragas
-
+ 
 from ragas import evaluate
 from ragas.metrics import (
     faithfulness, answer_relevancy,
     context_precision, context_recall
 )
 from datasets import Dataset
-
+ 
 <span class="ck"># Prepare your evaluation dataset</span>
 data = {
     <span class="cs">"question"</span>: [<span class="cs">"How does DPDK mempool work?"</span>, <span class="cs">"What is VPP?"</span>],
@@ -526,7 +527,7 @@ data = {
     <span class="cs">"ground_truth"</span>: [<span class="cs">"rte_mempool_create creates a fixed pool"</span>, <span class="cs">"VPP processes vectors of packets"</span>]
 }
 dataset = Dataset.from_dict(data)
-
+ 
 <span class="ck"># Run Ragas evaluation</span>
 result = evaluate(
     dataset,
@@ -535,7 +536,7 @@ result = evaluate(
 print(result)
 <span class="ck"># {'faithfulness': 0.92, 'answer_relevancy': 0.88,</span>
 <span class="ck">#  'context_precision': 0.84, 'context_recall': 0.79}</span>
-
+ 
 <span class="ck"># Convert to pandas for analysis</span>
 df = result.to_pandas()
 df.to_csv(<span class="cs">"rag_eval_results.csv"</span>, index=<span class="cv">False</span>)
@@ -551,26 +552,26 @@ df.to_csv(<span class="cs">"rag_eval_results.csv"</span>, index=<span class="cv"
   <div class="cp-hdr"><span class="ico">🔭</span><h3>LangSmith — Tracing and Evaluation Platform</h3><span class="tag tag-violet">Observability</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install langsmith
-
+ 
 import os
 os.environ[<span class="cs">"LANGCHAIN_TRACING_V2"</span>] = <span class="cs">"true"</span>
 os.environ[<span class="cs">"LANGCHAIN_API_KEY"</span>]      = os.environ[<span class="cs">"LANGSMITH_API_KEY"</span>]
 os.environ[<span class="cs">"LANGCHAIN_PROJECT"</span>]       = <span class="cs">"my-rag-project"</span>
-
+ 
 <span class="ck"># All LangChain calls now auto-trace to LangSmith</span>
 <span class="ck"># Go to smith.langchain.com → see every run</span>
-
+ 
 <span class="ck"># ── Manual tracing (without LangChain) ───────────────</span>
 from langsmith import Client, traceable
-
+ 
 ls_client = Client()
-
+ 
 @traceable(name=<span class="cs">"rag_query"</span>, run_type=<span class="cs">"chain"</span>)
 def traced_rag_query(question: str) -> dict:
     <span class="ck"># Your RAG pipeline here — every call is auto-logged</span>
     result = rag_query(question)
     return result
-
+ 
 <span class="ck"># ── Dataset-based evaluation ──────────────────────────</span>
 <span class="ck"># Create a dataset in LangSmith</span>
 dataset = ls_client.create_dataset(<span class="cs">"rag-eval-set"</span>)
@@ -579,7 +580,7 @@ ls_client.create_examples(
     outputs=[{<span class="cs">"answer"</span>: t[<span class="cs">"ground_truth"</span>]} for t in RAG_TEST_SET],
     dataset_id=dataset.id
 )
-
+ 
 <span class="ck"># Define evaluator function</span>
 def faithfulness_evaluator(run, example) -> dict:
     verdict = judge_faithfulness(
@@ -588,10 +589,10 @@ def faithfulness_evaluator(run, example) -> dict:
     )
     return {<span class="cs">"key"</span>: <span class="cs">"faithfulness"</span>, <span class="cs">"score"</span>: verdict.score,
             <span class="cs">"comment"</span>: verdict.reasoning}
-
+ 
 <span class="ck"># Run evaluation against the dataset</span>
 from langsmith.evaluation import evaluate as ls_evaluate
-
+ 
 results = ls_evaluate(
     traced_rag_query,
     data=<span class="cs">"rag-eval-set"</span>,

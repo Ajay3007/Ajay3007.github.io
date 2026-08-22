@@ -78,6 +78,27 @@ const concepts = defineCollection({
     module: z.string().optional(),
     order: z.number().default(99),
 
+    /**
+     * How much chrome the layout supplies.
+     *
+     * `docs` — breadcrumb, derived header, prose column, table of contents.
+     * `bare` — breadcrumb only, full width, no derived header: the page brings
+     *          its own hero and design and needs the full viewport. This is the
+     *          57 pages that used Jekyll's `layout: default` for exactly that
+     *          reason; rendering them in the docs column squeezes a full-bleed
+     *          design into 735px and stacks two headings on top of each other.
+     */
+    chrome: z.enum(['docs', 'bare']).default('docs'),
+
+    /**
+     * The body already opens with its own heading or hero, so the layout must
+     * not add a second one. True for 324 of the 325 migrated pages: Jekyll's
+     * learning layout never rendered a title from frontmatter, it went
+     * breadcrumb -> reading time -> content, and the page supplied its own.
+     * New prose-only content leaves this false and gets a derived header.
+     */
+    ownHeader: z.boolean().default(false),
+
     /** The author's own claim. Optional: absent means "no claim made". */
     status: z.enum(statusSlugs as [string, ...string[]]).optional(),
     difficulty: z.enum(['foundational', 'intermediate', 'advanced']).optional(),

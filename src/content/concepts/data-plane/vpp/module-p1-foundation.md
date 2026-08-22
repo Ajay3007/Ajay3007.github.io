@@ -4,6 +4,7 @@ description: "VPP MASTERY · PHASE 1 · WEEKS 1–3 ⚡ Foundation Environment S
 domain: data-plane
 track: vpp
 order: 1
+ownHeader: true
 url: /learning/data-plane/vpp/module-p1-foundation/
 ---
 
@@ -420,7 +421,7 @@ url: /learning/data-plane/vpp/module-p1-foundation/
   ip4_lookup(pkt)     <span class="c-comment">// I-cache warm</span>
   ip4_rewrite(pkt)    <span class="c-comment">// I-cache cold again</span>
   ethernet_output(pkt)
-
+ 
 <span class="c-comment">// Vector processing - VPP's model</span>
 ip4_lookup(<span class="c-val">pkt[0..255]</span>)     <span class="c-comment">// warm once, amortised over 256 pkts</span>
 ip4_rewrite(<span class="c-val">pkt[0..255]</span>)    <span class="c-comment">// warm once, amortised over 256 pkts</span>
@@ -560,25 +561,25 @@ ethernet_output(<span class="c-val">pkt[0..255]</span>) <span class="c-comment">
 
 <div class="code-block"><pre><span class="c-comment"># Clone the repo</span>
 git clone https://github.com/FDio/vpp.git && cd vpp
-
+ 
 <span class="c-comment"># Install build dependencies (Ubuntu 22.04)</span>
 make install-dep
-
+ 
 <span class="c-comment"># Debug build - has symbols, ASAN-compatible, slower</span>
 make build
-
+ 
 <span class="c-comment"># Release/optimised build - production performance</span>
 make build-release
-
+ 
 <span class="c-comment"># Run debug VPP interactively (reads /etc/vpp/startup.conf)</span>
 make run
-
+ 
 <span class="c-comment"># Run under GDB for debugging</span>
 make run-gdb
-
+ 
 <span class="c-comment"># Run full test suite</span>
 make test
-
+ 
 <span class="c-comment"># Run a specific test</span>
 make test TEST=test_nat</pre></div>
 
@@ -605,12 +606,12 @@ make test TEST=test_nat</pre></div>
 echo 2048 | sudo tee /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 sudo mkdir -p /dev/hugepages
 sudo mount -t hugetlbfs nodev /dev/hugepages
-
+ 
 <span class="c-comment"># Step 2: Bind Mellanox port to vfio-pci (use PCI address from lspci)</span>
 sudo dpdk-devbind.py --status                     <span class="c-comment"># find PCI address</span>
 sudo dpdk-devbind.py --bind vfio-pci 0000:03:00.0
 sudo dpdk-devbind.py --bind vfio-pci 0000:03:00.1
-
+ 
 <span class="c-comment"># Step 3: Run VPP container with all required resources</span>
 docker run --privileged --network host \
   -v /dev/hugepages:/dev/hugepages \
@@ -656,17 +657,17 @@ docker run --privileged --network host \
   <span class="conf-key">cli-listen</span> <span class="conf-val">/run/vpp/cli.sock</span>     <span class="conf-comment"># vppctl connects here</span>
   <span class="conf-key">startup-config</span> <span class="conf-val">/etc/vpp/setup.gate</span> <span class="conf-comment"># CLI commands run at startup</span>
 }
-
+ 
 <span class="conf-section">api-trace</span> {
   <span class="conf-key">on</span>                                <span class="conf-comment"># record API calls (for replay debugging)</span>
 }
-
+ 
 <span class="conf-section">cpu</span> {
   <span class="conf-key">main-core</span> <span class="conf-val">0</span>                       <span class="conf-comment"># pin main thread to core 0</span>
   <span class="conf-key">corelist-workers</span> <span class="conf-val">2-5</span>             <span class="conf-comment"># 4 workers on cores 2-5</span>
   <span class="conf-comment"># corelist-workers 2,4,6,8        # non-contiguous cores also OK</span>
 }
-
+ 
 <span class="conf-section">dpdk</span> {
   <span class="conf-key">dev</span> <span class="conf-val">0000:03:00.0</span> {               <span class="conf-comment"># Mellanox port 0</span>
     <span class="conf-key">num-rx-queues</span> <span class="conf-val">4</span>                <span class="conf-comment"># 1 queue per worker thread</span>
@@ -684,20 +685,20 @@ docker run --privileged --network host \
   <span class="conf-key">no-multi-seg</span>                      <span class="conf-comment"># disable jumbo unless needed</span>
   <span class="conf-key">log-level</span> <span class="conf-val">notice</span>
 }
-
+ 
 <span class="conf-section">buffers</span> {
   <span class="conf-key">buffers-per-numa</span> <span class="conf-val">128000</span>          <span class="conf-comment"># buffer pool size per NUMA node</span>
   <span class="conf-key">default-data-size</span> <span class="conf-val">2048</span>           <span class="conf-comment"># buffer data area in bytes</span>
   <span class="conf-comment"># use 10240 for jumbo/MTU 9000</span>
 }
-
+ 
 <span class="conf-section">plugins</span> {
   <span class="conf-key">path</span> <span class="conf-val">/usr/lib/x86_64-linux-gnu/vpp_plugins</span>
   <span class="conf-key">plugin</span> <span class="conf-val">dpdk_plugin.so</span>  { <span class="conf-key">enable</span> }
   <span class="conf-key">plugin</span> <span class="conf-val">memif_plugin.so</span> { <span class="conf-key">enable</span> }
   <span class="conf-comment"># plugin some_plugin.so { disable }</span>
 }
-
+ 
 <span class="conf-section">statseg</span> {
   <span class="conf-key">size</span> <span class="conf-val">128m</span>                         <span class="conf-comment"># stats segment size</span>
   <span class="conf-key">per-node-counters</span> <span class="conf-val">on</span>

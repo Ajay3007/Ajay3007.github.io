@@ -3,6 +3,7 @@ title: "Index"
 description: "💰 Finance Learning Hub Comprehensive documentation for finance-related projects and investment tax management."
 domain: finance
 order: 0
+ownHeader: true
 url: /learning/finance/
 ---
 

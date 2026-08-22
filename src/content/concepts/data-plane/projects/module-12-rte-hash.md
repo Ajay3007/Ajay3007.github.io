@@ -4,6 +4,7 @@ description: "Module 12 — rte hash CRUD Reference code — requires DPDK insta
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-12-rte-hash/
 ---
 

@@ -3,6 +3,7 @@ title: "Merge Two Sorted Lists - Solution"
 description: "Remove Nth Node From End of List — Two Approaches LeetCode 19 Difficulty: Medium --- Approach 1: Two-Pass Solution (Length Calculation) Intuition To remove the Nth node from…"
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/linked-list/leetcode-19-solution/
 ---
 

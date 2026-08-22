@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 5 · MODULE 19 · WEEK 17 🔐 Cryptog
 domain: networking
 track: networking-mastery
 order: 19
+ownHeader: true
 url: /learning/networking-mastery/m19-cryptography/
 ---
 
@@ -127,39 +128,39 @@ url: /learning/networking-mastery/m19-cryptography/
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Symmetric encryption: same key encrypts and decrypts */</span>
 <span class="cm">/* Problem: how do two parties share the key securely? → Key Exchange (Tab 4) */</span>
-
+ 
 <span class="cm">/* AES (Advanced Encryption Standard) */</span>
 Block cipher: processes 128-bit (16-byte) blocks
 Key sizes:    128, 192, or 256 bits (AES-128, AES-192, AES-256)
 Structure:    10/12/14 rounds of SubBytes + ShiftRows + MixColumns + AddRoundKey
 Hardware:     AES-NI CPU instructions (x86 since 2010) — ~1 cycle/byte on modern CPUs
-
+ 
 <span class="cm">/* Block cipher modes — how to encrypt more than 16 bytes */</span>
 ECB (Electronic Codebook):  Same plaintext → same ciphertext. NEVER USE.
 CBC (Cipher Block Chaining): XOR with previous ciphertext block. Needs IV. Padding required.
 CTR (Counter):              Turns AES into a stream cipher. Parallelisable. No padding.
 GCM (Galois/Counter Mode):  CTR + GHASH authentication tag. AEAD. Standard for TLS 1.3.
-
+ 
 <span class="cm">/* AEAD — Authenticated Encryption with Associated Data */</span>
 <span class="cm">/* Single primitive providing both confidentiality AND integrity */</span>
 AES-128-GCM:  AES-CTR encryption + GHASH-128 authentication tag (16 bytes)
 AES-256-GCM:  Same with 256-bit key
 ChaCha20-Poly1305: ChaCha20 stream cipher + Poly1305 MAC
               No AES-NI needed — fast on mobile/ARM/embedded
-
+ 
 <span class="cm">/* AEAD inputs and outputs */</span>
 Encrypt:
   Input:  key, nonce (12 bytes), plaintext, AAD (additional auth data)
   Output: ciphertext (same length as plaintext) + auth_tag (16 bytes)
-
+ 
 Decrypt:
   Input:  key, nonce, ciphertext, auth_tag, AAD
   Output: plaintext (if tag verifies) OR reject (if tag fails)
-
+ 
 <span class="cm">/* Critical: nonce MUST be unique per (key, message) */</span>
 <span class="cm">/* Nonce reuse with AES-GCM → catastrophic key recovery possible */</span>
 <span class="cm">/* TLS 1.3 uses XOR of static IV with sequence number as nonce */</span>
-
+ 
 <span class="cm">/* OpenSSL AEAD in C */</span>
 EVP_AEAD_CTX *ctx = EVP_AEAD_CTX_new(EVP_aead_aes_128_gcm(),
     key, 16, EVP_AEAD_DEFAULT_TAG_LENGTH);
@@ -184,13 +185,13 @@ Key sizes: 2048 bits minimum (currently safe), 4096 for long-term
 Use cases: digital signatures, key encapsulation (encrypting a small key)
 NOT used for: bulk data encryption (too slow — 1000× slower than AES)
 Performance: ~1ms per RSA-2048 sign, ~0.1ms verify on modern CPU
-
+ 
 <span class="cm">/* RSA signature */</span>
 Sign:   sig = m^d mod n    (private key d)
 Verify: m   = sig^e mod n  (public key e)
 <span class="cm">/* In practice: sign H(message) not message itself */</span>
 <span class="cm">/* Padding: PKCS#1 v1.5 (legacy) or PSS (modern, recommended) */</span>
-
+ 
 <span class="cm">/* Elliptic Curve Cryptography (ECC) */</span>
 Based on:  hardness of ECDLP (Elliptic Curve Discrete Logarithm Problem)
 Key sizes: 256-bit ECC ≈ 3072-bit RSA security
@@ -201,13 +202,13 @@ Curves:
   P-384 (secp384r1):             Higher security, government use
   X25519 (Curve25519):           Bernstein curve, fastest, used in TLS 1.3 + WireGuard
   Ed25519:                        EdDSA signatures — fast, no random nonce needed
-
+ 
 <span class="cm">/* ECDSA — Elliptic Curve Digital Signature Algorithm */</span>
 <span class="cm">/* Standard for TLS certificates (alongside RSA) */</span>
 <span class="cm">/* WARNING: ECDSA requires a unique random nonce per signature */</span>
 <span class="cm">/* Nonce reuse → private key recovery (PS3 hack, Bitcoin theft) */</span>
 <span class="cm">/* Solution: use Ed25519 (EdDSA) which derives nonce deterministically */</span>
-
+ 
 <span class="cm">/* Key generation with OpenSSL */</span>
 openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 -out ec_key.pem
 openssl pkey -in ec_key.pem -pubout -out ec_pub.pem
@@ -227,40 +228,40 @@ openssl genpkey -algorithm Ed25519 -out ed_key.pem</pre></div>
 2. One-way:           given H(x), computationally infeasible to find x
 3. Collision resistant: hard to find x≠y such that H(x) = H(y)
 4. Avalanche effect:  one bit change in input → ~50% output bits change
-
+ 
 <span class="cm">/* Hash algorithms — current recommendations */</span>
 SHA-256:   256-bit output, 64 rounds. Standard for most uses.
 SHA-384:   384-bit output, truncated SHA-512. Faster on 64-bit.
 SHA-512:   512-bit output, 80 rounds. Higher collision resistance.
 SHA-3:     Different construction (Keccak sponge). Backup if SHA-2 broken.
 BLAKE3:    Modern, faster than SHA-256, used in WireGuard, Bao.
-
+ 
 MD5, SHA-1: BROKEN — do not use for security. Still used for checksums.
-
+ 
 <span class="cm">/* HMAC — Hash-based Message Authentication Code */</span>
 HMAC-K(m) = H( (K ⊕ opad) || H( (K ⊕ ipad) || m ) )
 <span class="cm">/* Provides: integrity + authentication (proves sender has key K) */</span>
 <span class="cm">/* Does NOT provide: confidentiality */</span>
-
+ 
 HMAC-SHA256: 256-bit authentication tag
 HMAC-SHA384: 384-bit tag (used in IPsec/IKEv2 PRF)
-
+ 
 <span class="cm">/* HKDF — HMAC-based Key Derivation Function (RFC 5869) */</span>
 <span class="cm">/* Extract-then-Expand: derive multiple keys from one master secret */</span>
-
+ 
 <span class="cm">/* Extract phase */</span>
 prk = HMAC-SHA256(salt, ikm)    <span class="cm">/* input keying material → pseudorandom key */</span>
-
+ 
 <span class="cm">/* Expand phase */</span>
 OKM = T(1) || T(2) || ... where T(i) = HMAC-SHA256(prk, T(i-1) || info || i)
-
+ 
 <span class="cm">/* TLS 1.3 uses HKDF to derive all session keys from the master secret */</span>
 <span class="cm">/* IPsec uses PRF (usually HMAC-SHA256 or AES-XCBC) similarly */</span>
-
+ 
 <span class="cm">/* OpenSSL hash in C */</span>
 unsigned char digest[SHA256_DIGEST_LENGTH];
 SHA256((unsigned char *)msg, msg_len, digest);
-
+ 
 <span class="cm">/* HMAC in C */</span>
 unsigned char hmac[32];
 unsigned int hlen;
@@ -278,40 +279,40 @@ HMAC(EVP_sha256(), key, key_len, data, data_len, hmac, &hlen);</pre></div>
     <p>Key exchange protocols allow two parties to derive the same shared secret over a completely public, observable channel — without ever transmitting the secret. This solves the fundamental problem of symmetric cryptography: how to agree on a key when you have no pre-shared secret.</p>
 <div class="cb"><pre><span class="cm">/* Diffie-Hellman Key Exchange — conceptual */</span>
 Public parameters: prime p, generator g (both public, known to attacker)
-
+ 
 Alice chooses secret a, sends A = g^a mod p  (public)
 Bob   chooses secret b, sends B = g^b mod p  (public)
-
+ 
 Alice computes: S = B^a mod p = (g^b)^a mod p = g^(ab) mod p
 Bob   computes: S = A^b mod p = (g^a)^b mod p = g^(ab) mod p
-
+ 
 Both arrive at S = g^(ab) mod p without ever transmitting a or b.
 Attacker sees: g, p, A, B — but computing a from A = g^a mod p is the
 discrete logarithm problem — computationally infeasible for large p.
-
+ 
 <span class="cm">/* ECDH — Elliptic Curve Diffie-Hellman */</span>
 Same concept on elliptic curves. X25519 is the modern standard:
   - Curve25519 points, 255-bit coordinates
   - Used in TLS 1.3, WireGuard, Signal Protocol
   - 32-byte keys, ~100µs per key exchange on modern CPU
   - Immune to timing attacks (constant-time implementation)
-
+ 
 <span class="cm">/* Forward Secrecy (Perfect Forward Secrecy) */</span>
 Key property: even if long-term private key is compromised later,
 past session keys cannot be recovered.
-
+ 
 Achieved by: ephemeral key exchange (generate new DH keypair per session)
 TLS 1.3: ECDHE (Ephemeral) — mandatory forward secrecy
 TLS 1.2: may use static RSA key exchange — no forward secrecy!
           "RSA key exchange": client encrypts premaster secret with server cert public key
           If server private key leaked → all past recorded sessions decryptable.
-
+ 
 <span class="cm">/* ECDH in OpenSSL C */</span>
 EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, NULL);
 EVP_PKEY_keygen_init(ctx);
 EVP_PKEY *pkey = NULL;
 EVP_PKEY_keygen(ctx, &pkey);   <span class="cm">/* generate ephemeral keypair */</span>
-
+ 
 <span class="cm">/* After receiving peer's public key: */</span>
 EVP_PKEY_CTX *dctx = EVP_PKEY_CTX_new(pkey, NULL);
 EVP_PKEY_derive_init(dctx);
@@ -343,12 +344,12 @@ Extensions:
   Extended Key Usage: TLS server auth, TLS client auth, code signing
   Basic Constraints: is this a CA cert? (isCA=true/false, path length)
 Signature:        CA's signature over everything above
-
+ 
 <span class="cm">/* Chain of trust */</span>
 Root CA (self-signed, in browser/OS trust store)
   → Intermediate CA (signed by Root CA)
       → Leaf certificate (signed by Intermediate CA, has your domain)
-
+ 
 <span class="cm">/* Certificate validation */</span>
 1. Verify leaf cert signature using intermediate CA's public key
 2. Verify intermediate CA signature using root CA's public key
@@ -356,18 +357,18 @@ Root CA (self-signed, in browser/OS trust store)
 4. Check validity period (not expired)
 5. Check Subject Alt Names — does CN/SAN match the domain?
 6. Check revocation (CRL or OCSP)
-
+ 
 <span class="cm">/* OpenSSL certificate inspection */</span>
 openssl x509 -in cert.pem -text -noout   <span class="cm"># full cert details</span>
 openssl x509 -in cert.pem -dates         <span class="cm"># validity period</span>
 openssl s_client -connect google.com:443 -showcerts  <span class="cm"># live cert chain</span>
 openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
-
+ 
 <span class="cm">/* Certificate transparency (CT) */</span>
 <span class="cm"># All public TLS certs must be logged to CT logs</span>
 <span class="cm"># Browsers require SCT (Signed Certificate Timestamp) in TLS handshake</span>
 <span class="cm"># Enables detection of mis-issued certs (NGFW relevance: detect rogue CAs)</span>
-
+ 
 <span class="cm">/* OCSP Stapling */</span>
 <span class="cm"># Server fetches OCSP response (revocation status) from CA</span>
 <span class="cm"># Staples it to TLS handshake — client doesn't need to query CA separately</span>

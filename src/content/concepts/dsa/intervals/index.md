@@ -3,6 +3,7 @@ title: "Intervals"
 description: "📏 Intervals Interval problems involve ranges [start, end] ."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/intervals/
 ---
 

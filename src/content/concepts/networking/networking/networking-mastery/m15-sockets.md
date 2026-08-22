@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 4 · MODULE 15 · WEEK 13 🔌 Socket 
 domain: networking
 track: networking-mastery
 order: 15
+ownHeader: true
 url: /learning/networking-mastery/m15-sockets/
 ---
 
@@ -111,18 +112,18 @@ url: /learning/networking-mastery/m15-sockets/
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* socket() — create a socket */</span>
 <span class="ck">int</span> fd = socket(domain, type, protocol);
-
+ 
 domain:   AF_INET (IPv4), AF_INET6 (IPv6), AF_UNIX (local), AF_PACKET (raw L2)
 type:     SOCK_STREAM (TCP), SOCK_DGRAM (UDP), SOCK_RAW (raw IP/L2)
 protocol: Usually 0 (auto-select). IPPROTO_TCP, IPPROTO_UDP, IPPROTO_ICMP
-
+ 
 <span class="cm">/* Address structures */</span>
 <span class="ck">struct</span> sockaddr_in {               <span class="cm">/* IPv4 */</span>
     sa_family_t    sin_family;      <span class="cm">/* AF_INET */</span>
     in_port_t      sin_port;        <span class="cm">/* htons(port) — network byte order! */</span>
     struct in_addr sin_addr;        <span class="cm">/* .s_addr = htonl(INADDR_ANY) or inet_addr("1.2.3.4") */</span>
 };
-
+ 
 <span class="ck">struct</span> sockaddr_in6 {              <span class="cm">/* IPv6 */</span>
     sa_family_t     sin6_family;    <span class="cm">/* AF_INET6 */</span>
     in_port_t       sin6_port;      <span class="cm">/* htons(port) */</span>
@@ -130,7 +131,7 @@ protocol: Usually 0 (auto-select). IPPROTO_TCP, IPPROTO_UDP, IPPROTO_ICMP
     struct in6_addr sin6_addr;      <span class="cm">/* IPv6 address (16 bytes) */</span>
     uint32_t        sin6_scope_id;
 };
-
+ 
 <span class="cm">/* Byte order — critical! */</span>
 htons(x):  host-to-network short (16-bit port numbers)
 htonl(x):  host-to-network long  (32-bit IP addresses)
@@ -138,7 +139,7 @@ ntohs(x):  network-to-host short
 ntohl(x):  network-to-host long
 <span class="cm"># Network byte order = big-endian</span>
 <span class="cm"># x86 is little-endian → ALWAYS use htons/htonl for ports/IPs in structs</span>
-
+ 
 <span class="cm">/* Dual-stack (IPv4+IPv6) */</span>
 <span class="ck">int</span> fd = socket(AF_INET6, SOCK_STREAM, 0);
 <span class="ck">int</span> v6only = 0;
@@ -158,36 +159,36 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 #include &lt;netinet/in.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;string.h&gt;</span>
-
+ 
 <span class="ck">int</span> tcp_server(<span class="ck">uint16_t</span> port) {
     <span class="ck">int</span> lfd = socket(AF_INET6, SOCK_STREAM, 0);
-
+ 
     <span class="cm">/* SO_REUSEADDR: allow bind to port even if in TIME_WAIT */</span>
     <span class="ck">int</span> opt = 1;
     setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
     <span class="cm">/* SO_REUSEPORT: multiple processes can bind same port (load balance) */</span>
     setsockopt(lfd, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt));
-
+ 
     <span class="ck">struct</span> sockaddr_in6 addr = {0};
     addr.sin6_family = AF_INET6;
     addr.sin6_port   = htons(port);
     addr.sin6_addr   = in6addr_any;   <span class="cm">/* :: = any interface */</span>
-
+ 
     bind(lfd, (<span class="ck">struct</span> sockaddr *)&addr, sizeof(addr));
     listen(lfd, 128);  <span class="cm">/* backlog: max pending connections in accept queue */</span>
-
+ 
     <span class="ck">while</span> (1) {
         <span class="ck">struct</span> sockaddr_in6 client;
         socklen_t clen = sizeof(client);
         <span class="ck">int</span> cfd = accept(lfd, (<span class="ck">struct</span> sockaddr *)&client, &clen);
         <span class="cm">/* cfd is a NEW socket for this connection; lfd still listens */</span>
-
+ 
         <span class="cm">/* Handle client — in production: fork() or thread */</span>
         handle_client(cfd);
         close(cfd);
     }
 }
-
+ 
 <span class="ck">void</span> handle_client(<span class="ck">int</span> fd) {
     <span class="ck">char</span> buf[4096];
     ssize_t n;
@@ -200,7 +201,7 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
     <span class="cm">/* n == 0: peer closed connection (FIN received) */</span>
     <span class="cm">/* n == -1: error (check errno: EAGAIN, ECONNRESET, etc.) */</span>
 }
-
+ 
 <span class="cm">/* TCP client */</span>
 <span class="ck">int</span> tcp_connect(<span class="ck">const char</span> *host, <span class="ck">uint16_t</span> port) {
     <span class="ck">struct</span> addrinfo hints = {0}, *res;
@@ -208,7 +209,7 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
     hints.ai_socktype = SOCK_STREAM;
     <span class="ck">char</span> portstr[8]; snprintf(portstr, sizeof(portstr), <span class="cs">"%u"</span>, port);
     getaddrinfo(host, portstr, &hints, &res);
-
+ 
     <span class="ck">int</span> fd = socket(res->ai_family, res->ai_socktype, 0);
     connect(fd, res->ai_addr, res->ai_addrlen);
     freeaddrinfo(res);
@@ -232,7 +233,7 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
     addr.sin_port   = htons(port);
     addr.sin_addr.s_addr = INADDR_ANY;
     bind(fd, (<span class="ck">struct</span> sockaddr *)&addr, sizeof(addr));
-
+ 
     <span class="ck">char</span> buf[65536];  <span class="cm">/* max UDP payload */</span>
     <span class="ck">while</span> (1) {
         <span class="ck">struct</span> sockaddr_in client;
@@ -244,7 +245,7 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
         sendto(fd, buf, n, 0, (<span class="ck">struct</span> sockaddr *)&client, clen);
     }
 }
-
+ 
 <span class="cm">/* UDP multicast sender */</span>
 <span class="ck">int</span> udp_multicast_send(<span class="cs">const char</span> *group, <span class="ck">uint16_t</span> port) {
     <span class="ck">int</span> fd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -276,21 +277,21 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
     <p>The classic <code>select()</code> and <code>poll()</code> have O(n) scan overhead — with 10,000 fds, every call scans all 10,000 even if only 1 is ready. <code>epoll</code> maintains a kernel-side data structure and returns only the fds that are actually ready — O(1) per event, O(k) where k is ready events.</p>
 <div class="cb"><pre><span class="cs">#include &lt;sys/epoll.h&gt;
 #include &lt;fcntl.h&gt;</span>
-
+ 
 <span class="cm">/* Set fd to non-blocking */</span>
 <span class="ck">void</span> set_nonblocking(<span class="ck">int</span> fd) {
     <span class="ck">int</span> flags = fcntl(fd, F_GETFL, 0);
     fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
-
+ 
 <span class="cm">/* Create epoll instance and event loop */</span>
 <span class="ck">int</span> epoll_server(<span class="ck">int</span> lfd) {
     <span class="ck">int</span> epfd = epoll_create1(0);
-
+ 
     <span class="cm">/* Add listener to epoll */</span>
     <span class="ck">struct</span> epoll_event ev = { .events = EPOLLIN, .data.fd = lfd };
     epoll_ctl(epfd, EPOLL_CTL_ADD, lfd, &ev);
-
+ 
     <span class="ck">struct</span> epoll_event events[1024];
     <span class="ck">while</span> (1) {
         <span class="ck">int</span> n = epoll_wait(epfd, events, 1024, -1);  <span class="cm">/* -1 = block forever */</span>
@@ -320,7 +321,7 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
         }
     }
 }
-
+ 
 <span class="cm">/* Edge-triggered vs Level-triggered */</span>
 <span class="cm"># EPOLLET (edge): notify ONCE when state changes (unread→readable)</span>
 <span class="cm">#   Must read ALL data immediately or it won't be reported again</span>
@@ -358,18 +359,18 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 setsockopt(fd, SOL_SOCKET,   SO_REUSEADDR, &opt, sizeof(opt));
 setsockopt(fd, SOL_SOCKET,   SO_REUSEPORT, &opt, sizeof(opt));
 setsockopt(fd, IPPROTO_TCP,  TCP_NODELAY,  &opt, sizeof(opt));
-
+ 
 <span class="ck">int</span> bufsize = 4 * 1024 * 1024;  <span class="cm">/* 4MB */</span>
 setsockopt(fd, SOL_SOCKET, SO_RCVBUF, &bufsize, sizeof(bufsize));
 setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &bufsize, sizeof(bufsize));
-
+ 
 <span class="cm">/* TCP keepalive tuning */</span>
 <span class="ck">int</span> idle = 60, interval = 10, count = 3;
 setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &idle,     sizeof(idle));
 setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
 setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &count,    sizeof(count));
 <span class="cm">/* After 60s idle: send probe every 10s, 3 times → declare dead after 30s */</span>
-
+ 
 <span class="cm">/* Read back effective buffer size */</span>
 <span class="ck">int</span> actual; socklen_t alen = sizeof(actual);
 getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &actual, &alen);
@@ -389,7 +390,7 @@ getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &actual, &alen);
 <span class="ck">int</span> fd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);  <span class="cm">/* all ICMP */</span>
 <span class="ck">int</span> fd = socket(AF_INET, SOCK_RAW, IPPROTO_TCP);   <span class="cm">/* all TCP (also received by TCP stack) */</span>
 <span class="ck">int</span> fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);   <span class="cm">/* send-only; craft own IP header */</span>
-
+ 
 <span class="cm">/* Send a custom ICMP echo request */</span>
 <span class="ck">struct</span> {
     <span class="ck">struct</span> icmphdr hdr;
@@ -401,20 +402,20 @@ pkt.hdr.un.echo.id  = htons(getpid());
 pkt.hdr.un.echo.sequence = htons(1);
 pkt.hdr.checksum = 0;
 pkt.hdr.checksum = checksum(&pkt, sizeof(pkt));
-
+ 
 <span class="ck">struct</span> sockaddr_in dst;
 dst.sin_family = AF_INET;
 inet_aton(<span class="cs">"8.8.8.8"</span>, &dst.sin_addr);
-
+ 
 <span class="ck">int</span> raw = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
 sendto(raw, &pkt, sizeof(pkt), 0, (<span class="ck">struct</span> sockaddr *)&dst, sizeof(dst));
-
+ 
 <span class="cm">/* Receive: kernel prepends IP header on recvfrom */</span>
 <span class="ck">char</span> rbuf[1024];
 recv(raw, rbuf, sizeof(rbuf), 0);
 <span class="ck">struct</span> iphdr   *ip   = (<span class="ck">struct</span> iphdr *)rbuf;
 <span class="ck">struct</span> icmphdr *icmp = (<span class="ck">struct</span> icmphdr *)(rbuf + ip->ihl * 4);
-
+ 
 <span class="cm">/* IP_HDRINCL — you supply your own IP header */</span>
 <span class="ck">int</span> opt = 1;
 setsockopt(raw, IPPROTO_IP, IP_HDRINCL, &opt, sizeof(opt));
@@ -434,29 +435,29 @@ setsockopt(raw, IPPROTO_IP, IP_HDRINCL, &opt, sizeof(opt));
 <span class="cs">#include &lt;linux/if_packet.h&gt;
 #include &lt;net/ethernet.h&gt;
 #include &lt;net/if.h&gt;</span>
-
+ 
 <span class="cm">/* Open raw L2 socket — receives ALL Ethernet frames */</span>
 <span class="ck">int</span> fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
-
+ 
 <span class="cm">/* Bind to specific interface */</span>
 <span class="ck">struct</span> sockaddr_ll sll = {0};
 sll.sll_family   = AF_PACKET;
 sll.sll_ifindex  = if_nametoindex(<span class="cs">"eth0"</span>);
 sll.sll_protocol = htons(ETH_P_ALL);
 bind(fd, (<span class="ck">struct</span> sockaddr *)&sll, sizeof(sll));
-
+ 
 <span class="cm">/* Set promiscuous mode (receive frames not destined for us) */</span>
 <span class="ck">struct</span> packet_mreq mreq = {0};
 mreq.mr_ifindex = sll.sll_ifindex;
 mreq.mr_type    = PACKET_MR_PROMISC;
 setsockopt(fd, SOL_PACKET, PACKET_ADD_MEMBERSHIP, &mreq, sizeof(mreq));
-
+ 
 <span class="cm">/* Receive raw Ethernet frame */</span>
 <span class="ck">unsigned char</span> frame[2048];
 ssize_t n = recv(fd, frame, sizeof(frame), 0);
 <span class="ck">struct</span> ethhdr *eth = (<span class="ck">struct</span> ethhdr *)frame;
 <span class="cm">/* eth->h_dest, eth->h_source, eth->h_proto */</span>
-
+ 
 <span class="cm">/* PACKET_MMAP — zero-copy ring buffer for high-speed capture */</span>
 <span class="cm">/* Maps NIC DMA buffers directly into process address space */</span>
 <span class="cm">/* Used by tcpdump/libpcap for high-performance capture */</span>

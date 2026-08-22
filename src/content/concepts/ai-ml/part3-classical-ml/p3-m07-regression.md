@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part3-classical-ml
 order: 307
+ownHeader: true
 url: /learning/ai-ml/part3-classical-ml/p3-m07-regression/
 ---
 
@@ -134,35 +135,35 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import root_mean_squared_error, r2_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-
+ 
 # ── Concept: linear regression minimises SSR ─────────
 # ŷ = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
 # OLS finds β values that minimise Σ(y - ŷ)²
 # Normal equation: β = (XᵀX)⁻¹Xᵀy (closed form for small n)
 # Gradient descent: update β iteratively (used for large datasets)
-
+ 
 # ── sklearn implementation ────────────────────────────
 X = df[["GrLivArea", "OverallQual", "YearBuilt", "TotalBath"]].fillna(0)
 y = df["SalePrice"]
-
+ 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
+ 
 pipe = Pipeline([
     ("scaler", StandardScaler()),
     ("model",  LinearRegression()),
 ])
 pipe.fit(X_train, y_train)
 y_pred = pipe.predict(X_test)
-
+ 
 rmse = root_mean_squared_error(y_test, y_pred)
 r2   = r2_score(y_test, y_pred)
 print(f"Test RMSE: {rmse:,.0f}")
 print(f"Test R²:   {r2:.4f}")
-
+ 
 # CV score
 cv_r2 = cross_val_score(pipe, X, y, cv=5, scoring="r2")
 print(f"CV R²: {cv_r2.mean():.3f} ± {cv_r2.std():.3f}")
-
+ 
 # ── Coefficients — interpretability ──────────────────
 lr = pipe.named_steps["model"]
 coef_df = pd.DataFrame({
@@ -172,7 +173,7 @@ coef_df = pd.DataFrame({
 print(coef_df)
 # Each coefficient: "holding all other features constant,
 # increasing this feature by 1 (scaled unit) changes price by X dollars"
-
+ 
 # ── Residual analysis ─────────────────────────────────
 residuals = y_test - y_pred
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
@@ -201,7 +202,7 @@ axes[1].set(xlabel="Residual", title="Residual Distribution")
     <div class="cb"><pre>from sklearn.linear_model import Ridge, RidgeCV
 from sklearn.model_selection import cross_val_score
 import numpy as np
-
+ 
 # ── Ridge adds L2 penalty to OLS ─────────────────────
 # Minimises: Σ(y - ŷ)² + α * Σβᵢ²
 # α (alpha): regularisation strength
@@ -209,9 +210,9 @@ import numpy as np
 #   α → ∞: all coefficients shrink toward zero
 # Effect: coefficients shrink proportionally (none become exactly zero)
 # Best for: multicollinear features, more features than samples
-
+ 
 alphas = [0.01, 0.1, 1.0, 10, 100, 1000]
-
+ 
 # Manual grid search with cross-validation
 results = []
 for alpha in alphas:
@@ -219,20 +220,20 @@ for alpha in alphas:
                      ("model", Ridge(alpha=alpha))])
     cv_r2 = cross_val_score(pipe, X_train, y_train, cv=5, scoring="r2")
     results.append({"alpha": alpha, "r2_mean": cv_r2.mean(), "r2_std": cv_r2.std()})
-
+ 
 import pandas as pd
 results_df = pd.DataFrame(results)
 print(results_df)
 best_alpha = results_df.loc[results_df["r2_mean"].idxmax(), "alpha"]
 print(f"Best alpha: {best_alpha}")
-
+ 
 # Built-in CV (faster)
 alphas_to_try = np.logspace(-3, 4, 50)  # log-spaced from 0.001 to 10,000
 ridge_cv = RidgeCV(alphas=alphas_to_try, cv=5, scoring="r2")
 ridge_cv.fit(StandardScaler().fit_transform(X_train), y_train)
 print(f"RidgeCV best alpha: {ridge_cv.alpha_:.4f}")
 print(f"RidgeCV R²: {ridge_cv.score(StandardScaler().fit_transform(X_test), y_test):.4f}")
-
+ 
 # ── Visualise coefficient shrinkage ──────────────────
 fig, ax = plt.subplots(figsize=(10, 5))
 coefs = []
@@ -261,28 +262,28 @@ plt.tight_layout()</pre></div>
     <div class="cb"><pre>from sklearn.linear_model import Lasso, LassoCV
 import matplotlib.pyplot as plt
 import numpy as np
-
+ 
 # ── Lasso adds L1 penalty ────────────────────────────
 # Minimises: Σ(y - ŷ)² + α * Σ|βᵢ|
 # Key property: L1 penalty drives SOME coefficients to EXACTLY zero
 # This is automatic feature selection — irrelevant features are zeroed out
 # Drawback: when features are correlated, Lasso picks one arbitrarily
-
+ 
 # Find best alpha via cross-validation
 alphas_lasso = np.logspace(-4, 1, 50)
-
+ 
 from sklearn.linear_model import LassoCV
 from sklearn.preprocessing import StandardScaler
-
+ 
 scaler = StandardScaler()
 X_train_s = scaler.fit_transform(X_train)
 X_test_s  = scaler.transform(X_test)
-
+ 
 lasso_cv = LassoCV(alphas=alphas_lasso, cv=5, max_iter=10000, random_state=42)
 lasso_cv.fit(X_train_s, y_train)
 print(f"Best alpha: {lasso_cv.alpha_:.6f}")
 print(f"Test R²: {lasso_cv.score(X_test_s, y_test):.4f}")
-
+ 
 # ── Feature selection: which features were zeroed? ────
 coefs = pd.Series(lasso_cv.coef_, index=X.columns)
 selected = coefs[coefs != 0].sort_values(ascending=False)
@@ -291,16 +292,16 @@ print(f"Selected features: {len(selected)} / {len(coefs)}")
 print(f"Zeroed features:   {len(zeroed)}")
 print("\nTop 10 selected features:")
 print(selected.head(10))
-
+ 
 # ── Visualise Lasso path ──────────────────────────────
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
+ 
 coef_path = []
 for alpha in alphas_lasso:
     l = Lasso(alpha=alpha, max_iter=10000)
     l.fit(X_train_s, y_train)
     coef_path.append(l.coef_)
-
+ 
 coef_path = np.array(coef_path)
 for i, name in enumerate(X.columns[:10]):
     axes[0].plot(alphas_lasso, coef_path[:, i], label=name)
@@ -308,7 +309,7 @@ axes[0].set_xscale("log")
 axes[0].axvline(lasso_cv.alpha_, color="red", linestyle="--")
 axes[0].set(xlabel="Alpha", ylabel="Coefficient", title="Lasso Path (top 10 features)")
 axes[0].legend(fontsize=7)
-
+ 
 # Non-zero coefficients
 selected.plot(kind="barh", ax=axes[1])
 axes[1].set(title="Lasso Selected Features (non-zero coefficients)")
@@ -338,7 +339,7 @@ plt.tight_layout()</pre></div>
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
-
+ 
 # ── Elastic Net: combines L1 + L2 ────────────────────
 # Penalty: α * [l1_ratio * Σ|βᵢ| + (1 - l1_ratio) * Σβᵢ²]
 # l1_ratio = 1.0: pure Lasso
@@ -347,38 +348,38 @@ from sklearn.model_selection import cross_val_score
 #
 # Use Elastic Net when: features are correlated AND you want sparsity
 # It produces sparse models but handles correlated groups better than Lasso
-
+ 
 en_cv = ElasticNetCV(l1_ratio=[0.1, 0.3, 0.5, 0.7, 0.9, 1.0],
                       cv=5, max_iter=10000, random_state=42)
 en_cv.fit(X_train_scaled, y_train)
 print(f"Best alpha: {en_cv.alpha_:.6f}")
 print(f"Best l1_ratio: {en_cv.l1_ratio_}")
 print(f"Non-zero features: {(en_cv.coef_ != 0).sum()}")
-
+ 
 # ── Logistic Regression: binary classification ────────
 # Despite the name, this is a classification model
 # Uses sigmoid function to output probabilities in [0, 1]
 # P(y=1|x) = 1 / (1 + e^(-xβ))
 # Decision boundary: predict class 1 if P(y=1|x) > 0.5
 # Naturally regularised: C = 1/α (higher C = less regularisation)
-
+ 
 from sklearn.datasets import load_breast_cancer
 X_c, y_c = load_breast_cancer(return_X_y=True)
-
+ 
 lr_pipe = Pipeline([
     ("scaler", StandardScaler()),
     ("model",  LogisticRegression(C=1.0, max_iter=1000, random_state=42))
 ])
 lr_pipe.fit(X_train_c, y_train_c)
-
+ 
 # Probabilities (not just class labels)
 proba = lr_pipe.predict_proba(X_test_c)[:, 1]  # P(class=1)
 print(f"Test Accuracy: {lr_pipe.score(X_test_c, y_test_c):.4f}")
-
+ 
 # Multi-class: multinomial or one-vs-rest
 lr_multi = LogisticRegression(multi_class="multinomial",
                                solver="lbfgs", max_iter=1000)
-
+ 
 # ── Regularisation for Logistic Regression ────────────
 # penalty="l2" (default): Ridge regularisation
 # penalty="l1" (need solver="liblinear" or "saga"): Lasso = feature selection
@@ -397,17 +398,17 @@ from sklearn.pipeline import Pipeline
 from sklearn.model_selection import cross_val_score
 import numpy as np
 import matplotlib.pyplot as plt
-
+ 
 # ── Polynomial features expand input space ────────────
 # For 1 feature x: degree=2 adds [1, x, x²]
 # For 2 features x, y: degree=2 adds [1, x, y, x², xy, y²]
 # The model is still LINEAR in parameters (just in a higher-dim space)
-
+ 
 # Example: 1D regression to visualise
 np.random.seed(42)
 X_1d = np.linspace(0, 10, 100).reshape(-1, 1)
 y_curve = np.sin(X_1d).ravel() + 0.2 * np.random.randn(100)
-
+ 
 fig, axes = plt.subplots(1, 3, figsize=(15, 4))
 for i, degree in enumerate([1, 3, 10]):
     pipe = Pipeline([
@@ -420,34 +421,34 @@ for i, degree in enumerate([1, 3, 10]):
     axes[i].plot(X_1d, y_fit, color="red", linewidth=2)
     axes[i].set_title(f"Degree {degree}")
 plt.suptitle("Polynomial Regression: Underfitting → Overfitting")
-
+ 
 # ── For tabular data: selective polynomial features ───
 # Adding degree=2 to ALL features: explodes dimensionality
 # n features → n + n*(n+1)/2 features with degree=2
 # 50 features → 1325 features (often too many)
 # Better: add polynomial terms only for key features
-
+ 
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.compose import ColumnTransformer
-
+ 
 # Add squared term for GrLivArea only
 poly_features = ["GrLivArea", "TotalBsmtSF"]
 poly_pipe = Pipeline([
     ("poly", PolynomialFeatures(degree=2, include_bias=False)),
     ("ridge", Ridge(alpha=10.0))
 ])
-
+ 
 cv_linear = cross_val_score(
     Pipeline([("scale", StandardScaler()), ("model", Ridge(alpha=10.0))]),
     X_train, y_train, cv=5, scoring="r2"
 ).mean()
-
+ 
 cv_poly = cross_val_score(
     Pipeline([("poly", PolynomialFeatures(degree=2)), ("scale", StandardScaler()),
               ("model", Ridge(alpha=10.0))]),
     X_train[poly_features], y_train, cv=5, scoring="r2"
 ).mean()
-
+ 
 print(f"Linear R²:     {cv_linear:.4f}")
 print(f"Polynomial R²: {cv_poly:.4f}")</pre></div>
     <div class="warn"><p>⚠️ <strong>Polynomial features are a double-edged sword.</strong> Degree=2 on 50 features creates 1,325 features; degree=3 creates 23,426. This causes extreme overfitting unless you add strong regularisation (Ridge with large alpha). Always validate with cross-validation and compare to the linear baseline before committing to polynomial expansion.</p></div>
@@ -463,31 +464,31 @@ print(f"Polynomial R²: {cv_poly:.4f}")</pre></div>
                              root_mean_squared_error, r2_score,
                              mean_absolute_percentage_error)
 import numpy as np
-
+ 
 y_true = y_test
 y_pred = pipeline.predict(X_test)
-
+ 
 # ── MAE: Mean Absolute Error ──────────────────────────
 # Average absolute difference. Same units as target.
 # Robust to outliers (vs MSE/RMSE which square errors)
 # Easy to explain: "on average, predictions are off by $X"
 mae = mean_absolute_error(y_true, y_pred)
 print(f"MAE:  ${mae:,.0f}")
-
+ 
 # ── MSE: Mean Squared Error ───────────────────────────
 # Squares errors → large errors penalised more heavily
 # NOT in target units (hard to interpret directly)
 # Used as training loss (differentiable)
 mse = mean_squared_error(y_true, y_pred)
 print(f"MSE:  ${mse:,.0f}")
-
+ 
 # ── RMSE: Root Mean Squared Error ────────────────────
 # sqrt(MSE) — back in target units
 # Most common metric for regression
 # More sensitive to large errors than MAE
 rmse = root_mean_squared_error(y_true, y_pred)
 print(f"RMSE: ${rmse:,.0f}")
-
+ 
 # ── R²: Coefficient of Determination ─────────────────
 # Proportion of variance explained: R² = 1 - SS_res/SS_tot
 # R² = 1.0: perfect prediction
@@ -495,13 +496,13 @@ print(f"RMSE: ${rmse:,.0f}")
 # R² < 0.0: WORSE than predicting the mean (seriously bad)
 r2 = r2_score(y_true, y_pred)
 print(f"R²:   {r2:.4f}")
-
+ 
 # ── MAPE: Mean Absolute Percentage Error ─────────────
 # Percentage error. Intuitive but problematic near zero.
 # "Predictions are X% off on average"
 mape = mean_absolute_percentage_error(y_true, y_pred)
 print(f"MAPE: {mape:.2%}")
-
+ 
 # ── When to use each ──────────────────────────────────
 print("""
 MAE:  Use when outliers exist and you want robust metric

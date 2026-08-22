@@ -3,6 +3,7 @@ title: "String Basics"
 description: "Mutable vs Immutable Strings]( -1-mutable-vs-immutable-strings) 1.2."
 domain: dsa
 order: 99
+ownHeader: true
 url: /learning/dsa/strings/string-basics/
 ---
 

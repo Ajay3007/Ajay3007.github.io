@@ -4,6 +4,8 @@ description: "DSA Roadmap › Chapter 9 Backtracking Decision Tree Pruning Subse
 domain: dsa
 track: dsa-mastery
 order: 9
+chrome: bare
+ownHeader: true
 url: /learning/dsa/backtracking/ch9-backtracking/
 ---
 
@@ -172,26 +174,26 @@ void backtrack(State& state, vector<Result>& results) {
 Row 0: try col 0, 1, 2, 3.
 Row 0, col 0:
 Q . . .
-
+ 
 Row 1, try cols:
 col 0 (same col, PRUNE), col 1 (diagonal, PRUNE), col 2 (safe), col 3 (diagonal, PRUNE).
-
+ 
 Row 1, col 2:
 Q . . .
 . . Q .
-
+ 
 Row 2, try cols:
 all attacked by Q at (0,0) or (1,2) -> all PRUNED. Backtrack to row 1.
-
+ 
 Try col 3:
 Q . . .
 . . . Q
-
+ 
 Row 2, col 1:
 Q . . .
 . . . Q
 . Q . .
-
+ 
 Row 3: cols 0 (col prune), 1 (col prune), 2 (diag prune), 3 (col prune). 
 All pruned. Backtrack to row 0, try col 1.  ...
 </pre>

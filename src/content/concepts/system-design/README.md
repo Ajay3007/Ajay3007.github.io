@@ -3,6 +3,7 @@ title: "System Design Learning Hub"
 description: "System Design Learning Hub Structure for learning High-Level Design (HLD) and Low-Level Design (LLD)."
 domain: system-design
 order: 99
+ownHeader: true
 url: /learning/system-design/README/
 ---
 

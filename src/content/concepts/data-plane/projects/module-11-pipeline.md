@@ -4,6 +4,7 @@ description: "Module 11 — Multi-lcore RX/TX Pipeline Reference code — requir
 domain: data-plane
 track: dataplane-projects
 order: 99
+ownHeader: true
 url: /learning/data-plane/projects/module-11-pipeline/
 ---
 

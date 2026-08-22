@@ -4,6 +4,7 @@ description: "Module B4 — Message Queues System Design Mastery Course Track B:
 domain: system-design
 track: system-design-hld
 order: 109
+ownHeader: true
 url: /learning/system-design/hld/module-b4-notes/
 ---
 

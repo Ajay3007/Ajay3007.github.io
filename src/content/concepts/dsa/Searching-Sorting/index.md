@@ -3,6 +3,7 @@ title: "Searching & Sorting Technique"
 description: "Searching & Sorting Hub Welcome to the complete hub for searching and sorting algorithms."
 domain: dsa
 order: 0
+ownHeader: true
 url: /learning/dsa/searching-sorting/
 ---
 

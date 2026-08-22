@@ -3,6 +3,7 @@ title: "Memory Management & Garbage Collection in Java"
 description: "🧠 Memory Management & Garbage Collection in Java This guide explains how Java manages memory using Stack and Heap , how objects and references work, and how the JVM performs…"
 domain: languages
 order: 99
+ownHeader: true
 url: /learning/programming-language/java/03-core-java/memory-management-garbage-collection/
 ---
 

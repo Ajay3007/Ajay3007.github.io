@@ -5,6 +5,7 @@ domain: ai-ml
 track: ai-ml-engineering
 module: part7-production
 order: 727
+ownHeader: true
 url: /learning/ai-ml/part7-production/p7-m27-mlops/
 ---
 
@@ -142,19 +143,19 @@ url: /learning/ai-ml/part7-production/p7-m27-mlops/
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># .github/workflows/ai-ci.yml</span>
 name: AI App CI/CD
-
+ 
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main]
-
+ 
 env:
   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
+ 
 jobs:
-
+ 
   <span class="ck"># ── 1. Fast checks (no LLM calls) ─────────────────────</span>
   lint-and-type:
     runs-on: ubuntu-latest
@@ -165,7 +166,7 @@ jobs:
       - run: pip install ruff mypy
       - run: ruff check app/
       - run: mypy app/ --ignore-missing-imports
-
+ 
   <span class="ck"># ── 2. Unit + integration tests (mocked LLM) ─────────</span>
   test:
     needs: lint-and-type
@@ -174,7 +175,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: pip install -r requirements.txt pytest pytest-asyncio
       - run: pytest tests/unit/ tests/integration/ -v --tb=short
-
+ 
   <span class="ck"># ── 3. Prompt regression tests (real LLM calls) ───────</span>
   prompt-eval:
     needs: test
@@ -196,7 +197,7 @@ jobs:
 ✅ All grounding tests passed
 ✅ Faithfulness: 0.91 >= 0.85`
             github.rest.issues.createComment({...context.repo, issue_number: context.issue.number, body})
-
+ 
   <span class="ck"># ── 4. Build and push Docker image ────────────────────</span>
   build:
     needs: [test, prompt-eval]
@@ -213,7 +214,7 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
-
+ 
   <span class="ck"># ── 5. Deploy (blue-green, see Tab 5) ─────────────────</span>
   deploy:
     needs: build
@@ -235,32 +236,32 @@ jobs:
   <div class="cp-body">
     <p>Your RAG index is data. When you add, remove, or update documents, the retrieval behaviour changes. DVC (Data Version Control) tracks your document corpus alongside your code so you can always reproduce any system state.</p>
     <div class="cb"><pre>pip install dvc dvc-s3   <span class="ck"># or dvc-gcs, dvc-azure</span>
-
+ 
 <span class="ck"># Initialise DVC in your repo</span>
 git init && dvc init
-
+ 
 <span class="ck"># Add remote storage (S3, GCS, Azure, or local)</span>
 dvc remote add -d storage s3://my-bucket/dvc-store
 <span class="ck"># Or local for dev:</span>
 dvc remote add -d storage /tmp/dvc-store
-
+ 
 <span class="ck"># Track your document corpus</span>
 dvc add docs/corpus/          <span class="ck"># creates docs/corpus.dvc (pointer file)</span>
 git add docs/corpus.dvc .gitignore
 git commit -m <span class="cs">"Add corpus v1: initial DPDK documentation"</span>
 dvc push                      <span class="ck"># upload to remote storage</span>
-
+ 
 <span class="ck"># Update the corpus</span>
 <span class="ck"># ... add new PDF files to docs/corpus/ ...</span>
 dvc add docs/corpus/
 git add docs/corpus.dvc
 git commit -m <span class="cs">"Update corpus v2: add VPP documentation"</span>
 dvc push
-
+ 
 <span class="ck"># On another machine or in CI: reproduce exact corpus version</span>
 git checkout <span class="cs">"v1-tag"</span>
 dvc pull       <span class="ck"># downloads the exact corpus for that commit</span>
-
+ 
 <span class="ck"># DVC pipeline: define reproducible ingestion pipeline</span>
 <span class="ck"># dvc.yaml</span>
 <span class="cs">stages:
@@ -271,7 +272,7 @@ dvc pull       <span class="ck"># downloads the exact corpus for that commit</sp
       - docs/corpus/
     outs:
       - chroma_db/</span>
-
+ 
 <span class="ck"># Run: dvc repro — reruns only stages where inputs changed</span>
 <span class="ck"># dvc dag — visualise the pipeline</span></pre></div>
     <div class="ins"><p>💡 <strong>The DVC pointer file (<code>corpus.dvc</code>) is tiny and goes in Git. The actual data goes in remote storage.</strong> This means your Git repo stays fast while your data is versioned and reproducible. Every commit of your code has a matching commit of your data — you can reproduce any system state from history.</p></div>
@@ -286,15 +287,15 @@ dvc pull       <span class="ck"># downloads the exact corpus for that commit</sp
   <div class="cp-hdr"><span class="ico">📈</span><h3>MLflow — Track Prompt Experiments</h3><span class="tag tag-navy">Compare Everything</span></div>
   <div class="cp-body">
     <div class="cb"><pre>pip install mlflow
-
+ 
 import mlflow
-
+ 
 <span class="ck"># MLflow tracks: parameters, metrics, artifacts, tags</span>
 <span class="ck"># For AI/LLM work: prompt versions, eval scores, cost metrics</span>
-
+ 
 mlflow.set_tracking_uri(<span class="cs">"http://localhost:5000"</span>)   <span class="ck"># or file:./mlruns</span>
 mlflow.set_experiment(<span class="cs">"rag-prompt-iterations"</span>)
-
+ 
 def evaluate_prompt_variant(prompt_name: str, prompt_version: int,
                              test_cases: list) -> dict:
     with mlflow.start_run(run_name=<span class="cs">f"{prompt_name}-v{prompt_version}"</span>):
@@ -303,31 +304,31 @@ def evaluate_prompt_variant(prompt_name: str, prompt_version: int,
         mlflow.log_param(<span class="cs">"prompt_version"</span>, prompt_version)
         mlflow.log_param(<span class="cs">"model"</span>, <span class="cs">"claude-3-5-sonnet-20241022"</span>)
         mlflow.log_param(<span class="cs">"n_test_cases"</span>, len(test_cases))
-
+ 
         <span class="ck"># Run evaluation</span>
         prompt_content = get_prompt_version(prompt_name, prompt_version)
         faithfulness_scores, relevancy_scores, costs = [], [], []
-
+ 
         for case in test_cases:
             result = rag_pipeline(case[<span class="cs">"question"</span>], prompt_content)
             faith  = judge_faithfulness(result[<span class="cs">"context"</span>], result[<span class="cs">"answer"</span>])
             faithfulness_scores.append(faith.score)
             costs.append(result[<span class="cs">"cost_usd"</span>])
-
+ 
         <span class="ck"># Log metrics</span>
         mlflow.log_metric(<span class="cs">"faithfulness_mean"</span>,  sum(faithfulness_scores)/len(faithfulness_scores))
         mlflow.log_metric(<span class="cs">"faithfulness_min"</span>,   min(faithfulness_scores))
         mlflow.log_metric(<span class="cs">"cost_per_query_usd"</span>, sum(costs)/len(costs))
         mlflow.log_metric(<span class="cs">"total_cost_usd"</span>,     sum(costs))
-
+ 
         <span class="ck"># Log the prompt as an artifact</span>
         with open(<span class="cs">"prompt.txt"</span>, <span class="cs">"w"</span>) as f:
             f.write(prompt_content)
         mlflow.log_artifact(<span class="cs">"prompt.txt"</span>)
-
+ 
         return {<span class="cs">"faithfulness"</span>: sum(faithfulness_scores)/len(faithfulness_scores),
                 <span class="cs">"cost"</span>: sum(costs)/len(costs)}
-
+ 
 <span class="ck"># Compare runs in MLflow UI</span>
 <span class="ck"># mlflow ui --port 5000</span>
 <span class="ck"># → parallel coordinates plot shows which params produce best faithfulness</span>
@@ -345,34 +346,34 @@ def evaluate_prompt_variant(prompt_name: str, prompt_version: int,
     <p>For RAG systems, "data drift" means user queries are shifting toward topics not covered by your indexed documents. Retrieval scores drop, but nothing crashes — users just get worse answers. You need to detect this proactively.</p>
     <div class="cb"><pre>import numpy as np
 from datetime import datetime, timedelta
-
+ 
 <span class="ck"># ── Track retrieval scores over time ──────────────────</span>
 <span class="ck"># Log the top-1 similarity score for every query</span>
 <span class="ck"># Degrading average = queries moving out of distribution</span>
-
+ 
 def log_retrieval_score(query: str, top_score: float, session_id: str):
     with sqlite3.connect(<span class="cs">"drift.db"</span>) as conn:
         conn.execute(<span class="cs">"""CREATE TABLE IF NOT EXISTS retrieval_log
             (ts TEXT, query TEXT, score REAL, session_id TEXT)"""</span>)
         conn.execute(<span class="cs">"INSERT INTO retrieval_log VALUES (?,?,?,?)"</span>,
                      (datetime.utcnow().isoformat(), query, top_score, session_id))
-
+ 
 def check_retrieval_drift(window_days: int = <span class="cv">7</span>, baseline_days: int = <span class="cv">30</span>) -> dict:
     """Compare recent avg score vs baseline avg score."""
     now     = datetime.utcnow().isoformat()
     recent  = (datetime.utcnow() - timedelta(days=window_days)).isoformat()
     old     = (datetime.utcnow() - timedelta(days=baseline_days)).isoformat()
-
+ 
     with sqlite3.connect(<span class="cs">"drift.db"</span>) as conn:
         recent_avg = conn.execute(
             <span class="cs">"SELECT AVG(score) FROM retrieval_log WHERE ts > ?"</span>, (recent,)).fetchone()[<span class="cv">0</span>]
         baseline_avg = conn.execute(
             <span class="cs">"SELECT AVG(score) FROM retrieval_log WHERE ts BETWEEN ? AND ?"</span>,
             (old, recent)).fetchone()[<span class="cv">0</span>]
-
+ 
     if not baseline_avg:
         return {<span class="cs">"status"</span>: <span class="cs">"insufficient_data"</span>}
-
+ 
     delta = recent_avg - baseline_avg
     return {
         <span class="cs">"recent_avg_score"</span>:   round(recent_avg, <span class="cv">4</span>),
@@ -381,28 +382,28 @@ def check_retrieval_drift(window_days: int = <span class="cv">7</span>, baseline
         <span class="cs">"drifting"</span>:          delta < -<span class="cv">0.05</span>,   <span class="ck"># >5% drop = significant drift</span>
         <span class="cs">"action"</span>:            <span class="cs">"Re-index new documents"</span> if delta < -<span class="cv">0.05</span> else <span class="cs">"Monitor"</span>
     }
-
+ 
 <span class="ck"># ── Topic clustering — find what users are asking about ──</span>
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import normalize
-
+ 
 def identify_drift_topics(n_clusters: int = <span class="cv">5</span>) -> list[dict]:
     """Cluster low-scoring queries to find coverage gaps."""
     with sqlite3.connect(<span class="cs">"drift.db"</span>) as conn:
         rows = conn.execute(
             <span class="cs">"SELECT query FROM retrieval_log WHERE score < 0.4 ORDER BY ts DESC LIMIT 500"</span>
         ).fetchall()
-
+ 
     if len(rows) < <span class="cv">10</span>:
         return []
-
+ 
     queries = [r[<span class="cv">0</span>] for r in rows]
     embeddings = embed_batch(queries)   <span class="ck"># your embedding function</span>
     X = normalize(np.array(embeddings))
-
+ 
     km = KMeans(n_clusters=n_clusters, random_state=<span class="cv">42</span>)
     km.fit(X)
-
+ 
     <span class="ck"># Find representative query for each cluster</span>
     clusters = []
     for cluster_id in range(n_clusters):
@@ -428,7 +429,7 @@ def identify_drift_topics(n_clusters: int = <span class="cv">5</span>) -> list[d
     <div class="cb"><pre><span class="ck"># ── Blue-Green Deployment ─────────────────────────────</span>
 <span class="ck"># Run two identical environments. Switch traffic between them.</span>
 <span class="ck"># Zero downtime. Instant rollback (switch traffic back).</span>
-
+ 
 <span class="ck"># docker-compose.prod.yml style blue-green</span>
 <span class="ck"># Blue = current live version, Green = new version</span>
 <span class="ck">#</span>
@@ -437,35 +438,35 @@ def identify_drift_topics(n_clusters: int = <span class="cv">5</span>) -> list[d
 <span class="ck"># 3. Switch load balancer: 100% → green</span>
 <span class="ck"># 4. Keep blue running for 5 min (easy rollback)</span>
 <span class="ck"># 5. Tear down blue</span>
-
+ 
 <span class="ck"># ── Canary Deployment ─────────────────────────────────</span>
 <span class="ck"># Route small % of traffic to new version first</span>
 <span class="ck"># Monitor metrics. If good → increase %. If bad → 0%.</span>
-
+ 
 import random
-
+ 
 class CanaryRouter:
     def __init__(self, canary_pct: float = <span class="cv">0.05</span>):  <span class="ck"># 5% to new version</span>
         self.canary_pct = canary_pct
-
+ 
     def route(self, request) -> str:
         <span class="ck"># Sticky routing: same user always gets same version</span>
         user_hash = hash(request.headers.get(<span class="cs">"X-User-ID"</span>, <span class="cs">""</span>)) % <span class="cv">100</span>
         if user_hash < self.canary_pct * <span class="cv">100</span>:
             return <span class="cs">"green"</span>   <span class="ck"># canary version</span>
         return <span class="cs">"blue"</span>       <span class="ck"># stable version</span>
-
+ 
 <span class="ck"># ── Feature flags — safest for AI changes ─────────────</span>
 <span class="ck"># Toggle behaviour without deploying new code</span>
 <span class="ck"># Perfect for A/B testing prompt variants in production</span>
-
+ 
 FEATURE_FLAGS = {
     <span class="cs">"use_reranker"</span>:        <span class="cv">True</span>,
     <span class="cs">"use_hyde"</span>:            <span class="cv">False</span>,
     <span class="cs">"contextual_retrieval"</span>: <span class="cv">False</span>,
     <span class="cs">"new_prompt_v3"</span>:       <span class="cv">False</span>,   <span class="ck"># flip to True after testing</span>
 }
-
+ 
 def is_enabled(flag: str, user_id: str = <span class="cs">""</span>, rollout_pct: float = <span class="cv">1.0</span>) -> bool:
     """Check if feature flag is enabled. Supports percentage rollout."""
     if not FEATURE_FLAGS.get(flag):
@@ -473,21 +474,21 @@ def is_enabled(flag: str, user_id: str = <span class="cs">""</span>, rollout_pct
     if rollout_pct < <span class="cv">1.0</span> and user_id:
         return (hash(user_id + flag) % <span class="cv">100</span>) < (rollout_pct * <span class="cv">100</span>)
     return <span class="cv">True</span>
-
+ 
 <span class="ck"># In endpoint:</span>
 <span class="ck"># if is_enabled("use_reranker", user_id, rollout_pct=0.2):</span>
 <span class="ck">#     results = retrieve_and_rerank(query)</span>
 <span class="ck"># else:</span>
 <span class="ck">#     results = basic_retrieve(query)</span>
-
+ 
 <span class="ck"># ── Index hot-swap ────────────────────────────────────</span>
 <span class="ck"># Update the vector DB index without downtime</span>
-
+ 
 class IndexSwapper:
     def __init__(self):
         self.active = <span class="cs">"index_a"</span>   <span class="ck"># current live index</span>
         self.staging = <span class="cs">"index_b"</span>  <span class="ck"># being rebuilt</span>
-
+ 
     def rebuild_in_background(self, new_documents: list):
         <span class="ck"># Build into staging index while live index serves traffic</span>
         pipeline = DocumentIngestionPipeline(
@@ -495,7 +496,7 @@ class IndexSwapper:
         )
         pipeline.ingest_directory(new_documents)
         self.swap()
-
+ 
     def swap(self):
         self.active, self.staging = self.staging, self.active
         print(<span class="cs">f"Swapped to {self.active}"</span>)</pre></div>

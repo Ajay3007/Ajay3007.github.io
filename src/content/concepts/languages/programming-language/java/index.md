@@ -3,6 +3,7 @@ title: "Java Language"
 description: "☕ Java Language Explore Java basics, OOP, collections, and build real-world projects."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/
 ---
 

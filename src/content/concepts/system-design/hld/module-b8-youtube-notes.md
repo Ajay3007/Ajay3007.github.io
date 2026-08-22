@@ -4,6 +4,7 @@ description: "Module B8 — Design YouTube System Design Mastery Course Track B:
 domain: system-design
 track: system-design-hld
 order: 117
+ownHeader: true
 url: /learning/system-design/hld/module-b8-notes/
 ---
 

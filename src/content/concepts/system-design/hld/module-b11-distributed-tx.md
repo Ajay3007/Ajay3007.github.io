@@ -4,6 +4,8 @@ description: "SYSTEM DESIGN MASTERY · TRACK B · MODULE B11 · WEEK 21 ACID · 
 domain: system-design
 track: system-design-hld
 order: 122
+chrome: bare
+ownHeader: true
 url: /learning/system-design/hld/module-b11-distributed-tx/
 ---
 
@@ -101,17 +103,17 @@ T1: UPDATE balance = 50 WHERE user='alice'  <span class="cm">(not yet committed)
 T2: SELECT balance FROM users WHERE user='alice'  → <span class="er">50</span>  <span class="cm">(dirty!)</span>
 T1: ROLLBACK  → balance never changed to 50
 T2 read data that never existed.
-
+ 
 <span class="cm">// 2. NON-REPEATABLE READ: same row returns different values in same transaction</span>
 T1: SELECT balance FROM users WHERE user='alice'  → <span class="go">100</span>
 T2: UPDATE balance = 200 WHERE user='alice'; COMMIT
 T1: SELECT balance FROM users WHERE user='alice'  → <span class="er">200</span>  <span class="cm">(changed!)</span>
-
+ 
 <span class="cm">// 3. PHANTOM READ: new rows appear in a repeated range query</span>
 T1: SELECT COUNT(*) FROM orders WHERE status='pending'  → <span class="go">5</span>
 T2: INSERT INTO orders (status) VALUES ('pending'); COMMIT
 T1: SELECT COUNT(*) FROM orders WHERE status='pending'  → <span class="er">6</span>  <span class="cm">(phantom!)</span>
-
+ 
 <span class="cm">// 4. LOST UPDATE: two transactions overwrite each other's changes</span>
 T1: READ balance = 100
 T2: READ balance = 100
@@ -140,19 +142,19 @@ T2: WRITE balance = 120  <span class="cm">(+20, but only saw original 100 — lo
 <span class="cm">// 2. Payment Service   → UPDATE balance IN payment_db</span>
 <span class="cm">// 3. Inventory Service → UPDATE stock   IN inventory_db</span>
 <span class="cm">// 4. Notification      → send email     via external SMTP</span>
-
+ 
 <span class="cm">// These are FOUR SEPARATE DATABASES. There is NO single transaction spanning them.</span>
 <span class="cm">// What happens if Step 3 fails after Steps 1 and 2 succeed?</span>
-
+ 
 BEGIN TRANSACTION on orders_db:
   INSERT INTO orders ...    <span class="ok">✓ committed</span>
-  
+ 
 BEGIN TRANSACTION on payment_db:
   UPDATE balance - $100 ... <span class="ok">✓ committed</span>  <span class="cm">← alice is charged</span>
-  
+ 
 BEGIN TRANSACTION on inventory_db:
   UPDATE stock - 1 ...      <span class="er">✗ FAILS</span>  <span class="cm">← item out of stock!</span>
-
+ 
 <span class="er">// Alice was charged $100 but cannot receive her item.</span>
 <span class="er">// Order DB shows order created. Payment DB shows deduction. Inventory unchanged.</span>
 <span class="er">// System is in an INCONSISTENT state across services.</span></pre>
@@ -272,18 +274,18 @@ BEGIN TRANSACTION on inventory_db:
   <div class="al gld"><em>Key insight:</em> Compensating transactions are NOT rollbacks. You cannot un-send an email or un-charge a credit card. Compensation is a new, forward-moving transaction that corrects the previous one (refund, cancel, unreserve).</div>
   <div class="cb"><div class="cb-top">Compensation design — every step must have a compensating step<span class="cb-l">DESIGN</span></div>
 <pre class="c"><span class="cm">// For every Saga step, design its compensation BEFORE building the step:</span>
-
+ 
 Step 1: <span class="go">Create Order</span>        → Compensation: <span class="er">Cancel Order</span>
 Step 2: <span class="go">Deduct Payment</span>     → Compensation: <span class="er">Issue Refund</span>
 Step 3: <span class="go">Reserve Inventory</span>  → Compensation: <span class="er">Release Reservation</span>
 Step 4: <span class="go">Book Shipping Slot</span> → Compensation: <span class="er">Cancel Booking</span>
 Step 5: <span class="go">Send Email</span>         → Compensation: <span class="er">Send Cancellation Email</span>
 <span class="cm">// (cannot un-send; notify user of cancellation instead)</span>
-
+ 
 <span class="cm">// Pivot transaction: the step after which compensation is impossible/impractical</span>
 <span class="cm">// Design: put pivot transaction AS LATE AS POSSIBLE in the saga</span>
 <span class="cm">// Notifications, external API calls = typically pivot transactions</span>
-
+ 
 <span class="cm">// Idempotency requirement:</span>
 <span class="cm">// Compensation may run multiple times (network retry, at-least-once delivery)</span>
 <span class="cm">// REFUND must be idempotent: cannot refund twice for one order</span>
@@ -298,16 +300,16 @@ Step 5: <span class="go">Send Email</span>         → Compensation: <span class
   <div class="sr">Atomic DB update + event publication — without distributed transactions</div>
   <div class="cb"><div class="cb-top">The bug without outbox — dual write problem<span class="cb-l">BUG</span></div>
 <pre class="c"><span class="cm">// Payment Service receives "ProcessPayment" command</span>
-
+ 
 <span class="cm">// Step 1: update DB</span>
 UPDATE accounts SET balance = balance - 100 WHERE user='alice';
 COMMIT;  <span class="ok">← succeeds</span>
-
+ 
 <span class="cm">// 💥 SERVER CRASHES HERE</span>
-
+ 
 <span class="cm">// Step 2: publish event</span>
 kafka.publish("PaymentProcessed", {...});  <span class="er">← NEVER RUNS</span>
-
+ 
 <span class="cm">// Result: alice's balance is deducted, but no "PaymentProcessed" event was published.</span>
 <span class="cm">// The saga is stuck. Alice pays but gets nothing.</span>
 <span class="cm">// Dual write problem: two separate systems (DB + Kafka) cannot be updated atomically.</span></pre>
@@ -319,7 +321,7 @@ BEGIN TRANSACTION;
   INSERT INTO outbox (id, event_type, payload, sent, created_at)
   VALUES (uuid(), <span class="str">'PaymentProcessed'</span>, <span class="str">'{"order":"123","amount":100}'</span>, false, NOW());
 COMMIT;  <span class="cm">← both update AND outbox row are atomic</span>
-
+ 
 <span class="cm">// Separate "Outbox Relay" process (runs continuously):</span>
 <span class="kw">while</span> (true) {
   rows = db.<span class="fn">query</span>(<span class="str">"SELECT * FROM outbox WHERE sent = false ORDER BY created_at LIMIT 100"</span>)
@@ -329,7 +331,7 @@ COMMIT;  <span class="cm">← both update AND outbox row are atomic</span>
   }
   sleep(100ms)
 }
-
+ 
 <span class="cm">// Guarantee: if DB committed → event row exists → relay will publish it</span>
 <span class="cm">// Relay may publish twice (retry on crash) → consumer must be idempotent</span>
 <span class="cm">// Alternative: CDC (Debezium) watches DB transaction log → publishes to Kafka</span></pre>
@@ -361,26 +363,26 @@ COMMIT;  <span class="cm">← both update AND outbox row are atomic</span>
 POST /payments
 Headers: Idempotency-Key: <span class="str">"order-123-payment-attempt-1"</span>
 Body:    <span class="str">{"amount": 100, "currency": "USD", "user": "alice"}</span>
-
+ 
 <span class="cm">// Server logic:</span>
 <span class="kw">function</span> <span class="fn">processPayment</span>(idempotencyKey, amount, user) {
   <span class="cm">// Check if already processed</span>
   existing = db.<span class="fn">query</span>(<span class="str">"SELECT result FROM idempotency_cache WHERE key = ?"</span>, idempotencyKey)
   <span class="kw">if</span> (existing) <span class="kw">return</span> existing.result  <span class="cm">// return same result, don't charge again</span>
-
+ 
   <span class="cm">// Process payment</span>
   result = stripe.<span class="fn">charge</span>(amount, user)
-
+ 
   <span class="cm">// Store result with key (within same transaction as the charge)</span>
   db.<span class="fn">insert</span>(<span class="str">"INSERT INTO idempotency_cache (key, result, expires_at) VALUES (?,?,?)"</span>,
     idempotencyKey, result, now + 24h)
-
+ 
   <span class="kw">return</span> result
 }
-
+ 
 <span class="cm">// If client retries (network timeout, didn't receive response):</span>
 <span class="cm">// POST /payments with same Idempotency-Key → returns cached result, no double charge</span>
-
+ 
 <span class="cm">// Idempotency key design:</span>
 <span class="cm">// order_id + step_name = "order-123-payment"  (scoped to specific operation)</span>
 <span class="cm">// UUID per attempt = allows retry after timeout, prevents replay after success</span>

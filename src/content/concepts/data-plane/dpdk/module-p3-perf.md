@@ -4,6 +4,7 @@ description: "DPDK MASTERY · PHASE 3 OF 3 · MODULE B Packet Patterns, Tuning D
 domain: data-plane
 track: dpdk
 order: 3
+ownHeader: true
 url: /learning/data-plane/dpdk/module-p3-perf/
 ---
 

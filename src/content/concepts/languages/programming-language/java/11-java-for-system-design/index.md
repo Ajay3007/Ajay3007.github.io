@@ -3,6 +3,7 @@ title: "Java for System Design"
 description: "Java for System Design Interview-focused system design with Java implementation."
 domain: languages
 order: 0
+ownHeader: true
 url: /learning/programming-language/java/11-java-for-system-design/
 ---
 

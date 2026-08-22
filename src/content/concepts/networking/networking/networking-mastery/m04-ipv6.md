@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 1 · MODULE 04 · WEEK 3 🔵 IPv6 128
 domain: networking
 track: networking-mastery
 order: 4
+ownHeader: true
 url: /learning/networking-mastery/m04-ipv6/
 ---
 
@@ -395,27 +396,27 @@ url: /learning/networking-mastery/m04-ipv6/
 
 <div class="cb"><pre><span class="cm">/* Full notation */</span>
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-
+ 
 <span class="cm">/* Step 1: Drop leading zeros in each group */</span>
 2001:db8:85a3:0:0:8a2e:370:7334
-
+ 
 <span class="cm">/* Step 2: Compress the run of zeros (0:0) with :: */</span>
 2001:db8:85a3::8a2e:370:7334  ← final compressed form
-
+ 
 <span class="cm">/* More examples */</span>
 fe80:0000:0000:0000:0204:61ff:fe9d:f156
 →  fe80::204:61ff:fe9d:f156           <span class="cm"># 4 consecutive zero groups compressed</span>
-
+ 
 0000:0000:0000:0000:0000:0000:0000:0001
 →  ::1                                 <span class="cm"># loopback address</span>
-
+ 
 0000:0000:0000:0000:0000:0000:0000:0000
 →  ::                                  <span class="cm"># unspecified address</span>
-
+ 
 <span class="cm">/* :: can only be used ONCE per address */</span>
 2001:db8::1:0:0:1   <span class="cm"># valid — one :: compresses middle zeros</span>
 2001::db8::1        <span class="cm"># INVALID — two :: is ambiguous</span>
-
+ 
 <span class="cm">/* Prefix notation — same as IPv4 CIDR */</span>
 2001:db8::/32       <span class="cm"># network prefix /32 bits</span>
 fe80::/10           <span class="cm"># link-local prefix</span>
@@ -429,28 +430,28 @@ fe80::/10           <span class="cm"># link-local prefix</span>
 <div class="cb"><pre><span class="cs">#include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
 #include &lt;string.h&gt;</span>
-
+ 
 <span class="cm">/* IPv6 address structure: 16 bytes = 128 bits */</span>
 <span class="ck">struct</span> in6_addr addr;
-
+ 
 <span class="cm">/* Parse a string into binary */</span>
 inet_pton(AF_INET6, <span class="cs">"2001:db8::1"</span>, &addr);
-
+ 
 <span class="cm">/* Print binary as string */</span>
 <span class="ck">char</span> buf[INET6_ADDRSTRLEN];   <span class="cm">/* 46 bytes: enough for any IPv6 string */</span>
 inet_ntop(AF_INET6, &addr, buf, <span class="ck">sizeof</span>(buf));
 printf(<span class="cs">"%s\n"</span>, buf);           <span class="cm">/* prints: 2001:db8::1 */</span>
-
+ 
 <span class="cm">/* Access raw bytes (useful for masking) */</span>
 <span class="ck">uint8_t</span> *bytes = addr.s6_addr;  <span class="cm">/* 16-byte array */</span>
 printf(<span class="cs">"First byte: %02x\n"</span>, bytes[0]);
-
+ 
 <span class="cm">/* Check if address is in a prefix (e.g., fe80::/10 link-local) */</span>
 <span class="ck">int</span> is_link_local(<span class="ck">struct</span> in6_addr *a) {
     <span class="cm">/* fe80::/10 — first 10 bits = 1111 1110 10 */</span>
     <span class="ck">return</span> (a->s6_addr[0] == 0xfe) && ((a->s6_addr[1] & 0xc0) == 0x80);
 }
-
+ 
 <span class="cm">/* sockaddr for IPv6 connections */</span>
 <span class="ck">struct</span> sockaddr_in6 sa6 = {0};
 sa6.sin6_family = AF_INET6;
@@ -497,12 +498,12 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
     <h4>Global Unicast Address Structure</h4>
     <p>A GUA is divided into three parts:</p>
 <div class="cb"><pre><span class="cm">/* Global Unicast Address: 2001:db8:1234:5678:abcd:ef01:2345:6789 */</span>
-
+ 
 |←── Global Routing Prefix ──→|←─ Subnet ID ─→|←───── Interface ID ─────→|
   2001 : 0db8 : 1234            : 5678            : abcd : ef01 : 2345 : 6789
   (assigned by ISP/RIR)          (you define)       (interface-specific)
   typically 48 bits               16 bits            64 bits
-
+ 
 <span class="cm">/* The /64 boundary is the standard interface prefix */</span>
 <span class="cm">/* Network: 2001:db8:1234:5678::/64 */</span>
 <span class="cm">/* Host:    anything in the lower 64 bits */</span></pre></div>
@@ -532,12 +533,12 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
 <div class="cb"><pre><span class="cm">/* Solicited-Node Multicast formula */</span>
 Prefix: ff02::1:ff00:0/104
 Last 24 bits: lower 24 bits of the interface's IPv6 address
-
+ 
 <span class="cm">/* Example */</span>
 Interface IPv6: 2001:db8::abcd:ef01
 Lower 24 bits:  cd:ef:01
 Solicited-Node: ff02::1:ffcd:ef01
-
+ 
 <span class="cm">/* Why this is better than ARP broadcast */</span>
 ARP: sent to FF:FF:FF:FF:FF:FF — EVERY device on the segment must wake up and process it
 NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in cd:ef:01 process it
@@ -643,7 +644,7 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
    → Address conflict detected → DAD fails
    → Interface stays without this address
    → Kernel logs: "IPv6: DAD failed for address 2001:db8::1"
-
+ 
 <span class="cm">/* On Linux you can observe DAD: */</span>
 $ ip -6 addr show dev eth0
    inet6 2001:db8::1/64 scope global tentative  ← DAD in progress
@@ -660,17 +661,17 @@ Cur Hop Limit:    64        <span class="cm"># recommended Hop Limit for outgoin
 Flags:            M=0 O=0  <span class="cm"># M=1: use DHCPv6 for address; O=1: use DHCPv6 for options</span>
 Router Lifetime:  1800s     <span class="cm"># how long to use this router as default gateway</span>
 Reachable Time:   0         <span class="cm"># time to assume neighbour is reachable after last confirmation</span>
-
+ 
 Prefix Information Option:
   Prefix:         2001:db8::/64
   Valid Lifetime: 2592000s  <span class="cm"># 30 days</span>
   Preferred Lifetime: 604800s <span class="cm"># 7 days</span>
   L flag = 1                <span class="cm"># prefix is on-link</span>
   A flag = 1                <span class="cm"># use for SLAAC autoconfiguration</span>
-
+ 
 MTU Option:       1500      <span class="cm"># link MTU</span>
 Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
-
+ 
 <span class="cm"># Receiving host uses this to:</span>
 <span class="cm"># 1. Know it's on prefix 2001:db8::/64</span>
 <span class="cm"># 2. Auto-configure its own address (SLAAC)</span>
@@ -730,19 +731,19 @@ Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
 
     <h4>EUI-64 Interface Identifier Generation</h4>
 <div class="cb"><pre><span class="cm">/* Derive 64-bit EUI-64 from 48-bit MAC address */</span>
-
+ 
 MAC:    aa:bb:cc : dd:ee:ff
         ↓
 Split:  aa:bb:cc | dd:ee:ff
 Insert: aa:bb:cc : ff:fe : dd:ee:ff    <span class="cm"># insert ff:fe in the middle</span>
 Flip:   a8:bb:cc : ff:fe : dd:ee:ff    <span class="cm"># flip bit 6 (Universal/Local bit) of first byte</span>
                                         <span class="cm"># aa = 10101010 → bit 6 flip → 10101000 = a8</span>
-
+ 
 <span class="cm">/* Example */</span>
 MAC:          00:1a:2b:3c:4d:5e
 EUI-64:       02:1a:2b:ff:fe:3c:4d:5e
 Link-Local:   fe80::021a:2bff:fe3c:4d5e
-
+ 
 <span class="cm">/* Privacy concern */</span>
 <span class="cm"># EUI-64 embeds the MAC — tracking device across networks</span>
 <span class="cm"># RFC 8981 "Temporary Address Extensions" generates random interface IDs</span>
@@ -802,17 +803,17 @@ $ sysctl net.ipv6.conf.eth0.use_tempaddr   <span class="cm"># 2 = prefer tempora
 ip addr add 10.0.0.5/24   dev eth0    <span class="cm"># IPv4</span>
 ip addr add 2001:db8::5/64 dev eth0    <span class="cm"># IPv6 (manual)</span>
 <span class="cm"># Or let SLAAC configure IPv6 automatically</span>
-
+ 
 <span class="cm"># Check dual-stack status</span>
 ip addr show eth0
 <span class="cm"># inet  10.0.0.5/24 brd 10.0.0.255 scope global eth0</span>
 <span class="cm"># inet6 2001:db8::5/64 scope global</span>
 <span class="cm"># inet6 fe80::a00:27ff:fe4e:66a1/64 scope link</span>
-
+ 
 <span class="cm"># Connect to a dual-stack server — OS picks IPv6 first (Happy Eyeballs)</span>
 curl -v https://google.com
 <span class="cm"># Look for: Connected to google.com (2a00:1450:4009:820::200e) port 443</span>
-
+ 
 <span class="cm"># Force IPv4</span>
 curl -4 https://google.com
 <span class="cm"># Force IPv6</span>

@@ -4,6 +4,7 @@ description: "NETWORKING MASTERY · PHASE 2 · MODULE 05 · WEEKS 4–5 ⚡ TCP 
 domain: networking
 track: networking-mastery
 order: 5
+ownHeader: true
 url: /learning/networking-mastery/m05-tcp/
 ---
 
@@ -445,13 +446,13 @@ Flags:  SYN
 Seq:    x        <span class="cm"># randomly chosen ISN — e.g. 1,000,000</span>
 Ack:    0        <span class="cm"># ACK flag not set — nothing to ack yet</span>
 Options: MSS=1460, SACK permitted, Window Scale=7, Timestamps
-
+ 
 <span class="cm">/* Step 2 — Server sends SYN+ACK */</span>
 Flags:  SYN, ACK
 Seq:    y        <span class="cm"># server's own randomly chosen ISN — e.g. 5,000,000</span>
 Ack:    x+1      <span class="cm"># "I received your SYN (which consumed 1 seq byte), send me x+1 next"</span>
 Options: MSS=1460, SACK permitted, Window Scale=9, Timestamps
-
+ 
 <span class="cm">/* Step 3 — Client sends ACK */</span>
 Flags:  ACK
 Seq:    x+1      <span class="cm"># client's next byte</span>
@@ -471,10 +472,10 @@ Ack:    y+1      <span class="cm"># "I received your SYN, send me y+1 next"</spa
 <div class="cb"><pre><span class="cm"># Check if SYN cookies are enabled on Linux</span>
 cat /proc/sys/net/ipv4/tcp_syncookies
 <span class="cm"># 0 = disabled, 1 = enabled when backlog full, 2 = always enabled</span>
-
+ 
 <span class="cm"># Enable permanently</span>
 echo 1 > /proc/sys/net/ipv4/tcp_syncookies
-
+ 
 <span class="cm"># NGFW-level SYN flood protection</span>
 <span class="cm"># Rate-limit SYN packets per source IP per second</span>
 <span class="cm"># Drop SYN packets exceeding threshold (e.g., >100 SYN/sec from one IP)</span>
@@ -549,30 +550,30 @@ CLOSED
   → app calls connect()                    → SYN_SENT
   → SYN_SENT  + receive SYN+ACK, send ACK → ESTABLISHED
   → SYN_SENT  + receive SYN (simultaneous) → SYN_RECEIVED
-
+ 
 <span class="cm">/* SERVER (passive open) state transitions */</span>
 CLOSED
   → app calls listen()                     → LISTEN
   → LISTEN    + receive SYN, send SYN+ACK  → SYN_RECEIVED
   → SYN_RECEIVED + receive ACK             → ESTABLISHED
-
+ 
 <span class="cm">/* TEARDOWN — active close (initiating side) */</span>
 ESTABLISHED
   → app calls close(), send FIN            → FIN_WAIT_1
   → FIN_WAIT_1 + receive ACK              → FIN_WAIT_2
   → FIN_WAIT_2 + receive FIN, send ACK    → TIME_WAIT
   → TIME_WAIT  + 2*MSL timeout            → CLOSED
-
+ 
 <span class="cm">/* TEARDOWN — passive close (receiving side) */</span>
 ESTABLISHED
   → receive FIN, send ACK                  → CLOSE_WAIT
   → CLOSE_WAIT + app calls close(), send FIN → LAST_ACK
   → LAST_ACK   + receive ACK               → CLOSED
-
+ 
 <span class="cm">/* RST — abortive close (any state) */</span>
 <span class="ck">any state</span>
   → receive RST or send RST                → CLOSED (immediately)
-
+ 
 <span class="cm">/* Check states on Linux */</span>
 ss -tn          <span class="cm"># show TCP connections with states</span>
 ss -tn state established
@@ -615,21 +616,21 @@ netstat -an | grep TCP</pre></div>
     <p>TCP numbers every byte it sends with a sequence number. This enables: (1) the receiver to detect missing bytes, (2) the receiver to reorder out-of-order segments, and (3) the sender to know exactly which bytes were received via the ACK number.</p>
 <div class="cb"><pre><span class="cm">/* Example: sending "Hello World" (11 bytes) */</span>
 ISN = 1000  <span class="cm"># chosen randomly at handshake</span>
-
+ 
 Segment 1: seq=1001  data="Hello" (5 bytes)   → covers bytes 1001-1005
 Segment 2: seq=1006  data=" Worl" (5 bytes)   → covers bytes 1006-1010
 Segment 3: seq=1011  data="d"     (1 byte)    → covers bytes 1011-1011
-
+ 
 <span class="cm">/* Receiver sends ACKs */</span>
 After Segment 1: ACK=1006  <span class="cm"># "I have 1001-1005, send me 1006 next"</span>
 After Segment 2: ACK=1011  <span class="cm"># "I have 1001-1010, send me 1011 next"</span>
 After Segment 3: ACK=1012  <span class="cm"># "I have 1001-1011, send me 1012 next"</span>
-
+ 
 <span class="cm">/* What if Segment 2 is lost? */</span>
 Receiver gets Segment 1:  ACK=1006  (normal)
 Receiver gets Segment 3:  ACK=1006  (still 1006 — can't advance past gap!)
                           → This is a duplicate ACK — signals a gap</span>
-
+ 
 <span class="cm">/* Sequence number arithmetic — always modular (wraps at 2^32) */</span>
 <span class="cm">/* Use int32_t arithmetic for correct comparison */</span>
 int32_t diff = (int32_t)(seq_a - seq_b);
@@ -649,19 +650,19 @@ Network drops: seg[1500]
 Receiver gets: seg[1000] ✓  ACK=1500
                seg[2000] ✓  ACK=1500  (still! — can't advance past 1500)
                seg[2500] ✓  ACK=1500  (still!)
-
+ 
 Without SACK: sender must retransmit seg[1500] AND all after it
 (go-back-N behaviour, though modern TCP is smarter)
-
+ 
 <span class="cm">/* Selective ACK (SACK) — RFC 2018 */</span>
 Receiver gets: seg[1000] ✓  ACK=1500
                seg[2000] ✓  ACK=1500  SACK=[2000-2499]
                seg[2500] ✓  ACK=1500  SACK=[2000-2999]
-
+ 
 With SACK: sender knows ONLY seg[1500] is missing
            retransmits ONLY seg[1500]
            receiver ACKs=3000 after receiving it → done
-
+ 
 SACK enabled by: "SACK Permitted" option in SYN/SYN+ACK
 Up to 4 SACK blocks per segment (each block = 2×32-bit seq numbers = 8 bytes)</pre></div>
   </div>
@@ -714,19 +715,19 @@ Up to 4 SACK blocks per segment (each block = 2×32-bit seq numbers = 8 bytes)</
 <div class="cb"><pre><span class="cm">/* Flow control in action */</span>
 Receiver has 64KB buffer, app reads slowly:
   Initial window advertised: 65535 bytes
-
+ 
 Sender sends 32KB → receiver buffers it, app hasn't read yet:
   Receiver advertises: Window = 65535 - 32768 = 32767 bytes
-
+ 
 Sender sends another 20KB → receiver buffers:
   Receiver advertises: Window = 65535 - 52768 = 12767 bytes
-
+ 
 Sender sends 12KB → buffer nearly full:
   Receiver advertises: Window = 767 bytes
-
+ 
 App reads 40KB from buffer:
   Receiver advertises: Window = 40767 bytes   <span class="cm"># window re-opens</span>
-
+ 
 <span class="cm">/* Zero window — sender must stop */</span>
 Buffer completely full:
   Receiver advertises: Window = 0   <span class="cm"># sender MUST stop sending data</span>
@@ -743,10 +744,10 @@ Buffer completely full:
 <div class="cb"><pre><span class="cm">/* Window Scale option in SYN */</span>
 Scale factor = 7  <span class="cm"># window size is multiplied by 2^7 = 128</span>
 Effective max window = 65535 × 128 = 8,388,480 bytes (8 MB)
-
+ 
 <span class="cm">/* Both sides must negotiate it in SYN / SYN+ACK */</span>
 <span class="cm">/* If one side doesn't include Window Scale in SYN, neither side uses scaling */</span>
-
+ 
 <span class="cm">/* Check on Linux */</span>
 ss -tni | grep rcv_space   <span class="cm"># shows receiver socket buffer size</span>
 sysctl net.ipv4.tcp_rmem   <span class="cm"># min/default/max receive buffer: "4096 131072 6291456"</span>
@@ -794,24 +795,24 @@ sysctl net.ipv4.tcp_wmem   <span class="cm"># min/default/max send buffer</span>
 <span class="cm">/* State variables */</span>
 cwnd = 10 * MSS    <span class="cm"># congestion window (starts at 10 MSS per RFC 6928)</span>
 ssthresh = 65535   <span class="cm"># slow start threshold (initial: large value)</span>
-
+ 
 <span class="cm">/* Slow Start phase */</span>
 on each ACK: cwnd += MSS          <span class="cm"># doubles every RTT (exponential)</span>
 when cwnd >= ssthresh: → Congestion Avoidance
-
+ 
 <span class="cm">/* Congestion Avoidance phase */</span>
 on each ACK: cwnd += MSS² / cwnd  <span class="cm"># +1 MSS per RTT (linear)</span>
-
+ 
 <span class="cm">/* Packet loss detected by TIMEOUT */</span>
 ssthresh = max(cwnd / 2, 2*MSS)
 cwnd = 1 MSS        <span class="cm"># drastic reduction — restart Slow Start</span>
-
+ 
 <span class="cm">/* Packet loss detected by 3 DUPLICATE ACKs (mild congestion) */</span>
 ssthresh = max(cwnd / 2, 2*MSS)
 cwnd = ssthresh + 3*MSS   <span class="cm"># smaller reduction — Fast Recovery</span>
 <span class="cm"># retransmit the missing segment immediately</span>
 <span class="cm"># then enter Congestion Avoidance (skip Slow Start)</span>
-
+ 
 <span class="cm">/* Check congestion control algorithm in use */</span>
 sysctl net.ipv4.tcp_congestion_control   <span class="cm"># typical: "cubic" or "bbr"</span>
 ss -tni dst :80 | grep cwnd              <span class="cm"># see live cwnd for connections</span></pre></div>
@@ -861,19 +862,19 @@ ss -tni dst :80 | grep cwnd              <span class="cm"># see live cwnd for co
 
     <h4>RTO Calculation — Karn's Algorithm</h4>
 <div class="cb"><pre><span class="cm">/* RTT measurement and RTO calculation (RFC 6298) */</span>
-
+ 
 <span class="cm">/* Measure RTT for each ACKed segment (not retransmitted ones — Karn's rule) */</span>
 SRTT = 0.875 * SRTT + 0.125 * RTT_sample    <span class="cm"># smoothed RTT (EWMA)</span>
 RTTVAR = 0.75 * RTTVAR + 0.25 * |SRTT - RTT_sample|  <span class="cm"># RTT variance</span>
 RTO = SRTT + 4 * RTTVAR                      <span class="cm"># RTO with safety margin</span>
 RTO = max(1 second, RTO)                     <span class="cm"># floor: 1 second</span>
-
+ 
 <span class="cm">/* On RTO timeout: double the RTO (exponential backoff) */</span>
 RTO = RTO * 2   <span class="cm"># until max (typically 120 seconds)</span>
-
+ 
 <span class="cm">/* After successful retransmission: restart RTT measurement from scratch */</span>
 <span class="cm"># (Can't tell if ACK is for original or retransmitted — Karn's algorithm)</span>
-
+ 
 <span class="cm">/* Check on Linux */</span>
 ss -tni | grep rtt   <span class="cm"># shows rtt:X/Y for established connections</span></pre></div>
   </div>
@@ -884,27 +885,27 @@ ss -tni | grep rtt   <span class="cm"># shows rtt:X/Y for established connection
   <div class="cp-body">
 <div class="cb"><pre><span class="cm"># View all TCP-relevant sysctl parameters</span>
 sysctl -a | grep tcp
-
+ 
 <span class="cm"># Buffer sizes (affects window size and throughput)</span>
 sysctl net.ipv4.tcp_rmem    <span class="cm"># receive: "4096 87380 6291456" (min/default/max)</span>
 sysctl net.ipv4.tcp_wmem    <span class="cm"># send:    "4096 16384 4194304"</span>
 sysctl net.core.rmem_max    <span class="cm"># max receive socket buffer (override tcp_rmem max)</span>
-
+ 
 <span class="cm"># Connection setup</span>
 sysctl net.ipv4.tcp_syn_retries      <span class="cm"># SYN retransmit attempts (default 6)</span>
 sysctl net.ipv4.tcp_synack_retries   <span class="cm"># SYN+ACK retransmit attempts (default 5)</span>
 sysctl net.ipv4.tcp_syncookies       <span class="cm"># SYN flood protection</span>
 sysctl net.ipv4.tcp_max_syn_backlog  <span class="cm"># max half-open connections per socket</span>
-
+ 
 <span class="cm"># TIME_WAIT</span>
 sysctl net.ipv4.tcp_tw_reuse    <span class="cm"># reuse TIME_WAIT sockets for new connections</span>
 sysctl net.ipv4.tcp_fin_timeout <span class="cm"># FIN_WAIT_2 timeout (default 60s)</span>
-
+ 
 <span class="cm"># Keepalive</span>
 sysctl net.ipv4.tcp_keepalive_time     <span class="cm"># idle time before probes (default 7200s)</span>
 sysctl net.ipv4.tcp_keepalive_intvl   <span class="cm"># interval between probes (default 75s)</span>
 sysctl net.ipv4.tcp_keepalive_probes  <span class="cm"># probe count before giving up (default 9)</span>
-
+ 
 <span class="cm"># Congestion control</span>
 sysctl net.ipv4.tcp_congestion_control  <span class="cm"># algorithm: cubic, bbr, reno</span>
 sysctl net.ipv4.tcp_sack                <span class="cm"># SACK enabled (default 1)</span>
@@ -999,10 +1000,10 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
 <span class="cm">/* Attacker crafts RST segment with sequence number in receiver's window */</span>
 <span class="cm">/* Target receives RST → connection terminated immediately */</span>
 <span class="cm">/* Historically used to disrupt BGP sessions (e.g., the 2004 RFC 4953 attack) */</span>
-
+ 
 <span class="cm">/* Protection: check sequence number is in [RCV.NXT, RCV.NXT + RCV.WND) */</span>
 <span class="cm">/* RFC 5961 "Improving TCP's Robustness to Blind In-Window Attacks" */</span>
-
+ 
 <span class="cm">/* NGFW RST injection for connection termination */</span>
 <span class="cm">/* Some NGFWs send RST to both sides to terminate blacklisted connections */</span>
 <span class="cm">/* Must spoof the correct source IP and use a valid in-window sequence number */</span></pre></div>
@@ -1025,7 +1026,7 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     ip4_address_t   src_ip, dst_ip;
     uint16_t        src_port, dst_port;
     uint8_t         proto;              <span class="cm">/* 6 = TCP */</span>
-
+ 
     <span class="cm">/* TCP state tracking */</span>
     tcp_state_t     state;              <span class="cm">/* SYN_SENT, ESTABLISHED, etc. */</span>
     uint32_t        client_isn;         <span class="cm">/* client's initial sequence number */</span>
@@ -1034,7 +1035,7 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     uint32_t        server_next_seq;    <span class="cm">/* expected next seq from server */</span>
     uint32_t        client_window;      <span class="cm">/* client's advertised window */</span>
     uint32_t        server_window;      <span class="cm">/* server's advertised window */</span>
-
+ 
     <span class="cm">/* Policy and metadata */</span>
     uint32_t        policy_id;          <span class="cm">/* which policy matched this flow */</span>
     uint64_t        bytes_client;       <span class="cm">/* bytes from client → server */</span>
@@ -1065,7 +1066,7 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     uint32_t seq     = ntohl(tcp->seq);
     uint32_t ack     = ntohl(tcp->ack_seq);
     uint32_t win     = ntohs(tcp->window) << ct->server_wscale;
-
+ 
     <span class="cm">/* Check 1: sequence number in valid receive window */</span>
     <span class="cm">/* seq must be in [next_expected, next_expected + window) */</span>
     int32_t seq_delta = (int32_t)(seq - ct->client_next_seq);
@@ -1073,19 +1074,19 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
         <span class="cs">/* Out-of-window segment — could be injected */</span>
         <span class="ck">return false</span>;
     }
-
+ 
     <span class="cm">/* Check 2: ACK number in valid range */</span>
     int32_t ack_delta = (int32_t)(ack - ct->server_isn);
     <span class="ck">if</span> (ack_delta < 0 || ack_delta > (int32_t)ct->server_next_seq) {
         <span class="ck">return false</span>;   <span class="cm">/* ACKing data we haven't sent */</span>
     }
-
+ 
     <span class="cm">/* Check 3: flags match expected state */</span>
     <span class="ck">if</span> (ct->state == TCP_ESTABLISHED) {
         <span class="ck">if</span> (tcp->syn && !tcp->rst)
             <span class="ck">return false</span>;   <span class="cm">/* SYN in ESTABLISHED is suspicious */</span>
     }
-
+ 
     <span class="ck">return true</span>;
 }</pre></div>
   </div>
@@ -1097,18 +1098,18 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     <p>When a TCP connection passes through a firewall or VPN that reduces the effective MTU (e.g., PPPoE reduces MTU from 1500 to 1492, VPN adds header overhead), packets larger than the new MTU need to be fragmented — or dropped if DF=1. MSS clamping rewrites the MSS option in SYN/SYN+ACK segments to force both sides to use smaller segments that fit without fragmentation.</p>
 <div class="cb"><pre><span class="cm">/* MSS clamping — rewrite MSS option in SYN segments */</span>
 <span class="cm">/* Called "TCP MSS clamping" — applied on SYN and SYN+ACK */</span>
-
+ 
 Original SYN: MSS=1460 (assuming Ethernet MTU=1500, IP hdr=20, TCP hdr=20)
 PPPoE link MTU: 1492 bytes
 New MSS: 1492 - 20 (IP) - 20 (TCP) = 1452
-
+ 
 NGFW rewrites MSS=1460 → MSS=1452 in the SYN before forwarding
 Both sides now use 1452-byte segments → no fragmentation needed
-
+ 
 <span class="cm">/* Linux iptables MSS clamping */</span>
 iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
   -j TCPMSS --clamp-mss-to-pmtu
-
+ 
 <span class="cm">/* In VPP (your data plane) */</span>
 <span class="cm"># This would be implemented in your TCP normalisation plugin</span>
 <span class="cm"># Find TCP Options in SYN segment, locate MSS option (Kind=2),</span>

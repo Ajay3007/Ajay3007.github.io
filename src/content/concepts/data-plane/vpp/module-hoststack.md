@@ -4,6 +4,7 @@ description: "VPP MASTERY · HOST STACK · BONUS MODULE 🌐 VPP Host Stack TCP 
 domain: data-plane
 track: vpp
 order: 99
+ownHeader: true
 url: /learning/data-plane/vpp/module-hoststack/
 ---
 
@@ -531,25 +532,25 @@ url: /learning/data-plane/vpp/module-hoststack/
   <div class="cp-body">
 
 <div class="cb"><pre><span class="cm">/* Two lookup tables - different key spaces */</span>
-
+ 
 <span class="cm">/* Global session table: ingress packet → active session */</span>
 <span class="cm">/* Key: full 5-tuple (src_ip, src_port, dst_ip, dst_port, proto) */</span>
 <span class="cm">/* Value: session index */</span>
 <span class="cm">/* Used by: ip4-lookup → session-queue node (data path) */</span>
 session_table_t *global_table = &session_main.session_tables[fib_index];
-
+ 
 <span class="cm">/* Local session table: per-namespace, for listen/bind */</span>
 <span class="cm">/* Key: local endpoint (dst_ip, dst_port, proto) */</span>
 <span class="cm">/* Value: listen session index (which app is listening here?) */</span>
 <span class="cm">/* Used by: TCP SYN processing - find who owns this port */</span>
 session_table_t *local_table = &ns->local_session_table;
-
+ 
 <span class="cm">/* Fast-path lookup (called per packet in session-queue node) */</span>
 session_t *s = session_lookup_connection_wt4(fib_index,
     &ip4_hdr->src_address, &ip4_hdr->dst_address,
     tcp_hdr->src_port, tcp_hdr->dst_port,
     TRANSPORT_PROTO_TCP);
-
+ 
 <span class="cm">/* Both tables are backed by bihash_48_8 */</span>
 <span class="cm">/* 48-byte key: 4+4 byte IPs + 2+2 ports + 1 proto + padding */</span></pre></div>
 
@@ -570,16 +571,16 @@ session_t *s = session_lookup_connection_wt4(fib_index,
     <span class="ck">u32</span>  (*open)  (transport_endpoint_cfg_t *tep);
     void (*close) (u32 conn_index, u32 thread_index);
     void (*reset) (u32 conn_index, u32 thread_index);
-
+ 
     <span class="cm">/* Data transfer */</span>
     u32  (*push_header) (transport_connection_t *tc, vlib_buffer_t **b, u32 n);
     u16  (*send_mss)    (transport_connection_t *tc);
-
+ 
     <span class="cm">/* Introspection */</span>
     transport_connection_t *(*get_connection)(u32 idx, u32 thread);
     u8  *(*format_connection)(u8 *s, va_list *args);
 } transport_proto_vft_t;
-
+ 
 <span class="cm">/* Registration (in TCP plugin init) */</span>
 transport_register_protocol(TRANSPORT_PROTO_TCP, &tcp_proto, FIB_PROTOCOL_IP4, ~0);
 transport_register_protocol(TRANSPORT_PROTO_TCP, &tcp_proto, FIB_PROTOCOL_IP6, ~0);</pre></div>
@@ -653,18 +654,18 @@ fifo_segment_create_args_t a = {
     .segment_type = SSVM_SEGMENT_SHM,
 };
 fifo_segment_create(sm, &a);
-
+ 
 <span class="cm">/* App maps the segment (VCL side) */</span>
 ssvm_slave_init_shm(sh);  <span class="cm">/* mmap's the segment into the app's VA space */</span>
-
+ 
 <span class="cm">/* After mmap: both sides hold pointers to the same physical pages */</span>
 svm_fifo_t *rx_fifo = session->rx_fifo;   <span class="cm">/* VPP's pointer */</span>
 svm_fifo_t *rx_fifo = vcl_session->rx_fifo; <span class="cm">/* App's pointer - same memory */</span>
-
+ 
 <span class="cm">/* Write (VPP, on packet receive): */</span>
 svm_fifo_enqueue(s->rx_fifo, b->current_length,
                  vlib_buffer_get_current(b));
-
+ 
 <span class="cm">/* Read (app, via VCL): */</span>
 n = svm_fifo_dequeue(vcl_s->rx_fifo, buf_len, buf);</pre></div>
 
@@ -714,7 +715,7 @@ dpdk-input
             → tcp4-syn-sent    <span class="cm">/* SYN_SENT state: process SYN-ACK */</span>
             → tcp4-rcv-process <span class="cm">/* other states: FIN, RST processing */</span>
               → session-queue  <span class="cm">/* notify app: data available on rx_fifo */</span>
-
+ 
 <span class="cm">/* TX path (app writes to tx_fifo) */</span>
 session-queue                  <span class="cm">/* reads from tx_fifo */</span>
   → tcp4-output                <span class="cm">/* build TCP segment, set headers */</span>
@@ -739,12 +740,12 @@ session-queue                  <span class="cm">/* reads from tx_fifo */</span>
     TCP_TIMER_RETRANSMIT_SYN,  <span class="cm">/* SYN retransmit before connection est. */</span>
     TCP_N_TIMERS,
 } tcp_timers_e;
-
+ 
 <span class="cm">/* Starting a timer (inside TCP processing) */</span>
 tcp_timer_set(tc, TCP_TIMER_RETRANSMIT,
               clib_max(tc->rto * TCP_TO_TIMER_TICK, 1));
 <span class="cm">/* tc->rto is in ms; TCP_TO_TIMER_TICK converts to wheel ticks */</span>
-
+ 
 <span class="cm">/* Timer callback (fires on expiry) */</span>
 <span class="ck">static void</span> tcp_timer_retransmit_handler(u32 conn_index) {
     tcp_connection_t *tc = tcp_connection_get(conn_index, vlib_get_thread_index());
@@ -797,19 +798,19 @@ tcp_timer_set(tc, TCP_TIMER_RETRANSMIT,
 
 <div class="cb"><pre><span class="cm">/* Minimal VCL server skeleton */</span>
 vppcom_app_create(<span class="cs">"my-server"</span>);
-
+ 
 <span class="ck">int</span> ls = vppcom_session_create(VPPCOM_PROTO_TCP, 0 <span class="cm">/* is_nonblocking */</span>);
 vppcom_session_bind(ls, &ep);     <span class="cm">/* ep = { .is_ip4=1, .ip=..., .port=8080 } */</span>
 vppcom_session_listen(ls, 10);
-
+ 
 <span class="ck">while</span> (1) {
     <span class="ck">int</span> cs = vppcom_session_accept(ls, &client_ep, 0);
     <span class="cm">/* cs is the connected session handle */</span>
-
+ 
     <span class="ck">char</span> buf[4096];
     <span class="ck">int</span> n = vppcom_session_read(cs, buf, <span class="ck">sizeof</span>(buf));
     <span class="cm">/* buf now contains TCP payload - read directly from RX FIFO */</span>
-    
+ 
     vppcom_session_write(cs, response, resp_len);
     vppcom_session_close(cs);
 }</pre></div>
@@ -824,10 +825,10 @@ vppcom_session_listen(ls, 10);
 <div class="cb"><pre><span class="cm"># Run nginx against VPP's stack - no code changes to nginx</span>
 export VCL_CONFIG=/etc/vpp/vcl.conf
 LD_PRELOAD=/usr/lib/libvcl_ldpreload.so nginx -g "daemon off;"
-
+ 
 <span class="cm"># Run iperf3 as server against VPP's stack</span>
 LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -s -p 5201
-
+ 
 <span class="cm"># Run iperf3 as client, connecting to a VPP host-stack server</span>
 LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></div>
 
@@ -835,7 +836,7 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
 <span class="cm">/* The shim re-defines connect() with the same signature as libc */</span>
 <span class="ck">int</span> connect(<span class="ck">int</span> fd, <span class="ck">const struct</span> sockaddr *addr, socklen_t len) {
     ldp_worker_ctx_t *ldpw = ldp_worker_get_current();
-
+ 
     <span class="ck">if</span> (ldp_is_vcl_session(fd)) {
         <span class="cm">/* fd belongs to VCL - use VPP's stack */</span>
         <span class="ck">return</span> vppcom_session_connect(fd - LDP_SID_BIT, &ep);
@@ -1010,14 +1011,14 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
 <span class="cm">/* Worker 0 owns sessions hashed to NIC queue 0 */</span>
 <span class="cm">/* Worker 1 owns sessions hashed to NIC queue 1 */</span>
 <span class="cm">/* etc. */</span>
-
+ 
 <span class="cm">/* Per-thread session pools */</span>
 session_t **sessions_by_thread;    <span class="cm">/* sessions_by_thread[thread_idx] = pool */</span>
 tcp_connection_t **connections;    <span class="cm">/* per-thread TCP connection pool */</span>
-
+ 
 <span class="cm">/* Per-worker timer wheels - no shared state */</span>
 tw_timer_wheel_2t_1w_2048sl_t *timer_wheels; <span class="cm">/* one per worker */</span>
-
+ 
 <span class="cm">/* App event queues - one per app per thread */</span>
 <span class="cm">/* VPP workers post RX/TX events here; app polls them */</span>
 svm_msg_q_t *app_event_queue[MAX_THREADS];</pre></div>
@@ -1041,14 +1042,14 @@ svm_msg_q_t *app_event_queue[MAX_THREADS];</pre></div>
     <span class="ck">u32</span>  session_index;
     <span class="ck">u8</span>   event_type;   <span class="cm">/* SESSION_IO_EVT_RX / TX / CLOSE / etc. */</span>
 } session_event_t;
-
+ 
 <span class="cm">/* VPP worker posts event when rx_fifo has new data */</span>
 session_event_t evt = {
     .session_index = s->session_index,
     .event_type    = SESSION_IO_EVT_RX,
 };
 svm_msg_q_add(app->event_queue, &evt, SVM_Q_NOWAIT);
-
+ 
 <span class="cm">/* App (VCL) polls for events */</span>
 <span class="ck">while</span> (1) {
     svm_msg_q_msg_t msg;
