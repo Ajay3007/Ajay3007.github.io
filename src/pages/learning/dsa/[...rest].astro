@@ -1,0 +1,102 @@
+---
+/**
+ * The DSA topic problem lists.
+ *
+ * One route replaces 17 near-identical Jekyll pages — 1,597 lines of Liquid
+ * whose normalised diff was six lines. Each is generated at the exact URL it
+ * had, because those URLs are indexed and linked from the chapters.
+ */
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/ui/Breadcrumb.astro';
+import ProblemCard from '../../../components/ui/ProblemCard.astro';
+import ProgressStore from '../../../components/learning/ProgressStore.astro';
+import { TOPIC_PAGES, getProblems, statsFor, getEditorialsByProblem, type Problem } from '../../../lib/problems';
+
+interface Props {
+  page: (typeof TOPIC_PAGES)[number];
+  problems: Problem[];
+  editorialFor: Record<string, string>;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const editorials = await getEditorialsByProblem();
+  return Promise.all(
+    TOPIC_PAGES.map(async (page) => {
+      const problems = await getProblems(page.topic);
+      const editorialFor: Record<string, string> = {};
+      for (const p of problems) {
+        const e = editorials.get(String(p.data.id));
+        if (e?.data.url) editorialFor[p.data.id] = e.data.url;
+      }
+      return {
+        // mounted at /learning/dsa/ — strip that prefix
+        params: { rest: page.url.replace(/^\/learning\/dsa\//, '').replace(/\/$/, '') },
+        props: { page, problems, editorialFor },
+      };
+    }),
+  );
+};
+
+const { page, problems, editorialFor } = Astro.props as Props;
+const stats = statsFor(problems);
+const groups = (['easy', 'medium', 'hard'] as const).map((d) => ({
+  difficulty: d,
+  items: problems.filter((p) => p.data.difficulty === d),
+}));
+const tone = { easy: 'text-ok', medium: 'text-warn', hard: 'text-danger' } as const;
+---
+
+<BaseLayout
+  title={`${page.title} — Practice Problems`}
+  description={`${stats.total} curated ${page.title.toLowerCase()} problems, ${stats.solved} solved. Difficulty breakdown, approach notes and editorials.`}
+>
+  <ProgressStore />
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb
+      items={[
+        { label: 'Learning', href: '/learning/' },
+        { label: 'DSA & Algorithms', href: '/learning/dsa/' },
+        { label: page.title, href: page.parent },
+        { label: 'Practice problems' },
+      ]}
+    />
+
+    <header class="mt-6">
+      <h1 class="text-3xl font-semibold tracking-tight text-fg sm:text-4xl">
+        {page.title} — Practice Problems
+      </h1>
+      <div class="mt-5 flex flex-wrap gap-x-8 gap-y-3">
+        <div><div class="text-2xl font-semibold text-fg">{stats.total}</div><div class="text-[12px] text-subtle">Total</div></div>
+        <div><div class="text-2xl font-semibold text-ok">{stats.solved}</div><div class="text-[12px] text-subtle">Solved</div></div>
+        <div><div class="text-2xl font-semibold text-fg">{stats.percent}%</div><div class="text-[12px] text-subtle">Complete</div></div>
+        <div><div class="text-2xl font-semibold text-ok">{stats.easy}</div><div class="text-[12px] text-subtle">Easy</div></div>
+        <div><div class="text-2xl font-semibold text-warn">{stats.medium}</div><div class="text-[12px] text-subtle">Medium</div></div>
+        <div><div class="text-2xl font-semibold text-danger">{stats.hard}</div><div class="text-[12px] text-subtle">Hard</div></div>
+      </div>
+      <div class="mt-5 flex flex-wrap gap-3 text-[13px]">
+        <a href="/problems/" class="text-accent hover:underline">All problems →</a>
+        <a href={page.parent} class="text-accent hover:underline">← Back to {page.title}</a>
+      </div>
+    </header>
+
+    {
+      groups.map(({ difficulty, items }) =>
+        items.length > 0 ? (
+          <section class="mt-10">
+            <h2 class:list={['font-mono text-[12px] tracking-wide uppercase', tone[difficulty]]}>
+              {difficulty} · {items.length}
+            </h2>
+            <ul class="mt-3 grid gap-3 lg:grid-cols-2">
+              {items.map((p) => (
+                <li>
+                  <ProblemCard problem={p.data} editorialUrl={editorialFor[p.data.id]} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null,
+      )
+    }
+  </section>
+</BaseLayout>

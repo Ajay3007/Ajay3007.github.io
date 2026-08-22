@@ -5,8 +5,12 @@
  */
 import Badge from './Badge.astro';
 import type { CollectionEntry } from 'astro:content';
-interface Props { problem: CollectionEntry<'problems'>['data'] }
-const { problem: p } = Astro.props;
+interface Props {
+  problem: CollectionEntry<'problems'>['data'];
+  /** Resolved from the editorials collection — declared once, on the editorial. */
+  editorialUrl?: string;
+}
+const { problem: p, editorialUrl } = Astro.props;
 const tone = { easy: 'ok', medium: 'warn', hard: 'danger' } as const;
 const ext = (u: string) => u.startsWith('http');
 ---
@@ -25,8 +29,11 @@ const ext = (u: string) => u.startsWith('http');
     {p.topics.map((t) => <Badge>{t.replace(/-/g, ' ')}</Badge>)}
   </div>
   {
-    (p.approach_url || p.solution_url) && (
+    (editorialUrl || p.approach_url || p.solution_url) && (
       <div class="mt-2.5 flex gap-3 text-[13px]">
+        {editorialUrl && (
+          <a href={editorialUrl} class="text-accent hover:underline">Editorial</a>
+        )}
         {p.approach_url && (
           <a href={p.approach_url} class="text-accent hover:underline"
              {...(ext(p.approach_url) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>Approach</a>

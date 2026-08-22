@@ -87,10 +87,8 @@
 /learning/backend/m15-microservices/
 /learning/backend/m17-observability/
 /learning/competitive-programming/
-/learning/competitive-programming/index.md/
 /learning/competitive-programming/practice/
 /learning/competitive-programming/strategies/
-/learning/competitive-programming/topics.md/
 /learning/competitive-programming/topics/
 /learning/COPILOT_RULES/
 /learning/data-plane/
@@ -271,16 +269,12 @@
 /learning/networking/
 /learning/oop/
 /learning/oop/design-patterns/
-/learning/oop/index.md/
 /learning/oop/principles/
-/learning/oop/topics.md/
 /learning/oop/topics/
 /learning/operating-systems/
-/learning/operating-systems/index.md/
 /learning/operating-systems/memory/
 /learning/operating-systems/processes/
 /learning/operating-systems/scheduling/
-/learning/operating-systems/topics.md/
 /learning/operating-systems/topics/
 /learning/programming-language/
 /learning/programming-language/c/

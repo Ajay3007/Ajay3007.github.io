@@ -28,6 +28,16 @@ export default defineConfig({
   trailingSlash: 'always',
   build: { format: 'directory' },
 
+  /**
+   * Emitted as static redirect pages, since GitHub Pages has no server-side
+   * redirects. Used only where a page genuinely moves — everything else keeps
+   * its URL via the `url` field on the content entry.
+   */
+  redirects: {
+    // The hand-maintained master list is superseded by the generated hub.
+    '/learning/dsa/master-problem-list/': '/problems/',
+  },
+
   integrations: [
     mdx(),
     sitemap({
