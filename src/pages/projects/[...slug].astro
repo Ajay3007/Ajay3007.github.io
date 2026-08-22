@@ -1,0 +1,34 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { isPublished } from '../../lib/content';
+
+interface Props { project: CollectionEntry<'projects'> }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const projects = await getCollection('projects', isPublished);
+  return projects.map((project) => ({
+    params: { slug: (project.data.url ?? `/projects/${project.id}/`).replace(/^\/projects\//, '').replace(/\/$/, '') },
+    props: { project },
+  }));
+};
+
+const { project } = Astro.props as Props;
+const { Content, headings } = await render(project);
+const d = project.data;
+---
+<ArticleLayout
+  title={d.title}
+  description={d.description}
+  kicker={`PROJECT · ${d.year}`}
+  meta={[d.tech.join(' · ')]}
+  headings={headings}
+  crumbs={[{ label: 'Projects', href: '/projects/' }, { label: d.title }]}
+  links={[
+    ...(d.demo ? [{ label: 'Live demo', href: d.demo }] : []),
+    ...(d.github ? [{ label: 'GitHub', href: d.github }] : []),
+  ]}
+>
+  <Content />
+</ArticleLayout>

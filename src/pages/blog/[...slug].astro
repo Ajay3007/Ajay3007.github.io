@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { isPublished } from '../../lib/content';
+
+interface Props { post: CollectionEntry<'posts'> }
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('posts', isPublished);
+  return posts.map((post) => ({
+    // url is /blog/YYYY/MM/DD/slug/ — the route mounts at /blog/
+    params: { slug: (post.data.url ?? `/blog/${post.id}/`).replace(/^\/blog\//, '').replace(/\/$/, '') },
+    props: { post },
+  }));
+};
+
+const { post } = Astro.props as Props;
+const { Content, headings } = await render(post);
+---
+<ArticleLayout
+  title={post.data.title}
+  description={post.data.description}
+  kicker={post.data.tags[0]?.toUpperCase() ?? 'WRITING'}
+  date={post.data.date}
+  tags={post.data.tags}
+  headings={headings}
+  crumbs={[{ label: 'Blog', href: '/blogs/' }, { label: post.data.title }]}
+>
+  <Content />
+</ArticleLayout>
