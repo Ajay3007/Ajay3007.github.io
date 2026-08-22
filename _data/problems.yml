@@ -342,7 +342,7 @@ problems:
       - linked-list
     solved: true
     problem_url: https://leetcode.com/problems/reverse-nodes-in-k-group/
-    approach_url: /editorials/reverse-nodes-in-k-group/
+    approach_url: /editorials/reverse-nodes-k-group/
     solution_url: ""
   - id: "138"
     title: Copy List with Random Pointer
@@ -453,7 +453,7 @@ problems:
       - tree
     solved: true
     problem_url: https://leetcode.com/problems/symmetric-tree/
-    approach_url: /editorials/symmetric-tree/
+    approach_url: /editorials/symmetrical-tree/
     solution_url: ""
   - id: "110"
     title: Balanced Binary Tree

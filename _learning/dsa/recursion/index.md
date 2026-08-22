@@ -30,7 +30,7 @@ Base case, recurrence, stack frames, tail recursion.
 
 ## Basic
 
-1. [Sort an Array using Recursion](/learning/d/learning/dsa/recursion/sort_array_using_rec.cpp)
+1. [Sort an Array using Recursion](/learning/dsa/recursion/sort_array_using_rec.cpp)
 
 ## Medium
 

@@ -348,7 +348,7 @@ Consul uses BOTH:
 
 <br>
 <div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid #ddd;padding-top:20px;">
-  <a href="/learning/system-design/hld/module-b9-rate-limiter-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B9 Rate Limiter Notes</a>
+  <a href="/learning/system-design/hld/module-b9-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B9 Rate Limiter Notes</a>
   <a href="/learning/system-design/hld/module-b10-consistent-hashing/" style="padding:12px 24px;border:1px solid #00d4aa;color:#00d4aa;border-radius:4px;text-decoration:none;font-weight:600;">⚡ Interactive Module</a>
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-b11-notes/" style="padding:12px 24px;background:#00d4aa;color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B11 Distributed Tx →</a>

@@ -465,7 +465,7 @@ Design a leader election service for your microservices:
 ---
 
 <div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'JetBrains Mono',monospace;font-size:13px;border-top:1px solid #ddd;padding-top:20px;">
-  <a href="/learning/system-design/hld/module-b14-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B14 Kubernetes Notes</a>
+  <a href="/learning/system-design/hld/module-b14-kubernetes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B14 Kubernetes</a>
   <a href="/learning/system-design/hld/module-c1-consensus/" style="padding:12px 24px;border:1px solid #2060e0;color:#2060e0;border-radius:4px;text-decoration:none;font-weight:600;">⚡ Interactive Module</a>
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-c2-notes/" style="padding:12px 24px;background:#2060e0;color:#fff;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: C2 Geo-Distribution →</a>

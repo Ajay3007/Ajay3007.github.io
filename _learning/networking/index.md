@@ -19,7 +19,6 @@ permalink: /learning/networking/
 		<li>TCP, UDP and HTTP</li>
 		<li>Sockets and network programming</li>
 	</ul>
-	<a href="{{ '/learning/networking/topics' | relative_url }}" style="color:#1976d2;font-weight:600;">See Topics &rarr;</a>
 </div>
 
 <div style="text-align:center;margin-top:2.5rem;">

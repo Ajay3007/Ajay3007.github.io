@@ -18,7 +18,6 @@ permalink: /learning/ai-ml/
 		<li>Model evaluation and metrics</li>
 		<li>Practical projects and datasets</li>
 	</ul>
-	<a href="{{ '/learning/ai-ml/topics' | relative_url }}" style="color:#1976d2;font-weight:600;">See Topics &rarr;</a>
 </div>
 
 <div style="text-align:center;margin-top:2.5rem;">

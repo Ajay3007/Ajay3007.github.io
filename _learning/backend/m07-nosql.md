@@ -1191,7 +1191,7 @@ With pipelining (N commands = 1 round-trip):
 <div class="mod-nav">
   <a href="{{ '/learning/backend/m06-sql-indexing/' | relative_url }}" class="nb">← M06 SQL Indexing</a>
   <a href="{{ '/learning/backend/backend-roadmap/' | relative_url }}" class="nb">↑ Roadmap</a>
-  <a href="{{ '/learning/backend/m08-db-scaling/' | relative_url }}" class="nb">M08 DB Scaling →</a>
+  <span class="nb" style="opacity:.55;cursor:default;">M08 DB Scaling · soon</span>
 </div>
 
 <script>

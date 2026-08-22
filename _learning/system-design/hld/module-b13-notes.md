@@ -425,5 +425,5 @@ Design the ML system for ranking a social media news feed (like LinkedIn or Face
   <a href="/learning/system-design/hld/module-b12-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B12 Interview Framework Notes</a>
   <a href="/learning/system-design/hld/module-b13-ml-systems/" style="padding:12px 24px;border:1px solid #a060ff;color:#a060ff;border-radius:4px;text-decoration:none;font-weight:600;">⚡ Interactive Module</a>
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">↑ Roadmap</a>
-  <a href="/learning/system-design/hld/module-b14-notes/" style="padding:12px 24px;background:#a060ff;color:#fff;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B14 Kubernetes →</a>
+  <a href="/learning/system-design/hld/module-b14-kubernetes/" style="padding:12px 24px;background:#a060ff;color:#fff;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B14 Kubernetes →</a>
 </div>

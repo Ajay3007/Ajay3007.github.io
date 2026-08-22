@@ -332,5 +332,5 @@ Cover all 8 components: requirements, estimation, upload pipeline, transcoding, 
   <a href="/learning/system-design/hld/module-b7-notes/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">← B7 WhatsApp Notes</a>
   <a href="/learning/system-design/hld/module-b8-youtube/" style="padding:12px 24px;border:1px solid #00d4aa;color:#00d4aa;border-radius:4px;text-decoration:none;font-weight:600;">⚡ Interactive Module</a>
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid #ccc;border-radius:4px;color:#666;text-decoration:none;">↑ Roadmap</a>
-  <a href="/learning/system-design/hld/module-b9-rate-limiter-notes/" style="padding:12px 24px;background:#00d4aa;color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B9 Rate Limiter →</a>
+  <a href="/learning/system-design/hld/module-b9-notes/" style="padding:12px 24px;background:#00d4aa;color:#1a1f36;border-radius:4px;text-decoration:none;font-weight:600;">NEXT: B9 Rate Limiter →</a>
 </div>

@@ -353,13 +353,13 @@ permalink: /learning/networking-mastery/
       <div class="pt-modules">
         <a class="pt-mod" href="{{ '/learning/networking-mastery/m14-linux-stack/' | relative_url }}"
            style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c;">🐧 M14 - Linux Network Stack</a>
-        <a class="pt-mod" href="{{ '/learning/networking-mastery/m15-socket-programming/' | relative_url }}"
+        <a class="pt-mod" href="{{ '/learning/networking-mastery/m15-sockets/' | relative_url }}"
            style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c;">🔌 M15 - Socket Programming in C</a>
-        <a class="pt-mod" href="{{ '/learning/networking-mastery/m16-raw-sockets-bpf/' | relative_url }}"
+        <a class="pt-mod" href="{{ '/learning/networking-mastery/m16-ebpf-xdp/' | relative_url }}"
            style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c;">🔬 M16 - Raw Sockets, pcap and eBPF</a>
-        <a class="pt-mod" href="{{ '/learning/networking-mastery/m17-kernel-bypass/' | relative_url }}"
+        <a class="pt-mod" href="{{ '/learning/networking-mastery/m17-dpdk/' | relative_url }}"
            style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c;">🚀 M17 - Kernel Bypass and XDP</a>
-        <a class="pt-mod" href="{{ '/learning/networking-mastery/m18-high-performance/' | relative_url }}"
+        <a class="pt-mod" href="{{ '/learning/networking-mastery/m18-vpp/' | relative_url }}"
            style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c;">⚡ M18 - High-Performance Techniques</a>
       </div>
       <div class="pt-skills">
@@ -461,7 +461,7 @@ permalink: /learning/networking-mastery/
            style="background:#faeaea;border-color:#e8b0b0;color:#5a0a0a;">🔬 M24 - Deep Packet Inspection</a>
         <a class="pt-mod" href="{{ '/learning/networking-mastery/m25-ids-ips/' | relative_url }}"
            style="background:#faeaea;border-color:#e8b0b0;color:#5a0a0a;">🚨 M25 - IDS and IPS</a>
-        <a class="pt-mod" href="{{ '/learning/networking-mastery/m26-ngfw-policy/' | relative_url }}"
+        <a class="pt-mod" href="{{ '/learning/networking-mastery/m26-policy-capstone/' | relative_url }}"
            style="background:#faeaea;border-color:#e8b0b0;color:#5a0a0a;">🛡️ M26 - NGFW Policy Engine and Capstone</a>
       </div>
       <div class="pt-skills">

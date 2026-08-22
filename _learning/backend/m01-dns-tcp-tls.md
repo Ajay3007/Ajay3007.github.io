@@ -1085,7 +1085,7 @@ cleanup:
 <div class="mod-nav">
   <a href="{{ '/learning/backend/backend-roadmap/' | relative_url }}" class="nb">← Back to Roadmap</a>
   <span style="font-size:.8rem;color:var(--text-color,#888);font-family:monospace">Phase 0 · Module 1 of 2</span>
-  <a href="{{ '/learning/backend/m02-http/' | relative_url }}" class="nb">M02 HTTP Internals →</a>
+  <a href="{{ '/learning/backend/m02-http-servers/' | relative_url }}" class="nb">M02 HTTP Internals →</a>
 </div>
 
 <script>

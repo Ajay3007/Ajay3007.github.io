@@ -202,7 +202,7 @@ Scale systems to millions of users — networking, databases, caching, message q
     <p style="margin:0 0 0.6rem;font-size:0.88rem;color:var(--light-text);">Docker fundamentals, Kubernetes architecture (pods, services, ingress), horizontal pod autoscaling, rolling deployments, Helm.</p>
     <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
       <a href="{{ '/learning/system-design/hld/module-b14-kubernetes/' | relative_url }}" style="font-size:0.8rem;color:#00d4aa;font-weight:600;">📖 Module →</a>
-      <a href="{{ '/learning/system-design/hld/module-b14-notes/' | relative_url }}" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
+      <span style="font-size:0.8rem;color:var(--dim);font-weight:600;">📝 Notes soon</span>
     </div>
   </div>
 
