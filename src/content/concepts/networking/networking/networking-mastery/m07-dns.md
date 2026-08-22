@@ -149,7 +149,6 @@ url: /learning/networking-mastery/m07-dns/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 2 · MODULE 07 · WEEKS 5–6</div>
@@ -163,7 +162,6 @@ url: /learning/networking-mastery/m07-dns/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">What is DNS?</button>
@@ -178,12 +176,9 @@ url: /learning/networking-mastery/m07-dns/
   <button class="tab-btn" onclick="vt(event,'t9')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'ta')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — WHAT IS DNS ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THE INTERNET'S PHONEBOOK — AND WHY IT'S CRITICAL FOR NGFW</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📖</span><h3>What DNS Does</h3><span class="tag tag-blue">OVERVIEW</span></div>
   <div class="cp-body">
@@ -197,12 +192,10 @@ url: /learning/networking-mastery/m07-dns/
     </ul>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">📞 Analogy — Phone Directory Enquiries</div>
   <p>Before smartphones, if you wanted to call a business, you called directory enquiries and asked "What's the number for Jio Platforms in Navi Mumbai?". They looked it up and told you. You then called the number. DNS works identically: your computer asks "What's the IP for google.com?" and a DNS server looks it up and replies. The key insight is that your computer caches the answer (like writing the number down) so it doesn't have to ask again for a while — this is DNS caching with TTL. And just like a directory can have incorrect entries, or someone can give you a wrong number to trick you, DNS can be poisoned — which is what DNSSEC protects against.</p>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>DNS Hierarchy — Zones, Authoritative Servers, Resolvers</h3><span class="tag tag-teal">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -218,7 +211,6 @@ url: /learning/networking-mastery/m07-dns/
 ├── in.                     <span class="cm"># Country-code TLD (India)</span>
 │   └── jio.in.             <span class="cm"># Jio's zone under .in</span>
 └── io.                     <span class="cm"># Another TLD</span>
- 
 <span class="cm">/* Three types of DNS servers */</span>
  
 1. Recursive Resolver (Recursor)
@@ -238,17 +230,13 @@ url: /learning/networking-mastery/m07-dns/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — RESOLUTION PROCESS ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">DNS RESOLUTION — FROM QUERY TO IP ADDRESS, STEP BY STEP</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Full Iterative Resolution Walkthrough</h3><span class="tag tag-blue">RESOLUTION</span></div>
   <div class="cp-body">
     <p>When your browser opens <code>www.google.com</code>, here is exactly what happens — assuming a cold cache (nothing cached):</p>
-
     <div class="flow-list">
       <div class="fl-step" data-n="1" style="--sc:#1a5a8c">
         <div>
@@ -312,23 +300,19 @@ url: /learning/networking-mastery/m07-dns/
         </div>
       </div>
     </div>
-
     <div class="ins"><p>💡 <strong>Recursive vs Iterative:</strong> The client → resolver step is <em>recursive</em> (client asks, resolver does all the work and returns a final answer). The resolver → root → TLD → authoritative steps are <em>iterative</em> (each server returns a referral, resolver must follow up). The client never talks to root or authoritative servers directly in the normal flow.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💻</span><h3>DNS Resolution in Code — getaddrinfo()</h3><span class="tag tag-teal">CODE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cs">#include &lt;netdb.h&gt;
 #include &lt;sys/socket.h&gt;
 #include &lt;arpa/inet.h&gt;</span>
- 
 <span class="cm">/* High-level: getaddrinfo() — handles DNS + IPv4/IPv6 */</span>
 <span class="ck">struct</span> addrinfo hints = {0}, *res;
 hints.ai_family   = AF_UNSPEC;     <span class="cm">/* IPv4 or IPv6 */</span>
 hints.ai_socktype = SOCK_STREAM;   <span class="cm">/* TCP */</span>
- 
 <span class="ck">int</span> rc = getaddrinfo(<span class="cs">"www.google.com"</span>, <span class="cs">"443"</span>, &hints, &res);
 <span class="ck">if</span> (rc != 0) {
     fprintf(stderr, <span class="cs">"DNS error: %s\n"</span>, gai_strerror(rc));
@@ -359,17 +343,13 @@ uint8_t answer[512];
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — DNS PACKET FORMAT ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">DNS PACKET FORMAT — HEADER, QUESTION, AND RESOURCE RECORDS</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>DNS Message Structure</h3><span class="tag tag-blue">PACKET FORMAT</span></div>
   <div class="cp-body">
     <p>Every DNS message — query or response — uses the same format. The same structure is used for both UDP (most queries) and TCP (large responses, zone transfers).</p>
-
     <div class="dns-pkt">
       <div class="dns-row">
         <div class="dns-label">Header</div>
@@ -398,7 +378,6 @@ uint8_t answer[512];
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Header Flags — The Control Word</h3><span class="tag tag-teal">FLAGS</span></div>
   <div class="cp-body">
@@ -417,7 +396,6 @@ uint8_t answer[512];
         <tr><td>Bits 3–0</td><td>RCODE</td><td>0=NOERROR, 1=FORMERR, 2=SERVFAIL, 3=NXDOMAIN, 4=NOTIMP, 5=REFUSED</td><td>Response code — 3 (NXDOMAIN) = domain doesn't exist</td></tr>
       </tbody>
     </table>
-
     <h4>Label Format — How Domain Names Are Encoded</h4>
     <p>DNS doesn't send domain names as plain ASCII strings. It uses a length-prefixed label encoding where each label (component between dots) is preceded by its length byte, and the sequence ends with a zero byte:</p>
 <div class="cb"><pre><span class="cm">/* Wire format of "www.google.com" in DNS */</span>
@@ -433,7 +411,6 @@ Total: 1+3 + 1+6 + 1+3 + 1 = 16 bytes
 \xc0 \x0c  <span class="cm"># 0xC0 = 11000000 (pointer marker), 0x0c = offset 12 in message</span>
 <span class="cm">/* "The name at offset 12 in this message" */</span>
 <span class="cm">/* Greatly reduces packet size when multiple RRs share domain names */</span>
- 
 <span class="cm">/* Parse domain name in C */</span>
 <span class="ck">int</span> parse_name(const uint8_t *msg, int msg_len, int offset, <span class="ck">char</span> *out) {
     <span class="ck">int</span> out_pos = 0;
@@ -453,7 +430,6 @@ Total: 1+3 + 1+6 + 1+3 + 1 = 16 bytes
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>UDP vs TCP for DNS</h3><span class="tag tag-green">TRANSPORT</span></div>
   <div class="cp-body">
@@ -467,7 +443,6 @@ Total: 1+3 + 1+6 + 1+3 + 1 = 16 bytes
 <div class="cb"><pre><span class="cm"># Observe DNS in action</span>
 tcpdump -i eth0 -n 'port 53' -v      <span class="cm"># capture all DNS, verbose</span>
 tcpdump -i eth0 -n 'port 53 and tcp' <span class="cm"># only TCP DNS (large responses)</span>
- 
 <span class="cm"># Query DNS manually</span>
 dig www.google.com                    <span class="cm"># A query, default resolver</span>
 dig @8.8.8.8 www.google.com A        <span class="cm"># specify resolver and type</span>
@@ -479,12 +454,9 @@ nslookup -type=NS google.com         <span class="cm"># NS records</span></pre><
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — RECORD TYPES ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">DNS RECORD TYPES — THE COMPLETE REFERENCE</p>
-
 <div class="rtype-grid">
   <div class="rtype-card">
     <div class="rtype-name">A</div>
@@ -547,7 +519,6 @@ nslookup -type=NS google.com         <span class="cm"># NS records</span></pre><
     <div class="rtype-desc">DNSSEC records: RRSIG=digital signature over an RRset, DS=hash of child zone's KSK (delegation signer), NSEC/NSEC3=authenticated denial of existence.</div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📧</span><h3>Email DNS Records — SPF, DKIM, DMARC</h3><span class="tag tag-teal">EMAIL SECURITY</span></div>
   <div class="cp-body">
@@ -557,14 +528,12 @@ nslookup -type=NS google.com         <span class="cm"># NS records</span></pre><
 google.com. TXT "v=spf1 include:_spf.google.com ~all"
 <span class="cm"># ~all = softfail (mark but deliver), -all = fail (reject), +all = pass all</span>
 <span class="cm"># NGFW checks: does sending server's IP match SPF? If not → suspicious</span>
- 
 <span class="cm">/* DKIM — DomainKeys Identified Mail (RFC 6376) */</span>
 <span class="cm">/* TXT record holding public key for email signature verification */</span>
 google._domainkey.google.com. TXT "v=DKIM1; k=rsa; p=MIIBIjANBgkqh..."
 <span class="cm"># Sending server signs email header/body with private key</span>
 <span class="cm"># Receiver verifies signature using public key from DNS</span>
 <span class="cm"># NGFW can verify DKIM signatures on inbound email</span>
- 
 <span class="cm">/* DMARC — Domain-based Message Authentication, Reporting and Conformance */</span>
 _dmarc.google.com. TXT "v=DMARC1; p=reject; rua=mailto:dmarc@google.com"
 <span class="cm"># p=none/quarantine/reject — what to do with SPF/DKIM failures</span>
@@ -573,12 +542,9 @@ _dmarc.google.com. TXT "v=DMARC1; p=reject; rua=mailto:dmarc@google.com"
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — CACHING AND TTL ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">DNS CACHING, TTL, AND NEGATIVE CACHING</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">💾</span><h3>How DNS Caching Works</h3><span class="tag tag-blue">CACHING</span></div>
   <div class="cp-body">
@@ -586,7 +552,6 @@ _dmarc.google.com. TXT "v=DMARC1; p=reject; rua=mailto:dmarc@google.com"
 <div class="cb"><pre><span class="cm">/* TTL field in DNS Resource Records */</span>
 www.google.com.  300 IN A 142.250.x.x
 <span class="cm">#                ↑ TTL in seconds — cached for 300s (5 minutes)</span>
- 
 <span class="cm">/* When a recursive resolver returns a cached answer */</span>
 Original TTL:  300 seconds
 Query at T=0:  resolver caches, returns TTL=300
@@ -601,14 +566,12 @@ TTL=0:   no caching — every query goes to authoritative (rare, special cases)
 <span class="cm">/* Checking cached DNS on Linux */</span>
 resolvectl query www.google.com      <span class="cm"># shows TTL remaining</span>
 systemd-resolve --statistics         <span class="cm"># cache hit/miss stats</span>
- 
 <span class="cm">/* Flush DNS cache */</span>
 sudo resolvectl flush-caches          <span class="cm"># systemd-resolved</span>
 sudo systemctl restart nscd           <span class="cm"># nscd</span>
 ipconfig /flushdns                    <span class="cm"># Windows</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🚫</span><h3>Negative Caching — Caching NXDOMAIN</h3><span class="tag tag-teal">NEGATIVE CACHE</span></div>
   <div class="cp-body">
@@ -625,22 +588,17 @@ Resolver caches: "www.doesnotexist.example.com A → NXDOMAIN" for TTL seconds
 <span class="cm"># Generates thousands of random domains per day</span>
 <span class="cm"># Only the attacker's active C2 domain resolves — rest return NXDOMAIN</span>
 <span class="cm"># Unusually high NXDOMAIN rate from a host = potential DGA/malware indicator</span>
- 
 <span class="cm">/* NGFW DNS analytics: track per-client NXDOMAIN rate */</span>
 <span class="cm"># Normal: 0–5% NXDOMAIN rate</span>
 <span class="cm"># Suspicious: >20% NXDOMAIN from single host in 1 minute</span>
 <span class="cm"># DGA malware: hundreds of NXDOMAIN per minute, all random names</span></pre></div>
-
     <div class="note"><p>💡 <strong>DNS prefetching:</strong> Modern browsers and resolvers (8.8.8.8, 1.1.1.1) prefetch DNS records before TTL expires to avoid cache misses for popular domains. The resolver re-queries the authoritative server just before expiry and refreshes the cache. This gives popular domains effectively zero DNS latency despite low TTLs.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — DNSSEC ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">DNSSEC — CRYPTOGRAPHIC AUTHENTICATION OF DNS RESPONSES</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>Why DNSSEC Exists — The Cache Poisoning Problem</h3><span class="tag tag-purple">MOTIVATION</span></div>
   <div class="cp-body">
@@ -649,7 +607,6 @@ Resolver caches: "www.doesnotexist.example.com A → NXDOMAIN" for TTL seconds
     <p><strong>DNSSEC</strong> (DNS Security Extensions, RFC 4033–4035) adds digital signatures to DNS records. The resolver can cryptographically verify that a response came from the legitimate authoritative server and hasn't been tampered with.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>DNSSEC Chain of Trust</h3><span class="tag tag-blue">MECHANISM</span></div>
   <div class="cp-body">
@@ -683,18 +640,14 @@ dig +dnssec @8.8.8.8 www.google.com A
 <span class="cm"># Look for "ad" flag in flags section — means DNSSEC validated</span>
 dig +dnssec @8.8.8.8 google.com DNSKEY
 <span class="cm"># Shows KSK and ZSK public keys for the zone</span></pre></div>
-
     <h4>NSEC and NSEC3 — Authenticated Denial of Existence</h4>
     <p>DNSSEC must also authenticate that a domain does NOT exist (NXDOMAIN). Without this, an attacker could suppress DNSSEC responses and substitute forged unsigned records. NSEC/NSEC3 records provide signed proof that no records exist between two names in the zone — without revealing the entire zone contents (NSEC3 uses hashed names to prevent zone enumeration).</p>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — DoH, DoT, DoQ ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">ENCRYPTED DNS — DoH, DoT, AND DoQ</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>Why Encrypted DNS — The Privacy Problem with Plain DNS</h3><span class="tag tag-orange">MOTIVATION</span></div>
   <div class="cp-body">
@@ -708,7 +661,6 @@ dig +dnssec @8.8.8.8 google.com DNSKEY
     <p>Encrypted DNS protocols hide the query content from all on-path observers except the recursive resolver you've chosen to trust.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Three Encrypted DNS Protocols Compared</h3><span class="tag tag-blue">COMPARISON</span></div>
   <div class="cp-body">
@@ -741,7 +693,6 @@ dig +dnssec @8.8.8.8 google.com DNSKEY
         </tr>
       </tbody>
     </table>
-
     <h4>NGFW Implications of DoH — The Inspection Bypass Problem</h4>
 <div class="cb"><pre><span class="cm">/* The DoH bypass problem */</span>
  
@@ -782,12 +733,9 @@ http2.headers.path == "/dns-query"</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — DNS ATTACKS ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">DNS ATTACKS — FROM CACHE POISONING TO DNS TUNNELLING</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>DNS Attack Taxonomy</h3><span class="tag tag-red">ATTACKS</span></div>
   <div class="cp-body">
@@ -840,7 +788,6 @@ http2.headers.path == "/dns-query"</pre></div>
     </table>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>DNS Tunnelling — Deep Dive</h3><span class="tag tag-purple">DNS TUNNELLING</span></div>
   <div class="cp-body">
@@ -892,12 +839,9 @@ if (dns_label_entropy > 3.5 AND
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 — NGFW DNS FEATURES ════════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">NGFW DNS FEATURES — FILTERING, SINKHOLING, AND THREAT INTELLIGENCE</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>DNS Sinkholing — The Most Effective NGFW DNS Feature</h3><span class="tag tag-teal">SINKHOLING</span></div>
   <div class="cp-body">
@@ -942,7 +886,6 @@ Botnet C2:           Bambenek Consulting, Feodo Tracker
 Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📊</span><h3>DNS Analytics for Threat Detection</h3><span class="tag tag-orange">ANALYTICS</span></div>
   <div class="cp-body">
@@ -961,7 +904,6 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
     </table>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Implementing a DNS Proxy in C — NGFW Core</h3><span class="tag tag-green">CODE</span></div>
   <div class="cp-body">
@@ -982,13 +924,10 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
         uint16_t txid  = ntohs(*(uint16_t *)buf);
         uint16_t flags = ntohs(*(uint16_t *)(buf + 2));
         <span class="ck">int</span> is_query = !(flags >> 15);   <span class="cm">/* QR bit = 0 → query */</span>
- 
         <span class="ck">if</span> (!is_query) <span class="ck">continue</span>;         <span class="cm">/* ignore responses */</span>
- 
         <span class="cm">/* Parse QNAME */</span>
         <span class="ck">char</span> domain[256];
         parse_name(buf, n, 12, domain);  <span class="cm">/* question starts at offset 12 */</span>
- 
         <span class="cm">/* Check threat feed (bihash lookup by domain) */</span>
         <span class="ck">if</span> (is_malicious(domain)) {
             send_nxdomain(sock, buf, n, txid, &client, clen);
@@ -1020,11 +959,8 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 9 — LABS ════════════ -->
 <div id="t9" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>DNS Resolution Analysis with dig and Wireshark</h4></div>
   <div class="lab-body">
@@ -1037,7 +973,6 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — DNSSEC verification:</strong> <code>dig +dnssec @8.8.8.8 cloudflare.com A</code>. Look for the "ad" flag (Authenticated Data) in the response header — this means DNSSEC was validated. Also request the DNSKEY: <code>dig +dnssec @8.8.8.8 cloudflare.com DNSKEY</code>. Identify the KSK and ZSK (flags field: 257=KSK, 256=ZSK).</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a DNS Resolver in Python</h4></div>
   <div class="lab-body">
@@ -1050,7 +985,6 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — DNS sinkhole:</strong> Run your script as a server (bind to localhost:5300, avoid privilege issues). For any query matching a hardcoded blocklist, return a NXDOMAIN response (flags=0x8183, ANCOUNT=0). For allowed queries, forward to 8.8.8.8, return the real response. Test with: <code>dig @127.0.0.1 -p 5300 google.com</code> and <code>dig @127.0.0.1 -p 5300 malware.com</code>.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Detect DNS Tunnelling Patterns</h4></div>
   <div class="lab-body">
@@ -1061,14 +995,10 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
     <div class="lab-step"><div class="sn">4</div><div>Validate your detector against both normal traffic (your regular browsing pcap from Lab 1) and the tunnelling traffic. Tune the thresholds to minimise false positives while catching all tunnelling samples. Document what threshold values work best and why.</div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB A — CHECKLIST ════════════ -->
 <div id="ta" class="tab-pane">
 <p class="sep">M07 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain DNS's 4 roles in NGFW: URL filtering, threat intel correlation, DPI target, evasion vector</li>
   <li>Know the three server types: Recursive Resolver, Authoritative Name Server, Root Name Server — and what each does</li>
@@ -1100,20 +1030,16 @@ Ad/tracking:         Pi-hole blocklists, AdGuard DNS Filter</pre></div>
   <li>Completed Lab 2: built raw DNS resolver in Python from scratch; implemented DNS sinkhole server</li>
   <li>Completed Lab 3: generated DNS tunnelling traffic, wrote entropy-based detection script with pcap analysis</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem">
   <p>✅ <strong>When complete:</strong> Move to <strong>M08 - HTTP/1.1, HTTP/2, HTTP/3 and QUIC</strong>. HTTP carries the majority of internet traffic — it is both the primary application protocol your NGFW must inspect and the transport layer for TLS (HTTPS). Understanding HTTP deeply is essential for URL filtering, SSL inspection, and application identification.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m06-udp-icmp/">← M06 UDP and ICMP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m08-http/">Next: M08 - HTTP →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

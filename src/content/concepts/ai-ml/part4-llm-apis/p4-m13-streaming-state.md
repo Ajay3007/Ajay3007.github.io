@@ -100,7 +100,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
 .token-legend{display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0;font-size:.75rem}
 .tl-dot{width:10px;height:10px;border-radius:2px;display:inline-block;margin-right:.3rem}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 4 — LLM API Mastery &nbsp;·&nbsp; Module 13 of 14</div>
@@ -113,7 +112,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
     <span class="mod-pill">📋 Prerequisite: P4-M12</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -127,11 +125,8 @@ url: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-indigo">UX + Architecture</span></div>
   <div class="cp-body">
@@ -145,7 +140,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Why These Skills Matter</h3><span class="tag tag-blue">Context</span></div>
   <div class="cp-body">
@@ -157,13 +151,9 @@ url: /learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/
     </ul>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — STREAMING BASICS ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>How Streaming Works — Server-Sent Events</h3><span class="tag tag-indigo">Concept First</span></div>
   <div class="cp-body">
@@ -175,7 +165,6 @@ response = client.messages.create(
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"Explain RAG in detail"</span>}]
 )
 print(response.content[<span class="cv">0</span>].text)   <span class="ck"># appears all at once after 8s</span>
- 
 <span class="ck"># With streaming — first token appears in ~300ms, rest stream in</span>
 with client.messages.stream(
     model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -184,13 +173,11 @@ with client.messages.stream(
 ) as stream:
     for text in stream.text_stream:
         print(text, end=<span class="cs">""</span>, flush=<span class="cv">True</span>)   <span class="ck"># each chunk printed as it arrives</span>
- 
 <span class="ck"># Get final message after streaming completes</span>
 final_message = stream.get_final_message()
 print(<span class="cs">f"\nTokens used: {final_message.usage.input_tokens} in, {final_message.usage.output_tokens} out"</span>)</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Streaming Events — What Actually Arrives</h3><span class="tag tag-blue">Under the Hood</span></div>
   <div class="cp-body">
@@ -233,7 +220,6 @@ with client.chat.completions.stream(
             print(delta.content, end=<span class="cs">""</span>, flush=<span class="cv">True</span>)</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Streaming with Tool Calls</h3><span class="tag tag-teal">Advanced</span></div>
   <div class="cp-body">
@@ -267,13 +253,9 @@ with client.messages.stream(
     <div class="ins"><p>💡 <strong>Always call <code>get_final_message()</code> after streaming.</strong> This gives you the complete, assembled message including all content blocks — safe to append directly to your conversation history. Never try to assemble the message yourself from streaming chunks.</p></div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — STREAMING IN FASTAPI ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>FastAPI Streaming Endpoint — SSE Pattern</h3><span class="tag tag-indigo">Production Pattern</span></div>
   <div class="cp-body">
@@ -288,7 +270,6 @@ client = anthropic.AsyncAnthropic()   <span class="ck"># async client for FastAP
 class ChatRequest(BaseModel):
     message:  str
     session_id: str = <span class="cs">"default"</span>
- 
 <span class="ck"># ── Streaming endpoint ────────────────────────────────</span>
 @app.post(<span class="cs">"/chat/stream"</span>)
 async def chat_stream(request: ChatRequest):
@@ -306,7 +287,6 @@ async def chat_stream(request: ChatRequest):
                 yield <span class="cs">f"data: {json.dumps({'text': text})}
  
 "</span>
- 
             <span class="ck"># Send final event with usage stats</span>
             final = await stream.get_final_message()
             yield <span class="cs">f"data: {json.dumps({'done': True, 'usage': {'input': final.usage.input_tokens, 'output': final.usage.output_tokens}})}
@@ -323,7 +303,6 @@ async def chat_stream(request: ChatRequest):
     )</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🖥</span><h3>Consuming the Stream — Browser JavaScript</h3><span class="tag tag-blue">Frontend Pattern</span></div>
   <div class="cp-body">
@@ -376,7 +355,6 @@ async def consume_stream(message: str):
                     print(data[<span class="cs">"text"</span>], end=<span class="cs">""</span>, flush=<span class="cv">True</span>)</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Streaming Gotchas</h3><span class="tag tag-teal">Common Issues</span></div>
   <div class="cp-body">
@@ -412,13 +390,9 @@ async def generate_safe():
 "</span>   <span class="ck"># always send done event</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — CONVERSATION STATE ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">💬</span><h3>The Messages Array — LLMs Are Stateless</h3><span class="tag tag-indigo">Critical Concept</span></div>
   <div class="cp-body">
@@ -431,7 +405,6 @@ response2 = client.messages.create(
     messages=[{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: <span class="cs">"What is my name?"</span>}], ...
 )
 <span class="ck"># Model: "I don't know your name" — it never saw the first message</span>
- 
 <span class="ck"># ── CORRECT — full history sent every call ─────────────</span>
 messages = []
  
@@ -447,7 +420,6 @@ messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</s
 <span class="ck"># Model: "Your name is Ajay" — it sees the full history</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏗</span><h3>ConversationManager — Clean State Pattern</h3><span class="tag tag-blue">Production Class</span></div>
   <div class="cp-body">
@@ -535,12 +507,10 @@ print(conv.chat(<span class="cs">"What is my name and what technology do I work 
 print(conv.turn_count)   <span class="ck"># 2</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>System Prompt Design for Multi-Turn</h3><span class="tag tag-teal">Best Practice</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># System prompt rules for multi-turn conversations</span>
- 
 <span class="ck"># 1. State what information the model should REMEMBER across turns</span>
 system = <span class="cs">"""You are a helpful coding assistant.
  
@@ -552,13 +522,11 @@ Remember and use throughout the conversation:
  
 When the user references "the function" or "the code" without specifying,
 use context from earlier in the conversation."""</span>
- 
 <span class="ck"># 2. Define how to handle ambiguous references</span>
 system += <span class="cs">"""
  
 If a reference is ambiguous and cannot be resolved from context,
 ask for clarification before answering."""</span>
- 
 <span class="ck"># 3. Set turn-specific behaviour</span>
 system += <span class="cs">"""
  
@@ -566,13 +534,9 @@ For code reviews: always reference specific line numbers.
 For debugging: always ask to see the error message if not provided."""</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — CONTEXT MANAGEMENT ══════════ -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">📏</span><h3>Context Windows and Token Counting</h3><span class="tag tag-indigo">Cost Control</span></div>
   <div class="cp-body">
@@ -599,7 +563,6 @@ def count_messages_tokens(messages: list[dict]) -> int:
         total += count_tokens(msg[<span class="cs">"content"</span>])
         total += <span class="cv">4</span>   <span class="ck"># overhead per message (role + formatting)</span>
     return total + <span class="cv">2</span>   <span class="ck"># reply priming tokens</span>
- 
 <span class="ck"># Check context usage before sending</span>
 MAX_CONTEXT = <span class="cv">180_000</span>   <span class="ck"># Claude 3.5 Sonnet context window</span>
 RESERVE_TOKENS = <span class="cv">4_096</span>  <span class="ck"># always reserve for response</span>
@@ -617,7 +580,6 @@ response = client.messages.count_tokens(
 print(response.input_tokens)   <span class="ck"># exact count before sending</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🪟</span><h3>Sliding Window — Keep Last N Turns</h3><span class="tag tag-blue">Simple Strategy</span></div>
   <div class="cp-body">
@@ -644,7 +606,6 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
             i += <span class="cv">2</span>
         else:
             i += <span class="cv">1</span>
- 
     <span class="ck"># Always include last user message</span>
     if messages and messages[-<span class="cv">1</span>][<span class="cs">"role"</span>] == <span class="cs">"user"</span>:
         result = [messages[-<span class="cv">1</span>]]
@@ -668,7 +629,6 @@ print(response.input_tokens)   <span class="ck"># exact count before sending</sp
     return result</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Summarisation Strategy — Compress Old History</h3><span class="tag tag-teal">Better Than Sliding Window</span></div>
   <div class="cp-body">
@@ -720,13 +680,9 @@ Provide a dense 3-5 sentence summary:"""</span>
     <div class="ins"><p>💡 <strong>Use a cheap fast model (Haiku, GPT-4o-mini) for summarisation.</strong> Summarising a 20-turn conversation with Claude Haiku costs ~$0.001. Using Sonnet would cost ~$0.05. The quality difference for summarisation is negligible, but the cost difference is 50×.</p></div>
   </div>
 </div>
-
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — PERSISTENT HISTORY ══════════ -->
 <div id="t5" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">💾</span><h3>Storing Conversation History — SQLite</h3><span class="tag tag-indigo">Persistence</span></div>
   <div class="cp-body">
@@ -789,7 +745,6 @@ def load_history(conv_id: str, last_n: int = <span class="cv">0</span>) -> list[
     return messages[-last_n * <span class="cv">2</span>:] if last_n else messages</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Redis for High-Traffic Conversations</h3><span class="tag tag-blue">Scalable</span></div>
   <div class="cp-body">
@@ -820,7 +775,6 @@ def clear_history_redis(session_id: str):
 <span class="ck"># Both    — use Redis as cache + SQLite/PostgreSQL for durable archive</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Full Stateful Chat API — Putting It Together</h3><span class="tag tag-teal">Complete Pattern</span></div>
   <div class="cp-body">
@@ -867,10 +821,7 @@ async def chat(request: ChatRequest):
     return ChatResponse(session_id=session_id, reply=reply, turn_count=turn_count)</pre></div>
   </div>
 </div>
-
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RESOURCES ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -885,12 +836,9 @@ async def chat(request: ChatRequest):
   </tbody>
 </table>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — PROJECTS ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -920,11 +868,8 @@ async def chat(request: ChatRequest):
   </div>
 </div>
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — LABS ══════════ -->
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Streaming — Measure Time to First Token</h4></div>
   <div class="lab-body">
@@ -936,7 +881,6 @@ async def chat(request: ChatRequest):
     <div class="lab-step"><div class="sn">5</div><div><strong>Key insight to document:</strong> At what output length does streaming provide the most meaningful UX improvement? At what length is it negligible?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Context Window — Observe Forgetting Without History</h4></div>
   <div class="lab-body">
@@ -948,7 +892,6 @@ async def chat(request: ChatRequest):
     <div class="lab-step"><div class="sn">5</div><div>Apply the summarisation strategy. Compare quality: does the model retain important facts from summarised turns? What information gets lost? Is it acceptable for your use case?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Build a Persistent Session Store</h4></div>
   <div class="lab-body">
@@ -960,10 +903,7 @@ async def chat(request: ChatRequest):
     <div class="lab-step"><div class="sn">5</div><div><strong>Extension:</strong> Replace SQLite with Redis. Set TTL to 10 minutes. Verify that after 10 minutes of inactivity, the session is automatically cleaned up.</div></div>
   </div>
 </div>
-
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — CHECKLIST ══════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">P4-M13 MASTERY CHECKLIST</p>
@@ -991,15 +931,12 @@ async def chat(request: ChatRequest):
   <p>✅ <strong>When complete:</strong> Move to <strong>P4-M14 — Reliability, Cost &amp; Security</strong>. This is the final Part 4 module — covering retries, rate limit handling, cost monitoring, and prompt injection defence before you move to RAG in Part 5.</p>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/">← P4-M12: Structured Outputs</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part4-llm-apis/p4-m14-reliability-security/">Next: P4-M14 — Reliability &amp; Security →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

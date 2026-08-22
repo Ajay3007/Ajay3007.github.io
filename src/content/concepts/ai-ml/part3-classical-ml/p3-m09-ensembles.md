@@ -78,7 +78,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
 .proj-dur{font-size:.78rem;opacity:.85;margin-left:auto;font-family:monospace}
 .proj-body{padding:.9rem 1.2rem;font-size:.88rem;line-height:1.7}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 3 — Classical ML &nbsp;·&nbsp; Module 9 of 28</div>
   <div class="mod-title">Ensembles: XGBoost, LightGBM, SMOTE &amp; Optuna</div>
@@ -90,7 +89,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
     <span class="mod-pill">📋 Prerequisite: P3-M08</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🚀 XGBoost</button>
@@ -104,7 +102,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
 <div id="t0" class="tab-pane active">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3</span></div>
@@ -122,7 +119,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m09-ensembles/
   </div>
 </div>
 </div>
-
 <div id="t1" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>XGBoost — Gradient Boosting Deep Dive</h3><span class="tag tag-pink">Industry Standard</span></div>
@@ -200,7 +196,6 @@ print(f"Best CV RMSE: {cv_results['test-rmse-mean'].min():,.1f}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t2" class="tab-pane">
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">💡</span><h3>LightGBM — Faster, Leaf-Wise Boosting</h3><span class="tag tag-blue">Production Choice</span></div>
@@ -261,7 +256,6 @@ print(f"Best round: {best_round}, CV RMSE: {min(cv_result['valid rmse-mean']):,.
   </div>
 </div>
 </div>
-
 <div id="t3" class="tab-pane">
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Optuna — Automated Hyperparameter Tuning</h3><span class="tag tag-teal">Bayesian Optimisation</span></div>
@@ -328,7 +322,6 @@ fig.show()</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t4" class="tab-pane">
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚗</span><h3>SMOTE Variants for Imbalanced Data</h3><span class="tag tag-red">Imbalanced</span></div>
@@ -387,7 +380,6 @@ for name, pipe in strategies.items():
   </div>
 </div>
 </div>
-
 <div id="t5" class="tab-pane">
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Stacking and Blending</h3><span class="tag tag-purple">Advanced Ensembles</span></div>
@@ -442,7 +434,6 @@ print(f"Blend AUC: {roc_auc_score(y_val, blend):.3f}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t6" class="tab-pane">
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Advanced SHAP — Deep Interpretability</h3><span class="tag tag-green">Interpretability</span></div>
@@ -490,7 +481,6 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
   </div>
 </div>
 </div>
-
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
 <table class="res-table">
@@ -505,7 +495,6 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
   </tbody>
 </table>
 </div>
-
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Credit Card Fraud Detection — Full Pipeline</span><span class="proj-dur">[Advanced] 6–7 days</span></div>
@@ -525,7 +514,6 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
   </div>
 </div>
 </div>
-
 <div id="t9" class="tab-pane">
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>XGBoost Early Stopping</h4></div>
@@ -544,7 +532,6 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
   </div>
 </div>
 </div>
-
 <div id="t10" class="tab-pane">
 <p class="sep">P3-M09 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -565,13 +552,11 @@ shap_lr = explainer_lr.shap_values(X_test[:100])  # small batch (slow)</pre></di
   <p>✅ <strong>When complete:</strong> Move to <strong>P3-M10 — Unsupervised Learning</strong>: K-Means, PCA, t-SNE, and customer segmentation.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part3-classical-ml/p3-m08-classification/">← P3-M08: Classification</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/">Next: P3-M10 — Unsupervised →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

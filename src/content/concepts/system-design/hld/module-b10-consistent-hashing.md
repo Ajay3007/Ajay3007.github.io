@@ -10,7 +10,6 @@ url: /learning/system-design/hld/module-b10-consistent-hashing/
 ---
 
 <link rel="stylesheet" href="/assets/css/sd-module-b10.css">
-
 <div class="sd-module-b10">
 <header>
   <div class="hdr-stripe"></div>
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b10-consistent-hashing/
     <div class="tg" style="color:var(--cya)">Health Checks</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="mb10_show('problem',this)">The Problem</div>
   <div class="nt" onclick="mb10_show('ring',this)">Hash Ring</div>
@@ -55,9 +53,7 @@ url: /learning/system-design/hld/module-b10-consistent-hashing/
   <div class="nt" onclick="mb10_show('tasks',this)">Tasks</div>
   <div class="nt" onclick="mb10_show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <div class="view active" id="view-problem">
   <div class="sh">The Modulo Hashing Problem</div>
   <div class="sr">Why hash(key) % N breaks when N changes</div>
@@ -90,7 +86,6 @@ url: /learning/system-design/hld/module-b10-consistent-hashing/
   </div>
   <div class="al pur"><em>The key number:</em> Adding 1 node to an N-node cluster remaps ~1/(N+1) of all keys. For a 12-node cluster adding a 13th: only 7.7% of keys move. With modulo: 92.3% would move.</div>
 </div>
-
 <div class="view" id="view-ring">
   <div class="sh">The Hash Ring</div>
   <div class="sr">Nodes and keys share the same circular address space [0, 2³²)</div>
@@ -139,7 +134,6 @@ url: /learning/system-design/hld/module-b10-consistent-hashing/
     </div>
   </div>
 </div>
-
 <div class="view" id="view-vnodes">
   <div class="sh">Virtual Nodes</div>
   <div class="sr">K positions per physical node → uniform load distribution</div>
@@ -182,7 +176,6 @@ WeakNode     ( 8 cores): <span class="pu"> 75 vnodes</span>  → handles 0.5× d
 <span class="cm">// Cassandra: 256 vnodes default. Redis Cluster: 16,384 hash slots.</span></pre>
   </div>
 </div>
-
 <div class="view" id="view-impl">
   <div class="sh">Java Implementation</div>
   <div class="sr">TreeMap provides O(log N) clockwise walk via ceilingEntry()</div>
@@ -211,7 +204,6 @@ WeakNode     ( 8 cores): <span class="pu"> 75 vnodes</span>  → handles 0.5× d
 }</pre>
   </div>
 </div>
-
 <div class="view" id="view-uses">
   <div class="sh">Real-World Use Cases</div>
   <div class="sr">Where consistent hashing solves the node change problem</div>
@@ -226,7 +218,6 @@ WeakNode     ( 8 cores): <span class="pu"> 75 vnodes</span>  → handles 0.5× d
     </tbody>
   </table>
 </div>
-
 <div class="view" id="view-discovery">
   <div class="sh">Service Discovery Patterns</div>
   <div class="sr">How Service A finds Service B in a dynamic microservices environment</div>
@@ -260,7 +251,6 @@ curl http://payment-service.default.svc.cluster.local:<span class="cy">8080</spa
 <span class="cm"># Pod fails → Endpoints controller removes it → no traffic routed</span></pre>
   </div>
 </div>
-
 <div class="view" id="view-registries">
   <div class="sh">Consul &amp; ZooKeeper</div>
   <div class="sr">Production service registries — choose by consistency needs</div>
@@ -291,7 +281,6 @@ getChildren /services/payment [WATCH]
     </tbody>
   </table>
 </div>
-
 <div class="view" id="view-health">
   <div class="sh">Health Checks</div>
   <div class="sr">Registry must know which instances are healthy</div>
@@ -309,7 +298,6 @@ getChildren /services/payment [WATCH]
   </div>
   <div class="al pur"><em>Liveness vs Readiness (Kubernetes):</em> Liveness = process alive? (restart if not). Readiness = ready for traffic? (remove from LB if not). Only readiness affects service discovery routing.</div>
 </div>
-
 <div class="view" id="view-gossip">
   <div class="sh">Gossip Protocol</div>
   <div class="sr">Eventual consistency for cluster membership — O(log N) propagation</div>
@@ -350,16 +338,13 @@ getChildren /services/payment [WATCH]
   <div class="cb"><div class="cb-top">Gossip vs Raft<span class="cb-l">COMPARISON</span></div>
 <pre class="c"><span class="cm">// GOSSIP: eventually consistent, O(log N), no leader, scales to 1000s of nodes</span>
 <span class="cm">// Use for: cluster membership, failure detection</span>
- 
 <span class="cm">// RAFT: strongly consistent, leader-based, quorum required, ~5-7 nodes practical</span>
 <span class="cm">// Use for: config store, leader election, distributed locks</span>
- 
 <span class="cm">// Consul uses BOTH:</span>
 <span class="cm">//   Gossip (SWIM) for membership + failure detection</span>
 <span class="cm">//   Raft for KV store + service catalog consistency</span></pre>
   </div>
 </div>
-
 <div class="view" id="view-tasks">
   <div class="task-list">
     <div class="task-card">
@@ -404,7 +389,6 @@ getChildren /services/payment [WATCH]
     </div>
   </div>
 </div>
-
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 19 completed</span><span style="font-family:'IBM Plex Mono',monospace">MODULE B10 · CONSISTENT HASHING</span></div>
   <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
@@ -439,9 +423,7 @@ getChildren /services/payment [WATCH]
     </div>
   </div>
 </div>
-
 </div>
-
 <div class="mb10-bottom-nav">
   <a href="/learning/system-design/hld/module-b9-rate-limiter/" class="mb10-nav-footer-btn" style="border-right: 1px solid var(--bord2);">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="mb10-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>

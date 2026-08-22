@@ -20,7 +20,6 @@ url: /learning/system-design/foundation/phase0-foundation/
     <div class="chip">Track <b>Universal &mdash; All Learners</b></div>
   </div>
 </div>
-
 <div class="nav">
   <div class="tab active" onclick="show('internet',this)">&#127760; Internet</div>
   <div class="tab" onclick="show('os',this)">&#9881; OS Fundamentals</div>
@@ -30,7 +29,6 @@ url: /learning/system-design/foundation/phase0-foundation/
   <div class="tab" onclick="show('tradeoffs',this)">&#9878; Trade-offs</div>
   <div class="tab" onclick="show('checklist',this)">&#9989; Checklist</div>
 </div>
-
 <!-- INTERNET -->
 <div class="sec active" id="s-internet">
   <div class="sec-title">How the Internet Works</div>
@@ -90,7 +88,6 @@ UDP: fast &#8594; <span class="cm">video, DNS</span></pre>
   <div class="tip"><span class="tip-n">02</span><b>429</b> (rate limiting) and <b>503</b> (service overload) appear in nearly every SD discussion. Know them cold.</div>
   <div class="tip"><span class="tip-n">03</span>Use WebSocket for real-time bidirectional (chat, live scores). Use long-polling for infrequent server push. Never WebSocket for simple CRUD &mdash; unnecessary overhead.</div>
 </div>
-
 <!-- OS -->
 <div class="sec" id="s-os">
   <div class="sec-title">OS Fundamentals</div>
@@ -155,7 +152,6 @@ OS notifies on complete
     <div class="tip" style="margin-top:16px"><span class="tip-n">&#9733;</span>RAM is <b>1,000&#215; faster than SSD</b> and <b>100,000&#215; faster than HDD</b>. This single fact justifies every caching layer ever built.</div>
   </div>
 </div>
-
 <!-- DB -->
 <div class="sec" id="s-db">
   <div class="sec-title">Database Basics</div>
@@ -229,7 +225,6 @@ Composite index (A,B,C):
     <div class="tip" style="margin-top:12px"><span class="tip-n">&rarr;</span>Deep dive in <b>Module B6</b>: sharding, replication, leader election. This is just the mental model.</div>
   </div>
 </div>
-
 <!-- FRAMEWORK -->
 <div class="sec" id="s-framework">
   <div class="sec-title">The SD Interview Framework</div>
@@ -290,7 +285,6 @@ Composite index (A,B,C):
     </div>
   </div>
 </div>
-
 <!-- ESTIMATION -->
 <div class="sec" id="s-estimation">
   <div class="sec-title">Estimation Calculator</div>
@@ -322,7 +316,6 @@ Composite index (A,B,C):
 Peak &asymp; Average &times; <span class="ca">3</span></pre>
   </div>
 </div>
-
 <!-- TRADEOFFS -->
 <div class="sec" id="s-tradeoffs">
   <div class="sec-title">Trade-off Summary</div>
@@ -338,7 +331,6 @@ Peak &asymp; Average &times; <span class="ca">3</span></pre>
   </div>
   <div class="tip"><span class="tip-n">&#9733;</span><b>The master rule:</b> "It depends" is always the right start. Follow with "on X and Y &mdash; let me clarify the requirements." This single habit separates strong SD candidates from weak ones.</div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="sec" id="s-checklist">
   <div class="sec-title">Phase 0 Completion Checklist</div>
@@ -363,7 +355,6 @@ Peak &asymp; Average &times; <span class="ca">3</span></pre>
     </ul>
   </div>
 </div>
-
 <div style="margin-top:40px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding: 24px 0; border-top: 1px solid var(--border-color); font-family:'IBM Plex Mono',monospace; font-size:13px;">
   <a href="/learning/system-design/system-design-roadmap/" style="padding:12px 24px;border:1px solid var(--border-color);border-radius:4px;color:var(--text-color);text-decoration:none;transition:all 0.2s;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a1-solid/" style="padding:12px 24px;border:1px solid #7c6fff;background:rgba(124,111,255,0.1);color:#7c6fff;border-radius:4px;text-decoration:none;font-weight:600;transition:all 0.2s;">NEXT: LLD A1 — SOLID →</a>

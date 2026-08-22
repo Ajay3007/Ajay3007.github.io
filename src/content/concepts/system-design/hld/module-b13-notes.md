@@ -15,7 +15,6 @@ url: /learning/system-design/hld/module-b13-notes/
   <strong>Module B13 · Week 23 · Track B — HLD</strong><br>
   <span style="color:#666;">Prerequisites: B1–B12 &nbsp;|&nbsp; Goal: Production ML systems, feature stores, model serving, two-tower retrieval, A/B testing, drift</span>
 </div>
-
 <a href="/learning/system-design/hld/module-b13-ml-systems/" style="display:inline-block;margin-bottom:32px;padding:10px 20px;background:#a060ff;color:#fff;border-radius:4px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;">⚡ Interactive Visual Version</a>
 
 # Module B13 — ML Systems Design

@@ -81,7 +81,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
 .part3-complete h3{color:#fff;border:none;margin:0 0 .5rem;font-size:1.3rem}
 .part3-complete p{color:#fce7f3;margin:0;font-size:.9rem}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 3 — Classical ML &nbsp;·&nbsp; Module 10 of 28</div>
   <div class="mod-title">Unsupervised Learning: K-Means, PCA &amp; t-SNE</div>
@@ -93,7 +92,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
     <span class="mod-pill">📋 Prerequisite: P3-M09</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🎯 K-Means</button>
@@ -107,7 +105,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
 <div id="t0" class="tab-pane active">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3 Finale</span></div>
@@ -125,7 +122,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m10-unsupervised/
   </div>
 </div>
 </div>
-
 <div id="t1" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>K-Means Clustering — From Basics to Production</h3><span class="tag tag-pink">Foundation</span></div>
@@ -198,7 +194,6 @@ plt.title(f"K-Means Clusters (K={best_k})")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t2" class="tab-pane">
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏔</span><h3>DBSCAN — Density-Based Clustering</h3><span class="tag tag-blue">Arbitrary Shapes</span></div>
@@ -258,7 +253,6 @@ plt.title(f"DBSCAN: {n_clusters} clusters, {n_noise} noise points")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t3" class="tab-pane">
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📉</span><h3>PCA — Dimensionality Reduction</h3><span class="tag tag-teal">Linear DR</span></div>
@@ -332,7 +326,6 @@ print(loadings["PC1"].abs().sort_values(ascending=False).head(5))</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t4" class="tab-pane">
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🌀</span><h3>t-SNE and UMAP — Non-Linear Visualisation</h3><span class="tag tag-purple">Visualisation</span></div>
@@ -401,7 +394,6 @@ new_data_2d = reducer.transform(X_test_scaled)  # project test set</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t5" class="tab-pane">
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Cluster Evaluation Metrics</h3><span class="tag tag-green">Evaluation</span></div>
@@ -455,7 +447,6 @@ ax.legend()</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t6" class="tab-pane">
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏢</span><h3>RFM Customer Segmentation Pipeline</h3><span class="tag tag-blue">Real-World Application</span></div>
@@ -526,7 +517,6 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
 <table class="res-table">
@@ -540,7 +530,6 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
   </tbody>
 </table>
 </div>
-
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Customer Segmentation + Churn Prediction</span><span class="proj-dur">[Advanced] 6–7 days</span></div>
@@ -565,13 +554,11 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
     <p><strong>Deliverable:</strong> Jupyter notebook with all plots + 1-paragraph business recommendation per segment.</p>
   </div>
 </div>
-
 <div class="part3-complete">
   <h3>🎉 Part 3 Complete!</h3>
   <p>You've completed all 6 Classical ML modules (P2-M05 through P3-M10). You can now EDA any dataset, build regression and classification models, use gradient boosting, tune hyperparameters, and find hidden structure. Next: <strong>Part 4 — LLM APIs</strong>, where the AI Engineering path begins.</p>
 </div>
 </div>
-
 <div id="t9" class="tab-pane">
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Finding the Right K</h4></div>
@@ -590,7 +577,6 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t10" class="tab-pane">
 <p class="sep">P3-M10 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -613,13 +599,11 @@ plt.title(f"RFM Clusters (K={best_k}, PCA 2D)")</pre></div>
   <p>✅ <strong>Part 3 Complete!</strong> You have all the Classical ML foundations. Move to <strong>Part 4 — LLM APIs</strong> to start the AI Engineering path: prompting, structured outputs, streaming, and reliability.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part3-classical-ml/p3-m09-ensembles/">← P3-M09: Ensembles</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part4-llm-apis/p4-m11-prompting/">Next: P4-M11 — Prompting →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

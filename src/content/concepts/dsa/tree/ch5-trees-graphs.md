@@ -29,14 +29,11 @@ url: /learning/dsa/tree/ch5-trees-graphs/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <!-- ═══════════════════════ Section 1 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — Trees & Graphs: The Big Picture</h2>
 <p>Trees and graphs are the most structurally rich data structures in computer science. They model hierarchical and relational data that cannot be represented with arrays or hash maps alone. Mastering DFS and BFS on trees and graphs unlocks a huge range of interview problems.</p>
-
 <h3 class="section-subheading">1.1 — Tree Terminology</h3>
 <div class="dsa-pattern-box">
 <pre style="font-size:0.82rem;margin:0;color:var(--text-color);">
@@ -55,7 +52,6 @@ depth:   distance from root (root depth = 0)
 subtree: node + all descendants (subtree at 2: {2,4,5,7})
 </pre>
 </div>
-
 <h3 class="section-subheading">1.2 — Graph Terminology</h3>
 <div class="insight-box">
   <span class="insight-label">Key Graph Concepts</span>
@@ -68,10 +64,9 @@ subtree: node + all descendants (subtree at 2: {2,4,5,7})
     <li><strong>Tree vs Graph:</strong> a tree is a connected, acyclic, undirected graph with exactly V–1 edges.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">1.3 — Graph Representations in C++</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // ADJACENCY LIST (preferred for sparse graphs)
 // Space: O(V+E) | Add edge: O(1) | Find neighbors: O(degree)
 int V = 5;
@@ -89,25 +84,22 @@ mat[0][1] = mat[1][0] = 1;   // undirected edge
 // EDGE LIST (Kruskal's MST, sorting edges by weight)
 vector<tuple<int,int,int>> edges;  // {weight, u, v}
 edges.push_back({5, 0, 1});
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 2 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Tree DFS: Four Traversals</h2>
 <p>All four tree traversals are O(n) time and O(h) space (h = tree height = recursion depth). The <em>only</em> difference is <strong>when you process the current node</strong> relative to its children.</p>
-
 <div class="pattern-summary">
   <div class="pattern-card"><h4>Preorder (Root → L → R)</h4><p>Visit root <em>before</em> children. Output: 1,2,4,5,3. Use: copy tree, serialize, expression prefix.</p></div>
   <div class="pattern-card"><h4>Inorder (L → Root → R)</h4><p>Visit root in the <em>middle</em>. Output: 4,2,5,1,3. BST inorder = sorted sequence. Use: validate BST.</p></div>
   <div class="pattern-card"><h4>Postorder (L → R → Root)</h4><p>Visit root <em>after</em> children. Output: 4,5,2,3,1. Use: delete tree, evaluate expression tree, compute height/diameter.</p></div>
   <div class="pattern-card"><h4>Level Order (BFS)</h4><p>Visit level by level (queue). Output: 1,2,3,4,5. Use: shortest path in tree, level processing, zigzag traversal.</p></div>
 </div>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">All four traversal templates</span>
-{% highlight cpp %}
+```cpp
 struct TreeNode { int val; TreeNode *left, *right; };
 
 // Preorder — O(n) time, O(h) space
@@ -149,7 +141,7 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     }
     return res;
 }
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>All traversals</span>O(n)</span>
@@ -157,29 +149,26 @@ vector<vector<int>> levelOrder(TreeNode* root) {
   <span class="ch-cplx"><span>Space (BFS)</span>O(w) — max width</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 3 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Tree DFS Patterns</h2>
-
 <h3 class="section-subheading">3.1 — Max Depth (Postorder)</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Max depth = 1 + max(leftHeight, rightHeight)
 int maxDepth(TreeNode* root) {
     if (!root) return 0;
     return 1 + max(maxDepth(root->left), maxDepth(root->right));
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">3.2 — Diameter (Global Max During Height DFS)</h3>
 <div class="insight-box">
   <span class="insight-label">Diameter Insight</span>
   The diameter through any node = leftHeight + rightHeight. Compute this at every node during the height DFS, tracking the global maximum. Return height (for parent's computation) but update diameter as a side effect.
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 int diameter = 0;  // global max — must be initialized to 0, not -1
 int height(TreeNode* root) {
     if (!root) return 0;
@@ -187,28 +176,26 @@ int height(TreeNode* root) {
     diameter = max(diameter, L + R);  // path through this node
     return 1 + max(L, R);             // height for parent
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">3.3 — BST Validation (Pass Min/Max Bounds)</h3>
 <div class="insight-box">
   <span class="insight-label">Critical Mistake to Avoid</span>
   Do NOT validate BST by only comparing parent-child pairs. A node must satisfy constraints from ALL ancestors. The value at node 5 must be less than the parent's value AND all the way up to the root's constraint. Always pass (min, max) bounds down.
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 bool isValidBST(TreeNode* root, long lo = LONG_MIN, long hi = LONG_MAX) {
     if (!root) return true;
     if (root->val <= lo || root->val >= hi) return false;
     return isValidBST(root->left,  lo, root->val) &&
            isValidBST(root->right, root->val, hi);
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">3.4 — Lowest Common Ancestor</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LCA of BST — exploit BST property O(log n) balanced
 TreeNode* lcaBST(TreeNode* root, TreeNode* p, TreeNode* q) {
     if (p->val < root->val && q->val < root->val)
@@ -225,14 +212,12 @@ TreeNode* lcaGeneral(TreeNode* root, TreeNode* p, TreeNode* q) {
     if (left && right) return root;  // p and q in different subtrees
     return left ? left : right;
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 4 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Graph DFS & BFS</h2>
-
 <div class="insight-box">
   <span class="insight-label">DFS vs BFS — When to Use Each</span>
   <ul>
@@ -241,9 +226,8 @@ TreeNode* lcaGeneral(TreeNode* root, TreeNode* p, TreeNode* q) {
     <li><strong>Key BFS rule:</strong> mark nodes visited when <em>enqueued</em>, not when processed. Marking later causes the same node to be enqueued multiple times.</li>
   </ul>
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Graph DFS — O(V+E) time, O(V) space
 vector<bool> visited(V, false);
 void dfs(int node, vector<vector<int>>& adj) {
@@ -267,15 +251,13 @@ void bfs(int start, vector<vector<int>>& adj) {
             }
     }
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 5 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Pattern: Grid DFS (Number of Islands)</h2>
 <p>Treat a 2D grid as a graph where each cell is a vertex with up to 4 neighbors (up, down, left, right). DFS from each unvisited land cell, sinking the island as you go.</p>
-
 <div class="dsa-pattern-box">
   <ul>
     <li>Outer loop: iterate all cells (r,c). If cell is '1' → increment islands, start DFS</li>
@@ -284,9 +266,8 @@ void bfs(int start, vector<vector<int>>& adj) {
     <li>Each cell visited at most twice → <strong>O(m×n)</strong> total</li>
   </ul>
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 int numIslands(vector<vector<char>>& grid) {
     int m = grid.size(), n = grid[0].size(), islands = 0;
     // DFS lambda — sinks the island (modifies grid in-place)
@@ -301,22 +282,19 @@ int numIslands(vector<vector<char>>& grid) {
     return islands;
 }
 // Cannot modify input? Use bool visited[m][n] instead.
-{% endhighlight %}
+```
 </div>
-
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(m×n)</span>
   <span class="ch-cplx"><span>Space</span>O(m×n) DFS stack</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 6 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 6 — Pattern: Union-Find (Disjoint Set Union)</h2>
 <p>Union-Find tracks connected components dynamically. Two optimisations make it nearly O(1) per operation: <strong>path compression</strong> and <strong>union by rank</strong>.</p>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class UnionFind {
     vector<int> parent, rank;
 public:
@@ -338,21 +316,19 @@ public:
     }
 };
 // Usage: Redundant Connection — if unite returns false, edge is redundant
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Find / Unite</span>O(α(n)) ≈ O(1)</span>
   <span class="ch-cplx"><span>Space</span>O(V)</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 7 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 7 — Pattern: Topological Sort (Kahn's Algorithm)</h2>
 <p>Topological sort orders vertices of a DAG such that for every directed edge u→v, u comes before v. If a cycle exists, topological sort is impossible.</p>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Kahn's Algorithm (BFS-based) — O(V+E) time, O(V) space
 vector<int> topoSort(int V, vector<vector<int>>& adj) {
     vector<int> indegree(V, 0);
@@ -371,18 +347,16 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
     // If order.size() < V, a cycle exists (Course Schedule: return false)
     return order;
 }
-{% endhighlight %}
+```
 </div>
 <div class="insight-box">
   <span class="insight-label">Cycle Detection</span>
   If the output order has fewer than V nodes after Kahn's algorithm completes, the graph contains a cycle — topological sort is impossible. LeetCode 207 (Course Schedule) uses this check to return <code>true/false</code>.
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 8 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 8 — Common Mistakes & Edge Cases</h2>
-
 <div class="pattern-summary">
   <div class="pattern-card"><h4>❌ Null root not handled</h4><p>Always check <code>if (!root) return 0/false/null</code> at the start of every tree function — even before touching <code>root->left</code> or <code>root->right</code>.</p></div>
   <div class="pattern-card"><h4>❌ BST validated by parent-child only</h4><p>A value must satisfy constraints from ALL ancestors, not just its direct parent. Always pass <code>(min, max)</code> bounds down recursively.</p></div>
@@ -391,7 +365,6 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
   <div class="pattern-card"><h4>❌ Grid: access before bounds check</h4><p>Always validate <code>r>=0 && r<m && c>=0 && c<n</code> BEFORE accessing <code>grid[r][c]</code>. Out-of-bounds access = undefined behaviour.</p></div>
   <div class="pattern-card"><h4>❌ Union-Find without path compression</h4><p>Without path compression, trees can become deep and <code>find()</code> degrades to O(n). Always use recursive path compression.</p></div>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">Edge Cases to Test</span>
   <ul>
@@ -403,11 +376,9 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
   </ul>
 </div>
 </div>
-
 <!-- ═══════════════════════ Practice Problems ═══════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Practice Problems</h2>
-
 <div class="ch-section-label">Binary Tree Problems</div>
 <div class="ch-ed-problems">
 <table>
@@ -424,7 +395,6 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
   </tbody>
 </table>
 </div>
-
 <div class="ch-section-label" style="margin-top:1.5rem;">Graph Problems</div>
 <div class="ch-ed-problems">
 <table>
@@ -442,12 +412,10 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
 </table>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 9 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 9 — Iterative Traversals &amp; Morris Inorder</h2>
 <p>Recursive traversals use O(h) call-stack space. Two alternatives avoid this: <strong>explicit-stack iteration</strong> (still O(h) but heap-allocated) and <strong>Morris Traversal</strong> (O(1) space by temporarily threading the tree).</p>
-
 <h3 class="section-subheading">9.1 — Iterative Preorder (Root → L → R)</h3>
 <div class="insight-box">
   <span class="insight-label">Key Idea</span>
@@ -455,7 +423,7 @@ vector<int> topoSort(int V, vector<vector<int>>& adj) {
 </div>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Iterative Preorder — O(n) time, O(h) space</span>
-{% highlight cpp %}
+```cpp
 void preOrder(TreeNode* root) {
     stack<TreeNode*> s;
     TreeNode* cur = root;
@@ -469,9 +437,8 @@ void preOrder(TreeNode* root) {
         cur = cur->right;              // backtrack, try right subtree
     }
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">9.2 — Iterative Inorder (L → Root → R)</h3>
 <div class="insight-box">
   <span class="insight-label">Key Idea</span>
@@ -479,7 +446,7 @@ void preOrder(TreeNode* root) {
 </div>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Iterative Inorder — O(n) time, O(h) space</span>
-{% highlight cpp %}
+```cpp
 void inOrder(TreeNode* root) {
     stack<TreeNode*> s;
     TreeNode* cur = root;
@@ -493,9 +460,8 @@ void inOrder(TreeNode* root) {
         cur = cur->right;              // then process right subtree
     }
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">9.3 — Morris Inorder Traversal (O(1) Space)</h3>
 <div class="insight-box">
   <span class="insight-label">How Morris Traversal Works</span>
@@ -503,7 +469,7 @@ void inOrder(TreeNode* root) {
 </div>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Morris Inorder — O(n) time, O(1) space</span>
-{% highlight cpp %}
+```cpp
 void morrisInOrder(TreeNode* root) {
     TreeNode* curr = root;
     while (curr) {
@@ -527,7 +493,7 @@ void morrisInOrder(TreeNode* root) {
         }
     }
 }
-{% endhighlight %}
+```
 </div>
 <div class="dsa-pattern-box">
 <pre style="font-size:0.82rem;margin:0;color:var(--text-color);">Morris Inorder Traversal walk-through on: [4, 2, 6, 1, 3, 5, 7]
@@ -558,12 +524,10 @@ Output: 1 2 3 4 5 6 7  ✓
   <span class="ch-cplx"><span>Space (Iterative)</span>O(h) — explicit stack</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 10 ══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 10 — Tree Serialization &amp; Debug Utilities</h2>
 <p>These helpers let you build trees from LeetCode-style bracket strings (e.g. <code>"[1,2,3,null,5]"</code>), serialize back to strings, and pretty-print trees visually — invaluable for local testing and debugging.</p>
-
 <h3 class="section-subheading">10.1 — stringToTreeNode (Deserialize)</h3>
 <div class="insight-box">
   <span class="insight-label">BFS Construction Algorithm</span>
@@ -571,7 +535,7 @@ Output: 1 2 3 4 5 6 7  ✓
 </div>
 <div class="ch-code-wrap">
 <span class="ch-code-label">stringToTreeNode — O(n) time &amp; space</span>
-{% highlight cpp %}
+```cpp
 void trimLeftTrailingSpaces(string& input) {
     input.erase(input.begin(), find_if(input.begin(), input.end(), [](int ch) {
         return !isspace(ch);
@@ -620,13 +584,12 @@ TreeNode* stringToTreeNode(string input) {
     }
     return root;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">10.2 — treeNodeToString (Serialize)</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">treeNodeToString — O(n) time &amp; space</span>
-{% highlight cpp %}
+```cpp
 // Serializes a tree to "[1,2,3,null,5,null,null]" (LeetCode format)
 string treeNodeToString(TreeNode* root) {
     if (!root) return "[]";
@@ -642,9 +605,8 @@ string treeNodeToString(TreeNode* root) {
     }
     return "[" + output.substr(0, output.length() - 2) + "]";
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">10.3 — prettyPrintTree (Visual Debugger)</h3>
 <div class="insight-box">
   <span class="insight-label">How it Works</span>
@@ -652,7 +614,7 @@ string treeNodeToString(TreeNode* root) {
 </div>
 <div class="ch-code-wrap">
 <span class="ch-code-label">prettyPrintTree — example output for [4,2,6,1,3,5,7]</span>
-{% highlight cpp %}
+```cpp
 void prettyPrintTree(TreeNode* node, string prefix = "", bool isLeft = true) {
     if (!node) { cout << "Empty tree"; return; }
     if (node->right)
@@ -671,13 +633,12 @@ void prettyPrintTree(TreeNode* node, string prefix = "", bool isLeft = true) {
     └── 2
         └── 1
 */
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">10.4 — Putting It All Together (main driver)</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Local test driver — reads tree strings from stdin</span>
-{% highlight cpp %}
+```cpp
 int main() {
     string line;
     while (getline(cin, line)) {
@@ -694,7 +655,7 @@ int main() {
 // Pre Order:  [ 1 2 4 5 3 6 ]
 // In Order:   [ 4 2 5 1 3 6 ]
 // Post Order: [ 4 5 2 6 3 1 ]
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Serialize / Deserialize</span>O(n)</span>
@@ -702,9 +663,7 @@ int main() {
   <span class="ch-cplx"><span>Space</span>O(n) queue / O(h) recursion</span>
 </div>
 </div>
-
 </div><!-- end .chapter-content -->
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/stacks/ch4-stacks-queues/" class="ch-nav-footer-btn">← Ch4: Stacks & Queues</a>
   <a href="/learning/dsa/dsa-roadmap/#ch6" class="ch-nav-footer-btn primary">Next: Ch6 — Heaps →</a>

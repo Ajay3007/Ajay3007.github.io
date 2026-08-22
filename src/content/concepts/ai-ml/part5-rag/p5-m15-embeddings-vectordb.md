@@ -107,7 +107,6 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
 .vc-pgvector{background:#fdf4dc;border-color:#fcd34d}.vc-pgvector h4{color:#92400e}.vc-pgvector .badge{background:#fcd34d;color:#78350f}
 .vc-faiss{background:#ede8f5;border-color:#c4b5fd}.vc-faiss h4{color:#5b21b6}.vc-faiss .badge{background:#c4b5fd;color:#4c1d95}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 5 — RAG Systems &nbsp;·&nbsp; Module 15 of 18</div>
@@ -120,7 +119,6 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
     <span class="mod-pill">📋 Prerequisite: P4 Complete</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -135,11 +133,8 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-emerald">RAG Foundation</span></div>
   <div class="cp-body">
@@ -154,7 +149,6 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>Where This Fits in RAG</h3><span class="tag tag-blue">Architecture</span></div>
   <div class="cp-body">
@@ -175,13 +169,9 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
 <span class="ck">#                               LLM generates answer (M18)</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — EMBEDDINGS ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>What Are Embeddings?</h3><span class="tag tag-emerald">Concept First</span></div>
   <div class="cp-body">
@@ -204,7 +194,6 @@ url: /learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/
     <div class="ins"><p>💡 <strong>The key insight:</strong> you never look at the actual numbers. The magic is that vector distance corresponds to semantic similarity. Two passages about the same topic will have similar vectors even if they use completely different words — enabling semantic search that keyword search cannot match.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Generating Embeddings — OpenAI, Cohere, HuggingFace</h3><span class="tag tag-blue">Code</span></div>
   <div class="cp-body">
@@ -221,13 +210,11 @@ def embed_openai(texts: list[str], model: str = <span class="cs">"text-embedding
 <span class="ck"># Single text</span>
 vec = embed_openai([<span class="cs">"What is DPDK?"</span>])[<span class="cv">0</span>]
 print(<span class="cs">f"Dimensions: {len(vec)}"</span>)   <span class="ck"># 1536 for text-embedding-3-small</span>
- 
 <span class="ck"># Batch — much more efficient (one API call for many texts)</span>
 docs = [<span class="cs">"DPDK is a packet processing framework"</span>,
         <span class="cs">"VPP runs on DPDK for high-performance networking"</span>,
         <span class="cs">"Machine learning uses gradient descent"</span>]
 vecs = embed_openai(docs)   <span class="ck"># 3 embeddings, 1 API call</span>
- 
 <span class="ck"># ── Cohere Embeddings ─────────────────────────────────</span>
 import cohere
 co = cohere.Client()   <span class="ck"># COHERE_API_KEY from environment</span>
@@ -238,17 +225,14 @@ response = co.embed(
     input_type=<span class="cs">"search_document"</span>   <span class="ck"># "search_document" for indexing, "search_query" for queries</span>
 )
 vecs = response.embeddings   <span class="ck"># list of lists</span>
- 
 <span class="ck"># ── HuggingFace Sentence Transformers (free, local) ───</span>
 from sentence_transformers import SentenceTransformer
  
 model = SentenceTransformer(<span class="cs">"all-MiniLM-L6-v2"</span>)   <span class="ck"># 384 dims, fast, free</span>
 vecs = model.encode(docs, show_progress_bar=<span class="cv">True</span>)   <span class="ck"># numpy arrays</span>
 print(vecs.shape)   <span class="ck"># (3, 384)</span>
- 
 <span class="ck"># Better quality, slower:</span>
 model = SentenceTransformer(<span class="cs">"BAAI/bge-large-en-v1.5"</span>)   <span class="ck"># 1024 dims, SOTA free model</span></pre></div>
-
     <table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
       <thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.55rem .8rem;text-align:left">Model</th><th style="padding:.55rem .8rem">Dims</th><th style="padding:.55rem .8rem">Cost</th><th style="padding:.55rem .8rem">Best For</th></tr></thead>
       <tbody>
@@ -261,7 +245,6 @@ model = SentenceTransformer(<span class="cs">"BAAI/bge-large-en-v1.5"</span>)   
     </table>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💡</span><h3>Embedding Best Practices</h3><span class="tag tag-teal">Production</span></div>
   <div class="cp-body">
@@ -297,7 +280,6 @@ def cached_embed(text: str) -> list[float]:
 <span class="ck"># Documents being indexed: input_type="search_document"</span>
 <span class="ck"># User queries: input_type="search_query"</span>
 <span class="ck"># Using the wrong type degrades retrieval quality</span>
- 
 <span class="ck"># 4. Normalise embeddings before cosine similarity (optional but consistent)</span>
 import numpy as np
  
@@ -306,13 +288,9 @@ def normalise(vec: list[float]) -> list[float]:
     return (arr / np.linalg.norm(arr)).tolist()</pre></div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — SIMILARITY SEARCH ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Similarity Metrics — Cosine, Dot Product, Euclidean</h3><span class="tag tag-emerald">Core Math</span></div>
   <div class="cp-body">
@@ -340,7 +318,6 @@ vecs = embed_openai([
  
 print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">1</span>]))  <span class="ck"># ~0.91 — very similar</span>
 print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">2</span>]))  <span class="ck"># ~0.18 — very different</span></pre></div>
-
     <table style="width:100%;border-collapse:collapse;font-size:.84rem;margin:.8rem 0">
       <thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.55rem .8rem;text-align:left">Metric</th><th style="padding:.55rem .8rem">Range</th><th style="padding:.55rem .8rem">More Similar =</th><th style="padding:.55rem .8rem">Use When</th></tr></thead>
       <tbody>
@@ -352,7 +329,6 @@ print(cosine_similarity(vecs[<span class="cv">0</span>], vecs[<span class="cv">2
     <div class="ins"><p>💡 <strong>Use cosine similarity for text embeddings by default.</strong> OpenAI recommends it for text-embedding-3 models. Most vector databases default to cosine. Dot product is equivalent and faster when vectors are L2-normalised — many embedding models output normalised vectors.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Brute-Force vs ANN — How Vector DBs Search at Scale</h3><span class="tag tag-blue">Performance</span></div>
   <div class="cp-body">
@@ -368,23 +344,17 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
 <span class="ck"># HNSW (Hierarchical Navigable Small World) — used by ChromaDB, Qdrant, Weaviate</span>
 <span class="ck"># IVF (Inverted File Index) — used by FAISS</span>
 <span class="ck"># ANNOY — used by Spotify, disk-friendly</span>
- 
 <span class="ck"># ANN trade-off: slightly approximate results, but 100-1000x faster</span>
 <span class="ck"># In practice: ANN accuracy is &gt;99% with right parameters</span>
- 
 <span class="ck"># Rule of thumb:</span>
 <span class="ck"># &lt; 100k vectors:   brute force fine (ChromaDB default)</span>
 <span class="ck"># 100k - 10M:       HNSW index (Qdrant, Weaviate)</span>
 <span class="ck"># &gt; 10M:            FAISS IVF or managed service (Pinecone)</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — VECTOR DATABASES ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🗄</span><h3>Choosing a Vector Database</h3><span class="tag tag-emerald">Decision Guide</span></div>
   <div class="cp-body">
@@ -415,7 +385,6 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
         <p>Meta's vector similarity library. Not a DB — needs wrapping. Fastest raw search for large in-memory indexes.</p>
       </div>
     </div>
-
     <table style="width:100%;border-collapse:collapse;font-size:.83rem;margin:.8rem 0">
       <thead><tr style="background:#0a2040;color:#d1fae5"><th style="padding:.5rem .8rem;text-align:left">Use Case</th><th style="padding:.5rem .8rem">Recommended</th><th style="padding:.5rem .8rem">Why</th></tr></thead>
       <tbody>
@@ -428,13 +397,9 @@ def brute_force_search(query_vec, stored_vecs, top_k=5):
     </table>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — CHROMADB ══════════ -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🟢</span><h3>ChromaDB — Start Here for Every RAG Project</h3><span class="tag tag-emerald">Prototype to Production</span></div>
   <div class="cp-body">
@@ -491,13 +456,11 @@ for doc, meta, dist in zip(
     print(<span class="cs">f"Score: {1-dist:.3f} | Source: {meta['source']} | {doc[:60]}"</span>)</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Metadata Filtering — Combine Semantic + Structured Search</h3><span class="tag tag-blue">Power Feature</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Filter by metadata BEFORE semantic search</span>
 <span class="ck"># This is critical for multi-tenant apps or date-filtered search</span>
- 
 <span class="ck"># Only search within dpdk_docs source</span>
 results = collection.query(
     query_texts=[<span class="cs">"packet processing"</span>],
@@ -528,13 +491,9 @@ collection.delete(ids=[<span class="cs">"doc3"</span>])
 print(collection.count())   <span class="ck"># current document count</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — PINECONE & QDRANT ══════════ -->
 <div id="t5" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">📌</span><h3>Pinecone — Managed Vector DB</h3><span class="tag tag-emerald">Cloud Production</span></div>
   <div class="cp-body">
@@ -581,7 +540,6 @@ for match in results[<span class="cs">"matches"</span>]:
 print(index.describe_index_stats())</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔷</span><h3>Qdrant — Best Self-Hosted Option</h3><span class="tag tag-orange">OSS Production</span></div>
   <div class="cp-body">
@@ -630,13 +588,9 @@ for hit in results:
     print(<span class="cs">f"Score: {hit.score:.3f} | {hit.payload['text'][:60]}"</span>)</pre></div>
   </div>
 </div>
-
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — PGVECTOR & FAISS ══════════ -->
 <div id="t6" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🐘</span><h3>pgvector — Vector Search in PostgreSQL</h3><span class="tag tag-emerald">SQL + Vectors</span></div>
   <div class="cp-body">
@@ -700,7 +654,6 @@ def semantic_search(query: str, top_k: int = <span class="cv">5</span>, source: 
 <span class="ck"># &lt;#&gt;   Negative dot product</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>FAISS — Maximum Performance Library</h3><span class="tag tag-purple">High Scale</span></div>
   <div class="cp-body">
@@ -711,10 +664,8 @@ import numpy as np
  
 <span class="ck"># Build an index</span>
 dimension = <span class="cv">1536</span>
- 
 <span class="ck"># Flat (brute force) — exact, best for &lt; 100k vectors</span>
 index = faiss.IndexFlatIP(dimension)   <span class="ck"># Inner Product (= cosine for normalised)</span>
- 
 <span class="ck"># IVF (Inverted File) — fast approximate, for &gt; 100k vectors</span>
 nlist = <span class="cv">100</span>   <span class="ck"># number of clusters</span>
 quantiser = faiss.IndexFlatIP(dimension)
@@ -743,10 +694,7 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
     <div class="warn"><p>⚠️ <strong>FAISS does not store document text — only vectors and integer IDs.</strong> You must maintain a separate mapping from FAISS index position → document text (a Python list or SQLite table). This is the most common FAISS mistake.</p></div>
   </div>
 </div>
-
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -761,12 +709,9 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
   </tbody>
 </table>
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -794,11 +739,8 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Visualise the Embedding Space — Make Semantic Similarity Concrete</h4></div>
   <div class="lab-body">
@@ -810,7 +752,6 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Add 2 ambiguous texts that belong to two clusters simultaneously (e.g. "AI-powered network packet classification"). Where do they land in the similarity matrix?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>ChromaDB Full Lifecycle — Index, Query, Filter, Update</h4></div>
   <div class="lab-body">
@@ -822,7 +763,6 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
     <div class="lab-step"><div class="sn">5</div><div>Test persistence: stop your Python process, restart, re-create the PersistentClient with the same path. Verify all documents are still present. This is the critical test for production use.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Compare Vector DBs — Same Data, Same Queries</h4></div>
   <div class="lab-body">
@@ -834,10 +774,7 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
     <div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> Based on your experience, which DB would you choose for: (a) prototype RAG with 1k docs, (b) production RAG with 100k docs self-hosted, (c) production RAG with 10M docs managed service?</div></div>
   </div>
 </div>
-
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P5-M15 MASTERY CHECKLIST</p>
@@ -864,15 +801,12 @@ index = faiss.read_index(<span class="cs">"docs.faiss"</span>)</pre></div>
   <p>✅ <strong>When complete:</strong> Move to <strong>P5-M16 — Chunking &amp; Document Ingestion</strong>. Now you know how to store and search vectors — next you learn how to prepare documents before embedding them.</p>
 </div>
 </div><!-- end t10 -->
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part4-llm-apis/p4-m14-reliability-security/">← P4-M14: Reliability &amp; Security</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part5-rag/p5-m16-chunking/">Next: P5-M16 — Chunking →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

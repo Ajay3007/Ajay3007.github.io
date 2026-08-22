@@ -31,7 +31,6 @@ url: /learning/system-design/lld/module-a4-notes/
     <span class="stat-badge">12 Behavioral Patterns</span>
   </div>
 </div>
-
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
   <a href="/learning/system-design/lld/module-a4-behavioral/" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#fb7185;text-decoration:none;font-weight:700;font-size:0.85rem;">
     ⚡ Interactive Visual Version

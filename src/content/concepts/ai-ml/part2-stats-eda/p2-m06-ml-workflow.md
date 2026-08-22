@@ -84,7 +84,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
 .viz-card p{margin:0;font-size:.79rem;line-height:1.5;color:var(--text-color,#555)}
 .viz-when{font-size:.7rem;font-family:monospace;color:#9d174d;font-weight:700;margin-top:.3rem}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 2 — ML Workflow &amp; Feature Engineering &nbsp;·&nbsp; Module 6 of 28</div>
   <div class="mod-title">ML Workflow &amp; Feature Engineering</div>
@@ -96,7 +95,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
     <span class="mod-pill">📋 Prerequisite: P2-M05</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🔧 Feature Engineering</button>
@@ -110,7 +108,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
 <div id="t0" class="tab-pane active">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 2</span></div>
@@ -128,7 +125,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/
   </div>
 </div>
 </div>
-
 <div id="t1" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Feature Engineering — Creating Better Inputs</h3><span class="tag tag-pink">Domain Knowledge</span></div>
@@ -190,7 +186,6 @@ print(f"Features created. Shape: {df.shape}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t2" class="tab-pane">
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📏</span><h3>Feature Scaling — When, Why, and Which</h3><span class="tag tag-blue">Preprocessing</span></div>
@@ -244,7 +239,6 @@ print(f"After scaling:  mean={X_train_scaled[:, 0].mean():.4f}, std={X_train_sca
   </div>
 </div>
 </div>
-
 <div id="t3" class="tab-pane">
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>Categorical Encoding</h3><span class="tag tag-teal">Encoding Strategies</span></div>
@@ -310,7 +304,6 @@ df["Neighborhood_te"] = target_encode_kfold(df, "Neighborhood", "SalePrice")
   </div>
 </div>
 </div>
-
 <div id="t4" class="tab-pane">
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">✂</span><h3>Train-Test Split and Data Leakage</h3><span class="tag tag-purple">Critical Concept</span></div>
@@ -366,7 +359,6 @@ if len(suspicious):
   </div>
 </div>
 </div>
-
 <div id="t5" class="tab-pane">
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔁</span><h3>Cross-Validation — Reliable Model Evaluation</h3><span class="tag tag-green">Evaluation</span></div>
@@ -412,7 +404,6 @@ print(f"Pipeline CV R²: {cv_scores.mean():.3f}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t6" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🏗</span><h3>sklearn Pipeline — The Production Pattern</h3><span class="tag tag-pink">Best Practice</span></div>
@@ -476,7 +467,6 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
   </div>
 </div>
 </div>
-
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
 <table class="res-table">
@@ -491,7 +481,6 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
   </tbody>
 </table>
 </div>
-
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">House Prices — Full Preprocessing Pipeline</span><span class="proj-dur">[Intermediate] 4–5 days</span></div>
@@ -511,7 +500,6 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
   </div>
 </div>
 </div>
-
 <div id="t9" class="tab-pane">
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Scaling Comparison</h4></div>
@@ -538,7 +526,6 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
   </div>
 </div>
 </div>
-
 <div id="t10" class="tab-pane">
 <p class="sep">P2-M06 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -561,13 +548,11 @@ print(f"Loaded pipeline prediction: {loaded.predict(X_test[:1])[0]:,.0f}")</pre>
   <p>✅ <strong>When complete:</strong> Move to <strong>P3-M07 — Regression</strong>: linear, ridge, lasso, and polynomial regression — your first predictive models.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part2-stats-eda/p2-m05-stats-viz/">← P2-M05: Stats &amp; Viz</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part3-classical-ml/p3-m07-regression/">Next: P3-M07 — Regression →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

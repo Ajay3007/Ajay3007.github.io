@@ -20,13 +20,11 @@ url: /learning/system-design/system-design-roadmap/
     <div class="meta-pill">Audience: <span>Beginners → FAANG-Ready</span></div>
   </div>
 </header>
-
 <div class="tabs">
   <div class="tab active" onclick="switchTab('gantt', this)">① Week-by-Week Gantt</div>
   <div class="tab" onclick="switchTab('dep', this)">② Topic Dependency Graph</div>
   <div class="tab" onclick="switchTab('milestone', this)">③ Milestone Progression</div>
 </div>
-
 <!-- ==================== VIEW 1: GANTT ==================== -->
 <div class="view active" id="view-gantt">
   <div class="legend">
@@ -39,16 +37,13 @@ url: /learning/system-design/system-design-roadmap/
     <div class="legend-item"><div class="legend-dot" style="background:#a060ff"></div> Track C · Advanced Topics</div>
     <div class="legend-item"><div class="legend-dot" style="background:#ffa94d;border-radius:2px"></div> Task/Project</div>
   </div>
-
   <div class="gantt-container">
     <div id="gantt-root"></div>
   </div>
 </div>
-
 <!-- ==================== VIEW 2: DEPENDENCY ==================== -->
 <div class="view" id="view-dep">
   <div class="dep-view">
-
     <div class="dep-phase">
       <a href="/learning/system-design/foundation/phase0-foundation/" class="dep-phase-title" style="background:rgba(255,169,77,0.1);color:#ffa94d;border:1px solid rgba(255,169,77,0.2);display:block;text-decoration:none;">
         ⬡ PHASE 0 — Foundation (Weeks 1–2) · Prerequisites for everything below
@@ -71,9 +66,7 @@ url: /learning/system-design/system-design-roadmap/
         </div>
       </div>
     </div>
-
     <div class="dep-connector">⬇ unlocks both tracks</div>
-
     <div class="dep-tracks">
       <!-- LLD Track -->
       <div class="dep-track" style="border-color:rgba(124,111,255,0.3)">
@@ -81,7 +74,6 @@ url: /learning/system-design/system-design-roadmap/
           <span>Track A · LLD</span>
           <span class="track-badge" style="background:rgba(124,111,255,0.1);color:#7c6fff">Weeks 3–10</span>
         </div>
-
         <div class="dep-module" style="border-left-color:#7c6fff">
           <a href="/learning/system-design/lld/module-a1-solid/" style="color:inherit;text-decoration:none;"><span>A1 · SOLID + OOP + UML</span></a><span class="week-tag">W3</span>
         </div>
@@ -106,14 +98,12 @@ url: /learning/system-design/system-design-roadmap/
           <a href="/learning/system-design/lld/module-a6-case-studies/" style="color:inherit;text-decoration:none;"><span>A6 · Advanced LLD Systems</span></a><span class="week-tag">W9–10</span>
         </div>
       </div>
-
       <!-- HLD Track -->
       <div class="dep-track" style="border-color:rgba(0,212,170,0.3)">
         <div class="dep-track-title" style="color:#00d4aa">
           <span>Track B · HLD</span>
           <span class="track-badge" style="background:rgba(0,212,170,0.1);color:#00d4aa">Weeks 11–22</span>
         </div>
-
         <div class="dep-module" style="border-left-color:#00d4aa">
           <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" style="color:inherit;text-decoration:none;"><span>B1 · HLD Fundamentals</span></a><span class="week-tag">W11</span>
         </div>
@@ -171,9 +161,7 @@ url: /learning/system-design/system-design-roadmap/
         </div>
       </div>
     </div>
-
     <div class="dep-connector">⬇ both tracks converge</div>
-
     <div class="dep-phase">
       <div class="dep-phase-title" style="background:rgba(255,107,157,0.1);color:#ff6b9d;border:1px solid rgba(255,107,157,0.2)">
         ⬡ PHASE 2 — Convergence: Full System Designs (Weeks 17–20)
@@ -186,9 +174,7 @@ url: /learning/system-design/system-design-roadmap/
         <div class="dep-node" style="border-color:rgba(255,107,157,0.4);color:#ff6b9d">Ticket Master · Web Crawler<span class="node-tag">W20</span></div>
       </div>
     </div>
-
     <div class="dep-connector">↓</div>
-
     <div class="dep-phase">
       <div class="dep-phase-title" style="background:rgba(232,121,249,0.1);color:#e879f9;border:1px solid rgba(232,121,249,0.2)">
         ⬡ PHASE 3 — Advanced Production Topics (Weeks 21–22)
@@ -201,9 +187,7 @@ url: /learning/system-design/system-design-roadmap/
         <div class="dep-node" style="border-color:rgba(232,121,249,0.4);color:#e879f9">Auth + Monitoring System<span class="node-tag">Mini Project</span></div>
       </div>
     </div>
-
     <div class="dep-connector">↓</div>
-
     <div class="dep-phase">
       <div class="dep-phase-title" style="background:rgba(56,189,248,0.1);color:#38bdf8;border:1px solid rgba(56,189,248,0.2)">
         ⬡ PHASE 4 — Mock Interviews + Capstone (Weeks 23–24)
@@ -215,9 +199,7 @@ url: /learning/system-design/system-design-roadmap/
         <div class="dep-node" style="border-color:rgba(56,189,248,0.4);color:#38bdf8">Capstone: BookMyShow<span class="node-tag">Concurrency + Scale</span></div>
       </div>
     </div>
-
     <div class="dep-connector">↓ optional advanced track</div>
-
     <div class="dep-phase" style="border:1px solid rgba(160,96,255,0.25);background:rgba(160,96,255,0.04);padding:16px;border-radius:6px;">
       <div class="dep-phase-title" style="background:rgba(160,96,255,0.1);color:#a060ff;border:1px solid rgba(160,96,255,0.25)">
         ⬡ TRACK C — Advanced Topics (Weeks 25–29)
@@ -244,10 +226,8 @@ url: /learning/system-design/system-design-roadmap/
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
 <!-- ==================== VIEW 3: MILESTONE ==================== -->
 <div class="view" id="view-milestone">
   <div class="stats-bar">
@@ -276,9 +256,7 @@ url: /learning/system-design/system-design-roadmap/
         <div class="stat-label">Capstone Projects</div>
       </div>
     </div>
-
     <div class="milestone-track">
-
       <!-- M0 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#ffa94d"></div>
@@ -296,7 +274,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- M1 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#7c6fff"></div>
@@ -313,7 +290,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- M2 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#7c6fff"></div>
@@ -329,7 +305,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- M3 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#7c6fff"></div>
@@ -345,7 +320,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- M4 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#7c6fff"></div>
@@ -361,7 +335,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- M5 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#7c6fff"></div>
@@ -377,7 +350,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- M6 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#7c6fff"></div>
@@ -394,7 +366,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- HLD START -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
@@ -412,7 +383,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -429,7 +399,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -446,7 +415,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -460,7 +428,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -474,7 +441,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -488,7 +454,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -502,7 +467,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -520,7 +484,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -538,7 +501,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -557,7 +519,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -575,7 +536,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -592,7 +552,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -608,7 +567,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <div class="milestone">
         <div class="milestone-dot" style="background:#00d4aa"></div>
         <div class="milestone-card">
@@ -624,7 +582,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- PHASE 2 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#ff6b9d"></div>
@@ -643,7 +600,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- PHASE 3 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#e879f9"></div>
@@ -661,7 +617,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- PHASE 4 -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#38bdf8"></div>
@@ -680,7 +635,6 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
       <!-- TRACK C — Advanced Topics -->
       <div class="milestone">
         <div class="milestone-dot" style="background:#a060ff"></div>
@@ -700,10 +654,8 @@ url: /learning/system-design/system-design-roadmap/
           </div>
         </div>
       </div>
-
     </div>
 </div>
-
 <div class="tooltip" id="tooltip">
   <div class="tooltip-title" id="tt-title"></div>
   <div class="tooltip-body" id="tt-body"></div>

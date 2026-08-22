@@ -15,12 +15,10 @@ Master the basics to advanced concepts of C programming. Explore syntax, data st
 ## Learning Path
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
-
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
   <h3><a href="/learning/programming-language/c/c-basics" style="color:#1976d2;text-decoration:none;">C Basics</a></h3>
   <p>C Basic programming concepts like memory structures & allocation, Pointers, Stack vs Heap.</p>
 </div>
-
 </div>
 
 ---

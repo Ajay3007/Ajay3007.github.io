@@ -68,7 +68,6 @@ url: /learning/data-plane/vpp/module-p4-plugin-dev/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 4 · WEEKS 14–18</div>
   <div class="mod-title">🔨 Plugin Development</div>
@@ -81,7 +80,6 @@ url: /learning/data-plane/vpp/module-p4-plugin-dev/
     <span class="mod-pill">Projects 6 &amp; 7</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'ta')">Plugin Scaffold</button>
   <button class="tab-btn" onclick="vt(event,'tb')">Binary API (.api)</button>
@@ -91,7 +89,6 @@ url: /learning/data-plane/vpp/module-p4-plugin-dev/
   <button class="tab-btn" onclick="vt(event,'tf')">Test Framework</button>
   <button class="tab-btn" onclick="vt(event,'tg')">Checklist</button>
 </div>
-
 <!-- SCAFFOLD -->
 <div id="ta" class="tab-pane active">
 <p class="sep">PLUGIN SCAFFOLD AND FILE LAYOUT</p>
@@ -104,7 +101,6 @@ cd vpp
 extras/emacs/make-plugin.sh
 <span class="cm"># Prompts for: plugin name (e.g. "classify")</span>
 <span class="cm"># Generates: src/plugins/classify/</span>
- 
 <span class="cm"># Generated file layout:</span>
 src/plugins/classify/
 ├── CMakeLists.txt        <span class="cm"># cmake build rules</span>
@@ -117,7 +113,6 @@ src/plugins/classify/
 ├── setup.pg              <span class="cm"># packet generator script for testing</span>
 └── test/
     └── test_classify.py  <span class="cm"># Python test using VppTestCase</span></pre></div>
-
     <p><strong>Key structures in classify.h:</strong></p>
 <div class="cb"><pre><span class="cm">/* Plugin main struct - singleton, holds all plugin state */</span>
 <span class="ck">typedef struct</span> {
@@ -144,7 +139,6 @@ src/plugins/classify/
 } classify_per_worker_t;</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Plugin Init and Registration</h3><span class="tag tag-teal">LIFECYCLE</span></div>
   <div class="cp-body">
@@ -183,7 +177,6 @@ VLIB_CONFIG_FUNCTION (classify_config, "classify");
   </div>
 </div>
 </div>
-
 <!-- BINARY API -->
 <div id="tb" class="tab-pane">
 <p class="sep">BINARY API - .api FILES</p>
@@ -192,7 +185,6 @@ VLIB_CONFIG_FUNCTION (classify_config, "classify");
   <div class="cp-body">
     <p>VPP's binary API is the programmatic control-plane interface - used by vppctl, GoVPP, vpp_papi, and any management agent. API messages are defined in <code>.api</code> files and compiled into C, Go, and Python stubs automatically.</p>
 <div class="cb"><pre><span class="cm">/* classify.api - message definitions */</span>
- 
 <span class="cm">/* Option: API version */</span>
 option version = "1.0.0";
 import "vnet/interface_types.api";
@@ -213,7 +205,6 @@ autoreply define classify_add_rule {
  
 <span class="cm">/* autoreply generates a _reply message automatically */</span>
 <span class="cm">/* VPP sends: typedef classify_add_rule_reply_t { i32 retval; } */</span>
- 
 <span class="cm">/* ── Dump all rules (uses dump+details pattern) ── */</span>
 define classify_rule_dump {
     u32 client_index;
@@ -232,7 +223,6 @@ define classify_rule_details {
     u64 packet_count;
     u64 byte_count;
 };</pre></div>
-
     <p><strong>Implementing the handler in classify.c:</strong></p>
 <div class="cb"><pre><span class="cm">/* API message handler - called from the main thread */</span>
 <span class="ck">static</span> <span class="ck">void</span>
@@ -271,7 +261,6 @@ classify_api_hookup (vlib_main_t *vm)
   </div>
 </div>
 </div>
-
 <!-- CLI -->
 <div id="tc" class="tab-pane">
 <p class="sep">CLI COMMANDS - VLIB_CLI_COMMAND</p>
@@ -368,7 +357,6 @@ classify_show_command_fn (vlib_main_t *vm,
   </div>
 </div>
 </div>
-
 <!-- CLASSIFIER PLUGIN -->
 <div id="td" class="tab-pane">
 <p class="sep">COMPLETE CLASSIFIER NODE - BIHASH FAST PATH</p>
@@ -461,7 +449,6 @@ VLIB_NODE_FN (classify_node) (vlib_main_t *vm,
   </div>
 </div>
 </div>
-
 <!-- STATEFUL TRACKER -->
 <div id="te" class="tab-pane">
 <p class="sep">STATEFUL CONNECTION TRACKER - PROJECT 7</p>
@@ -540,7 +527,6 @@ VLIB_NODE_FN(flow_timeout_process)(vlib_main_t *vm, ...) {
   </div>
 </div>
 </div>
-
 <!-- TEST FRAMEWORK -->
 <div id="tf" class="tab-pane">
 <p class="sep">VPP TEST FRAMEWORK</p>
@@ -613,7 +599,6 @@ class TestClassify(VppTestCase):
   </div>
 </div>
 </div>
-
 <!-- CHECKLIST -->
 <div id="tg" class="tab-pane">
 <p class="sep">P4 COMPLETION CHECKLIST</p>
@@ -635,7 +620,6 @@ class TestClassify(VppTestCase):
   <p>✅ Phase 4 complete. You can now build production VPP plugins end-to-end. Move to <strong>Phase 5 - Control Plane &amp; GoVPP</strong> to learn how to drive VPP programmatically from Go.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p3-tap-afxdp/">← TAP · AF_XDP</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>

@@ -20,7 +20,6 @@ url: /learning/system-design/hld/module-b3-notes/
   <span style="color:var(--light-text);margin:0 0.4rem;">›</span>
   <span style="color:var(--text-color);font-size:0.85rem;font-weight:600;">Full Notes</span>
 </div>
-
 <div style="margin-bottom:2rem;">
   <a href="/learning/system-design/hld/module-b3-caching/" style="display:inline-block;padding:0.5rem 1.1rem;background:rgba(0,212,170,0.1);color:#00d4aa;border:1px solid rgba(0,212,170,0.3);border-radius:6px;font-size:0.85rem;font-weight:600;text-decoration:none;">⚡ Interactive Visual Version</a>
   <span style="margin-left:0.8rem;font-size:0.82rem;color:var(--light-text);">← Recommended for learning. This page is the printable reference.</span>

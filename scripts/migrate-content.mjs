@@ -97,6 +97,18 @@ function inferModule(file, track) {
 function convertLiquid(body) {
   const before = body;
   body = body
+    /**
+     * Jekyll's highlight tag becomes a fenced block — 140 of them. This is a
+     * straight upgrade rather than a workaround: Shiki then highlights the code
+     * properly, where Jekyll's tag emitted markup the page had to style itself.
+     */
+    .replace(
+      /\{%-?\s*highlight\s+(\w+)[^%]*%\}\r?\n?([\s\S]*?)\r?\n?\{%-?\s*endhighlight\s*-?%\}/g,
+      (_m, lang, code) => '```' + lang + '\n' + code.replace(/\s+$/, '') + '\n```',
+    )
+    /** {% raw %} only existed to stop Jekyll evaluating braces; Astro .md
+        never evaluates them, so the wrapper goes and the content stays. */
+    .replace(/\{%-?\s*(end)?raw\s*-?%\}\r?\n?/g, '')
     .replace(/\{\{\s*['"]([^'"]+)['"]\s*\|\s*relative_url\s*\}\}/g, '$1')
     .replace(/\{\{\s*['"]([^'"]+)['"]\s*\|\s*absolute_url\s*\}\}/g, '$1')
     .replace(/\{\{\s*site\.baseurl\s*\}\}/g, '');
@@ -120,6 +132,46 @@ function sealPreBlocks(body) {
   return body.replace(/<pre[^>]*>[\s\S]*?<\/pre>/g, (block) =>
     block.replace(/\n[ \t]*\n/g, '\n \n'),
   );
+}
+
+/**
+ * The same CommonMark rule bites outside <pre> too, and harder.
+ *
+ * A blank line in the middle of a hand-written HTML block closes it. Whatever
+ * follows is then read as markdown — and because these blocks are indented,
+ * four spaces of indentation turns the next <div> into an *indented code
+ * block*, so the raw markup is printed to the page as text. 6,168 blank lines
+ * across 174 files sit in exactly that position.
+ *
+ * A blank line is only removed when the markup clearly continues across it:
+ * the previous non-blank line ends a tag and the next opens one. A blank line
+ * before real prose is left alone, so the
+ *
+ *     <div>
+ *
+ *     **markdown inside a div**
+ *
+ * idiom keeps working.
+ */
+function joinHtmlBlocks(body) {
+  const lines = body.split('\n');
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].trim() !== '') { out.push(lines[i]); continue; }
+
+    let p = i - 1;
+    while (p >= 0 && lines[p].trim() === '') p--;
+    let n = i + 1;
+    while (n < lines.length && lines[n].trim() === '') n++;
+
+    const continuesMarkup =
+      p >= 0 && n < lines.length &&
+      lines[p].trimEnd().endsWith('>') &&
+      lines[n].trimStart().startsWith('<');
+
+    if (!continuesMarkup) out.push(lines[i]);
+  }
+  return out.join('\n');
 }
 
 /**
@@ -232,7 +284,7 @@ function writeTracks() {
         if (data.custom_css) trackHead = `<link rel="stylesheet" href="/assets/css/${data.custom_css}.css">`;
         if (data.custom_js) trackFoot = `<script src="/assets/js/${data.custom_js}.js" defer></script>`;
         const converted = convertLiquid(fm[2]);
-        body = sealPreBlocks(converted.body);
+        body = joinHtmlBlocks(sealPreBlocks(converted.body));
         if (converted.remaining) report.liquidLeft.push([def.from, converted.remaining]);
         description = data.description ?? deriveDescription(body, def.title);
       }
@@ -327,7 +379,7 @@ for (const file of walk(join(ROOT, '_learning')).sort()) {
 
   const url = data.permalink ?? '/' + file.replace(/^_/, '').replace(/\/index\.md$/, '/').replace(/\.md$/, '/');
   const { body: liquidFixed, remaining } = convertLiquid(fm[2]);
-  const body = sealPreBlocks(fixRelativeImages(liquidFixed, file));
+  const body = joinHtmlBlocks(sealPreBlocks(fixRelativeImages(liquidFixed, file)));
   if (remaining) report.liquidLeft.push([file, remaining]);
 
   let description = data.description;

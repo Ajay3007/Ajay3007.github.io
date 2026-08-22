@@ -99,7 +99,6 @@ url: /learning/networking-mastery/m13-tunneling/
 .phase-complete h3{margin:0 0 .5rem;font-size:1.1rem;font-weight:800;color:#fff;border:none}
 .phase-complete p{margin:0;font-size:.88rem;line-height:1.65;color:#c0f0c0}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 3 · MODULE 13 · WEEK 11 · PHASE 3 FINAL</div>
   <div class="mod-title">🔗 MPLS, VxLAN, GRE and Tunneling</div>
@@ -112,7 +111,6 @@ url: /learning/networking-mastery/m13-tunneling/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Tunneling Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">MPLS</button>
@@ -124,12 +122,9 @@ url: /learning/networking-mastery/m13-tunneling/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
-
 <!-- ════ TAB 0 — TUNNELING OVERVIEW ════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">WHY TUNNELING EXISTS — OVERLAY OVER UNDERLAY</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>The Tunneling Concept</h3><span class="tag tag-teal">OVERVIEW</span></div>
   <div class="cp-body">
@@ -144,7 +139,6 @@ url: /learning/networking-mastery/m13-tunneling/
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Encapsulation Overhead Comparison</h3><span class="tag tag-blue">OVERHEAD</span></div>
   <div class="cp-body">
@@ -164,12 +158,9 @@ url: /learning/networking-mastery/m13-tunneling/
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 1 — MPLS ════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">MPLS — MULTIPROTOCOL LABEL SWITCHING</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>MPLS Architecture and Label Forwarding</h3><span class="tag tag-purple">MPLS</span></div>
   <div class="cp-body">
@@ -201,11 +192,9 @@ Incoming label | Operation | Outgoing label | Outgoing interface
 100            | SWAP→200  | 200            | eth1
 200            | POP       | (none)         | eth2  → IP routing takes over
 300            | PUSH 400  | 400            | eth3  → add outer label</pre></div>
-
     <div class="ins"><p>💡 <strong>Penultimate Hop Popping (PHP):</strong> The second-to-last router in an MPLS path removes the label (POP) before forwarding to the egress router. This allows the egress router to process the packet as pure IP without needing a label lookup. Signalled by the egress router advertising label 3 (Implicit NULL) to its upstream neighbour.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🛣️</span><h3>MPLS Traffic Engineering and VPNs</h3><span class="tag tag-blue">APPLICATIONS</span></div>
   <div class="cp-body">
@@ -223,12 +212,9 @@ Incoming label | Operation | Outgoing label | Outgoing interface
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 2 — GRE ════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">GRE — GENERIC ROUTING ENCAPSULATION (RFC 2784)</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>GRE Header and Operation</h3><span class="tag tag-teal">GRE</span></div>
   <div class="cp-body">
@@ -261,21 +247,16 @@ ip route add 192.168.2.0/24 via 10.100.0.2 dev gre1
 <span class="cm"># Verify</span>
 ip tunnel show
 ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
- 
 <span class="cm">/* GRE keepalives (Cisco extension) */</span>
 <span class="cm"># GRE itself has no keepalive — use OSPF/BFD over the tunnel for failure detection</span>
 <span class="cm"># Or configure GRE keepalives (encapsulate keepalive inside GRE inside tunnel)</span></pre></div>
-
     <div class="note"><p>💡 <strong>GRE + IPsec is the classic site-to-site VPN.</strong> GRE provides the tunnel (any-protocol encapsulation, routing over the tunnel), and IPsec provides encryption and authentication. Most enterprise VPN gateways still use this combination. Modern alternatives: WireGuard (simpler, faster), IPsec IKEv2 (no GRE needed), OpenVPN.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 3 — VxLAN ════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">VxLAN — VIRTUAL EXTENSIBLE LAN (RFC 7348)</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Why VxLAN Exists — Scaling L2 Over L3</h3><span class="tag tag-green">VXLAN</span></div>
   <div class="cp-body">
@@ -283,7 +264,6 @@ ping 10.100.0.2   <span class="cm"># ping tunnel endpoint</span>
     <p>VxLAN solves both problems: it encapsulates entire Ethernet frames (including VLAN tags) inside UDP/IP packets, allowing L2 segments to span any IP network. The VxLAN Network Identifier (VNI) is 24 bits — supporting 16 million isolated networks.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>VxLAN Encapsulation and VTEP</h3><span class="tag tag-blue">VXLAN DETAILS</span></div>
   <div class="cp-body">
@@ -331,7 +311,6 @@ ip link add vxlan100 type vxlan id 100 group 239.1.1.1 dev eth0
 <span class="cm"># VTEPs join the multicast group — learn each other's MACs via flooding</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎛️</span><h3>EVPN — BGP Control Plane for VxLAN</h3><span class="tag tag-teal">EVPN</span></div>
   <div class="cp-body">
@@ -349,7 +328,6 @@ Type 3 (Inclusive Multicast):
 <span class="cm"># Layer 3 routing between VNIs without leaving the VxLAN fabric</span>
 <span class="cm"># Each VTEP acts as a distributed gateway for its local VMs</span>
 <span class="cm"># No hairpinning through a central gateway router</span>
- 
 <span class="cm">/* Modern data centre: Leaf-Spine with VxLAN+EVPN */</span>
 Spine switches:  pure IP underlay + iBGP route reflector for EVPN
 Leaf switches:   VTEPs + EVPN BGP speakers
@@ -363,12 +341,9 @@ router bgp 65001
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 4 — OTHER TUNNELS ════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">OTHER TUNNEL TYPES — GENEVE, WIREGUARD, 6IN4</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Tunnel Protocol Reference</h3><span class="tag tag-blue">REFERENCE</span></div>
   <div class="cp-body">
@@ -390,12 +365,9 @@ router bgp 65001
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 5 — TUNNEL COMPARISON ════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">WHEN TO USE WHICH TUNNEL — DECISION GUIDE</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Tunnel Selection Decision Guide</h3><span class="tag tag-green">DECISION</span></div>
   <div class="cp-body">
@@ -427,17 +399,13 @@ Need a simple test or diagnostic tunnel?
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 6 — NGFW AND TUNNELS ════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">NGFW CHALLENGES WITH TUNNELED TRAFFIC</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>The Tunnel Inspection Problem</h3><span class="tag tag-red">NGFW</span></div>
   <div class="cp-body">
     <p>Tunnels present a fundamental challenge for NGFWs: the firewall sees the outer packet (which may be innocuous — UDP to port 4789, or IP proto 47) but not the inner packet (which may contain malicious traffic). An attacker can use a tunnel to bypass firewall rules by hiding prohibited traffic inside permitted tunnel traffic.</p>
-
     <table class="t-table">
       <thead><tr><th>Tunnel Type</th><th>What NGFW Sees Without Inspection</th><th>Inspection Approach</th></tr></thead>
       <tbody>
@@ -449,7 +417,6 @@ Need a simple test or diagnostic tunnel?
         <tr><td>ICMP tunnels</td><td>ICMP Echo Request/Reply</td><td>Inspect ICMP data field for non-standard content (see M06)</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre><span class="cm">/* GRE decapsulation in NGFW (VPP-style) */</span>
 <span class="cm">/* Packet arrives: outer IP → GRE → inner IP → TCP → payload */</span>
  
@@ -468,8 +435,6 @@ VNI 200 = "tenant network B" → apply tenant B's security policy</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 7 — LABS ════ -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -482,7 +447,6 @@ VNI 200 = "tenant network B" → apply tenant B's security policy</pre></div>
     <div class="lab-step"><div class="sn">4</div><div>Test MTU: ping with large packets: <code>ping -M do -s 1472 172.16.0.2</code>. The effective MTU through GRE is 1476 (1500-20-4). With -s 1473 (1501B IP = exceeds 1476B GRE MTU), you should get "Frag needed". Add a route to a remote subnet through the tunnel and verify end-to-end connectivity.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>VxLAN Overlay Network</h4></div>
   <div class="lab-body">
@@ -494,8 +458,6 @@ VNI 200 = "tenant network B" → apply tenant B's security policy</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 8 — CHECKLIST ════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">M13 MASTERY CHECKLIST</p>
@@ -522,19 +484,16 @@ VNI 200 = "tenant network B" → apply tenant B's security policy</pre></div>
   <li>Completed Lab 1: created GRE tunnel, captured encapsulated packets, tested MTU limits</li>
   <li>Completed Lab 2: created VxLAN overlay, verified L2 connectivity across L3 network, tested VNI isolation</li>
 </ul>
-
 <div class="phase-complete">
   <h3>🎉 Phase 3 Complete — Routing and Forwarding</h3>
   <p>You have completed all 4 modules of Phase 3: Routing and FIB (M10), OSPF (M11), BGP (M12), and Tunneling (M13). You can now design, analyse, and implement the routing infrastructure an enterprise or service-provider network requires. Move to <strong>Phase 4 — Linux Networking and Socket Programming</strong>, starting with <strong>M14 - Linux Network Stack</strong>.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m12-bgp/">← M12 BGP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m14-linux-stack/">Next: M14 - Linux Network Stack →</a>
 </div>
-
 <script>
 function vt(e,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById(id).classList.add('active')}
 </script>

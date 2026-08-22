@@ -70,7 +70,6 @@ url: /learning/backend/m05-graphql/
 .nb:hover{background:#3b82f6;color:#fff}
 .sep{text-align:center;color:#94a3b8;font-size:.8rem;letter-spacing:.1em;margin:1.5rem 0;text-transform:uppercase}
 </style>
-
 <div class="mod-wrap">
 <div class="mod-header">
   <h1>M05 — GraphQL &amp; API Contracts</h1>
@@ -79,7 +78,6 @@ url: /learning/backend/m05-graphql/
     SDL type system · Query / mutation / subscription · Resolver execution model · N+1 &amp; DataLoader · Cursor pagination · Schema federation · Persisted queries · GraphQL parser in C
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t-overview',this)">Overview</button>
   <button class="tab-btn" onclick="vt('t-sdl',this)">SDL &amp; Types</button>
@@ -90,10 +88,8 @@ url: /learning/backend/m05-graphql/
   <button class="tab-btn" onclick="vt('t-advanced',this)">Federation &amp; Contracts</button>
   <button class="tab-btn" onclick="vt('t-labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ═══════════════════════════════ OVERVIEW ═══════════════════════════════ -->
 <div id="t-overview" class="tab-pane active">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🌐 Why GraphQL?</div>
   <div class="cp-body">
@@ -102,9 +98,7 @@ url: /learning/backend/m05-graphql/
     Conceived at Facebook in 2012, open-sourced in 2015, and now governed by the <strong>GraphQL Foundation</strong>. It sits above your transport (HTTP POST by convention) and serialisation (JSON) layers.
   </div>
 </div>
-
 <div class="sep">REST vs GraphQL vs gRPC</div>
-
 <table class="t-table">
   <thead><tr><th>Dimension</th><th>REST</th><th>GraphQL</th><th>gRPC</th></tr></thead>
   <tbody>
@@ -119,9 +113,7 @@ url: /learning/backend/m05-graphql/
     <tr><td><strong>Best for</strong></td><td>Public APIs, CRUD</td><td>Mobile/BFF, many consumers</td><td>Internal microservices</td></tr>
   </tbody>
 </table>
-
 <div class="sep">GraphQL Request / Response Lifecycle</div>
-
 <div class="diagram-box">
 <span class="dg-gray">Client                  Server Runtime                  Resolvers</span>
 <span class="dg-blue">  │                          │                               │</span>
@@ -138,7 +130,6 @@ url: /learning/backend/m05-graphql/
 <span class="dg-blue">  │                          │──── 4. Coerce &amp; shape ────────│</span>
 <span class="dg-blue">  │◀─── { data, errors } ───│</span>
 </div>
-
 <div class="two-col">
 <div class="cp p-green">
   <div class="cp-hdr">✅ Use GraphQL when…</div>
@@ -165,26 +156,20 @@ url: /learning/backend/m05-graphql/
   </div>
 </div>
 </div>
-
 </div><!-- /t-overview -->
-
 <!-- ═══════════════════════════════ SDL & TYPES ═══════════════════════════════ -->
 <div id="t-sdl" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">📄 Schema Definition Language (SDL)</div>
   <div class="cp-body">
     The SDL is GraphQL's <strong>Interface Definition Language</strong>. Every field, type, argument, and return value is declared here. The server runtime uses it for validation and execution. Clients use it (via introspection) for type-safe code generation.
   </div>
 </div>
-
 <div class="sep">Complete SDL Example — Blog Service</div>
-
 <div class="cb">
 <span class="cm"># ── Scalars ──────────────────────────────────────────────────────</span>
 <span class="ck">scalar</span> <span class="cv">DateTime</span>   <span class="cm"># ISO-8601 string; validated by custom scalar coercion</span>
 <span class="ck">scalar</span> <span class="cv">UUID</span>
-
 <span class="cm"># ── Enums ────────────────────────────────────────────────────────</span>
 <span class="ck">enum</span> <span class="cv">PostStatus</span> {
   <span class="co">DRAFT</span>
@@ -244,7 +229,6 @@ url: /learning/backend/m05-graphql/
 
 <span class="cm"># ── Union ─────────────────────────────────────────────────────────</span>
 <span class="ck">union</span> <span class="cv">SearchResult</span> = <span class="cv">User</span> | <span class="cv">Post</span>
-
 <span class="cm"># ── Root types ────────────────────────────────────────────────────</span>
 <span class="ck">type</span> <span class="cv">Query</span> {
   <span class="cn">user</span>(<span class="cn">id</span>: <span class="cv">ID</span>!):              <span class="cv">User</span>
@@ -263,9 +247,7 @@ url: /learning/backend/m05-graphql/
   <span class="cn">commentAdded</span>(<span class="cn">postId</span>: <span class="cv">ID</span>!): <span class="cv">Comment</span>!
 }
 </div>
-
 <div class="sep">Type System Reference</div>
-
 <table class="t-table">
   <thead><tr><th>Construct</th><th>SDL syntax</th><th>Purpose</th><th>Notes</th></tr></thead>
   <tbody>
@@ -280,23 +262,17 @@ url: /learning/backend/m05-graphql/
     <tr><td><strong>Directive</strong></td><td><code>@deprecated(reason: "…")</code></td><td>Metadata on types/fields</td><td>Built-in: @deprecated, @skip, @include, @specifiedBy. Custom directives extend this.</td></tr>
   </tbody>
 </table>
-
 <div class="note">💡 <strong>Non-null propagation rule:</strong> if a non-null field resolver throws or returns null, GraphQL does not return a partial object — it sets the nearest nullable parent to null. This "error bubbling" means you must think carefully about which fields to mark <code>!</code>.</div>
-
 </div><!-- /t-sdl -->
-
 <!-- ═══════════════════════════════ QUERIES & MUTATIONS ═══════════════════════════════ -->
 <div id="t-ops" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">📝 GraphQL Operations</div>
   <div class="cp-body">
     GraphQL defines three root operation types: <strong>query</strong> (read, parallel execution), <strong>mutation</strong> (write, serial execution), and <strong>subscription</strong> (long-lived event stream). Every request document contains one or more named or anonymous operations.
   </div>
 </div>
-
 <div class="sep">Query Anatomy</div>
-
 <div class="cb">
 <span class="cm"># Named query with variables and fragments</span>
 <span class="ck">query</span> <span class="cv">GetUserWithPosts</span>(<span class="cn">$userId</span>: <span class="cv">ID</span>!, <span class="cn">$first</span>: <span class="cv">Int</span> = <span class="cs">10</span>) {
@@ -323,7 +299,6 @@ url: /learning/backend/m05-graphql/
   <span class="cn">email</span>
 }
 </div>
-
 <div class="cb">
 <span class="cm">// Variables sent as a separate JSON object (NOT interpolated into the query string)</span>
 {
@@ -331,9 +306,7 @@ url: /learning/backend/m05-graphql/
   <span class="cs">"first"</span>: <span class="cv">5</span>
 }
 </div>
-
 <div class="sep">Inline Fragments for Unions / Interfaces</div>
-
 <div class="cb">
 <span class="ck">query</span> <span class="cv">Search</span>(<span class="cn">$q</span>: <span class="cv">String</span>!) {
   <span class="cn">search</span>(<span class="cn">query</span>: <span class="cn">$q</span>) {
@@ -350,16 +323,13 @@ url: /learning/backend/m05-graphql/
   }
 }
 </div>
-
 <div class="sep">Mutations</div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">⚡ Mutation Execution Semantics</div>
   <div class="cp-body">
     Unlike queries (which execute fields in parallel), <strong>mutation root fields execute serially</strong> — one after another, in document order. This prevents race conditions between writes. Field resolvers <em>within</em> the mutation response shape still run in parallel.
   </div>
 </div>
-
 <div class="cb">
 <span class="ck">mutation</span> <span class="cv">CreateAndPublish</span>(<span class="cn">$input</span>: <span class="cv">CreatePostInput</span>!) {
   <span class="cn">createPost</span>(<span class="cn">input</span>: <span class="cn">$input</span>) {
@@ -382,9 +352,7 @@ url: /learning/backend/m05-graphql/
   }
 }
 </div>
-
 <div class="sep">Error Handling</div>
-
 <div class="two-col">
 <div class="cp p-orange">
   <div class="cp-hdr">⚠️ Partial Success Pattern</div>
@@ -405,9 +373,7 @@ url: /learning/backend/m05-graphql/
   </div>
 </div>
 </div>
-
 <div class="sep">Directives in Queries</div>
-
 <div class="cb">
 <span class="ck">query</span> <span class="cv">ConditionalQuery</span>(<span class="cn">$withEmail</span>: <span class="cv">Boolean</span>!, <span class="cn">$skipTags</span>: <span class="cv">Boolean</span>!) {
   <span class="cn">user</span>(<span class="cn">id</span>: <span class="cs">"123"</span>) {
@@ -423,21 +389,16 @@ url: /learning/backend/m05-graphql/
   }
 }
 </div>
-
 </div><!-- /t-ops -->
-
 <!-- ═══════════════════════════════ SUBSCRIPTIONS ═══════════════════════════════ -->
 <div id="t-subs" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">📡 Subscriptions — Real-time Events</div>
   <div class="cp-body">
     Subscriptions are long-lived connections where the server pushes events to the client. The transport is typically <strong>WebSocket</strong> (graphql-ws protocol) or <strong>Server-Sent Events</strong>. The server maintains a pub/sub channel (Redis, in-memory) per subscription topic.
   </div>
 </div>
-
 <div class="sep">Subscription Operation</div>
-
 <div class="cb">
 <span class="cm"># Client sends this once over WebSocket</span>
 <span class="ck">subscription</span> <span class="cv">WatchPost</span>(<span class="cn">$postId</span>: <span class="cv">ID</span>!) {
@@ -452,9 +413,7 @@ url: /learning/backend/m05-graphql/
 <span class="cm">/* Server pushes one event per new comment: */</span>
 { <span class="cs">"data"</span>: { <span class="cs">"commentAdded"</span>: { <span class="cs">"id"</span>: <span class="cs">"c-42"</span>, <span class="cs">"body"</span>: <span class="cs">"Great post!"</span>, ... } } }
 </div>
-
 <div class="sep">graphql-ws Protocol Message Flow</div>
-
 <div class="diagram-box">
 <span class="dg-gray">Client                                  Server</span>
 <span class="dg-blue">  │── WS upgrade ──────────────────────▶│</span>
@@ -469,9 +428,7 @@ url: /learning/backend/m05-graphql/
 <span class="dg-indigo">  │◀─ { type: "next", id: "1", ... } ───│  ← event 2 …</span>
 <span class="dg-red">  │── { type: "complete", id: "1" } ────▶│  ← client unsubscribes</span>
 </div>
-
 <div class="sep">Server-Side Subscription Resolver Pattern</div>
-
 <div class="cb">
 <span class="cm">// Node.js / graphql-js pattern (pseudocode)</span>
 <span class="ck">const</span> <span class="cv">resolvers</span> = {
@@ -494,11 +451,8 @@ url: /learning/backend/m05-graphql/
   },
 };
 </div>
-
 <div class="warn">⚠️ <strong>Subscription scaling:</strong> In-memory pub/sub only works for single-server deployments. In production, use Redis Pub/Sub (or Kafka) so events propagate across all server instances. Each subscriber node receives the event and delivers it to its connected WebSocket clients.</div>
-
 <div class="sep">SSE as Lightweight Alternative</div>
-
 <div class="cb">
 <span class="cm">/* HTTP response headers for SSE */</span>
 Content-Type: text/event-stream
@@ -510,23 +464,17 @@ data: {"data":{"commentAdded":{"id":"c-42","body":"Hello!"}}}
 
 data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 </div>
-
 <div class="note">💡 <strong>SSE vs WebSocket:</strong> SSE is uni-directional (server → client) and works over standard HTTP/1.1 — simpler to set up and proxy. WebSocket is full-duplex but requires special proxy configuration. For GraphQL subscriptions (server-push only), SSE is often sufficient and easier to operate.</div>
-
 </div><!-- /t-subs -->
-
 <!-- ═══════════════════════════════ RESOLVER CHAIN ═══════════════════════════════ -->
 <div id="t-resolver" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔗 Resolver Execution Model</div>
   <div class="cp-body">
     Execution walks the query AST depth-first. Each field calls a <strong>resolver function</strong>: <code>(parent, args, context, info) → value | Promise</code>. If no explicit resolver is provided, a default resolver reads <code>parent[fieldName]</code>. Leaf scalars terminate the walk.
   </div>
 </div>
-
 <div class="sep">Resolver Function Signature</div>
-
 <div class="cb">
 <span class="cm">/**
  * @param parent   - resolved value of the parent object
@@ -539,19 +487,15 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   <span class="ck">return</span> <span class="cn">db</span>.<span class="cf">users</span>.<span class="cf">findById</span>(<span class="cn">id</span>);  <span class="cm">// returns Promise; runtime awaits it</span>
 }
 </div>
-
 <div class="sep">N+1 Problem</div>
-
 <div class="cp p-red">
   <div class="cp-hdr">🚨 N+1 — The Most Common GraphQL Performance Bug</div>
   <div class="cp-body">
     When a list query fetches N posts and each post's <code>author</code> resolver runs individually, you get <strong>1 query for posts + N queries for authors</strong> — even if many posts share the same author.
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-amber">Query: posts(first: 100) { edges { node { title author { username } } } }</span>
-
 <span class="dg-red">Without DataLoader:</span>
   SELECT * FROM posts LIMIT 100;           <span class="dg-gray">← 1 query</span>
   SELECT * FROM users WHERE id = 'u1';     <span class="dg-gray">← post 1</span>
@@ -559,15 +503,12 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   SELECT * FROM users WHERE id = 'u1';     <span class="dg-gray">← post 3 (duplicate!)</span>
   <span class="dg-gray">... 100 more individual selects</span>
   <span class="dg-red">Total: 101 queries</span>
-
 <span class="dg-green">With DataLoader:</span>
   SELECT * FROM posts LIMIT 100;                          <span class="dg-gray">← 1 query</span>
   SELECT * FROM users WHERE id IN ('u1','u2','u3',...);  <span class="dg-gray">← 1 batched query</span>
   <span class="dg-green">Total: 2 queries</span>
 </div>
-
 <div class="sep">DataLoader — Batch + Cache</div>
-
 <div class="cb">
 <span class="cm">// DataLoader batches all loads queued in the same event-loop tick</span>
 <span class="ck">import</span> <span class="cv">DataLoader</span> <span class="ck">from</span> <span class="cs">'dataloader'</span>;
@@ -598,39 +539,29 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   },
 };
 </div>
-
 <div class="note">💡 <strong>DataLoader contract:</strong> The batch function must return an array of the <em>same length</em> as the input keys, in the <em>same order</em>. DataLoader uses positional matching. Return an <code>Error</code> instance for missing keys — DataLoader will reject that specific <code>load()</code> promise.</div>
-
 <div class="sep">Resolver Execution Trace — Depth-First, Breadth-Parallel</div>
-
 <div class="diagram-box">
 <span class="dg-gray">Execution order for: query { user(id:"1") { username posts { title author { username } } } }</span>
-
 <span class="dg-blue">Level 0 (parallel): Query.user</span>
 <span class="dg-indigo">  Level 1 (parallel): User.username, User.posts</span>
 <span class="dg-purple">    Level 2 (parallel, per edge): Post.title, Post.author</span>
 <span class="dg-green">      Level 3 (parallel, per post): User.username  ← batched by DataLoader</span>
-
 <span class="dg-gray">Rules:</span>
   <span class="dg-amber">• Siblings at same level execute in parallel (Promise.all)</span>
   <span class="dg-amber">• Children wait for parent resolver to return</span>
   <span class="dg-amber">• Mutations: root fields are sequential; child fields are parallel</span>
 </div>
-
 </div><!-- /t-resolver -->
-
 <!-- ═══════════════════════════════ PAGINATION ═══════════════════════════════ -->
 <div id="t-pagination" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">📄 Pagination in GraphQL</div>
   <div class="cp-body">
     The <strong>Relay Connection Spec</strong> is the de-facto standard for GraphQL pagination. It wraps results in a <code>Connection → [Edge { node, cursor }] + PageInfo</code> envelope, enabling both forward and backward cursor pagination without page-numbering problems.
   </div>
 </div>
-
 <div class="sep">Offset vs Cursor vs Keyset</div>
-
 <table class="t-table">
   <thead><tr><th>Strategy</th><th>Query pattern</th><th>Pros</th><th>Cons</th></tr></thead>
   <tbody>
@@ -639,9 +570,7 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
     <tr><td><strong>Keyset</strong></td><td><code>posts(after_id:42, limit:10)</code></td><td>O(log N) with index; most scalable</td><td>Tied to sort column; no skip; non-standard</td></tr>
   </tbody>
 </table>
-
 <div class="sep">Relay Connection — Forward Pagination</div>
-
 <div class="cb">
 <span class="ck">query</span> <span class="cv">PaginatePosts</span>(<span class="cn">$after</span>: <span class="cv">String</span>, <span class="cn">$first</span>: <span class="cv">Int</span> = <span class="cs">10</span>) {
   <span class="cn">posts</span>(<span class="cn">first</span>: <span class="cn">$first</span>, <span class="cn">after</span>: <span class="cn">$after</span>) {
@@ -657,13 +586,10 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   }
 }
 </div>
-
 <div class="sep">Cursor Encoding Pattern</div>
-
 <div class="cb">
 <span class="cm">// Cursor = base64( "PostCursor:" + sortKey )</span>
 <span class="cm">// sortKey is typically the column used for ORDER BY</span>
-
 <span class="ck">function</span> <span class="cf">encodeCursor</span>(<span class="cn">sortValue</span>) {
   <span class="ck">return</span> <span class="cv">Buffer</span>.<span class="cf">from</span>(<span class="cs">`PostCursor:${sortValue}`</span>).<span class="cf">toString</span>(<span class="cs">'base64'</span>);
 }
@@ -695,9 +621,7 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   };
 }
 </div>
-
 <div class="sep">Filtering & Sorting Pattern</div>
-
 <div class="cb">
 <span class="cm"># SDL for flexible filtering</span>
 <span class="ck">input</span> <span class="cv">PostFilter</span> {
@@ -724,23 +648,17 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   ): <span class="cv">PostConnection</span>!
 }
 </div>
-
 <div class="analogy">🧠 <strong>Mental model:</strong> Think of a cursor as a bookmark in a sorted list — it points to the last item you read. Next time you open the book, you pick up exactly where you left off, regardless of what was added or removed elsewhere in the list.</div>
-
 </div><!-- /t-pagination -->
-
 <!-- ═══════════════════════════════ FEDERATION & CONTRACTS ═══════════════════════════════ -->
 <div id="t-advanced" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🏛️ Schema Federation</div>
   <div class="cp-body">
     <strong>Apollo Federation</strong> lets you split a GraphQL schema across multiple independent services (<em>subgraphs</em>). A <em>gateway</em> composes them into a unified <em>supergraph</em>. Each subgraph owns its types and can extend types owned by other subgraphs via <code>@key</code> + <code>@external</code> directives.
   </div>
 </div>
-
 <div class="sep">Federation Architecture</div>
-
 <div class="diagram-box">
 <span class="dg-gray">Client</span>
 <span class="dg-blue">  │── POST /graphql ──────────────▶ Gateway (Router)</span>
@@ -756,7 +674,6 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
 <span class="dg-amber">             }                     }                   }</span>
 <span class="dg-gray">             ↑ owns User            ↑ references User    ↑ references User</span>
 </div>
-
 <div class="cb">
 <span class="cm"># Post subgraph — references User from User subgraph</span>
 <span class="ck">extend type</span> <span class="cv">User</span> <span class="ck">@key</span>(<span class="cn">fields</span>: <span class="cs">"id"</span>) {
@@ -769,19 +686,15 @@ data: {"data":{"commentAdded":{"id":"c-43","body":"Nice!"}}}
   <span class="cn">author</span>: <span class="cv">User</span>!         <span class="cm"># gateway will resolve via User subgraph</span>
 }
 </div>
-
 <div class="sep">Persisted Queries</div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">🔒 Persisted Queries — Security + Performance</div>
   <div class="cp-body">
     Instead of sending the full query string on every request, the client registers queries at build time and sends only a <strong>hash/ID</strong> at runtime. Benefits: (1) smaller payloads, (2) server can whitelist approved queries, (3) prevents arbitrary query injection.
   </div>
 </div>
-
 <div class="cb">
 <span class="cm">/* Automatic Persisted Query (APQ) protocol */</span>
-
 <span class="cm">/* Step 1 — Send hash only */</span>
 POST /graphql
 { <span class="cs">"extensions"</span>: { <span class="cs">"persistedQuery"</span>: { <span class="cs">"version"</span>: <span class="cs">1</span>, <span class="cs">"sha256Hash"</span>: <span class="cs">"abc123..."</span> } } }
@@ -798,9 +711,7 @@ POST /graphql
 
 <span class="cm">/* Server caches query; subsequent requests use hash only */</span>
 </div>
-
 <div class="sep">Introspection</div>
-
 <div class="cb">
 <span class="cm"># Introspection query — clients use this for schema discovery</span>
 { __schema { types { name kind fields { name type { name kind } } } } }
@@ -808,9 +719,7 @@ POST /graphql
 <span class="cm"># Disable in production to prevent schema enumeration by attackers</span>
 <span class="cm"># Apollo Server: introspection: process.env.NODE_ENV !== 'production'</span>
 </div>
-
 <div class="sep">Schema Evolution Rules</div>
-
 <table class="t-table">
   <thead><tr><th>Change</th><th>Safe?</th><th>Reason</th></tr></thead>
   <tbody>
@@ -824,11 +733,8 @@ POST /graphql
     <tr><td>Rename type</td><td>❌ Breaking</td><td>Fragment spreads use type names</td></tr>
   </tbody>
 </table>
-
 <div class="note">💡 <strong>Deprecation workflow:</strong> mark fields with <code>@deprecated(reason: "Use newField instead")</code> — introspection tools surface it to developers. Keep deprecated fields for at least one release cycle before removal.</div>
-
 <div class="sep">Query Complexity & Depth Limiting</div>
-
 <div class="cb">
 <span class="cm">// Prevent deeply-nested or expensive queries from DoS-ing your server</span>
 <span class="ck">import</span> { <span class="cv">createComplexityRule</span> } <span class="ck">from</span> <span class="cs">'graphql-query-complexity'</span>;
@@ -846,28 +752,22 @@ POST /graphql
   <span class="cn">depthLimit</span>: <span class="cs">7</span>,   <span class="cm">// reject queries deeper than 7 levels</span>
 });
 </div>
-
 </div><!-- /t-advanced -->
-
 <!-- ═══════════════════════════════ C IMPLEMENTATION ═══════════════════════════════ -->
 <!-- Reusing tab slot for C implementation, accessed via Labs tab -->
-
 <!-- ═══════════════════════════════ LABS & CHECKLIST ═══════════════════════════════ -->
 <div id="t-labs" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔧 GraphQL Parser Sketch in C</div>
   <div class="cp-body">
     Real-world GraphQL servers are implemented in JS/Go/Rust/Python. However, understanding how the <strong>lexer and parser</strong> work is essential for deep mastery. Below is a minimal hand-rolled lexer for GraphQL query strings.
   </div>
 </div>
-
 <div class="cb">
 <span class="cm">/* gql_lexer.h — minimal GraphQL lexer in C */</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;ctype.h&gt;</span>
-
 <span class="ck">typedef enum</span> {
   <span class="co">TOK_NAME</span>, <span class="co">TOK_INT</span>, <span class="co">TOK_FLOAT</span>, <span class="co">TOK_STRING</span>,
   <span class="co">TOK_LBRACE</span>, <span class="co">TOK_RBRACE</span>, <span class="co">TOK_LPAREN</span>, <span class="co">TOK_RPAREN</span>,
@@ -932,9 +832,7 @@ POST /graphql
   <span class="ck">return</span> <span class="cs">0</span>;
 }
 </div>
-
 <div class="sep">Labs</div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 1 — Schema-First Blog API</div>
   <div class="lab-body">
@@ -947,7 +845,6 @@ POST /graphql
     <div class="lab-step"><span class="sn">6</span> Test with GraphiQL or Apollo Sandbox: query, mutation, and subscription</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Federation Across Two Services</div>
   <div class="lab-body">
@@ -960,7 +857,6 @@ POST /graphql
     <div class="lab-step"><span class="sn">6</span> Add <code>@deprecated</code> to a field in the Post schema and verify it surfaces in introspection</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — GraphQL Lexer in C</div>
   <div class="lab-body">
@@ -973,9 +869,7 @@ POST /graphql
     <div class="lab-step"><span class="sn">6</span> Validate that every field in the selection set exists in a hard-coded schema map (key = "TypeName.fieldName")</div>
   </div>
 </div>
-
 <div class="sep">Mastery Checklist</div>
-
 <ul class="cl">
   <li>Define object types, interfaces, unions, enums, input types, and custom scalars in SDL</li>
   <li>Explain non-null semantics and null propagation with an example</li>
@@ -993,16 +887,13 @@ POST /graphql
   <li>Distinguish GraphQL error handling (partial success) from HTTP status code semantics</li>
   <li>Describe the GraphQL execution pipeline: parse → validate → execute → coerce</li>
 </ul>
-
 <div class="mod-nav">
   <a href="/learning/backend/m04-grpc/" class="nb">← M04 gRPC</a>
   <a href="/learning/backend/" class="nb">↑ Roadmap</a>
   <a href="/learning/backend/m06-sql-indexing/" class="nb">M06 SQL Indexing →</a>
 </div>
-
 </div><!-- /t-labs -->
 </div><!-- /mod-wrap -->
-
 <script>
 function vt(id,btn){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));

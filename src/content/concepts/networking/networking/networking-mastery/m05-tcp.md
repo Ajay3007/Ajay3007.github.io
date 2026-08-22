@@ -199,7 +199,6 @@ url: /learning/networking-mastery/m05-tcp/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 2 · MODULE 05 · WEEKS 4–5</div>
@@ -213,7 +212,6 @@ url: /learning/networking-mastery/m05-tcp/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">What is TCP?</button>
@@ -229,12 +227,9 @@ url: /learning/networking-mastery/m05-tcp/
   <button class="tab-btn" onclick="vt(event,'ta')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'tb')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — WHAT IS TCP ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">TCP — RELIABLE, ORDERED, BIDIRECTIONAL BYTE STREAMS</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📡</span><h3>What TCP Guarantees — and What It Doesn't</h3><span class="tag tag-teal">OVERVIEW</span></div>
   <div class="cp-body">
@@ -256,12 +251,10 @@ url: /learning/networking-mastery/m05-tcp/
     </ul>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">📞 Analogy — A Phone Call vs Postcards</div>
   <p>UDP is like sending postcards — you write one, drop it in the postbox, and hope it arrives. No confirmation, no order guarantee, no retry. TCP is like a phone call: first you establish the call (3-way handshake), then both parties speak in turn and confirm they heard each other ("uh-huh, go on"), and if one side goes silent the other says "hello? are you still there?" (keepalive). When the call ends, both sides say goodbye properly (4-way teardown). This setup and teardown overhead is why TCP is slower for small one-shot queries — but the reliability is worth it for file transfers, web pages, and anything where missing data is unacceptable.</p>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚖️</span><h3>TCP vs UDP — When to Use Which</h3><span class="tag tag-blue">COMPARISON</span></div>
   <div class="cp-body">
@@ -282,12 +275,9 @@ url: /learning/networking-mastery/m05-tcp/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — TCP HEADER ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">TCP HEADER — 20 BYTES MINIMUM, UP TO 60 BYTES WITH OPTIONS</p>
-
 <div class="hdr-diagram">
   <div class="hdr-row">
     <div class="hdr-label">Row 1</div>
@@ -319,23 +309,17 @@ url: /learning/networking-mastery/m05-tcp/
     <div class="hf hf-op" style="flex:4">Options (if Data Offset &gt; 5) + Padding<div class="hf-bytes">0–40 bytes — MSS, SACK, Timestamps, Window Scale</div></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Every Field Explained</h3><span class="tag tag-blue">FIELD REFERENCE</span></div>
   <div class="cp-body">
-
     <h4>Source Port and Destination Port (16 bits each)</h4>
     <p>Port numbers identify the application on each end. Combined with IP addresses, they form the <strong>5-tuple</strong> that uniquely identifies a TCP connection: (src_ip, src_port, dst_ip, dst_port, protocol=TCP). Well-known ports: 80=HTTP, 443=HTTPS, 22=SSH, 25=SMTP, 53=DNS-TCP, 3306=MySQL. The client uses an <strong>ephemeral port</strong> (typically 49152–65535) assigned randomly by the OS.</p>
-
     <h4>Sequence Number (32 bits)</h4>
     <p>Identifies the position of the first byte of data in this segment within the entire byte stream. The sequence number space is 0 to 2³²−1 (wraps around). The Initial Sequence Number (ISN) is chosen randomly at connection setup — not starting at 0 — to prevent stale segments from old connections being confused with new ones. In a SYN segment, the sequence number is the ISN itself (no data yet).</p>
-
     <h4>Acknowledgement Number (32 bits)</h4>
     <p>The sequence number of the <strong>next byte the receiver expects</strong> from the sender. This acknowledges all bytes up to (but not including) this number. For example, if the receiver has successfully received bytes 0–999, it sends ACK=1000 meaning "I have everything up to 999, send me 1000 next". ACK is only valid when the ACK flag is set.</p>
-
     <h4>Data Offset (4 bits)</h4>
     <p>TCP header length in 32-bit words — same concept as IPv4's IHL. Minimum 5 (20 bytes). Maximum 15 (60 bytes). Tells the receiver where the payload data starts: data_offset_bytes = data_offset × 4.</p>
-
     <h4>TCP Flags (9 bits) — The Most Important Field for NGFW</h4>
     <div class="flag-row">
       <div class="flag-bit fb-cwr"><div class="flag-bit-name">CWR</div><div class="flag-bit-desc">Congestion Window Reduced — ECN response</div></div>
@@ -348,13 +332,10 @@ url: /learning/networking-mastery/m05-tcp/
       <div class="flag-bit fb-fin"><div class="flag-bit-name">FIN</div><div class="flag-bit-desc">Finish — orderly connection close</div></div>
     </div>
     <p>Flag combinations reveal connection phase: <strong>SYN only</strong> = new connection attempt; <strong>SYN+ACK</strong> = server accepting; <strong>ACK only</strong> = data transfer; <strong>FIN+ACK</strong> = graceful close; <strong>RST</strong> = abort. Your NGFW inspects these flags to track connection state in its connection table.</p>
-
     <h4>Window Size (16 bits)</h4>
     <p>Advertises how many bytes the receiver can accept in its buffer right now. This is the foundation of TCP flow control — the sender must not send more unacknowledged data than the receiver's window allows. Scaled by the Window Scale option (up to ×65535) for high-bandwidth links. We cover this in the Flow Control tab.</p>
-
     <h4>Checksum (16 bits)</h4>
     <p>Computed over a "pseudo-header" (IP src, IP dst, Protocol=6, TCP length) plus the entire TCP header and payload. Detects corruption. The pseudo-header inclusion means the checksum also validates that the segment reached the correct destination IP — no mis-delivery.</p>
-
     <h4>Key TCP Options</h4>
     <table class="t-table">
       <thead><tr><th>Option</th><th>Kind</th><th>Purpose</th><th>NGFW Impact</th></tr></thead>
@@ -370,12 +351,9 @@ url: /learning/networking-mastery/m05-tcp/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — 3-WAY HANDSHAKE ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">THE THREE-WAY HANDSHAKE — CONNECTION ESTABLISHMENT</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Why Three Steps?</h3><span class="tag tag-teal">CONCEPT</span></div>
   <div class="cp-body">
@@ -383,7 +361,6 @@ url: /learning/networking-mastery/m05-tcp/
     <p>Two steps (SYN → SYN+ACK) would let the server know the client's ISN, but the client wouldn't know the server acknowledged its SYN. Three steps (SYN → SYN+ACK → ACK) confirms both sides have exchanged and acknowledged ISNs, establishing a reliable bidirectional channel.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>The Handshake Step by Step</h3><span class="tag tag-blue">SEQUENCE DIAGRAM</span></div>
   <div class="cp-body">
@@ -391,7 +368,6 @@ url: /learning/networking-mastery/m05-tcp/
       <div class="seq-actor" style="background:#e8f1f9;color:#1a3a5c">Client</div>
       <div class="seq-spacer"></div>
       <div class="seq-actor" style="background:#e0f0ee;color:#0a3a30">Server</div>
-
       <!-- Step 1: SYN -->
       <div style="display:flex;flex-direction:column;align-items:flex-end;padding-top:8px">
         <div class="seq-box" style="background:#e8f1f9;border:1.5px solid #b0ccec;color:#1a3a5c">SYN<br><span style="font-size:.65rem;font-weight:400">seq=x ISN</span></div>
@@ -404,7 +380,6 @@ url: /learning/networking-mastery/m05-tcp/
       <div style="padding-top:8px">
         <div style="font-size:.72rem;color:var(--light-text,#666)">SYN received</div>
       </div>
-
       <!-- Step 2: SYN+ACK -->
       <div style="padding-top:10px">
         <div style="font-size:.72rem;color:var(--light-text,#666)">SYN+ACK received</div>
@@ -417,7 +392,6 @@ url: /learning/networking-mastery/m05-tcp/
       <div style="display:flex;flex-direction:column;align-items:flex-start;padding-top:10px">
         <div class="seq-box" style="background:#e0f0ee;border:1.5px solid #90c8b8;color:#0a3a30">SYN+ACK<br><span style="font-size:.65rem;font-weight:400">seq=y ack=x+1</span></div>
       </div>
-
       <!-- Step 3: ACK -->
       <div style="display:flex;flex-direction:column;align-items:flex-end;padding-top:10px">
         <div class="seq-box" style="background:#e2f0e8;border:1.5px solid #a0d0a0;color:#1a4a1a">ACK<br><span style="font-size:.65rem;font-weight:400">seq=x+1 ack=y+1</span></div>
@@ -430,7 +404,6 @@ url: /learning/networking-mastery/m05-tcp/
       <div style="padding-top:10px">
         <div style="font-size:.72rem;color:var(--light-text,#666)">ACK received</div>
       </div>
-
       <!-- ESTABLISHED -->
       <div style="padding-top:10px;text-align:right">
         <div style="font-size:.72rem;font-family:monospace;font-weight:700;color:#1a5a1a">ESTABLISHED ✓</div>
@@ -440,7 +413,6 @@ url: /learning/networking-mastery/m05-tcp/
         <div style="font-size:.72rem;font-family:monospace;font-weight:700;color:#1a5a1a">ESTABLISHED ✓</div>
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm">/* Step 1 — Client sends SYN */</span>
 Flags:  SYN
 Seq:    x        <span class="cm"># randomly chosen ISN — e.g. 1,000,000</span>
@@ -459,11 +431,9 @@ Seq:    x+1      <span class="cm"># client's next byte</span>
 Ack:    y+1      <span class="cm"># "I received your SYN, send me y+1 next"</span>
 <span class="cm"># Connection is now ESTABLISHED on both sides</span>
 <span class="cm"># Client may include data in this segment (TCP Fast Open)</span></pre></div>
-
     <div class="ins"><p>💡 <strong>Why random ISN?</strong> If ISN always started at 0, an attacker could inject forged segments into an existing connection — they just need to guess the current sequence number, which is trivial if it started from 0. Random ISN makes it computationally infeasible to forge in-window segments.</p></div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>SYN Flood Attack and SYN Cookies</h3><span class="tag tag-red">SECURITY</span></div>
   <div class="cp-body">
@@ -472,7 +442,6 @@ Ack:    y+1      <span class="cm"># "I received your SYN, send me y+1 next"</spa
 <div class="cb"><pre><span class="cm"># Check if SYN cookies are enabled on Linux</span>
 cat /proc/sys/net/ipv4/tcp_syncookies
 <span class="cm"># 0 = disabled, 1 = enabled when backlog full, 2 = always enabled</span>
- 
 <span class="cm"># Enable permanently</span>
 echo 1 > /proc/sys/net/ipv4/tcp_syncookies
  
@@ -483,12 +452,9 @@ echo 1 > /proc/sys/net/ipv4/tcp_syncookies
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — STATE MACHINE ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">TCP STATE MACHINE — 11 STATES, EVERY TRANSITION</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>TCP States — What Each Means</h3><span class="tag tag-purple">STATE MACHINE</span></div>
   <div class="cp-body">
@@ -541,7 +507,6 @@ echo 1 > /proc/sys/net/ipv4/tcp_syncookies
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>State Transitions — Full Diagram in Text</h3><span class="tag tag-blue">TRANSITIONS</span></div>
   <div class="cp-body">
@@ -579,11 +544,9 @@ ss -tn          <span class="cm"># show TCP connections with states</span>
 ss -tn state established
 ss -tn state time-wait | wc -l   <span class="cm"># count TIME_WAIT connections</span>
 netstat -an | grep TCP</pre></div>
-
     <div class="warn"><p>⚠️ <strong>TIME_WAIT accumulation</strong> is a common production problem. Each connection in TIME_WAIT holds a socket for 2×MSL (typically 60–120 seconds on Linux). A high-traffic server closing 10,000 connections/second will have 600,000–1,200,000 TIME_WAIT sockets. This exhausts the ephemeral port range and can prevent new connections. Solutions: <code>SO_REUSEADDR</code>, <code>tcp_tw_reuse</code> (Linux sysctl), or reduce MSL. Your NGFW must not confuse TIME_WAIT connections with malicious activity.</p></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔥</span><h3>NGFW State Tracking — What to Watch For</h3><span class="tag tag-orange">NGFW</span></div>
   <div class="cp-body">
@@ -604,12 +567,9 @@ netstat -an | grep TCP</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — SEQUENCE NUMBERS ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">SEQUENCE NUMBERS — ORDERING, RELIABILITY, AND BYTE TRACKING</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>How Sequence Numbers Work</h3><span class="tag tag-teal">CORE CONCEPT</span></div>
   <div class="cp-body">
@@ -625,21 +585,17 @@ Segment 3: seq=1011  data="d"     (1 byte)    → covers bytes 1011-1011
 After Segment 1: ACK=1006  <span class="cm"># "I have 1001-1005, send me 1006 next"</span>
 After Segment 2: ACK=1011  <span class="cm"># "I have 1001-1010, send me 1011 next"</span>
 After Segment 3: ACK=1012  <span class="cm"># "I have 1001-1011, send me 1012 next"</span>
- 
 <span class="cm">/* What if Segment 2 is lost? */</span>
 Receiver gets Segment 1:  ACK=1006  (normal)
 Receiver gets Segment 3:  ACK=1006  (still 1006 — can't advance past gap!)
                           → This is a duplicate ACK — signals a gap</span>
- 
 <span class="cm">/* Sequence number arithmetic — always modular (wraps at 2^32) */</span>
 <span class="cm">/* Use int32_t arithmetic for correct comparison */</span>
 int32_t diff = (int32_t)(seq_a - seq_b);
 if (diff > 0) ...  <span class="cm"># seq_a is ahead of seq_b</span></pre></div>
-
     <div class="ins"><p>💡 <strong>SYN and FIN each consume one sequence number</strong> even though they carry no data. This is why the ACK after a SYN is ISN+1 (not ISN+0). It means both sides can unambiguously detect whether the connection control messages (SYN/FIN) were delivered.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📬</span><h3>Cumulative vs Selective Acknowledgement</h3><span class="tag tag-blue">ACK MODES</span></div>
   <div class="cp-body">
@@ -668,12 +624,9 @@ Up to 4 SACK blocks per segment (each block = 2×32-bit seq numbers = 8 bytes)</
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — FLOW CONTROL ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">FLOW CONTROL — SLIDING WINDOW</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🪟</span><h3>The Sliding Window Mechanism</h3><span class="tag tag-teal">CONCEPT</span></div>
   <div class="cp-body">
@@ -681,7 +634,6 @@ Up to 4 SACK blocks per segment (each block = 2×32-bit seq numbers = 8 bytes)</
     <p>The window "slides" forward as data is acknowledged — the sender's send window moves right as ACKs arrive, allowing more data to be sent.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Sender's View of the Sequence Number Space</h3><span class="tag tag-blue">SEND BUFFER</span></div>
   <div class="cp-body">
@@ -698,7 +650,6 @@ Up to 4 SACK blocks per segment (each block = 2×32-bit seq numbers = 8 bytes)</
         ← SND.UNA (last unACKed) → ← SND.NXT (next to send) → ← SND.UNA + win (window edge) →
       </div>
     </div>
-
     <div class="window-vis">
       <div class="wv-row">
         <div class="wv-label">Receiver</div>
@@ -711,7 +662,6 @@ Up to 4 SACK blocks per segment (each block = 2×32-bit seq numbers = 8 bytes)</
         ← RCV.NXT (next expected) → ← RCV.WND (advertised window size) →
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm">/* Flow control in action */</span>
 Receiver has 64KB buffer, app reads slowly:
   Initial window advertised: 65535 bytes
@@ -727,7 +677,6 @@ Sender sends 12KB → buffer nearly full:
  
 App reads 40KB from buffer:
   Receiver advertises: Window = 40767 bytes   <span class="cm"># window re-opens</span>
- 
 <span class="cm">/* Zero window — sender must stop */</span>
 Buffer completely full:
   Receiver advertises: Window = 0   <span class="cm"># sender MUST stop sending data</span>
@@ -736,7 +685,6 @@ Buffer completely full:
   When receiver's app reads data → receiver sends Window Update ACK</pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Window Scale Option — High-Bandwidth Networks</h3><span class="tag tag-green">OPTIMIZATION</span></div>
   <div class="cp-body">
@@ -747,7 +695,6 @@ Effective max window = 65535 × 128 = 8,388,480 bytes (8 MB)
  
 <span class="cm">/* Both sides must negotiate it in SYN / SYN+ACK */</span>
 <span class="cm">/* If one side doesn't include Window Scale in SYN, neither side uses scaling */</span>
- 
 <span class="cm">/* Check on Linux */</span>
 ss -tni | grep rcv_space   <span class="cm"># shows receiver socket buffer size</span>
 sysctl net.ipv4.tcp_rmem   <span class="cm"># min/default/max receive buffer: "4096 131072 6291456"</span>
@@ -755,12 +702,9 @@ sysctl net.ipv4.tcp_wmem   <span class="cm"># min/default/max send buffer</span>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — CONGESTION CONTROL ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">CONGESTION CONTROL — PROTECTING THE NETWORK</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>The Congestion Collapse Problem</h3><span class="tag tag-orange">MOTIVATION</span></div>
   <div class="cp-body">
@@ -768,7 +712,6 @@ sysctl net.ipv4.tcp_wmem   <span class="cm"># min/default/max send buffer</span>
     <p>TCP's congestion control maintains a <strong>Congestion Window (cwnd)</strong> — a sender-side limit on unacknowledged data in addition to the receiver's window. The effective window is: <code>min(cwnd, receiver_window)</code>.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Four Phases of TCP Congestion Control</h3><span class="tag tag-blue">ALGORITHM</span></div>
   <div class="cp-body">
@@ -790,43 +733,34 @@ sysctl net.ipv4.tcp_wmem   <span class="cm"># min/default/max send buffer</span>
         <div class="cong-phase-desc">After fast retransmit: ssthresh = cwnd/2, cwnd = ssthresh + 3. Then enters Congestion Avoidance (not Slow Start).</div>
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm">/* NewReno algorithm (most common baseline) */</span>
 <span class="cm">/* State variables */</span>
 cwnd = 10 * MSS    <span class="cm"># congestion window (starts at 10 MSS per RFC 6928)</span>
 ssthresh = 65535   <span class="cm"># slow start threshold (initial: large value)</span>
- 
 <span class="cm">/* Slow Start phase */</span>
 on each ACK: cwnd += MSS          <span class="cm"># doubles every RTT (exponential)</span>
 when cwnd >= ssthresh: → Congestion Avoidance
  
 <span class="cm">/* Congestion Avoidance phase */</span>
 on each ACK: cwnd += MSS² / cwnd  <span class="cm"># +1 MSS per RTT (linear)</span>
- 
 <span class="cm">/* Packet loss detected by TIMEOUT */</span>
 ssthresh = max(cwnd / 2, 2*MSS)
 cwnd = 1 MSS        <span class="cm"># drastic reduction — restart Slow Start</span>
- 
 <span class="cm">/* Packet loss detected by 3 DUPLICATE ACKs (mild congestion) */</span>
 ssthresh = max(cwnd / 2, 2*MSS)
 cwnd = ssthresh + 3*MSS   <span class="cm"># smaller reduction — Fast Recovery</span>
 <span class="cm"># retransmit the missing segment immediately</span>
 <span class="cm"># then enter Congestion Avoidance (skip Slow Start)</span>
- 
 <span class="cm">/* Check congestion control algorithm in use */</span>
 sysctl net.ipv4.tcp_congestion_control   <span class="cm"># typical: "cubic" or "bbr"</span>
 ss -tni dst :80 | grep cwnd              <span class="cm"># see live cwnd for connections</span></pre></div>
-
     <div class="ins"><p>💡 <strong>Modern algorithms — CUBIC and BBR:</strong> NewReno is the baseline. Linux defaults to <strong>CUBIC</strong> (RFC 8312), which uses a cubic function for window growth — faster recovery after loss on high-BDP links. Google's <strong>BBR</strong> (Bottleneck Bandwidth and RTT) is newer and model-based rather than loss-based — it probes the actual bandwidth and RTT instead of reacting to drops. BBR dramatically improves performance on lossy networks (mobile, satellite). Understanding NewReno gives you the conceptual foundation; CUBIC and BBR are optimisations on the same principles.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — TIMERS AND SACK ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">TCP TIMERS — RETRANSMISSION, KEEPALIVE, TIME-WAIT</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>The Four TCP Timers</h3><span class="tag tag-amber">TIMERS</span></div>
   <div class="cp-body">
@@ -859,27 +793,21 @@ ss -tni dst :80 | grep cwnd              <span class="cm"># see live cwnd for co
         </tr>
       </tbody>
     </table>
-
     <h4>RTO Calculation — Karn's Algorithm</h4>
 <div class="cb"><pre><span class="cm">/* RTT measurement and RTO calculation (RFC 6298) */</span>
- 
 <span class="cm">/* Measure RTT for each ACKed segment (not retransmitted ones — Karn's rule) */</span>
 SRTT = 0.875 * SRTT + 0.125 * RTT_sample    <span class="cm"># smoothed RTT (EWMA)</span>
 RTTVAR = 0.75 * RTTVAR + 0.25 * |SRTT - RTT_sample|  <span class="cm"># RTT variance</span>
 RTO = SRTT + 4 * RTTVAR                      <span class="cm"># RTO with safety margin</span>
 RTO = max(1 second, RTO)                     <span class="cm"># floor: 1 second</span>
- 
 <span class="cm">/* On RTO timeout: double the RTO (exponential backoff) */</span>
 RTO = RTO * 2   <span class="cm"># until max (typically 120 seconds)</span>
- 
 <span class="cm">/* After successful retransmission: restart RTT measurement from scratch */</span>
 <span class="cm"># (Can't tell if ACK is for original or retransmitted — Karn's algorithm)</span>
- 
 <span class="cm">/* Check on Linux */</span>
 ss -tni | grep rtt   <span class="cm"># shows rtt:X/Y for established connections</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Key TCP Tuning Parameters (Linux)</h3><span class="tag tag-green">TUNING</span></div>
   <div class="cp-body">
@@ -890,22 +818,18 @@ sysctl -a | grep tcp
 sysctl net.ipv4.tcp_rmem    <span class="cm"># receive: "4096 87380 6291456" (min/default/max)</span>
 sysctl net.ipv4.tcp_wmem    <span class="cm"># send:    "4096 16384 4194304"</span>
 sysctl net.core.rmem_max    <span class="cm"># max receive socket buffer (override tcp_rmem max)</span>
- 
 <span class="cm"># Connection setup</span>
 sysctl net.ipv4.tcp_syn_retries      <span class="cm"># SYN retransmit attempts (default 6)</span>
 sysctl net.ipv4.tcp_synack_retries   <span class="cm"># SYN+ACK retransmit attempts (default 5)</span>
 sysctl net.ipv4.tcp_syncookies       <span class="cm"># SYN flood protection</span>
 sysctl net.ipv4.tcp_max_syn_backlog  <span class="cm"># max half-open connections per socket</span>
- 
 <span class="cm"># TIME_WAIT</span>
 sysctl net.ipv4.tcp_tw_reuse    <span class="cm"># reuse TIME_WAIT sockets for new connections</span>
 sysctl net.ipv4.tcp_fin_timeout <span class="cm"># FIN_WAIT_2 timeout (default 60s)</span>
- 
 <span class="cm"># Keepalive</span>
 sysctl net.ipv4.tcp_keepalive_time     <span class="cm"># idle time before probes (default 7200s)</span>
 sysctl net.ipv4.tcp_keepalive_intvl   <span class="cm"># interval between probes (default 75s)</span>
 sysctl net.ipv4.tcp_keepalive_probes  <span class="cm"># probe count before giving up (default 9)</span>
- 
 <span class="cm"># Congestion control</span>
 sysctl net.ipv4.tcp_congestion_control  <span class="cm"># algorithm: cubic, bbr, reno</span>
 sysctl net.ipv4.tcp_sack                <span class="cm"># SACK enabled (default 1)</span>
@@ -913,22 +837,17 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 — CONNECTION TEARDOWN ════════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">TCP CONNECTION TEARDOWN — GRACEFUL AND ABORTIVE CLOSE</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">👋</span><h3>Four-Way Graceful Close</h3><span class="tag tag-blue">TEARDOWN</span></div>
   <div class="cp-body">
     <p>TCP is full-duplex — each direction must be closed independently. The graceful close uses four messages (or three if the remote side closes simultaneously):</p>
-
     <div class="seq-diagram">
       <div class="seq-actor" style="background:#e8f1f9;color:#1a3a5c">Client (active close)</div>
       <div class="seq-spacer"></div>
       <div class="seq-actor" style="background:#e0f0ee;color:#0a3a30">Server (passive close)</div>
-
       <div style="display:flex;flex-direction:column;align-items:flex-end;padding-top:10px">
         <div class="seq-box" style="background:#e0f0ee;border:1.5px solid #90c8b8;color:#0a3a30">FIN+ACK<br><span style="font-size:.65rem;font-weight:400">seq=m</span></div>
         <div style="font-size:.68rem;color:var(--light-text,#666);margin-top:2px">→ FIN_WAIT_1</div>
@@ -941,7 +860,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
       <div style="padding-top:10px">
         <div style="font-size:.72rem;color:var(--light-text,#666)">receive FIN → CLOSE_WAIT</div>
       </div>
-
       <div style="padding-top:10px">
         <div style="font-size:.72rem;color:var(--light-text,#666)">ACK received → FIN_WAIT_2</div>
       </div>
@@ -953,11 +871,9 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
       <div style="display:flex;flex-direction:column;align-items:flex-start;padding-top:10px">
         <div class="seq-box" style="background:#e8f1f9;border:1.5px solid #b0ccec;color:#1a3a5c">ACK<br><span style="font-size:.65rem;font-weight:400">ack=m+1</span></div>
       </div>
-
       <div style="padding-top:10px;text-align:right;font-size:.72rem;color:var(--light-text,#666)">wait for server FIN...</div>
       <div></div>
       <div style="padding-top:10px;font-size:.72rem;color:var(--light-text,#666)">app closes → send FIN → LAST_ACK</div>
-
       <div style="padding-top:8px">
         <div style="font-size:.72rem;color:var(--light-text,#666)">receive FIN → TIME_WAIT (2×MSL)</div>
       </div>
@@ -969,7 +885,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
       <div style="display:flex;flex-direction:column;align-items:flex-start;padding-top:8px">
         <div class="seq-box" style="background:#ede8f5;border:1.5px solid #c0a8e8;color:#3a1a6c">FIN+ACK<br><span style="font-size:.65rem;font-weight:400">seq=n</span></div>
       </div>
-
       <div style="display:flex;flex-direction:column;align-items:flex-end;padding-top:8px">
         <div class="seq-box" style="background:#e2f0e8;border:1.5px solid #a0d0a0;color:#1a4a1a">ACK<br><span style="font-size:.65rem;font-weight:400">ack=n+1</span></div>
       </div>
@@ -982,11 +897,9 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
         <div style="font-size:.72rem;color:var(--light-text,#666)">ACK received → CLOSED</div>
       </div>
     </div>
-
     <div class="note"><p>💡 <strong>Half-close:</strong> After sending FIN, the local side can no longer send data but <em>can still receive</em> data. The server may continue sending data (e.g., flushing a file) after acknowledging the client's FIN. This "half-closed" state (FIN_WAIT_2 on client, CLOSE_WAIT on server) persists until the server also sends its FIN.</p></div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>RST — Abortive Close</h3><span class="tag tag-red">RESET</span></div>
   <div class="cp-body">
@@ -1000,22 +913,17 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
 <span class="cm">/* Attacker crafts RST segment with sequence number in receiver's window */</span>
 <span class="cm">/* Target receives RST → connection terminated immediately */</span>
 <span class="cm">/* Historically used to disrupt BGP sessions (e.g., the 2004 RFC 4953 attack) */</span>
- 
 <span class="cm">/* Protection: check sequence number is in [RCV.NXT, RCV.NXT + RCV.WND) */</span>
 <span class="cm">/* RFC 5961 "Improving TCP's Robustness to Blind In-Window Attacks" */</span>
- 
 <span class="cm">/* NGFW RST injection for connection termination */</span>
 <span class="cm">/* Some NGFWs send RST to both sides to terminate blacklisted connections */</span>
 <span class="cm">/* Must spoof the correct source IP and use a valid in-window sequence number */</span></pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 9 — NGFW AND TCP ════════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">TCP IN AN NGFW — STATEFUL INSPECTION DEEP DIVE</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>How a Stateful Firewall Tracks TCP</h3><span class="tag tag-teal">STATEFUL INSPECTION</span></div>
   <div class="cp-body">
@@ -1026,7 +934,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     ip4_address_t   src_ip, dst_ip;
     uint16_t        src_port, dst_port;
     uint8_t         proto;              <span class="cm">/* 6 = TCP */</span>
- 
     <span class="cm">/* TCP state tracking */</span>
     tcp_state_t     state;              <span class="cm">/* SYN_SENT, ESTABLISHED, etc. */</span>
     uint32_t        client_isn;         <span class="cm">/* client's initial sequence number */</span>
@@ -1035,7 +942,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     uint32_t        server_next_seq;    <span class="cm">/* expected next seq from server */</span>
     uint32_t        client_window;      <span class="cm">/* client's advertised window */</span>
     uint32_t        server_window;      <span class="cm">/* server's advertised window */</span>
- 
     <span class="cm">/* Policy and metadata */</span>
     uint32_t        policy_id;          <span class="cm">/* which policy matched this flow */</span>
     uint64_t        bytes_client;       <span class="cm">/* bytes from client → server */</span>
@@ -1043,7 +949,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     uint64_t        last_seen;          <span class="cm">/* timestamp for idle timeout */</span>
     uint8_t         app_id;             <span class="cm">/* L7 application (from DPI) */</span>
 } conntrack_entry_t;</pre></div>
-
     <p><strong>For every packet, the NGFW:</strong></p>
     <ol>
       <li>Extracts the 5-tuple from IP + TCP headers</li>
@@ -1055,7 +960,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
     </ol>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>TCP Sequence Number Validation</h3><span class="tag tag-purple">SEQUENCE TRACKING</span></div>
   <div class="cp-body">
@@ -1091,7 +995,6 @@ sysctl net.ipv4.tcp_timestamps          <span class="cm"># timestamps enabled (d
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>MSS Clamping — Preventing Fragmentation</h3><span class="tag tag-orange">MSS CLAMPING</span></div>
   <div class="cp-body">
@@ -1117,11 +1020,8 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB A — LABS ════════════ -->
 <div id="ta" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Capture and Decode a Complete TCP Lifecycle</h4></div>
   <div class="lab-body">
@@ -1134,7 +1034,6 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
     <div class="lab-step"><div class="sn">6</div><div>Check the connection state machine using: <code>ss -tn</code> (during the connection) — observe ESTABLISHED state. Check <code>ss -tn state time-wait</code> after connection closes. Map each ss state to the TCP state diagram in Tab 3.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Simulate TCP Attacks and Defences with Scapy</h4></div>
   <div class="lab-body">
@@ -1146,7 +1045,6 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
     <div class="lab-step"><div class="sn">5</div><div><strong>Analyse the output:</strong> Run your port scanner against your local machine. Cross-reference with <code>ss -tlnp</code> (listening TCP ports). Every port showing SYN+ACK in your scan should match a listening service. Ports showing RST are closed. Understand why firewall-filtered ports show no response.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Write a TCP Connection Tracker in C</h4></div>
   <div class="lab-body">
@@ -1158,14 +1056,10 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus — Add anomaly detection:</strong> Log a warning when you see: (a) SYN+ACK without a prior SYN in the table, (b) RST with a sequence number outside the expected window, (c) data segments before ESTABLISHED state, (d) more than 5 SYNs per second from the same source IP.</div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB B — CHECKLIST ════════════ -->
 <div id="tb" class="tab-pane">
 <p class="sep">M05 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain TCP's 6 guarantees: reliability, ordering, no duplication, error detection, flow control, congestion control</li>
   <li>Know what TCP does NOT guarantee: timing, bandwidth, message boundaries</li>
@@ -1198,20 +1092,16 @@ iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN \
   <li>Completed Lab 2: used Scapy to craft TCP attacks, implemented mini SYN port scanner</li>
   <li>Completed Lab 3: built TCP connection tracker in C using libpcap with state machine and anomaly detection</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem">
   <p>✅ <strong>When complete:</strong> Move to <strong>M06 - UDP and ICMP</strong>. You now have deep TCP knowledge. M06 is shorter — UDP has almost no complexity by design — but understanding UDP's simplicity (and its implications for NGFW) is essential before moving to DNS (M07) and HTTP (M08), both of which use UDP heavily.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m04-ipv6/">← M04 IPv6</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m06-udp-icmp/">Next: M06 - UDP and ICMP →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

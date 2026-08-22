@@ -90,9 +90,7 @@ url: /learning/backend/m13-messaging/
 .nb:hover{background:#06b6d4;color:#fff}
 .sep{text-align:center;color:#94a3b8;font-size:.8rem;letter-spacing:.1em;margin:1.5rem 0;text-transform:uppercase}
 </style>
-
 <div class="mod-wrap">
-
 <div class="mod-header">
   <h1>M13 — Event-Driven Architecture</h1>
   <div class="sub">
@@ -100,7 +98,6 @@ url: /learning/backend/m13-messaging/
     Kafka internals &amp; delivery semantics · RabbitMQ exchange patterns · Saga &amp; Outbox · CQRS &amp; Event Sourcing · Idempotent consumers · C/librdkafka implementations
   </div>
 </div>
-
 <!-- Tab bar -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t-overview',this)">Overview</button>
@@ -113,12 +110,10 @@ url: /learning/backend/m13-messaging/
   <button class="tab-btn" onclick="vt('t-impl',this)">C Implementation</button>
   <button class="tab-btn" onclick="vt('t-labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 1 — Overview
      ══════════════════════════════════════════════════════════ -->
 <div id="t-overview" class="tab-pane active">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">🎯 Why Event-Driven Architecture?</div>
   <div class="cp-body">
@@ -134,12 +129,10 @@ url: /learning/backend/m13-messaging/
     </ul>
   </div>
 </div>
-
 <div class="analogy">
   <strong>Analogy — Event streaming vs work queue:</strong><br>
   A <em>work queue</em> (RabbitMQ) is like a restaurant ticket system — a ticket is torn off by one chef, cooked, and discarded. A <em>log-based stream</em> (Kafka) is like a newspaper printing press — each edition is stamped with a page number (offset), archived forever, and any subscriber can re-read any past edition at any time.
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">📦 Message Queue Model (RabbitMQ)</div>
@@ -170,7 +163,6 @@ url: /learning/backend/m13-messaging/
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📐 Pattern Landscape</div>
   <div class="cp-body">
@@ -187,7 +179,6 @@ url: /learning/backend/m13-messaging/
     </table>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🗺️ Phase 5 Module Map</div>
   <div class="cp-body">
@@ -201,25 +192,20 @@ url: /learning/backend/m13-messaging/
     <div class="note" style="margin-top:.75rem">Prerequisites: Ph2 (databases — you need to understand transactions for Outbox), Ph4 (concurrency — consumer thread pools, back-pressure)</div>
   </div>
 </div>
-
 </div><!-- /t-overview -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 2 — Kafka Core
      ══════════════════════════════════════════════════════════ -->
 <div id="t-kafka" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">⚙️ Kafka Architecture — Internals</div>
   <div class="cp-body">
     Kafka's fundamental unit is the <strong>topic</strong> — a logical feed of records. Topics are split into <strong>partitions</strong>, each an ordered, immutable append-only log on disk.
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-cyan">Topic: orders</span>
 <span class="dg-gray">  (3 partitions, replication-factor=2)</span>
-
 <span class="dg-blue">Partition 0</span>  [<span class="dg-amber">offset 0</span>][<span class="dg-amber">offset 1</span>][<span class="dg-amber">offset 2</span>]...[<span class="dg-green">offset 847</span>]  ← append-only
 <span class="dg-blue">Partition 1</span>  [<span class="dg-amber">offset 0</span>][<span class="dg-amber">offset 1</span>]...[<span class="dg-green">offset 391</span>]
 <span class="dg-blue">Partition 2</span>  [<span class="dg-amber">offset 0</span>]...[<span class="dg-green">offset 1203</span>]
@@ -228,14 +214,12 @@ url: /learning/backend/m13-messaging/
 <span class="dg-gray">          │    Broker 2 (leader P1, follower P2)    │</span>
 <span class="dg-gray">          │    Broker 3 (leader P2, follower P0)    │</span>
 <span class="dg-gray">          └─────────────────────────────────────────┘</span>
-
 <span class="dg-purple">Producer</span> → assigns partition by: <span class="dg-cyan">hash(key) % num_partitions</span> (key set)
                               or: <span class="dg-cyan">round-robin</span> (key=null)
 
 <span class="dg-green">Consumer Group A</span>: consumer-A1 reads P0, consumer-A2 reads P1, consumer-A3 reads P2
 <span class="dg-red">Consumer Group B</span>: consumer-B1 reads P0+P1, consumer-B2 reads P2  (independent read positions)
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🔑 Partition Key Assignment</div>
@@ -261,7 +245,6 @@ url: /learning/backend/m13-messaging/
     </div>
   </div>
 </div>
-
 <div class="cp p-cyan">
   <div class="cp-hdr">📊 ISR — In-Sync Replicas</div>
   <div class="cp-body">
@@ -279,7 +262,6 @@ url: /learning/backend/m13-messaging/
     <div class="ins">Production recommendation: <code>acks=all</code> + <code>min.insync.replicas=2</code> + <code>replication.factor=3</code> — survives one broker failure without data loss.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">📍 Offset Management</div>
   <div class="cp-body">
@@ -295,7 +277,6 @@ url: /learning/backend/m13-messaging/
     <div class="note"><strong>Log compaction:</strong> Kafka can compact topics (<code>cleanup.policy=compact</code>) — keeps only the latest value per key, discards older records. Used for changelogs (KTable in Kafka Streams).</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📐 Kafka Producer Batching &amp; Compression</div>
   <div class="cp-body">
@@ -311,14 +292,11 @@ url: /learning/backend/m13-messaging/
     </table>
   </div>
 </div>
-
 </div><!-- /t-kafka -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 3 — Delivery Semantics
      ══════════════════════════════════════════════════════════ -->
 <div id="t-delivery" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">📬 The Three Delivery Guarantees</div>
   <div class="cp-body">
@@ -333,7 +311,6 @@ url: /learning/backend/m13-messaging/
     </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔑 At-Least-Once: The Duplicate Problem</div>
   <div class="cp-body">
@@ -342,7 +319,6 @@ url: /learning/backend/m13-messaging/
 <span class="dg-cyan">Producer</span>  ──[msg #1]──►  <span class="dg-blue">Broker</span>  (writes to log)
                              │
               network blip ──┘  <span class="dg-red">(ACK lost)</span>
-
 <span class="dg-cyan">Producer</span>  ──[msg #1 retry]──►  <span class="dg-blue">Broker</span>  (writes duplicate!)
                                   offset 5: msg#1
                                   offset 6: msg#1  ← <span class="dg-red">duplicate!</span>
@@ -350,7 +326,6 @@ url: /learning/backend/m13-messaging/
     <strong>Solution:</strong> idempotent producer assigns each message a <strong>sequence number + producer ID (PID)</strong>. The broker deduplicates within a 5-message window per <code>(PID, partition)</code>.
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">✅ Exactly-Once: Idempotent Producer + Transactions</div>
   <div class="cp-body">
@@ -374,7 +349,6 @@ err = <span class="ck">rd_kafka_commit_transaction</span>(rk, <span class="cn">1
     <div class="warn"><strong>EOS (Exactly-Once Semantics) end-to-end</strong> requires: idempotent producer + transactions + <code>read_committed</code> isolation + atomic offset commit within the transaction. This is what Kafka Streams provides out-of-the-box with <code>processing.guarantee=exactly_once_v2</code>.</div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">⚡ Consumer-Side Delivery Semantics</div>
   <div class="cp-body">
@@ -389,21 +363,17 @@ err = <span class="ck">rd_kafka_commit_transaction</span>(rk, <span class="cn">1
     </div>
   </div>
 </div>
-
 </div><!-- /t-delivery -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 4 — RabbitMQ
      ══════════════════════════════════════════════════════════ -->
 <div id="t-rabbit" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">🐰 RabbitMQ — AMQP Model</div>
   <div class="cp-body">
     RabbitMQ implements the AMQP 0-9-1 protocol. Messages are published to <strong>exchanges</strong>, which route to <strong>queues</strong> via <strong>bindings</strong>. Consumers subscribe to queues.
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-purple">Publisher</span>  ──[msg + routing_key]──►  <span class="dg-cyan">Exchange</span>
                                            │
@@ -411,11 +381,9 @@ err = <span class="ck">rd_kafka_commit_transaction</span>(rk, <span class="cn">1
                                            ├──[binding: routing_key=orders.*]──► <span class="dg-green">Queue: orders</span>
                                            └──[binding: fanout]──────────────► <span class="dg-amber">Queue: analytics</span>
                                                                                <span class="dg-amber">Queue: audit-log</span>
-
 <span class="dg-blue">Queue: errors</span>   ──►  <span class="dg-red">Consumer A</span>  (ACK → message deleted)
                  └──►  <span class="dg-gray">DLX → dead-letter-queue</span>  (NACK/TTL expired)
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🔀 Exchange Types</div>
@@ -450,7 +418,6 @@ err = <span class="ck">rd_kafka_commit_transaction</span>(rk, <span class="cn">1
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🔁 Retry with Exponential Backoff via DLX Chain</div>
   <div class="cp-body">
@@ -473,7 +440,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <div class="note">Pattern: main queue → failure → NACK → DLX(retry-5s) → TTL expires → DLX(retry-30s) → DLX(retry-5m) → DLX(dead-letter-final). Each level doubles the delay — classic exponential backoff without consumer sleep loops.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">⚖️ Consumer ACK Modes</div>
   <div class="cp-body">
@@ -490,7 +456,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <div class="ins"><strong>prefetch count</strong> (<code>basicQos</code>): limits unacked messages per consumer. Set to 1 for strict round-robin fairness; increase (e.g. 20–100) for throughput when processing is fast.</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🆚 Kafka vs RabbitMQ — When to Use Which</div>
   <div class="cp-body">
@@ -508,14 +473,11 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </table>
   </div>
 </div>
-
 </div><!-- /t-rabbit -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 5 — Saga & Outbox
      ══════════════════════════════════════════════════════════ -->
 <div id="t-saga" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">🔄 Distributed Transactions: Why Not 2PC?</div>
   <div class="cp-body">
@@ -524,7 +486,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     The <strong>Saga pattern</strong> replaces distributed ACID transactions with a sequence of local transactions, each publishing an event. If a step fails, <strong>compensating transactions</strong> undo the completed steps.
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🎭 Orchestration Saga</div>
@@ -561,7 +522,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📤 Outbox Pattern — Atomic DB Write + Event Publish</div>
   <div class="cp-body">
@@ -570,7 +530,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <strong>Solution:</strong> write to an <code>outbox</code> table in the <strong>same local transaction</strong> as the business data. A separate relay process publishes outbox records to the broker and marks them as sent.
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-cyan">Business Transaction</span>  (atomic, single DB)
   ┌─────────────────────────────────────────────┐
@@ -589,7 +548,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
   <span class="dg-green">CDC (Change Data Capture)</span> via Debezium — reads DB WAL log directly,
   zero-latency, no polling overhead, works with Postgres/MySQL logical replication
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">⚠️ Outbox: Failure Modes and Guarantees</div>
   <div class="cp-body">
@@ -605,14 +563,11 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <div class="note">The Outbox pattern provides <strong>at-least-once</strong> delivery. To prevent business harm from duplicates, combine with idempotent consumers (Tab 7).</div>
   </div>
 </div>
-
 </div><!-- /t-saga -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 6 — CQRS & Event Sourcing
      ══════════════════════════════════════════════════════════ -->
 <div id="t-cqrs" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">✂️ CQRS — Command Query Responsibility Segregation</div>
   <div class="cp-body">
@@ -625,7 +580,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </ul>
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-purple">Client</span>
   │
@@ -648,7 +602,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
                                                ▼
                                        <span class="dg-green">Read DB (fast!)</span>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">✅ CQRS Benefits</div>
@@ -674,7 +627,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">📜 Event Sourcing — State as Event Log</div>
   <div class="cp-body">
@@ -689,7 +641,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
 <span class="cm">// replay → current balance = 850</span></div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-amber">
     <div class="cp-hdr">📸 Snapshots</div>
@@ -715,7 +666,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📐 When to Use Event Sourcing (vs When Not To)</div>
   <div class="cp-body">
@@ -730,14 +680,11 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </table>
   </div>
 </div>
-
 </div><!-- /t-cqrs -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 7 — Idempotency
      ══════════════════════════════════════════════════════════ -->
 <div id="t-idempotency" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">🔑 Idempotent Consumers: Handling At-Least-Once Delivery</div>
   <div class="cp-body">
@@ -750,7 +697,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🗃️ Deduplication Table Pattern</div>
   <div class="cp-body">
@@ -776,7 +722,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <div class="note">The <code>INSERT ... ON CONFLICT DO NOTHING</code> + business logic must be in the <strong>same transaction</strong> for atomicity. If the transaction rolls back, the event ID is not recorded and can be safely reprocessed.</div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">⚡ Redis-based Deduplication (High Throughput)</div>
   <div class="cp-body">
@@ -793,7 +738,6 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <div class="warn">Redis dedup is best-effort — Redis can lose data if not persisted (AOF/RDB). For financial events, prefer the database dedup table for durable deduplication.</div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">🧠 Designing Idempotency Keys</div>
   <div class="cp-body">
@@ -809,14 +753,11 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
     <div class="ins"><strong>TTL management:</strong> set the dedup key TTL longer than your maximum retry window. If retries can span 24h, use 48h TTL. If your Kafka retention is 7 days, set TTL to 8 days.</div>
   </div>
 </div>
-
 </div><!-- /t-idempotency -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 8 — C Implementation
      ══════════════════════════════════════════════════════════ -->
 <div id="t-impl" class="tab-pane">
-
 <div class="cp p-cyan">
   <div class="cp-hdr">🔧 Libraries Used</div>
   <div class="cp-body">
@@ -832,9 +773,7 @@ amqp_queue_declare(ch, <span class="cn">1</span>,
 <span class="ck">gcc</span> -o amqp_consumer amqp_consumer.c -lrabbitmq</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 1 — Kafka Producer with Delivery Reports ──</div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📤 Kafka Producer (librdkafka) — Full Implementation</div>
   <div class="cp-body">
@@ -924,11 +863,9 @@ retry_produce:
 
     <span class="cm">/* Poll for delivery reports (fires delivery_report_cb) */</span>
     rd_kafka_poll(rk, <span class="cn">0</span>);  <span class="cm">/* non-blocking poll */</span>
-
     <span class="cm">/* Wait for all outstanding messages to be delivered */</span>
     fprintf(stdout, <span class="cv">"Flushing...\n"</span>);
     rd_kafka_flush(rk, <span class="cn">10</span> * <span class="cn">1000</span>);  <span class="cm">/* wait up to 10s */</span>
-
     <span class="ck">if</span> (rd_kafka_outq_len(rk) &gt; <span class="cn">0</span>)
         fprintf(stderr, <span class="cv">"%d message(s) not delivered\n"</span>,
                 rd_kafka_outq_len(rk));
@@ -938,9 +875,7 @@ retry_produce:
 }</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 2 — Kafka Consumer with Manual Offset Commit ──</div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">📥 Kafka Consumer (librdkafka) — At-Least-Once with Manual Commit</div>
   <div class="cp-body">
@@ -1015,7 +950,6 @@ retry_produce:
                     (<span class="cs">int</span>)msg-&gt;len,        (<span class="cs">const char</span> *)msg-&gt;payload);
 
             <span class="cm">/* TODO: process_message(msg->payload, msg->len); */</span>
-
             <span class="cm">/* Commit offset after successful processing (at-least-once) */</span>
             <span class="ck">if</span> (++msg_count % <span class="cn">100</span> == <span class="cn">0</span>) {
                 <span class="cm">/* Sync commit every 100 messages for durability */</span>
@@ -1034,9 +968,7 @@ retry_produce:
 }</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 3 — RabbitMQ Consumer with DLX (rabbitmq-c) ──</div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">🐰 RabbitMQ Consumer with Dead-Letter Exchange (rabbitmq-c)</div>
   <div class="cp-body">
@@ -1139,9 +1071,7 @@ retry_produce:
 }</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 4 — Outbox Relay (libpq) ──</div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📤 Outbox Relay: PostgreSQL → Kafka (libpq + librdkafka)</div>
   <div class="cp-body">
@@ -1155,7 +1085,6 @@ retry_produce:
 
 <span class="cs">#define</span> BATCH_SIZE <span class="cn">100</span>
 <span class="cs">#define</span> POLL_INTERVAL_MS <span class="cn">100</span>
-
 <span class="cs">typedef struct</span> {
     PGconn      *pg;
     rd_kafka_t  *rk;
@@ -1227,14 +1156,11 @@ retry_produce:
     <div class="note"><strong>FOR UPDATE SKIP LOCKED:</strong> if running multiple relay processes for redundancy, this PostgreSQL clause ensures each row is only processed by one relay at a time — no duplicate publications from concurrent relays.</div>
   </div>
 </div>
-
 </div><!-- /t-impl -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 9 — Labs & Checklist
      ══════════════════════════════════════════════════════════ -->
 <div id="t-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 1 — Kafka Producer / Consumer Pipeline with Delivery Guarantees</div>
   <div class="lab-body">
@@ -1247,7 +1173,6 @@ retry_produce:
     <div class="lab-step"><span class="sn">6</span> <strong>Bonus:</strong> write a transactional producer that sends batches of 10 messages atomically. Verify with <code>isolation.level=read_committed</code> consumer that aborted batches are not visible.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 2 — RabbitMQ Dead-Letter Exchange Chain</div>
   <div class="lab-body">
@@ -1265,7 +1190,6 @@ retry_produce:
     <div class="lab-step"><span class="sn">5</span> <strong>Bonus:</strong> modify retry delay to be exponential: 5s → 30s → 5m using three distinct retry queues.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 3 — Outbox Pattern with PostgreSQL + Kafka</div>
   <div class="lab-body">
@@ -1286,7 +1210,6 @@ retry_produce:
     <div class="lab-step"><span class="sn">4</span> Test the duplicate scenario: manually reset a row to PENDING after it was marked SENT. Run relay again — verify Kafka receives a duplicate. Make the Kafka consumer idempotent using a Redis SETNX dedup check.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 4 — CQRS Read Model Projection</div>
   <div class="lab-body">
@@ -1298,9 +1221,7 @@ retry_produce:
     <div class="lab-step"><span class="sn">5</span> <strong>Bonus:</strong> add a "leaderboard" read model: top 10 customers by order total, stored as a Redis sorted set (<code>ZADD</code>). Update on every OrderPlaced event.</div>
   </div>
 </div>
-
 <div class="sep">── Phase 5 Mastery Checklist ──</div>
-
 <div class="two-col">
   <div>
     <strong style="color:#0e7490">Kafka</strong>
@@ -1340,17 +1261,13 @@ retry_produce:
     </ul>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/backend/m11-concurrency/" class="nb">← M11: Concurrency &amp; Performance</a>
   <a href="/learning/backend/" class="nb">↑ Roadmap</a>
   <a href="/learning/backend/m15-microservices/" class="nb">M15: Microservices →</a>
 </div>
-
 </div><!-- /t-labs -->
-
 </div><!-- /mod-wrap -->
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

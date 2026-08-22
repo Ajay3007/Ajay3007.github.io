@@ -97,7 +97,6 @@ url: /learning/ai-ml/part5-rag/p5-m17-retrieval-quality/
 .fc-topk{background:#ede8f5;border-color:#c4b5fd}.fc-topk h4{color:#5b21b6}.fc-topk .fix{color:#15803d}
 .fc-meta{background:#e0f2fe;border-color:#7dd3fc}.fc-meta h4{color:#0c4a6e}.fc-meta .fix{color:#15803d}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 5 — RAG Systems &nbsp;·&nbsp; Module 17 of 18</div>
@@ -110,7 +109,6 @@ url: /learning/ai-ml/part5-rag/p5-m17-retrieval-quality/
     <span class="mod-pill">📋 Prerequisite: P5-M16</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🚨 Failure Modes</button>
@@ -124,8 +122,6 @@ url: /learning/ai-ml/part5-rag/p5-m17-retrieval-quality/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-emerald">
@@ -143,8 +139,6 @@ url: /learning/ai-ml/part5-rag/p5-m17-retrieval-quality/
   </div>
 </div>
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — FAILURE MODES ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-red">
@@ -190,7 +184,6 @@ def diagnose_retrieval(query: str, collection, expected_source: str = None):
     <span class="ck"># If correct chunk is rank 8+: semantic drift → reranker</span>
     <span class="ck"># If all scores < 0.5: vocabulary mismatch → HyDE or query rewrite</span>
     <span class="ck"># If scores are clustered (0.82, 0.81, 0.80...): redundancy → MMR</span>
- 
     <span class="ck"># 2. Check if expected chunk exists at all</span>
     if expected_source:
         found = any(expected_source in m.get(<span class="cs">"source"</span>, <span class="cs">""</span>)
@@ -201,8 +194,6 @@ def diagnose_retrieval(query: str, collection, expected_source: str = None):
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — PRE-RETRIEVAL ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-emerald">
@@ -230,7 +221,6 @@ def rewrite_query(query: str) -> str:
 <span class="ck"># "methods to improve packet processing throughput and reduce latency in DPDK"</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Multi-Query Expansion — Cast a Wider Net</h3><span class="tag tag-blue">Recall Boost</span></div>
   <div class="cp-body">
@@ -278,7 +268,6 @@ def multi_query_retrieve(query: str, collection, n_variants: int = <span class="
     <div class="ins"><p>💡 <strong>Multi-query expansion is one of the cheapest quality improvements.</strong> 3-4 Haiku calls cost ~$0.001 and dramatically improve recall — especially when users phrase queries very differently from how your documents are written. LangChain ships a <code>MultiQueryRetriever</code> that implements this pattern.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⬆️</span><h3>Step-Back Prompting — Abstract Before Searching</h3><span class="tag tag-teal">Concept Shift</span></div>
   <div class="cp-body">
@@ -315,8 +304,6 @@ async def step_back_retrieve(query: str, collection) -> list[dict]:
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — RERANKING ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-emerald">
@@ -379,7 +366,6 @@ for r in results:
     <div class="ins"><p>💡 <strong>Reranking typically improves precision@5 by 15-30%.</strong> The key insight is that the embedding model ranks by general semantic similarity, but the reranker asks "given THIS query, how relevant is THIS specific chunk?" — a much harder and more accurate question. Cohere rerank-english-v3.0 is the best available cross-encoder as of 2024.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🆓</span><h3>Free Reranking — Cross-Encoders with sentence-transformers</h3><span class="tag tag-blue">No API Cost</span></div>
   <div class="cp-body">
@@ -408,8 +394,6 @@ final_chunks = [doc for score, doc in reranked]</pre></div>
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — HYDE ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-emerald">
@@ -481,8 +465,6 @@ def hybrid_hyde(query: str, collection, n_results: int = <span class="cv">5</spa
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — MMR & DIVERSITY ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-emerald">
@@ -541,8 +523,6 @@ def mmr(
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — EVALUATION ══════════ -->
 <div id="t6" class="tab-pane">
 <div class="cp p-emerald">
@@ -596,8 +576,6 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -611,8 +589,6 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
   </tbody>
 </table>
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="proj-box">
@@ -637,8 +613,6 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
 <div class="lab-box">
@@ -651,7 +625,6 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
     <div class="lab-step"><div class="sn">4</div><div>Check for regressions: did the fix break any previously working queries? Document the trade-off.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Reranker — Measure the Precision Jump</h4></div>
   <div class="lab-body">
@@ -662,7 +635,6 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
     <div class="lab-step"><div class="sn">4</div><div>Calculate cost per query: embedding cost (stage 1) + reranking cost (stage 2). At what query volume does the cost become significant?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>HyDE vs Standard — When Does It Help?</h4></div>
   <div class="lab-body">
@@ -674,8 +646,6 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
   </div>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P5-M17 MASTERY CHECKLIST</p>
@@ -704,13 +674,11 @@ print(<span class="cs">f"HyDE:      {hyde_res}"</span>)  <span class="ck"># {"hi
   <p>✅ <strong>When complete:</strong> Move to <strong>P5-M18 — RAG Pipelines, Grounding &amp; Hallucination Reduction</strong>. You now have excellent retrieval. M18 covers combining retrieval with LLM generation into a complete, production-grade RAG system.</p>
 </div>
 </div><!-- end t10 -->
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part5-rag/p5-m16-chunking/">← P5-M16: Chunking</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part5-rag/p5-m18-rag-pipelines/">Next: P5-M18 — RAG Pipelines →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

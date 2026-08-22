@@ -157,7 +157,6 @@ url: /learning/networking-mastery/m09-app-protocols/
 .phase-complete h3{margin:0 0 .5rem;font-size:1.1rem;font-weight:800;color:#fff;border:none}
 .phase-complete p{margin:0;font-size:.88rem;line-height:1.65;color:#c0f0c0}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 2 · MODULE 09 · WEEK 7 · PHASE 2 FINAL</div>
@@ -171,7 +170,6 @@ url: /learning/networking-mastery/m09-app-protocols/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Overview</button>
@@ -185,12 +183,9 @@ url: /learning/networking-mastery/m09-app-protocols/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — OVERVIEW ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THREE PROTOCOLS AN NGFW MUST DEEPLY UNDERSTAND</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Why These Three Protocols Together</h3><span class="tag tag-green">OVERVIEW</span></div>
   <div class="cp-body">
@@ -199,21 +194,18 @@ url: /learning/networking-mastery/m09-app-protocols/
       <div>
         <h4>📨 SMTP (TCP 25/587/465)</h4>
         <p>Email transfer. An NGFW must parse SMTP to enforce email policies — anti-spam, anti-phishing, attachment scanning, content filtering, and sender authentication (SPF/DKIM/DMARC verification). Email is the number one attack vector for malware delivery and phishing.</p>
-
         <h4>📁 FTP (TCP 21 + dynamic port)</h4>
         <p>File transfer. FTP is the classic <strong>ALG challenge protocol</strong> — it uses two separate TCP connections (control on port 21, data on a negotiated dynamic port). A stateful firewall must inspect the control channel to know which data connection to permit. FTP is largely replaced by SFTP/HTTPS but still found in legacy environments and internal networks.</p>
       </div>
       <div>
         <h4>🖥️ DHCP (UDP 67/68)</h4>
         <p>IP address assignment. DHCP is the protocol that bootstraps all other protocols — a device has no IP address until DHCP assigns one. An NGFW must understand DHCP to: detect rogue DHCP servers, prevent DHCP starvation attacks, correlate IP-to-MAC-to-hostname mappings for logging, and enforce DHCP snooping.</p>
-
         <h4>The ALG Problem</h4>
         <p>Both SMTP and FTP embed IP addresses or port numbers inside their application payloads — information a simple L3/L4 firewall cannot see. When NAT rewrites the outer IP header, the embedded address in the payload is wrong. Application Layer Gateways (ALGs) must inspect and rewrite payload content — a stateful, deep inspection operation that lies at the heart of NGFW design.</p>
       </div>
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Port and Protocol Quick Reference</h3><span class="tag tag-teal">REFERENCE</span></div>
   <div class="cp-body">
@@ -236,12 +228,9 @@ url: /learning/networking-mastery/m09-app-protocols/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — SMTP INTERNALS ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">SMTP — SIMPLE MAIL TRANSFER PROTOCOL (RFC 5321)</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📧</span><h3>How Email Moves — The SMTP Pipeline</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -275,15 +264,12 @@ dig gmail.com MX
 <span class="cm"># Sender's MTA connects to lowest-preference (highest priority) MX server</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💬</span><h3>SMTP Session — Command by Command</h3><span class="tag tag-teal">SESSION</span></div>
   <div class="cp-body">
     <p>SMTP is a line-oriented text protocol. Commands come from the client; replies from the server always start with a 3-digit code. Reply codes: 2xx=success, 4xx=temporary failure (retry later), 5xx=permanent failure (don't retry).</p>
-
     <div class="proto-session">
 <pre><span class="sc">220 mail.example.com ESMTP Postfix (Ubuntu)</span>          <span class="si">← Server greeting</span>
- 
 <span class="cc">EHLO sending-server.jio.com</span>                           <span class="si">← Extended HELLO — announces capabilities</span>
 <span class="sc">250-mail.example.com</span>
 <span class="sc">250-PIPELINING</span>                                        <span class="si">← Multiple commands without waiting</span>
@@ -291,29 +277,23 @@ dig gmail.com MX
 <span class="sc">250-STARTTLS</span>                                          <span class="si">← Can upgrade to TLS</span>
 <span class="sc">250-AUTH LOGIN PLAIN XOAUTH2</span>                         <span class="si">← Supported auth mechanisms</span>
 <span class="sc">250 DSN</span>                                               <span class="si">← Delivery Status Notification support</span>
- 
 <span class="cc">STARTTLS</span>                                              <span class="si">← Upgrade connection to TLS</span>
 <span class="sc">220 2.0.0 Ready to start TLS</span>
 <span class="si">[TLS handshake occurs — all subsequent SMTP is encrypted]</span>
 <span class="cc">EHLO sending-server.jio.com</span>                           <span class="si">← Must re-EHLO after STARTTLS</span>
 <span class="sc">250 mail.example.com ...</span>
- 
 <span class="cc">AUTH LOGIN</span>                                            <span class="si">← Authenticate (client to server only)</span>
 <span class="sc">334 VXNlcm5hbWU6</span>                                     <span class="si">← "Username:" base64 encoded</span>
 <span class="cc">YWpheUBqaW8uY29t</span>                                     <span class="si">← username base64 encoded</span>
 <span class="sc">334 UGFzc3dvcmQ6</span>                                     <span class="si">← "Password:" base64 encoded</span>
 <span class="cc">cGFzc3dvcmQxMjM=</span>                                     <span class="si">← password base64 encoded</span>
 <span class="sc">235 2.7.0 Authentication successful</span>
- 
 <span class="cc">MAIL FROM:&lt;ajay@jio.com&gt;</span>                             <span class="si">← Envelope sender (RETURN-PATH)</span>
 <span class="sc">250 2.1.0 Ok</span>
- 
 <span class="cc">RCPT TO:&lt;colleague@example.com&gt;</span>                      <span class="si">← Envelope recipient</span>
 <span class="sc">250 2.1.5 Ok</span>
- 
 <span class="cc">RCPT TO:&lt;boss@example.com&gt;</span>                           <span class="si">← Multiple recipients allowed</span>
 <span class="sc">250 2.1.5 Ok</span>
- 
 <span class="cc">DATA</span>                                                  <span class="si">← Start message body</span>
 <span class="sc">354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;</span>
 <span class="cc">From: Ajay Kumar &lt;ajay@jio.com&gt;</span>                      <span class="si">← Message headers (RFC 5322)</span>
@@ -326,15 +306,12 @@ dig gmail.com MX
 <span class="cc">Hi, can we meet at 2pm tomorrow?</span>
 <span class="cc">.</span>                                                     <span class="si">← Single dot on line = end of message</span>
 <span class="sc">250 2.0.0 Ok: queued as A1B2C3D4</span>
- 
 <span class="cc">QUIT</span>
 <span class="sc">221 2.0.0 Bye</span></pre>
     </div>
-
     <div class="ins"><p>💡 <strong>Envelope vs Message headers:</strong> SMTP has two separate sets of addressing. The <em>envelope</em> (MAIL FROM, RCPT TO commands) is what the mail servers use for routing — like the address written on the outside of a letter. The <em>message headers</em> (From:, To:, CC: inside the DATA section) are what email clients display — like the letter's own header. These can differ, which is how email spoofing works: MAIL FROM can say one address while From: header shows another.</p></div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📋</span><h3>SMTP Reply Codes — Complete Reference</h3><span class="tag tag-amber">CODES</span></div>
   <div class="cp-body">
@@ -365,12 +342,9 @@ dig gmail.com MX
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — SMTP SECURITY ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">SMTP SECURITY — SPOOFING, SPAM, AND AUTHENTICATION</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Email Spoofing — Why From: Can Lie</h3><span class="tag tag-red">SPOOFING</span></div>
   <div class="cp-body">
@@ -388,12 +362,10 @@ telnet mail.victim.com 25
 <span class="cc">From: CEO Real Name &lt;ceo@real-company.com&gt;</span> <span class="si">← Message header — identical to envelope</span>
 <span class="cc">Subject: Urgent wire transfer needed</span>
 <span class="cc">.</span>
- 
 <span class="cm">/* Without SPF/DKIM/DMARC the receiving server has no way to detect this */</span>
 <span class="cm">/* Employee sees ceo@real-company.com — looks completely legitimate */</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>SPF, DKIM, and DMARC — The Email Authentication Trinity</h3><span class="tag tag-purple">AUTHENTICATION</span></div>
   <div class="cp-body">
@@ -423,7 +395,6 @@ telnet mail.victim.com 25
         </tr>
       </tbody>
     </table>
-
 <div class="cb"><pre><span class="cm">/* SMTP receiving server checks — in order */</span>
  
 1. Connect from IP 1.2.3.4, MAIL FROM:&lt;ajay@jio.com&gt;
@@ -449,7 +420,6 @@ Authentication-Results: mx.google.com;
    dmarc=pass (p=REJECT) header.from=jio.com</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>NGFW Email Inspection Capabilities</h3><span class="tag tag-orange">NGFW</span></div>
   <div class="cp-body">
@@ -465,12 +435,9 @@ Authentication-Results: mx.google.com;
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — FTP INTERNALS ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">FTP — FILE TRANSFER PROTOCOL (RFC 959)</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📁</span><h3>FTP's Two-Connection Architecture</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -482,7 +449,6 @@ Authentication-Results: mx.google.com;
     <p>The critical insight for NGFW: the data channel port number is negotiated <em>inside the control channel payload</em>. A firewall must inspect L7 content to know which port to permit for the data channel.</p>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Active FTP vs Passive FTP</h3><span class="tag tag-teal">ACTIVE VS PASSIVE</span></div>
   <div class="cp-body">
@@ -490,7 +456,6 @@ Authentication-Results: mx.google.com;
       <div>
         <h4>Active FTP (PORT command)</h4>
 <div class="cb"><pre><span class="cc">CLIENT                SERVER</span>
- 
 <span class="cm">/* Control channel */</span>
   → TCP connect to :21
   ← 220 FTP Ready
@@ -516,7 +481,6 @@ Authentication-Results: mx.google.com;
       <div>
         <h4>Passive FTP (PASV command)</h4>
 <div class="cb"><pre><span class="cc">CLIENT                SERVER</span>
- 
 <span class="cm">/* Control channel */</span>
   → TCP connect to :21
   ← 220 FTP Ready
@@ -543,7 +507,6 @@ Authentication-Results: mx.google.com;
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">💬</span><h3>FTP Commands and Reply Codes</h3><span class="tag tag-amber">REFERENCE</span></div>
   <div class="cp-body">
@@ -570,12 +533,9 @@ Authentication-Results: mx.google.com;
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — FTP AND NAT/ALG ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">FTP ALG — HOW FIREWALLS HANDLE FTP THROUGH NAT</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>The ALG Problem — Why FTP Breaks Through NAT</h3><span class="tag tag-purple">ALG CONCEPT</span></div>
   <div class="cp-body">
@@ -591,7 +551,6 @@ Authentication-Results: mx.google.com;
     </ol>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">💻</span><h3>FTP ALG in Action — Passive FTP Through NAT</h3><span class="tag tag-blue">ALG WALKTHROUGH</span></div>
   <div class="cp-body">
@@ -612,7 +571,6 @@ Client → NAT → Server: PORT 10,0,0,5,196,160
                          <span class="si">← Client sends its PRIVATE IP!</span>
 Server tries to connect to 10.0.0.5:50336 <span class="se">← private, unreachable!</span>
 <span class="se">Connection fails.</span>
- 
 <span class="cm">/* Active FTP through NAT — with FTP ALG */</span>
 Client → NAT (ALG sees PORT command):
   Original: PORT 10,0,0,5,196,160
@@ -631,11 +589,9 @@ Server responds: 227 Entering Passive Mode (192,168,1,100,200,45)
                  <span class="si">← server's private IP in response — client can't reach it</span>
 ALG on server-side NAT rewrites to: (203,0,113,10,200,45)
                  <span class="si">← public IP — client can now connect</span></pre></div>
-
     <div class="warn"><p>⚠️ <strong>FTPS (FTP over TLS) breaks the ALG.</strong> When FTP uses TLS (FTPS), the control channel is encrypted — the ALG can no longer read PORT/PASV commands to rewrite them. This is why FTPS is often problematic through NAT firewalls. Solutions: use SFTP instead (SSH file transfer — completely different protocol, single connection), use FTPS with explicit passive mode and restrict the passive port range to something the firewall can statically permit.</p></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>FTP Security and NGFW Policy</h3><span class="tag tag-green">SECURITY</span></div>
   <div class="cp-body">
@@ -648,7 +604,6 @@ ALG on server-side NAT rewrites to: (203,0,113,10,200,45)
 <div class="cb"><pre><span class="cm"># Linux FTP client usage</span>
 ftp ftp.example.com          <span class="cm"># plain FTP (avoid)</span>
 sftp user@sftp.example.com   <span class="cm"># SFTP over SSH (recommended)</span>
- 
 <span class="cm"># Check FTP ALG status in Linux conntrack</span>
 sudo modprobe nf_conntrack_ftp
 sudo cat /proc/net/nf_conntrack | grep ftp
@@ -659,12 +614,9 @@ sudo cat /proc/net/nf_conntrack | grep ftp
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — DHCP INTERNALS ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">DHCP — DYNAMIC HOST CONFIGURATION PROTOCOL (RFC 2131)</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🖥️</span><h3>What DHCP Does — And Why It's Critical</h3><span class="tag tag-blue">OVERVIEW</span></div>
   <div class="cp-body">
@@ -672,7 +624,6 @@ sudo cat /proc/net/nf_conntrack | grep ftp
     <p>DHCP also gives your NGFW crucial identity information: by snooping DHCP exchanges, the firewall learns the mapping between IP address, MAC address, and hostname — enabling meaningful per-host logging and policy. "IP 10.0.0.5 visited malware-c2.com" becomes "Ajay's laptop visited malware-c2.com".</p>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>The DORA Exchange — Discover, Offer, Request, Acknowledge</h3><span class="tag tag-teal">DORA</span></div>
   <div class="cp-body">
@@ -706,7 +657,6 @@ sudo cat /proc/net/nf_conntrack | grep ftp
         </div>
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm">/* After lease assignment — lease lifecycle */</span>
 T1 (renewal time = lease/2 = 43200s):
   Client unicasts DHCP Request to same server → DHCP ACK → lease renewed
@@ -723,7 +673,6 @@ Lease expiry:
 <span class="cm"># When client disconnects gracefully, sends DHCP Release</span>
 <span class="cm"># Server returns IP to available pool immediately</span>
 <span class="cm"># Many mobile clients DON'T send Release on WiFi disconnect (battery saving)</span>
- 
 <span class="cm">/* Check DHCP on Linux */</span>
 dhclient eth0                              <span class="cm"># request DHCP lease</span>
 dhclient -r eth0                           <span class="cm"># release lease</span>
@@ -731,7 +680,6 @@ journalctl -u systemd-networkd | grep DHCP <span class="cm"># view DHCP events</
 cat /var/lib/dhcp/dhclient.leases          <span class="cm"># lease file</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📦</span><h3>DHCP Packet Format</h3><span class="tag tag-green">PACKET FORMAT</span></div>
   <div class="cp-body">
@@ -750,12 +698,9 @@ cat /var/lib/dhcp/dhclient.leases          <span class="cm"># lease file</span><
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — DHCP SECURITY ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">DHCP SECURITY — ATTACKS AND DEFENCES</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>DHCP Attack Taxonomy</h3><span class="tag tag-red">ATTACKS</span></div>
   <div class="cp-body">
@@ -790,7 +735,6 @@ cat /var/lib/dhcp/dhclient.leases          <span class="cm"># lease file</span><
     </table>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>DHCP Snooping — The Core Defence</h3><span class="tag tag-purple">DHCP SNOOPING</span></div>
   <div class="cp-body">
@@ -802,13 +746,11 @@ aa:bb:cc:dd:ee:ff  192.168.1.50   86400s    10    GigE0/1
 11:22:33:44:55:66  192.168.1.51   86400s    10    GigE0/2
 <span class="cm"># Built by snooping DHCP ACK messages on trusted ports</span>
 <span class="cm"># Only the real DHCP server (trusted port) should send ACKs</span>
- 
 <span class="cm">/* NGFW uses this for identity-based logging */</span>
 <span class="cm"># DNS query from 192.168.1.50 → look up in DHCP snooping table</span>
 <span class="cm"># → hostname "ajay-laptop" (from Option 12 in Discover)</span>
 <span class="cm"># → MAC aa:bb:cc:dd:ee:ff</span>
 <span class="cm"># Log: "ajay-laptop (aa:bb:cc:dd:ee:ff / 192.168.1.50) queried malware.com"</span>
- 
 <span class="cm">/* Dynamic ARP Inspection uses the binding table */</span>
 <span class="cm"># ARP from GigE0/1: "aa:bb:cc:dd:ee:ff owns 192.168.1.50"</span>
 <span class="cm"># Match binding table → VALID, forward</span>
@@ -817,12 +759,9 @@ aa:bb:cc:dd:ee:ff  192.168.1.50   86400s    10    GigE0/1
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — NGFW POLICY ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">NGFW POLICY — SMTP, FTP, AND DHCP TOGETHER</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>Complete NGFW Policy Reference for These Protocols</h3><span class="tag tag-teal">POLICY</span></div>
   <div class="cp-body">
@@ -842,7 +781,6 @@ aa:bb:cc:dd:ee:ff  192.168.1.50   86400s    10    GigE0/1
     </table>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Protocol-Specific NGFW Inspection Architecture</h3><span class="tag tag-orange">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -886,11 +824,8 @@ On DHCP ACK intercept:
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 — LABS ════════════ -->
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>SMTP Session Analysis and SPF/DKIM Verification</h4></div>
   <div class="lab-body">
@@ -903,7 +838,6 @@ On DHCP ACK intercept:
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — STARTTLS upgrade:</strong> Connect to an SMTP server that supports TLS: <code>openssl s_client -starttls smtp -connect smtp.gmail.com:587</code>. After the TLS handshake, you're at an SMTP prompt over encrypted connection. Type EHLO and verify the capabilities. Note the certificate presented.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>FTP ALG Analysis and DHCP Dissection</h4></div>
   <div class="lab-body">
@@ -916,14 +850,10 @@ On DHCP ACK intercept:
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — DHCP starvation simulation (safe, on your own VM only):</strong> Use scapy to send multiple DHCP Discovers with random MAC addresses: <code>from scapy.all import *; [sendp(Ether(src=RandMAC())/IP(src="0.0.0.0",dst="255.255.255.255")/UDP(sport=68,dport=67)/BOOTP(chaddr=RandString(6))/DHCP(options=[("message-type","discover"),"end"])) for _ in range(20)]</code>. Observe: does your DHCP server's lease pool shrink? How many genuine IPs can still be assigned?</div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB 9 — CHECKLIST ════════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">M09 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Know the email protocol stack: MUA → port 587 → MSA → port 25 → MTA → IMAP/POP3 → MUA</li>
   <li>Know the three SMTP ports and their purposes: 25=server-to-server relay, 587=client submission (AUTH), 465=SMTPS (TLS from connect)</li>
@@ -955,22 +885,18 @@ On DHCP ACK intercept:
   <li>Completed Lab 1: sent manual SMTP session via netcat, wrote SPF checker in Python, decoded DKIM header fields</li>
   <li>Completed Lab 2: captured FTP active/passive sessions, decoded PORT/PASV port calculation, captured full DHCP DORA, decoded all DHCP options</li>
 </ul>
-
 <!-- Phase 2 Complete Banner -->
 <div class="phase-complete">
   <h3>🎉 Phase 2 Complete — Transport and Application Protocols</h3>
   <p>You have completed all 5 modules of Phase 2: TCP (M05), UDP and ICMP (M06), DNS (M07), HTTP/1.1–3 and QUIC (M08), and SMTP, FTP, DHCP (M09). You now understand every major protocol that an NGFW must inspect, filter, and protect. Move to <strong>Phase 3 — Routing and Forwarding</strong>, starting with <strong>M10 - Routing Fundamentals and FIB</strong>.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m08-http/">← M08 HTTP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m10-routing-fundamentals/">Next: M10 - Routing and FIB →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

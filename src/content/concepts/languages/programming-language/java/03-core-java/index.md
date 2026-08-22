@@ -16,7 +16,6 @@ String, Wrapper classes, and essential Java APIs.
 ## Topics
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0;">
-
 <!-- Constructors -->
 <div style="background:#f8fafc;border-radius:10px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);border-left:4px solid #667eea;">
   <h3 style="margin-top:0;display:flex;align-items:center;gap:0.5rem;">
@@ -24,7 +23,6 @@ String, Wrapper classes, and essential Java APIs.
   </h3>
   <p style="color:#4a5568;margin-bottom:0;">Complete guide to constructors, default vs no-args, parameterized, overloading, chaining, and private constructors for controlled instantiation.</p>
 </div>
-
 <!-- Memory Management & Garbage Collection -->
 <div style="background:#f8fafc;border-radius:10px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);border-left:4px solid #764ba2;">
   <h3 style="margin-top:0;display:flex;align-items:center;gap:0.5rem;">
@@ -32,7 +30,6 @@ String, Wrapper classes, and essential Java APIs.
   </h3>
   <p style="color:#4a5568;margin-bottom:0;">Stack vs Heap, GC algorithms, generational collection, memory leaks, and reference types (Strong, Weak, Soft).</p>
 </div>
-
 </div>
 
 ---

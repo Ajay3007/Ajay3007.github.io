@@ -169,7 +169,6 @@ url: /learning/networking-mastery/m08-http/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 2 · MODULE 08 · WEEK 6</div>
@@ -183,7 +182,6 @@ url: /learning/networking-mastery/m08-http/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">HTTP Evolution</button>
@@ -197,12 +195,9 @@ url: /learning/networking-mastery/m08-http/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — HTTP EVOLUTION ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">FROM HTTP/0.9 TO HTTP/3 — 30 YEARS OF EVOLUTION</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📜</span><h3>Why HTTP Has Evolved So Dramatically</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
@@ -210,7 +205,6 @@ url: /learning/networking-mastery/m08-http/
     <p>The core problem each version solves: <strong>latency</strong>. The web went from single HTML pages (1991) to pages requiring 100+ assets — CSS, JavaScript, images, fonts, API calls — all of which need to be fetched to render a page. Each protocol version attempts to reduce the number of round-trips and the total time to first byte.</p>
   </div>
 </div>
-
 <div class="version-timeline">
   <div class="vt-item" style="background:#f8f8f8">
     <div class="vt-version">HTTP/0.9</div>
@@ -238,7 +232,6 @@ url: /learning/networking-mastery/m08-http/
     <div class="vt-key">Runs over QUIC (UDP). Eliminates TCP HOL blocking. 0-RTT connection resumption. Connection migration. Mandatory encryption.</div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>HTTP in the Protocol Stack</h3><span class="tag tag-blue">POSITION</span></div>
   <div class="cp-body">
@@ -260,7 +253,6 @@ HTTP/1.1 and HTTP/2:          HTTP/3:
 <span class="cm">/* HTTP/2 is binary framing over the same TCP+TLS */</span>
 <span class="cm">/* HTTP/3 moves the entire stack to UDP with QUIC handling */</span>
 <span class="cm">/* reliability, ordering, and encryption that TCP+TLS provided */</span>
- 
 <span class="cm">/* Check which HTTP version a server uses */</span>
 curl -v --http1.1 https://google.com 2>&1 | grep '< HTTP'
 curl -v --http2    https://google.com 2>&1 | grep '< HTTP'
@@ -268,17 +260,13 @@ curl -v --http3    https://google.com 2>&1 | grep '< HTTP'  <span class="cm"># i
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — HTTP/1.1 ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">HTTP/1.1 — THE CLASSIC TEXT-BASED PROTOCOL</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📨</span><h3>HTTP/1.1 Request Format</h3><span class="tag tag-blue">FORMAT</span></div>
   <div class="cp-body">
     <p>HTTP/1.1 is a plain-text protocol. Every message — request or response — is human-readable ASCII, line-delimited. A request consists of a <strong>request line</strong>, followed by <strong>headers</strong>, a blank line (CRLF), and optionally a <strong>body</strong>.</p>
-
     <div class="http-msg">
 <pre><span class="hm-method">POST</span> <span class="hm-path">/api/v1/users</span> <span class="hm-proto">HTTP/1.1</span>            <span class="hm-comment">← Request line: Method SP Path SP Version CRLF</span>
 <span class="hm-hdr-name">Host:</span> <span class="hm-hdr-val">api.example.com</span>                  <span class="hm-comment">← Mandatory in HTTP/1.1 (virtual hosting)</span>
@@ -291,7 +279,6 @@ curl -v --http3    https://google.com 2>&1 | grep '< HTTP'  <span class="cm"># i
                                          <span class="hm-comment">← Empty line (CRLF) separates headers from body</span>
 <span class="hm-body">{"name":"Ajay","role":"admin"}</span>         <span class="hm-comment">← Request body (27 bytes)</span></pre>
     </div>
-
     <div class="http-msg" style="margin-top:.5rem">
 <pre><span class="hm-proto">HTTP/1.1</span> <span class="hm-status">201 Created</span>                   <span class="hm-comment">← Status line: Version SP Status-Code SP Reason CRLF</span>
 <span class="hm-hdr-name">Content-Type:</span> <span class="hm-hdr-val">application/json</span>
@@ -300,17 +287,14 @@ curl -v --http3    https://google.com 2>&1 | grep '< HTTP'  <span class="cm"># i
 <span class="hm-hdr-name">Set-Cookie:</span> <span class="hm-hdr-val">session=abc123; HttpOnly; Secure; SameSite=Strict</span>
 <span class="hm-hdr-name">X-Request-ID:</span> <span class="hm-hdr-val">7f3a9c2d</span>
 <span class="hm-hdr-name">Date:</span> <span class="hm-hdr-val">Wed, 18 Mar 2026 10:00:00 GMT</span>
- 
 <span class="hm-body">{"id":42,"name":"Ajay","role":"admin"}</span></pre>
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Persistent Connections and Pipelining</h3><span class="tag tag-teal">CONNECTIONS</span></div>
   <div class="cp-body">
     <p>HTTP/1.0 opened a new TCP connection for every request — 3-way handshake + TLS handshake for every single asset. A page with 30 assets = 30 TCP connections. HTTP/1.1 introduced <strong>persistent connections</strong> (keep-alive) as the default: after a response, the TCP connection stays open for subsequent requests.</p>
-
     <div class="pipe-diagram">
       <div class="pipe-row">
         <div class="pipe-label">HTTP/1.0</div>
@@ -341,9 +325,7 @@ curl -v --http3    https://google.com 2>&1 | grep '< HTTP'  <span class="cm"># i
         <div class="pipe-req pr-r2" style="flex:1.5">Resp 1</div>
       </div>
     </div>
-
     <p><strong>Head-of-Line (HOL) blocking</strong> is HTTP/1.1's critical weakness: responses must be returned in request order on a single connection. If request 1 is slow (large file, slow server), requests 2, 3, 4 all wait behind it even if they'd complete instantly. Browsers work around this by opening <strong>6 parallel TCP connections per origin</strong> — but this wastes resources and still isn't a clean solution.</p>
-
     <h4>Chunked Transfer Encoding</h4>
 <div class="cb"><pre><span class="cm">/* Server sends response body in chunks — no Content-Length needed */</span>
 HTTP/1.1 200 OK
@@ -356,18 +338,14 @@ This is the first chunk.
 And the second chunk.
 <span class="cv">0</span>                <span class="hm-comment">← zero-length chunk = end of body</span>
                  <span class="hm-comment">← trailing CRLF</span>
- 
 <span class="cm">/* Used for: streaming responses, server-sent events */</span>
 <span class="cm">/* server starts sending before it knows total size */</span></pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — METHODS AND STATUS CODES ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">HTTP METHODS AND STATUS CODES — THE COMPLETE REFERENCE</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>HTTP Request Methods</h3><span class="tag tag-blue">METHODS</span></div>
   <div class="cp-body">
@@ -388,7 +366,6 @@ And the second chunk.
     <div class="note"><p>💡 <strong>Safe</strong> = no side effects (read-only). <strong>Idempotent</strong> = calling multiple times has same effect as calling once. These properties matter for retry logic (retrying a non-idempotent POST could create duplicates) and NGFW policy (blocking unsafe methods on read-only APIs).</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>HTTP Status Codes — Every Category</h3><span class="tag tag-teal">STATUS CODES</span></div>
   <div class="cp-body">
@@ -399,7 +376,6 @@ And the second chunk.
           <li><code>100 Continue</code> — server received request headers, client should send body</li>
           <li><code>101 Switching Protocols</code> — upgrading to WebSocket or HTTP/2</li>
         </ul>
-
         <h4>2xx — Success</h4>
         <ul>
           <li><code>200 OK</code> — standard success</li>
@@ -407,7 +383,6 @@ And the second chunk.
           <li><code>204 No Content</code> — success, no body (DELETE)</li>
           <li><code>206 Partial Content</code> — range request fulfilled</li>
         </ul>
-
         <h4>3xx — Redirection</h4>
         <ul>
           <li><code>301 Moved Permanently</code> — permanent redirect, update bookmarks</li>
@@ -429,7 +404,6 @@ And the second chunk.
           <li><code>409 Conflict</code> — state conflict (duplicate resource)</li>
           <li><code>429 Too Many Requests</code> — rate limited</li>
         </ul>
-
         <h4>5xx — Server Errors</h4>
         <ul>
           <li><code>500 Internal Server Error</code> — generic server error</li>
@@ -439,17 +413,13 @@ And the second chunk.
         </ul>
       </div>
     </div>
-
     <div class="ins"><p>💡 <strong>NGFW status code monitoring:</strong> A spike in 401/403 responses from a single source may indicate a credential stuffing or brute-force attack. A flood of 500 responses may indicate a vulnerability scan or SQL injection attempt. A stream of 404s from a single source is likely a web crawler or directory enumeration scan. These patterns are detectable in your NGFW's HTTP inspection logs.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — KEY HEADERS ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">KEY HTTP HEADERS — REQUEST, RESPONSE, AND SECURITY HEADERS</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Critical Request Headers</h3><span class="tag tag-purple">REQUEST HEADERS</span></div>
   <div class="cp-body">
@@ -468,36 +438,28 @@ And the second chunk.
     </table>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>Security Response Headers — What Your NGFW Should Enforce</h3><span class="tag tag-green">SECURITY HEADERS</span></div>
   <div class="cp-body">
     <p>Security headers are HTTP response headers that instruct the browser to enable security protections. A WAF or NGFW proxy can inject missing security headers into responses:</p>
 <div class="cb"><pre><span class="cm">/* Security headers — every production server should send these */</span>
- 
 <span class="hm-hdr-name">Strict-Transport-Security:</span> <span class="hm-hdr-val">max-age=31536000; includeSubDomains; preload</span>
 <span class="hm-comment">  # HSTS: browser must use HTTPS for this domain for 1 year
   # Prevents SSL stripping attacks
   # preload: submit to browser preload list</span>
- 
 <span class="hm-hdr-name">Content-Security-Policy:</span> <span class="hm-hdr-val">default-src 'self'; script-src 'self' cdn.example.com; object-src 'none'</span>
 <span class="hm-comment">  # CSP: whitelist of allowed content sources
   # Prevents XSS by blocking inline scripts and untrusted sources</span>
- 
 <span class="hm-hdr-name">X-Frame-Options:</span> <span class="hm-hdr-val">DENY</span>
 <span class="hm-comment">  # Prevent clickjacking — page cannot be embedded in iframe
   # Superseded by CSP frame-ancestors, but still widely needed</span>
- 
 <span class="hm-hdr-name">X-Content-Type-Options:</span> <span class="hm-hdr-val">nosniff</span>
 <span class="hm-comment">  # Browser must not MIME-sniff — prevents content-type confusion attacks</span>
- 
 <span class="hm-hdr-name">Referrer-Policy:</span> <span class="hm-hdr-val">strict-origin-when-cross-origin</span>
 <span class="hm-comment">  # Controls what goes in Referer header on cross-origin requests
   # Prevents leaking sensitive URLs to third parties</span>
- 
 <span class="hm-hdr-name">Permissions-Policy:</span> <span class="hm-hdr-val">camera=(), microphone=(), geolocation=(self)</span>
 <span class="hm-comment">  # Restrict browser APIs — prevent malicious pages accessing camera/mic</span>
- 
 <span class="hm-hdr-name">Set-Cookie:</span> <span class="hm-hdr-val">session=abc; HttpOnly; Secure; SameSite=Strict; Path=/</span>
 <span class="hm-comment">  # HttpOnly: JS cannot access cookie (prevents XSS cookie theft)
   # Secure: only sent over HTTPS
@@ -505,12 +467,9 @@ And the second chunk.
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — HTTP/2 ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">HTTP/2 — BINARY FRAMING AND MULTIPLEXING</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>HTTP/2 Core Innovations</h3><span class="tag tag-purple">HTTP/2</span></div>
   <div class="cp-body">
@@ -524,12 +483,10 @@ And the second chunk.
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>HTTP/2 Streams and Framing</h3><span class="tag tag-blue">STREAMS</span></div>
   <div class="cp-body">
     <p>An HTTP/2 <strong>stream</strong> is a bidirectional sequence of frames on a single TCP connection. Each stream has an integer ID (client-initiated streams use odd IDs: 1, 3, 5…; server-initiated use even IDs). Multiple streams run concurrently — frames from different streams are interleaved:</p>
-
     <div class="pipe-diagram">
       <div class="pipe-row">
         <div class="pipe-label">HTTP/1.1<br>(6 conns)</div>
@@ -554,7 +511,6 @@ And the second chunk.
         <div class="pipe-req pr-r5" style="flex:.8">S9:DATA</div>
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm">/* HTTP/2 Frame format */</span>
 +-----------------------------------------------+
 | Length (24 bits) | Type (8 bits) | Flags (8b) |
@@ -575,18 +531,15 @@ Type 0x6 PING:        <span class="cs">keepalive and RTT measurement</span>
 Type 0x7 GOAWAY:      <span class="cs">graceful connection shutdown — last processed stream ID</span>
 Type 0x8 WINDOW_UPDATE:<span class="cs">flow control — increase receive window</span>
 Type 0x9 CONTINUATION:<span class="cs">continue HEADERS frame if too large for one frame</span>
- 
 <span class="cm">/* HEADERS frame example — HPACK compressed */</span>
 <span class="cm">/* Static table entry: :method GET = index 2, :path / = index 4 */</span>
 \x82           <span class="cm"># :method = GET  (index 2 from static table)</span>
 \x84           <span class="cm"># :path = /       (index 4)</span>
 \x86           <span class="cm"># :scheme = https (index 6)</span>
 \x41 \x8a...   <span class="cm"># :authority = www.google.com (literal with indexing)</span></pre></div>
-
     <div class="warn"><p>⚠️ <strong>HTTP/2 still has TCP HOL blocking.</strong> While HTTP/2 eliminates application-layer head-of-line blocking (requests no longer wait behind each other at the HTTP layer), it still runs over TCP. If a single TCP packet is lost, TCP holds ALL streams until retransmission completes — even streams that have no dependency on the lost data. This is the core motivation for HTTP/3's move to QUIC/UDP.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🗜️</span><h3>HPACK Header Compression</h3><span class="tag tag-teal">HPACK</span></div>
   <div class="cp-body">
@@ -612,12 +565,9 @@ Request 2 — same User-Agent:
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — HTTP/3 AND QUIC ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">HTTP/3 AND QUIC — REIMAGINING THE WEB TRANSPORT STACK</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>Why QUIC Was Invented</h3><span class="tag tag-orange">MOTIVATION</span></div>
   <div class="cp-body">
@@ -631,7 +581,6 @@ Request 2 — same User-Agent:
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>QUIC Architecture</h3><span class="tag tag-blue">QUIC INTERNALS</span></div>
   <div class="cp-body">
@@ -667,7 +616,6 @@ Client → Server: 0-RTT data immediately (with replay-protected pre-shared key)
 Caveat: 0-RTT data is replay-vulnerable — only safe for idempotent requests (GET)</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📊</span><h3>QUIC Frame Types</h3><span class="tag tag-teal">FRAMES</span></div>
   <div class="cp-body">
@@ -705,7 +653,6 @@ Caveat: 0-RTT data is replay-vulnerable — only safe for idempotent requests (G
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>HTTP/3 — HTTP over QUIC</h3><span class="tag tag-green">HTTP/3</span></div>
   <div class="cp-body">
@@ -720,7 +667,6 @@ Caveat: 0-RTT data is replay-vulnerable — only safe for idempotent requests (G
 curl -I https://cloudflare.com | grep -i alt-svc
 <span class="cm"># alt-svc: h3=":443"; ma=86400</span>
 <span class="cm"># "I support HTTP/3 (h3) on port 443, this hint is valid for 86400 seconds"</span>
- 
 <span class="cm"># Test HTTP/3 with curl (requires --http3 support)</span>
 curl --http3 -v https://cloudflare.com 2>&1 | head -20
  
@@ -728,19 +674,15 @@ curl --http3 -v https://cloudflare.com 2>&1 | head -20
 <span class="cm"># Filter: udp.port == 443 (QUIC uses UDP 443)</span>
 <span class="cm"># QUIC packets appear as "QUIC" in protocol column</span>
 <span class="cm"># Content is encrypted — only metadata visible without TLS keys</span>
- 
 <span class="cm"># Provide TLS keys to Wireshark for decryption</span>
 SSLKEYLOGFILE=/tmp/keys.log curl --http3 https://cloudflare.com
 <span class="cm"># In Wireshark: Edit → Preferences → Protocols → TLS → Master Secret log</span></pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — HTTPS AND TLS ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">HTTPS — HTTP OVER TLS, AND WHY THE URL BAR IS GREEN</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>HTTPS — What It Does and What It Doesn't</h3><span class="tag tag-blue">HTTPS</span></div>
   <div class="cp-body">
@@ -750,11 +692,9 @@ SSLKEYLOGFILE=/tmp/keys.log curl --http3 https://cloudflare.com
       <li><strong>Integrity</strong> — TLS MAC ensures the content hasn't been tampered with in transit. Attacker cannot modify HTTP responses (inject ads, malware) without detection</li>
       <li><strong>Authentication</strong> — the server's TLS certificate proves its identity. Your browser verifies the certificate was issued by a trusted CA and matches the hostname</li>
     </ul>
-
     <div class="warn"><p>⚠️ <strong>What HTTPS does NOT protect:</strong> The destination hostname is visible in the TLS SNI (Server Name Indication) extension — the server needs to know which certificate to present before decryption. The destination IP is always visible (IP routing requires it). HTTP/2 header sizes are visible even though content is encrypted. HTTPS proves the server is who it claims to be — it does NOT prove the site is legitimate or safe.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>TLS Handshake Timeline — HTTP/1.1 vs HTTP/2 vs HTTP/3</h3><span class="tag tag-teal">HANDSHAKE</span></div>
   <div class="cp-body">
@@ -785,17 +725,13 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — NGFW HTTP INSPECTION ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">NGFW HTTP INSPECTION — URL FILTERING, DPI, AND SSL INSPECTION</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>HTTP Inspection in an NGFW — What Gets Inspected</h3><span class="tag tag-red">INSPECTION</span></div>
   <div class="cp-body">
     <p>For plain HTTP traffic (port 80), an NGFW can inspect everything. For HTTPS, the NGFW must either trust the SNI (limited information) or perform SSL inspection (full access but requires certificate deployment).</p>
-
     <table class="t-table">
       <thead><tr><th>Element</th><th>Visible in HTTP</th><th>Visible in HTTPS (no SSL inspection)</th><th>Visible with SSL Inspection</th></tr></thead>
       <tbody>
@@ -813,12 +749,10 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
     </table>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>SSL Inspection — How NGFW Decrypts HTTPS</h3><span class="tag tag-purple">SSL INSPECTION</span></div>
   <div class="cp-body">
     <p>SSL inspection (also called TLS inspection, SSL bump, or MITM proxy) allows an NGFW to decrypt, inspect, and re-encrypt HTTPS traffic. It is the most powerful — and most controversial — NGFW capability.</p>
-
     <div class="flow-list">
       <div class="fl-step" data-n="1" style="--sc:#5a1a8c">
         <div>
@@ -854,11 +788,9 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
         </div>
       </div>
     </div>
-
     <div class="note"><p>💡 <strong>Exclusion list:</strong> SSL inspection should exclude financial and healthcare sites (banks, healthcare portals) where privacy regulations require client-to-server TLS integrity. Certificate pinning (used by some mobile apps) will break — those apps must be excluded. Most NGFWs maintain an exclusion list of domains where SSL inspection is bypassed.</p></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>HTTP-Based Attack Detection</h3><span class="tag tag-orange">ATTACKS</span></div>
   <div class="cp-body">
@@ -877,11 +809,8 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 — LABS ════════════ -->
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>HTTP Protocol Analysis with curl and Wireshark</h4></div>
   <div class="lab-body">
@@ -894,7 +823,6 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — QUIC traffic:</strong> <code>SSLKEYLOGFILE=/tmp/keys.log curl --http3 https://cloudflare.com</code>. In Wireshark: filter <code>udp.port == 443</code>. Without key log you see QUIC packet metadata but encrypted content. With key log configured, QUIC frames become visible. Compare frame structure to what you studied in Tab 5.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build an HTTP/1.1 Server and Client in C</h4></div>
   <div class="lab-body">
@@ -906,7 +834,6 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus — implement chunked encoding:</strong> For the <code>/stream</code> endpoint, set <code>Transfer-Encoding: chunked</code> and send the response body in 5 chunks of 10 bytes each with proper hex length prefixes. Use <code>curl -v http://localhost:8080/stream</code> to verify the chunked response is reassembled correctly.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>HTTP Security Header Audit and Attack Simulation</h4></div>
   <div class="lab-body">
@@ -918,14 +845,10 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
     <div class="lab-step"><div class="sn">5</div><div><strong>Rate limiting simulation:</strong> Write a Python script that sends 100 GET requests per second to your HTTP server from Lab 2. Observe: does your server handle it? Add rate limiting: track requests per source IP in a hash map, return 429 Too Many Requests if rate exceeds 10 req/sec. Test the rate limiter works.</div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB 9 — CHECKLIST ════════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">M08 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain the key problem each HTTP version solved: 1.0=persistent, 1.1=keep-alive+chunked, 2=multiplexing, 3=no TCP HOL blocking</li>
   <li>Know HTTP/1.1 message format: request line + headers + CRLF + body; status line + headers + CRLF + body</li>
@@ -958,20 +881,16 @@ RTT 1: → QUIC Handshake Finished + HTTP/3 request arrives
   <li>Completed Lab 2: built HTTP/1.1 server from scratch in C with routing, header parsing, and chunked encoding</li>
   <li>Completed Lab 3: audited security headers, simulated SQLi/XSS patterns, implemented rate limiting</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem">
   <p>✅ <strong>When complete:</strong> Move to <strong>M09 - SMTP, FTP, and DHCP</strong>. These are the protocols an NGFW must parse to protect email infrastructure, file transfers, and network bootstrapping — each introduces unique ALG (Application-Level Gateway) challenges for firewall traversal.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m07-dns/">← M07 DNS</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m09-app-protocols/">Next: M09 - SMTP, FTP, DHCP →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

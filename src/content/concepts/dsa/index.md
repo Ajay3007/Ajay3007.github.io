@@ -35,7 +35,6 @@ url: /learning/dsa/
 ## Topics
 
 <div class="projects-list" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; display: grid; margin: 2rem 0;">
-
   <div class="project-card" style="border-left: 4px solid #3b82f6;">
     <h3><a href="/learning/dsa/arrays/">📐 Arrays</a></h3>
     <p>Sliding window, two pointers, prefix sums, Kadane's. Core pattern mastery.</p>
@@ -43,7 +42,6 @@ url: /learning/dsa/
     {% assign arr_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'arrays'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ arr_solved }}/{{ arr_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #8b5cf6;">
     <h3><a href="/learning/dsa/strings/">🔤 Strings</a></h3>
     <p>Pattern matching, hashing, palindromes, anagrams, encoding.</p>
@@ -51,7 +49,6 @@ url: /learning/dsa/
     {% assign str_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'strings'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ str_solved }}/{{ str_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #ec4899;">
     <h3><a href="/learning/dsa/linked-list/">🔗 Linked List</a></h3>
     <p>Singly & doubly lists, cycle detection, reversal, fast/slow pointers.</p>
@@ -59,7 +56,6 @@ url: /learning/dsa/
     {% assign ll_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'linked-list'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ ll_solved }}/{{ ll_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #f59e0b;">
     <h3><a href="/learning/dsa/stacks/">⚡ Stacks</a></h3>
     <p>LIFO structure, monotonic stacks, applications.</p>
@@ -67,12 +63,10 @@ url: /learning/dsa/
     {% assign stk_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'stacks'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ stk_solved }}/{{ stk_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #10b981;">
     <h3><a href="/learning/dsa/queues/">🔄 Queues</a></h3>
     <p>FIFO structure, circular & priority queues. 🚧 Content coming.</p>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #06b6d4;">
     <h3><a href="/learning/dsa/tree/">🌲 Trees</a></h3>
     <p>Traversals, BST, segment trees, tries.</p>
@@ -80,7 +74,6 @@ url: /learning/dsa/
     {% assign tree_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'tree'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ tree_solved }}/{{ tree_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #6366f1;">
     <h3><a href="/learning/dsa/searching-sorting/">🔍 Searching & Sorting</a></h3>
     <p>Binary search, binary search on answer, all sorting algorithms.</p>
@@ -88,32 +81,26 @@ url: /learning/dsa/
     {% assign ss_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'searching-sorting'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ ss_solved }}/{{ ss_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #ef4444;">
     <h3><a href="/learning/dsa/graphs/">🕸️ Graphs</a></h3>
     <p>BFS/DFS, shortest paths, MST, topological sort. 🚧 Content coming.</p>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #84cc16;">
     <h3><a href="/learning/dsa/dynamic-programming/">💡 Dynamic Programming</a></h3>
     <p>1D/2D DP, Knapsack family, memoization vs tabulation. 🚧 Content coming.</p>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #a855f7;">
     <h3><a href="/learning/dsa/recursion/">🔁 Recursion</a></h3>
     <p>Base cases, recurrence, stack frames, tail recursion. 🚧 Content coming.</p>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #f97316;">
     <h3><a href="/learning/dsa/backtracking/">🔙 Backtracking</a></h3>
     <p>Try/choose/backtrack; pruning with constraints. 🚧 Content coming.</p>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #0ea5e9;">
     <h3><a href="/learning/dsa/binary-search/">📐 Binary Search</a></h3>
     <p>Lower/upper bound, first/last occurrence, rotated arrays. 🚧 Content coming.</p>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #eab308;">
     <h3><a href="/learning/dsa/hashing/">#️⃣ Hashing</a></h3>
     <p>Hashmaps & sets: frequency counts, two-sum pattern, grouping, prefix-sum + map.</p>
@@ -121,7 +108,6 @@ url: /learning/dsa/
     {% assign hash_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'hashing'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ hash_solved }}/{{ hash_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #f43f5e;">
     <h3><a href="/learning/dsa/heaps/">🏔️ Heaps</a></h3>
     <p>Min/max-heap, priority queue: top-K, K-way merge, running median patterns.</p>
@@ -129,7 +115,6 @@ url: /learning/dsa/
     {% assign heap_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'heaps'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ heap_solved }}/{{ heap_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #22c55e;">
     <h3><a href="/learning/dsa/greedy/">🌿 Greedy</a></h3>
     <p>Local optimal choices: interval scheduling, jump games, two-pass patterns.</p>
@@ -137,7 +122,6 @@ url: /learning/dsa/
     {% assign greedy_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'greedy'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ greedy_solved }}/{{ greedy_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #64748b;">
     <h3><a href="/learning/dsa/bit-manipulation/">⚙️ Bit Manipulation</a></h3>
     <p>AND/OR/XOR tricks, Brian Kernighan, power-of-two checks, single number.</p>
@@ -145,7 +129,6 @@ url: /learning/dsa/
     {% assign bit_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'bit-manipulation'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ bit_solved }}/{{ bit_total }} solved</small>
   </div>
-
   <div class="project-card" style="border-left: 4px solid #14b8a6;">
     <h3><a href="/learning/dsa/intervals/">📏 Intervals</a></h3>
     <p>Merge, insert, intersect: sort by start, sweep for overlaps.</p>
@@ -153,7 +136,6 @@ url: /learning/dsa/
     {% assign iv_total = site.data.problems.problems | where_exp: "p", "p.topics contains 'intervals'" | size %}
     <small style="color:#667eea; font-weight:600;">{{ iv_solved }}/{{ iv_total }} solved</small>
   </div>
-
 </div>
 
 ---

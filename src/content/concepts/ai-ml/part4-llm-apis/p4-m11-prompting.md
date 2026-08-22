@@ -111,7 +111,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m11-prompting/
 .tc-xml{background:#e0f2fe;border-color:#7dd3fc}.tc-xml h4{color:#0c4a6e}
 .tc-role{background:#fdf2ff;border-color:#d8b4fe}.tc-role h4{color:#6b21a8}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 4 — LLM API Mastery &nbsp;·&nbsp; Module 11 of 14</div>
@@ -124,7 +123,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m11-prompting/
     <span class="mod-pill">📋 Prerequisite: P1 Complete</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -137,11 +135,8 @@ url: /learning/ai-ml/part4-llm-apis/p4-m11-prompting/
   <button class="tab-btn" onclick="vt(event,'t7')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-indigo">Core of AI Engineering</span></div>
   <div class="cp-body">
@@ -158,7 +153,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m11-prompting/
     <div class="ins"><p>💡 <strong>Prompting is the foundation of every module from here.</strong> Good prompting makes tool calling more reliable, RAG answers more grounded, agents more predictable, and structured outputs easier to validate. This week sets the quality floor for everything you build.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>First API Call — Getting Started</h3><span class="tag tag-blue">Setup</span></div>
   <div class="cp-body">
@@ -198,13 +192,9 @@ response = client.chat.completions.create(
 print(response.choices[<span class="cv">0</span>].message.content)</pre></div>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — MESSAGE STRUCTURE ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🏗</span><h3>The Messages Array — System, User, Assistant</h3><span class="tag tag-indigo">Critical</span></div>
   <div class="cp-body">
@@ -234,7 +224,6 @@ def parse_currency..."</span>},
     </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Key Parameters — Temperature, max_tokens, top_p</h3><span class="tag tag-blue">Parameters</span></div>
   <div class="cp-body">
@@ -257,7 +246,6 @@ def parse_currency..."</span>},
     <div class="warn"><p>⚠️ <strong>For AI engineering tasks (data extraction, classification, tool calling), always use temperature=0.0.</strong> Any non-zero temperature means the model might give different answers to the same question — which breaks deterministic pipelines.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">✂️</span><h3>Prefilling — Controlling Output Format</h3><span class="tag tag-teal">Advanced</span></div>
   <div class="cp-body">
@@ -273,7 +261,6 @@ response = client.messages.create(
 )
 <span class="ck"># Model MUST continue the JSON: {"name": "John", "age": 28, "city": "Mumbai"}</span>
 result = <span class="cs">"{"</span> + response.content[<span class="cv">0</span>].text   <span class="ck"># prepend the "{" we used as prefill</span>
- 
 <span class="ck"># Force numbered list format</span>
 messages=[
     {<span class="cs">"role"</span>: <span class="cs">"user"</span>,      <span class="cs">"content"</span>: <span class="cs">"List 5 benefits of RAG"</span>},
@@ -281,13 +268,9 @@ messages=[
 ]</pre></div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — PROMPTING TECHNIQUES ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>The Six Core Techniques</h3><span class="tag tag-indigo">Master These</span></div>
   <div class="cp-body">
@@ -301,7 +284,6 @@ messages=[
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📸</span><h3>Zero-Shot vs Few-Shot — When to Use Each</h3><span class="tag tag-blue">Most Used</span></div>
   <div class="cp-body">
@@ -349,7 +331,6 @@ Review: "{review}" →"""</span>
     return response.content[<span class="cv">0</span>].text.strip()</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧠</span><h3>Chain-of-Thought (CoT) — Reasoning Before Answering</h3><span class="tag tag-teal">Accuracy Booster</span></div>
   <div class="cp-body">
@@ -372,7 +353,6 @@ prompt = <span class="cs">f"""
  
 Think step by step before giving your final answer.
 """</span>
- 
 <span class="ck"># CoT with scratchpad — separate reasoning from answer</span>
 prompt = <span class="cs">f"""
 {question}
@@ -380,7 +360,6 @@ prompt = <span class="cs">f"""
 First, reason through this carefully in a &lt;scratchpad&gt; tag.
 Then give your final answer in an &lt;answer&gt; tag.
 """</span>
- 
 <span class="ck"># Parse out just the answer (not the reasoning)</span>
 import re
 response_text = response.content[<span class="cv">0</span>].text
@@ -394,7 +373,6 @@ Then output exactly one of: POSITIVE / NEGATIVE / NEUTRAL on a new line."""</spa
     <div class="ins"><p>💡 <strong>CoT works because it changes what tokens the model predicts.</strong> Without CoT, the model predicts the final answer token directly. With CoT, it predicts reasoning tokens first, which condition it to predict a better final answer. The reasoning is not just cosmetic — it actually changes the computation.</p></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🏷</span><h3>XML Tags — Separating Instructions from Content</h3><span class="tag tag-orange">Anthropic Recommended</span></div>
   <div class="cp-body">
@@ -441,12 +419,10 @@ Identify: bugs, missing error handling, style issues.
 Format your response as a numbered list."""</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🎭</span><h3>Role Prompting — Consistent Persona and Expertise</h3><span class="tag tag-purple">System Prompt</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Role prompt anchors tone, vocabulary, and domain expertise</span>
- 
 <span class="ck"># Customer support agent</span>
 SUPPORT_SYSTEM = <span class="cs">"""You are Alex, a friendly customer support agent at TechCorp.
 You have deep knowledge of TechCorp products and policies.
@@ -456,14 +432,12 @@ Guidelines:
 - If you cannot resolve an issue, escalate clearly: "I'll escalate this to our specialist team."
 - Never promise things you cannot guarantee
 - Keep responses concise: 2-3 paragraphs maximum"""</span>
- 
 <span class="ck"># Technical documentation writer</span>
 DOCS_SYSTEM = <span class="cs">"""You are a technical writer at a developer tools company.
 You write clear, precise documentation for software engineers.
 Style: active voice, present tense, second person ("you").
 Format: use code examples for every concept. Include "When to use" and "When NOT to use" sections.
 Audience: senior engineers who prefer depth over simplification."""</span>
- 
 <span class="ck"># Data analysis assistant</span>
 DATA_SYSTEM = <span class="cs">"""You are a senior data analyst. When given data or questions about data:
 1. Start with the most important insight, not methodology
@@ -474,13 +448,9 @@ DATA_SYSTEM = <span class="cs">"""You are a senior data analyst. When given data
     <div class="ins"><p>💡 <strong>The best role prompts specify behaviour, not just identity.</strong> "You are a Python expert" is weak. "You are a Python expert who always writes type hints, documents edge cases, and asks clarifying questions before implementing" is strong — it specifies what the model <em>does</em>, not just what it <em>is</em>.</p></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — ADVANCED PATTERNS ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>Prompt Engineering for Reliability</h3><span class="tag tag-indigo">Production Quality</span></div>
   <div class="cp-body">
@@ -496,14 +466,12 @@ GOOD = <span class="cs">"""Extract from this contract:
  
 If any field is not present, output: null
 Output as JSON only. No prose."""</span>
- 
 <span class="ck"># 2. Negative instructions — tell the model what NOT to do</span>
 system = <span class="cs">"""You are a medical information assistant.
 DO NOT provide specific diagnoses.
 DO NOT recommend specific medications or dosages.
 DO NOT suggest the user stop or change current medications.
 Always recommend consulting a qualified healthcare provider."""</span>
- 
 <span class="ck"># 3. Fallback handling — what to do when unsure</span>
 prompt = <span class="cs">"""Answer the user's question based only on the provided context.
 If the answer is not in the context, respond exactly with:
@@ -515,7 +483,6 @@ Do not make up information.
 &lt;/context&gt;
  
 Question: {question}"""</span>
- 
 <span class="ck"># 4. Confidence calibration</span>
 prompt = <span class="cs">"""Answer the question. After your answer, rate your confidence:
 HIGH: you are certain this is correct
@@ -527,7 +494,6 @@ Confidence: HIGH/MEDIUM/LOW
 Reason for confidence level: [one sentence]"""</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔁</span><h3>Self-Consistency and Verification</h3><span class="tag tag-teal">Accuracy Patterns</span></div>
   <div class="cp-body">
@@ -546,7 +512,6 @@ def classify_with_consistency(text: str, n: int = <span class="cv">5</span>) -> 
         results.append(response.content[<span class="cv">0</span>].text.strip())
     most_common = Counter(results).most_common(<span class="cv">1</span>)[<span class="cv">0</span>]
     return most_common[<span class="cv">0</span>]   <span class="ck"># most frequent answer</span>
- 
 <span class="ck"># Verify-and-correct — ask model to check its own work</span>
 async def verified_extraction(text: str) -> dict:
     <span class="ck"># Step 1: extract</span>
@@ -569,7 +534,6 @@ If issues found, respond: ISSUES: [describe what's wrong]"""</span>
     return extraction</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📏</span><h3>Prompt Debugging — Systematic Improvement</h3><span class="tag tag-orange">Debugging Process</span></div>
   <div class="cp-body">
@@ -581,7 +545,6 @@ If issues found, respond: ISSUES: [describe what's wrong]"""</span>
 <span class="ck"># - Wrong tone? → strengthen role prompt</span>
 <span class="ck"># - Inconsistent? → add few-shot examples of correct output</span>
 <span class="ck"># - Missing cases? → add explicit instructions for edge cases</span>
- 
 <span class="ck"># STEP 2: Build a test set</span>
 test_cases = [
     {<span class="cs">"input"</span>: <span class="cs">"easy case"</span>,     <span class="cs">"expected"</span>: <span class="cs">"X"</span>},
@@ -600,19 +563,14 @@ def evaluate_prompt(prompt_template: str, test_cases: list) -> float:
  
 <span class="ck"># STEP 4: Make ONE change at a time and re-measure</span>
 <span class="ck"># Never change multiple things simultaneously — you won't know what helped</span>
- 
 <span class="ck"># STEP 5: Document what worked and why</span>
 <span class="ck"># Prompts are code — version control them like code</span></pre></div>
     <div class="ins"><p>💡 <strong>The most common prompting mistake is changing multiple things at once when debugging.</strong> If you add examples AND change the format instructions AND modify the role prompt, and things improve, you do not know which change helped. Change one thing, measure, then decide.</p></div>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — COMMON MISTAKES ══════════ -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>The 8 Most Common Prompting Mistakes</h3><span class="tag tag-red">Avoid These</span></div>
   <div class="cp-body">
@@ -670,10 +628,7 @@ If the data does not contain price information, say so.</div></div>
     </ul>
   </div>
 </div>
-
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — RESOURCES ══════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -687,12 +642,9 @@ If the data does not contain price information, say so.</div></div>
   </tbody>
 </table>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — PROJECTS ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -721,7 +673,6 @@ If the data does not contain price information, say so.</div></div>
     <p><strong>Skills:</strong> Anthropic/OpenAI SDK, prompt design, systematic evaluation, few-shot construction</p>
   </div>
 </div>
-
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Document Summariser with Format Control</span><span class="proj-dur">1–2 days</span></div>
   <div class="proj-body">
@@ -729,11 +680,8 @@ If the data does not contain price information, say so.</div></div>
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — LABS ══════════ -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>System Prompt Isolation — See Exactly What It Controls</h4></div>
   <div class="lab-body">
@@ -745,7 +693,6 @@ If the data does not contain price information, say so.</div></div>
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Design a system prompt for a use case you actually care about (a code reviewer, a writing editor, a study partner). Test it on 5 different inputs. Iterate until you are satisfied with the consistency.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Few-Shot Example Quality — Good vs Bad Examples</h4></div>
   <div class="lab-body">
@@ -757,7 +704,6 @@ If the data does not contain price information, say so.</div></div>
     <div class="lab-step"><div class="sn">5</div><div><strong>Key rule to document:</strong> Few-shot examples must be internally consistent. If your examples disagree on how to handle null cases, the model will be inconsistent too.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Chain-of-Thought — Measure Accuracy Improvement</h4></div>
   <div class="lab-body">
@@ -769,10 +715,7 @@ If the data does not contain price information, say so.</div></div>
     <div class="lab-step"><div class="sn">5</div><div>Report: accuracy without CoT, with CoT, with scratchpad CoT. What was the improvement? On which types of problems did CoT help most? On which did it not help?</div></div>
   </div>
 </div>
-
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — CHECKLIST ══════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">P4-M11 MASTERY CHECKLIST</p>
@@ -798,15 +741,12 @@ If the data does not contain price information, say so.</div></div>
   <p>✅ <strong>When complete:</strong> Move to <strong>P4-M12 — Structured Outputs &amp; Tool Calling</strong>. The prompting discipline you built here — XML tags, explicit format instructions, few-shot examples — is exactly what makes structured outputs and tool descriptions reliable.</p>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/">← P1-M04: SQL &amp; FastAPI</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/">Next: P4-M12 — Structured Outputs →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

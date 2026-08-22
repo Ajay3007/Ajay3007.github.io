@@ -31,7 +31,6 @@ Welcome to the complete hub for searching and sorting algorithms. Here you'll fi
     <div style="color:#607d8b;font-size:0.98rem;">Linear, binary, advanced search techniques, and templates.</div>
   </div>
 </div>
-
 <!-- ## 🔥 Featured Topics
 
 <ul style="display:flex;flex-wrap:wrap;gap:1.2rem 2.2rem;justify-content:center;list-style:none;padding:0;margin:2rem 0 2.5rem 0;">
@@ -53,7 +52,6 @@ Welcome to the complete hub for searching and sorting algorithms. Here you'll fi
 
 <div style="text-align:center;margin-top:2.5rem;">
   <a href="/learning/dsa" style="display:inline-block;padding:0.75rem 1.5rem;background:#1976d2;color:white;text-decoration:none;border-radius:8px;font-weight:600;margin-right:1rem;">← Back to DSA</a>
-
   <a href="/" style="display:inline-block;padding:0.75rem 1.5rem;background:#2d3748;color:white;text-decoration:none;border-radius:8px;font-weight:600;">🏠 Home</a>
 </div>
 

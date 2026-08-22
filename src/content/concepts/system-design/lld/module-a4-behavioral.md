@@ -31,7 +31,6 @@ url: /learning/system-design/lld/module-a4-behavioral/
     <div class="m4-p-pill" style="color:var(--p12);border-color:rgba(64,184,160,0.2)">Interpreter</div>
   </div>
 </header>
-
 <nav class="m4-nav">
   <div class="m4-nav-tab active" onclick="m4Show('overview',this)">Overview</div>
   <div class="m4-nav-tab" onclick="m4Show('patterns',this)">Deep Dives</div>
@@ -41,15 +40,12 @@ url: /learning/system-design/lld/module-a4-behavioral/
   <div class="m4-nav-tab" onclick="m4Show('tasks',this)">Tasks</div>
   <div class="m4-nav-tab" onclick="m4Show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="m4-content">
-
 <!-- ===== OVERVIEW ===== -->
 <div class="m4-view active" id="m4-view-overview">
   <p style="font-size:14px;color:var(--muted);line-height:1.8;max-width:720px;margin-bottom:28px;">
     Behavioral patterns deal with <strong style="color:var(--bright)">algorithms and object communication</strong> — how responsibilities are distributed and how objects interact. Click any card to jump to its deep dive.
   </p>
-
   <div class="m4-group-label" style="--color:var(--p1)">Week 6 — Core Six</div>
   <div class="m4-ov-grid" style="margin-bottom:16px;">
     <div class="m4-ov-card" onclick="m4GoToPattern(0)" style="">
@@ -89,7 +85,6 @@ url: /learning/system-design/lld/module-a4-behavioral/
       <div class="m4-ov-gist">Fixed skeleton; defer steps to subclass</div>
     </div>
   </div>
-
   <div class="m4-group-label">Week 7 — Supporting Six</div>
   <div class="m4-ov-grid">
     <div class="m4-ov-card" onclick="m4GoToPattern(6)">
@@ -129,7 +124,6 @@ url: /learning/system-design/lld/module-a4-behavioral/
       <div class="m4-ov-gist">Evaluate grammar-based expressions / DSL rules</div>
     </div>
   </div>
-
   <table class="m4-cmp-table" style="margin-top:24px;">
     <thead><tr><th>PATTERN</th><th>TRIGGER / SMELL</th><th>KEY MECHANISM</th><th>SOLID PRINCIPLE</th></tr></thead>
     <tbody>
@@ -148,7 +142,6 @@ url: /learning/system-design/lld/module-a4-behavioral/
     </tbody>
   </table>
 </div>
-
 <!-- ===== PATTERN DEEP DIVES ===== -->
 <div class="m4-view" id="m4-view-patterns">
   <div class="m4-pat-tabs">
@@ -165,7 +158,6 @@ url: /learning/system-design/lld/module-a4-behavioral/
     <div class="m4-pt-btn" id="m4-pb10" onclick="m4SelPat(10)" style="border-top:3px solid var(--p11)"><span class="m4-btn-num" style="color:var(--p11)">11</span>Null Obj</div>
     <div class="m4-pt-btn" id="m4-pb11" onclick="m4SelPat(11)" style="border-top:3px solid var(--p12)"><span class="m4-btn-num" style="color:var(--p12)">12</span>Interpret</div>
   </div>
-
   <!-- 01 STRATEGY -->
   <div class="m4-pat-panel active" id="m4-pp0">
     <div class="m4-p-mast" style="--c:var(--p1)"><div class="m4-p-mast::before" style="background:var(--p1)"></div><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p1);border-radius:10px 0 0 10px"></div>
@@ -208,7 +200,6 @@ cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span
 cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span class="m4-cls">WalletPayment</span>(<span class="m4-str">"PAYTM"</span>, <span class="m4-str">500</span>)); cart.<span class="m4-fn">checkout</span>();</pre></div>
     <div class="m4-tip-box"><em>Interview:</em> Strategy is OCP in action. Every if/else on algorithm type is a Strategy violation. When asked "how do you add a new payment method without changing existing m4-code?" — this is the answer.</div>
   </div>
-
   <!-- 02 OBSERVER -->
   <div class="m4-pat-panel" id="m4-pp1">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p2);border-radius:10px 0 0 10px"></div>
@@ -255,7 +246,6 @@ cart.<span class="m4-fn">setStrategy</span>(<span class="m4-kw">new</span> <span
     </div>
     <div class="m4-tip-box"><em>Interview:</em> "Kafka is Observer at scale — stock ticker is the producer, topic is the subject, consumer groups are observers. The pattern scales from in-process EventBus to distributed Kafka."</div>
   </div>
-
   <!-- 03 CoR -->
   <div class="m4-pat-panel" id="m4-pp2">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p3);border-radius:10px 0 0 10px"></div>
@@ -291,7 +281,6 @@ atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
 <span class="m4-cm">// → Dispensing 1×₹2000 | 3×₹500 | 2×₹100</span></pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Servlet Filters and Spring Interceptors are CoR — auth filter → logging filter → compression filter. Each handles its concern and passes to next. Order matters and is explicit."</div>
   </div>
-
   <!-- 04 STATE -->
   <div class="m4-pat-panel" id="m4-pp3">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p4);border-radius:10px 0 0 10px"></div>
@@ -331,7 +320,6 @@ atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
 }</pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "State vs Strategy: State changes automatically based on internal transitions. Strategy is changed externally by the client. Both use the same polymorphism trick — the difference is who controls the switch and why."</div>
   </div>
-
   <!-- 05 COMMAND -->
   <div class="m4-pat-panel" id="m4-pp4">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p5);border-radius:10px 0 0 10px"></div>
@@ -351,7 +339,6 @@ atm.<span class="m4-fn">dispense</span>(<span class="m4-str">3700</span>);
 <span class="m4-kw">class</span> <span class="m4-cls">ACTempCommand</span> <span class="m4-kw">implements</span> <span class="m4-cls">Command</span> {
     <span class="m4-kw">private final</span> <span class="m4-cls">AC</span> ac; <span class="m4-kw">private final int</span> newTemp;
     <span class="m4-kw">private int</span> prevTemp; <span class="m4-cm">// Saved for undo</span>
- 
     <span class="m4-kw">public void</span> <span class="m4-fn">execute</span>() { prevTemp = ac.<span class="m4-fn">getTemp</span>(); ac.<span class="m4-fn">setTemp</span>(newTemp); }
     <span class="m4-kw">public void</span> <span class="m4-fn">undo</span>()    { ac.<span class="m4-fn">setTemp</span>(prevTemp); }
 }
@@ -375,7 +362,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// AC reverts to prev
 hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</span></pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Command is the pattern behind every undo stack — Photoshop, Word, VS Code all use it. Each user action is a Command object. Ctrl+Z pops the stack and calls undo(). Ctrl+Y pushes back and calls execute()."</div>
   </div>
-
   <!-- 06 TEMPLATE -->
   <div class="m4-pat-panel" id="m4-pp5">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p6);border-radius:10px 0 0 10px"></div>
@@ -410,7 +396,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
 <span class="m4-kw">new</span> <span class="m4-cls">MySQLToPostgres</span>().<span class="m4-fn">migrate</span>(); <span class="m4-cm">// Runs steps in correct order — always</span></pre></div>
     <div class="m4-tip-box"><em>Strategy vs Template Method:</em> Strategy swaps the WHOLE algorithm at runtime via composition. Template Method keeps the skeleton fixed in a base class; only specific steps vary via inheritance. Strategy = runtime; Template = compile-time.</div>
   </div>
-
   <!-- 07-12: compact panels -->
   <div class="m4-pat-panel" id="m4-pp6">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p7);border-radius:10px 0 0 10px"></div>
@@ -437,7 +422,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
 <span class="m4-kw">while</span> (it.<span class="m4-fn">hasNext</span>()) play(it.<span class="m4-fn">next</span>());</pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Java's for-each loop uses Iterator internally. Any class implementing java.lang.Iterable gets free for-each support. This is Iterator pattern baked into the language."</div>
   </div>
-
   <div class="m4-pat-panel" id="m4-pp7">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p8);border-radius:10px 0 0 10px"></div>
       <div class="m4-p-num-bg">08</div><div class="m4-p-name">Mediator</div>
@@ -462,7 +446,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
 <span class="m4-cm">// ATC routes communication, manages runway, notifies all parties</span></pre></div>
     <div class="m4-tip-box"><em>Mediator vs Observer:</em> Observer = one-to-many (subject notifies all). Mediator = many-to-many (all peers route through hub). Chat room is Mediator — messages go hub → recipients, not sender → every recipient directly.</div>
   </div>
-
   <div class="m4-pat-panel" id="m4-pp8">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p9);border-radius:10px 0 0 10px"></div>
       <div class="m4-p-num-bg">09</div><div class="m4-p-name">Memento</div>
@@ -496,7 +479,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
 }</pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Three roles: Originator (knows its own state), Memento (opaque snapshot), Caretaker (stores mementos, never reads them). Encapsulation is preserved because only Originator can interpret the Memento's internals."</div>
   </div>
-
   <div class="m4-pat-panel" id="m4-pp9">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p10);border-radius:10px 0 0 10px"></div>
       <div class="m4-p-num-bg">10</div><div class="m4-p-name">Visitor</div>
@@ -510,7 +492,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
     <span class="m4-kw">double</span> <span class="m4-fn">visit</span>(<span class="m4-cls">Food</span> f);
 }
 <span class="m4-kw">interface</span> <span class="m4-cls">Product</span> { <span class="m4-kw">double</span> <span class="m4-fn">accept</span>(<span class="m4-cls">TaxVisitor</span> v); } <span class="m4-cm">// DOUBLE DISPATCH key</span>
- 
 <span class="m4-kw">class</span> <span class="m4-cls">Book</span> <span class="m4-kw">implements</span> <span class="m4-cls">Product</span> {
     <span class="m4-kw">boolean</span> educational;
     <span class="m4-kw">public double</span> <span class="m4-fn">accept</span>(<span class="m4-cls">TaxVisitor</span> v) { <span class="m4-kw">return</span> v.<span class="m4-fn">visit</span>(<span class="m4-kw">this</span>); } <span class="m4-cm">// Passes self</span>
@@ -524,7 +505,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
 <span class="m4-cm">// Add ImportDutyCalculator = new class only — Book/Electronics/Food untouched (OCP)</span></pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Double dispatch is the key. In Java, method dispatch is on the runtime type of ONE argument. Visitor simulates two-argument dispatch: element type × visitor type. accept() provides the second dispatch."</div>
   </div>
-
   <div class="m4-pat-panel" id="m4-pp10">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p11);border-radius:10px 0 0 10px"></div>
       <div class="m4-p-num-bg">11</div><div class="m4-p-name">Null Object</div>
@@ -556,7 +536,6 @@ hub.<span class="m4-fn">undo</span>(); <span class="m4-cm">// Light turns off</s
 }</pre></div>
     <div class="m4-tip-box"><em>Interview:</em> "Null Object is the pattern behind Optional in Java 8+ — instead of checking isPresent(), you call ifPresent() which is a no-op when empty. Eliminates NullPointerException from forgotten null checks."</div>
   </div>
-
   <div class="m4-pat-panel" id="m4-pp11">
     <div class="m4-p-mast"><div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--p12);border-radius:10px 0 0 10px"></div>
       <div class="m4-p-num-bg">12</div><div class="m4-p-name">Interpreter</div>
@@ -590,7 +569,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     <div class="m4-tip-box"><em>Interview:</em> "Interpreter works well for simple grammars — math expressions, SQL WHERE parsers, firewall rules engines. For complex grammars, use a parser generator (ANTLR) instead. Composite pattern is Interpreter's structural cousin."</div>
   </div>
 </div>
-
 <!-- ===== DISTINCTIONS ===== -->
 <div class="m4-view" id="m4-view-compare">
   <div class="m4-conf-grid">
@@ -630,7 +608,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
       </div>
     </div>
   </div>
-
   <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:14px;">// QUICK ONE-LINE TEST FOR EACH PATTERN</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.8;">
@@ -649,7 +626,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     </div>
   </div>
 </div>
-
 <!-- ===== STATE MACHINE ===== -->
 <div class="m4-view" id="m4-view-state">
   <div style="margin-bottom:24px;">
@@ -657,7 +633,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--bright);margin-bottom:6px;">Seat State Machine — BookMyShow</div>
     <p style="font-size:13px;color:var(--muted);line-height:1.7;max-width:600px;">The seat lifecycle in BookMyShow is a perfect State pattern example. Each state defines which transitions are valid and which are illegal.</p>
   </div>
-
   <div class="m4-state-machine">
     <div class="m4-state-node" style="border-color:var(--p1);color:var(--p1)">AVAILABLE</div>
     <div class="m4-state-arrow"><div class="m4-arrow-line">→</div><div>tryLock(userId)</div><div>5s timeout</div></div>
@@ -667,7 +642,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     <div class="m4-state-arrow"><div class="m4-arrow-line">→</div><div>cancel()</div></div>
     <div class="m4-state-node" style="border-color:var(--p8);color:var(--p8)">CANCELLED</div>
   </div>
-
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;">
     <div style="background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--p1);border-radius:6px;padding:14px;">
       <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--p1);margin-bottom:8px;">AVAILABLE</div>
@@ -686,7 +660,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
       <div style="font-size:11px;color:var(--muted);line-height:1.6;">✓ relist() → AVAILABLE<br>✗ all others → error<br>(terminal state)</div>
     </div>
   </div>
-
   <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;">// CONCURRENCY-SAFE SEAT LOCKING</div>
     <div class="m4-m4-code-wrap"><div class="m4-m4-code-hdr">Seat.java — Thread-safe State + Lock<span class="m4-clang" style="color:var(--p5)">JAVA</span></div>
@@ -712,7 +685,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
 }</pre></div>
   </div>
 </div>
-
 <!-- ===== BOOKMYSHOW ===== -->
 <div class="m4-view" id="m4-view-bms">
   <div style="margin-bottom:24px;">
@@ -720,7 +692,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     <div style="font-family:'DM Serif Display',serif;font-size:32px;color:var(--bright);margin-bottom:8px;">BookMyShow — LLD + Concurrency</div>
     <p style="font-size:13px;color:var(--muted);line-height:1.7;max-width:680px;">The capstone project for Module A4. Uses 6 behavioral patterns woven together with real concurrency handling. This is the most complex LLD problem so far.</p>
   </div>
-
   <div class="m4-bms-grid">
     <div class="m4-bms-card">
       <div class="m4-bms-icon">🎭</div>
@@ -759,7 +730,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
       <div class="m4-bms-desc">bookSeats(userId, showId, seatIds) hides: seat locking, payment, ticket generation, observer notification, audit logging.</div>
     </div>
   </div>
-
   <div style="margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;">// PROJECT STRUCTURE</div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7a9870;line-height:1.9;">
@@ -776,7 +746,6 @@ expr.<span class="m4-fn">interpret</span>(<span class="m4-cls">Map</span>.of(<sp
     </div>
   </div>
 </div>
-
 <!-- ===== TASKS ===== -->
 <div class="m4-view" id="m4-view-tasks">
   <div class="m4-task-list">
@@ -858,7 +827,6 @@ Deliverable:
     </div>
   </div>
 </div>
-
 <!-- ===== CHECKLIST ===== -->
 <div class="m4-view" id="m4-view-checklist">
   <div class="m4-prog-row"><span id="m4-prog-lbl">0 / 12 completed</span><span style="color:var(--p1)">A4 → Behavioral Patterns</span></div>
@@ -877,17 +845,14 @@ Deliverable:
     <div class="m4-chk" onclick="m4Tick(this)"><div class="m4-m4-chk-box"></div><div class="m4-m4-chk-lbl">✏️ Task 3: ReportGenerator combining Template Method + Strategy (4 combos)</div></div>
     <div class="m4-chk" onclick="m4Tick(this)"><div class="m4-m4-chk-box"></div><div class="m4-m4-chk-lbl">✏️ Mini Project: BookMyShow with concurrency proof + all 6 patterns + UML</div></div>
   </div>
-
   <div style="margin-top:28px;background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:24px;border-top:2px solid var(--p2);">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;">NEXT MODULE</div>
     <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--bright);margin-bottom:6px;">A5 — Concurrency in LLD</div>
     <div style="font-size:13px;color:var(--muted);line-height:1.7;">Thread safety, locks, semaphores, producer-consumer, thread pools, deadlock avoidance. Projects: Thread-safe Parking Lot, Rate Limiter, Pub/Sub Message Queue.</div>
   </div>
 </div>
-
 </div>
 </div><!-- end m4-content -->
-
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
 <div class="m4-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border2);padding-top:20px;">
   <a href="/learning/system-design/lld/module-a3-structural/" class="m4-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">← PREVIOUS: LLD A3</a>

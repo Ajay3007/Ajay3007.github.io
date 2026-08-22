@@ -173,7 +173,6 @@ url: /learning/networking-mastery/m04-ipv6/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 1 · MODULE 04 · WEEK 3</div>
@@ -188,7 +187,6 @@ url: /learning/networking-mastery/m04-ipv6/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Why IPv6?</button>
@@ -202,12 +200,9 @@ url: /learning/networking-mastery/m04-ipv6/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — WHY IPv6 ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THE ADDRESS EXHAUSTION PROBLEM AND THE IPv6 SOLUTION</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📉</span><h3>IPv4 Address Exhaustion</h3><span class="tag tag-purple">MOTIVATION</span></div>
   <div class="cp-body">
@@ -222,7 +217,6 @@ url: /learning/networking-mastery/m04-ipv6/
     <p>NAT solved the exhaustion problem temporarily, but at a cost: it breaks end-to-end connectivity, complicates application protocols (FTP, SIP, WebRTC need ALGs to work through NAT), and adds latency. IPv6 eliminates NAT by giving every device a globally unique address.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>IPv6 — The Long-Term Solution</h3><span class="tag tag-blue">SOLUTION</span></div>
   <div class="cp-body">
@@ -252,25 +246,20 @@ url: /learning/networking-mastery/m04-ipv6/
     </div>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">📏 Analogy — Street Addresses</div>
   <p>IPv4 is like a city with 4.3 billion street addresses that is now completely full — every address is taken. To fit more people, residents are crammed into apartment buildings (NAT) where many people share one address and are distinguished by their apartment number (port). IPv6 is like being given an entirely new planet with 340 undecillion addresses — so vast that every grain of sand on Earth gets its own unique address, with quintillions to spare. No apartments needed: every person (device) gets their own unique address.</p>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — IPv6 HEADER ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">IPv6 HEADER — 40 BYTES FIXED, SIMPLER THAN IPv4</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📦</span><h3>IPv6 Header Layout</h3><span class="tag tag-purple">HEADER FORMAT</span></div>
   <div class="cp-body">
     <p>The IPv6 header is always exactly <strong>40 bytes</strong> — fixed, no options, no IHL field. This simplicity is intentional: routers can process it faster because they always know exactly where the header ends. IPv4 options (rare but requiring variable-length parsing) are replaced by a clean <strong>extension header chain</strong>.</p>
   </div>
 </div>
-
 <div class="hdr-diagram">
   <div class="hdr-row">
     <div class="hdr-label">Row 1</div>
@@ -293,24 +282,18 @@ url: /learning/networking-mastery/m04-ipv6/
     <div class="hf hf-da" style="flex:4">Destination IPv6 Address<div class="hf-bytes">128 bits — 16 bytes</div></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Every Field Explained</h3><span class="tag tag-blue">FIELD REFERENCE</span></div>
   <div class="cp-body">
-
     <h4>Version (4 bits) = 0110 = 6</h4>
     <p>Always 6 for IPv6. Receivers check this first to know which IP version to process. Same position as IPv4's Version field — allows a parser to distinguish v4 from v6 without any other context.</p>
-
     <h4>Traffic Class (8 bits)</h4>
     <p>Equivalent to IPv4's DSCP/TOS field. The upper 6 bits are DSCP for QoS marking; the lower 2 bits are ECN. Same semantics as IPv4 — allows routers to prioritise packets based on service class. Your NGFW policy engine uses this for QoS marking.</p>
-
     <h4>Flow Label (20 bits) — NEW in IPv6</h4>
     <p>A 20-bit value identifying a specific flow (sequence of packets from the same source to the same destination, e.g., a single TCP connection or video stream). Routers can use it for <strong>fast-path flow-based forwarding</strong> without inspecting the full address pair on every packet. This is particularly valuable for ECMP (Equal-Cost Multi-Path) load balancing — all packets of the same flow get the same hash → same path → in-order delivery.</p>
     <p>For your DPDK/VPP work: the Flow Label is used in RSS (Receive Side Scaling) hash computation to distribute flows across worker threads.</p>
-
     <h4>Payload Length (16 bits)</h4>
     <p>Length of everything after the 40-byte fixed header — extension headers + upper-layer data. Unlike IPv4's Total Length (which included the header), Payload Length excludes the fixed header. Maximum: 65,535 bytes. For Jumbograms (packets >65,535 bytes), this is set to 0 and a Jumbo Payload option in an extension header carries the actual length.</p>
-
     <h4>Next Header (8 bits) — Replaces IPv4 Protocol field</h4>
     <p>Identifies what follows the fixed IPv6 header. Uses the same protocol number values as IPv4's Protocol field, plus new values for extension headers:</p>
     <ul>
@@ -324,15 +307,12 @@ url: /learning/networking-mastery/m04-ipv6/
       <li><code>50</code> — ESP (IPsec, directly follows)</li>
     </ul>
     <p>Extension headers form a <strong>chain</strong>: each extension header has its own Next Header field pointing to the next. The last in the chain points to the actual L4 protocol (TCP=6, UDP=17).</p>
-
     <h4>Hop Limit (8 bits) — IPv4's TTL, renamed</h4>
     <p>Same semantics as IPv4 TTL: decremented by 1 at each router hop, packet discarded when it reaches 0. Renamed "Hop Limit" because it is now accurately named — it was never a time limit, always a hop count.</p>
-
     <h4>Source and Destination Addresses (128 bits each = 16 bytes each)</h4>
     <p>The IPv6 addresses. At 16 bytes each, they dominate the header — 32 of the 40 bytes are just addresses. This is the cost of the larger address space.</p>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Extension Headers — Replacing IPv4 Options</h3><span class="tag tag-teal">EXTENSION HEADERS</span></div>
   <div class="cp-body">
@@ -352,17 +332,13 @@ url: /learning/networking-mastery/m04-ipv6/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — ADDRESS FORMAT ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">IPv6 ADDRESS FORMAT — 128 BITS, 8 GROUPS OF 16 BITS</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>IPv6 Address Notation</h3><span class="tag tag-purple">FORMAT</span></div>
   <div class="cp-body">
     <p>An IPv6 address is 128 bits written as <strong>8 groups of 4 hexadecimal digits</strong>, separated by colons. Each group represents 16 bits (2 bytes):</p>
-
     <div style="text-align:center;margin:1rem 0">
       <div class="v6-addr" style="justify-content:center">
         <div class="v6-col"><div class="v6-group" style="background:#ede8f5;border-color:#c0a8e8;color:#3a1a6c">2001</div><div class="v6-lbl">bits 0–15</div></div>
@@ -383,7 +359,6 @@ url: /learning/networking-mastery/m04-ipv6/
       </div>
       <div style="font-size:.75rem;font-family:monospace;color:var(--light-text,#666);margin-top:4px">Full address: 2001:0db8:85a3:0000:0000:8a2e:0370:7334</div>
     </div>
-
     <h4>Abbreviation Rules (RFC 5952)</h4>
     <p>IPv6 addresses are long — two abbreviation rules make them manageable:</p>
     <p><strong>Rule 1 — Drop leading zeros within each group:</strong></p>
@@ -393,7 +368,6 @@ url: /learning/networking-mastery/m04-ipv6/
       <li><code>0001</code> → <code>1</code></li>
     </ul>
     <p><strong>Rule 2 — Replace longest consecutive run of all-zero groups with <code>::</code> (only once per address):</strong></p>
-
 <div class="cb"><pre><span class="cm">/* Full notation */</span>
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
  
@@ -412,25 +386,21 @@ fe80:0000:0000:0000:0204:61ff:fe9d:f156
  
 0000:0000:0000:0000:0000:0000:0000:0000
 →  ::                                  <span class="cm"># unspecified address</span>
- 
 <span class="cm">/* :: can only be used ONCE per address */</span>
 2001:db8::1:0:0:1   <span class="cm"># valid — one :: compresses middle zeros</span>
 2001::db8::1        <span class="cm"># INVALID — two :: is ambiguous</span>
- 
 <span class="cm">/* Prefix notation — same as IPv4 CIDR */</span>
 2001:db8::/32       <span class="cm"># network prefix /32 bits</span>
 fe80::/10           <span class="cm"># link-local prefix</span>
 2001:db8::1/128     <span class="cm"># single host (/128 = one address)</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🧮</span><h3>IPv6 in C — Structures and Functions</h3><span class="tag tag-blue">CODE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cs">#include &lt;arpa/inet.h&gt;
 #include &lt;netinet/in.h&gt;
 #include &lt;string.h&gt;</span>
- 
 <span class="cm">/* IPv6 address structure: 16 bytes = 128 bits */</span>
 <span class="ck">struct</span> in6_addr addr;
  
@@ -441,7 +411,6 @@ inet_pton(AF_INET6, <span class="cs">"2001:db8::1"</span>, &addr);
 <span class="ck">char</span> buf[INET6_ADDRSTRLEN];   <span class="cm">/* 46 bytes: enough for any IPv6 string */</span>
 inet_ntop(AF_INET6, &addr, buf, <span class="ck">sizeof</span>(buf));
 printf(<span class="cs">"%s\n"</span>, buf);           <span class="cm">/* prints: 2001:db8::1 */</span>
- 
 <span class="cm">/* Access raw bytes (useful for masking) */</span>
 <span class="ck">uint8_t</span> *bytes = addr.s6_addr;  <span class="cm">/* 16-byte array */</span>
 printf(<span class="cs">"First byte: %02x\n"</span>, bytes[0]);
@@ -461,12 +430,9 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — ADDRESS TYPES ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">IPv6 ADDRESS TYPES — NO BROADCAST, THREE MAIN TYPES</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🗂️</span><h3>Three Address Types — Unicast, Multicast, Anycast</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
@@ -479,7 +445,6 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
     <p><strong>There is no broadcast in IPv6.</strong> What used to be broadcast (e.g., ARP requests) is now done with targeted multicast (NDP Solicited-Node multicast). This is one of the most important architectural improvements.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Unicast Address Types — Know Each One</h3><span class="tag tag-blue">UNICAST</span></div>
   <div class="cp-body">
@@ -494,7 +459,6 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
         <tr><td><strong>IPv4-Mapped</strong></td><td><code>::ffff:0:0/96</code></td><td><code>::ffff:192.0.2.1</code></td><td>N/A</td><td>Represents an IPv4 address in IPv6 notation. Used by dual-stack APIs.</td></tr>
       </tbody>
     </table>
-
     <h4>Global Unicast Address Structure</h4>
     <p>A GUA is divided into three parts:</p>
 <div class="cb"><pre><span class="cm">/* Global Unicast Address: 2001:db8:1234:5678:abcd:ef01:2345:6789 */</span>
@@ -507,11 +471,9 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
 <span class="cm">/* The /64 boundary is the standard interface prefix */</span>
 <span class="cm">/* Network: 2001:db8:1234:5678::/64 */</span>
 <span class="cm">/* Host:    anything in the lower 64 bits */</span></pre></div>
-
     <div class="ins"><p>💡 <strong>Why /64 everywhere?</strong> The 64-bit interface ID boundary is standard in IPv6 for several reasons: SLAAC (address autoconfiguration) uses a 64-bit EUI-64 derived from the MAC address as the interface ID; NDP Solicited-Node multicast uses the lower 24 bits of the interface ID; and /64 subnets give enough space that you'll never run out of host addresses within a subnet.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📣</span><h3>Multicast Addresses — Replacing Broadcast</h3><span class="tag tag-teal">MULTICAST</span></div>
   <div class="cp-body">
@@ -527,7 +489,6 @@ connect(sock, (<span class="ck">struct</span> sockaddr *)&sa6, <span class="ck">
         <tr><td><code>ff05::2</code></td><td>All-routers (site-local)</td><td>N/A</td><td>Router discovery across site</td></tr>
       </tbody>
     </table>
-
     <h4>Solicited-Node Multicast — The ARP Replacement</h4>
     <p>This is how IPv6 avoids broadcast for address resolution. Each interface automatically joins a Solicited-Node multicast group derived from its own IPv6 address:</p>
 <div class="cb"><pre><span class="cm">/* Solicited-Node Multicast formula */</span>
@@ -547,12 +508,9 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — NDP AND ICMPv6 ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">NDP — NEIGHBOUR DISCOVERY PROTOCOL (REPLACES ARP + MORE)</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>NDP — IPv6's Supercharged ARP</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
@@ -567,7 +525,6 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>NDP Message Types</h3><span class="tag tag-blue">MESSAGES</span></div>
   <div class="cp-body">
@@ -583,12 +540,10 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
     </table>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>NDP Address Resolution — Step by Step</h3><span class="tag tag-teal">PROCESS</span></div>
   <div class="cp-body">
     <p>Scenario: Host A (<code>2001:db8::1</code>) wants to send a packet to Host B (<code>2001:db8::2</code>). It doesn't know B's MAC address.</p>
-
     <div class="flow-list">
       <div class="fl-step" data-n="1" style="--sc:#5b3a8c">
         <div>
@@ -626,12 +581,10 @@ NDP: sent to ff02::1:ffcd:ef01 multicast — only devices whose address ends in 
     </div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Duplicate Address Detection (DAD)</h3><span class="tag tag-orange">DAD</span></div>
   <div class="cp-body">
     <p>Before using a new IPv6 address, a host <strong>must verify it's unique</strong> on the link via DAD. This is especially important for SLAAC-derived addresses (two devices could theoretically derive the same EUI-64 from different MAC addresses, though this is extremely rare).</p>
-
 <div class="cb"><pre><span class="cm">/* DAD process */</span>
 1. Host tentatively assigns the address (marks as TENTATIVE in neighbour cache)
 2. Host sends NS with:
@@ -651,7 +604,6 @@ $ ip -6 addr show dev eth0
    inet6 2001:db8::1/64 scope global            ← DAD passed, address active</pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Router Advertisement — The Key to Autoconfiguration</h3><span class="tag tag-green">RA MESSAGE</span></div>
   <div class="cp-body">
@@ -671,7 +623,6 @@ Prefix Information Option:
  
 MTU Option:       1500      <span class="cm"># link MTU</span>
 Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
- 
 <span class="cm"># Receiving host uses this to:</span>
 <span class="cm"># 1. Know it's on prefix 2001:db8::/64</span>
 <span class="cm"># 2. Auto-configure its own address (SLAAC)</span>
@@ -679,19 +630,14 @@ Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — SLAAC AND DHCPv6 ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">SLAAC AND DHCPv6 — ADDRESS AUTOCONFIGURATION</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>SLAAC — Stateless Address Autoconfiguration</h3><span class="tag tag-purple">SLAAC</span></div>
   <div class="cp-body">
     <p>SLAAC (RFC 4862) is IPv6's mechanism for devices to configure their own IP address <strong>without any server</strong>. A device with just a MAC address and a connected link can generate a globally routable IPv6 address in seconds — no DHCP server, no manual configuration.</p>
-
     <p><strong>SLAAC process:</strong></p>
-
     <div class="flow-list">
       <div class="fl-step" data-n="1" style="--sc:#5b3a8c">
         <div>
@@ -728,7 +674,6 @@ Source Link-Layer: aa:bb:cc:dd:ee:ff  <span class="cm"># router's MAC</span>
         </div>
       </div>
     </div>
-
     <h4>EUI-64 Interface Identifier Generation</h4>
 <div class="cb"><pre><span class="cm">/* Derive 64-bit EUI-64 from 48-bit MAC address */</span>
  
@@ -738,7 +683,6 @@ Split:  aa:bb:cc | dd:ee:ff
 Insert: aa:bb:cc : ff:fe : dd:ee:ff    <span class="cm"># insert ff:fe in the middle</span>
 Flip:   a8:bb:cc : ff:fe : dd:ee:ff    <span class="cm"># flip bit 6 (Universal/Local bit) of first byte</span>
                                         <span class="cm"># aa = 10101010 → bit 6 flip → 10101000 = a8</span>
- 
 <span class="cm">/* Example */</span>
 MAC:          00:1a:2b:3c:4d:5e
 EUI-64:       02:1a:2b:ff:fe:3c:4d:5e
@@ -751,7 +695,6 @@ Link-Local:   fe80::021a:2bff:fe3c:4d5e
 $ sysctl net.ipv6.conf.eth0.use_tempaddr   <span class="cm"># 2 = prefer temporary addresses</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🖥️</span><h3>DHCPv6 — Stateful and Stateless</h3><span class="tag tag-blue">DHCPv6</span></div>
   <div class="cp-body">
@@ -771,17 +714,13 @@ $ sysctl net.ipv6.conf.eth0.use_tempaddr   <span class="cm"># 2 = prefer tempora
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — DUAL-STACK AND TRANSITION ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">DUAL-STACK AND IPv4-to-IPv6 TRANSITION MECHANISMS</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Dual-Stack — Running Both Simultaneously</h3><span class="tag tag-blue">DUAL-STACK</span></div>
   <div class="cp-body">
     <p>The most common and recommended transition approach is <strong>dual-stack</strong>: every node runs both IPv4 and IPv6 simultaneously. Each interface has both an IPv4 address and one or more IPv6 addresses. Applications connect using whichever version the network supports for the destination, with IPv6 preferred (Happy Eyeballs algorithm, RFC 8305).</p>
-
     <div class="ds-diagram">
       <div class="ds-row">
         <div class="ds-box" style="background:#f0ecfc;border-color:#c0a8e8;color:#3a1a6c">Application<div class="ds-label">HTTP, SSH, DNS</div></div>
@@ -798,29 +737,24 @@ $ sysctl net.ipv6.conf.eth0.use_tempaddr   <span class="cm"># 2 = prefer tempora
         <div class="ds-box" style="background:#fdf4dc;border-color:#e8c870;color:#5a3800">Ethernet NIC<div class="ds-label">Single interface, one MAC</div></div>
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm"># Configure dual-stack on Linux</span>
 ip addr add 10.0.0.5/24   dev eth0    <span class="cm"># IPv4</span>
 ip addr add 2001:db8::5/64 dev eth0    <span class="cm"># IPv6 (manual)</span>
 <span class="cm"># Or let SLAAC configure IPv6 automatically</span>
- 
 <span class="cm"># Check dual-stack status</span>
 ip addr show eth0
 <span class="cm"># inet  10.0.0.5/24 brd 10.0.0.255 scope global eth0</span>
 <span class="cm"># inet6 2001:db8::5/64 scope global</span>
 <span class="cm"># inet6 fe80::a00:27ff:fe4e:66a1/64 scope link</span>
- 
 <span class="cm"># Connect to a dual-stack server — OS picks IPv6 first (Happy Eyeballs)</span>
 curl -v https://google.com
 <span class="cm"># Look for: Connected to google.com (2a00:1450:4009:820::200e) port 443</span>
- 
 <span class="cm"># Force IPv4</span>
 curl -4 https://google.com
 <span class="cm"># Force IPv6</span>
 curl -6 https://google.com</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🌉</span><h3>Transition Mechanisms — When Dual-Stack Isn't Available</h3><span class="tag tag-teal">TUNNELLING</span></div>
   <div class="cp-body">
@@ -841,12 +775,9 @@ curl -6 https://google.com</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — IPv4 vs IPv6 ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">IPv4 vs IPv6 — SIDE-BY-SIDE COMPARISON</p>
-
 <table class="cmp-table">
   <thead>
     <tr>
@@ -943,7 +874,6 @@ curl -6 https://google.com</pre></div>
     </tr>
   </tbody>
 </table>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>IPv6 Security Considerations for NGFW</h3><span class="tag tag-red">NGFW SECURITY</span></div>
   <div class="cp-body">
@@ -959,11 +889,8 @@ curl -6 https://google.com</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 — LABS ════════════ -->
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Explore IPv6 on Linux — Addresses, NDP, and SLAAC</h4></div>
   <div class="lab-body">
@@ -976,7 +903,6 @@ curl -6 https://google.com</pre></div>
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — Send a manual Router Solicitation with Scapy:</strong> <code>from scapy.all import *; sendp(Ether(dst="33:33:00:00:00:02")/IPv6(dst="ff02::2")/ICMPv6ND_RS(), iface="eth0")</code>. Capture the RA response that follows — you triggered SLAAC manually.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>IPv6 Socket Programming and Dual-Stack in C</h4></div>
   <div class="lab-body">
@@ -998,14 +924,10 @@ Compile and run. Connect with <code>telnet localhost 8080</code> (IPv4) and <cod
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus — getaddrinfo for protocol-agnostic code:</strong> Replace direct socket creation with <code>getaddrinfo(NULL, "8080", &hints, &res)</code> where <code>hints.ai_family = AF_UNSPEC</code>. This returns both IPv4 and IPv6 addresses — loop through and bind to all. This is how production servers handle dual-stack without caring about the specific protocol.</div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB 9 — CHECKLIST ════════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">M04 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain why IPv6 was created: IPv4 exhaustion, NAT limitations, and the design improvements</li>
   <li>Know that IPv6 has 128-bit addresses (2¹²⁸ ≈ 3.4 × 10³⁸) and can articulate why this is "enough"</li>
@@ -1032,20 +954,16 @@ Compile and run. Connect with <code>telnet localhost 8080</code> (IPv4) and <cod
   <li>Completed Lab 1: observed SLAAC, NDP, and RA in Wireshark; decoded NS/NA messages</li>
   <li>Completed Lab 2: wrote dual-stack C TCP server; understood IPv4-mapped addresses in AF_INET6</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem">
   <p>✅ <strong>Phase 1 Complete!</strong> You now have solid L1–L3 foundations: OSI model, Ethernet/L2, IPv4, and IPv6. Move to <strong>Phase 2 — Transport and Application Protocols</strong>, starting with <strong>M05 - TCP Internals</strong>. TCP is the most important transport protocol to understand deeply — it underpins HTTP, TLS, SSH, and every stateful NGFW connection.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m03-ipv4/">← M03 IPv4</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m05-tcp/">Next: M05 - TCP Internals →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

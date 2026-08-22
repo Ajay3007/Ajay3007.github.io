@@ -101,7 +101,6 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
 .m-agent{background:#ecfdf5;border-color:#6ee7b7}.m-agent .name{color:#065f46}.m-agent .val{color:#059669}
 .m-general{background:#fdf4dc;border-color:#fcd34d}.m-general .name{color:#92400e}.m-general .val{color:#b45309}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 6 — Agents, Workflows &amp; Evaluation &nbsp;·&nbsp; Module 22 of 22</div>
@@ -114,7 +113,6 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
     <span class="mod-pill">📋 Prerequisite: P6-M21</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">📐 Key Metrics</button>
@@ -128,8 +126,6 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-thumb" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-violet">
@@ -147,8 +143,6 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — KEY METRICS ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-violet">
@@ -221,8 +215,6 @@ url: /learning/ai-ml/part6-agents/p6-m22-evaluation/
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — LLM-AS-JUDGE ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-violet">
@@ -239,7 +231,6 @@ class JudgeVerdict(BaseModel):
     score:      float   <span class="ck"># 0.0 to 1.0</span>
     reasoning:  str
     passed:     bool    <span class="ck"># True if score >= threshold</span>
- 
 <span class="ck"># ── Faithfulness judge ────────────────────────────────</span>
 FAITHFULNESS_JUDGE = <span class="cs">"""You are an expert evaluator. Determine whether every factual
 claim in the ANSWER is directly supported by the CONTEXT.
@@ -287,7 +278,6 @@ def judge_task_success(task: str, output: str) -> JudgeVerdict:
     )</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>LLM Judge Biases — Know These</h3><span class="tag tag-blue">Calibration</span></div>
   <div class="cp-body">
@@ -319,8 +309,6 @@ def calibrate_judge(human_scores: list[float], judge_scores: list[float]) -> dic
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — RAG EVALUATION ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-violet">
@@ -347,7 +335,6 @@ async def evaluate_rag_pipeline(pipeline, test_set: list) -> dict:
         t_start = time.perf_counter()
         result  = await pipeline.query(case[<span class="cs">"question"</span>])
         latency = (time.perf_counter() - t_start) * <span class="cv">1000</span>
- 
         <span class="ck"># Metric 1: Faithfulness</span>
         faith = judge_faithfulness(
             context=<span class="cs">" ".join(s[<span class="cs">"text"</span>] for s in result[<span class="cs">"sources"</span>]),
@@ -371,8 +358,6 @@ async def evaluate_rag_pipeline(pipeline, test_set: list) -> dict:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — AGENT EVALUATION ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-violet">
@@ -458,8 +443,6 @@ class AgentEvaluator:
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — DEEPEVAL & RAGAS ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-violet">
@@ -503,7 +486,6 @@ def test_rag_quality(test_case):
     assert_test(test_case, metrics)</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Ragas — RAG Assessment Framework</h3><span class="tag tag-blue">RAG Specific</span></div>
   <div class="cp-body">
@@ -536,7 +518,6 @@ result = evaluate(
 print(result)
 <span class="ck"># {'faithfulness': 0.92, 'answer_relevancy': 0.88,</span>
 <span class="ck">#  'context_precision': 0.84, 'context_recall': 0.79}</span>
- 
 <span class="ck"># Convert to pandas for analysis</span>
 df = result.to_pandas()
 df.to_csv(<span class="cs">"rag_eval_results.csv"</span>, index=<span class="cv">False</span>)
@@ -544,8 +525,6 @@ df.to_csv(<span class="cs">"rag_eval_results.csv"</span>, index=<span class="cv"
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — LANGSMITH ══════════ -->
 <div id="t6" class="tab-pane">
 <div class="cp p-violet">
@@ -557,10 +536,8 @@ import os
 os.environ[<span class="cs">"LANGCHAIN_TRACING_V2"</span>] = <span class="cs">"true"</span>
 os.environ[<span class="cs">"LANGCHAIN_API_KEY"</span>]      = os.environ[<span class="cs">"LANGSMITH_API_KEY"</span>]
 os.environ[<span class="cs">"LANGCHAIN_PROJECT"</span>]       = <span class="cs">"my-rag-project"</span>
- 
 <span class="ck"># All LangChain calls now auto-trace to LangSmith</span>
 <span class="ck"># Go to smith.langchain.com → see every run</span>
- 
 <span class="ck"># ── Manual tracing (without LangChain) ───────────────</span>
 from langsmith import Client, traceable
  
@@ -604,8 +581,6 @@ results = ls_evaluate(
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -620,8 +595,6 @@ results = ls_evaluate(
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="proj-box">
@@ -655,8 +628,6 @@ results = ls_evaluate(
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
 <div class="lab-box">
@@ -670,7 +641,6 @@ results = ls_evaluate(
     <div class="lab-step"><div class="sn">5</div><div>Test the 4 known biases: (a) verbosity — does a longer answer get higher score? (b) position — does ordering change scores in A/B? (c) self-preference — does Haiku prefer Haiku outputs? (d) confidence — does a confident wrong answer score higher?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Ragas End-to-End on Your RAG System</h4></div>
   <div class="lab-body">
@@ -682,7 +652,6 @@ results = ls_evaluate(
     <div class="lab-step"><div class="sn">5</div><div><strong>Document the regression test rule:</strong> "Our faithfulness must be ≥ X and context_recall must be ≥ Y on this test set." Write a pytest assertion that enforces this.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Agent Evaluation — Measure Before You Improve</h4></div>
   <div class="lab-body">
@@ -694,8 +663,6 @@ results = ls_evaluate(
   </div>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P6-M22 MASTERY CHECKLIST</p>
@@ -723,7 +690,6 @@ results = ls_evaluate(
   <p>✅ <strong>Part 6 Complete!</strong> Move to <strong>Part 7 — Production &amp; Deployment</strong> to learn how to ship everything you've built into a real production environment.</p>
 </div>
 </div>
-
 <!-- ── PART 6 COMPLETION BANNER ── -->
 <div class="part-complete">
   <h3>🎉 Part 6 — Agents, Workflows &amp; Evaluation Complete!</h3>
@@ -739,13 +705,11 @@ results = ls_evaluate(
     <div class="ps-item">Evaluate RAG with Ragas and agents with LLM-as-judge</div>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part6-agents/p6-m21-failure-handling/">← P6-M21: Failure Handling</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part7-production/p7-m23-fastapi-prod/">Next: P7-M23 — FastAPI Production →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn,.tab-thumb').forEach(b => b.classList.remove('active'));

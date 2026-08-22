@@ -91,7 +91,6 @@ url: /learning/ai-ml/part7-production/p7-m27-mlops/
 .ps-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.6rem .9rem;font-size:.82rem;color:#dbeafe}
 .ps-item::before{content:"✓  ";color:#60a5fa;font-weight:700}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 7 — Production &amp; Deployment &nbsp;·&nbsp; Module 27 of 27</div>
   <div class="mod-title">MLOps Foundations</div>
@@ -103,7 +102,6 @@ url: /learning/ai-ml/part7-production/p7-m27-mlops/
     <span class="mod-pill">📋 Prerequisite: P7-M26</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🔄 CI/CD for AI</button>
@@ -116,8 +114,6 @@ url: /learning/ai-ml/part7-production/p7-m27-mlops/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-navy">
@@ -134,8 +130,6 @@ url: /learning/ai-ml/part7-production/p7-m27-mlops/
   </div>
 </div>
 </div>
-
-
 <!-- TAB 1 — CI/CD FOR AI -->
 <div id="t1" class="tab-pane">
 <div class="cp p-navy">
@@ -227,8 +221,6 @@ jobs:
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- TAB 2 — DATA VERSIONING -->
 <div id="t2" class="tab-pane">
 <div class="cp p-navy">
@@ -236,7 +228,6 @@ jobs:
   <div class="cp-body">
     <p>Your RAG index is data. When you add, remove, or update documents, the retrieval behaviour changes. DVC (Data Version Control) tracks your document corpus alongside your code so you can always reproduce any system state.</p>
     <div class="cb"><pre>pip install dvc dvc-s3   <span class="ck"># or dvc-gcs, dvc-azure</span>
- 
 <span class="ck"># Initialise DVC in your repo</span>
 git init && dvc init
  
@@ -250,7 +241,6 @@ dvc add docs/corpus/          <span class="ck"># creates docs/corpus.dvc (pointe
 git add docs/corpus.dvc .gitignore
 git commit -m <span class="cs">"Add corpus v1: initial DPDK documentation"</span>
 dvc push                      <span class="ck"># upload to remote storage</span>
- 
 <span class="ck"># Update the corpus</span>
 <span class="ck"># ... add new PDF files to docs/corpus/ ...</span>
 dvc add docs/corpus/
@@ -261,7 +251,6 @@ dvc push
 <span class="ck"># On another machine or in CI: reproduce exact corpus version</span>
 git checkout <span class="cs">"v1-tag"</span>
 dvc pull       <span class="ck"># downloads the exact corpus for that commit</span>
- 
 <span class="ck"># DVC pipeline: define reproducible ingestion pipeline</span>
 <span class="ck"># dvc.yaml</span>
 <span class="cs">stages:
@@ -272,15 +261,12 @@ dvc pull       <span class="ck"># downloads the exact corpus for that commit</sp
       - docs/corpus/
     outs:
       - chroma_db/</span>
- 
 <span class="ck"># Run: dvc repro — reruns only stages where inputs changed</span>
 <span class="ck"># dvc dag — visualise the pipeline</span></pre></div>
     <div class="ins"><p>💡 <strong>The DVC pointer file (<code>corpus.dvc</code>) is tiny and goes in Git. The actual data goes in remote storage.</strong> This means your Git repo stays fast while your data is versioned and reproducible. Every commit of your code has a matching commit of your data — you can reproduce any system state from history.</p></div>
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- TAB 3 — EXPERIMENT TRACKING -->
 <div id="t3" class="tab-pane">
 <div class="cp p-navy">
@@ -336,8 +322,6 @@ def evaluate_prompt_variant(prompt_name: str, prompt_version: int,
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- TAB 4 — DATA DRIFT -->
 <div id="t4" class="tab-pane">
 <div class="cp p-navy">
@@ -419,8 +403,6 @@ def identify_drift_topics(n_clusters: int = <span class="cv">5</span>) -> list[d
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- TAB 5 — DEPLOYMENT PATTERNS -->
 <div id="t5" class="tab-pane">
 <div class="cp p-navy">
@@ -429,7 +411,6 @@ def identify_drift_topics(n_clusters: int = <span class="cv">5</span>) -> list[d
     <div class="cb"><pre><span class="ck"># ── Blue-Green Deployment ─────────────────────────────</span>
 <span class="ck"># Run two identical environments. Switch traffic between them.</span>
 <span class="ck"># Zero downtime. Instant rollback (switch traffic back).</span>
- 
 <span class="ck"># docker-compose.prod.yml style blue-green</span>
 <span class="ck"># Blue = current live version, Green = new version</span>
 <span class="ck">#</span>
@@ -438,7 +419,6 @@ def identify_drift_topics(n_clusters: int = <span class="cv">5</span>) -> list[d
 <span class="ck"># 3. Switch load balancer: 100% → green</span>
 <span class="ck"># 4. Keep blue running for 5 min (easy rollback)</span>
 <span class="ck"># 5. Tear down blue</span>
- 
 <span class="ck"># ── Canary Deployment ─────────────────────────────────</span>
 <span class="ck"># Route small % of traffic to new version first</span>
 <span class="ck"># Monitor metrics. If good → increase %. If bad → 0%.</span>
@@ -455,7 +435,6 @@ class CanaryRouter:
         if user_hash < self.canary_pct * <span class="cv">100</span>:
             return <span class="cs">"green"</span>   <span class="ck"># canary version</span>
         return <span class="cs">"blue"</span>       <span class="ck"># stable version</span>
- 
 <span class="ck"># ── Feature flags — safest for AI changes ─────────────</span>
 <span class="ck"># Toggle behaviour without deploying new code</span>
 <span class="ck"># Perfect for A/B testing prompt variants in production</span>
@@ -474,13 +453,11 @@ def is_enabled(flag: str, user_id: str = <span class="cs">""</span>, rollout_pct
     if rollout_pct < <span class="cv">1.0</span> and user_id:
         return (hash(user_id + flag) % <span class="cv">100</span>) < (rollout_pct * <span class="cv">100</span>)
     return <span class="cv">True</span>
- 
 <span class="ck"># In endpoint:</span>
 <span class="ck"># if is_enabled("use_reranker", user_id, rollout_pct=0.2):</span>
 <span class="ck">#     results = retrieve_and_rerank(query)</span>
 <span class="ck"># else:</span>
 <span class="ck">#     results = basic_retrieve(query)</span>
- 
 <span class="ck"># ── Index hot-swap ────────────────────────────────────</span>
 <span class="ck"># Update the vector DB index without downtime</span>
  
@@ -503,8 +480,6 @@ class IndexSwapper:
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- TAB 6 — RESOURCES -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -518,8 +493,6 @@ class IndexSwapper:
   </tbody>
 </table>
 </div>
-
-
 <!-- TAB 7 — PROJECTS -->
 <div id="t7" class="tab-pane">
 <div class="proj-box">
@@ -541,8 +514,6 @@ class IndexSwapper:
   </div>
 </div>
 </div>
-
-
 <!-- TAB 8 — LABS -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -555,7 +526,6 @@ class IndexSwapper:
     <div class="lab-step"><div class="sn">4</div><div>Add a 4th job: cost-check. It runs cost_report() and fails the pipeline if the average cost per query in the eval run exceeds $0.01. Verify this gate works by temporarily using an expensive model.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>MLflow — Compare Prompt Variants</h4></div>
   <div class="lab-body">
@@ -566,7 +536,6 @@ class IndexSwapper:
     <div class="lab-step"><div class="sn">4</div><div>Register the winning prompt version in the MLflow Model Registry (even though it's a prompt, not a model). Tag it as "production". Document the decision in the run description.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Drift Detection — Simulate and Detect</h4></div>
   <div class="lab-body">
@@ -578,8 +547,6 @@ class IndexSwapper:
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- TAB 9 — CHECKLIST -->
 <div id="t9" class="tab-pane">
 <p class="sep">P7-M27 MASTERY CHECKLIST</p>
@@ -608,7 +575,6 @@ class IndexSwapper:
   <p>✅ <strong>Part 7 Complete!</strong> Move to <strong>Part 8 — Specialisation Tracks</strong>. You now have the full production engineering foundation. Part 8 lets you go deep in one of four AI engineering specialisations.</p>
 </div>
 </div>
-
 <!-- PART 7 COMPLETE BANNER -->
 <div class="part-complete">
   <h3>🎉 Part 7 — Production &amp; Deployment Complete!</h3>
@@ -624,13 +590,11 @@ class IndexSwapper:
     <div class="ps-item">Deploy safely with blue-green, canary, and feature flags</div>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part7-production/p7-m26-prompt-versioning/">← P7-M26: Prompt Versioning</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/ai-ml-roadmap/#s8">Next: Part 8 — Specialisation →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

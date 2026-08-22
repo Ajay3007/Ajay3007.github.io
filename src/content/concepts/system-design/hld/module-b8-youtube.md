@@ -10,7 +10,6 @@ url: /learning/system-design/hld/module-b8-youtube/
 ---
 
 <link rel="stylesheet" href="/assets/css/sd-module-b8.css">
-
 <div class="sd-module-b8">
 <header>
   <div class="hdr-stripe"></div>
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b8-youtube/
     <div class="tg" style="color:var(--ora)">Object Storage</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="mb8_show('req',this)">Requirements</div>
   <div class="nt" onclick="mb8_show('est',this)">Estimation</div>
@@ -55,9 +53,7 @@ url: /learning/system-design/hld/module-b8-youtube/
   <div class="nt" onclick="mb8_show('tasks',this)">Tasks</div>
   <div class="nt" onclick="mb8_show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- REQUIREMENTS -->
 <div class="view active" id="view-req">
   <div class="sh">Requirements</div>
@@ -90,7 +86,6 @@ url: /learning/system-design/hld/module-b8-youtube/
   </div>
   <div class="al red"><em>The key constraint:</em> Read:write is 200:1. Every architecture decision optimises for low-latency video delivery, not upload speed. The entire CDN and HLS strategy exists to serve this ratio.</div>
 </div>
-
 <!-- ESTIMATION -->
 <div class="view" id="view-est">
   <div class="sh">Capacity Estimation</div>
@@ -111,7 +106,6 @@ url: /learning/system-design/hld/module-b8-youtube/
   </table>
   <div class="al yel"><em>Say aloud:</em> "58 Tbps of CDN bandwidth. This is why YouTube has 1,000+ edge PoPs globally — no single datacenter could serve this. The CDN IS the product."</div>
 </div>
-
 <!-- ARCHITECTURE -->
 <div class="view" id="view-arch">
   <div class="sh">High-Level Architecture</div>
@@ -134,52 +128,42 @@ url: /learning/system-design/hld/module-b8-youtube/
     <div class="pl-step"><div class="pl-n">5.</div><div class="pl-node">[Player]</div><div class="pl-body">continuously fetches next segments; switches quality as bandwidth changes</div></div>
   </div>
 </div>
-
 <!-- UPLOAD PIPELINE -->
 <div class="view" id="view-upload">
   <div class="sh">Upload Pipeline</div>
   <div class="sr">Chunked resumable upload — resilient to network failures</div>
-
   <div class="cb"><div class="cb-top">Resumable upload protocol<span class="cb-l">HTTP</span></div>
 <pre class="c"><span class="cm">// Step 1: Client initiates upload session</span>
 POST /upload/initiate
 Body: <span class="str">{"filename": "video.mp4", "size": 2147483648, "sha256": "abc123..."}</span>
 Response: <span class="str">{"uploadId": "up_xyz", "chunkSize": 5242880}</span>  <span class="cm">← 5 MB chunks</span>
- 
 <span class="cm">// Step 2: Client checks for dedup (same SHA-256 already exists)</span>
 POST /upload/check?hash=abc123
 Response: <span class="str">{"exists": false}</span>  <span class="cm">← proceed with upload</span>
 <span class="cm">// If exists: {"exists": true, "videoId": "abc123"} → DONE, no upload needed!</span>
- 
 <span class="cm">// Step 3: Upload chunks (can be parallelised)</span>
 PUT /upload/up_xyz/chunk/0  Body: [bytes 0–5MB]       → <span class="ok">200 OK</span>
 PUT /upload/up_xyz/chunk/1  Body: [bytes 5MB–10MB]    → <span class="ok">200 OK</span>
 PUT /upload/up_xyz/chunk/2  Body: [bytes 10MB–15MB]   → <span class="er">500 (network drop)</span>
- 
 <span class="cm">// Step 4: Resume from last successful chunk</span>
 GET /upload/up_xyz/status   → <span class="str">{"lastChunk": 1}</span>
 PUT /upload/up_xyz/chunk/2  Body: [bytes 10MB–15MB]   → <span class="ok">200 OK</span>  <span class="cm">← retry</span>
- 
 <span class="cm">// Step 5: Finalize — triggers transcoding pipeline</span>
 POST /upload/up_xyz/complete → <span class="str">{"videoId": "abc456", "status": "processing"}</span></pre>
   </div>
   <div class="al grn"><em>Deduplication win:</em> By checking SHA-256 before upload, re-uploaded content (same video uploaded twice by different users) is caught immediately. Saves both upload bandwidth and transcoding compute. YouTube uses this for copyright detection too.</div>
 </div>
-
 <!-- TRANSCODING -->
 <div class="view" id="view-transcode">
   <div class="sh">Transcoding Pipeline</div>
   <div class="sr">Converting raw upload to streamable HLS segments — the most compute-intensive step</div>
-
   <div class="sh" style="font-size:16px;margin-top:14px">Parallelism Strategy</div>
   <div class="cb"><div class="cb-top">Temporal parallelism — split video into 1-min segments, transcode in parallel<span class="cb-l">ARCHITECTURE</span></div>
 <pre class="c"><span class="cm">// Naive: one worker transcodes full 60-minute video</span>
 <span class="cm">// 60-min video at 1x realtime = 60 min transcoding time ← too slow</span>
- 
 <span class="cm">// YouTube's approach: temporal parallelism</span>
 <span class="cm">// 1. Split raw video into 1-minute segments</span>
 60-minute video → <span class="or">60 × 1-minute segments</span>
- 
 <span class="cm">// 2. Dispatch each segment to a separate worker (60 workers)</span>
 <span class="hl">Worker 01:</span> segment_01 → transcode to all 6 quality levels
 <span class="hl">Worker 02:</span> segment_02 → transcode to all 6 quality levels
@@ -189,7 +173,6 @@ POST /upload/up_xyz/complete → <span class="str">{"videoId": "abc456", "status
  
 <span class="cm">// 3. All workers run simultaneously → done in ~1 minute (60× speedup)</span>
 <span class="cm">// 4. Concatenate segments → complete HLS playlist per quality level</span>
- 
 <span class="cm">// Per-resolution breakdown (for each segment):</span>
 Worker A: 360p  (fast — ~5 sec/segment)   ← first available, serve to poor connections immediately
 Worker B: 480p  (~8 sec/segment)
@@ -198,7 +181,6 @@ Worker D: 1080p (~25 sec/segment)
 Worker E: 1440p (~40 sec/segment)
 Worker F: 4K    (~60 sec/segment)</pre>
   </div>
-
   <div class="sh" style="font-size:16px;margin-top:14px">Codec Trade-offs</div>
   <div class="codec-grid">
     <div class="cdc" style="border-top-color:var(--yel)">
@@ -222,12 +204,10 @@ Worker F: 4K    (~60 sec/segment)</pre>
   </div>
   <div class="al yel"><em>In practice:</em> YouTube encodes both H.264 AND VP9 for every video. Client sends Accept-Encoding header → server delivers VP9 to Chrome, H.264 to everything else. Doubles storage cost but dramatically reduces CDN bandwidth (VP9 saves 30-50% per stream).</div>
 </div>
-
 <!-- HLS STREAMING -->
 <div class="view" id="view-hls">
   <div class="sh">HLS Adaptive Bitrate Streaming</div>
   <div class="sr">How the player automatically adjusts quality without buffering</div>
-
   <div class="hls-box">
     <div class="hls-label">// HLS FILE STRUCTURE — one video, multiple quality levels</div>
     <div class="hls-row">
@@ -263,7 +243,6 @@ Worker F: 4K    (~60 sec/segment)</pre>
       <div class="hls-seg">...</div>
     </div>
   </div>
-
   <div class="cb"><div class="cb-top">master.m3u8 — what the player downloads first<span class="cb-l">HLS MANIFEST</span></div>
 <pre class="c">#EXTM3U
 #EXT-X-STREAM-INF:BANDWIDTH=500000,RESOLUTION=640x360
@@ -274,7 +253,6 @@ Worker F: 4K    (~60 sec/segment)</pre>
  
 #EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080
 <span class="str">https://cdn.youtube.com/v/abc123/1080p.m3u8</span>
- 
 <span class="cm"># Player logic (every 2 seconds):</span>
 <span class="cm"># measured bandwidth > 5 Mbps  → switch to 1080p</span>
 <span class="cm"># measured bandwidth 2.5–5 Mbps → switch to 720p</span>
@@ -283,12 +261,10 @@ Worker F: 4K    (~60 sec/segment)</pre>
   </div>
   <div class="al grn"><em>Why segments?</em> Each .ts file is 2–10 seconds of independent video. The player can switch quality between segments — it doesn't need to re-buffer the current segment. This is what enables seamless quality switching as your network changes.</div>
 </div>
-
 <!-- CDN -->
 <div class="view" id="view-cdn">
   <div class="sh">3-Tier CDN Architecture</div>
   <div class="sr">58 Tbps served globally — the CDN IS the product</div>
-
   <div class="cdn-tiers">
     <div class="cdn-tier" style="border-left-color:var(--red)">
       <div class="ct-name">Edge PoPs</div>
@@ -309,12 +285,10 @@ Worker F: 4K    (~60 sec/segment)</pre>
       <div class="ct-hit">~5% miss</div>
     </div>
   </div>
-
   <div class="sh" style="font-size:16px;margin-top:18px">CDN Pre-Warming Strategy</div>
   <div class="cb"><div class="cb-top">Push popular content to edges before users request it<span class="cb-l">STRATEGY</span></div>
 <pre class="c"><span class="cm">// New video uploaded by channel with 10M subscribers:</span>
 <span class="cm">// Don't wait for cache misses — proactively push to edges</span>
- 
 <span class="cm">// Tier 1: Subscriber count-based pre-warm</span>
 <span class="kw">if</span> (channel.subscriberCount > <span class="or">1_000_000</span>) {
     cdn.<span class="fn">prefetch</span>(videoUrl, tier: <span class="str">"edge"</span>, regions: <span class="str">"all"</span>);   <span class="cm">// push to all edges</span>
@@ -332,12 +306,10 @@ Worker F: 4K    (~60 sec/segment)</pre>
 <span class="cm">// "Seek-ahead": when user is at segment N, pre-fetch N+1 to N+5</span></pre>
   </div>
 </div>
-
 <!-- VIEW COUNTER -->
 <div class="view" id="view-views">
   <div class="sh">View Counter Design</div>
   <div class="sr">11,600 views/sec globally — naive DB update doesn't scale</div>
-
   <div class="vc-grid">
     <div class="vc" style="border-top-color:var(--ora)">
       <div class="vc-name" style="color:var(--ora)">Redis INCR</div>
@@ -374,24 +346,20 @@ Worker F: 4K    (~60 sec/segment)</pre>
 <pre class="c"><span class="cm">// On every view event:</span>
 <span class="cm">// 1. INCR random Redis shard (instant, non-blocking)</span>
 INCR view:<span class="str">{videoId}</span>:shard_<span class="or">{random(10)}</span>
- 
 <span class="cm">// 2. Publish to Kafka (async, doesn't block response)</span>
 kafka.<span class="fn">publish</span>(<span class="str">"view-events"</span>, <span class="str">{videoId, userId, ip, timestamp, country}</span>)
  
 <span class="cm">// View count displayed to user:</span>
 GET /api/views/{videoId}
   → SUM MGET view:{videoId}:shard_0 ... view:{videoId}:shard_9  <span class="cm">← Redis (fast)</span>
- 
 <span class="cm">// Analytics dashboard (historical, per-country, per-hour):</span>
 SELECT COUNT(*) FROM view_events WHERE video_id = X AND timestamp > T
   → ClickHouse query  <span class="cm">← accurate, supports complex aggregations</span>
- 
 <span class="cm">// Spam prevention:</span>
 <span class="cm">// Check: SETNX view_dedup:{videoId}:{ip}:{hour} 1  EX 3600</span>
 <span class="cm">// If key already exists → don't count this view (same IP, same hour)</span></pre>
   </div>
 </div>
-
 <!-- STORAGE & SEARCH -->
 <div class="view" id="view-storage">
   <div class="sh">Storage Strategy &amp; Search</div>
@@ -403,7 +371,6 @@ processed/<span class="str">{videoId}</span>/master.m3u8               <span cla
 processed/<span class="str">{videoId}</span>/360p/seg_001.ts           <span class="cm">← 2s video segments</span>
 processed/<span class="str">{videoId}</span>/1080p/seg_001.ts
 thumbnails/<span class="str">{videoId}</span>/thumb_1.jpg             <span class="cm">← multiple choices for uploader</span>
- 
 <span class="cm">// Lifecycle policies (automated tiering by popularity):</span>
 Hot   (&gt;100 views/month):  Standard storage + CDN — fast and expensive
 Warm  (10–100 views/month): Nearline — slightly slower, 50% cheaper
@@ -412,12 +379,10 @@ Archive (&lt;1 view/month):   Archive — hours to retrieve, 95% cheaper
  
 <span class="cm">// ~80% of all YouTube videos have fewer than 1K total views ever</span>
 <span class="cm">// Tiering long-tail to cold storage saves enormous cost</span>
- 
 <span class="cm">// Replication:</span>
 <span class="cm">// GCS multi-region: automatic 3x replication across AZs</span>
 <span class="cm">// Cross-region: popular videos replicated to US, EU, APAC buckets</span></pre>
   </div>
-
   <div class="sh" style="font-size:16px;margin-top:18px">Search Architecture</div>
   <div class="cb"><div class="cb-top">Elasticsearch for video discovery<span class="cb-l">SEARCH</span></div>
 <pre class="c"><span class="cm">// Elasticsearch index: "videos"</span>
@@ -435,12 +400,10 @@ Archive (&lt;1 view/month):   Archive — hours to retrieve, 95% cheaper
 <span class="cm">// Keep ES in sync with MySQL:</span>
 <span class="cm">// MySQL change → Debezium CDC → Kafka topic "db-changes" → ES consumer</span>
 <span class="cm">// Async — ES may lag MySQL by seconds, acceptable for search freshness</span>
- 
 <span class="cm">// Autocomplete: ES "search_as_you_type" field type on title</span>
 <span class="cm">// Returns suggestions after 2 characters</span></pre>
   </div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -500,7 +463,6 @@ Archive (&lt;1 view/month):   Archive — hours to retrieve, 95% cheaper
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 16 completed</span><span style="font-family:'DM Mono',monospace">MODULE B8 · YOUTUBE</span></div>
@@ -534,7 +496,6 @@ Archive (&lt;1 view/month):   Archive — hours to retrieve, 95% cheaper
   </div>
 </div>
 </div>
-
 <!-- Bottom Navigation -->
 <div class="mb8-bottom-nav">
   <a href="/learning/system-design/hld/module-b7-whatsapp/" class="mb8-nav-footer-btn" style="border-right: 1px solid var(--bord2);">

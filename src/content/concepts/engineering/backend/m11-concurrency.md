@@ -93,9 +93,7 @@ url: /learning/backend/m11-concurrency/
 .dg-red{color:#f87171;}
 .dg-gray{color:#64748b;}
 </style>
-
 <div class="mod-wrap">
-
 <div class="mod-header">
   <div class="mod-kicker">Phase 4 · Module 11</div>
   <div class="mod-title">Concurrency &amp; Performance</div>
@@ -110,7 +108,6 @@ url: /learning/backend/m11-concurrency/
     <span class="chip">C / Linux</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('overview',this)">Overview</button>
   <button class="tab-btn" onclick="vt('threading',this)">Threading Models</button>
@@ -122,12 +119,10 @@ url: /learning/backend/m11-concurrency/
   <button class="tab-btn" onclick="vt('impl',this)">C Implementation</button>
   <button class="tab-btn" onclick="vt('labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 1 — OVERVIEW
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-overview" class="tab-pane active">
-
 <div class="cp p-amber">
   <div class="cp-hdr">⚡ Why This Phase Matters</div>
   <div class="cp-body">
@@ -135,7 +130,6 @@ url: /learning/backend/m11-concurrency/
     <p>Everything builds on Phase 0 (Linux syscalls) and Phase 2 (TCP/HTTP): you need to understand file descriptors and sockets before epoll makes sense, and you need HTTP to understand why C10K matters.</p>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-teal">
     <div class="cp-hdr">🔗 Prerequisites</div>
@@ -161,7 +155,6 @@ url: /learning/backend/m11-concurrency/
     </div>
   </div>
 </div>
-
 <div class="sep"></div>
 <div class="cp p-orange">
   <div class="cp-hdr">📋 Module Roadmap — 10 Concepts</div>
@@ -183,21 +176,17 @@ url: /learning/backend/m11-concurrency/
     </table>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 2 — THREADING MODELS
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-threading" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🧵 C1 — Four Threading Models Every Backend Engineer Must Know</div>
   <div class="cp-body">
     <p>The threading model is the most consequential architectural decision in a concurrent server. It determines memory footprint, latency profile, CPU utilisation, and how hard the code is to reason about. There are four canonical models.</p>
   </div>
 </div>
-
 <table class="t-table">
   <thead><tr><th>Model</th><th>How It Works</th><th>Memory / 10K Conns</th><th>Best For</th><th>Real Examples</th></tr></thead>
   <tbody>
@@ -207,7 +196,6 @@ url: /learning/backend/m11-concurrency/
     <tr><td><strong>Green threads / M:N</strong></td><td>Userspace scheduler maps M goroutines → N OS threads</td><td>~2 KB stack (growable)</td><td>Mixed I/O+CPU; simple code</td><td>Go goroutines, Rust async/tokio, Erlang</td></tr>
   </tbody>
 </table>
-
 <div class="two-col">
   <div class="cp p-red">
     <div class="cp-hdr">⚠️ Why Thread-per-Request Breaks at Scale</div>
@@ -233,7 +221,6 @@ url: /learning/backend/m11-concurrency/
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔩 Thread Pool Pattern — Bounded Work Queue</div>
   <div class="cp-body">
@@ -257,23 +244,19 @@ url: /learning/backend/m11-concurrency/
     </div>
   </div>
 </div>
-
 <div class="analogy">
   <strong>Analogy — Restaurant Kitchen:</strong> Thread-per-request = hire a new chef for every diner (chaos, expensive). Thread pool = hire 8 chefs, queue orders (Apache worker MPM). Event loop = one chef who never waits — checks oven, assembles plate, checks next order, never blocks (Nginx). Green threads = chef clones who can pause mid-task and swap (Go goroutines).
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">🔧 pthreads Quick Reference</div>
   <div class="cp-body">
 <div class="cb"><span class="ck">#include</span> <span class="cs">&lt;pthread.h&gt;</span>
 <span class="cm">// Link with -lpthread</span>
-
 <span class="cm">/* Create a thread */</span>
 <span class="ck">pthread_t</span> tid;
 <span class="cf">pthread_create</span>(<span class="cv">&amp;tid</span>, <span class="cv">NULL</span>, worker_fn, arg);
 <span class="cf">pthread_join</span>(tid, <span class="cv">NULL</span>);       <span class="cm">/* block until done */</span>
 <span class="cf">pthread_detach</span>(tid);             <span class="cm">/* auto-cleanup on exit */</span>
-
 <span class="cm">/* Thread function signature */</span>
 <span class="ck">void</span> *<span class="cf">worker_fn</span>(<span class="ck">void</span> *arg) {
     <span class="ck">int</span> *val = (<span class="ck">int</span> *)arg;
@@ -282,21 +265,17 @@ url: /learning/backend/m11-concurrency/
 }</div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 3 — SYNCHRONIZATION PRIMITIVES
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-sync" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🔐 C2 — Synchronization Primitives: When to Use Each</div>
   <div class="cp-body">
     <p>Every synchronization primitive solves a specific problem. Using the wrong one either causes deadlock, starvation, or unnecessary serialization. Master this decision table before writing any concurrent code.</p>
   </div>
 </div>
-
 <table class="t-table">
   <thead><tr><th>Primitive</th><th>Semantics</th><th>pthreads API</th><th>Use When</th><th>Pitfall</th></tr></thead>
   <tbody>
@@ -307,7 +286,6 @@ url: /learning/backend/m11-concurrency/
     <tr><td><strong>Spinlock</strong></td><td>Busy-wait loop; no kernel involvement</td><td><code>pthread_spinlock_t</code></td><td>Very short critical sections on multi-core only</td><td>Wastes CPU if held for >~100 ns; never block inside</td></tr>
   </tbody>
 </table>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🔒 Mutex Pattern — Work Queue</div>
@@ -349,7 +327,6 @@ config_reload();            <span class="cm">/* exclusive */</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">🔢 Semaphore Pattern — Connection Pool Rate Limiter</div>
   <div class="cp-body">
@@ -357,25 +334,21 @@ config_reload();            <span class="cm">/* exclusive */</span>
 
 sem_t pool_sem;
 <span class="cf">sem_init</span>(<span class="cv">&amp;pool_sem</span>, <span class="cn">0</span>, <span class="cn">20</span>);    <span class="cm">/* allow 20 concurrent DB conns */</span>
-
 <span class="cm">/* Acquire a slot — blocks if pool is exhausted */</span>
 <span class="cf">sem_wait</span>(<span class="cv">&amp;pool_sem</span>);            <span class="cm">/* decrement; block if 0 */</span>
 conn = pool_acquire();
 do_query(conn);
 pool_release(conn);
 <span class="cf">sem_post</span>(<span class="cv">&amp;pool_sem</span>);            <span class="cm">/* increment; wake waiter */</span>
-
 <span class="cm">/* Non-blocking try */</span>
 <span class="ck">if</span> (<span class="cf">sem_trywait</span>(<span class="cv">&amp;pool_sem</span>) == <span class="cn">-1</span>) {
     <span class="cm">/* pool full → return 503 immediately */</span>
 }</div>
   </div>
 </div>
-
 <div class="warn">
   <strong>Deadlock Recipe:</strong> Lock A then B in thread 1; lock B then A in thread 2. Prevent with a global lock ordering (always acquire in same order by address or enum), or use <code>pthread_mutex_trylock</code> with backoff.
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📐 Lock Granularity Rule</div>
   <div class="cp-body">
@@ -391,21 +364,17 @@ pool_release(conn);
     </table>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 4 — LOCK-FREE
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-lockfree" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">⚛️ C3 — Lock-Free Programming with CAS and stdatomic.h</div>
   <div class="cp-body">
     <p>Lock-free algorithms allow multiple threads to make progress without mutual exclusion. The foundation is <strong>Compare-And-Swap (CAS)</strong> — an atomic operation that reads, compares, and conditionally writes in a single uninterruptible hardware instruction.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔑 CAS Semantics</div>
   <div class="cp-body">
@@ -425,13 +394,11 @@ pool_release(conn);
     <p>Retry loops (optimistic concurrency) are used when CAS fails — re-read the current value and try again. Progress is guaranteed for at least one thread in each round.</p>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-teal">
     <div class="cp-hdr">📦 C11 stdatomic.h</div>
     <div class="cp-body">
 <div class="cb"><span class="ck">#include</span> <span class="cs">&lt;stdatomic.h&gt;</span>
-
 <span class="ck">atomic_int</span> counter = ATOMIC_VAR_INIT(<span class="cn">0</span>);
 
 <span class="cm">/* Atomic increment — replaces mutex for counters */</span>
@@ -472,7 +439,6 @@ pool_release(conn);
     </div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">🐛 The ABA Problem</div>
   <div class="cp-body">
@@ -488,11 +454,9 @@ pool_release(conn);
 <div class="cb"><span class="cm">/* Tagged pointer — 64-bit pointer, low 16 bits = generation */</span>
 <span class="ck">typedef struct</span> { <span class="ck">uintptr_t</span> ptr; <span class="ck">uint64_t</span> gen; } TaggedPtr;
 <span class="ck">_Alignas</span>(<span class="cn">16</span>) <span class="ck">atomic_</span>TaggedPtr head;  <span class="cm">/* needs 128-bit CAS */</span>
-
 <span class="cm">/* x86-64: use CMPXCHG16B via GCC __int128 trick */</span></div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📨 Lock-Free MPSC Queue (Practical Pattern)</div>
   <div class="cp-body">
@@ -515,25 +479,20 @@ pool_release(conn);
 }</div>
   </div>
 </div>
-
 <div class="note">
   <strong>Memory Ordering Rules of Thumb:</strong> Use <code>memory_order_relaxed</code> for statistics counters (no ordering needed). Use <code>acquire/release</code> pairs for producer-consumer handoffs. Use <code>seq_cst</code> only when you need a global total order — it is the slowest (full fence on x86, heavyweight on ARM).
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 5 — I/O MULTIPLEXING
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-iomux" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🔀 C4 + C5 — I/O Multiplexing Evolution &amp; the C10K Problem</div>
   <div class="cp-body">
     <p>I/O multiplexing lets a single thread wait on <em>multiple</em> file descriptors simultaneously, being notified only when one is ready — eliminating the need for a thread per connection. The Linux kernel has evolved four generations of this interface over 30 years.</p>
   </div>
 </div>
-
 <table class="t-table">
   <thead><tr><th>API</th><th>Year</th><th>Notification Model</th><th>Max FDs</th><th>Complexity</th><th>Verdict</th></tr></thead>
   <tbody>
@@ -543,12 +502,10 @@ pool_release(conn);
     <tr><td><code>io_uring</code></td><td>2019</td><td>Ring buffers; zero syscall per I/O</td><td>Unlimited</td><td>O(1) + amortised</td><td>Linux 5.1+, future</td></tr>
   </tbody>
 </table>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔵 epoll Deep Dive — the Three-Syscall API</div>
   <div class="cp-body">
 <div class="cb"><span class="ck">#include</span> <span class="cs">&lt;sys/epoll.h&gt;</span>
-
 <span class="cm">/* 1. Create epoll instance — returns epoll fd */</span>
 <span class="ck">int</span> epfd = <span class="cf">epoll_create1</span>(EPOLL_CLOEXEC);
 
@@ -558,7 +515,6 @@ ev.events   = EPOLLIN | EPOLLET;  <span class="cm">/* EPOLLET = edge-triggered *
 ev.data.fd  = client_fd;
 <span class="cf">epoll_ctl</span>(epfd, EPOLL_CTL_ADD, client_fd, <span class="cv">&amp;ev</span>);
 <span class="cm">/* EPOLL_CTL_MOD to change, EPOLL_CTL_DEL to remove */</span>
-
 <span class="cm">/* 3. Wait — returns only ready FDs */</span>
 <span class="ck">struct</span> epoll_event events[<span class="cn">128</span>];
 <span class="ck">int</span> n = <span class="cf">epoll_wait</span>(epfd, events, <span class="cn">128</span>, <span class="cn">-1</span>);  <span class="cm">/* -1 = block forever */</span>
@@ -567,7 +523,6 @@ ev.data.fd  = client_fd;
 }</div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-teal">
     <div class="cp-hdr">Edge-Triggered (ET) vs Level-Triggered (LT)</div>
@@ -600,14 +555,12 @@ ev.data.fd  = client_fd;
     </div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🚀 io_uring — The Next Generation</div>
   <div class="cp-body">
     <p>Linux 5.1 (2019) introduced <code>io_uring</code>, built around two lock-free ring buffers shared between kernel and userspace:</p>
     <div class="diagram-box">
 <span class="dg-amber">Userspace</span>                         <span class="dg-amber">Kernel</span>
-
 <span class="dg-blue">SQ (Submission Queue)</span>  ─────────▶  Kernel picks up SQEs
  └─ SQE: op=READ, fd=5, buf=…            and executes async
 
@@ -629,7 +582,6 @@ io_uring_setup() + mmap() to set up rings.</span>
     </table>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">💣 C5 — The C10K Problem Explained</div>
   <div class="cp-body">
@@ -642,21 +594,17 @@ io_uring_setup() + mmap() to set up rings.</span>
     <p><strong>Solution</strong>: epoll event loop. One thread. No context switches between connections. O(1) delivery of ready events. Nginx handles 50K–100K concurrent connections on a single core with this model.</p>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 6 — CACHING
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-caching" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🗃️ C6 + C7 — In-Process Caching and Distributed Caching</div>
   <div class="cp-body">
     <p>Caching is the single most impactful performance optimisation available to a backend engineer. The key insight: most production workloads exhibit a power-law access pattern — 20% of keys account for 80% of requests. Keeping that hot 20% in memory eliminates most database round-trips.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔗 C6 — LRU Cache: Hash Map + Doubly-Linked List</div>
   <div class="cp-body">
@@ -674,7 +622,6 @@ io_uring_setup() + mmap() to set up rings.</span>
 
 <span class="dg-amber">After GET hit: move user:42 to HEAD</span>
 <span class="dg-green"> HEAD ←→ [user:42] ←→ [user:99] ←→ [user:01] ←→ TAIL</span>
-
 <span class="dg-red">On capacity: evict TAIL node (user:01), remove from map</span>
     </div>
 <div class="cb"><span class="ck">typedef struct</span> Node {
@@ -693,7 +640,6 @@ io_uring_setup() + mmap() to set up rings.</span>
 <span class="cm">/* put: hash lookup → if hit update+move; if miss insert head; if full evict tail */</span></div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-teal">
     <div class="cp-hdr">📊 LFU — Least Frequently Used</div>
@@ -717,7 +663,6 @@ io_uring_setup() + mmap() to set up rings.</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">⚡ C7 — Cache Stampede (Thundering Herd)</div>
   <div class="cp-body">
@@ -754,7 +699,6 @@ io_uring_setup() + mmap() to set up rings.</span>
 }</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🔥 Redis Hotspot Key Sharding</div>
   <div class="cp-body">
@@ -766,21 +710,17 @@ io_uring_setup() + mmap() to set up rings.</span>
     </ul>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 7 — SCALING
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-scaling" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">📈 C8–C10 — Connection Pools, Load Balancing &amp; Horizontal Scaling</div>
   <div class="cp-body">
     <p>Scaling means keeping latency flat as traffic grows. The three levers are: pooling (amortise connection setup cost), load balancing (distribute traffic optimally), and stateless design (allow trivial horizontal replication).</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔌 C8 — Connection Pool Management</div>
   <div class="cp-body">
@@ -801,7 +741,6 @@ io_uring_setup() + mmap() to set up rings.</span>
     <p><strong>pgBouncer</strong> operates at the proxy level — thousands of app connections multiplex onto a smaller PostgreSQL connection pool (transaction-mode pooling). Reduces PostgreSQL's backend process count from thousands to tens.</p>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">⚖️ C9 — Load Balancing Algorithms</div>
   <div class="cp-body">
@@ -833,7 +772,6 @@ io_uring_setup() + mmap() to set up rings.</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🌐 C10 — Stateless Horizontal Scaling</div>
   <div class="cp-body">
@@ -853,29 +791,23 @@ io_uring_setup() + mmap() to set up rings.</span>
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 8 — C IMPLEMENTATION
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-impl" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🔧 Complete C Implementations</div>
   <div class="cp-body">All examples compile on Linux with <code>gcc -std=c11 -O2 -lpthread</code>. The epoll server requires Linux ≥ 2.6.27.</div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">1️⃣ Thread Pool with Work Queue</div>
   <div class="cp-body">
 <div class="cb"><span class="ck">#include</span> <span class="cs">&lt;pthread.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdlib.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
-
 <span class="ck">#define</span> POOL_SIZE  <span class="cn">8</span>
 <span class="ck">#define</span> QUEUE_CAP  <span class="cn">1024</span>
-
 <span class="ck">typedef void</span> (*Task)(<span class="ck">void</span> *);
 
 <span class="ck">typedef struct</span> {
@@ -936,7 +868,6 @@ ThreadPool *<span class="cf">pool_create</span>(<span class="ck">void</span>) {
 }</div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">2️⃣ epoll Edge-Triggered Event Loop</div>
   <div class="cp-body">
@@ -947,10 +878,8 @@ ThreadPool *<span class="cf">pool_create</span>(<span class="ck">void</span>) {
 <span class="ck">#include</span> <span class="cs">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;errno.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
-
 <span class="ck">#define</span> MAX_EVENTS <span class="cn">256</span>
 <span class="ck">#define</span> PORT       <span class="cn">8080</span>
-
 <span class="ck">static void</span> <span class="cf">set_nonblocking</span>(<span class="ck">int</span> fd) {
     <span class="cf">fcntl</span>(fd, F_SETFL, <span class="cf">fcntl</span>(fd, F_GETFL, <span class="cn">0</span>) | O_NONBLOCK);
 }
@@ -1004,14 +933,12 @@ ThreadPool *<span class="cf">pool_create</span>(<span class="ck">void</span>) {
 }</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">3️⃣ Atomic Reference Counter (stdatomic.h)</div>
   <div class="cp-body">
 <div class="cb"><span class="ck">#include</span> <span class="cs">&lt;stdatomic.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdlib.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;assert.h&gt;</span>
-
 <span class="ck">typedef struct</span> {
     <span class="ck">atomic_int</span>  refcount;
     <span class="ck">char</span>        data[<span class="cn">256</span>];
@@ -1051,16 +978,13 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
 }</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">4️⃣ LRU Cache — Hash Map + Doubly-Linked List</div>
   <div class="cp-body">
 <div class="cb"><span class="ck">#include</span> <span class="cs">&lt;stdlib.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
-
 <span class="ck">#define</span> CACHE_CAP  <span class="cn">128</span>
 <span class="ck">#define</span> HT_SIZE    <span class="cn">257</span>   <span class="cm">/* prime */</span>
-
 <span class="ck">typedef struct</span> LRUNode {
     <span class="ck">char</span>           key[<span class="cn">64</span>];
     <span class="ck">long</span>           value;
@@ -1134,14 +1058,11 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
 }</div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 9 — LABS & CHECKLIST
      ══════════════════════════════════════════════════════════ -->
 <div id="tab-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 1 — Thread Pool Benchmark: Thread-per-Request vs Pool vs Event Loop</div>
   <div class="lab-body">
@@ -1154,7 +1075,6 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
     <div class="lab-step"><div class="sn">6</div><div>Expected result: epoll handles 50K with ~1% CPU idle; threaded crashes or hits ulimit around 4–8K threads depending on stack size.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Lock-Free Counter vs Mutex Counter Micro-Benchmark</div>
   <div class="lab-body">
@@ -1167,7 +1087,6 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
     <div class="lab-step"><div class="sn">6</div><div>Explain the result in terms of <strong>cache coherence traffic</strong>: each atomic increment on a shared cache line triggers an MESI invalidation broadcast to all cores holding the line.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — In-Process LRU Cache with Thread Safety</div>
   <div class="lab-body">
@@ -1179,7 +1098,6 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
     <div class="lab-step"><div class="sn">5</div><div>Profile with <code>perf stat</code>: compare cache-miss events at different capacities. Observe L1/L2 hit rates alongside LRU hit rates.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 4 — Consistent Hashing Implementation</div>
   <div class="lab-body">
@@ -1191,7 +1109,6 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
     <div class="lab-step"><div class="sn">5</div><div>Compare with modulo hashing: same 100K keys on 3→4 nodes. Count remapped keys. Expected: ~75% remapped (traditional modulo). Consistent hashing wins.</div></div>
   </div>
 </div>
-
 <div class="sep"></div>
 <div class="cp-hdr" style="background:linear-gradient(90deg,#f59e0b,#f97316);color:#fff;padding:.6rem 1.1rem;border-radius:8px 8px 0 0;font-weight:700;">✅ Phase 4 Completion Checklist</div>
 <div style="background:#fffbeb;border:1px solid #f59e0b;border-top:none;border-radius:0 0 8px 8px;padding:1rem;">
@@ -1239,16 +1156,13 @@ SharedBuffer *<span class="cf">buf_retain</span>(SharedBuffer *b) {
     <li>Can design a stateless service: externalise sessions, use idempotency keys</li>
   </ul>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/backend/m09-auth-jwt/" class="nb sec">← M09 Auth &amp; JWT</a>
   <a href="/learning/backend/" class="nb sec">↑ Roadmap</a>
   <a href="/learning/backend/m13-messaging/" class="nb">M13 Messaging →</a>
 </div>
-
 </div>
 </div><!-- .mod-wrap -->
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

@@ -11,7 +11,6 @@ url: /learning/system-design/hld/module-c2-geo-distribution/
 
 <link rel="stylesheet" href="/assets/css/sd-module-c2.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
-
 <header>
   <div class="hdr-bar"></div>
   <div class="hdr-top">
@@ -42,7 +41,6 @@ url: /learning/system-design/hld/module-c2-geo-distribution/
     <div class="tg" style="color:var(--grn)">RPO / RTO</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="show('why',this)">Why Multi-Region</div>
   <div class="nt" onclick="show('latency',this)">Speed of Light</div>
@@ -55,9 +53,7 @@ url: /learning/system-design/hld/module-c2-geo-distribution/
   <div class="nt" onclick="show('tasks',this)">Tasks</div>
   <div class="nt" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- WHY -->
 <div class="view active" id="view-why">
   <div class="sh">Why Go Multi-Region?</div>
@@ -84,7 +80,6 @@ url: /learning/system-design/hld/module-c2-geo-distribution/
   </div>
   <div class="al tea"><em>Interview clarifying question:</em> "Before I design the multi-region architecture — which of these are we solving? Availability requires hot standby and automatic failover. Latency requires regional replicas or active-active. Compliance requires strict data partitioning and geo-routing. They have very different solutions and cost profiles."</div>
 </div>
-
 <!-- LATENCY -->
 <div class="view" id="view-latency">
   <div class="sh">Speed of Light</div>
@@ -112,10 +107,8 @@ Write latency = time until quorum ACK
  
 Quorum write latency = min(EU-West RTT, AP-Southeast RTT) = <span class="er">~85ms</span>
 <span class="cm">// must wait for 1 of 2 remote nodes to ACK</span>
- 
 <span class="cm">// This means every write to your database takes 85ms minimum.</span>
 <span class="cm">// A 10ms SLA is IMPOSSIBLE with synchronous global Raft.</span>
- 
 <span class="cm">// Solution: non-voting replicas (CockroachDB style)</span>
 <span class="cm">// US-East: 2 voting replicas (quorum = 2, all local → ~1ms write latency)</span>
 <span class="cm">// EU-West: 1 non-voting replica (async replication, ~1s lag)</span>
@@ -124,7 +117,6 @@ Quorum write latency = min(EU-West RTT, AP-Southeast RTT) = <span class="er">~85
 <span class="cm">// EU/APAC reads: served locally (slightly stale) ✓</span></pre>
   </div>
 </div>
-
 <!-- PATTERNS -->
 <div class="view" id="view-patterns">
   <div class="sh">Active-Passive vs Active-Active</div>
@@ -159,7 +151,6 @@ Quorum write latency = min(EU-West RTT, AP-Southeast RTT) = <span class="er">~85
     </tbody>
   </table>
 </div>
-
 <!-- CRDTS -->
 <div class="view" id="view-crdts">
   <div class="sh">CRDTs — Conflict-Free Replicated Data Types</div>
@@ -214,10 +205,8 @@ Quorum write latency = min(EU-West RTT, AP-Southeast RTT) = <span class="er">~85
     <span class="kw">def</span> <span class="fn">__init__</span>(self, node_id, num_nodes):
         self.node_id = node_id
         self.counts = [<span class="te">0</span>] * num_nodes   <span class="cm"># slot per node</span>
- 
     <span class="kw">def</span> <span class="fn">increment</span>(self):
         self.counts[self.node_id] += <span class="te">1</span>  <span class="cm"># only increment OWN slot</span>
- 
     <span class="kw">def</span> <span class="fn">value</span>(self):
         <span class="kw">return</span> <span class="fn">sum</span>(self.counts)
  
@@ -235,7 +224,6 @@ B.<span class="fn">merge</span>(A); B.<span class="fn">merge</span>(C)  <span cl
 <span class="cm"># All replicas converge to 6 regardless of merge order ✓</span></pre>
   </div>
 </div>
-
 <!-- DYNAMO -->
 <div class="view" id="view-dynamo">
   <div class="sh">DynamoDB Global Tables</div>
@@ -245,7 +233,6 @@ B.<span class="fn">merge</span>(A); B.<span class="fn">merge</span>(C)  <span cl
 <span class="cm">// Each region: accepts reads AND writes independently</span>
 <span class="cm">// Replication: asynchronous, bidirectional, ~1s lag</span>
 <span class="cm">// Conflict resolution: LAST-WRITE-WINS (timestamp-based)</span>
- 
 <span class="cm">// GOOD USES (LWW acceptable):</span>
 <span class="ok">✓</span> User sessions: {user_id → session_token, last_seen}
 <span class="ok">✓</span> User preferences: {user_id → theme, language, notifications}
@@ -262,12 +249,10 @@ B.<span class="fn">merge</span>(A); B.<span class="fn">merge</span>(C)  <span cl
 <span class="cm">// For counters: use DynamoDB Streams + Lambda to consolidate</span>
 <span class="cm">// Or: use a CRDT service (PN-Counter semantics)</span>
 <span class="cm">// Or: route all writes for a given key to its "home" region</span>
- 
 <span class="cm">// Cost: each additional replica region ≈ 2× storage + throughput costs</span>
 <span class="cm">// Replication lag: typically ~1s, can spike to ~5s under high load</span></pre>
   </div>
 </div>
-
 <!-- COCKROACHDB -->
 <div class="view" id="view-cockroach">
   <div class="sh">CockroachDB Multi-Region</div>
@@ -299,7 +284,6 @@ WHERE user_id = 123;</pre>
   </div>
   <div class="al tea"><em>Non-voting replicas:</em> Standard Raft requires write quorum. If 2 voting replicas are in US-East and 1 is in EU-West, every write must wait for the EU-West ACK (~85ms). Non-voting replicas participate in reads but NOT in write quorum — so US-East can commit with local quorum (~1ms) while EU-West asynchronously catches up for local reads.</div>
 </div>
-
 <!-- GDPR -->
 <div class="view" id="view-gdpr">
   <div class="sh">GDPR & Data Residency</div>
@@ -347,7 +331,6 @@ WHERE user_id = 123;</pre>
     </div>
   </div>
 </div>
-
 <!-- RPO/RTO -->
 <div class="view" id="view-rpo">
   <div class="sh">RPO & RTO Design</div>
@@ -393,7 +376,6 @@ WHERE user_id = 123;</pre>
 <span class="cm">// Incident: detect=15min, page team=5min, fix=30min → 50 min per incident</span>
 <span class="cm">// → Budget allows ZERO incidents that go over 52 min/year</span>
 <span class="cm">// → Need automatic failover with RTO < 30s</span>
- 
 <span class="cm">// Payment service (financial data):</span>
 RPO = <span class="ok">0</span>      → synchronous replication  (zero data loss)
 RTO = <span class="ok">30s</span>    → hot standby, auto-promote (no manual steps)
@@ -410,7 +392,6 @@ RTO = <span class="yel">minutes</span> → warm standby, semi-auto    (brief out
 Cost:         moderate — warm standby only</pre>
   </div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -464,7 +445,6 @@ Cost:         moderate — warm standby only</pre>
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 20 completed</span><span style="font-family:'Space Mono',monospace">MODULE C2 · GEO-DISTRIBUTION</span></div>
@@ -502,13 +482,10 @@ Cost:         moderate — warm standby only</pre>
   </div>
 </div>
 </div>
-
-
 <div class="mb-nav">
   <a href="/learning/system-design/hld/module-c1-consensus/">← C1 Consensus</a>
   <a href="/learning/system-design/hld/module-c2-notes/">📄 Study Notes</a>
   <a href="/learning/system-design/system-design-roadmap/">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-b13-ml-systems/" class="primary">C3 ML Systems →</a>
 </div>
-
 <script src="/assets/js/sd-module-c2.js"></script>

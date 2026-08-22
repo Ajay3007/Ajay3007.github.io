@@ -212,7 +212,6 @@ url: /learning/networking-mastery/m02-ethernet-l2/
 /* Section divider */
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 1 · MODULE 02 · WEEKS 1–2</div>
@@ -227,7 +226,6 @@ url: /learning/networking-mastery/m02-ethernet-l2/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Ethernet Basics</button>
@@ -240,12 +238,9 @@ url: /learning/networking-mastery/m02-ethernet-l2/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — ETHERNET BASICS ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">WHAT IS ETHERNET AND WHY IT DOMINATES</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📜</span><h3>Ethernet — A Brief History</h3><span class="tag tag-amber">BACKGROUND</span></div>
   <div class="cp-body">
@@ -259,7 +254,6 @@ url: /learning/networking-mastery/m02-ethernet-l2/
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Layer 2 — What It Does in the Stack</h3><span class="tag tag-blue">ROLE IN STACK</span></div>
   <div class="cp-body">
@@ -274,7 +268,6 @@ url: /learning/networking-mastery/m02-ethernet-l2/
     </ul>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Ethernet Speed Standards</h3><span class="tag tag-teal">STANDARDS</span></div>
   <div class="cp-body">
@@ -295,19 +288,15 @@ url: /learning/networking-mastery/m02-ethernet-l2/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — ETHERNET FRAME ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">ETHERNET FRAME FORMAT — BYTE BY BYTE</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📦</span><h3>The Ethernet II Frame</h3><span class="tag tag-amber">FRAME FORMAT</span></div>
   <div class="cp-body">
     <p>There are two Ethernet frame formats in use: <strong>Ethernet II</strong> (DIX) and <strong>IEEE 802.3</strong>. Ethernet II is dominant on modern networks — it's what you'll see in every packet capture. The key difference is the 2-byte field after the MAC addresses: Ethernet II uses it as an <strong>EtherType</strong> (identifies the L3 protocol), while 802.3 uses it as a <strong>Length</strong> field. Since EtherType values are always ≥ 1536 (0x0600) and length values are ≤ 1500, a receiver can tell them apart instantly.</p>
   </div>
 </div>
-
 <div class="frame-diagram">
   <div class="frame-row">
     <div class="frame-label">On wire</div>
@@ -321,14 +310,11 @@ url: /learning/networking-mastery/m02-ethernet-l2/
   </div>
   <div style="font-size:.72rem;color:var(--light-text,#888);margin-top:4px;font-family:monospace;text-align:right">Total: 64–1518 bytes (minimum 64B to detect collisions, max 1518B standard MTU)</div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Every Field Explained</h3><span class="tag tag-blue">FIELD REFERENCE</span></div>
   <div class="cp-body">
-
     <h4>Preamble (7 bytes) + SFD (1 byte)</h4>
     <p>The preamble is 7 bytes of alternating 1s and 0s (<code>10101010...</code>). It allows the receiver's clock to synchronise with the sender's clock before actual data arrives — like a "ready?" signal. The Start Frame Delimiter (SFD) is <code>10101011</code> — the final bit breaks the alternating pattern to signal "frame starts NOW". These 8 bytes are added and stripped by the NIC hardware and never appear in software packet buffers.</p>
-
     <h4>Destination MAC Address (6 bytes)</h4>
     <p>The hardware address of the intended recipient. The switch uses this to decide which port to forward the frame to. Three special cases:</p>
     <ul>
@@ -336,10 +322,8 @@ url: /learning/networking-mastery/m02-ethernet-l2/
       <li><strong>Broadcast</strong> — <code>FF:FF:FF:FF:FF:FF</code> — all devices on the segment receive it</li>
       <li><strong>Multicast</strong> — <code>01:00:5E:xx:xx:xx</code> for IPv4 multicast — sent to a group of devices</li>
     </ul>
-
     <h4>Source MAC Address (6 bytes)</h4>
     <p>The hardware address of the sender. Switches read this field to <strong>learn</strong> which MAC address is reachable on which port and build their MAC address table.</p>
-
     <h4>EtherType (2 bytes)</h4>
     <p>Identifies the Layer 3 protocol carried in the payload. Most important values:</p>
     <ul>
@@ -351,23 +335,17 @@ url: /learning/networking-mastery/m02-ethernet-l2/
       <li><code>0x8847</code> — MPLS unicast</li>
     </ul>
     <p>In DPDK and VPP, the EtherType field is the first thing the <code>ethernet-input</code> graph node reads to dispatch the frame to the correct next node (ip4-input, ip6-input, arp-input, etc.).</p>
-
     <h4>Payload / Data (46–1500 bytes)</h4>
     <p>The IP packet (or ARP message, or other L3 PDU) carried by the frame. The minimum payload is 46 bytes — if the IP packet is smaller, it gets <strong>padded</strong> with zeros to reach 46 bytes. This ensures the total frame is at least 64 bytes, which is required for collision detection in half-duplex Ethernet (legacy).</p>
-
     <h4>FCS / CRC (4 bytes)</h4>
     <p>Frame Check Sequence — a 32-bit CRC (Cyclic Redundancy Check) computed over all frame fields from Destination MAC through Payload. The receiver recomputes the CRC and compares to the transmitted value. If they differ, the frame is silently <strong>dropped</strong> (no error is sent back — error recovery is TCP's job at L4). NICs typically handle CRC computation in hardware, and most OSes strip the FCS before passing the frame to software — so you won't see it in Wireshark captures from a NIC in normal mode.</p>
-
     <h4>MTU — Maximum Transmission Unit</h4>
     <p>The maximum payload size is <strong>1500 bytes</strong> — this is the standard Ethernet MTU. If an IP packet is larger, it must be <strong>fragmented</strong> at the IP layer (or the application told to send smaller chunks via Path MTU Discovery). Many data-centre networks use <strong>Jumbo Frames</strong> with MTU 9000 bytes to reduce CPU overhead for large transfers — your DPDK/VPP setup likely uses jumbo frames.</p>
-
   </div>
 </div>
-
 <div class="ins">
   <p>💡 <strong>Why minimum 64 bytes?</strong> In classic CSMA/CD Ethernet (before full-duplex switches), a sending station needed to keep transmitting long enough that if a collision occurred at the far end of the cable, the collision signal could travel back and reach the sender while it was still transmitting. At 10 Mbps on a 100m cable, this required a minimum frame size of 64 bytes. Modern switched full-duplex Ethernet has no collisions, but the 64-byte minimum is kept for backwards compatibility.</p>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Frame Overhead Calculation</h3><span class="tag tag-green">PERFORMANCE</span></div>
   <div class="cp-body">
@@ -395,17 +373,13 @@ Efficiency     : 1500 / 1538 = 97.5%  ← much better
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — MAC ADDRESSES ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">MAC ADDRESSES — HARDWARE IDENTITY</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>What is a MAC Address?</h3><span class="tag tag-amber">CORE CONCEPT</span></div>
   <div class="cp-body">
     <p>A MAC (Media Access Control) address is a <strong>48-bit (6-byte) hardware identifier</strong> assigned to every network interface. Unlike IP addresses which are logical and can be changed by software, MAC addresses are (traditionally) burned into the NIC's hardware at manufacture and intended to be globally unique. In practice, modern OSes allow MAC address spoofing in software.</p>
-
     <p><strong>MAC address notation:</strong> Written as 6 pairs of hexadecimal digits, separated by colons or hyphens:</p>
     <ul>
       <li><code>aa:bb:cc:dd:ee:ff</code> — colon-separated (Linux, most tools)</li>
@@ -414,12 +388,10 @@ Efficiency     : 1500 / 1538 = 97.5%  ← much better
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗂️</span><h3>MAC Address Structure — OUI and NIC-Specific</h3><span class="tag tag-blue">STRUCTURE</span></div>
   <div class="cp-body">
     <p>A MAC address has a precise internal structure:</p>
-
     <div style="text-align:center;margin:.8rem 0">
       <div style="font-size:.72rem;font-family:monospace;margin-bottom:4px;color:var(--light-text,#666)">← OUI (Organisationally Unique Identifier) → ← NIC-Specific →</div>
       <div class="mac-visual" style="justify-content:center">
@@ -446,18 +418,15 @@ Efficiency     : 1500 / 1538 = 97.5%  ← much better
         </div>
       </div>
     </div>
-
     <ul>
       <li><strong>OUI (bytes 1–3)</strong> — Assigned by IEEE to each NIC manufacturer. Identifies the vendor. Examples: <code>00:1A:2B</code> = Cisco, <code>24:8A:07</code> = Mellanox/NVIDIA, <code>3C:FD:FE</code> = Intel. You can look up any OUI at <code>https://regauth.standards.ieee.org/</code></li>
       <li><strong>NIC-specific (bytes 4–6)</strong> — Assigned by the manufacturer to uniquely identify the specific interface within all their products</li>
     </ul>
-
     <h4>Two special bits in byte 1:</h4>
     <ul>
       <li><strong>Bit 0 (LSB) — I/G bit (Individual/Group)</strong>: <code>0</code> = unicast (sent to one device), <code>1</code> = multicast/broadcast (sent to a group)</li>
       <li><strong>Bit 1 — U/L bit (Universal/Local)</strong>: <code>0</code> = globally unique (burned-in OUI), <code>1</code> = locally administered (manually assigned or randomly generated)</li>
     </ul>
-
 <div class="cb"><pre><span class="cm">/* Reading MAC address bits in C (network byte order) */</span>
 uint8_t mac[6] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
  
@@ -478,14 +447,12 @@ uint8_t mac[6] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff};
     printf(<span class="cs">"Broadcast frame\n"</span>);</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Working with MAC Addresses on Linux</h3><span class="tag tag-teal">PRACTICAL</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm"># Show MAC address of all interfaces</span>
 ip link show
 <span class="cm"># Output: link/ether aa:bb:cc:dd:ee:ff brd ff:ff:ff:ff:ff:ff</span>
- 
 <span class="cm"># Show just eth0's MAC</span>
 ip link show eth0 | awk '/ether/ {print $2}'
  
@@ -497,7 +464,6 @@ ip link set eth0 down
 ip link set eth0 address 02:00:00:00:00:01
 ip link set eth0 up
 <span class="cm"># Note: bit 1 of first byte = 1 (locally administered)</span>
- 
 <span class="cm"># Show neighbour (ARP) table — maps IP → MAC</span>
 ip neigh show
  
@@ -511,12 +477,9 @@ arp -n
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — ARP ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">ARP — ADDRESS RESOLUTION PROTOCOL</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>The Problem ARP Solves</h3><span class="tag tag-orange">MOTIVATION</span></div>
   <div class="cp-body">
@@ -524,17 +487,14 @@ arp -n
     <p><strong>ARP's job in one sentence:</strong> Given an IP address on the local network, tell me the MAC address of the device that owns it.</p>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">📢 Analogy — Shouting in a Room</div>
   <p>Imagine you're in a room full of people. You know your friend's name ("10.0.0.5") but not their face (MAC address). You shout: <em>"Hey everyone — I'm looking for 10.0.0.5, please tell me who you are!"</em> Only the person with that name raises their hand and says <em>"That's me! My face looks like aa:bb:cc:dd:ee:ff"</em>. Everyone else ignores your shout. You now know their face and can walk up and talk directly. This is exactly how ARP works — the broadcast is the shout, the ARP reply is the hand raised.</p>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>ARP Packet Format</h3><span class="tag tag-blue">PACKET FORMAT</span></div>
   <div class="cp-body">
     <p>ARP is carried directly in an Ethernet frame with EtherType <code>0x0806</code>. The ARP message itself has a fixed format:</p>
-
     <div class="frame-diagram">
       <div class="frame-row" style="min-width:500px">
         <div class="frame-label">ARP msg</div>
@@ -549,16 +509,13 @@ arp -n
         <div class="ff ff-ip" style="flex:.8;background:#e8f5e8;border-color:#a0d0a0;color:#1a4a1a">Target IP<div class="ff-bytes">4 bytes</div></div>
       </div>
     </div>
-
     <p>The <strong>Operation</strong> field distinguishes requests (1) from replies (2). In a request, the Target MAC is <code>00:00:00:00:00:00</code> (unknown — that's what we're asking for). The entire request is sent as an Ethernet <strong>broadcast</strong> (<code>FF:FF:FF:FF:FF:FF</code>).</p>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>ARP Exchange — Step by Step</h3><span class="tag tag-teal">PROCESS</span></div>
   <div class="cp-body">
     <p>Scenario: Host A (<code>10.0.0.5 / aa:aa:aa:aa:aa:aa</code>) wants to send a packet to Host B (<code>10.0.0.10</code>). It doesn't know B's MAC address yet.</p>
-
     <div class="flow-list">
       <div class="fl-step" data-n="1" style="--sc:#7a5800">
         <div>
@@ -597,18 +554,14 @@ arp -n
     </div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>ARP Security Issues — Gratuitous ARP and ARP Spoofing</h3><span class="tag tag-red">SECURITY</span></div>
   <div class="cp-body">
     <p>ARP has <strong>no authentication</strong> — any device can send an ARP reply claiming to own any IP address. This makes it vulnerable to two important attacks that NGFW engineers must understand:</p>
-
     <h4>Gratuitous ARP</h4>
     <p>A gratuitous ARP is an unsolicited ARP reply — a device announces its own IP→MAC mapping without being asked. This is used legitimately by OSes at startup (to update neighbour caches) and by failover systems (to redirect traffic to a new IP owner after failover). But an attacker can send a gratuitous ARP to <strong>poison</strong> every device's ARP cache on the segment.</p>
-
     <h4>ARP Spoofing / ARP Poisoning</h4>
     <p>An attacker sends forged ARP replies claiming "I am the gateway (10.0.0.1) — my MAC is aa:at:ta:ck:er:00". Every host that receives this updates its ARP cache. Now all traffic intended for the gateway is sent to the attacker. The attacker can forward it on (man-in-the-middle) or drop it (denial of service).</p>
-
     <p><strong>NGFW mitigation techniques:</strong></p>
     <ul>
       <li><strong>Dynamic ARP Inspection (DAI)</strong> — switch feature that validates ARP packets against a DHCP snooping binding table</li>
@@ -619,21 +572,16 @@ arp -n
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — SWITCHES AND FORWARDING ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">ETHERNET SWITCHING AND MAC ADDRESS LEARNING</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>How a Switch Works</h3><span class="tag tag-blue">INTERNALS</span></div>
   <div class="cp-body">
     <p>A <strong>switch</strong> is a Layer 2 device that connects multiple Ethernet devices and forwards frames between them intelligently — sending each frame only to the port where the destination MAC address is reachable, rather than flooding to all ports like an old hub.</p>
     <p>Switches maintain a <strong>MAC Address Table</strong> (also called the CAM table — Content-Addressable Memory). This table maps MAC addresses to switch ports. It is built dynamically through <strong>MAC address learning</strong>.</p>
-
     <h4>MAC Learning — How the Table Gets Built</h4>
     <p>When a switch receives a frame on port X from source MAC <code>aa:bb:cc:dd:ee:ff</code>, it records: <em>"MAC aa:bb:cc:dd:ee:ff is reachable on port X"</em>. It does this for every frame it receives — gradually building a complete map of which MAC address is behind which port.</p>
-
     <h4>Frame Forwarding Decision</h4>
     <p>When a switch receives a frame, it makes one of three decisions based on the destination MAC:</p>
     <ul>
@@ -643,12 +591,10 @@ arp -n
     </ul>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📋</span><h3>MAC Address Table — Worked Example</h3><span class="tag tag-teal">EXAMPLE</span></div>
   <div class="cp-body">
     <p>A switch has 4 ports. Three hosts are connected. The table starts empty.</p>
-
     <div class="topo">
       <div class="topo-row">
         <div>
@@ -670,7 +616,6 @@ arp -n
         <div class="topo-link">↑ Port 3</div>
       </div>
     </div>
-
     <p><strong>Step 1:</strong> Host A sends a frame to Host B. Switch receives frame on <strong>port 1</strong>:</p>
     <table class="t-table" style="margin-bottom:.5rem">
       <thead><tr><th>MAC Address</th><th>Port</th><th>Age</th><th>Action</th></tr></thead>
@@ -679,7 +624,6 @@ arp -n
       </tbody>
     </table>
     <p>Destination <code>bb:bb:bb:bb:bb:bb</code> is unknown → <strong>flood to ports 2 and 3</strong>. Host B receives it (port 2). Host C receives it but discards (not its MAC).</p>
-
     <p><strong>Step 2:</strong> Host B replies to Host A. Switch receives on <strong>port 2</strong>:</p>
     <table class="t-table" style="margin-bottom:.5rem">
       <thead><tr><th>MAC Address</th><th>Port</th><th>Age</th></tr></thead>
@@ -689,7 +633,6 @@ arp -n
       </tbody>
     </table>
     <p>Destination <code>aa:aa:aa:aa:aa:aa</code> is NOW known → forward <strong>only to port 1</strong>. Host C receives nothing.</p>
-
     <p><strong>After a few more exchanges</strong> — full table, all forwarding is unicast:</p>
     <table class="t-table">
       <thead><tr><th>MAC Address</th><th>Port</th><th>Notes</th></tr></thead>
@@ -702,7 +645,6 @@ arp -n
     <p>Entries age out (typically 300 seconds) to handle moved devices. If a device is physically moved to a different port, the switch learns the new port when it next sends a frame, overwriting the old entry.</p>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Hub vs Switch vs Router — Key Differences</h3><span class="tag tag-purple">COMPARISON</span></div>
   <div class="cp-body">
@@ -718,12 +660,9 @@ arp -n
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — VLANs ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">VLANs — VIRTUAL LOCAL AREA NETWORKS (IEEE 802.1Q)</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🧱</span><h3>What Problem VLANs Solve</h3><span class="tag tag-purple">MOTIVATION</span></div>
   <div class="cp-body">
@@ -737,12 +676,10 @@ arp -n
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>802.1Q VLAN Tagging</h3><span class="tag tag-blue">FRAME FORMAT</span></div>
   <div class="cp-body">
     <p>IEEE 802.1Q adds a <strong>4-byte VLAN tag</strong> to the Ethernet frame between the Source MAC and the EtherType field. The EtherType <code>0x8100</code> signals that a VLAN tag follows:</p>
-
     <div class="frame-diagram">
       <div class="frame-row" style="min-width:560px">
         <div class="frame-label">Tagged frame</div>
@@ -756,7 +693,6 @@ arp -n
         <div class="ff ff-crc" style="flex:.5">CRC<div class="ff-bytes">4 bytes</div></div>
       </div>
     </div>
-
     <p><strong>VLAN tag fields:</strong></p>
     <ul>
       <li><strong>TPID</strong> (Tag Protocol Identifier, <code>0x8100</code>) — identifies this as an 802.1Q tagged frame</li>
@@ -767,7 +703,6 @@ arp -n
     <p>The VLAN tag increases the maximum frame size from 1518 to <strong>1522 bytes</strong>.</p>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Access Ports vs Trunk Ports</h3><span class="tag tag-teal">PORT TYPES</span></div>
   <div class="cp-body">
@@ -783,7 +718,6 @@ arp -n
         <p><strong>Used for:</strong> Switch-to-switch uplinks, switch-to-router links, server NICs where the OS needs multiple VLANs, VPP/DPDK setups with VLAN subinterfaces</p>
       </div>
     </div>
-
     <div class="vlan-wrap" style="margin-top:1rem">
       <div class="vlan-box" style="border-color:#5b3a8c">
         <div class="vlan-title" style="color:#5b3a8c">VLAN 10 — Engineering</div>
@@ -801,7 +735,6 @@ arp -n
     <p style="font-size:.83rem;color:var(--text-color,#444);margin-top:.5rem">Hosts in VLAN 10 and VLAN 20 cannot communicate at L2 even though they're on the same physical switch. To route between VLANs you need a router or Layer 3 switch ("router on a stick").</p>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🖥️</span><h3>VLANs in Linux and DPDK</h3><span class="tag tag-green">PRACTICAL</span></div>
   <div class="cp-body">
@@ -816,24 +749,19 @@ ip addr add 10.20.0.1/24 dev eth0.20
 <span class="cm"># Show VLAN info</span>
 cat /proc/net/vlan/config
 ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
- 
 <span class="cm"># In VPP — create VLAN subinterface on a DPDK port</span>
 <span class="cm"># vppctl: create sub-interfaces GigabitEthernet0/8/0 10</span>
 <span class="cm"># vppctl: set interface state GigabitEthernet0/8/0.10 up</span>
 <span class="cm"># vppctl: set interface ip address GigabitEthernet0/8/0.10 10.10.0.1/24</span>
- 
 <span class="cm"># Wireshark VLAN filter</span>
 <span class="cm"># vlan.id == 10         — show only VLAN 10 frames</span>
 <span class="cm"># vlan.priority == 6    — show high-priority tagged frames</span></pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — STP AND RSTP ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">SPANNING TREE PROTOCOL (STP) AND RSTP — LOOP PREVENTION</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>The Broadcast Storm Problem</h3><span class="tag tag-red">THE PROBLEM</span></div>
   <div class="cp-body">
@@ -847,12 +775,10 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     <p>This is called a <strong>broadcast storm</strong>. It will take down an entire network in seconds. STP prevents this by blocking redundant links unless a primary link fails.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌲</span><h3>STP — How It Works</h3><span class="tag tag-blue">MECHANISM</span></div>
   <div class="cp-body">
     <p>STP (IEEE 802.1D) prevents loops by automatically blocking redundant ports while keeping one active path between any two network points — a <strong>loop-free logical tree topology</strong>. STP runs between switches automatically using special messages called <strong>BPDUs (Bridge Protocol Data Units)</strong>.</p>
-
     <h4>STP Election Process — 3 Steps</h4>
     <ol>
       <li><strong>Elect a Root Bridge</strong> — All switches exchange BPDUs and elect one switch as the "root" of the spanning tree. The switch with the <strong>lowest Bridge ID</strong> wins. Bridge ID = Priority (default 32768) + MAC address. You can manually set priority lower to control which switch becomes root.</li>
@@ -861,7 +787,6 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     </ol>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>STP Port States</h3><span class="tag tag-teal">PORT STATES</span></div>
   <div class="cp-body">
@@ -892,7 +817,6 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>RSTP — Rapid Spanning Tree Protocol (IEEE 802.1w)</h3><span class="tag tag-green">RSTP</span></div>
   <div class="cp-body">
@@ -907,11 +831,8 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — LABS ════════════ -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Dissect an Ethernet Frame with Wireshark</h4></div>
   <div class="lab-body">
@@ -924,7 +845,6 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — VLAN tag:</strong> If you have a trunk interface configured, run <code>tcpdump -i eth0 -e -nn vlan</code>. The <code>-e</code> flag shows L2 headers including VLAN tags. You should see output like: <code>vlan 10, ethertype IPv4</code>.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Observe the ARP Exchange</h4></div>
   <div class="lab-body">
@@ -936,7 +856,6 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus — ARP spoofing demonstration (on your own VM only):</strong> Use Scapy to send a gratuitous ARP: <code>from scapy.all import *; sendp(Ether(dst="ff:ff:ff:ff:ff:ff")/ARP(op=2, pdst="10.0.0.1", hwdst="ff:ff:ff:ff:ff:ff", psrc="10.0.0.1", hwsrc="de:ad:be:ef:00:01"), iface="eth0", count=3)</code>. Check <code>ip neigh show</code> on another VM — the gateway's MAC has been poisoned to de:ad:be:ef:00:01.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Build an Ethernet Frame from Scratch in C</h4></div>
   <div class="lab-body">
@@ -953,7 +872,6 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
 #include &lt;net/ethernet.h&gt;
 #include &lt;net/if.h&gt;
 #include &lt;arpa/inet.h&gt;</span>
- 
 <span class="ck">struct</span> arp_frame {
     <span class="cm">/* Ethernet header */</span>
     uint8_t  eth_dst[6];   <span class="cm">/* 6 bytes */</span>
@@ -979,14 +897,10 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
     </div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB 8 — CHECKLIST ════════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">M02 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain why Ethernet has dominated networking for 50+ years — simplicity, cost, scalability</li>
   <li>Know the role of Layer 2 in the stack: node-to-node delivery on the same network segment</li>
@@ -1010,20 +924,16 @@ ip -d link show eth0.10   <span class="cm"># shows vlan id, proto 802.1Q</span>
   <li>Completed Lab 2: captured a complete ARP request/reply exchange and decoded all fields</li>
   <li>Completed Lab 3: built and sent a raw Ethernet ARP frame in C using AF_PACKET socket</li>
 </ul>
-
 <div class="note" style="margin-top:1.2rem">
   <p>✅ <strong>When complete:</strong> Move to <strong>M03 - IPv4 Deep Dive</strong>. You've now seen the Ethernet frame wrapper — M03 goes inside the payload and dissects the IP header byte-by-byte: addressing, subnetting, fragmentation, TTL, ICMP, and how routers make forwarding decisions.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m01-osi-tcpip/">← M01 OSI and TCP/IP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m03-ipv4/">Next: M03 - IPv4 →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

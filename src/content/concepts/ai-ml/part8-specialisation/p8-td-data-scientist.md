@@ -52,7 +52,6 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
 .cl li.done::before{content:"☑";color:#059669}
 .cl li.done{color:var(--light-text,#888);text-decoration:line-through}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 8 — Specialisation &nbsp;·&nbsp; Track D of 4</div>
   <div class="mod-title">Track D — Data Scientist / Analyst</div>
@@ -63,7 +62,6 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
     <span class="mod-pill">🔧 pandas · DuckDB · scikit-learn · SHAP</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">📊 EDA with AI</button>
@@ -73,8 +71,6 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
   <button class="tab-btn" onclick="vt(event,'t5')">🛠 Capstone</button>
   <button class="tab-btn" onclick="vt(event,'t6')">✅ Checklist</button>
 </div>
-
-
 <div id="t0" class="tab-pane active">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Track Overview</h3><span class="tag">Specialisation D</span></div>
@@ -92,8 +88,6 @@ url: /learning/ai-ml/part8-specialisation/p8-td-data-scientist/
   </div>
 </div>
 </div>
-
-
 <div id="t1" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">📊</span><h3>AI-Augmented EDA</h3><span class="tag">Analysis</span></div>
@@ -147,8 +141,6 @@ print(insights["analysis_hypotheses"])</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t2" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🗃</span><h3>Natural Language to SQL with DuckDB</h3><span class="tag">Query Interface</span></div>
@@ -213,8 +205,6 @@ async def query_data(request: QueryRequest) -> dict:
   </div>
 </div>
 </div>
-
-
 <div id="t3" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🤖</span><h3>scikit-learn Pipelines with LLM Features</h3><span class="tag">ML</span></div>
@@ -285,8 +275,6 @@ def build_and_evaluate(df: pd.DataFrame, target: str) -> dict:
   </div>
 </div>
 </div>
-
-
 <div id="t4" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>SHAP + LLM Narrative for Stakeholders</h3><span class="tag">Interpretability</span></div>
@@ -345,8 +333,6 @@ Do not use terms like SHAP, feature importance, or model architecture."""}]
   </div>
 </div>
 </div>
-
-
 <div id="t5" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
@@ -369,8 +355,6 @@ Do not use terms like SHAP, feature importance, or model architecture."""}]
   </div>
 </div>
 </div>
-
-
 <div id="t6" class="tab-pane">
 <p class="sep">MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -387,14 +371,11 @@ Do not use terms like SHAP, feature importance, or model architecture."""}]
   <p>When complete: move to <strong>Part 9 — Portfolio and Launch</strong>.</p>
 </div>
 </div>
-
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/">← Track C: Automation</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">All Modules</a>
   <a class="nb" href="/learning/ai-ml/part9-portfolio/p9-capstone/">Next: Part 9 — Capstone →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

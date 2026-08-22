@@ -99,7 +99,6 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
 .mg-item{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.7rem 1rem;font-size:.83rem;color:#ede9fe;text-align:left}
 .mg-item::before{content:"✓  ";color:#a78bfa;font-weight:700}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 1 — Universal Foundation &nbsp;·&nbsp; Module 04 of 04</div>
@@ -112,7 +111,6 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
     <span class="mod-pill">📋 Prerequisite: P1-M01, P1-M03</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -127,11 +125,8 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-purple">Final Foundation Module</span></div>
   <div class="cp-body">
@@ -146,11 +141,9 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
     </ul>
   </div>
 </div>
-
 <div class="skip-box">
   <strong>⚡ SKIP IF:</strong> You know SQL from databases experience — jump directly to the FastAPI tab (Tab 3). If you know Spring Boot or Express.js, FastAPI will feel immediately familiar; spend your time on Pydantic validation and async endpoints, which are FastAPI-specific.
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Where These Skills Lead</h3><span class="tag tag-green">Forward Connections</span></div>
   <div class="cp-body">
@@ -162,13 +155,9 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
     </ul>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — SQL FUNDAMENTALS ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🗄</span><h3>SQL Mental Model</h3><span class="tag tag-purple">Concept First</span></div>
   <div class="cp-body">
@@ -176,7 +165,6 @@ url: /learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/
     <div class="cb"><pre><span class="ck">-- SQL is not case-sensitive for keywords, but convention is UPPERCASE</span>
 <span class="ck">-- Single-line comment: --</span>
 <span class="ck">-- Multi-line: /* ... */</span>
- 
 <span class="ck">-- Create a table</span>
 CREATE TABLE students (
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -192,7 +180,6 @@ INSERT INTO students (name, score, grade) VALUES ('Bob',   78.0, 'C');
 INSERT INTO students (name, score, grade) VALUES ('Charlie',85.5, 'B');</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>SELECT — The Core Query</h3><span class="tag tag-blue">Most Used</span></div>
   <div class="cp-body">
@@ -200,7 +187,6 @@ INSERT INTO students (name, score, grade) VALUES ('Charlie',85.5, 'B');</pre></d
 SELECT * FROM students;                     <span class="ck">-- all columns, all rows</span>
 SELECT name, score FROM students;           <span class="ck">-- specific columns</span>
 SELECT DISTINCT grade FROM students;        <span class="ck">-- unique values only</span>
- 
 <span class="ck">-- WHERE — filter rows</span>
 SELECT * FROM students WHERE score > 80;
 SELECT * FROM students WHERE grade = 'A' AND score >= 90;
@@ -208,15 +194,12 @@ SELECT * FROM students WHERE grade IN ('A', 'B');
 SELECT * FROM students WHERE name LIKE 'A%';   <span class="ck">-- starts with A</span>
 SELECT * FROM students WHERE score BETWEEN 70 AND 90;
 SELECT * FROM students WHERE grade IS NULL;    <span class="ck">-- NULL check</span>
- 
 <span class="ck">-- ORDER BY — sort results</span>
 SELECT * FROM students ORDER BY score DESC;        <span class="ck">-- highest first</span>
 SELECT * FROM students ORDER BY grade ASC, score DESC;  <span class="ck">-- multi-column</span>
- 
 <span class="ck">-- LIMIT and OFFSET — pagination</span>
 SELECT * FROM students ORDER BY score DESC LIMIT 10;          <span class="ck">-- top 10</span>
 SELECT * FROM students ORDER BY score DESC LIMIT 10 OFFSET 20; <span class="ck">-- page 3</span>
- 
 <span class="ck">-- Computed columns and aliases</span>
 SELECT name,
        score,
@@ -225,7 +208,6 @@ SELECT name,
 FROM students;</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Aggregations — COUNT, SUM, AVG, MIN, MAX</h3><span class="tag tag-teal">Analytics</span></div>
   <div class="cp-body">
@@ -251,13 +233,11 @@ SELECT grade, AVG(score) AS avg_score
 FROM students
 GROUP BY grade
 HAVING AVG(score) > 80;    <span class="ck">-- only grades with class avg > 80</span>
- 
 <span class="ck">-- Rule: WHERE filters rows BEFORE grouping</span>
 <span class="ck">--       HAVING filters groups AFTER aggregation</span></pre></div>
     <div class="ins"><p>💡 <strong>SQL execution order</strong> (not the same as write order): FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT. Understanding this prevents "column not found in WHERE" errors when using aliases.</p></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🐍</span><h3>SQL from Python — sqlite3 and Pandas</h3><span class="tag tag-orange">Integration</span></div>
   <div class="cp-body">
@@ -293,7 +273,6 @@ cursor.execute(<span class="cs">"SELECT * FROM students WHERE score > 80 ORDER B
 rows = cursor.fetchall()
 for row in rows:
     print(row)   <span class="ck"># (1, "Alice", 92.5)</span>
- 
 <span class="ck"># Query results → Pandas DataFrame (most useful pattern)</span>
 df = pd.read_sql_query(
     <span class="cs">"SELECT name, score FROM students ORDER BY score DESC"</span>,
@@ -305,13 +284,9 @@ conn.close()   <span class="ck"># always close when done</span></pre></div>
     <div class="warn"><p>⚠️ <strong>Never use string formatting or f-strings to build SQL queries.</strong> <code>f"SELECT * FROM users WHERE name = '{user_input}'"</code> is a SQL injection vulnerability. Always use parameterised queries with <code>?</code> placeholders. This is the most critical SQL security rule.</p></div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — SQL JOINS & AGGREGATIONS ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>JOINs — Combining Tables</h3><span class="tag tag-purple">Essential</span></div>
   <div class="cp-body">
@@ -319,7 +294,6 @@ conn.close()   <span class="ck"># always close when done</span></pre></div>
     <div class="cb"><pre><span class="ck">-- Sample tables</span>
 <span class="ck">-- students: id, name, score, dept_id</span>
 <span class="ck">-- departments: id, name, building</span>
- 
 <span class="ck">-- INNER JOIN — only rows that match in BOTH tables</span>
 SELECT s.name, s.score, d.name AS department
 FROM   students     s
@@ -330,16 +304,13 @@ SELECT s.name, s.score, d.name AS department
 FROM   students     s
 LEFT JOIN departments d ON s.dept_id = d.id;
 <span class="ck">-- d.name will be NULL for students with no matching dept_id</span>
- 
 <span class="ck">-- RIGHT JOIN (SQLite doesn't support — use LEFT JOIN with tables swapped)</span>
- 
 <span class="ck">-- Self-join — join a table to itself</span>
 <span class="ck">-- Find all students who scored higher than Alice</span>
 SELECT b.name, b.score
 FROM   students a
 JOIN   students b ON b.score > a.score
 WHERE  a.name = 'Alice';</pre></div>
-
     <div class="cp p-teal" style="margin:0">
       <div class="cp-hdr"><span class="ico">📊</span><h3>JOIN Type Reference</h3><span class="tag tag-teal">Quick Lookup</span></div>
       <div class="cp-body">
@@ -356,7 +327,6 @@ WHERE  a.name = 'Alice';</pre></div>
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Subqueries and CTEs</h3><span class="tag tag-blue">Advanced Patterns</span></div>
   <div class="cp-body">
@@ -394,21 +364,18 @@ JOIN   top_dept t ON d.id = t.dept_id;</pre></div>
     <div class="ins"><p>💡 <strong>Use CTEs over nested subqueries whenever possible.</strong> CTEs are named, reusable, and read top-to-bottom like a story. Deeply nested subqueries become impossible to maintain. The <code>WITH name AS (...)</code> pattern is the professional SQL standard.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>UPDATE, DELETE and Indexes</h3><span class="tag tag-teal">Data Management</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck">-- UPDATE — modify existing rows</span>
 UPDATE students SET grade = 'A' WHERE score >= 90;
 UPDATE students SET score = score * 1.05 WHERE grade = 'B';  <span class="ck">-- 5% bonus</span>
- 
 <span class="ck">-- DELETE — remove rows</span>
 DELETE FROM students WHERE score < 40;
 DELETE FROM students WHERE name = 'Bob';
  
 <span class="ck">-- TRUNCATE equivalent in SQLite</span>
 DELETE FROM students;   <span class="ck">-- removes all rows, table structure remains</span>
- 
 <span class="ck">-- Indexes — speed up queries on large tables</span>
 CREATE INDEX idx_students_score ON students(score);
 CREATE INDEX idx_students_grade ON students(grade);
@@ -419,18 +386,13 @@ CREATE UNIQUE INDEX idx_students_email ON students(email);
 <span class="ck">-- Foreign key columns</span>
 <span class="ck">-- High-cardinality columns (many unique values)</span>
 <span class="ck">-- NOT on columns with very few unique values (e.g. boolean flag)</span>
- 
 <span class="ck">-- Check query plan (does it use the index?)</span>
 EXPLAIN QUERY PLAN SELECT * FROM students WHERE score > 80;</pre></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — FASTAPI BASICS ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>FastAPI — Why It Is the Standard for AI APIs</h3><span class="tag tag-purple">Context</span></div>
   <div class="cp-body">
@@ -457,7 +419,6 @@ def health():
     <div class="ins"><p>💡 <strong>The <code>/docs</code> endpoint is one of FastAPI's killer features.</strong> It auto-generates an interactive Swagger UI from your code — you can test every endpoint directly in the browser without writing a client or using curl. Use it constantly while developing.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🛤</span><h3>Path Parameters, Query Parameters and Request Bodies</h3><span class="tag tag-blue">Core Patterns</span></div>
   <div class="cp-body">
@@ -497,7 +458,6 @@ def create_student(student: CreateStudentRequest):
     return {<span class="cs">"created"</span>: student.model_dump()}</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>Error Handling and HTTP Exceptions</h3><span class="tag tag-teal">Production Pattern</span></div>
   <div class="cp-body">
@@ -537,7 +497,6 @@ def health_check():
     }</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Async Endpoints and Background Tasks</h3><span class="tag tag-orange">AI-Specific Pattern</span></div>
   <div class="cp-body">
@@ -583,13 +542,9 @@ async def chat_logged(message: str, background_tasks: BackgroundTasks):
     return {<span class="cs">"reply"</span>: <span class="cs">"Processing..."</span>}</pre></div>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — PYDANTIC ══════════ -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Pydantic — Python's Data Validation Library</h3><span class="tag tag-purple">Critical for AI</span></div>
   <div class="cp-body">
@@ -607,13 +562,11 @@ class Student(BaseModel):
 s = Student(name=<span class="cs">"Alice"</span>, score=<span class="cv">92.5</span>)
 print(s.model_dump())          <span class="ck"># {"name":"Alice","score":92.5,"grade":null}</span>
 print(s.model_dump_json())     <span class="ck"># JSON string</span>
- 
 <span class="ck"># Validation — Pydantic raises ValidationError on wrong types</span>
 try:
     bad = Student(name=<span class="cs">"Bob"</span>, score=<span class="cs">"not-a-number"</span>)
 except Exception as e:
     print(e)   <span class="ck"># score: Input should be a valid number</span>
- 
 <span class="ck"># Field — add constraints and documentation</span>
 class LLMRequest(BaseModel):
     model:       str   = Field(default=<span class="cs">"claude-3-5-sonnet-20241022"</span>)
@@ -643,7 +596,6 @@ class RegistrationForm(BaseModel):
         return v</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🤖</span><h3>Pydantic for LLM Structured Outputs — Preview</h3><span class="tag tag-blue">Part 4 Preview</span></div>
   <div class="cp-body">
@@ -684,13 +636,9 @@ print(invoice.total)   <span class="ck"># 214.5  — a proper float, not a strin
     <div class="ins"><p>💡 <strong>This is why Pydantic matters for AI engineering.</strong> Without it, you get raw text back and must parse it manually — fragile and error-prone. With Pydantic + Instructor, you get a validated Python object with the exact structure you defined. This pattern is used in every serious AI application.</p></div>
   </div>
 </div>
-
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — FASTAPI + SQLITE ══════════ -->
 <div id="t5" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Connecting FastAPI to SQLite</h3><span class="tag tag-purple">Full Stack</span></div>
   <div class="cp-body">
@@ -786,14 +734,12 @@ def delete_student(student_id: int):
         raise HTTPException(status_code=<span class="cv">404</span>, detail=<span class="cs">"Student not found"</span>)</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🧪</span><h3>Testing Your API</h3><span class="tag tag-blue">Essential Skill</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Option 1 — FastAPI /docs (Swagger UI)</span>
 <span class="ck"># Go to http://127.0.0.1:8000/docs in browser</span>
 <span class="ck"># Click any endpoint → "Try it out" → fill fields → Execute</span>
- 
 <span class="ck"># Option 2 — curl from terminal</span>
 <span class="ck"># Create a student</span>
 curl -X POST http://localhost:8000/students   -H "Content-Type: application/json"   -d '{"name": "Alice", "score": 92.5, "grade": "A"}'
@@ -821,10 +767,7 @@ def test_get_missing_student():
     assert response.status_code == <span class="cv">404</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — WEEK PLAN ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">2-WEEK STRUCTURED PLAN</p>
@@ -844,8 +787,6 @@ def test_get_missing_student():
   </tbody>
 </table>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -860,12 +801,9 @@ def test_get_missing_student():
   </tbody>
 </table>
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -896,7 +834,6 @@ def test_get_missing_student():
     <p><strong>Skills:</strong> FastAPI, Pydantic, SQLite, CRUD operations, HTTP status codes, query parameters, pagination, error handling</p>
   </div>
 </div>
-
 <p class="sep">MINI-PROJECTS</p>
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">SQL Analytics on COVID Data</span><span class="proj-dur">1–2 days · Week 1</span></div>
@@ -905,11 +842,8 @@ def test_get_missing_student():
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>SQL — Write 10 Queries Against a Real Dataset</h4></div>
   <div class="lab-body">
@@ -920,7 +854,6 @@ def test_get_missing_student():
     <div class="lab-step"><div class="sn">4</div><div>For each query, also write the equivalent Pandas code. Compare line count and readability. Note which problems feel more natural in SQL vs Pandas.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>FastAPI — Build and Stress-Test an Endpoint</h4></div>
   <div class="lab-body">
@@ -932,7 +865,6 @@ def test_get_missing_student():
     <div class="lab-step"><div class="sn">5</div><div>Write 4 TestClient tests: happy path, missing field, invalid type, and constraint violation. Run with <code>python -m pytest test_api.py -v</code>.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Full Stack — FastAPI + SQLite Todo API</h4></div>
   <div class="lab-body">
@@ -944,10 +876,7 @@ def test_get_missing_student():
     <div class="lab-step"><div class="sn">5</div><div><strong>Bonus:</strong> Push this to GitHub. In your README, add a curl one-liner for each endpoint so anyone can test your API without reading the code.</div></div>
   </div>
 </div>
-
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P1-M04 MASTERY CHECKLIST</p>
@@ -976,8 +905,6 @@ def test_get_missing_student():
   <p>✅ <strong>Part 1 Complete!</strong> You now have all the foundation skills needed to build AI systems. Move to <strong>Part 4 — LLM API Mastery</strong> if you are on the AI/GenAI Engineer path, or <strong>Part 2 — Statistics &amp; EDA</strong> if you are following the Data Scientist/ML Engineer path.</p>
 </div>
 </div><!-- end t10 -->
-
-
 <!-- ── PART 1 COMPLETION BANNER ── -->
 <div class="milestone-banner">
   <h3>🎉 Part 1 — Universal Foundation Complete!</h3>
@@ -993,15 +920,12 @@ def test_get_missing_student():
     <div class="mg-item">Build and run a FastAPI server with Pydantic validation</div>
   </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part1-foundation/p1-m03-dev-essentials/">← P1-M03: Dev Essentials</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part4-llm-apis/p4-m11-prompting/">Next: P4-M11 — Prompting →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m20-tls/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 5 · MODULE 20 · WEEK 18</div>
   <div class="mod-title">🔒 TLS Internals</div>
@@ -91,7 +90,6 @@ url: /learning/networking-mastery/m20-tls/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">TLS Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">TLS 1.3 Handshake</button>
@@ -104,7 +102,6 @@ url: /learning/networking-mastery/m20-tls/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">TLS — TRANSPORT LAYER SECURITY</p>
@@ -116,7 +113,6 @@ url: /learning/networking-mastery/m20-tls/
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">TLS 1.3 HANDSHAKE — 1 RTT TO ENCRYPTED DATA</p>
@@ -173,7 +169,6 @@ RTT count: 1 full RTT before application data can flow
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">TLS 1.3 KEY SCHEDULE — HOW KEYS ARE DERIVED</p>
@@ -209,7 +204,6 @@ Master Secret
 <span class="cm">/* Nonce construction — prevents nonce reuse */</span>
 <span class="cm">/* For each record: nonce = write_iv XOR sequence_number (64-bit, left-padded) */</span>
 <span class="cm">/* Sequence number increments with each record → unique nonce per record */</span>
- 
 <span class="cm">/* Key update (post-handshake) */</span>
 <span class="cm">/* Either side can send KeyUpdate message → derive new traffic keys */</span>
 new_secret = HKDF-Expand-Label(current_secret, "traffic upd", "", hash_len)
@@ -217,7 +211,6 @@ new_secret = HKDF-Expand-Label(current_secret, "traffic upd", "", hash_len)
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">TLS RECORD PROTOCOL — WIRE FORMAT</p>
@@ -272,7 +265,6 @@ SSLKEYLOGFILE=/tmp/keys.log curl https://example.com
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">TLS 1.2 vs TLS 1.3 — KEY DIFFERENCES</p>
@@ -295,7 +287,6 @@ SSLKEYLOGFILE=/tmp/keys.log curl https://example.com
         <tr><td>Removed from TLS 1.3</td><td>—</td><td>RSA key exchange, CBC, RC4, 3DES, MD5, SHA-1, renegotiation, compression, DSA</td></tr>
       </tbody>
     </table>
-
     <h4>TLS 1.3 Cipher Suites — Only 5</h4>
 <div class="cb"><pre>TLS_AES_128_GCM_SHA256          (most common, high performance)
 TLS_AES_256_GCM_SHA384          (higher security)
@@ -309,7 +300,6 @@ TLS_AES_128_CCM_8_SHA256        (constrained IoT, shorter tag)
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">0-RTT AND SESSION RESUMPTION</p>
@@ -357,7 +347,6 @@ Replay attack risk:
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">mTLS — MUTUAL AUTHENTICATION</p>
@@ -366,7 +355,6 @@ Replay attack risk:
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Standard TLS: only server is authenticated */</span>
 <span class="cm">/* mTLS (mutual TLS): both server AND client present certificates */</span>
- 
 <span class="cm">/* mTLS handshake additions */</span>
 After sending Certificate + CertificateVerify + Finished, server sends:
   CertificateRequest: list of acceptable CA DNs for client certificates
@@ -405,7 +393,6 @@ X509_free(client_cert);</pre></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <p class="sep">SSL INSPECTION — NGFW TLS INTERCEPTION</p>
@@ -468,12 +455,10 @@ SSL_connect(client_ssl);
 <span class="cm">/* Verify real server cert */</span>
 X509 *real_cert = SSL_get_peer_certificate(client_ssl);
 <span class="cm">/* Extract domain, generate matching cert for client, serve it */</span></pre></div>
-
     <div class="warn"><p>⚠️ <strong>ECH (Encrypted ClientHello)</strong> — in development for TLS 1.3 — will encrypt the SNI extension and other ClientHello fields, preventing NGFW from seeing the destination hostname without decrypting the entire TLS session. This fundamentally challenges SNI-based filtering and makes SSL inspection the only way to identify destinations. Watch RFC drafts for ECH deployment timeline.</p></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -486,7 +471,6 @@ X509 *real_cert = SSL_get_peer_certificate(client_ssl);
     <div class="lab-step"><div class="sn">4</div><div>Verify the cipher suite negotiated (should be TLS_AES_256_GCM_SHA384 or TLS_AES_128_GCM_SHA256). Find the application data records — without key log they're opaque; with key log Wireshark shows the HTTP/2 frames inside. Count the total number of TLS records in the handshake and confirm the 1-RTT timing.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a TLS Client and Server with OpenSSL</h4></div>
   <div class="lab-body">
@@ -498,7 +482,6 @@ X509 *real_cert = SSL_get_peer_certificate(client_ssl);
   </div>
 </div>
 </div>
-
 <!-- TAB 9 -->
 <div id="t9" class="tab-pane">
 <p class="sep">M20 MASTERY CHECKLIST</p>
@@ -528,7 +511,6 @@ X509 *real_cert = SSL_get_peer_certificate(client_ssl);
   <p>✅ <strong>When complete:</strong> Move to <strong>M21 - IPsec and IKEv2</strong> — the VPN protocol stack used for site-to-site and remote access in enterprise networks, and the encryption layer for many NGFW deployments.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m19-cryptography/">← M19 Cryptography</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

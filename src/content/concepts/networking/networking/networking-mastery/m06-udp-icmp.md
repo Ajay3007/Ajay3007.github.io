@@ -163,7 +163,6 @@ url: /learning/networking-mastery/m06-udp-icmp/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 2 · MODULE 06 · WEEK 5</div>
@@ -177,7 +176,6 @@ url: /learning/networking-mastery/m06-udp-icmp/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">UDP Overview</button>
@@ -191,12 +189,9 @@ url: /learning/networking-mastery/m06-udp-icmp/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 — UDP OVERVIEW ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">UDP — SIMPLICITY BY DESIGN</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>What UDP Is — and Why It Exists</h3><span class="tag tag-orange">OVERVIEW</span></div>
   <div class="cp-body">
@@ -213,12 +208,10 @@ url: /learning/networking-mastery/m06-udp-icmp/
     <p>UDP's "limitations" are actually features for the right use cases. DNS needs a single round-trip — TCP's 3-way handshake would be 50% overhead. Video streaming works better with the occasional dropped frame than with a stutter caused by TCP retransmission. Gaming needs the most recent position, not a reliable stream of every old position.</p>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">📮 Analogy — Postcards vs Registered Letters</div>
   <p>TCP is a registered letter: you get confirmation of delivery, the post office retransmits if it gets lost, and letters arrive in order. UDP is a postcard: you write it, drop it in the postbox, and move on. You don't know if it arrived, you don't get a receipt, and if you send ten postcards they might arrive in any order. For a love letter you want confirmation. For a party invite where you're sending hundreds — a lost postcard doesn't matter, and the savings in overhead (no tracking, no confirmation wait) let you send far more, far faster.</p>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚖️</span><h3>UDP vs TCP — The Full Comparison</h3><span class="tag tag-blue">COMPARISON</span></div>
   <div class="cp-body">
@@ -241,12 +234,9 @@ url: /learning/networking-mastery/m06-udp-icmp/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 1 — UDP HEADER ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">UDP HEADER — 8 BYTES, THE SMALLEST TRANSPORT HEADER</p>
-
 <div class="hdr-diagram">
   <div class="hdr-row">
     <div class="hdr-label">Row 1</div>
@@ -263,26 +253,19 @@ url: /learning/networking-mastery/m06-udp-icmp/
     <div class="hf hf-ud" style="flex:4">UDP Payload<div class="hf-bytes">0 to 65,527 bytes (65,535 − 8 byte header)</div></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Every Field Explained</h3><span class="tag tag-blue">FIELD REFERENCE</span></div>
   <div class="cp-body">
-
     <h4>Source Port (16 bits)</h4>
     <p>Identifies the sending application's port. <strong>Optional in UDP</strong> — can be set to 0 if the sender doesn't need a reply (broadcast announcements, one-way telemetry). When set, the receiver can use it to send a reply to the correct client port. Client applications use ephemeral source ports (49152–65535, assigned by the OS) just like TCP.</p>
-
     <h4>Destination Port (16 bits)</h4>
     <p>Identifies the target application. Standard UDP ports: <code>53</code>=DNS, <code>67/68</code>=DHCP, <code>123</code>=NTP, <code>161</code>=SNMP, <code>500</code>=IKEv2 (IPsec key exchange), <code>4500</code>=IPsec NAT-T, <code>5060</code>=SIP (VoIP), <code>443</code>=QUIC (HTTP/3).</p>
-
     <h4>Length (16 bits)</h4>
     <p>Total length of the UDP datagram including the 8-byte header. Minimum value: 8 (header only, zero payload). Maximum: 65,535. In practice, UDP datagrams larger than ~1472 bytes (MTU 1500 minus 20 IP header minus 8 UDP header) will be fragmented by IP — generally undesirable. DNS limits responses to 512 bytes over UDP historically (EDNS0 extends this to 4096).</p>
-
     <h4>Checksum (16 bits)</h4>
     <p>Computed over a pseudo-header (same as TCP: IP src, IP dst, Protocol=17, UDP length) plus the entire UDP header and payload. In IPv4, the checksum is <strong>optional</strong> — a value of 0x0000 means "no checksum computed". In IPv6, it is mandatory (IPv6 has no IP header checksum, so UDP checksum is the only protection). Modern NICs offload UDP checksum computation to hardware.</p>
-
 <div class="cb"><pre><span class="cm">/* UDP socket programming in C — minimal server */</span>
 <span class="ck">int</span> sock = socket(AF_INET, SOCK_DGRAM, 0);   <span class="cm">/* SOCK_DGRAM for UDP */</span>
- 
 <span class="ck">struct</span> sockaddr_in addr = {0};
 addr.sin_family      = AF_INET;
 addr.sin_port        = htons(53);            <span class="cm">/* DNS port */</span>
@@ -296,23 +279,19 @@ socklen_t clen = <span class="ck">sizeof</span>(client);
 ssize_t n = recvfrom(sock, buf, <span class="ck">sizeof</span>(buf), 0,
                      (<span class="ck">struct</span> sockaddr *)&client, &clen);
 <span class="cm">/* n = exact bytes in this datagram — complete message, no framing needed */</span>
- 
 <span class="cm">/* Send reply to same client */</span>
 sendto(sock, response, resp_len, 0,
        (<span class="ck">struct</span> sockaddr *)&client, clen);
  
 <span class="cm">/* Key: no connect(), no accept(), no listen() — stateless */</span>
 <span class="cm">/* One socket can handle multiple clients simultaneously */</span></pre></div>
-
     <div class="ins"><p>💡 <strong>recvfrom vs recv:</strong> UDP uses <code>recvfrom()</code> to get both the datagram AND the sender's address in one call. With TCP you call <code>accept()</code> once per connection and get a dedicated socket. With UDP a single socket handles all clients — you use the sender's address from recvfrom to send replies to the right client.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💻</span><h3>UDP Header in C — Parsing Raw Packets</h3><span class="tag tag-teal">CODE</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cs">#include &lt;netinet/udp.h&gt;</span>  <span class="cm">/* struct udphdr */</span>
- 
 <span class="cm">/* Parse UDP header from raw packet bytes */</span>
 <span class="ck">void</span> parse_udp(const uint8_t *ip_payload, uint16_t ip_payload_len) {
     <span class="ck">const struct</span> udphdr *udp = (<span class="ck">const struct</span> udphdr *)ip_payload;
@@ -344,12 +323,9 @@ u16 dst_port = clib_net_to_host_u16(udp->dst_port);</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 — UDP USE CASES ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">KEY UDP-BASED PROTOCOLS — WHY EACH CHOSE UDP</p>
-
 <div class="proto-grid">
   <div class="proto-card">
     <div class="proto-card-name">DNS</div>
@@ -392,7 +368,6 @@ u16 dst_port = clib_net_to_host_u16(udp->dst_port);</pre></div>
     <div class="proto-card-desc">IPsec key exchange (IKEv2) runs over UDP 500. When NAT is present, uses port 4500 (NAT-T — NAT Traversal). ESP traffic also gets encapsulated in UDP for NAT compatibility.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📺</span><h3>Real-Time Media — Why UDP Fits Video and Audio</h3><span class="tag tag-orange">MEDIA STREAMING</span></div>
   <div class="cp-body">
@@ -421,12 +396,9 @@ u16 dst_port = clib_net_to_host_u16(udp->dst_port);</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 — UDP IN NGFW ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">UDP IN AN NGFW — STATELESS TRACKING AND COMMON THREATS</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>How NGFWs Handle UDP — Pseudo-Stateful Tracking</h3><span class="tag tag-teal">STATEFUL UDP</span></div>
   <div class="cp-body">
@@ -459,7 +431,6 @@ Generic UDP:  30 seconds   <span class="cm">/* catch-all default */</span></pre>
     <div class="note"><p>💡 <strong>The reply problem:</strong> When a client sends a DNS query, the NGFW sees the outbound UDP packet and creates a session entry. When the DNS server replies, the NGFW sees a datagram with reversed 5-tuple — it must allow this even though no "connection" was established. This is handled by matching the reversed 5-tuple against the existing session table entry. Without this, return traffic would be blocked.</p></div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>UDP-Based Attacks and NGFW Defences</h3><span class="tag tag-red">SECURITY</span></div>
   <div class="cp-body">
@@ -501,19 +472,15 @@ Generic UDP:  30 seconds   <span class="cm">/* catch-all default */</span></pre>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 — ICMP OVERVIEW ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">ICMP — THE NETWORK'S DIAGNOSTIC AND ERROR SYSTEM</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📨</span><h3>What ICMP Is — The Network's Nervous System</h3><span class="tag tag-blue">OVERVIEW</span></div>
   <div class="cp-body">
     <p>ICMP (Internet Control Message Protocol, RFC 792) is IP's built-in error reporting and diagnostic protocol. It travels inside IP packets (Protocol number = 1) but is not a transport layer protocol — it has no ports, no concept of connections or streams. Every network device generates and consumes ICMP messages.</p>
     <p>ICMP enables network troubleshooting tools like <code>ping</code> and <code>traceroute</code>, and also carries critical error notifications that the network depends on for correct operation (Path MTU Discovery, Redirect, etc.).</p>
     <p><strong>ICMP message structure:</strong> Every ICMP message has an 8-byte fixed header:</p>
-
     <div class="hdr-diagram">
       <div class="hdr-row">
         <div class="hdr-label">ICMP hdr</div>
@@ -527,7 +494,6 @@ Generic UDP:  30 seconds   <span class="cm">/* catch-all default */</span></pre>
         <div class="hf" style="flex:4;background:var(--bg-color,#f5f5f5);border-color:var(--border-color,#e0e0e0);color:var(--light-text,#666)">Variable data (depends on Type — often includes original IP header + 8 bytes of original payload)</div>
       </div>
     </div>
-
     <ul>
       <li><strong>Type</strong> — identifies the ICMP message category (0=Echo Reply, 3=Unreachable, 8=Echo Request, 11=Time Exceeded, etc.)</li>
       <li><strong>Code</strong> — sub-type within the Type. Type 3 has 16 different codes (0=Net Unreach, 1=Host Unreach, 3=Port Unreach, 4=Frag Needed...)</li>
@@ -537,7 +503,6 @@ Generic UDP:  30 seconds   <span class="cm">/* catch-all default */</span></pre>
     </ul>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>Ping — How It Works Internally</h3><span class="tag tag-teal">PING</span></div>
   <div class="cp-body">
@@ -564,12 +529,10 @@ ping -s 1400 8.8.8.8        <span class="cm"># send 1400-byte payload (test MTU)
 ping -f -s 1472 8.8.8.8    <span class="cm"># flood ping at max MTU size</span>
 ping -M do -s 1473 8.8.8.8  <span class="cm"># force DF=1, will get "Frag needed" if MTU exceeded</span>
 ping6 2001:4860:4860::8888  <span class="cm"># IPv6 ping (ICMPv6 Type 128/129)</span>
- 
 <span class="cm">/* Interpreting ping output */</span>
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.4 ms
 <span class="cm">#                                         ↑ TTL at receiver (started at some value, decremented by hops)</span>
 <span class="cm">#                                                         ↑ round-trip time in ms</span>
- 
 <span class="cm">/* TTL tricks */</span>
 <span class="cm"># TTL=117 → started at 128 (Windows hop) → 11 hops away</span>
 <span class="cm"># TTL=52  → started at 64  (Linux hop)   → 12 hops away</span>
@@ -577,12 +540,9 @@ ping6 2001:4860:4860::8888  <span class="cm"># IPv6 ping (ICMPv6 Type 128/129)</
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 — ICMP TYPES DEEP DIVE ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">ICMP TYPES — COMPLETE REFERENCE WITH CONTEXT</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📋</span><h3>All ICMP Types — What Each Does</h3><span class="tag tag-orange">REFERENCE</span></div>
   <div class="cp-body">
@@ -649,7 +609,6 @@ ping6 2001:4860:4860::8888  <span class="cm"># IPv6 ping (ICMPv6 Type 128/129)</
     </table>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>Traceroute — Complete Internal Mechanism</h3><span class="tag tag-teal">TRACEROUTE</span></div>
   <div class="cp-body">
@@ -683,17 +642,13 @@ RTT spike at hop 8     <span class="cm"># congestion at or beyond hop 8</span>
 RTT lower at hop 9     <span class="cm"># asymmetric routing — return path is shorter</span>
 Same IP twice          <span class="cm"># routing loop (rare with modern routing protocols)</span>
 Hop 3 → Hop 5 jump    <span class="cm"># some hops don't respond to ICMP — skipped</span></pre></div>
-
     <div class="ins"><p>💡 <strong>Why UDP for Linux traceroute?</strong> By using UDP to high port numbers (33434+), Linux traceroute gets a reliable "destination reached" signal — when the packet finally arrives at the target with a valid TTL, the host returns ICMP Port Unreachable (nobody listens on port 33434+). If ICMP Echo Requests were used, the target might silently discard them if ping is blocked — giving a false "not reached" result.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 — IGMP AND MULTICAST ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">IGMP AND IP MULTICAST — ONE-TO-MANY EFFICIENT DELIVERY</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📡</span><h3>What Multicast Is and Why It Matters</h3><span class="tag tag-purple">MULTICAST CONCEPT</span></div>
   <div class="cp-body">
@@ -721,12 +676,10 @@ Hop 3 → Hop 5 jump    <span class="cm"># some hops don't respond to ICMP — s
     </ul>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📋</span><h3>IGMP — Internet Group Management Protocol</h3><span class="tag tag-green">IGMP</span></div>
   <div class="cp-body">
     <p>IGMP (RFC 3376, version 3) is how hosts tell their local router "I want to receive traffic for multicast group 224.x.x.x". Routers use this to decide which interfaces need multicast traffic forwarded to them.</p>
-
     <table class="t-table">
       <thead><tr><th>IGMP Version</th><th>Key Feature</th><th>Message Types</th></tr></thead>
       <tbody>
@@ -735,7 +688,6 @@ Hop 3 → Hop 5 jump    <span class="cm"># some hops don't respond to ICMP — s
         <tr><td><code>IGMPv3</code> (RFC 3376)</td><td>Source-specific multicast (SSM). Receiver can specify which sources to accept from.</td><td>+ Group-and-Source-Specific Query</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre><span class="cm">/* IGMP exchange — host joins multicast group */</span>
 1. Host wants to join 224.1.2.3:
    sends IGMP Membership Report → dst IP: 224.1.2.3 (the group itself)
@@ -755,13 +707,11 @@ Hop 3 → Hop 5 jump    <span class="cm"># some hops don't respond to ICMP — s
 <span class="cm"># With IGMP snooping: switch tracks which ports have interested hosts</span>
 <span class="cm">#   → forwards multicast only to ports with IGMP reports</span>
 <span class="cm">#   → dramatically reduces unnecessary traffic on switched networks</span>
- 
 <span class="cm"># Linux: join a multicast group from a socket</span>
 struct ip_mreq mreq;
 mreq.imr_multiaddr.s_addr = inet_addr(<span class="cs">"224.1.2.3"</span>);
 mreq.imr_interface.s_addr = INADDR_ANY;
 setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</span>(mreq));</pre></div>
-
     <div class="mc-diagram">
       <div class="mc-row">
         <div class="mc-box" style="background:#e8f5e8;border-color:#90d890;color:#1a5a1a">Source<div style="font-size:.65rem;font-weight:400">224.1.2.3 stream</div></div>
@@ -782,12 +732,9 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 — ICMP IN NGFW ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">ICMP IN AN NGFW — WHAT TO ALLOW, WHAT TO BLOCK, AND WHY</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🛡️</span><h3>The Wrong Way: Block All ICMP</h3><span class="tag tag-red">COMMON MISTAKE</span></div>
   <div class="cp-body">
@@ -799,7 +746,6 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
     </ul>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">✅</span><h3>Correct NGFW ICMP Policy</h3><span class="tag tag-teal">BEST PRACTICE</span></div>
   <div class="cp-body">
@@ -818,11 +764,9 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
         <tr style="background:#e8f5e8"><td>Type 3, Code 3 (Port Unreachable)</td><td>Outbound</td><td>Allow</td><td>Legitimate response to UDP packets on closed ports</td></tr>
       </tbody>
     </table>
-
     <div class="warn"><p>⚠️ <strong>ICMP rate limiting is better than blocking.</strong> Rather than blocking ICMP Type 8 (Echo Request) entirely, rate-limit it: allow 10 pings per second from any source. This allows legitimate connectivity testing and monitoring while preventing ICMP flood attacks and network mapping. Most enterprise NGFWs implement rate limiting per source IP.</p></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>ICMP-Based Attacks</h3><span class="tag tag-orange">ATTACK TYPES</span></div>
   <div class="cp-body">
@@ -840,11 +784,8 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 — LABS ════════════ -->
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Build a UDP Echo Server and Analyse Traffic</h4></div>
   <div class="lab-body">
@@ -857,7 +798,6 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus — QUIC comparison:</strong> Install quiche or ngtcp2 library, or simply observe that QUIC (HTTP/3) runs on UDP 443. Use: <code>curl --http3 https://cloudflare.com</code> (if your curl supports HTTP/3). Capture with Wireshark — filter <code>udp.port == 443</code>. You'll see QUIC's own reliability and multiplexing running on top of raw UDP datagrams.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>ICMP Deep Analysis — Ping, Traceroute, and PMTUD</h4></div>
   <div class="lab-body">
@@ -870,14 +810,10 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
     <div class="lab-step"><div class="sn">6</div><div><strong>Scapy ICMP crafting:</strong> <code>from scapy.all import *; send(IP(dst="127.0.0.1")/ICMP(type=5, code=1, gw="10.0.0.254")/IP(dst="8.8.8.8")/UDP())</code> — this crafts an ICMP Redirect message. Observe what the Linux kernel does with it (it may update the routing cache). This is the ICMP Redirect attack vector — your NGFW should block Type 5 from external sources.</div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB 9 — CHECKLIST ════════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">M06 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain UDP's 6 properties: connectionless, unreliable, unordered, message-oriented, no flow control, no congestion control</li>
   <li>Know the 4 UDP header fields and sizes: Source Port(16), Dest Port(16), Length(16), Checksum(16) = 8 bytes total</li>
@@ -907,20 +843,16 @@ setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &mreq, <span class="ck">sizeof</
   <li>Completed Lab 1: built UDP echo server in C, verified message boundaries, tested packet loss with netem</li>
   <li>Completed Lab 2: decoded ICMP Echo/TTL-Exceeded/Port-Unreachable in Wireshark, tested PMTUD, demonstrated ICMP tunnelling and Redirect crafting with Scapy</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem">
   <p>✅ <strong>When complete:</strong> Move to <strong>M07 - DNS</strong>. DNS is one of the most important protocols for NGFW — DNS-based filtering, sinkholing, and exfiltration detection are major NGFW features. DNS runs over UDP (primarily) but uses TCP for large responses, and its query/response format is a common DPI target.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m05-tcp/">← M05 TCP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m07-dns/">Next: M07 - DNS →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

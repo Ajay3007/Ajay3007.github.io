@@ -30,17 +30,14 @@ url: /learning/dsa/ch12-cheat-sheet/
     </div>
   </div>
 </div>
-
 <!-- ========================================== -->
 <!-- LAYOUT WRAPPER                             -->
 <!-- ========================================== -->
 <div class="chapter-content">
-
     <!-- SECTION 1: PATTERN SELECTOR -->
     <section id="pattern-selector" class="chapter-section">
       <h2>🗺 Section 1 — Pattern Selector: Which Algorithm to Use?</h2>
       <p>Read the problem, identify the signals, select the pattern. This table covers the decision process for ~90% of LeetCode-style problems.</p>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -84,11 +81,9 @@ url: /learning/dsa/ch12-cheat-sheet/
         </table>
       </div>
     </section>
-
     <!-- SECTION 2: COMPLEXITY REFERENCE -->
     <section id="complexity" class="chapter-section">
       <h2>📊 Section 2 — Master Complexity Reference</h2>
-
       <h3>2.1 — Data Structures</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -108,7 +103,6 @@ url: /learning/dsa/ch12-cheat-sheet/
           </tbody>
         </table>
       </div>
-
       <h3>2.2 — Sorting Algorithms</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -128,7 +122,6 @@ url: /learning/dsa/ch12-cheat-sheet/
           </tbody>
         </table>
       </div>
-
       <h3>2.3 — Graph Algorithms</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -148,7 +141,6 @@ url: /learning/dsa/ch12-cheat-sheet/
           </tbody>
         </table>
       </div>
-
       <h3>2.4 — Key DSA Algorithms</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -174,14 +166,12 @@ url: /learning/dsa/ch12-cheat-sheet/
         </table>
       </div>
     </section>
-
     <!-- SECTION 3: C++ STL -->
     <section id="cpp-stl" class="chapter-section">
       <h2>⚙️ Section 3 — C++ STL Quick Reference</h2>
-
       <h3>3.1 — Containers</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // ── vector ──────────────────────────────────────────────────
 vector<int> v;
 v.push_back(x);      // O(1) amortised
@@ -221,12 +211,11 @@ unordered_map<string,int> um; // O(1) avg
 map<string,int> m;            // O(log n), sorted by key
 um[key] = val;  um.count(key);  um.find(key);
 for (auto& [k,v] : um) { }  // structured binding C++17
-{% endhighlight %}
+```
 </div>
-
       <h3>3.2 — Useful Algorithms &amp; Functions</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // ── Numeric utilities ────────────────────────────────────────
 #include <numeric>
 int sum = accumulate(v.begin(), v.end(), 0);
@@ -254,12 +243,11 @@ function<int(int)> dfs = [&](int node) -> int { return 0; }; // recursive lambda
 // x & ~(1 << k)   → clear bit k
 // (x >> k) & 1    → check bit k
 // x ^ x = 0       → XOR self = 0 (find single number)
-{% endhighlight %}
+```
 </div>
-
       <h3>3.3 — Graph BFS/DFS Templates</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // ── BFS from source ──────────────────────────────────────────
 vector<int> dist(n, INT_MAX);
 queue<int> q;
@@ -300,14 +288,12 @@ while (!pq.empty()) {
         }
     }
 }
-{% endhighlight %}
+```
 </div>
     </section>
-
     <!-- SECTION 4: INTERVIEW FRAMEWORK -->
     <section id="interview-framework" class="chapter-section">
       <h2>🎯 Section 4 — Interview Problem-Solving Framework</h2>
-
       <div class="insight-box">
         <h4>Step 1 — UNDERSTAND (2–3 min)</h4>
         <ul>
@@ -318,7 +304,6 @@ while (!pq.empty()) {
           <li>Write 1–2 concrete examples including an edge case.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Step 2 — PLAN (3–5 min)</h4>
         <ul>
@@ -328,7 +313,6 @@ while (!pq.empty()) {
           <li>State your approach clearly and the expected complexity before writing code.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Step 3 — CODE (10–15 min)</h4>
         <ul>
@@ -338,7 +322,6 @@ while (!pq.empty()) {
           <li>Avoid premature optimisation. Get a working solution, then optimise.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Step 4 — TEST (3–5 min)</h4>
         <ul>
@@ -348,7 +331,6 @@ while (!pq.empty()) {
           <li>Announce bugs before fixing: <em>'I see that my loop should be &lt;= not &lt;, let me fix that.'</em></li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Step 5 — OPTIMISE &amp; DISCUSS (2–3 min)</h4>
         <ul>
@@ -358,12 +340,10 @@ while (!pq.empty()) {
         </ul>
       </div>
     </section>
-
     <!-- SECTION 5: COMPLEXITY SIGNALS -->
     <section id="complexity-signals" class="chapter-section">
       <h2>⚡ Section 5 — Complexity Signals from Constraints</h2>
       <p>FAANG interviewers set constraints that hint at the expected time complexity. Use these to validate your approach before coding.</p>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -382,7 +362,6 @@ while (!pq.empty()) {
           </tbody>
         </table>
       </div>
-
       <div class="insight-box">
         <h4>Quick Sanity Check: Will My Solution TLE?</h4>
         <ul>
@@ -395,11 +374,9 @@ while (!pq.empty()) {
         </ul>
       </div>
     </section>
-
     <!-- SECTION 6: TOP 50 PROBLEMS -->
     <section id="top-50" class="chapter-section">
       <h2>🏆 Section 6 — Top 50 Must-Know LeetCode Problems</h2>
-
       <h3>Arrays &amp; Hashing</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -418,7 +395,6 @@ while (!pq.empty()) {
           </tbody>
         </table>
       </div>
-
       <h3>Strings</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -434,7 +410,6 @@ while (!pq.empty()) {
           </tbody>
         </table>
       </div>
-
       <h3>Trees &amp; Graphs</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -455,7 +430,6 @@ while (!pq.empty()) {
           </tbody>
         </table>
       </div>
-
       <h3>Binary Search &amp; Heaps</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -472,7 +446,6 @@ while (!pq.empty()) {
           </tbody>
         </table>
       </div>
-
       <h3>Dynamic Programming</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -492,7 +465,6 @@ while (!pq.empty()) {
           </tbody>
         </table>
       </div>
-
       <h3>Backtracking &amp; Stack</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -504,14 +476,12 @@ while (!pq.empty()) {
         </table>
       </div>
     </section>
-
     <!-- SECTION 7: COMMON MISTAKES -->
     <section id="mistakes" class="chapter-section">
       <h2>⚠️ Section 7 — Universal Mistakes &amp; Red Flags</h2>
-
       <h3>7.1 — Integer Overflow</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // MISTAKE: int overflow in sum/product
 int sum = 0;
 for (int x : nums) sum += x; // overflows if nums has large values
@@ -531,12 +501,11 @@ long long area = height * width;   // height*width computed as int first!
 
 // FIX:
 long long area = (long long)height * width;
-{% endhighlight %}
+```
 </div>
-
       <h3>7.2 — Off-By-One</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Binary Search variants:
 while (lo <= hi)  { hi = mid - 1; lo = mid + 1; }  // exact search
 while (lo < hi)   { hi = mid;     lo = mid + 1; }  // lower bound
@@ -547,12 +516,11 @@ if (i >= 0 && i < n && j >= 0 && j < m) grid[i][j];
 // Substring length
 s.substr(start, end - start + 1); // inclusive end
 s.substr(start, end - start);     // exclusive end
-{% endhighlight %}
+```
 </div>
-
       <h3>7.3 — Graph &amp; Tree Pitfalls</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // MISTAKE: Forgetting to check visited before pushing to BFS queue -> infinite loop
 // FIX: mark visited WHEN PUSHING, not when popping
 if (!visited[v]) { visited[v] = true; q.push(v); }
@@ -564,12 +532,11 @@ if (d > dist[u]) continue; // CRITICAL: skip outdated entries
 // Tree: confusing null check
 if (!node) return 0;             // null node contributes 0 to depth
 if (!node->left && !node->right) // leaf node check
-{% endhighlight %}
+```
 </div>
-
       <h3>7.4 — DP Pitfalls</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Missing base case: dp[0] must be set before the loop
 vector<int> dp(amount+1, amount+1);
 dp[0] = 0; // CRITICAL base case
@@ -580,14 +547,12 @@ for (int cap = W; cap >= w[i]; cap--) // CORRECT: 0/1 knapsack
 
 // 2D DP string indexing: text[i-1] not text[i] when using 1-indexed dp
 if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
-{% endhighlight %}
+```
 </div>
     </section>
-
     <!-- SECTION 8: BIG-O GROWTH -->
     <section id="big-o" class="chapter-section">
       <h2>📈 Section 8 — Big-O Growth Cheat Card</h2>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -606,7 +571,6 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
           </tbody>
         </table>
       </div>
-
       <div class="insight-box">
         <h4>Rules for Simplifying Big-O</h4>
         <ul>
@@ -619,11 +583,9 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
         </ul>
       </div>
     </section>
-
     <!-- SECTION 9: LAST-MINUTE REMINDERS -->
     <section id="reminders" class="chapter-section">
       <h2>🔥 Section 9 — Last-Minute Interview Reminders</h2>
-
       <div class="insight-box">
         <h4>Before You Code</h4>
         <ul>
@@ -633,7 +595,6 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
           <li>Announce your approach and complexity <strong>BEFORE</strong> writing code.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>While Coding</h4>
         <ul>
@@ -646,7 +607,6 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
           <li>In Backtracking: always undo (<code>pop_back</code> / <code>used[i]=false</code>) after recursion.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Common Gotchas by Topic</h4>
         <ul>
@@ -662,7 +622,6 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
           <li><strong>UNION-FIND:</strong> compare <code>find(a)==find(b)</code>, NOT <code>a==b</code>.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Complexity Red Flags</h4>
         <ul>
@@ -673,13 +632,11 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
           <li>Using <code>substr()</code> inside a loop without memoisation: O(n² · L) — cache or use indices.</li>
         </ul>
       </div>
-
       <div class="insight-box" style="border-left-color: #0284c7; background: linear-gradient(135deg, #f0f9ff, #e0f2fe);">
         <h4>🎓 End of DSA Course — Chapters 0–12 Complete!</h4>
         <p style="margin: 0.5rem 0 0;">Arrays | Linked Lists | Stacks &amp; Queues | Hashing | Trees | Graphs | Heaps | Greedy | Binary Search | Backtracking | Dynamic Programming | Bonus Topics</p>
       </div>
     </section>
-
     <!-- ========================================== -->
     <!-- CHAPTER NAVIGATION                         -->
     <!-- ========================================== -->
@@ -687,5 +644,4 @@ if (s1[i-1] == s2[j-1]) dp[i][j] = dp[i-1][j-1] + 1;
       <a href="/learning/dsa/intervals/ch11-bonus-topics/" class="ch-nav-footer-btn">← Prev: Ch11 Bonus Topics</a>
       <a href="/learning/dsa/dsa-roadmap/" class="ch-nav-footer-btn">Back to DSA Roadmap 🗺</a>
     </div>
-
 </div>

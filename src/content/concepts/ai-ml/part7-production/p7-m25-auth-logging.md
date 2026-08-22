@@ -84,7 +84,6 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
 .proj-body{padding:.9rem 1.2rem;font-size:.88rem;line-height:1.7}
 .proj-body strong{color:#1e40af}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 7 — Production &amp; Deployment &nbsp;·&nbsp; Module 25 of 27</div>
   <div class="mod-title">Auth, Logging &amp; Observability</div>
@@ -96,7 +95,6 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
     <span class="mod-pill">📋 Prerequisite: P7-M24</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">📊 Metrics</button>
@@ -109,8 +107,6 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-navy">
@@ -128,8 +124,6 @@ url: /learning/ai-ml/part7-production/p7-m25-auth-logging/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — METRICS ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-navy">
@@ -144,7 +138,6 @@ from fastapi import FastAPI, Response
 <span class="ck"># ── Standard HTTP metrics (auto-instrumented) ─────────</span>
 Instrumentator().instrument(app).expose(app)
 <span class="ck"># Provides: http_requests_total, http_request_duration_seconds</span>
- 
 <span class="ck"># ── Custom AI-specific metrics ────────────────────────</span>
 <span class="ck"># Token usage counter — track cost per model per endpoint</span>
 llm_tokens = Counter(
@@ -197,12 +190,10 @@ async def metrics():
     <div class="ins"><p>💡 <strong>Four AI-specific metrics to always instrument:</strong> (1) LLM token counts by model — directly maps to cost. (2) LLM call latency histogram — detect when the API is slow. (3) RAG retrieval scores — quality degradation over time. (4) Agent session count — detect runaway loops. Standard HTTP metrics (request rate, latency, error rate) come free from the Instrumentator.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Grafana Dashboard Setup</h3><span class="tag tag-blue">Visualise</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Add Prometheus + Grafana to docker-compose.yml</span>
- 
 <span class="ck"># prometheus service</span>
 <span class="cs">  prometheus:</span>
 <span class="cs">    image: prom/prometheus:latest</span>
@@ -210,7 +201,6 @@ async def metrics():
 <span class="cs">      - "9090:9090"</span>
 <span class="cs">    volumes:</span>
 <span class="cs">      - ./prometheus.yml:/etc/prometheus/prometheus.yml</span>
- 
 <span class="ck"># grafana service</span>
 <span class="cs">  grafana:</span>
 <span class="cs">    image: grafana/grafana:latest</span>
@@ -220,7 +210,6 @@ async def metrics():
 <span class="cs">      GF_SECURITY_ADMIN_PASSWORD: admin</span>
 <span class="cs">    volumes:</span>
 <span class="cs">      - grafana_data:/var/lib/grafana</span>
- 
 <span class="ck"># prometheus.yml — scrape your FastAPI app</span>
 <span class="cs">global:</span>
 <span class="cs">  scrape_interval: 15s</span>
@@ -228,7 +217,6 @@ async def metrics():
 <span class="cs">  - job_name: "ai-api"</span>
 <span class="cs">    static_configs:</span>
 <span class="cs">      - targets: ["api:8000"]</span>   <span class="ck"># Docker service name</span>
- 
 <span class="ck"># Key Grafana panels for an AI API:</span>
 <span class="ck"># 1. Request rate: rate(http_requests_total[5m])</span>
 <span class="ck"># 2. p95 latency: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))</span>
@@ -238,8 +226,6 @@ async def metrics():
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — STRUCTURED LOGS ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-navy">
@@ -303,8 +289,6 @@ class CorrelationMiddleware(BaseHTTPMiddleware):
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — DISTRIBUTED TRACING ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-navy">
@@ -331,7 +315,6 @@ tracer = trace.get_tracer(__name__)
 FastAPIInstrumentor.instrument_app(app)
 HTTPXClientInstrumentor().instrument()
 <span class="ck"># Every FastAPI request and every LLM API call now has a trace span</span>
- 
 <span class="ck"># Manual spans for custom work</span>
 async def rag_pipeline(question: str) -> dict:
     with tracer.start_as_current_span(<span class="cs">"rag.retrieve"</span>) as span:
@@ -354,8 +337,6 @@ async def rag_pipeline(question: str) -> dict:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — ALERTING ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-navy">
@@ -377,7 +358,6 @@ sentry_sdk.init(
 )
 <span class="ck"># Any unhandled exception now appears in Sentry with full context:
 # stack trace, request headers, user ID, environment, breadcrumbs</span>
- 
 <span class="ck"># Add user context so Sentry shows which user triggered the error</span>
 from sentry_sdk import set_user, set_extra
  
@@ -420,8 +400,6 @@ groups:
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — AUTH DEEP DIVE ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-navy">
@@ -492,8 +470,6 @@ async def google_callback(request: Request):
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RESOURCES ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -507,8 +483,6 @@ async def google_callback(request: Request):
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 7 — PROJECTS ══════════ -->
 <div id="t7" class="tab-pane">
 <div class="proj-box">
@@ -532,8 +506,6 @@ async def google_callback(request: Request):
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 8 — LABS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -546,7 +518,6 @@ async def google_callback(request: Request):
     <div class="lab-step"><div class="sn">4</div><div>Generate load: send 100 requests via a simple script. Watch your dashboard update in real-time. Deliberately trigger some 500 errors and watch the error rate panel spike.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Structured Logs — Trace a Request</h4></div>
   <div class="lab-body">
@@ -557,7 +528,6 @@ async def google_callback(request: Request):
     <div class="lab-step"><div class="sn">4</div><div>Find all requests with status=500 in your logs. Extract their request_ids. For each, reconstruct what happened leading up to the error using correlated logs.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>API Key Lifecycle</h4></div>
   <div class="lab-body">
@@ -569,8 +539,6 @@ async def google_callback(request: Request):
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — CHECKLIST ══════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">P7-M25 MASTERY CHECKLIST</p>
@@ -599,13 +567,11 @@ async def google_callback(request: Request):
   <p>✅ <strong>When complete:</strong> Move to <strong>P7-M26 — Prompt Versioning, Cost Monitoring &amp; Caching</strong>. With observability in place, M26 covers the AI-specific production layer: managing prompt changes safely, tracking costs, and caching LLM calls.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part7-production/p7-m24-docker-jobs/">← P7-M24: Docker &amp; Jobs</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part7-production/p7-m26-prompt-versioning/">Next: P7-M26 — Prompt Versioning →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

@@ -181,7 +181,6 @@ url: /learning/backend/m03-rest/
 /* Section separator */
 .sep{border:none;border-top:1.5px dashed var(--border-color,#ddd);margin:1.5rem 0}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Backend Engineering · Phase 1 · Module 3</div>
   <div class="mod-title">REST API Design</div>
@@ -197,7 +196,6 @@ url: /learning/backend/m03-rest/
     <span class="mod-pill">C/libcurl</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t0',this)">📋 Overview</button>
   <button class="tab-btn" onclick="vt('t1',this)">🏗️ Resource Design</button>
@@ -209,10 +207,8 @@ url: /learning/backend/m03-rest/
   <button class="tab-btn" onclick="vt('t7',this)">🔬 Labs</button>
   <button class="tab-btn" onclick="vt('t8',this)">✅ Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t0 Overview -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🏛️</span><h3>REST: Architectural Style, Not a Protocol</h3><span class="tag tag-indigo">ROY FIELDING, 2000</span></div>
   <div class="cp-body">
@@ -220,7 +216,6 @@ url: /learning/backend/m03-rest/
     <p>Most "REST APIs" in the wild only partially implement these constraints. Understanding the full model lets you make deliberate trade-offs rather than accidental ones.</p>
   </div>
 </div>
-
 <h3>The 6 REST Constraints</h3>
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>Client–Server</strong> — Separation of concerns: the UI/client and data storage/server evolve independently. Neither knows the internals of the other.</span></li>
@@ -230,12 +225,9 @@ url: /learning/backend/m03-rest/
   <li><span class="fl-step">5</span><span><strong>Layered System</strong> — The client cannot tell whether it's connected to the end server or an intermediary (load balancer, CDN, API gateway). Each layer only sees adjacent layers.</span></li>
   <li><span class="fl-step">6</span><span><strong>Code on Demand (optional)</strong> — Servers can extend client functionality by transferring executable code (JavaScript). The only optional constraint.</span></li>
 </ul>
-
 <div class="analogy"><p>🏛️ <strong>Analogy:</strong> REST is like a well-designed postal system. You write a self-contained letter (stateless request) addressed to a specific location (resource URL). The postal network (layered system) routes it without the sender knowing the path. The letter format is standardised (uniform interface). Replies can be archived (cacheable). The sender and postal network are independent organisations (client–server).</p></div>
-
 <h3>Richardson Maturity Model</h3>
 <p>The RMM measures how thoroughly an HTTP API adheres to REST. Most production APIs should aim for Level 2.</p>
-
 <div class="rmm-levels">
   <div class="rmm-level rmm-0">
     <div class="rmm-hdr">Level 0 — Swamp of POX</div>
@@ -254,21 +246,16 @@ url: /learning/backend/m03-rest/
     <div class="rmm-body">Hypermedia links in responses guide clients through available actions. Self-documenting, evolvable. Rare in practice.<br><br><em>{"id":1, "_links":{"self":"/users/1","posts":"/users/1/posts"}}</em></div>
   </div>
 </div>
-
 <div class="ins"><p><strong>Practical takeaway:</strong> Design to Level 2 consistently. Add HATEOAS only if you have clients you cannot coordinate deployments with (public APIs, third-party integrations). The stateless constraint is the most important to enforce — sessions stored on the server destroy horizontal scaling.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t1 Resource Design -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Resources Are Nouns, Not Verbs</h3><span class="tag tag-blue">CORE PRINCIPLE</span></div>
   <div class="cp-body">
     <p>The single biggest mistake in URL design is using verbs. In REST, HTTP methods <em>are</em> the verbs. Your URLs should identify things (resources) — nouns. The action is expressed by the combination of HTTP method + URL.</p>
   </div>
 </div>
-
 <div class="do-dont">
   <div class="dont-box">
     <div class="dd-hdr">✗ DON'T — Verb URLs (RPC style)</div>
@@ -289,7 +276,6 @@ GET    /orders
 DELETE /orders/5</div>
   </div>
 </div>
-
 <h3>URL Naming Conventions</h3>
 <table class="t-table">
   <thead><tr><th>Rule</th><th>Good</th><th>Bad</th><th>Why</th></tr></thead>
@@ -302,7 +288,6 @@ DELETE /orders/5</div>
     <tr><td>Hierarchy mirrors relationships</td><td><code>/users/42/posts</code></td><td><code>/posts?author=42</code></td><td>Either works; use nesting max 2 levels deep</td></tr>
   </tbody>
 </table>
-
 <h3>Collections vs Items</h3>
 <table class="t-table">
   <thead><tr><th>URL Pattern</th><th>Represents</th><th>Typical Operations</th></tr></thead>
@@ -313,7 +298,6 @@ DELETE /orders/5</div>
     <tr><td><code>/users/42/posts/7</code></td><td>Post 7 by user 42</td><td>GET, PUT, PATCH, DELETE</td></tr>
   </tbody>
 </table>
-
 <h3>Nesting: When to Stop</h3>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Maximum 2 Levels of Nesting</h3><span class="tag tag-amber">DESIGN RULE</span></div>
@@ -334,7 +318,6 @@ DELETE /orders/5</div>
     <p>The resource <code>/comments/2</code> is unambiguous — comment IDs are globally unique. The parent context is available from the comment's own <code>post_id</code> field in the response.</p>
   </div>
 </div>
-
 <h3>Special Actions That Don't Fit the Resource Model</h3>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Action Sub-Resources</h3><span class="tag tag-purple">PRAGMATISM</span></div>
@@ -353,7 +336,6 @@ DELETE /orders/5</div>
     <p>Note: "archive" creates an archived state, "publish" creates a publication event — these can be modelled as resource state transitions triggered by POST. The verb form (<code>/archive</code>) is tolerated here because the action sub-resource approach is the least bad option.</p>
   </div>
 </div>
-
 <h3>Query Parameters: Filtering, Sorting, Searching</h3>
 <table class="t-table">
   <thead><tr><th>Operation</th><th>Convention</th><th>Example</th></tr></thead>
@@ -366,12 +348,9 @@ DELETE /orders/5</div>
     <tr><td>Pagination</td><td>see Req &amp; Resp tab</td><td><code>GET /users?page=2&amp;per_page=20</code></td></tr>
   </tbody>
 </table>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t2 HTTP Methods -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Safety and Idempotency</h3><span class="tag tag-blue">RFC 9110</span></div>
   <div class="cp-body">
@@ -388,7 +367,6 @@ DELETE /orders/5</div>
     </div>
   </div>
 </div>
-
 <h3>Method Reference</h3>
 <table class="t-table">
   <thead><tr><th>Method</th><th>Safe</th><th>Idempotent</th><th>Has Body</th><th>Semantics</th></tr></thead>
@@ -430,9 +408,7 @@ DELETE /orders/5</div>
     </tr>
   </tbody>
 </table>
-
 <div class="note"><p>*PATCH can be made idempotent by using a <strong>conditional update</strong> with <code>If-Match: "etag-value"</code> — the server only applies the patch if the current ETag matches, preventing lost updates.</p></div>
-
 <h3>PUT vs PATCH: Choosing the Right One</h3>
 <div class="two-col">
   <div>
@@ -443,7 +419,6 @@ DELETE /orders/5</div>
         <div class="http-msg">
 <span class="h-method">PUT</span> <span class="h-url">/users/42</span>
 <span class="h-hdr">Content-Type:</span> <span class="h-val">application/json</span>
-
 <span class="h-body">{
   "name": "Alice",
   "email": "alice@example.com",
@@ -464,7 +439,6 @@ DELETE /orders/5</div>
         <div class="http-msg">
 <span class="h-method">PATCH</span> <span class="h-url">/users/42</span>
 <span class="h-hdr">Content-Type:</span> <span class="h-val">application/merge-patch+json</span>
-
 <span class="h-body">{
   "email": "newemail@example.com"
 }
@@ -476,7 +450,6 @@ DELETE /orders/5</div>
     </div>
   </div>
 </div>
-
 <h3>JSON Merge Patch vs JSON Patch</h3>
 <table class="t-table">
   <thead><tr><th>Format</th><th>RFC</th><th>Mechanism</th><th>Best for</th></tr></thead>
@@ -492,7 +465,6 @@ DELETE /orders/5</div>
   { "op": "remove",  "path": "/legacy_id" },
   { "op": "test",    "path": "/version", "value": 3 }  <span class="cm">// fails patch if version != 3</span>
 ]</pre></div>
-
 <h3>Idempotency Keys for POST</h3>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔑</span><h3>Making POST Safe to Retry</h3><span class="tag tag-green">DISTRIBUTED SYSTEMS</span></div>
@@ -502,25 +474,20 @@ DELETE /orders/5</div>
 <span class="h-method">POST</span> <span class="h-url">/payments</span>
 <span class="h-hdr">Idempotency-Key:</span> <span class="h-val">550e8400-e29b-41d4-a716-446655440000</span>
 <span class="h-hdr">Content-Type:</span> <span class="h-val">application/json</span>
-
 <span class="h-body">{ "amount": 9900, "currency": "USD", "card_id": "card_abc" }</span>
     </div>
     <p>Stripe, PayPal, and most payment APIs use this pattern. Idempotency key storage: Redis or DB table with TTL of 24 hours is standard.</p>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t3 Status Codes -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>Status Codes Are Semantic Contracts</h3><span class="tag tag-blue">RFC 9110</span></div>
   <div class="cp-body">
     <p>Returning the wrong status code breaks client retry logic, caching, monitoring dashboards, and on-call alerting. Always use the most specific code available. Never return 200 for errors ("200 with an error body" is a Level 0 anti-pattern).</p>
   </div>
 </div>
-
 <h3>2xx — Success</h3>
 <table class="t-table">
   <thead><tr><th>Code</th><th>Name</th><th>Use when</th></tr></thead>
@@ -532,7 +499,6 @@ DELETE /orders/5</div>
     <tr><td><span class="sc sc-2">206</span></td><td>Partial Content</td><td>Response is a range of a larger resource (used with <code>Range</code> header for resumable downloads).</td></tr>
   </tbody>
 </table>
-
 <h3>3xx — Redirection</h3>
 <table class="t-table">
   <thead><tr><th>Code</th><th>Name</th><th>Use when</th></tr></thead>
@@ -545,7 +511,6 @@ DELETE /orders/5</div>
     <tr><td><span class="sc sc-3">308</span></td><td>Permanent Redirect</td><td>Like 301 but method is preserved. POST → same POST at new URL permanently.</td></tr>
   </tbody>
 </table>
-
 <h3>4xx — Client Errors</h3>
 <table class="t-table">
   <thead><tr><th>Code</th><th>Name</th><th>Use when</th></tr></thead>
@@ -561,7 +526,6 @@ DELETE /orders/5</div>
     <tr><td><span class="sc sc-4">429</span></td><td>Too Many Requests</td><td>Rate limit exceeded. Include <code>Retry-After</code> and <code>X-RateLimit-*</code> headers.</td></tr>
   </tbody>
 </table>
-
 <h3>5xx — Server Errors</h3>
 <table class="t-table">
   <thead><tr><th>Code</th><th>Name</th><th>Use when</th></tr></thead>
@@ -572,14 +536,10 @@ DELETE /orders/5</div>
     <tr><td><span class="sc sc-5">504</span></td><td>Gateway Timeout</td><td>Upstream server didn't respond in time. Set by proxies/load balancers. Distinguished from 503.</td></tr>
   </tbody>
 </table>
-
 <div class="warn"><p>⚠️ <strong>The 401 vs 403 trap:</strong> 401 = "I don't know who you are, please authenticate". 403 = "I know who you are, but you can't do this". Never return 403 to an unauthenticated request — it reveals that the resource exists and is protected. Prefer 401 or 404 depending on whether you want to expose existence.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t4 Req & Resp -->
 <div id="t4" class="tab-pane">
-
 <h3>Content Negotiation</h3>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Accept &amp; Content-Type</h3><span class="tag tag-blue">RFC 9110</span></div>
@@ -597,7 +557,6 @@ DELETE /orders/5</div>
     <p>If the server cannot satisfy the <code>Accept</code> header, return <span class="sc sc-4">406</span> Not Acceptable.</p>
   </div>
 </div>
-
 <h3>Pagination Strategies</h3>
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">📄</span><h3>Three Pagination Patterns</h3><span class="tag tag-indigo">SCALABILITY</span></div>
@@ -630,13 +589,11 @@ DELETE /orders/5</div>
     <p>Variant of cursor pagination using a meaningful timestamp or composite key instead of an opaque cursor. Natural for time-series data (activity feeds, logs, notifications).</p>
   </div>
 </div>
-
 <h3>Pagination Response Envelope</h3>
 <div class="http-msg">
 <span class="h-hdr">HTTP/1.1</span> <span class="h-status">200 OK</span>
 <span class="h-hdr">Content-Type:</span> <span class="h-val">application/json</span>
 <span class="h-hdr">Link:</span> <span class="h-val">&lt;/users?after=cursor_xyz&gt;; rel="next", &lt;/users&gt;; rel="first"</span>
-
 <span class="h-body">{
   "data": [
     { "id": 1, "name": "Alice", "email": "alice@example.com" },
@@ -649,9 +606,7 @@ DELETE /orders/5</div>
   }
 }</span>
 </div>
-
 <div class="ins"><p><strong>Use the <code>Link</code> header</strong> (RFC 5988) for hypermedia pagination links — this is the standard HTTP way. The response body pagination object is a convenience for clients that don't parse headers. Provide both.</p></div>
-
 <h3>Response Envelope vs Bare Resources</h3>
 <div class="two-col">
   <div>
@@ -683,7 +638,6 @@ DELETE /orders/5</div>
     <p style="font-size:.82rem;color:var(--text-color,#555)">Wraps collection with metadata. JSON:API and HAL both use envelope patterns.</p>
   </div>
 </div>
-
 <h3>Caching with ETags</h3>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">💾</span><h3>Conditional Requests</h3><span class="tag tag-green">PERFORMANCE</span></div>
@@ -692,17 +646,13 @@ DELETE /orders/5</div>
     <div class="http-msg">
 <span class="h-comment">// First request</span>
 <span class="h-method">GET</span> <span class="h-url">/users/42</span>
-
 <span class="h-hdr">HTTP/1.1</span> <span class="h-status">200 OK</span>
 <span class="h-hdr">ETag:</span> <span class="h-val">"abc123"</span>
 <span class="h-hdr">Cache-Control:</span> <span class="h-val">max-age=60</span>
-
 <span class="h-comment">// Conditional GET (after cache expires)</span>
 <span class="h-method">GET</span> <span class="h-url">/users/42</span>
 <span class="h-hdr">If-None-Match:</span> <span class="h-val">"abc123"</span>
-
 <span class="h-hdr">HTTP/1.1</span> <span class="h-status">304 Not Modified</span>  <span class="h-comment">← no body, saves bandwidth</span>
-
 <span class="h-comment">// Conditional UPDATE (optimistic locking)</span>
 <span class="h-method">PATCH</span> <span class="h-url">/users/42</span>
 <span class="h-hdr">If-Match:</span> <span class="h-val">"abc123"</span>
@@ -710,12 +660,9 @@ DELETE /orders/5</div>
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t5 Errors & Versioning -->
 <div id="t5" class="tab-pane">
-
 <h3>RFC 7807 — Problem Details</h3>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">📄</span><h3>Structured Error Responses</h3><span class="tag tag-red">RFC 7807</span></div>
@@ -734,7 +681,6 @@ DELETE /orders/5</div>
     </table>
   </div>
 </div>
-
 <h3>RFC 7807 Examples</h3>
 <div class="two-col">
   <div>
@@ -742,7 +688,6 @@ DELETE /orders/5</div>
     <div class="http-msg">
 <span class="h-hdr">HTTP/1.1</span> <span class="h-err">422 Unprocessable Entity</span>
 <span class="h-hdr">Content-Type:</span> <span class="h-val">application/problem+json</span>
-
 <span class="h-body">{
   "type": "https://api.example.com/errors/validation-error",
   "title": "Validation Failed",
@@ -769,7 +714,6 @@ DELETE /orders/5</div>
     <div class="http-msg">
 <span class="h-hdr">HTTP/1.1</span> <span class="h-err">404 Not Found</span>
 <span class="h-hdr">Content-Type:</span> <span class="h-val">application/problem+json</span>
-
 <span class="h-body">{
   "type": "https://api.example.com/errors/resource-not-found",
   "title": "Resource Not Found",
@@ -785,7 +729,6 @@ DELETE /orders/5</div>
 <span class="h-hdr">X-RateLimit-Limit:</span> <span class="h-val">100</span>
 <span class="h-hdr">X-RateLimit-Remaining:</span> <span class="h-val">0</span>
 <span class="h-hdr">X-RateLimit-Reset:</span> <span class="h-val">1711447230</span>
-
 <span class="h-body">{
   "type": "https://api.example.com/errors/rate-limit-exceeded",
   "title": "Rate Limit Exceeded",
@@ -795,7 +738,6 @@ DELETE /orders/5</div>
     </div>
   </div>
 </div>
-
 <h3>API Versioning Strategies</h3>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🔖</span><h3>When and How to Version</h3><span class="tag tag-amber">EVOLVABILITY</span></div>
@@ -803,7 +745,6 @@ DELETE /orders/5</div>
     <p>You need versioning when a change is <strong>breaking</strong> — removes a field, changes a field type, alters semantics, removes an endpoint. Additive changes (new optional fields, new endpoints) are non-breaking and don't require a new version.</p>
   </div>
 </div>
-
 <table class="t-table">
   <thead><tr><th>Strategy</th><th>Example</th><th>Pros</th><th>Cons</th></tr></thead>
   <tbody>
@@ -833,9 +774,7 @@ DELETE /orders/5</div>
     </tr>
   </tbody>
 </table>
-
 <div class="ins"><p><strong>Industry recommendation:</strong> URL path versioning (<code>/v1/</code>, <code>/v2/</code>) is the most widely adopted. It is explicit, easy to understand, and works with every HTTP client. Stripe uses date-based header versioning successfully, but they have exceptional API docs — for most teams, URL versioning is safer. Never version endpoints individually — version the whole API.</p></div>
-
 <h3>Deprecation Process</h3>
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>Add deprecation headers</strong> to old API responses: <code>Deprecation: true</code>, <code>Sunset: Sat, 01 Jan 2028 00:00:00 GMT</code>, <code>Link: &lt;/v2/users&gt;; rel="successor-version"</code></span></li>
@@ -844,16 +783,12 @@ DELETE /orders/5</div>
   <li><span class="fl-step">4</span><span><strong>Monitor old version traffic</strong> — track last-call timestamps per API key. Sunset date should be after the last active consumer migrates (or times out).</span></li>
   <li><span class="fl-step">5</span><span><strong>Hard sunset</strong> — return 410 Gone with a body pointing to the migration guide. Never return 404 (implies the endpoint never existed).</span></li>
 </ul>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t6 C Implementation -->
 <div id="t6" class="tab-pane">
-
 <h3>HTTP Request Parsing in C (Minimal)</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
- 
 <span class="ck">typedef struct</span> {
     <span class="ck">char</span> method[<span class="cv">16</span>];
     <span class="ck">char</span> path[<span class="cv">256</span>];
@@ -897,14 +832,11 @@ DELETE /orders/5</div>
     }
     <span class="ck">return</span> <span class="cv">0</span>;
 }</pre></div>
-
 <div class="warn"><p>⚠️ <strong>This is for learning only.</strong> Production HTTP parsing is complex: chunked encoding, multipart bodies, header folding, request smuggling defences, binary content. Use a battle-tested HTTP parser library (llhttp — the Node.js HTTP parser, or picohttpparser for C) in production code.</p></div>
-
 <h3>HTTP Response Builder in C</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;time.h&gt;</span>
- 
 <span class="ck">typedef struct</span> {
     <span class="ck">int</span>  status;
     <span class="ck">char</span> content_type[<span class="cv">64</span>];
@@ -984,15 +916,12 @@ DELETE /orders/5</div>
     <span class="ck">int</span> len = build_response(&amp;resp, out, <span class="ck">sizeof</span>(out));
     <span class="ck">if</span> (len > <span class="cv">0</span>) send(fd, out, len, MSG_NOSIGNAL);
 }</pre></div>
-
 <h3>Consuming a REST API with libcurl (C)</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;curl/curl.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdlib.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
- 
 <span class="cm">/* Compile: gcc rest_client.c -lcurl -o rest_client */</span>
- 
 <span class="ck">typedef struct</span> { <span class="ck">char</span> *data; <span class="ck">size_t</span> len; } buf_t;
  
 <span class="ck">static size_t</span> write_cb(<span class="ck">void</span> *ptr, <span class="ck">size_t</span> sz, <span class="ck">size_t</span> nmemb, buf_t *b) {
@@ -1074,7 +1003,6 @@ DELETE /orders/5</div>
     curl_easy_cleanup(curl);
     <span class="ck">return</span> rc == CURLE_OK ? (<span class="ck">int</span>)http_code : -<span class="cv">1</span>;
 }</pre></div>
-
 <h3>Simple Router in C</h3>
 <div class="cb"><pre><span class="ck">typedef void</span> (*handler_fn)(<span class="ck">int</span> fd, http_request_t *req);
  
@@ -1109,12 +1037,9 @@ DELETE /orders/5</div>
         <span class="cs">"about:blank"</span>, <span class="cs">"Not Found"</span>,
         <span class="cs">"The requested resource does not exist."</span>);
 }</pre></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t7 Labs -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 1 — Design a REST API (Paper Exercise)</h3>
@@ -1130,7 +1055,6 @@ DELETE /orders/5</div>
     <div class="lab-step"><span class="sn">5</span><span>Add pagination to <code>GET /projects/:id/tasks</code>. Choose between offset and cursor pagination and justify your choice. Design the full response envelope including headers.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 2 — Build a REST API Server in C</h3>
@@ -1151,7 +1075,6 @@ DELETE /orders/5</div>
     <div class="lab-step"><span class="sn">6</span><span><strong>Challenge:</strong> Add DELETE /users/:id returning 204, and PATCH /users/:id for partial updates. Add an <code>If-Match</code> ETag check to PATCH — return 412 if ETag doesn't match the current version hash.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 3 — Consume a Public REST API with libcurl</h3>
@@ -1167,7 +1090,6 @@ DELETE /orders/5</div>
     <div class="lab-step"><span class="sn">6</span><span><strong>Stretch:</strong> Add a GitHub personal access token via <code>Authorization: Bearer TOKEN</code>. Verify you can now see private repos.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 4 — Test Your API with Behaviour-Driven Tests</h3>
@@ -1181,19 +1103,15 @@ DELETE /orders/5</div>
     <div class="lab-step"><span class="sn">4</span><span>Test idempotency: call DELETE /users/:id twice. The first returns 204, the second should return 404. Call GET /users/:id twice — both must return the same body (verify with diff).</span></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t8 Checklist -->
 <div id="t8" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">✅</span><h3>Module Mastery Checklist</h3><span class="tag tag-indigo">M03 COMPLETE</span></div>
   <div class="cp-body">
     <p>You have mastered this module when you can check off every item below without referring to notes.</p>
   </div>
 </div>
-
 <h3>REST Fundamentals</h3>
 <ul class="cl">
   <li>State the 6 REST constraints and identify which one is "uniform interface"</li>
@@ -1201,7 +1119,6 @@ DELETE /orders/5</div>
   <li>Place a given API at the correct Richardson Maturity Model level and explain what changes would elevate it</li>
   <li>Explain why the stateless constraint is the most important for horizontal scaling</li>
 </ul>
-
 <h3>Resource Design</h3>
 <ul class="cl">
   <li>Rewrite a set of verb URLs as correct REST resource URLs</li>
@@ -1210,7 +1127,6 @@ DELETE /orders/5</div>
   <li>Design action sub-resources for non-CRUD operations (publish, archive, retry)</li>
   <li>Define the correct query parameter conventions for filtering, sorting, and full-text search</li>
 </ul>
-
 <h3>HTTP Methods</h3>
 <ul class="cl">
   <li>Define safe and idempotent; classify GET, POST, PUT, PATCH, DELETE correctly on both axes</li>
@@ -1219,7 +1135,6 @@ DELETE /orders/5</div>
   <li>Explain idempotency keys: why they are needed for POST, how they work, where to store them</li>
   <li>Explain how to make a PATCH idempotent using conditional requests with <code>If-Match</code></li>
 </ul>
-
 <h3>Status Codes</h3>
 <ul class="cl">
   <li>State the correct status codes for: create (201), no body (204), validation error (422), auth failure (401 vs 403), conflict (409), async accepted (202)</li>
@@ -1227,7 +1142,6 @@ DELETE /orders/5</div>
   <li>Explain when to use 410 Gone instead of 404 Not Found</li>
   <li>State which headers to include with 405 (Allow), 429 (Retry-After, X-RateLimit-*), and 201 (Location)</li>
 </ul>
-
 <h3>Request &amp; Response Design</h3>
 <ul class="cl">
   <li>Compare offset pagination vs cursor pagination — state two advantages of cursor and one disadvantage</li>
@@ -1235,33 +1149,27 @@ DELETE /orders/5</div>
   <li>Explain ETags: how they enable conditional GET (304) and optimistic locking on PATCH</li>
   <li>Use content negotiation correctly: <code>Accept</code> in request, <code>Content-Type</code> in response, 406 if unsatisfied</li>
 </ul>
-
 <h3>Errors &amp; Versioning</h3>
 <ul class="cl">
   <li>Write a correct RFC 7807 problem detail response for a validation error, including the <code>errors</code> extension array</li>
   <li>Name 4 versioning strategies and state the pros and cons of URL path versioning</li>
   <li>Describe the full API deprecation process from announcement headers through hard sunset</li>
 </ul>
-
 <h3>Implementation</h3>
 <ul class="cl">
   <li>Use libcurl in C to perform GET and POST requests with custom headers and JSON body, checking the response status code</li>
   <li>Build a minimal HTTP router in C using a method + path prefix dispatch table</li>
   <li>Return RFC 7807 problem+json responses from a C HTTP handler</li>
 </ul>
-
 <hr class="sep">
 <div class="ins"><p><strong>Next modules in Phase 1:</strong> M04 covers OpenAPI specification and gRPC — moving from documentation by convention to contract-first design. M05 covers GraphQL — a fundamentally different query model that solves over-fetching and under-fetching at the cost of caching complexity.</p></div>
-
 </div>
-
 <!-- Module Nav -->
 <div class="mod-nav">
   <a href="/learning/backend/m01-dns-tcp-tls/" class="nb">← M01 DNS/TCP/TLS</a>
   <span style="font-size:.8rem;color:var(--text-color,#888);font-family:monospace">Phase 1 · Module 3 of 5</span>
   <a href="/learning/backend/backend-roadmap/" class="nb">↑ Roadmap</a>
 </div>
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

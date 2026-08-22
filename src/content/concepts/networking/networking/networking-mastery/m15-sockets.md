@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m15-sockets/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 4 · MODULE 15 · WEEK 13</div>
   <div class="mod-title">🔌 Socket Programming</div>
@@ -91,7 +90,6 @@ url: /learning/networking-mastery/m15-sockets/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Socket API</button>
   <button class="tab-btn" onclick="vt(event,'t1')">TCP Server Patterns</button>
@@ -103,7 +101,6 @@ url: /learning/networking-mastery/m15-sockets/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THE POSIX SOCKET API — THE GATEWAY TO THE NETWORK</p>
@@ -139,7 +136,6 @@ ntohs(x):  network-to-host short
 ntohl(x):  network-to-host long
 <span class="cm"># Network byte order = big-endian</span>
 <span class="cm"># x86 is little-endian → ALWAYS use htons/htonl for ports/IPs in structs</span>
- 
 <span class="cm">/* Dual-stack (IPv4+IPv6) */</span>
 <span class="ck">int</span> fd = socket(AF_INET6, SOCK_STREAM, 0);
 <span class="ck">int</span> v6only = 0;
@@ -148,7 +144,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">TCP SERVER PATTERNS</p>
@@ -159,7 +154,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
 #include &lt;netinet/in.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;string.h&gt;</span>
- 
 <span class="ck">int</span> tcp_server(<span class="ck">uint16_t</span> port) {
     <span class="ck">int</span> lfd = socket(AF_INET6, SOCK_STREAM, 0);
  
@@ -176,13 +170,11 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
  
     bind(lfd, (<span class="ck">struct</span> sockaddr *)&addr, sizeof(addr));
     listen(lfd, 128);  <span class="cm">/* backlog: max pending connections in accept queue */</span>
- 
     <span class="ck">while</span> (1) {
         <span class="ck">struct</span> sockaddr_in6 client;
         socklen_t clen = sizeof(client);
         <span class="ck">int</span> cfd = accept(lfd, (<span class="ck">struct</span> sockaddr *)&client, &clen);
         <span class="cm">/* cfd is a NEW socket for this connection; lfd still listens */</span>
- 
         <span class="cm">/* Handle client — in production: fork() or thread */</span>
         handle_client(cfd);
         close(cfd);
@@ -218,7 +210,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">UDP PROGRAMMING</p>
@@ -267,7 +258,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">NON-BLOCKING I/O AND epoll</p>
@@ -277,7 +267,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
     <p>The classic <code>select()</code> and <code>poll()</code> have O(n) scan overhead — with 10,000 fds, every call scans all 10,000 even if only 1 is ready. <code>epoll</code> maintains a kernel-side data structure and returns only the fds that are actually ready — O(1) per event, O(k) where k is ready events.</p>
 <div class="cb"><pre><span class="cs">#include &lt;sys/epoll.h&gt;
 #include &lt;fcntl.h&gt;</span>
- 
 <span class="cm">/* Set fd to non-blocking */</span>
 <span class="ck">void</span> set_nonblocking(<span class="ck">int</span> fd) {
     <span class="ck">int</span> flags = fcntl(fd, F_GETFL, 0);
@@ -331,7 +320,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">SOCKET OPTIONS — TUNING FOR PERFORMANCE</p>
@@ -353,7 +341,6 @@ setsockopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
         <tr><td><code>SO_TIMESTAMP</code></td><td>SOL_SOCKET</td><td>Receive hardware/kernel timestamp with each packet via cmsg</td><td>Latency measurement, PTP, network monitoring</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre><span class="cm">/* Setting socket options */</span>
 <span class="ck">int</span> opt = 1;
 setsockopt(fd, SOL_SOCKET,   SO_REUSEADDR, &opt, sizeof(opt));
@@ -370,7 +357,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPIDLE,  &idle,     sizeof(idle));
 setsockopt(fd, IPPROTO_TCP, TCP_KEEPINTVL, &interval, sizeof(interval));
 setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &count,    sizeof(count));
 <span class="cm">/* After 60s idle: send probe every 10s, 3 times → declare dead after 30s */</span>
- 
 <span class="cm">/* Read back effective buffer size */</span>
 <span class="ck">int</span> actual; socklen_t alen = sizeof(actual);
 getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &actual, &alen);
@@ -378,7 +364,6 @@ getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &actual, &alen);
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">RAW SOCKETS — CRAFTING ARBITRARY IP PACKETS</p>
@@ -390,7 +375,6 @@ getsockopt(fd, SOL_SOCKET, SO_RCVBUF, &actual, &alen);
 <span class="ck">int</span> fd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);  <span class="cm">/* all ICMP */</span>
 <span class="ck">int</span> fd = socket(AF_INET, SOCK_RAW, IPPROTO_TCP);   <span class="cm">/* all TCP (also received by TCP stack) */</span>
 <span class="ck">int</span> fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);   <span class="cm">/* send-only; craft own IP header */</span>
- 
 <span class="cm">/* Send a custom ICMP echo request */</span>
 <span class="ck">struct</span> {
     <span class="ck">struct</span> icmphdr hdr;
@@ -423,7 +407,6 @@ setsockopt(raw, IPPROTO_IP, IP_HDRINCL, &opt, sizeof(opt));
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">AF_PACKET — RAW LAYER 2 SOCKET</p>
@@ -435,7 +418,6 @@ setsockopt(raw, IPPROTO_IP, IP_HDRINCL, &opt, sizeof(opt));
 <span class="cs">#include &lt;linux/if_packet.h&gt;
 #include &lt;net/ethernet.h&gt;
 #include &lt;net/if.h&gt;</span>
- 
 <span class="cm">/* Open raw L2 socket — receives ALL Ethernet frames */</span>
 <span class="ck">int</span> fd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
  
@@ -457,7 +439,6 @@ setsockopt(fd, SOL_PACKET, PACKET_ADD_MEMBERSHIP, &mreq, sizeof(mreq));
 ssize_t n = recv(fd, frame, sizeof(frame), 0);
 <span class="ck">struct</span> ethhdr *eth = (<span class="ck">struct</span> ethhdr *)frame;
 <span class="cm">/* eth->h_dest, eth->h_source, eth->h_proto */</span>
- 
 <span class="cm">/* PACKET_MMAP — zero-copy ring buffer for high-speed capture */</span>
 <span class="cm">/* Maps NIC DMA buffers directly into process address space */</span>
 <span class="cm">/* Used by tcpdump/libpcap for high-performance capture */</span>
@@ -475,7 +456,6 @@ setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -488,7 +468,6 @@ setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
     <div class="lab-step"><div class="sn">4</div><div>Add SO_REUSEPORT: run 4 instances of your server on the same port (set different process IDs). Verify with <code>ss -tlnp | grep 8080</code> that all 4 are bound. Use <code>ab</code> to send 40,000 requests and verify even distribution across processes.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Raw Packet Craft and AF_PACKET Capture</h4></div>
   <div class="lab-body">
@@ -498,7 +477,6 @@ setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
     <div class="lab-step"><div class="sn">3</div><div>Write an ICMP ping with raw sockets (SOCK_RAW, IPPROTO_ICMP). Calculate the ICMP checksum. Send to 8.8.8.8 and receive the reply. Parse the reply to extract RTT (measure time between send and receive). Implement 5 pings and show min/avg/max RTT.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Socket Performance Benchmarking</h4></div>
   <div class="lab-body">
@@ -509,7 +487,6 @@ setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <p class="sep">M15 MASTERY CHECKLIST</p>
@@ -541,7 +518,6 @@ setsockopt(fd, SOL_PACKET, PACKET_RX_RING, &req, sizeof(req));
   <p>✅ <strong>When complete:</strong> Move to <strong>M16 - eBPF and XDP</strong> — the most exciting recent addition to the Linux networking toolkit, enabling programmable packet processing without kernel modifications.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m14-linux-stack/">← M14 Linux Stack</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

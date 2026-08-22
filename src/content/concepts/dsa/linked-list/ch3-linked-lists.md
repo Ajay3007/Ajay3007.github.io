@@ -29,9 +29,7 @@ url: /learning/dsa/linked-list/ch3-linked-lists/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Is a Linked List?</h2>
 <p>A linked list is a linear data structure where each element (node) stores a value and a pointer to the next node. Unlike arrays, nodes are <strong>not stored contiguously in memory</strong> — they can be scattered anywhere on the heap, connected only by pointers.</p>
@@ -39,10 +37,9 @@ url: /learning/dsa/linked-list/ch3-linked-lists/
   <span class="insight-label">Real-World Analogy: A Treasure Hunt</span>
   Each note (node) contains a clue (data) and the location of the next note (pointer). To reach clue #5, you must follow all 4 previous clues — there is no shortcut.
 </div>
-
 <h3 class="section-subheading">1.1 — Node Structure</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Singly linked list node
 struct ListNode {
     int val;
@@ -56,9 +53,8 @@ struct DListNode {
     DListNode* next;
     DListNode(int k, int v) : key(k), val(v), prev(nullptr), next(nullptr) {}
 };
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">1.2 — Complexity vs Arrays</h3>
 <div class="insight-box">
   <ul>
@@ -71,20 +67,17 @@ struct DListNode {
   <strong>Use Linked List when:</strong> frequent insert/delete at known positions, implementing stacks, queues, or adjacency lists. Not for random access.
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Pattern: Fast & Slow Pointers (Floyd's Algorithm)</h2>
 <p>Two pointers move through the list at different speeds — fast moves 2 nodes per step, slow moves 1. They meet at meaningful positions.</p>
-
 <div class="pattern-summary">
   <div class="pattern-card"><h4>Find Middle</h4><p>When fast reaches end, slow is at middle. Use for palindrome check, merge sort on linked list.</p></div>
   <div class="pattern-card"><h4>Cycle Detection</h4><p>If fast and slow meet, there's a cycle. If fast hits nullptr, no cycle.</p></div>
   <div class="pattern-card"><h4>Kth from End</h4><p>Advance fast k steps first, then move both. When fast hits null, slow = kth from end.</p></div>
 </div>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">Fast/Slow pointer templates</span>
-{% highlight cpp %}
+```cpp
 // Find middle — slow stops at middle
 ListNode *slow = head, *fast = head;
 while (fast && fast->next) {
@@ -107,14 +100,13 @@ ListNode *fast = head, *slow = head;
 for (int i = 0; i < k; i++) fast = fast->next; // advance fast by k
 while (fast) { slow = slow->next; fast = fast->next; }
 // slow = kth node from end
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(n)</span>
   <span class="ch-cplx"><span>Space</span>O(1)</span>
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Pattern: Reversal</h2>
 <p>Reversing a linked list is O(n) time, O(1) space. Requires tracking three pointers: prev, curr, and next.</p>
@@ -123,7 +115,7 @@ while (fast) { slow = slow->next; fast = fast->next; }
   Before breaking the link curr→next, save next first. Then redirect curr→prev. Advance: prev=curr, curr=next. Repeat until curr=nullptr. Return prev (new head).
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Reverse entire list — iterative (preferred)
 ListNode* reverseList(ListNode* head) {
     ListNode *prev = nullptr, *curr = head;
@@ -148,14 +140,13 @@ for (int i = 0; i < right-left; i++) {
     pre->next = nxt;
 }
 return dummy.next;
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(n)</span>
   <span class="ch-cplx"><span>Space</span>O(1)</span>
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Pattern: Dummy Node</h2>
 <p>Adding a dummy node before the head eliminates edge-case handling for empty lists or removing the head node. Always return dummy.next as the real head.</p>
@@ -163,7 +154,7 @@ return dummy.next;
   Return <code>dummy.next</code> at the end, not <code>head</code> — the head may have been removed or changed.
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Remove nth node from end — dummy + two pointers
 ListNode dummy(0); dummy.next = head;
 ListNode *fast = &dummy, *slow = &dummy;
@@ -180,15 +171,14 @@ while (curr->next) {
     else curr = curr->next;
 }
 return dummy.next;
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Pattern: Merge Two Sorted Lists</h2>
 <p>Compare heads of both lists. Take the smaller one, advance that pointer. Use a dummy node to avoid edge cases.</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Merge two sorted linked lists — O(m+n) time, O(1) space
 ListNode dummy(0); ListNode* tail = &dummy;
 while (l1 && l2) {
@@ -198,15 +188,14 @@ while (l1 && l2) {
 }
 tail->next = l1 ? l1 : l2; // attach remaining
 return dummy.next;
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 6 — Hard Pattern: Reorder List</h2>
 <p>Combines multiple patterns: find middle (fast/slow), reverse second half, then merge two halves. L0→L1→…→Ln becomes L0→Ln→L1→Ln-1→L2→…</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Reorder List — O(n) time, O(1) space
 void reorderList(ListNode* head) {
     // 1. Find middle
@@ -225,10 +214,9 @@ void reorderList(ListNode* head) {
         first = fn; second = sn;
     }
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Practice Problems</h2>
 <div class="ch-ed-problems">
@@ -250,9 +238,7 @@ void reorderList(ListNode* head) {
 </table>
 </div>
 </div>
-
 </div><!-- end .chapter-content -->
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/hashing/ch2-hashing/" class="ch-nav-footer-btn">← Ch2: Hashing</a>
   <a href="/learning/dsa/dsa-roadmap/#ch4" class="ch-nav-footer-btn primary">Next: Ch4 — Stacks & Queues →</a>

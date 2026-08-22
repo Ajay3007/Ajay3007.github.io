@@ -91,7 +91,6 @@ url: /learning/data-plane/vpp/module-p2-vlib/
 .mod-nav .next-btn:hover{background:#22998a}
 .section-sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 2B · WEEKS 5–6</div>
   <div class="mod-title">⚙️ vlib - Graph Dispatcher</div>
@@ -103,7 +102,6 @@ url: /learning/data-plane/vpp/module-p2-vlib/
     <span class="mod-pill">2 Mini-Projects</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab(event,'t-nodes')">Node Types</button>
   <button class="tab-btn" onclick="switchTab(event,'t-dispatch')">Dispatch Loop</button>
@@ -114,12 +112,9 @@ url: /learning/data-plane/vpp/module-p2-vlib/
   <button class="tab-btn" onclick="switchTab(event,'t-proj')">Mini-Projects</button>
   <button class="tab-btn" onclick="switchTab(event,'t-check')">Checklist</button>
 </div>
-
 <!-- ══ NODE TYPES ══ -->
 <div id="t-nodes" class="tab-pane active">
-
 <p class="section-sep">THE FOUR NODE TYPES</p>
-
 <div class="node-type-grid">
   <div class="node-type-card" style="border-left:4px solid #1a7a6e">
     <h4 style="color:#1a7a6e">VLIB_NODE_TYPE_INPUT</h4>
@@ -138,11 +133,9 @@ url: /learning/data-plane/vpp/module-p2-vlib/
     <p>Called before INPUT nodes on every loop. Used for global preprocessing. Rare - only a few VPP nodes use this type.</p>
   </div>
 </div>
-
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">📝</span><h3>Registering a Node - VLIB_REGISTER_NODE</h3><span class="tag tag-teal">MACRO PATTERN</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* The node function - processes up to n_vectors packets */</span>
 <span class="c-key">static</span> <span class="c-type">uword</span>
 my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
@@ -154,7 +147,6 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   n_left_from = frame->n_vectors;
  
   <span class="c-comment">/* ... process packets ... */</span>
- 
   <span class="c-key">return</span> frame->n_vectors;   <span class="c-comment">/* always return vectors processed */</span>
 }
  
@@ -181,34 +173,26 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   <span class="c-macro">foreach_my_node_error</span>
 <span class="c-macro">#undef</span> _
 };</pre></div>
-
   </div>
 </div>
-
 </div>
-
 <!-- ══ DISPATCH LOOP ══ -->
 <div id="t-dispatch" class="tab-pane">
-
 <p class="section-sep">MAIN LOOP - src/vlib/main.c</p>
-
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🔄</span><h3>vlib_main_loop - The Heart of VPP</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="concept-panel-body">
     <p>The dispatcher lives in <code>vlib_main_loop()</code>. You never write a main loop in VPP - the framework calls your nodes. Understanding the loop explains VPP's performance model.</p>
-
 <div class="code-block"><pre><span class="c-comment">/* Simplified pseudocode of vlib_main_loop (src/vlib/main.c) */</span>
 <span class="c-key">while</span> (1) {
   <span class="c-comment">/* 1. Poll all INPUT nodes */</span>
   <span class="c-key">foreach</span> input_node:
     vectors = input_node.fn(vm, node, frame);
     <span class="c-comment">/* vectors returned drives adaptive polling rate */</span>
- 
   <span class="c-comment">/* 2. Run INTERNAL nodes that have pending frames */</span>
   <span class="c-key">while</span> pending_frames:
     dispatch_node(next_pending_node);
     <span class="c-comment">/* this may enqueue more frames to other nodes */</span>
- 
   <span class="c-comment">/* 3. Run PROCESS nodes that are ready */</span>
   <span class="c-key">foreach</span> ready_process:
     resume_process(proc);
@@ -219,15 +203,12 @@ my_node_fn (<span class="c-type">vlib_main_t</span> * vm,
   <span class="c-key">else</span>:
     sleep_us = 0;  <span class="c-comment">/* busy poll when traffic present */</span>
 }</pre></div>
-
     <p><strong>Frame lifecycle:</strong> When an INPUT node receives packets, it allocates a <code>vlib_frame_t</code> and fills it with buffer indices. It calls <code>vlib_frame_enqueue</code> to schedule INTERNAL nodes. The dispatcher runs each INTERNAL node when its frame is non-empty. Each INTERNAL node can enqueue further frames - the graph unfolds packet by packet.</p>
   </div>
 </div>
-
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">📦</span><h3>vlib_frame_t - Passing Packets Between Nodes</h3><span class="tag tag-teal">DATA STRUCTURE</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* A frame is a batch of buffer indices destined for one next node */</span>
 <span class="c-type">typedef struct</span> {
   <span class="c-type">u16</span>  <span class="c-key">n_vectors</span>;     <span class="c-comment">/* number of valid buffer indices in this frame */</span>
@@ -249,24 +230,18 @@ vlib_put_next_frame(vm, node, MY_NEXT_INDEX, <span class="c-comment">/* n_left_t
 <span class="c-type">u16</span> nexts[VLIB_FRAME_SIZE];
 nexts[i] = MY_NODE_NEXT_IP4_LOOKUP;
 vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
-
     <div class="insight-box">
       <p>💡 <strong>Frame size limit:</strong> <code>VLIB_FRAME_SIZE = 256</code>. No single node invocation processes more than 256 packets. This is by design - it bounds worst-case latency for other nodes. INPUT nodes should return early once they have 256 packets.</p>
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- ══ BUFFER LAYOUT ══ -->
 <div id="t-buffer" class="tab-pane">
-
 <p class="section-sep">vlib_buffer_t - EVERY PACKET IS ONE OF THESE</p>
-
 <div class="concept-panel panel-orange">
   <div class="concept-panel-hdr"><span class="icon">📋</span><h3>Buffer Memory Layout</h3><span class="tag tag-orange">src/vlib/buffer.h</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* Simplified vlib_buffer_t (src/vlib/buffer.h) */</span>
 <span class="c-type">typedef struct</span> {
   <span class="c-comment">/* ── Cache line 0: hot fields ──────────────────────── */</span>
@@ -275,40 +250,32 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
   <span class="c-type">u32</span> <span class="c-key">current_data</span>;    <span class="c-comment">/* offset from data_u8[] to current L2/L3 header */</span>
   <span class="c-type">u16</span> <span class="c-key">current_length</span>;  <span class="c-comment">/* bytes of valid data from current_data onwards */</span>
   <span class="c-type">u16</span> <span class="c-key">flags</span>;           <span class="c-comment">/* VLIB_BUFFER_IS_TRACED, etc. */</span>
- 
   <span class="c-type">u32</span> <span class="c-key">flow_id</span>;         <span class="c-comment">/* per-packet flow identifier */</span>
   <span class="c-type">u32</span> <span class="c-key">next_buffer</span>;     <span class="c-comment">/* chained buffer index (for multi-seg packets) */</span>
   <span class="c-type">u32</span> <span class="c-key">current_config_index</span>; <span class="c-comment">/* feature arc state */</span>
   <span class="c-type">u8</span>  <span class="c-key">error</span>;           <span class="c-comment">/* error code set by any node */</span>
   <span class="c-type">u8</span>  <span class="c-key">n_add_refs</span>;      <span class="c-comment">/* reference count for cloning */</span>
- 
   <span class="c-comment">/* ── Cache line 1: opaque per-node scratch space ───── */</span>
   <span class="c-type">CLIB_CACHE_LINE_ALIGN_MARK</span>(cacheline1);
   <span class="c-type">vnet_buffer_opaque_t</span> <span class="c-key">opaque</span>;   <span class="c-comment">/* vnet_buffer(b)->ip.adj_index, etc. */</span>
- 
   <span class="c-comment">/* ── Cache line 2: second opaque area ──────────────── */</span>
   <span class="c-type">CLIB_CACHE_LINE_ALIGN_MARK</span>(cacheline2);
   <span class="c-type">vnet_buffer_opaque2_t</span> <span class="c-key">opaque2</span>; <span class="c-comment">/* for your plugin's scratch data */</span>
- 
   <span class="c-comment">/* ── Cache line 3+: packet data ─────────────────────  */</span>
   <span class="c-type">u8</span> <span class="c-key">pre_data</span>[VLIB_BUFFER_PRE_DATA_SIZE]; <span class="c-comment">/* pre-data area (for encap) */</span>
   <span class="c-type">u8</span> <span class="c-key">data_u8</span>[0];    <span class="c-comment">/* actual packet bytes start here */</span>
 } <span class="c-type">vlib_buffer_t</span>;</pre></div>
-
   </div>
 </div>
-
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🔧</span><h3>Working With Buffers - Essential Macros</h3><span class="tag tag-blue">REFERENCE</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* Get pointer to current header (L2, L3, or wherever we are) */</span>
 <span class="c-type">void</span> *hdr = vlib_buffer_get_current(b);
  
 <span class="c-comment">/* Advance past current header (e.g. past Ethernet to reach IP) */</span>
 vlib_buffer_advance(b, <span class="c-key">sizeof</span>(<span class="c-type">ethernet_header_t</span>));
 <span class="c-comment">/* current_data += sizeof(eth_hdr); current_length -= sizeof(eth_hdr) */</span>
- 
 <span class="c-comment">/* Step back (e.g. to prepend an encap header) */</span>
 vlib_buffer_advance(b, -<span class="c-key">sizeof</span>(<span class="c-type">ip4_header_t</span>));
  
@@ -331,10 +298,8 @@ vlib_buffer_advance(b, -<span class="c-key">sizeof</span>(<span class="c-type">i
 <span class="c-type">u32</span> bi;
 vlib_buffer_alloc(vm, &bi, <span class="c-val">1</span>);    <span class="c-comment">/* allocate 1 buffer */</span>
 vlib_buffer_free(vm, &bi, <span class="c-val">1</span>);     <span class="c-comment">/* free 1 buffer */</span>
- 
 <span class="c-comment">/* Clone a buffer (reference counting) */</span>
 vlib_buffer_clone(vm, src_bi, &dst_bi, <span class="c-val">1</span>, head_end_offset);</pre></div>
-
     <div class="dpdk-box">
       <div class="dpdk-hdr">⚙️ vlib_buffer_t vs rte_mbuf</div>
       <ul>
@@ -348,14 +313,10 @@ vlib_buffer_clone(vm, src_bi, &dst_bi, <span class="c-val">1</span>, head_end_of
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- ══ DUAL-LOOP ══ -->
 <div id="t-dualloop" class="tab-pane">
-
 <p class="section-sep">THE DUAL-LOOP PERFORMANCE PATTERN</p>
-
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">⚡</span><h3>Why Dual-Loop?</h3><span class="tag tag-teal">PERFORMANCE</span></div>
   <div class="concept-panel-body">
@@ -363,11 +324,9 @@ vlib_buffer_clone(vm, src_bi, &dst_bi, <span class="c-val">1</span>, head_end_of
     <p>Structure: an outer loop processes 2 packets per iteration (prefetch 2 ahead). When fewer than 4 remain, fall into a single loop. This is the canonical VPP pattern - used in <code>ip4-lookup</code>, <code>ip4-rewrite</code>, and every high-performance node.</p>
   </div>
 </div>
-
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🔧</span><h3>Dual-Loop Template - Annotated</h3><span class="tag tag-blue">CANONICAL PATTERN · src/vnet/ip/ip4_forward.c</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-key">static</span> <span class="c-type">uword</span>
 my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vlib_node_runtime_t</span> *node,
             <span class="c-type">vlib_frame_t</span> *frame)
@@ -430,15 +389,12 @@ my_node_fn (<span class="c-type">vlib_main_t</span> *vm, <span class="c-type">vl
                               nexts, frame->n_vectors);
   <span class="c-key">return</span> frame->n_vectors;
 }</pre></div>
-
   </div>
 </div>
-
 <div class="concept-panel panel-green">
   <div class="concept-panel-hdr"><span class="icon">🚀</span><h3>Modern "qs" Pattern - vlib_get_buffers</h3><span class="tag tag-green">VPP v22+</span></div>
   <div class="concept-panel-body">
     <p>Newer VPP nodes use the "quad-single" helper which fetches all buffers upfront using SIMD-friendly bulk get:</p>
-
 <div class="code-block"><pre><span class="c-comment">/* Bulk fetch all buffer pointers - compiler can vectorise */</span>
 <span class="c-type">vlib_buffer_t</span> *bufs[VLIB_FRAME_SIZE];
 vlib_get_buffers(vm, from, bufs, n_vectors);
@@ -452,14 +408,10 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
     <p>Use the qs pattern for new nodes. Use the hand-written dual-loop when you need ultra-precise prefetch control for memory-intensive operations (e.g., FIB lookup with pointer chasing).</p>
   </div>
 </div>
-
 </div>
-
 <!-- ══ THREADS ══ -->
 <div id="t-threads" class="tab-pane">
-
 <p class="section-sep">MULTI-THREADING MODEL</p>
-
 <div class="concept-panel panel-purple">
   <div class="concept-panel-hdr"><span class="icon">🧵</span><h3>Per-Worker vlib_main_t</h3><span class="tag tag-purple">ARCHITECTURE</span></div>
   <div class="concept-panel-body">
@@ -470,11 +422,9 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
       <li>Workers never share packet ownership - a packet assigned to Worker 0 stays on Worker 0 unless explicitly handed off</li>
       <li>The main thread (Thread 0) handles control-plane: PROCESS nodes, CLI, API requests</li>
     </ul>
-
 <div class="code-block"><pre><span class="c-comment">/* Get the current worker's vlib_main_t (in node function context) */</span>
 <span class="c-type">vlib_main_t</span> *vm = ...;   <span class="c-comment">/* already passed to your node function */</span>
 <span class="c-type">u32</span> thread_index = vm->thread_index;   <span class="c-comment">/* 0 = main, 1..N = workers */</span>
- 
 <span class="c-comment">/* Access another thread's vlib_main */</span>
 <span class="c-type">vlib_main_t</span> *wm = vlib_get_main_by_index(worker_idx);
  
@@ -486,15 +436,12 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
  
 <span class="c-type">my_main_t</span> *mm = &my_main;
 <span class="c-type">my_worker_t</span> *w = vec_elt_at_index(mm->workers, vm->thread_index);</pre></div>
-
   </div>
 </div>
-
 <div class="concept-panel panel-orange">
   <div class="concept-panel-hdr"><span class="icon">🔀</span><h3>Handoff - Cross-Worker Packet Transfer</h3><span class="tag tag-orange">src/vlib/threads.c</span></div>
   <div class="concept-panel-body">
     <p>Sometimes a packet must be processed by a specific worker - for example, if your plugin requires all packets of the same flow to be handled by the same thread (stateful processing). Use the <strong>handoff mechanism</strong>.</p>
-
 <div class="code-block"><pre><span class="c-comment">/* Enqueue buffers to a different worker's input queue */</span>
 <span class="c-type">u32</span> target_worker = compute_flow_worker(flow_id);
 <span class="c-key">if</span> (target_worker != vm->thread_index) {
@@ -503,26 +450,19 @@ vlib_buffer_enqueue_to_next(vm, node, from, nexts, n_vectors);</pre></div>
                                 &bi, &target_worker,
                                 <span class="c-val">1</span>);   <span class="c-comment">/* n_buffers */</span>
 }</pre></div>
-
     <p>See <code>src/examples/handoffdemo/</code> for a complete working example. The handoff node approach is also used by the NAT plugin to ensure symmetric flow handling.</p>
-
     <div class="warn-box">
       <p>⚠️ <strong>Avoid unnecessary handoffs.</strong> Each cross-worker transfer adds latency and overhead. Design your hashing strategy (startup.conf <code>num-rx-queues</code> + RSS hash type) so packets of the same flow arrive at the same worker naturally through NIC RSS. Handoff is the fallback, not the primary mechanism.</p>
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- ══ TRACE & COUNTERS ══ -->
 <div id="t-trace" class="tab-pane">
-
 <p class="section-sep">PACKET TRACING</p>
-
 <div class="concept-panel panel-green">
   <div class="concept-panel-hdr"><span class="icon">🔍</span><h3>Adding Trace Support to Your Node</h3><span class="tag tag-green">DEBUGGING</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* Step 1: define your trace structure */</span>
 <span class="c-type">typedef struct</span> {
   <span class="c-type">u32</span> sw_if_index;
@@ -552,14 +492,11 @@ format_my_node_trace (<span class="c-type">u8</span> *s, <span class="c-type">va
  
 <span class="c-comment">/* Step 4: in VLIB_REGISTER_NODE, set: */</span>
 <span class="c-comment">/* .format_trace = format_my_node_trace */</span></pre></div>
-
   </div>
 </div>
-
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">📊</span><h3>Error Counters - show error</h3><span class="tag tag-blue">OBSERVABILITY</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* Define errors with a foreach macro (standard VPP convention) */</span>
 <span class="c-macro">#define foreach_my_node_error</span>  \
   _(PROCESSED,   "packets processed") \
@@ -582,15 +519,11 @@ format_my_node_trace (<span class="c-type">u8</span> *s, <span class="c-type">va
 <span class="c-comment">/* Increment a counter (atomic, safe from any worker) */</span>
 vlib_node_increment_counter(vm, my_node.index,
                             MY_NODE_ERROR_PROCESSED, n_processed);</pre></div>
-
   </div>
 </div>
-
 </div>
-
 <!-- ══ PROJECTS ══ -->
 <div id="t-proj" class="tab-pane">
-
 <div class="project-box">
   <div class="project-box-hdr"><span class="pnum">PROJECT 2</span><h4>Graph Node Inspector</h4></div>
   <div class="project-box-body">
@@ -602,7 +535,6 @@ vlib_node_increment_counter(vm, my_node.index,
     <div class="project-step"><div class="step-n">5</div><div>Increase pg traffic to 1M packets/sec. Re-run <code>show run</code>. Observe that vectors/call increases toward VLIB_FRAME_SIZE (256). Explain why.</div></div>
   </div>
 </div>
-
 <div class="project-box">
   <div class="project-box-hdr"><span class="pnum">PROJECT 3</span><h4>Custom Buffer Inspector Node</h4></div>
   <div class="project-box-body">
@@ -615,9 +547,7 @@ vlib_node_increment_counter(vm, my_node.index,
     <div class="project-step"><div class="step-n">6</div><div>Run under the VPP test framework: write a Python test that sends 100 packets through the interface and asserts that the "packets seen" counter equals 100.</div></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══ CHECKLIST ══ -->
 <div id="t-check" class="tab-pane">
 <p class="section-sep">P2B COMPLETION CHECKLIST</p>
@@ -635,13 +565,11 @@ vlib_node_increment_counter(vm, my_node.index,
   <li>Completed Projects 2 and 3: graph inspector and buffer inspector node with traces + counters</li>
 </ul>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p2-vppinfra/">← P2A: vppinfra</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>
   <a class="next-btn" href="/learning/data-plane/vpp/module-p2-vnet/">Next: vnet →</a>
 </div>
-
 <script>
 function switchTab(e,id){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));

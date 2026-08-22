@@ -22,7 +22,6 @@ url: /learning/ai-ml/
 		<li>Practical projects and datasets</li>
 	</ul>
 </div>
-
 <div style="text-align:center;margin-top:2.5rem;">
 	<a href="/" style="color:#607d8b;">&larr; Back to home</a>
 </div>

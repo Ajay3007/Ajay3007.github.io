@@ -16,7 +16,6 @@ Singly & doubly lists, cycle detection, reverse operations.
 ## Topics
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin:2rem 0;">
-
 <!-- Singly Linked List -->
 <div style="background:#f8fafc;border-radius:10px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);border-left:4px solid #3b82f6;">
   <h3 style="margin-top:0;display:flex;align-items:center;gap:0.5rem;">
@@ -24,7 +23,6 @@ Singly & doubly lists, cycle detection, reverse operations.
   </h3>
   <p style="color:#4a5568;margin-bottom:0;">Operations and classic problems with singly linked lists including traversal, insertion, deletion, and reversal.</p>
 </div>
-
 <!-- Doubly Linked List -->
 <div style="background:#f8fafc;border-radius:10px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);border-left:4px solid #8b5cf6;">
   <h3 style="margin-top:0;display:flex;align-items:center;gap:0.5rem;">
@@ -32,7 +30,6 @@ Singly & doubly lists, cycle detection, reverse operations.
   </h3>
   <p style="color:#4a5568;margin-bottom:0;">Bi-directional traversal; useful for LRU caches and deques with forward and backward navigation.</p>
 </div>
-
 <!-- Practice Problems -->
 <div style="background:#f8fafc;border-radius:10px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,0.1);border-left:4px solid #ec4899;">
   <h3 style="margin-top:0;display:flex;align-items:center;gap:0.5rem;">
@@ -40,7 +37,6 @@ Singly & doubly lists, cycle detection, reverse operations.
   </h3>
   <p style="color:#4a5568;margin-bottom:0;">Curated problems from LeetCode, InterviewBit, and GeeksforGeeks organized by difficulty with solutions and approaches.</p>
 </div>
-
 </div>
 
 ---

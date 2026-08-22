@@ -65,7 +65,6 @@ url: /learning/data-plane/dpdk/module-p1-memory/
 .mod-nav .nb{background:#0a2040;color:#fff !important;border-color:#0a2040}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">DPDK MASTERY · PHASE 1 OF 3 · MODULE B</div>
   <div class="mod-title">Hugepages, mempool &amp; mbuf</div>
@@ -78,7 +77,6 @@ url: /learning/data-plane/dpdk/module-p1-memory/
     <span class="mod-pill">Weeks 3–5</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t-hp')">Hugepages</button>
   <button class="tab-btn" onclick="vt(event,'t-vm')">Virtual Memory</button>
@@ -88,15 +86,12 @@ url: /learning/data-plane/dpdk/module-p1-memory/
   <button class="tab-btn" onclick="vt(event,'t-qa')">Interview Q&amp;A</button>
   <button class="tab-btn" onclick="vt(event,'t-lab')">Lab</button>
 </div>
-
 <!-- TAB: Hugepages -->
 <div id="t-hp" class="tab-pane active">
-
 <div class="p-blue">
 <h4>Why Hugepages Are Mandatory in DPDK</h4>
 Two orthogonal requirements drive hugepage usage: <strong>(1) DMA stability</strong> — hugepages are pinned (mlock'd) so the NIC's IOVA is always valid; <strong>(2) TLB efficiency</strong> — 2MB pages mean 512× fewer TLB entries than 4KB pages, dramatically cutting TLB miss rate on the hot packet path.
 </div>
-
 <table class="t-table">
 <thead><tr><th>Property</th><th>Normal 4KB Pages</th><th>DPDK Hugepages (2MB)</th></tr></thead>
 <tbody>
@@ -108,11 +103,8 @@ Two orthogonal requirements drive hugepage usage: <strong>(1) DMA stability</str
 <tr><td>DMA safety</td><td>Unsafe — may be freed under NIC</td><td>Safe — physical addr never changes</td></tr>
 </tbody>
 </table>
-
 <div class="warn">&#9888;&#65039; <strong>The catastrophic swap scenario:</strong> NIC DMA uses physical addresses (IOVAs). If a page is swapped out, the physical frame is freed. The NIC's IOVA is now stale — it writes to wrong or freed memory. Even without corruption, one swap = ~10 ms pause. At 100G, the ring fills in ~80 µs. 10 ms = millions of dropped packets.</div>
-
 <p class="sep">HUGEPAGE SETUP COMMANDS</p>
-
 <div class="cb"><span class="cm"># Check available hugepage sizes</span>
 ls /sys/kernel/mm/hugepages/
 
@@ -127,16 +119,11 @@ cat /proc/meminfo | grep Huge
 
 <span class="cm"># DPDK EAL: use --socket-mem to specify per-NUMA-socket allocation</span>
 ./my_app -l 0-3 -n 4 --socket-mem 1024,1024  <span class="cm"># 1GB on socket 0, 1GB on socket 1</span></div>
-
 <div class="note">&#128204; <strong>1GB hugepages:</strong> For very large mempools or when 2MB pages still have too many TLB entries. Requires kernel boot parameter <code>hugepagesz=1G hugepages=4</code>. EAL will prefer 1GB pages if available.</div>
-
 </div><!-- /t-hp -->
-
 <!-- TAB: Virtual Memory -->
 <div id="t-vm" class="tab-pane">
-
 <p class="sep">VIRTUAL MEMORY — PROCESS ISOLATION</p>
-
 <div class="diagram-box">Virtual Memory vs Physical Memory — Process Isolation
 
 Process A (virtual)       Process B (virtual)       Physical RAM
@@ -153,14 +140,11 @@ Process A (virtual)       Process B (virtual)       Physical RAM
 KEY INSIGHT: Both processes may use virtual address 0x08051000.
 MMU translates: A → physical frame 5632 | B → physical frame 8192
 Same virtual address. Completely different RAM. Complete isolation.</div>
-
 <div class="p-teal">
 <h4>Virtual Memory Segments</h4>
 Every process has: <strong>code</strong> (text, read-only), <strong>data</strong> (BSS + initialized globals), <strong>heap</strong> (grows up via malloc/mmap), <strong>stack</strong> (grows down, per-thread), and <strong>kernel space</strong> (top of virtual address space, Ring 0 only). DPDK hugepage allocations live in a separate mmap'd region, pinned against eviction.
 </div>
-
 <p class="sep">NUMA MEMORY TOPOLOGY</p>
-
 <div class="diagram-box">NUMA — Non-Uniform Memory Access
 
 Socket 0                           Socket 1
@@ -177,19 +161,14 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
   rte_pktmbuf_pool_create("POOL", N, CACHE_SZ, 0, sz, rte_eth_dev_socket_id(port))
                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
                                                         returns NIC's socket — use it!</div>
-
 </div><!-- /t-vm -->
-
 <!-- TAB: rte_mempool -->
 <div id="t-pool" class="tab-pane">
-
 <div class="p-blue">
 <h4>rte_mempool — The Allocation Eliminator</h4>
 <code>rte_mempool</code> pre-allocates all packet buffers at startup. The hot data path never calls malloc/free — it calls <code>rte_mempool_get()</code> (which pops from a lock-free ring or per-lcore cache) and <code>rte_mempool_put()</code> (which pushes back). This is what enables zero-allocation-overhead packet processing.
 </div>
-
 <p class="sep">MEMPOOL INTERNAL ARCHITECTURE</p>
-
 <div class="diagram-box">rte_mempool Architecture
 
                      rte_mempool header
@@ -211,16 +190,13 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
                          Common pool (rte_ring)
                          Lock-free MPMC ring
                          Contains all remaining objects</div>
-
 <p class="sep">ALLOCATION PATH</p>
-
 <ul class="flow-list">
 <li class="fl-step"><span class="fl-num">1</span><div><strong>rte_mempool_get(pool, &amp;obj):</strong> Check per-lcore cache first (~3 cycles, no atomic)</div></li>
 <li class="fl-step"><span class="fl-num">2</span><div><strong>Cache hit:</strong> Pop object from lcore-local stack. Return immediately. Zero contention.</div></li>
 <li class="fl-step"><span class="fl-num">3</span><div><strong>Cache miss:</strong> Refill lcore cache in bulk from common pool ring (one CAS → batch transfer)</div></li>
 <li class="fl-step"><span class="fl-num">4</span><div><strong>rte_mempool_put(pool, obj):</strong> Push to lcore cache. If cache full → flush bulk to common ring.</div></li>
 </ul>
-
 <div class="cb"><span class="cm">// Create a packet mempool</span>
 <span class="ck">struct</span> rte_mempool *mbuf_pool = <span class="cf">rte_pktmbuf_pool_create</span>(
     <span class="cs">"MBUF_POOL"</span>,              <span class="cm">// unique name</span>
@@ -238,12 +214,10 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
 <span class="cf">rte_mempool_get</span>(pool, &amp;obj);     <span class="cm">// borrow object</span>
 <span class="cm">/* use obj */</span>
 <span class="cf">rte_mempool_put</span>(pool, obj);      <span class="cm">// return object</span>
-
 <span class="cm">// Bulk operations (preferred — reduces ring contention)</span>
 <span class="ck">void</span> *objs[<span class="cn">32</span>];
 <span class="cf">rte_mempool_get_bulk</span>(pool, objs, <span class="cn">32</span>);
 <span class="cf">rte_mempool_put_bulk</span>(pool, objs, <span class="cn">32</span>);</div>
-
 <table class="t-table">
 <thead><tr><th>Pool Size</th><th>Use Case</th><th>Notes</th></tr></thead>
 <tbody>
@@ -252,21 +226,15 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
 <tr><td>65536+</td><td>High burst / 100G line rate</td><td>Large memory footprint but never exhausts under normal traffic</td></tr>
 </tbody>
 </table>
-
 <div class="warn">&#9888;&#65039; <strong>Pool size must be power of 2 minus 1</strong> (e.g. 8191, not 8192) — rte_mempool internally uses a power-of-2 ring and the actual allocated count is <code>N+1</code> ring slots. The API accepts <code>N</code> and adjusts internally. Common mistake: using 8192 when you mean 8191.</div>
-
 </div><!-- /t-pool -->
-
 <!-- TAB: rte_mbuf -->
 <div id="t-mbuf" class="tab-pane">
-
 <div class="p-blue">
 <h4>rte_mbuf — The Packet Carrier</h4>
 <code>rte_mbuf</code> is the kernel's <code>sk_buff</code> equivalent. Every received packet is wrapped in an mbuf. It has a fixed header (metadata) followed by a contiguous data buffer (where packet bytes live). The key design decision: <strong>metadata and packet data are in the same hugepage allocation</strong> — one cache line prefetch gets both.
 </div>
-
 <p class="sep">MBUF MEMORY LAYOUT</p>
-
 <div class="diagram-box">rte_mbuf Memory Layout (one hugepage allocation)
 
  ┌─────────────────────────────────────────────────────────────────┐
@@ -292,13 +260,10 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
  │                   Packet data (data_len bytes)                  │
  └─────────────────────────────────────────────────────────────────┘
  Total buffer: RTE_MBUF_DEFAULT_BUF_SIZE = 2048 bytes</div>
-
 <p class="sep">KEY MBUF MACROS & FIELDS</p>
-
 <div class="cb"><span class="cm">// Get pointer to packet data (most common operation)</span>
 <span class="ck">struct</span> rte_ether_hdr *eth = <span class="cf">rte_pktmbuf_mtod</span>(mbuf, <span class="ck">struct</span> rte_ether_hdr *);
 <span class="cm">// Expands to: (type)(mbuf-&gt;buf_addr + mbuf-&gt;data_off) — direct pointer into hugepage</span>
-
 <span class="cm">// Access packet at byte offset</span>
 <span class="ck">struct</span> rte_ipv4_hdr *ip = <span class="cf">rte_pktmbuf_mtod_offset</span>(mbuf, <span class="ck">struct</span> rte_ipv4_hdr *,
                                                    <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
@@ -306,21 +271,17 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
 <span class="cm">// Packet length</span>
 <span class="co">uint32_t</span> total_len  = mbuf-&gt;pkt_len;   <span class="cm">// total bytes across all segments</span>
 <span class="co">uint16_t</span> seg_len    = mbuf-&gt;data_len;  <span class="cm">// bytes in this segment only</span>
-
 <span class="cm">// Prepend a header (uses headroom)</span>
 <span class="ck">struct</span> rte_ether_hdr *eth = (<span class="ck">struct</span> rte_ether_hdr *)
     <span class="cf">rte_pktmbuf_prepend</span>(mbuf, <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
 <span class="cm">// Returns NULL if no headroom available</span>
-
 <span class="cm">// Append to tail</span>
 <span class="ck">char</span> *tail = <span class="cf">rte_pktmbuf_append</span>(mbuf, <span class="cn">4</span>);  <span class="cm">// add 4 bytes at end</span>
-
 <span class="cm">// Remove from front (advance data_off)</span>
 <span class="cf">rte_pktmbuf_adj</span>(mbuf, <span class="ck">sizeof</span>(<span class="ck">struct</span> rte_ether_hdr));
 
 <span class="cm">// Free mbuf back to pool</span>
 <span class="cf">rte_pktmbuf_free</span>(mbuf);  <span class="cm">// also frees chained segments</span></div>
-
 <table class="t-table">
 <thead><tr><th>ol_flags Bit</th><th>Direction</th><th>Meaning</th></tr></thead>
 <tbody>
@@ -333,17 +294,13 @@ DPDK rule: ALWAYS allocate mempool on the same NUMA socket as the NIC.
 <tr><td><code>RTE_MBUF_F_TX_TCP_CKSUM</code></td><td>Tx</td><td>Ask NIC to compute and insert TCP checksum</td></tr>
 </tbody>
 </table>
-
 </div><!-- /t-mbuf -->
-
 <!-- TAB: Chained mbufs -->
 <div id="t-chain" class="tab-pane">
-
 <div class="p-teal">
 <h4>Chained mbufs — For Jumbo Frames</h4>
 A single mbuf data buffer is 2048 bytes by default. Jumbo frames (up to 9000 bytes for 9K MTU) require <strong>chained mbufs</strong> — a linked list of mbufs where <code>mbuf->next</code> points to the continuation segment. The first segment's <code>pkt_len</code> holds the total, <code>nb_segs</code> holds the count.
 </div>
-
 <div class="diagram-box">Chained mbuf Layout (jumbo frame example: 5000 bytes)
 
  Segment 0 (head)          Segment 1               Segment 2
@@ -356,7 +313,6 @@ A single mbuf data buffer is 2048 bytes by default. Jumbo frames (up to 9000 byt
  └───────────────────┘     └───────────────────┘   └───────────────────┘
    1920 bytes                 1920 bytes               1160 bytes
    Total: 1920 + 1920 + 1160 = 5000 bytes</div>
-
 <div class="cb"><span class="cm">// Check if mbuf is chained</span>
 <span class="ck">if</span> (mbuf-&gt;nb_segs &gt; <span class="cn">1</span>) {
     <span class="cm">// Walk the chain</span>
@@ -372,70 +328,53 @@ A single mbuf data buffer is 2048 bytes by default. Jumbo frames (up to 9000 byt
 <span class="cm">// Linearize (copy all segments into one) — expensive, avoid on hot path</span>
 <span class="ck">char</span> buf[<span class="cn">9000</span>];
 <span class="co">uint32_t</span> copied = <span class="cf">rte_pktmbuf_read</span>(mbuf, <span class="cn">0</span>, mbuf-&gt;pkt_len, buf);</div>
-
 <div class="warn">&#9888;&#65039; <strong>Most DPDK applications avoid chained mbufs on the hot path.</strong> The preferred approach is to set <code>RTE_ETH_RX_OFFLOAD_SCATTER</code> and handle multi-segment mbufs only in the exception path. For performance-critical NFs, configure MTU ≤ single-segment buffer size and drop/reject jumbo frames at the port level.</div>
-
 <p class="sep">MBUF CLONE vs REFERENCE COUNT</p>
-
 <div class="p-slate">
 <h4>rte_pktmbuf_clone() — Sharing Without Copy</h4>
 Cloning creates a new mbuf header that <strong>shares the same data buffer</strong> as the original. The data buffer's reference count (<code>refcnt</code>) is incremented. <code>rte_pktmbuf_free()</code> on either clone decrements <code>refcnt</code> — the data buffer is only returned to the pool when <code>refcnt</code> reaches zero. Use case: multicast — send the same packet out multiple ports without copying the data.
 </div>
-
 <div class="cb"><span class="cm">// Clone for multicast (zero-copy)</span>
 <span class="ck">struct</span> rte_mbuf *clone = <span class="cf">rte_pktmbuf_clone</span>(original, pool);
 <span class="cm">// original->refcnt: 1 → 2 (shared data buffer)</span>
-
 <span class="cf">rte_eth_tx_burst</span>(port_a, <span class="cn">0</span>, &amp;original, <span class="cn">1</span>);  <span class="cm">// refcnt: 2→1 after tx</span>
 <span class="cf">rte_eth_tx_burst</span>(port_b, <span class="cn">0</span>, &amp;clone,    <span class="cn">1</span>);  <span class="cm">// refcnt: 1→0 after tx → buffer freed</span></div>
-
 </div><!-- /t-chain -->
-
 <!-- TAB: Interview Q&A -->
 <div id="t-qa" class="tab-pane">
-
 <div class="p-slate">
 <h4>Q: Why can't DPDK use normal 4KB pages for packet buffers?</h4>
 Two reasons: (1) <strong>DMA instability</strong> — 4KB pages can be swapped out by the OS at any time. The NIC's IOVA would become stale, causing DMA writes to wrong memory or segfaults. (2) <strong>TLB pressure</strong> — 1 GB of packet buffers needs 262,144 TLB entries with 4KB pages vs only 512 entries with 2MB hugepages. TLB misses on the hot path at 100G rates would dominate CPU time.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is the per-lcore cache in rte_mempool and why does it matter?</h4>
 The per-lcore cache is a small, lcore-local stack of pre-fetched objects (typically 256 entries). Alloc/free to the lcore cache requires no atomic operations — it's just an array index increment/decrement. Only when the cache empties or overflows does it interact with the common pool ring (one CAS for a bulk transfer). This makes rte_mempool_get/put nearly as cheap as a stack pop on the hot path.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is rte_pktmbuf_mtod() and how does it work?</h4>
 It's a macro: <code>(type)(mbuf->buf_addr + mbuf->data_off)</code>. <code>buf_addr</code> is the pointer to the start of the data buffer. <code>data_off</code> is the byte offset to the first packet byte (defaults to RTE_PKTMBUF_HEADROOM = 128 bytes, leaving space to prepend headers). The result is a typed pointer directly into hugepage memory — no copy, no syscall.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is headroom in an mbuf and when is it used?</h4>
 Headroom is a reserved region at the start of the data buffer, before the packet data. Default: 128 bytes (<code>RTE_PKTMBUF_HEADROOM</code>). It's used when your NF needs to <strong>prepend a header</strong> to an incoming packet — e.g., adding a VXLAN or GRE encapsulation header. Instead of copying the entire packet to a new buffer, you use <code>rte_pktmbuf_prepend()</code> which decrements <code>data_off</code> to expand into the headroom. Zero allocation, zero copy.
 </div>
-
 <div class="p-slate">
 <h4>Q: What happens when rte_mempool runs out of objects?</h4>
 <code>rte_mempool_get()</code> returns -ENOBUFS (non-zero). For pktmbuf pools, the PMD reports this as <code>stats.rx_nombuf</code> and the packet is dropped by the NIC before it reaches the application. This is a critical metric to monitor — it means the application is not returning mbufs to the pool fast enough, or the pool is undersized. Fix: increase pool size, check for mbuf leaks (tx_burst without freeing unsent packets), or reduce processing latency.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is the difference between pkt_len and data_len?</h4>
 <code>data_len</code>: bytes of packet data in <em>this segment only</em>.<br>
 <code>pkt_len</code>: total bytes across <em>all segments</em> in the chain (only valid on the first segment/head mbuf).<br>
 For single-segment mbufs (the common case), both are equal. For chained mbufs (jumbo frames), pkt_len = sum of all data_len values across all segments.
 </div>
-
 </div><!-- /t-qa -->
-
 <!-- TAB: Lab -->
 <div id="t-lab" class="tab-pane">
-
 <div class="lab-box">
 <div class="lab-hdr">&#128293; Lab 3: mbuf Inspector — Decode Every Field</div>
 <div class="lab-body">
 <p style="font-size:.87rem;margin:.3rem 0 .8rem">Create a DPDK application that receives one burst of packets and prints every mbuf field. The goal is to see the real hardware values — RSS hash, ol_flags, pkt_len — not just theoretical values.</p>
-
 <div class="lab-step"><span class="sn">1</span><div>Create mempool with <code>rte_pktmbuf_pool_create()</code> on the NIC's socket</div></div>
 <div class="lab-step"><span class="sn">2</span><div>Configure port: enable <code>RTE_ETH_RX_OFFLOAD_CHECKSUM</code> and <code>RTE_ETH_RX_OFFLOAD_RSS_HASH</code></div></div>
 <div class="lab-step"><span class="sn">3</span><div>Receive one burst: <code>rte_eth_rx_burst(port, 0, pkts, 32)</code></div></div>
@@ -446,12 +385,10 @@ For single-segment mbufs (the common case), both are equal. For chained mbufs (j
 <div class="lab-step"><span class="sn">8</span><div>Free all mbufs: <code>rte_pktmbuf_free(pkts[i])</code> — verify avail_count restored</div></div>
 </div>
 </div>
-
 <div class="lab-box">
 <div class="lab-hdr">&#128293; Lab 4: Pool Exhaustion Experiment</div>
 <div class="lab-body">
 <p style="font-size:.87rem;margin:.3rem 0 .8rem">Intentionally exhaust the mempool to observe the imissed counter. This teaches defensive mbuf management.</p>
-
 <div class="lab-step"><span class="sn">1</span><div>Create a <em>small</em> pool: 64 mbufs total</div></div>
 <div class="lab-step"><span class="sn">2</span><div>Receive packets in a loop — <strong>do not free them</strong></div></div>
 <div class="lab-step"><span class="sn">3</span><div>After pool empties: poll <code>stats.rx_nombuf</code> via <code>rte_eth_stats_get()</code> — observe it increment</div></div>
@@ -459,7 +396,6 @@ For single-segment mbufs (the common case), both are equal. For chained mbufs (j
 <div class="lab-step"><span class="sn">5</span><div><strong>Lesson:</strong> Every code path that receives mbufs MUST free them or return them to TX. Mbuf leaks are the most common DPDK production bug.</div></div>
 </div>
 </div>
-
 <p class="sep">MASTERY CHECKLIST</p>
 <ul class="cl">
 <li>Can explain the two reasons DPDK requires hugepages (DMA stability + TLB efficiency)</li>
@@ -471,15 +407,12 @@ For single-segment mbufs (the common case), both are equal. For chained mbufs (j
 <li>Can explain what happens when the mempool runs out and how to diagnose it</li>
 <li>Can explain rte_pktmbuf_clone() reference counting semantics</li>
 </ul>
-
 </div><!-- /t-lab -->
-
 <div class="mod-nav">
   <a href="/learning/data-plane/dpdk/module-p1-foundation/">&#8592; P1A: Foundation &amp; EAL</a>
   <a href="/learning/data-plane/dpdk/dpdk-roadmap/">&#8593; Roadmap</a>
   <a class="nb" href="/learning/data-plane/dpdk/module-p2-pmd/">P2A: PMD &amp; Port Config &#8594;</a>
 </div>
-
 <script>
 function vt(e,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));

@@ -81,7 +81,6 @@ url: /learning/networking-mastery/m18-vpp/
 .phase-complete h3{margin:0 0 .5rem;font-size:1.1rem;font-weight:800;color:#fff;border:none}
 .phase-complete p{margin:0;font-size:.88rem;line-height:1.65;color:#c0f0e0}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 4 · MODULE 18 · WEEK 16 · PHASE 4 FINAL</div>
   <div class="mod-title">⚡ VPP and Data Plane Development</div>
@@ -94,7 +93,6 @@ url: /learning/networking-mastery/m18-vpp/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">VPP Architecture</button>
   <button class="tab-btn" onclick="vt(event,'t1')">Vector Processing</button>
@@ -107,8 +105,6 @@ url: /learning/networking-mastery/m18-vpp/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <!-- ════ TAB 0 — VPP ARCHITECTURE ════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">VPP — VECTOR PACKET PROCESSOR (FD.io)</p>
@@ -129,7 +125,6 @@ url: /learning/networking-mastery/m18-vpp/
     </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>VPP Startup Configuration</h3><span class="tag tag-blue">SETUP</span></div>
   <div class="cp-body">
@@ -166,8 +161,6 @@ sudo vppctl show interface</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 1 — VECTOR PROCESSING ════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">VECTOR PROCESSING — VPP'S CORE INNOVATION</p>
@@ -204,8 +197,6 @@ show run
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 2 — GRAPH NODE FRAMEWORK ════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">GRAPH NODE FRAMEWORK — PACKET PIPELINE ARCHITECTURE</p>
@@ -244,12 +235,10 @@ typedef struct {
 <span class="cm">/* Get the array of buffer indices from a frame */</span>
 u32 *bufs = vlib_frame_vector_args(frame);
 <span class="cm">/* bufs[0..n_vectors-1] are indices into vlib_main.buffer_pool */</span>
- 
 <span class="cm">/* Get packet data from a buffer index */</span>
 vlib_buffer_t *b = vlib_get_buffer(vm, bufs[0]);
 ip4_header_t  *ip = vlib_buffer_get_current(b);
 <span class="cm">/* vlib_buffer_get_current(b) = b->data + b->current_data */</span>
- 
 <span class="cm">/* Key node commands */</span>
 show vlib graph           <span class="cm"># all nodes and their next-node connections</span>
 show vlib graph ip4-input <span class="cm"># next nodes of ip4-input</span>
@@ -258,8 +247,6 @@ show errors               <span class="cm"># error counters per node</span></pre
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 3 — WRITING A PLUGIN ════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">WRITING A VPP PLUGIN — THE CANONICAL PATTERN</p>
@@ -336,7 +323,6 @@ VLIB_REGISTER_NODE(my_counter_node) = {
  
 <span class="cm">/* Insert into ip4-unicast feature arc on an interface */</span>
 <span class="cm">/* vnet_feature_enable_disable("ip4-unicast", "my-counter", sw_if_index, 1, 0, 0); */</span>
- 
 <span class="cm">/* CMakeLists.txt */</span>
 <span class="cm"># add_vpp_plugin(my_plugin SOURCES my_node.c API_FILES my_plugin.api)</span>
 <span class="cm"># Plugins auto-loaded from /usr/lib/vpp_plugins/ at VPP startup</span></pre></div>
@@ -344,8 +330,6 @@ VLIB_REGISTER_NODE(my_counter_node) = {
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 4 — VPP FIB ════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">VPP FIB — THE MULTI-LAYER FORWARDING DATABASE</p>
@@ -377,7 +361,6 @@ show ip fib summary             <span class="cm"># count of prefixes by length</
 show ip adjacency               <span class="cm"># all adjacency objects</span>
 show ip adjacency 42            <span class="cm"># specific adjacency: rewrite bytes, interface</span>
 show ip adjacency summary       <span class="cm"># count by type (glean/rewrite/midchain)</span>
- 
 <span class="cm">/* Route management */</span>
 ip route add 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
 ip route del 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
@@ -389,11 +372,9 @@ show ip fib 10.0.0.0/8
 <span class="cm"># Displays: load-balance [index N] buckets 2</span>
 <span class="cm">#             [0]: adj[via 192.168.1.1 GigE0/8/0]</span>
 <span class="cm">#             [1]: adj[via 192.168.1.2 GigE0/8/1]</span>
- 
 <span class="cm">/* Null routes — blackhole */</span>
 ip route add 192.0.2.0/24 drop
 ip route add 198.51.100.0/24 local  <span class="cm"># deliver to local stack</span>
- 
 <span class="cm">/* Multiple VRFs (for tenant isolation in NGFW) */</span>
 ip table add 100
 ip route add table 100 0.0.0.0/0 via 10.100.0.1 GigabitEthernet0/8/0
@@ -401,8 +382,6 @@ set interface ip table GigabitEthernet0/8/2 100  <span class="cm"># assign inter
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 5 — VAPI AND CLI ════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">VAPI AND CLI — CONTROLLING VPP FROM CODE AND SCRIPTS</p>
@@ -454,7 +433,6 @@ vpp.disconnect()
 3. VAT2 (JSON-based API test tool)
    <span class="cm"># vat2 show_version</span>
    <span class="cm"># vat2 show_interface sw_if_index 0</span>
- 
 <span class="cm">/* Useful diagnostic commands */</span>
 show interface                    <span class="cm"># all interfaces, TX/RX stats</span>
 show hardware-interfaces          <span class="cm"># NIC capabilities, link state</span>
@@ -468,8 +446,6 @@ show log                          <span class="cm"># VPP log buffer</span></pre>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 6 — NGFW DATA PLANE ════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">VPP AS AN NGFW DATA PLANE</p>
@@ -522,8 +498,6 @@ clib_bihash_kv_16_8_t kv;
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 7 — PERFORMANCE TOOLS ════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">VPP PERFORMANCE ANALYSIS TOOLS</p>
@@ -539,11 +513,9 @@ vppctl show run
 <span class="cm">#   ip4-lookup         active  1000  32000    2.84e+06     32.0      89</span>
 <span class="cm">#   ip4-rewrite        active  1000  32000    1.44e+06     32.0      45</span>
 <span class="cm">#   my-ngfw-dpi        active  1000  32000    9.60e+06     32.0     300</span>
- 
 <span class="cm"># Clk/Vec = CPU cycles per packet in this node (at 3GHz: 300 cycles = 100ns)</span>
 <span class="cm"># Sum of all Clk/Vec = total cycles per packet through the pipeline</span>
 <span class="cm"># my-ngfw-dpi is the bottleneck here (300 cycles vs 60-89 for built-ins)</span>
- 
 <span class="cm">/* Optimisation workflow */</span>
 1. Run: vppctl clear run; sleep 5; vppctl show run
 2. Identify highest Clk/Vec node (your bottleneck)
@@ -556,16 +528,13 @@ vppctl show errors
 <span class="cm"># ip4-input: ip4 src address is multicast    12</span>
 <span class="cm"># ip4-input: ip4 spoofed local-address       5</span>
 <span class="cm"># acl-plugin-in-ip4-fa: ACL deny packets  4821</span>
- 
 <span class="cm">/* Buffer pressure — detect mempool exhaustion */</span>
 vppctl show buffers
 <span class="cm"># If "allocated" approaches "total": mempool running low → increase num-mbufs</span>
- 
 <span class="cm">/* Per-interface counters */</span>
 vppctl show interface GigabitEthernet0/8/0
 <span class="cm"># RX packets/bytes, TX packets/bytes, drops, errors</span>
 vppctl clear interfaces   <span class="cm"># reset counters</span>
- 
 <span class="cm">/* Packet capture in VPP (pcap trace) */</span>
 pcap dispatch trace on max 1000 file /tmp/vpp.pcap
 <span class="cm"># ... generate traffic ...</span>
@@ -574,8 +543,6 @@ pcap dispatch trace off
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 8 — LABS ════ -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -588,7 +555,6 @@ pcap dispatch trace off
     <div class="lab-step"><div class="sn">4</div><div>Test ACL: create a deny-all ACL and apply to tap0 inbound: <code>vppctl acl_add_replace acl_index 0 r {is_permit 0}</code>, <code>vppctl set acl-list interface tap0 input 0</code>. Verify pings are dropped. Check: <code>vppctl show errors</code> — see the ACL deny counter increment.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Write a Custom VPP Counter Plugin</h4></div>
   <div class="lab-body">
@@ -599,7 +565,6 @@ pcap dispatch trace off
     <div class="lab-step"><div class="sn">4</div><div>Build: <code>mkdir build && cd build && cmake .. && make</code>. Copy the .so to VPP plugin directory. Restart VPP and verify the plugin loads: <code>vppctl show plugins | grep my</code>. Enable on an interface, generate traffic, and run your CLI command.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>NGFW Prototype — ACL + NAT + Custom Node</h4></div>
   <div class="lab-body">
@@ -611,8 +576,6 @@ pcap dispatch trace off
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 9 — CHECKLIST ════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">M18 MASTERY CHECKLIST</p>
@@ -639,14 +602,11 @@ pcap dispatch trace off
   <li>Completed Lab 2: wrote plugin with clib_bihash per-IP counter and CLI show command</li>
   <li>Completed Lab 3: assembled ACL + NAT44 + custom node pipeline; pcap-traced through all stages</li>
 </ul>
-
 <div class="phase-complete">
   <h3>🎉 Phase 4 Complete — Linux Networking and Socket Programming</h3>
   <p>You have completed all 5 modules of Phase 4: Linux Network Stack (M14), Socket Programming (M15), eBPF and XDP (M16), DPDK (M17), and VPP (M18). You now have a complete and deep understanding of the Linux networking toolkit from kernel internals to the most advanced data-plane frameworks. Move to <strong>Phase 5 — Security Protocols</strong>, starting with <strong>M19 - Cryptography Foundations</strong>.</p>
 </div>
 </div>
-
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m17-dpdk/">← M17 DPDK</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

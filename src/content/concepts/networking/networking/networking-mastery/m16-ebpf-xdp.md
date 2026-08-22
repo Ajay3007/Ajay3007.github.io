@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 4 · MODULE 16 · WEEK 14</div>
   <div class="mod-title">🔮 eBPF and XDP</div>
@@ -91,7 +90,6 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">eBPF Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">eBPF Architecture</button>
@@ -103,7 +101,6 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">eBPF — PROGRAMMABLE KERNEL WITHOUT KERNEL MODULES</p>
@@ -121,7 +118,6 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
     <p><strong>Who uses eBPF in production:</strong> Cloudflare uses XDP to drop DDoS traffic at 100+ Gbps. Facebook uses eBPF for load balancing (Katran). Google uses it for security policy enforcement. Cilium uses eBPF to replace iptables in Kubernetes.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📍</span><h3>eBPF Hook Points in the Network Stack</h3><span class="tag tag-blue">HOOKS</span></div>
   <div class="cp-body">
@@ -140,7 +136,6 @@ url: /learning/networking-mastery/m16-ebpf-xdp/
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">eBPF ARCHITECTURE — VM, VERIFIER, JIT</p>
@@ -201,7 +196,6 @@ bpf_perf_event_output() <span class="cm"># send events to userspace</span></pre>
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">BPF MAPS — KERNEL-USERSPACE SHARED STATE</p>
@@ -260,7 +254,6 @@ bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">XDP PROGRAMMING — PACKET PROCESSING AT WIRE SPEED</p>
@@ -273,7 +266,6 @@ bpf_map_update_elem(lpm_fd, &key16, &action, BPF_ANY);
 #include &lt;linux/ip.h&gt;
 #include &lt;bpf/bpf_helpers.h&gt;
 #include &lt;bpf/bpf_endian.h&gt;</span>
- 
 <span class="cm">/* Map: blocked source IPs → 1 */</span>
 <span class="ck">struct</span> {
     __uint(type,        BPF_MAP_TYPE_HASH);
@@ -300,7 +292,6 @@ SEC(<span class="cs">"xdp"</span>)
     <span class="ck">struct</span> ethhdr *eth = data;
     <span class="ck">if</span> (data + sizeof(*eth) > data_end)
         return XDP_DROP;  <span class="cm">/* malformed — drop */</span>
- 
     <span class="cm">/* Only handle IPv4 */</span>
     <span class="ck">if</span> (eth->h_proto != bpf_htons(ETH_P_IP))
         return XDP_PASS;
@@ -338,7 +329,6 @@ char _license[] SEC(<span class="cs">"license"</span>) = <span class="cs">"GPL"<
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">TC eBPF — FULL STACK ACCESS WITH sk_buff</p>
@@ -390,7 +380,6 @@ SEC(<span class="cs">"tc"</span>)
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">AF_XDP — ZERO-COPY USERSPACE PACKET PROCESSING</p>
@@ -449,7 +438,6 @@ SEC(<span class="cs">"xdp_sock"</span>)
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">eBPF TOOLING — bpftool, libbpf, bpftrace</p>
@@ -457,7 +445,6 @@ SEC(<span class="cs">"xdp_sock"</span>)
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Essential eBPF Tools</h3><span class="tag tag-amber">TOOLING</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* bpftool — Swiss Army knife for eBPF */</span>
- 
 <span class="cm"># List all loaded eBPF programs</span>
 bpftool prog list
 bpftool prog show id 42
@@ -473,16 +460,13 @@ bpftool map list
 bpftool map dump id 7         <span class="cm"># dump all entries</span>
 bpftool map lookup id 7 key 0x01 0x02 0x03 0x04   <span class="cm"># lookup specific key</span>
 bpftool map update id 7 key 0x01 0x02 0x03 0x04 value 0x01  <span class="cm"># add to blocklist</span>
- 
 <span class="cm"># Show XDP programs attached to interfaces</span>
 bpftool net list
 ip link show  <span class="cm"># also shows "xdp" flag if XDP is attached</span>
- 
 <span class="cm"># Perf output from bpf_trace_printk()</span>
 cat /sys/kernel/debug/tracing/trace_pipe
  
 <span class="cm">/* bpftrace — high-level eBPF tracing language */</span>
- 
 <span class="cm"># Trace every TCP connection</span>
 bpftrace -e 'kprobe:tcp_connect { printf("connect: pid=%d\n", pid); }'
  
@@ -504,7 +488,6 @@ kretprobe:ip_rcv /@start[tid]/ {
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -517,7 +500,6 @@ kretprobe:ip_rcv /@start[tid]/ {
     <div class="lab-step"><div class="sn">4</div><div>Add a blocklist map. Write a userspace control program (C with libbpf) that: opens the loaded BPF object, finds the blocklist map by name, inserts a test IP, verifies pings from that IP are dropped. Use <code>bpftool map update</code> as an alternative.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>bpftrace Network Observability</h4></div>
   <div class="lab-body">
@@ -528,7 +510,6 @@ kretprobe:ip_rcv /@start[tid]/ {
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <p class="sep">M16 MASTERY CHECKLIST</p>
@@ -556,7 +537,6 @@ kretprobe:ip_rcv /@start[tid]/ {
   <p>✅ <strong>When complete:</strong> Move to <strong>M17 - High-Performance Networking with DPDK</strong> — your existing DPDK knowledge plus this eBPF foundation prepares you for the deepest performance engineering content in the curriculum.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m15-sockets/">← M15 Sockets</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

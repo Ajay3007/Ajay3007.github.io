@@ -15,7 +15,6 @@ url: /learning/system-design/hld/module-c2-notes/
   <strong>Module C2 · Week 26 · Track C — Advanced Topics</strong><br>
   <span style="color:#666;">Prerequisites: B1–B14, C1 &nbsp;|&nbsp; Goal: Multi-region replication, active-active, latency-based routing, disaster recovery</span>
 </div>
-
 <a href="/learning/system-design/hld/module-c2-geo-distribution/" style="display:inline-block;margin-bottom:32px;padding:10px 20px;background:#00b8c8;color:#fff;border-radius:4px;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;">⚡ Interactive Visual Version</a>
 
 # Module C2 — Geo-Distribution & Multi-Region Architecture

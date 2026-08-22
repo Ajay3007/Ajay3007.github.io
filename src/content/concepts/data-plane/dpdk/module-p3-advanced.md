@@ -61,7 +61,6 @@ url: /learning/data-plane/dpdk/module-p3-advanced/
 .mod-nav .nb{background:#3a1200;color:#fff !important;border-color:#3a1200}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">DPDK MASTERY · PHASE 3 OF 3 · MODULE A</div>
   <div class="mod-title">Multi-Process, rte_flow &amp; NUMA</div>
@@ -74,7 +73,6 @@ url: /learning/data-plane/dpdk/module-p3-advanced/
     <span class="mod-pill">Weeks 11–13</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t-mp')">Multi-Process</button>
   <button class="tab-btn" onclick="vt(event,'t-shared')">Shared Resources</button>
@@ -84,15 +82,12 @@ url: /learning/data-plane/dpdk/module-p3-advanced/
   <button class="tab-btn" onclick="vt(event,'t-qa')">Interview Q&amp;A</button>
   <button class="tab-btn" onclick="vt(event,'t-lab')">Lab</button>
 </div>
-
 <!-- TAB: Multi-Process -->
 <div id="t-mp" class="tab-pane active">
-
 <div class="p-orange">
 <h4>Primary / Secondary Process Model</h4>
 DPDK supports multiple OS processes sharing the same NIC and hugepage memory. The <strong>primary</strong> process owns all resources; <strong>secondary</strong> processes attach and use them. This enables hot-restartable components, traffic class isolation, and separation of control and data planes.
 </div>
-
 <div class="diagram-box">Multi-Process Architecture
 
 Primary Process                      Secondary Processes
@@ -113,9 +108,7 @@ Primary Process                      Secondary Processes
 Jio SASE-DP production pattern: primary owns both 100G ports.
 Enterprise secondary handles queues 0-3 (URL filter).
 Mobility secondary handles queues 4-7 (5G/SCEF policy).</div>
-
 <p class="sep">EAL ARGUMENTS FOR MULTI-PROCESS</p>
-
 <div class="cb"><span class="cm"># Primary process — creates all shared resources</span>
 ./my_primary -l 0-3 -n 4 --proc-type=primary --file-prefix=sase \
              -a 0000:03:00.0 -- [app args]
@@ -126,14 +119,10 @@ Mobility secondary handles queues 4-7 (5G/SCEF policy).</div>
 
 <span class="cm"># auto: becomes primary if none exists, secondary otherwise</span>
 ./my_app -l 0-3 -n 4 --proc-type=auto --file-prefix=sase</div>
-
 <div class="warn">&#9888;&#65039; <strong>Rules:</strong> Secondary does NOT need <code>-a</code> (device allowlist) — it inherits device info from primary. Secondary CAN specify <code>-l</code> (lcores) — must NOT overlap with primary's lcores. Both must use the same <code>--file-prefix</code> to share the same <code>/dev/shm/</code> files.</div>
-
 </div><!-- /t-mp -->
-
 <!-- TAB: Shared Resources -->
 <div id="t-shared" class="tab-pane">
-
 <table class="t-table">
 <thead><tr><th>Resource</th><th>Shared?</th><th>Access from Secondary</th></tr></thead>
 <tbody>
@@ -146,7 +135,6 @@ Mobility secondary handles queues 4-7 (5G/SCEF policy).</div>
 <tr><td>lcores / thread pool</td><td>NO — per-process</td><td>Each process runs its own lcore threads</td></tr>
 </tbody>
 </table>
-
 <div class="cb"><span class="cm">// Secondary process — find shared pool created by primary</span>
 <span class="ck">struct</span> rte_mempool *pool = <span class="cf">rte_mempool_lookup</span>(<span class="cs">"MBUF_POOL"</span>);
 <span class="ck">if</span> (!pool)
@@ -163,7 +151,6 @@ Mobility secondary handles queues 4-7 (5G/SCEF policy).</div>
 <span class="cm">// Receive packets using NIC queue assigned to this secondary</span>
 <span class="ck">struct</span> rte_mbuf *pkts[<span class="cn">32</span>];
 <span class="co">uint16_t</span> nb = <span class="cf">rte_eth_rx_burst</span>(port_id, my_queue_id, pkts, <span class="cn">32</span>);</div>
-
 <div class="p-orange">
 <h4>Limitations and Gotchas</h4>
 <ul style="margin:.3rem 0 0;font-size:.87rem;line-height:1.8">
@@ -174,21 +161,15 @@ Mobility secondary handles queues 4-7 (5G/SCEF policy).</div>
 <li>Cannot mix DPDK versions between primary and secondary — ABI must match exactly</li>
 </ul>
 </div>
-
 <div class="ins">&#127381; <strong>Common mistake:</strong> Secondary calls <code>rte_pktmbuf_pool_create()</code> instead of <code>rte_mempool_lookup()</code>. This fails with EEXIST (name already taken by primary's pool). Always use <code>_lookup()</code> in secondary processes for resources created by primary.</div>
-
 </div><!-- /t-shared -->
-
 <!-- TAB: rte_flow API -->
 <div id="t-flow" class="tab-pane">
-
 <div class="p-orange">
 <h4>rte_flow — Hardware Flow Classification</h4>
 <code>rte_flow</code> allows applications to program the NIC's hardware to perform packet classification and queue steering <strong>in silicon — with zero CPU involvement for matched flows</strong>. Matched packets bypass RSS entirely and are sent directly to a specific queue. Non-matching packets continue through normal RSS.
 </div>
-
 <p class="sep">HOW rte_flow WORKS</p>
-
 <div class="diagram-box">rte_flow Architecture
 
 Application defines flow rule (generic DPDK format)
@@ -206,9 +187,7 @@ Key benefit: matched flows bypass RSS entirely — zero CPU for classification
 Use case: steer specific traffic class to dedicated queue/lcore
 Example: steer all traffic from enterprise VPN subnet → queue 0 (enterprise secondary)
          steer all 5G/GTP traffic → queue 4 (mobility secondary)</div>
-
 <p class="sep">FLOW RULE STRUCTURE</p>
-
 <div class="p-blue">
 <h4>Three Building Blocks</h4>
 <ol style="margin:.3rem 0 0;font-size:.87rem;line-height:1.8">
@@ -217,7 +196,6 @@ Example: steer all traffic from enterprise VPN subnet → queue 0 (enterprise se
 <li><strong>Actions (what to do with matched packets)</strong>: QUEUE (steer to specific Rx queue), DROP, COUNT, MARK (tag mbuf), RSS (apply RSS to matched subset), JUMP (goto another group)</li>
 </ol>
 </div>
-
 <div class="cb"><span class="cm">// Complete rte_flow example: steer all TCP port 443 traffic → queue 0</span>
 <span class="ck">struct</span> rte_flow_attr attr = {
     .ingress  = <span class="cn">1</span>,   <span class="cm">// match incoming packets</span>
@@ -253,14 +231,10 @@ Example: steer all traffic from enterprise VPN subnet → queue 0 (enterprise se
 
 <span class="cm">// Destroy when no longer needed</span>
 <span class="cf">rte_flow_destroy</span>(port_id, flow, &amp;err);</div>
-
 </div><!-- /t-flow -->
-
 <!-- TAB: Flow Examples -->
 <div id="t-flowex" class="tab-pane active">
-
 <p class="sep">COMMON FLOW RULE PATTERNS</p>
-
 <table class="t-table">
 <thead><tr><th>Use Case</th><th>Pattern Items</th><th>Action</th></tr></thead>
 <tbody>
@@ -272,7 +246,6 @@ Example: steer all traffic from enterprise VPN subnet → queue 0 (enterprise se
 <tr><td>Mark HTTPS packets (apply DPI only to marked)</td><td>ETH / IPV4 / TCP(dport=443)</td><td>MARK(id=1) + RSS</td></tr>
 </tbody>
 </table>
-
 <div class="p-teal">
 <h4>rte_flow Groups and Priority</h4>
 <ul style="margin:.3rem 0 0;font-size:.87rem;line-height:1.8">
@@ -281,21 +254,15 @@ Example: steer all traffic from enterprise VPN subnet → queue 0 (enterprise se
 <li>Always call <code>rte_flow_validate()</code> before <code>rte_flow_create()</code> — different NICs support different item/action combinations. Validation catches unsupported combos before touching hardware.</li>
 </ul>
 </div>
-
 <div class="warn">&#9888;&#65039; <strong>NIC capability check:</strong> Not all NICs support all flow item/action combinations. Intel i40e supports 5-tuple exact match (FDIR). mlx5 supports a much richer flow API including VXLAN, GTP inner headers. Always call <code>rte_flow_validate()</code> first — it returns an error with a descriptive message if the NIC cannot implement the rule.</div>
-
 </div><!-- /t-flowex -->
-
 <!-- TAB: NUMA & Cache -->
 <div id="t-numa" class="tab-pane">
-
 <div class="p-orange">
 <h4>NUMA — Non-Uniform Memory Access</h4>
 In multi-socket servers, each CPU socket has local RAM. Accessing memory on the <em>same</em> socket (local) takes ~60 ns; accessing the <em>other</em> socket (remote) takes ~120 ns — 2× slower. DPDK makes NUMA awareness explicit throughout: every allocation API takes a <code>socket_id</code> parameter.
 </div>
-
 <p class="sep">NUMA ALLOCATION RULES</p>
-
 <table class="t-table">
 <thead><tr><th>Resource</th><th>Correct Socket</th><th>Why</th></tr></thead>
 <tbody>
@@ -305,7 +272,6 @@ In multi-socket servers, each CPU socket has local RAM. Accessing memory on the 
 <tr><td>Rx/Tx queues</td><td><code>rte_eth_dev_socket_id(port)</code></td><td>Queue descriptors DMA'd between NIC and RAM — must be local</td></tr>
 </tbody>
 </table>
-
 <div class="cb"><span class="cm">// NUMA-correct mempool creation</span>
 <span class="co">int</span> nic_socket = <span class="cf">rte_eth_dev_socket_id</span>(port_id);
 <span class="ck">struct</span> rte_mempool *pool = <span class="cf">rte_pktmbuf_pool_create</span>(
@@ -321,21 +287,17 @@ In multi-socket servers, each CPU socket has local RAM. Accessing memory on the 
         <span class="cf">printf</span>(<span class="cs">"WARNING: lcore %u on socket %u, NIC on socket %u — cross-NUMA!\n"</span>,
                lcore_id, lcore_socket, nic_socket);
 }</div>
-
 <p class="sep">CACHE-LINE ALIGNMENT & FALSE SHARING</p>
-
 <div class="p-teal">
 <h4>False Sharing — The Hidden Serializer</h4>
 When two different variables on the <strong>same cache line (64 bytes)</strong> are written by different cores, every write invalidates the other core's cached copy — causing cache coherency traffic even though the cores access different variables. This can reduce throughput by 10–100×.
 </div>
-
 <div class="cb"><span class="cm">// WRONG — counter and flag on same cache line → false sharing</span>
 <span class="ck">struct</span> per_core_data {
     <span class="co">uint64_t</span> rx_count;    <span class="cm">// 8 bytes</span>
     <span class="co">uint64_t</span> tx_count;    <span class="cm">// 8 bytes</span>
     <span class="co">int</span>      running;     <span class="cm">// 4 bytes — on same 64-byte line!</span>
 } cores[RTE_MAX_LCORE];   <span class="cm">// core 0 and core 1 share a cache line</span>
-
 <span class="cm">// CORRECT — pad each entry to a full cache line</span>
 <span class="ck">struct</span> per_core_data {
     <span class="co">uint64_t</span> rx_count;
@@ -343,54 +305,41 @@ When two different variables on the <strong>same cache line (64 bytes)</strong> 
     <span class="co">int</span>      running;
     <span class="co">uint8_t</span>  _pad[<span class="cn">64</span> - <span class="ck">sizeof</span>(<span class="co">uint64_t</span>)*<span class="cn">2</span> - <span class="ck">sizeof</span>(<span class="co">int</span>)];  <span class="cm">// pad to 64 bytes</span>
 } __rte_cache_aligned cores[RTE_MAX_LCORE];  <span class="cm">// each core gets its own cache line</span></div>
-
 <div class="note">&#128204; <strong>__rte_cache_aligned</strong> is a DPDK macro that expands to <code>__attribute__((aligned(RTE_CACHE_LINE_SIZE)))</code>. Always use it for per-lcore data structures to prevent false sharing.</div>
-
 </div><!-- /t-numa -->
-
 <!-- TAB: Interview Q&A -->
 <div id="t-qa" class="tab-pane">
-
 <div class="p-slate">
 <h4>Q: What is the difference between primary and secondary DPDK processes?</h4>
 Primary creates and owns all shared resources: hugepage memory, named mempools, rings, and NIC configuration. Secondary attaches to existing primary memory via <code>--proc-type=secondary</code> and <code>--file-prefix</code> matching, finds named objects via lookup APIs, and can use NIC queues but cannot reconfigure the NIC. Primary must be started first.
 </div>
-
 <div class="p-slate">
 <h4>Q: What happens to secondary processes if the primary exits?</h4>
 The shared hugepage memory is unmapped by the OS when the primary exits. Secondary processes lose access to all shared mempools, rings, and hash tables. Any access to those objects causes segfault. Production systems should monitor primary health and gracefully shut down secondaries before primary exits.
 </div>
-
 <div class="p-slate">
 <h4>Q: Why must --file-prefix match between primary and secondary?</h4>
 DPDK uses the file prefix to name shared memory files in <code>/dev/shm/</code> (e.g., <code>/dev/shm/sase_config</code>). Primary creates these files; secondary maps them. If prefixes differ, secondary maps a different (empty) shared memory file — it finds no mempools or rings and fails to start.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is rte_flow and how does it differ from RSS?</h4>
 RSS distributes packets across queues by hashing the 5-tuple — the NIC computes a hash and uses a lookup table (RETA) to pick the queue. rte_flow programs the NIC to match specific packet fields (exact values + masks) and steer matching packets directly to a specific queue — bypassing RSS entirely. rte_flow is more precise (5-tuple, VLAN, VXLAN VNI, GTP TEID…) but consumes NIC hardware resources (FDIR table entries). RSS is always-on and handles all traffic; rte_flow handles specific classified flows.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is false sharing and how does DPDK prevent it?</h4>
 False sharing occurs when two cores write to different variables that happen to reside on the same 64-byte cache line. Each write forces the cache line to be transferred between cores via the coherency protocol — causing serialization even though the cores are touching different data. DPDK prevents this by padding per-lcore data structures to 64 bytes using <code>__rte_cache_aligned</code>, ensuring each core's data occupies its own cache line.
 </div>
-
 <div class="p-slate">
 <h4>Q: Why must mempool be allocated on the NIC's NUMA socket?</h4>
 NIC DMA writes packet data into mbuf buffers. If those buffers are on the remote NUMA socket, every DMA write crosses the QPI/UPI interconnect — ~120 ns instead of ~60 ns. At 100G/64B (148 Mpps), the interconnect bandwidth becomes the bottleneck. NUMA-local allocation keeps DMA writes on the same socket as the NIC → no interconnect crossing → maximum throughput.
 </div>
-
 </div><!-- /t-qa -->
-
 <!-- TAB: Lab -->
 <div id="t-lab" class="tab-pane">
-
 <div class="lab-box">
 <div class="lab-hdr">&#128293; Lab 8: Multi-Process SASE-DP Skeleton</div>
 <div class="lab-body">
 <p style="font-size:.87rem;margin:.3rem 0 .8rem">Build a minimal primary/secondary DPDK application that mirrors the Jio SASE-DP architecture: primary owns the NIC, enterprise secondary handles traffic on queues 0-1.</p>
-
 <div class="lab-step"><span class="sn">1</span><div><strong>Primary:</strong> <code>rte_eal_init()</code> with <code>--proc-type=primary --file-prefix=sase</code>. Configure NIC with 4 queues. Create named mempool <code>"MBUF_POOL"</code> and ring <code>"RX_TO_ENTERPRISE"</code>.</div></div>
 <div class="lab-step"><span class="sn">2</span><div><strong>Primary RX loop:</strong> rx_burst on queues 0-1 → enqueue to <code>"RX_TO_ENTERPRISE"</code> ring</div></div>
 <div class="lab-step"><span class="sn">3</span><div><strong>Secondary:</strong> <code>rte_eal_init()</code> with <code>--proc-type=secondary --file-prefix=sase</code>. Lookup <code>"MBUF_POOL"</code> and <code>"RX_TO_ENTERPRISE"</code>.</div></div>
@@ -399,12 +348,10 @@ NIC DMA writes packet data into mbuf buffers. If those buffers are on the remote
 <div class="lab-step"><span class="sn">6</span><div>Kill secondary — verify primary keeps running. Kill primary — observe secondary behavior (segfault or graceful exit)</div></div>
 </div>
 </div>
-
 <div class="lab-box">
 <div class="lab-hdr">&#128293; Lab 9: rte_flow Hardware Classifier</div>
 <div class="lab-body">
 <p style="font-size:.87rem;margin:.3rem 0 .8rem">Program the NIC to steer specific traffic to queue 0 and observe zero-CPU classification.</p>
-
 <div class="lab-step"><span class="sn">1</span><div>Configure port with 4 queues and start device</div></div>
 <div class="lab-step"><span class="sn">2</span><div>Call <code>rte_flow_validate()</code> for a TCP/443 rule — check NIC supports it</div></div>
 <div class="lab-step"><span class="sn">3</span><div>Create flow rule: ETH / IPV4 / TCP(dport=443) → QUEUE(0)</div></div>
@@ -414,7 +361,6 @@ NIC DMA writes packet data into mbuf buffers. If those buffers are on the remote
 <div class="lab-step"><span class="sn">7</span><div>Destroy rules and verify traffic reverts to pure RSS distribution</div></div>
 </div>
 </div>
-
 <p class="sep">MASTERY CHECKLIST</p>
 <ul class="cl">
 <li>Can explain primary vs secondary: who creates, who looks up, who can't reconfigure NIC</li>
@@ -426,15 +372,12 @@ NIC DMA writes packet data into mbuf buffers. If those buffers are on the remote
 <li>Can explain false sharing and demonstrate the __rte_cache_aligned fix</li>
 <li>Can identify the NUMA socket for a given NIC port and allocate resources on it</li>
 </ul>
-
 </div><!-- /t-lab -->
-
 <div class="mod-nav">
   <a href="/learning/data-plane/dpdk/module-p2-rings/">&#8592; P2B: rte_ring &amp; App Models</a>
   <a href="/learning/data-plane/dpdk/dpdk-roadmap/">&#8593; Roadmap</a>
   <a class="nb" href="/learning/data-plane/dpdk/module-p3-perf/">P3B: Patterns, Tuning &amp; Debug &#8594;</a>
 </div>
-
 <script>
 function vt(e,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));

@@ -86,7 +86,6 @@ url: /learning/networking-mastery/m12-bgp/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 3 · MODULE 12 · WEEK 10</div>
   <div class="mod-title">🌍 BGP Internals</div>
@@ -99,7 +98,6 @@ url: /learning/networking-mastery/m12-bgp/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">BGP Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">eBGP vs iBGP</button>
@@ -111,12 +109,9 @@ url: /learning/networking-mastery/m12-bgp/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
-
 <!-- ════ TAB 0 — BGP OVERVIEW ════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">BGP — THE ROUTING PROTOCOL OF THE INTERNET</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🌍</span><h3>What Makes BGP Different</h3><span class="tag tag-orange">OVERVIEW</span></div>
   <div class="cp-body">
@@ -131,7 +126,6 @@ url: /learning/networking-mastery/m12-bgp/
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏢</span><h3>Autonomous Systems — The BGP Addressing Model</h3><span class="tag tag-blue">AS MODEL</span></div>
   <div class="cp-body">
@@ -159,12 +153,9 @@ bgp.he.net/AS55836   <span class="cm"># HE BGP toolkit</span></pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 1 — eBGP vs iBGP ════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">eBGP vs iBGP — EXTERNAL AND INTERNAL BGP</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚖️</span><h3>The Critical Difference Between eBGP and iBGP</h3><span class="tag tag-teal">COMPARISON</span></div>
   <div class="cp-body">
@@ -181,11 +172,9 @@ bgp.he.net/AS55836   <span class="cm"># HE BGP toolkit</span></pre></div>
         <tr><td>LOCAL-PREF</td><td>Not sent between ASes</td><td>Shared between all iBGP peers in AS</td></tr>
       </tbody>
     </table>
-
     <div class="ins"><p>💡 <strong>iBGP split-horizon is the key scaling challenge.</strong> Because iBGP routes can't be re-advertised between iBGP peers, every router must have a direct iBGP session with every other router — O(N²) sessions. With 100 BGP routers in an AS: 4950 sessions. Solutions: <strong>Route Reflectors</strong> (a designated RR re-advertises iBGP routes to all clients) or <strong>Confederation</strong> (divide the AS into sub-ASes with eBGP between them).</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Route Reflectors — Solving the Full-Mesh Problem</h3><span class="tag tag-blue">ROUTE REFLECTORS</span></div>
   <div class="cp-body">
@@ -218,18 +207,14 @@ router bgp 65001
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 2 — BGP SESSION ════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">BGP SESSION ESTABLISHMENT AND MESSAGE TYPES</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>BGP Session Establishment</h3><span class="tag tag-blue">SESSION</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* BGP uses TCP port 179 — sessions are manually configured */</span>
 <span class="cm">/* Unlike OSPF (auto-discovers neighbours), BGP peers must be explicitly configured */</span>
- 
 <span class="cm">/* BGP FSM (Finite State Machine) */</span>
 Idle        → (start) → Connect
 Connect     → TCP connection attempt → (success) OpenSent / (fail) Active
@@ -273,12 +258,9 @@ router bgp 65001
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 3 — PATH ATTRIBUTES ════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">BGP PATH ATTRIBUTES — THE ROUTING POLICY TOOLKIT</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📋</span><h3>BGP Path Attributes Reference</h3><span class="tag tag-orange">ATTRIBUTES</span></div>
   <div class="cp-body">
@@ -300,12 +282,9 @@ router bgp 65001
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 4 — BEST-PATH SELECTION ════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">BGP BEST-PATH SELECTION — THE 13-STEP ALGORITHM</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏆</span><h3>BGP Best-Path Decision Process</h3><span class="tag tag-blue">BEST PATH</span></div>
   <div class="cp-body">
@@ -329,23 +308,18 @@ router bgp 65001
 <span class="cm">/* Verify best path selection */</span>
 show ip bgp 10.0.0.0/8          <span class="cm"># show all paths, best marked with ">"</span>
 show ip bgp 10.0.0.0/8 bestpath <span class="cm"># show why this path was chosen</span>
- 
 <span class="cm">/* Policy knobs to influence best-path */</span>
 LOCAL-PREF: control which exit from your AS preferred (inbound traffic)
 AS-PATH prepend: make your AS look farther away (discourage inbound traffic on a path)
 MED: influence which of your routers a neighbour enters through
 Communities: tag routes and have neighbours apply policy based on tags</pre></div>
-
     <div class="ins"><p>💡 <strong>The most important attributes for enterprise policy:</strong> LOCAL-PREF controls <em>outbound</em> traffic (which exit path your AS uses for a destination). AS-PATH prepending controls <em>inbound</em> traffic (which path remote ASes use to reach you). MED provides a hint to directly connected neighbours about preferred entry points but is often ignored or overridden.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 5 — ROUTE POLICY ════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">BGP ROUTE POLICY — FILTERING AND MANIPULATION</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Route Maps and Filtering Tools</h3><span class="tag tag-green">POLICY</span></div>
   <div class="cp-body">
@@ -369,17 +343,14 @@ Communities: tag routes and have neighbours apply policy based on tags</pre></di
      set local-preference 200
      set community 65001:100 additive
    route-map POLICY deny 20  <span class="cm"># deny everything else</span>
- 
 <span class="cm">/* Apply to BGP peer */</span>
 router bgp 65001
   neighbor 203.0.113.1 route-map POLICY in   <span class="cm"># filter incoming updates</span>
   neighbor 203.0.113.1 route-map POLICY out  <span class="cm"># filter outgoing updates</span>
- 
 <span class="cm">/* AS-PATH prepending — make path look longer to discourage use */</span>
 route-map SET-PREPEND permit 10
   set as-path prepend 65001 65001 65001  <span class="cm"># prepend own AS 3 times</span>
 <span class="cm"># Result: route appears 3 hops further away on this path</span>
- 
 <span class="cm">/* Communities for ISP signaling */</span>
 <span class="cm"># Send community 65002:100 to ISP → they set your LOCAL-PREF to 100 (low)</span>
 <span class="cm"># Send community 65002:200 → they set LOCAL-PREF to 200 (high = prefer this path)</span>
@@ -388,12 +359,9 @@ route-map SET-PREPEND permit 10
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 6 — BGP SECURITY ════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">BGP SECURITY — ROUTE HIJACKING, RPKI, AND PROTECTION</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>BGP Attacks — Route Hijacking and Leaks</h3><span class="tag tag-red">SECURITY</span></div>
   <div class="cp-body">
@@ -407,7 +375,6 @@ route-map SET-PREPEND permit 10
     </table>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>RPKI — Resource Public Key Infrastructure</h3><span class="tag tag-teal">RPKI</span></div>
   <div class="cp-body">
@@ -442,13 +409,10 @@ route-map FROM-PEER permit 10
  
 <span class="cm">/* Check RPKI status */</span>
 show bgp ipv4 unicast 192.0.2.0/24  <span class="cm"># shows "rpki: valid/invalid/not found"</span></pre></div>
-
     <div class="warn"><p>⚠️ <strong>BGP session authentication.</strong> Always configure MD5 or TCP-AO authentication on BGP sessions to prevent session teardown via spoofed RST packets: <code>neighbor 203.0.113.1 password strongpassword</code>. MD5 has weaknesses but is widely deployed; TCP-AO (RFC 5925) is the modern replacement.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 7 — LABS ════ -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -461,7 +425,6 @@ show bgp ipv4 unicast 192.0.2.0/24  <span class="cm"># shows "rpki: valid/invali
     <div class="lab-step"><div class="sn">4</div><div>Test AS-PATH prepending: on AS65001, apply a route-map outbound to AS65002 that prepends your AS three times. Verify AS65002 sees your AS in the path as "65001 65001 65001 65001" and prefers the shorter path via AS65003.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>BGP Route Filtering and Community Tagging</h4></div>
   <div class="lab-body">
@@ -472,8 +435,6 @@ show bgp ipv4 unicast 192.0.2.0/24  <span class="cm"># shows "rpki: valid/invali
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 8 — CHECKLIST ════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">M12 MASTERY CHECKLIST</p>
@@ -505,13 +466,11 @@ show bgp ipv4 unicast 192.0.2.0/24  <span class="cm"># shows "rpki: valid/invali
   <p>✅ <strong>When complete:</strong> Move to <strong>M13 - MPLS, VxLAN, GRE and Tunneling</strong> — the final Phase 3 module covering overlay networks and tunnelling mechanisms critical to modern data centres and VPN deployments.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m11-ospf/">← M11 OSPF</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m13-tunneling/">Next: M13 - Tunneling →</a>
 </div>
-
 <script>
 function vt(e,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById(id).classList.add('active')}
 </script>

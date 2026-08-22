@@ -28,7 +28,6 @@ url: /learning/system-design/lld/module-a1-notes/
     <span class="stat-badge">1 Mini Project</span>
   </div>
 </div>
-
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
   <a href="/learning/system-design/lld/module-a1-solid/" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);color:#00e5ff;text-decoration:none;font-weight:700;font-size:0.85rem;">
     ⚡ Interactive Visual Version

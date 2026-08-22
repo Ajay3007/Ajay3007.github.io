@@ -29,14 +29,11 @@ url: /learning/dsa/stacks/ch4-stacks-queues/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <!-- ═══════════════════════ Section 1 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — Stacks: LIFO Data Structure</h2>
 <p>A <strong>stack</strong> is a linear data structure following <strong>Last In, First Out (LIFO)</strong>: the last element pushed is the first one popped. Think of a pile of dinner plates — you always add and remove from the top.</p>
-
 <div class="insight-box">
   <span class="insight-label">Real-World Stack Analogies</span>
   <ul>
@@ -46,10 +43,9 @@ url: /learning/dsa/stacks/ch4-stacks-queues/
     <li><strong>Expression evaluator:</strong> Compilers evaluate infix/postfix math using stacks.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">1.1 — Stack Operations in C++</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 #include <stack>
 stack<int> st;
 
@@ -63,27 +59,23 @@ st.size();         // number of elements — O(1)
 
 // CRITICAL: ALWAYS check empty() before top() or pop()
 if (!st.empty()) { int val = st.top(); st.pop(); }
-{% endhighlight %}
+```
 </div>
-
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Push / Pop / Top</span>O(1)</span>
   <span class="ch-cplx"><span>Space</span>O(n)</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 2 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Queues: FIFO Data Structure</h2>
 <p>A <strong>queue</strong> is a linear data structure following <strong>First In, First Out (FIFO)</strong>: the first element enqueued is the first dequeued. Think of a supermarket checkout line — customers are served in arrival order.</p>
-
 <div class="insight-box">
   <span class="insight-label">Stack vs Queue in One Sentence</span>
   Stack: last in, first out (DFS). Queue: first in, first out (BFS). Mixing them is the #1 source of wrong answers on BFS/DFS problems.
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 #include <queue>
 queue<int> q;
 
@@ -102,20 +94,17 @@ deque<int> dq;
 dq.push_back(1);   dq.push_front(0);
 dq.pop_back();     dq.pop_front();
 dq.front();        dq.back();
-{% endhighlight %}
+```
 </div>
-
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Push / Pop / Front / Back</span>O(1)</span>
   <span class="ch-cplx"><span>Space</span>O(n)</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 3 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Pattern: Bracket Matching</h2>
 <p>The classic stack application: use a stack to ensure every opening bracket has a matching closing bracket in the correct order.</p>
-
 <div class="insight-box">
   <span class="insight-label">Algorithm — Valid Parentheses</span>
   <ul>
@@ -125,9 +114,8 @@ dq.front();        dq.back();
   </ul>
   Common mistake: returning <code>true</code> at end without checking <code>st.empty()</code>. Input <code>((( </code> is invalid but stack is non-empty!
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 bool isValid(string s) {
     stack<char> st;
     for (char c : s) {
@@ -143,26 +131,23 @@ bool isValid(string s) {
     }
     return st.empty();  // all openers must be matched
 }
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(n)</span>
   <span class="ch-cplx"><span>Space</span>O(n)</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 4 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Pattern: Min Stack (O(1) getMin)</h2>
 <p>Design a stack that supports push, pop, top, and <strong>getMin() in O(1)</strong>. The trick: maintain an auxiliary <em>min-tracking stack</em> that stores the current minimum at each depth.</p>
-
 <div class="insight-box">
   <span class="insight-label">Key Insight</span>
   When you push a value, also push the minimum of (that value, current minStack top) onto the auxiliary stack. When you pop the main stack, pop the auxiliary stack too. The auxiliary stack top always holds the global minimum for the current state.
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class MinStack {
     stack<int> st, minSt;
 public:
@@ -175,19 +160,17 @@ public:
     int top() { return st.top(); }
     int getMin() { return minSt.top(); }    // O(1)
 };
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>All ops</span>O(1)</span>
   <span class="ch-cplx"><span>Space</span>O(n) — two stacks</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 5 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Pattern: Queue Using Two Stacks</h2>
 <p>Simulate FIFO queue behaviour using two LIFO stacks. Key: <strong>lazy transfer</strong> — only move elements from inbox to outbox when outbox is empty.</p>
-
 <div class="insight-box">
   <span class="insight-label">Two-Stack Queue — Amortised O(1)</span>
   <ul>
@@ -197,9 +180,8 @@ public:
     <li>Each element moves at most once: inbox→outbox. Total work across n operations = O(n) → <strong>amortised O(1) per operation</strong></li>
   </ul>
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class MyQueue {
     stack<int> inbox, outbox;
     void transfer() {
@@ -212,15 +194,13 @@ public:
     int peek() { transfer(); return outbox.top(); }
     bool empty() { return inbox.empty() && outbox.empty(); }
 };
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 6 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 6 — Pattern: Monotonic Stack</h2>
 <p>A <strong>monotonic stack</strong> maintains elements in strictly increasing or decreasing order. When a new element violates the order, we pop until order is restored. This solves Next Greater Element and similar problems in <strong>O(n)</strong>.</p>
-
 <div class="insight-box">
   <span class="insight-label">Two Monotonic Stack Variants</span>
   <ul>
@@ -230,10 +210,9 @@ public:
     <li>Each element is pushed once and popped at most once → <strong>O(n) amortised total</strong>.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">6.1 — Next Greater Element</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Next Greater Element — O(n) time, O(n) space
 vector<int> nextGreater(vector<int>& arr) {
     int n = arr.size();
@@ -256,9 +235,8 @@ for (int i = 0; i < 2*n; i++) {
         { ans[st.top()] = arr[i%n]; st.pop(); }
     if (i < n) st.push(i);
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">6.2 — Daily Temperatures Trace (arr = [73,74,75,71,69,72,76,73])</h3>
 <div class="dsa-pattern-box">
   <ul>
@@ -274,10 +252,9 @@ for (int i = 0; i < 2*n; i++) {
     <li><strong>Final: ans = [1, 1, 4, 2, 1, 1, 0, 0]</strong> ✓</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">6.3 — Largest Rectangle in Histogram</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Largest Rectangle in Histogram — O(n) with sentinel
 int largestRectangleArea(vector<int>& heights) {
     heights.push_back(0);  // sentinel: forces all bars to be popped
@@ -293,15 +270,13 @@ int largestRectangleArea(vector<int>& heights) {
     }
     return maxArea;
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 7 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 7 — Pattern: Monotonic Deque (Sliding Window Maximum)</h2>
 <p>For a fixed-size sliding window of size k, maintain a <strong>monotonic decreasing deque of indices</strong>. The front always holds the index of the maximum element in the current window.</p>
-
 <div class="dsa-pattern-box">
   <ul>
     <li>Remove from front if the front index is out of the current window (index &lt; i–k+1)</li>
@@ -309,9 +284,8 @@ int largestRectangleArea(vector<int>& heights) {
     <li>Push new index to back; front of deque = index of the window maximum</li>
   </ul>
 </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Sliding Window Maximum — O(n) time, O(k) space
 vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     deque<int> dq;   // indices, front = index of max in window
@@ -326,18 +300,16 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
     }
     return ans;
 }
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(n)</span>
   <span class="ch-cplx"><span>Space</span>O(k)</span>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 8 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 8 — Common Mistakes & Edge Cases</h2>
-
 <div class="pattern-summary">
   <div class="pattern-card"><h4>❌ top() on empty stack</h4><p>Always check <code>st.empty()</code> before <code>st.top()</code> or <code>st.pop()</code>. Empty access = undefined behaviour / runtime crash.</p></div>
   <div class="pattern-card"><h4>❌ pop() returns void</h4><p>C++ STL <code>stack::pop()</code> does NOT return the value. Use <code>st.top()</code> to read, then <code>st.pop()</code> to remove.</p></div>
@@ -346,7 +318,6 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
   <div class="pattern-card"><h4>❌ Values not indices in mono-stack</h4><p>Monotonic stack must store <strong>indices</strong> to compute distances and record answers at the right array position.</p></div>
   <div class="pattern-card"><h4>❌ Wrong monotonicity direction</h4><p>Next Greater → decreasing stack (pop when arr[i] > arr[top]). Next Smaller → increasing stack. Swapping gives wrong answers.</p></div>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">Edge Cases to Test</span>
   <ul>
@@ -358,11 +329,9 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
   </ul>
 </div>
 </div>
-
 <!-- ═══════════════════════ Section 9 ═══════════════════════ -->
 <div class="chapter-section">
 <h2 class="section-heading">Practice Problems</h2>
-
 <div class="ch-section-label">Stack Problems</div>
 <div class="ch-ed-problems">
 <table>
@@ -376,7 +345,6 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
   </tbody>
 </table>
 </div>
-
 <div class="ch-section-label" style="margin-top:1.5rem;">Monotonic Stack Problems</div>
 <div class="ch-ed-problems">
 <table>
@@ -390,7 +358,6 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
   </tbody>
 </table>
 </div>
-
 <div class="ch-section-label" style="margin-top:1.5rem;">Queue & Deque Problems</div>
 <div class="ch-ed-problems">
 <table>
@@ -403,9 +370,7 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 </table>
 </div>
 </div>
-
 </div><!-- end .chapter-content -->
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/linked-list/ch3-linked-lists/" class="ch-nav-footer-btn">← Ch3: Linked Lists</a>
   <a href="/learning/dsa/tree/ch5-trees-graphs/" class="ch-nav-footer-btn primary">Next: Ch5 — Trees & Graphs →</a>

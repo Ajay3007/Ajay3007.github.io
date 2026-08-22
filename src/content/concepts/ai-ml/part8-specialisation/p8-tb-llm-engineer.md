@@ -52,7 +52,6 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
 .cl li.done::before{content:"☑";color:#059669}
 .cl li.done{color:var(--light-text,#888);text-decoration:line-through}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 8 — Specialisation &nbsp;·&nbsp; Track B of 4</div>
   <div class="mod-title">Track B — Applied ML / LLM Engineer</div>
@@ -63,7 +62,6 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
     <span class="mod-pill">🔧 Unsloth · HuggingFace · PEFT · vLLM</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🤗 HuggingFace</button>
@@ -73,8 +71,6 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
   <button class="tab-btn" onclick="vt(event,'t5')">🛠 Capstone</button>
   <button class="tab-btn" onclick="vt(event,'t6')">✅ Checklist</button>
 </div>
-
-
 <div id="t0" class="tab-pane active">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Track Overview</h3><span class="tag">Specialisation B</span></div>
@@ -92,8 +88,6 @@ url: /learning/ai-ml/part8-specialisation/p8-tb-llm-engineer/
   </div>
 </div>
 </div>
-
-
 <div id="t1" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🤗</span><h3>HuggingFace Ecosystem</h3><span class="tag">Infrastructure</span></div>
@@ -133,8 +127,6 @@ dataset.push_to_hub("your-username/domain-qa-dataset")</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t2" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Fine-tuning with Unsloth QLoRA</h3><span class="tag">Core Skill</span></div>
@@ -199,8 +191,6 @@ merged.save_pretrained("merged_model")</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t3" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">📊</span><h3>PEFT & LoRA — The Math That Matters</h3><span class="tag">Concepts</span></div>
@@ -238,8 +228,6 @@ peft_model.print_trainable_parameters()
   </div>
 </div>
 </div>
-
-
 <div id="t4" class="tab-pane">
 <div class="cp">
   <div class="cp-hdr"><span class="ico">🚀</span><h3>vLLM — Production Model Serving</h3><span class="tag">Serving</span></div>
@@ -293,8 +281,6 @@ def eval_model(questions: list[str], answers: list[str]) -> dict:
   </div>
 </div>
 </div>
-
-
 <div id="t5" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr">
@@ -317,8 +303,6 @@ def eval_model(questions: list[str], answers: list[str]) -> dict:
   </div>
 </div>
 </div>
-
-
 <div id="t6" class="tab-pane">
 <p class="sep">MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -336,14 +320,11 @@ def eval_model(questions: list[str], answers: list[str]) -> dict:
   <p>When complete: move to <strong>Part 9 — Portfolio and Launch</strong>.</p>
 </div>
 </div>
-
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part8-specialisation/p8-ta-ai-product-engineer/">← Track A: AI Product</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">All Modules</a>
   <a class="nb" href="/learning/ai-ml/part8-specialisation/p8-tc-automation-engineer/">Next: Track C — Automation →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

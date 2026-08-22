@@ -98,7 +98,6 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
 .fm-cost{background:#ede8f5;border-color:#c4b5fd}.fm-cost h4{color:#5b21b6}
 .fm-partial{background:#e0f2fe;border-color:#7dd3fc}.fm-partial h4{color:#0c4a6e}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 6 — Agents, Workflows &amp; Evaluation &nbsp;·&nbsp; Module 21 of 22</div>
@@ -111,7 +110,6 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
     <span class="mod-pill">📋 Prerequisite: P6-M20</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🚨 Failure Modes</button>
@@ -125,8 +123,6 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-violet">
@@ -144,8 +140,6 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — FAILURE MODES ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-red">
@@ -181,8 +175,6 @@ url: /learning/ai-ml/part6-agents/p6-m21-failure-handling/
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — LOOP DETECTION ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-violet">
@@ -249,7 +241,6 @@ class AgentGuardian:
                 return <span class="cv">True</span>, <span class="cs">f"Loop detected: {recent['tool']} called {count}x with same args"</span>
  
         return <span class="cv">False</span>, <span class="cs">""</span>
- 
 <span class="ck"># Usage inside agent loop</span>
 def guarded_agent(user_message: str) -> dict:
     guardian = AgentGuardian(max_turns=<span class="cv">15</span>, max_cost_usd=<span class="cv">0.50</span>)
@@ -285,8 +276,6 @@ def guarded_agent(user_message: str) -> dict:
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — GUARDRAILS ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-violet">
@@ -355,8 +344,6 @@ Check: Is the goal addressed? Is there a clear answer? Is it on topic?"""</span>
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — COST CIRCUITS ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-violet">
@@ -416,8 +403,6 @@ class AgentCostCircuitBreaker:
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — STRUCTURED LOGGING ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-violet">
@@ -481,8 +466,6 @@ class AgentLogger:
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RECOVERY PATTERNS ══════════ -->
 <div id="t6" class="tab-pane">
 <div class="cp p-violet">
@@ -566,8 +549,6 @@ def load_checkpoint(session_id: str) -> dict | None:
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -580,8 +561,6 @@ def load_checkpoint(session_id: str) -> dict | None:
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="proj-box">
@@ -611,8 +590,6 @@ def load_checkpoint(session_id: str) -> dict | None:
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
 <div class="lab-box">
@@ -627,7 +604,6 @@ def load_checkpoint(session_id: str) -> dict | None:
     <div class="lab-step"><div class="sn">6</div><div>For each triggered failure: verify the agent returns a useful partial_result, not a Python exception. Document the structured log output for each.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Structured Log Analysis</h4></div>
   <div class="lab-body">
@@ -638,7 +614,6 @@ def load_checkpoint(session_id: str) -> dict | None:
     <div class="lab-step"><div class="sn">4</div><div>Identify the most expensive session. Reconstruct its full tool call sequence from the logs. What did it do that cost the most?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Checkpoint and Resume</h4></div>
   <div class="lab-body">
@@ -650,8 +625,6 @@ def load_checkpoint(session_id: str) -> dict | None:
   </div>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P6-M21 MASTERY CHECKLIST</p>
@@ -678,13 +651,11 @@ def load_checkpoint(session_id: str) -> dict | None:
   <p>✅ <strong>When complete:</strong> Move to <strong>P6-M22 — Evaluation Harnesses</strong>. You now have agents that fail safely. M22 covers how to measure and improve agent quality systematically with DeepEval, Ragas, and LLM-as-judge.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part6-agents/p6-m20-tool-design/">← P6-M20: Tool Design</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part6-agents/p6-m22-evaluation/">Next: P6-M22 — Evaluation Harnesses →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

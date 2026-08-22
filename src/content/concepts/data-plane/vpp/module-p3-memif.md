@@ -74,7 +74,6 @@ url: /learning/data-plane/vpp/module-p3-memif/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 3B · WEEKS 10–11</div>
   <div class="mod-title">🔗 memif - Shared Memory Interface</div>
@@ -86,7 +85,6 @@ url: /learning/data-plane/vpp/module-p3-memif/
     <span class="mod-pill">Project 5</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'ta')">Architecture</button>
   <button class="tab-btn" onclick="vt(event,'tb')">Shared Memory Layout</button>
@@ -96,7 +94,6 @@ url: /learning/data-plane/vpp/module-p3-memif/
   <button class="tab-btn" onclick="vt(event,'tf')">Project 5</button>
   <button class="tab-btn" onclick="vt(event,'tg')">Checklist</button>
 </div>
-
 <div id="ta" class="tab-pane active">
 <p class="sep">MEMIF ARCHITECTURE</p>
 <div class="cp p-purple">
@@ -128,7 +125,6 @@ Blocking:      VPP always uses polling (same as DPDK)</pre></div>
   </div>
 </div>
 </div>
-
 <div id="tb" class="tab-pane">
 <p class="sep">SHARED MEMORY RING LAYOUT</p>
 <div class="cp p-blue">
@@ -175,14 +171,12 @@ Region 1+: Data - packet buffers
   </div>
 </div>
 </div>
-
 <div id="tc" class="tab-pane">
 <p class="sep">VPP CLI SETUP</p>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Complete memif CLI Reference</h3><span class="tag tag-teal">CLI</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm"># ── VPP INSTANCE A: server (master) ──</span>
- 
 <span class="cm"># Create a memif socket (path to Unix socket file)</span>
 create memif socket id 1 filename /run/vpp/memif-a.sock
  
@@ -207,7 +201,6 @@ show memif
  
 show interface memif0/0
 <span class="cm"># Should show: link-up, rx/tx packet counters</span>
- 
 <span class="cm"># ── Zero-copy mode (VPP ↔ VPP only) ──</span>
 <span class="cm"># Both sides must use VPP's memif plugin</span>
 <span class="cm"># Add 'zero-copy' to the create command:</span>
@@ -217,7 +210,6 @@ create interface memif id 1 socket-id 1 master zero-copy
 create bridge-domain 10 learn 1 forward 1 flood 1
 set interface l2 bridge memif0/0 10
 set interface l2 bridge memif0/1 10</pre></div>
-
     <table class="api-table">
       <thead><tr><th>CLI Command</th><th>Purpose</th></tr></thead>
       <tbody>
@@ -231,7 +223,6 @@ set interface l2 bridge memif0/1 10</pre></div>
   </div>
 </div>
 </div>
-
 <div id="td" class="tab-pane">
 <p class="sep">LIBMEMIF - C API FOR THIRD-PARTY APPS</p>
 <div class="cp p-blue">
@@ -240,7 +231,6 @@ set interface l2 bridge memif0/1 10</pre></div>
     <p>libmemif (<code>extras/libmemif/</code>) is a standalone C library that implements the memif protocol. Any process - DPDK app, Python via ctypes, Go via cgo - can use it to create a memif peer that connects to VPP without running a full VPP instance.</p>
 <div class="cb"><pre><span class="cm">/* Include */</span>
 <span class="cs">#include "libmemif.h"</span>
- 
 <span class="cm">/* Step 1: Initialise the library */</span>
 memif_init(NULL, <span class="cs">"my_app"</span>, NULL, NULL, NULL);
  
@@ -294,7 +284,6 @@ memif_refill_queue(conn, 0, n_rx, 0);</pre></div>
   </div>
 </div>
 </div>
-
 <div id="te" class="tab-pane">
 <p class="sep">DPDK net_memif PMD - CONNECT TESTPMD TO VPP</p>
 <div class="cp p-orange">
@@ -320,7 +309,6 @@ testpmd> set fwd txonly
 testpmd> start
 <span class="cm"># Now VPP receives packets on memif0/0</span>
 <span class="cm"># Check: vppctl show interface memif0/0</span>
- 
 <span class="cm"># ── For zero-copy (DPDK side must match VPP buffer layout) ──</span>
 --vdev="net_memif,socket=/run/vpp/memif-dpdk.sock,id=0,role=slave,zero-copy=yes"
 <span class="cm"># zero-copy requires DPDK mbufs sized to match VPP's buffer-size (2048)</span></pre></div>
@@ -338,7 +326,6 @@ testpmd> start
   </div>
 </div>
 </div>
-
 <div id="tf" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 5</span><h4>memif vSwitch - 3-Container Topology</h4></div>
@@ -353,7 +340,6 @@ testpmd> start
   </div>
 </div>
 </div>
-
 <div id="tg" class="tab-pane">
 <p class="sep">P3B COMPLETION CHECKLIST</p>
 <ul class="cl">
@@ -372,7 +358,6 @@ testpmd> start
   <p>✅ Next: <strong>P3C - TAP v2, AF_XDP, vhost-user, and AF_PACKET</strong>. These complete your knowledge of every interface type in VPP's arsenal.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p3-dpdk/">← DPDK Plugin</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>

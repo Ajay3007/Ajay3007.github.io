@@ -85,7 +85,6 @@ url: /learning/networking-mastery/m26-policy-capstone/
 .curriculum-complete .stat .n{font-size:2rem;font-weight:800;color:#80d8ff;display:block}
 .curriculum-complete .stat .l{font-size:.75rem;color:#a0c8e8;font-family:monospace;text-transform:uppercase;letter-spacing:.08em}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 6 · MODULE 26 · WEEKS 25–26 · CURRICULUM FINAL</div>
   <div class="mod-title">🏆 Policy Engine and NGFW Capstone</div>
@@ -97,7 +96,6 @@ url: /learning/networking-mastery/m26-policy-capstone/
     <span class="mod-pill">Capstone Project</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Policy Engine Design</button>
   <button class="tab-btn" onclick="vt(event,'t1')">Rule Compilation</button>
@@ -110,11 +108,8 @@ url: /learning/networking-mastery/m26-policy-capstone/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <div id="t0" class="tab-pane active">
 <p class="sep">POLICY ENGINE — THE BRAIN OF THE NGFW</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏛️</span><h3>What a Policy Engine Does</h3><span class="tag tag-blue">OVERVIEW</span></div>
   <div class="cp-body">
@@ -154,11 +149,8 @@ url: /learning/networking-mastery/m26-policy-capstone/
   </div>
 </div>
 </div>
-
-
 <div id="t1" class="tab-pane">
 <p class="sep">RULE COMPILATION — FROM HUMAN RULES TO FAST LOOKUP STRUCTURES</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>Rule Compiler Architecture</h3><span class="tag tag-purple">COMPILATION</span></div>
   <div class="cp-body">
@@ -249,11 +241,8 @@ uint8_t policy_lookup(policy_table_t *pt, session_t *s) {
   </div>
 </div>
 </div>
-
-
 <div id="t2" class="tab-pane">
 <p class="sep">POLICY EVALUATION — FIRST-MATCH vs BEST-MATCH</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚖️</span><h3>Rule Matching Semantics</h3><span class="tag tag-blue">EVALUATION</span></div>
   <div class="cp-body">
@@ -312,11 +301,8 @@ void policy_diff(policy_table_t *old_pt, policy_table_t *new_pt) {
   </div>
 </div>
 </div>
-
-
 <div id="t3" class="tab-pane">
 <p class="sep">ZONE-BASED POLICY — ENTERPRISE SEGMENTATION</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔷</span><h3>Security Zones and Inter-Zone Policy</h3><span class="tag tag-teal">ZONES</span></div>
   <div class="cp-body">
@@ -385,11 +371,8 @@ uint8_t get_src_zone(session_t *s, security_zone_t *zones, int n_zones) {
   </div>
 </div>
 </div>
-
-
 <div id="t4" class="tab-pane">
 <p class="sep">LOGGING AND SIEM INTEGRATION</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Structured Logging at NGFW Scale</h3><span class="tag tag-amber">LOGGING</span></div>
   <div class="cp-body">
@@ -487,11 +470,8 @@ void *logger_thread(void *arg) {
   </div>
 </div>
 </div>
-
-
 <div id="t5" class="tab-pane">
 <p class="sep">COMPLETE NGFW ARCHITECTURE — ALL MODULES INTEGRATED</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Full NGFW Data Plane — Component Integration</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -562,7 +542,6 @@ Control Plane Components:
   SIEM Exporter:       consume log ring, format, forward to Kafka/syslog
   REST API:            policy CRUD, stats queries, operational commands
   CLI:                 vppctl + custom NGFW CLI commands</pre></div>
-
 <div class="cb"><pre>/* Performance targets for production NGFW on 10G dual-port Mellanox */
 /* (Based on your team's ConnectX infrastructure) */
  
@@ -584,11 +563,8 @@ Memory:             16GB (1M sessions + DPI state + threat intel)
   </div>
 </div>
 </div>
-
-
 <div id="t6" class="tab-pane">
 <p class="sep">PERFORMANCE BENCHMARKING — MEASURING NGFW THROUGHPUT</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📏</span><h3>NGFW Performance Testing Methodology</h3><span class="tag tag-green">BENCHMARKING</span></div>
   <div class="cp-body">
@@ -662,16 +638,12 @@ numastat -m                                /* NUMA memory access */</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t7" class="tab-pane">
 <p class="sep">CAPSTONE PROJECT — YOUR TEAM'S NGFW</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏆</span><h3>Design Document: Jio NGFW — Capstone Project</h3><span class="tag tag-blue">CAPSTONE</span></div>
   <div class="cp-body">
     <p>Your capstone project is to produce a detailed technical design document for your team's NGFW, incorporating all the knowledge from this curriculum. This document should be usable as the actual technical specification for your R&D work.</p>
-
     <h4>Capstone Deliverable Structure</h4>
     <ol>
       <li><strong>Executive Summary</strong> — What the NGFW must do; performance targets; technology stack choices and rationale (VPP + DPDK + Mellanox ConnectX)</li>
@@ -685,7 +657,6 @@ numastat -m                                /* NUMA memory access */</pre></div>
       <li><strong>Performance Model</strong> — Expected throughput per subsystem; CPU core allocation; memory budget; NUMA topology; Mellanox offload utilisation (XFRM, checksum, TSO)</li>
       <li><strong>Logging and Observability</strong> — Log schema; ring buffer sizing; SIEM target; operational metrics to expose</li>
     </ol>
-
 <div class="cb"><pre>/* Capstone: suggested technology stack for Jio NGFW */
 /*
   Data Plane:        FD.io VPP 23.x on DPDK 23.x
@@ -713,10 +684,7 @@ numastat -m                                /* NUMA memory access */</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Policy Engine with Rule Compiler</h4></div>
   <div class="lab-body">
@@ -728,7 +696,6 @@ numastat -m                                /* NUMA memory access */</pre></div>
     <div class="lab-step"><div class="sn">5</div><div>Implement zero-downtime policy update: compile the new policy in a background thread, then atomically swap the policy pointer used by the forwarding threads. Test by updating the policy 100 times while traffic flows through. Verify: no packet is processed with an inconsistent partial state; traffic forwarded correctly after each update.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Structured Logging and SIEM Integration</h4></div>
   <div class="lab-body">
@@ -739,7 +706,6 @@ numastat -m                                /* NUMA memory access */</pre></div>
     <div class="lab-step"><div class="sn">4</div><div>Implement log filtering: not every session needs a full log entry. Define three log levels: (a) security events (threats, policy denies) — always log, (b) inspection events (SSL inspected, DPI result) — log if enabled per rule, (c) routine flows — log on close only if bytes > 1MB. Verify that log volume reduces by >80% for routine traffic while preserving all security events.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">CAPSTONE</span><h4>End-to-End NGFW Integration Test</h4></div>
   <div class="lab-body">
@@ -753,8 +719,6 @@ numastat -m                                /* NUMA memory access */</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t9" class="tab-pane">
 <p class="sep">M26 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -784,7 +748,6 @@ numastat -m                                /* NUMA memory access */</pre></div>
   <li>Completed Lab 2: ring-buffer logging pipeline with Elasticsearch + Kibana dashboard</li>
   <li>Completed Capstone: end-to-end integration test; performance baseline measured; design document written</li>
 </ul>
-
 <div class="curriculum-complete">
   <h2>🎓 Networking Mastery Curriculum Complete</h2>
   <div class="stats">
@@ -797,7 +760,6 @@ numastat -m                                /* NUMA memory access */</pre></div>
   <p>Your capstone project is the synthesis: a complete technical design for your team's NGFW that applies every technique from every module. Use it to guide your R&amp;D work. Update it as your team learns. Share it with colleagues joining the project.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m25-ids-ips/">← M25 IDS/IPS</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

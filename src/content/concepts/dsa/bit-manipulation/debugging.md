@@ -34,7 +34,6 @@ url: /learning/dsa/bit-manipulation/debugging/
 .mod-nav a:hover{background:var(--bg-color,#ebebeb)}
 .mod-nav .nb{background:#1a1060;color:#fff !important;border-color:#1a1060}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">DSA MASTERY · CH 11 · BIT MANIPULATION · APPENDIX A</div>
   <div class="mod-title">&#128027; Debugging Bit Operations</div>
@@ -43,14 +42,11 @@ url: /learning/dsa/bit-manipulation/debugging/
 <div style="background:#1a1060;border-radius:0 0 8px 8px;padding:.7rem 1.5rem;color:#a78bfa;font-size:.82rem;font-family:monospace;margin-bottom:2rem;">
   Appendix A &mdash; practical tools and checklists for when your bit operations misbehave
 </div>
-
 <p class="sep">A.1 &mdash; PRINT BINARY IN C AND JAVA</p>
-
 <div class="p-violet">
 <h4>First step of debugging any bit bug: print what you actually have</h4>
 Never guess at bit patterns in your head. Print them. Compare visually.
 </div>
-
 <div class="cb"><span class="cm">// C — print binary for any unsigned integer, grouped by nibble</span>
 <span class="ck">void</span> <span class="cf">printBits</span>(<span class="co">uint64_t</span> x, <span class="ck">int</span> bits) {
     <span class="ck">for</span> (<span class="ck">int</span> i = bits-<span class="cn">1</span>; i &gt;= <span class="cn">0</span>; i--) {
@@ -61,21 +57,16 @@ Never guess at bit patterns in your head. Print them. Compare visually.
 }
 <span class="cm">// printBits(0xC0A80A05, 32):</span>
 <span class="cm">// 1100 0000 1010 1000 0000 1010 0000 0101</span>
-
 <span class="cm">// Alternative: use printf with format string</span>
 <span class="cf">printf</span>(<span class="cs">"x = 0x%08X = %u\n"</span>, x, x);  <span class="cm">// hex + decimal</span></div>
-
 <div class="cb"><span class="cm">// Java — print binary</span>
 <span class="cf">System.out.println</span>(<span class="cf">Integer.toBinaryString</span>(x));         <span class="cm">// no leading zeros</span>
 <span class="cf">System.out.printf</span>(<span class="cs">"%32s%n"</span>, <span class="cf">Integer.toBinaryString</span>(x))
     .replace(<span class="cs">' '</span>, <span class="cs">'0'</span>);                                   <span class="cm">// with leading zeros</span>
 <span class="cf">System.out.println</span>(<span class="cf">Integer.toHexString</span>(x));              <span class="cm">// hex</span>
 <span class="cf">System.out.println</span>(<span class="cf">Long.toBinaryString</span>(x));              <span class="cm">// 64-bit</span></div>
-
 <div class="ins">&#10003; <strong>Debug workflow:</strong> Print both the mask and the value before ANDing. Print the result. Compare all three side-by-side in binary. The bug is usually immediately obvious visually.</div>
-
 <p class="sep">A.2 &mdash; COMMON BUG CHECKLIST</p>
-
 <table class="t-table">
 <thead><tr><th>Bug</th><th>Example of the mistake</th><th>Fix</th></tr></thead>
 <tbody>
@@ -121,11 +112,8 @@ Never guess at bit patterns in your head. Print them. Compare visually.
 </tr>
 </tbody>
 </table>
-
 <div class="warn">&#9888;&#65039; <strong>Most frequent source of bit bugs:</strong> Missing parentheses around bitwise sub-expressions that are compared or combined with logical operators. When in doubt, add parentheses &mdash; they are free.</div>
-
 <p class="sep">A.3 &mdash; OPERATOR PRECEDENCE QUICK REFERENCE (BITWISE CONTEXT)</p>
-
 <div class="diagram-box">Precedence (highest to lowest) &mdash; bitwise operators highlighted:
 
 Priority   | Operator(s)          | Notes
@@ -141,7 +129,6 @@ Highest    |  ~                   | Bitwise NOT (unary) &mdash; applies first
            |  &amp;&amp;                  | Logical AND
            |  ||                  | Logical OR
 Lowest     |  = |= &amp;= ^= &lt;&lt;= &gt;&gt;= | Assignment operators</div>
-
 <table class="t-table">
 <thead><tr><th>Expression</th><th>How it parses</th><th>What you meant</th></tr></thead>
 <tbody>
@@ -153,11 +140,8 @@ Lowest     |  = |= &amp;= ^= &lt;&lt;= &gt;&gt;= | Assignment operators</div>
 <tr><td><code>x &lt;&lt; 2 &amp; mask</code></td><td>OK &mdash; shifts before AND</td><td>Fine as-is</td></tr>
 </tbody>
 </table>
-
 <div class="ins">&#10003; <strong>Golden rule:</strong> Wrap every bitwise sub-expression in parentheses when the result is used in a comparison or logical expression. The compiler will not warn you; the bug will be silent.</div>
-
 <p class="sep">MASTERY CHECKLIST &mdash; BEFORE YOU SHIP BIT CODE</p>
-
 <ul class="cl">
   <li>All bitwise expressions mixed with comparisons have explicit parentheses</li>
   <li>NOT (~) on sub-int types is followed by an explicit cast back to the target type</li>
@@ -168,7 +152,6 @@ Lowest     |  = |= &amp;= ^= &lt;&lt;= &gt;&gt;= | Assignment operators</div>
   <li>Ring/hash table sizes are enforced to be powers of 2 before using &amp;mask trick</li>
   <li>Printed binary representation validates every intermediate mask value</li>
 </ul>
-
 <div class="mod-nav">
   <a href="/learning/dsa/bit-manipulation/">&#8592; Bit Manipulation</a>
   <a href="/learning/dsa/bit-manipulation/systems-problems/">&#9881;&#65039; Systems Problems</a>

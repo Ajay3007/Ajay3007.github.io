@@ -29,14 +29,11 @@ url: /learning/dsa/heaps/ch6-heaps/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <!-- Section 1 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Is a Heap?</h2>
 <p>A heap is a <strong>complete binary tree</strong> stored as a flat array satisfying the heap property: every parent is <code>&gt;=</code> its children (max-heap) or <code>&lt;=</code> its children (min-heap). This guarantees <code>O(1)</code> access to the extreme element and <code>O(log n)</code> insert / delete.</p>
-
 <div class="insight-box">
   <span class="insight-label">Real-World Analogy: Hospital ER</span>
   <ul>
@@ -45,13 +42,11 @@ url: /learning/dsa/heaps/ch6-heaps/
     <li>Each arrival (push) and each treatment (pop) costs <code>O(log n)</code> to maintain order.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">1.1 — Tree-to-Array Mapping</h3>
 <p>Because it's a complete binary tree (nodes filled left-to-right), there are zero wasted slots. No pointers needed.</p>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">Tree vs Array Representation</span>
-{% highlight text %}
+```text
 Max-Heap tree:           Stored as array (0-indexed):
 
        10                Index: [ 0] [ 1] [ 2] [ 3] [ 4] [ 5] [ 6]
@@ -64,9 +59,8 @@ Arithmetic for finding relatives of node `i`:
 - Parent:      (i - 1) / 2
 - Left child:  2*i + 1
 - Right child: 2*i + 2
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">1.2 — Min-Heap vs Max-Heap</h3>
 <div class="ch-ed-problems">
 <table>
@@ -83,17 +77,13 @@ Arithmetic for finding relatives of node `i`:
 </table>
 </div>
 </div>
-
 <!-- Section 2 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Core Operations</h2>
-
 <h3 class="section-subheading">2.1 — Insert (Sift Up) — <code>O(log n)</code></h3>
 <p>To insert, append the new element to the end of the array (bottom of the tree). Then, continuously swap it with its parent if it violates the heap property (sifting it "up").</p>
-
 <h3 class="section-subheading">2.2 — Extract Max/Min (Sift Down) — <code>O(log n)</code></h3>
 <p>To extract the root, swap it with the very last element in the array. Remove the last element (the answer). Now the root is wrong. Swap the new root with its largest (or smallest) child until the heap property is restored (sifting it "down").</p>
-
 <div class="insight-box">
   <span class="insight-label">The Top-K Paradox</span>
   <p>To find the <strong>top-K LARGEST</strong> elements, use a <strong>MIN-heap</strong> of size K.</p>
@@ -104,15 +94,13 @@ Arithmetic for finding relatives of node `i`:
   </ul>
 </div>
 </div>
-
 <!-- Section 3 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — C++ Implementation Guide</h2>
-
 <h3 class="section-subheading">3.1 — Priority Queue API</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++ priority_queue</span>
-{% highlight cpp %}
+```cpp
 #include <queue>
 
 // MAX-HEAP (Default)
@@ -132,33 +120,29 @@ priority_queue<P, vector<P>, greater<P>> pq_pairs;
 // O(n) HEAPIFY FROM VECTOR
 vector<int> v = {3, 1, 4, 1, 5};
 priority_queue<int> h(v.begin(), v.end()); // Better than pushing n times!
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">3.2 — Custom Comparators</h3>
 <p>When you need to order objects dynamically (e.g., frequencies), use a lambda comparator.</p>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Custom Min-Heap</span>
-{% highlight cpp %}
+```cpp
 auto cmp = [](pair<int,string> a, pair<int,string> b){
     return a.first > b.first; // Note standard reverse operator orientation! MIN-heap on frequency
 };
 // Use decltype for lambdas
 priority_queue<pair<int,string>, vector<pair<int,string>>, decltype(cmp)> customH(cmp);
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- Section 4 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Two-Heap Pattern (Median of Stream)</h2>
 <p>A classic architecture pattern is tracking a moving median using two balanced heaps. This guarantees <code>O(log n)</code> inserts and <code>O(1)</code> reads.</p>
-
 <div class="pattern-summary">
   <div class="pattern-card"><h4>Lower Half</h4><p><strong>Max-Heap:</strong> Stores the smaller half of numbers. Root = largest of the smalls.</p></div>
   <div class="pattern-card"><h4>Upper Half</h4><p><strong>Min-Heap:</strong> Stores the larger half of numbers. Root = smallest of the bigs.</p></div>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">Two Invariants</span>
   <ol>
@@ -166,10 +150,9 @@ priority_queue<pair<int,string>, vector<pair<int,string>>, decltype(cmp)> custom
     <li>Sizes differ by at most 1. Generally, if odd elements, the extra lives in <code>lo</code>.</li>
   </ol>
 </div>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">LeetCode 295: Find Median from Data Stream</span>
-{% highlight cpp %}
+```cpp
 class MedianFinder {
     priority_queue<int> lo;                               // max-heap
     priority_queue<int, vector<int>, greater<int>> hi;    // min-heap
@@ -195,15 +178,12 @@ public:
         return (lo.top() + hi.top()) / 2.0;
     }
 };
-{% endhighlight %}
+```
 </div>
 </div>
-
-
 <!-- Section 5 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Practice Problems & Patterns</h2>
-
 <div class="ch-ed-problems">
 <table>
   <thead>
@@ -219,7 +199,6 @@ public:
   </tbody>
 </table>
 </div>
-
 <div class="ch-ed-problems" style="margin-top: 2rem;">
   <span class="insight-label">Practice Checklist</span>
   <table>
@@ -239,7 +218,6 @@ public:
   </table>
 </div>
 </div>
-
 <div class="chapter-footer-nav">
   <div class="nav-prev">
     <a href="/learning/dsa/tree/ch5-trees-graphs/" class="ch-nav-footer-btn">← Ch5 Trees & Graphs</a>
@@ -248,5 +226,4 @@ public:
     <a href="/learning/dsa/greedy/ch7-greedy/" class="ch-nav-footer-btn primary">Next: Ch7 — Greedy Algorithms →</a>
   </div>
 </div>
-
 </div>

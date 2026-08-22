@@ -39,13 +39,11 @@ url: /learning/data-plane/vpp/vpp-roadmap/
 .mod-nav .nb{background:#1a3a5c;color:#fff !important;border-color:#1a3a5c}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="rmap-hero">
   <div style="font-size:.7rem;font-family:monospace;letter-spacing:.12em;color:#7ab8d8;text-transform:uppercase;margin-bottom:.5rem">VPP MASTERY · FULL ROADMAP · 5 PHASES</div>
   <h1>⚡ VPP Learning Roadmap</h1>
   <p>3–4 months · Docker + AMD + Mellanox · C/C++/Go · 9 mini-projects</p>
 </div>
-
 <div class="summary-grid">
   <div class="sg-card"><span class="sg-num" style="color:#2e6da4">5</span><span class="sg-lbl">Phases</span></div>
   <div class="sg-card"><span class="sg-num" style="color:#1a7a6e">10</span><span class="sg-lbl">Modules</span></div>
@@ -53,11 +51,8 @@ url: /learning/data-plane/vpp/vpp-roadmap/
   <div class="sg-card"><span class="sg-num" style="color:#5b3a8c">22+</span><span class="sg-lbl">Weeks</span></div>
   <div class="sg-card"><span class="sg-num" style="color:#1e6b3c">GoVPP</span><span class="sg-lbl">Capstone</span></div>
 </div>
-
 <p class="sep">PHASE TIMELINE</p>
-
 <div class="phase-timeline">
-
   <!-- PHASE 1 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#2e6da4">1</div>
@@ -84,7 +79,6 @@ url: /learning/data-plane/vpp/vpp-roadmap/
       <div><span class="proj-chip" style="background:#e8f0f8;color:#1a3a6c">📦 Project 1: First Packet Trace</span></div>
     </div>
   </div>
-
   <!-- PHASE 2 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#1a7a6e">2</div>
@@ -123,7 +117,6 @@ url: /learning/data-plane/vpp/vpp-roadmap/
       <div class="dep-note">⚠️ This phase is the prerequisite for everything that follows. Do not skip any module - plugin development (Phase 4) directly uses all three.</div>
     </div>
   </div>
-
   <!-- PHASE 3 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#c05e1b">3</div>
@@ -160,7 +153,6 @@ url: /learning/data-plane/vpp/vpp-roadmap/
       </div>
     </div>
   </div>
-
   <!-- PHASE 4 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#5b3a8c">4</div>
@@ -194,7 +186,6 @@ url: /learning/data-plane/vpp/vpp-roadmap/
       <div class="dep-note">⚠️ Requires solid Phase 2 knowledge: dual-loop pattern (vlib P2B), bihash/pool (vppinfra P2A), feature arcs (vnet P2C).</div>
     </div>
   </div>
-
   <!-- PHASE 5 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#1e6b3c">5</div>
@@ -232,9 +223,7 @@ url: /learning/data-plane/vpp/vpp-roadmap/
       </div>
     </div>
   </div>
-
 </div>
-
 <p class="sep">ALL MINI-PROJECTS</p>
 
 | # | Project | Phase | Key Skills |

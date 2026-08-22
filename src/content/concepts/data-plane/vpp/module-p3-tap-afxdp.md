@@ -63,7 +63,6 @@ url: /learning/data-plane/vpp/module-p3-tap-afxdp/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 3C · WEEKS 11–13</div>
   <div class="mod-title">🐧 TAP · AF_XDP · vhost-user · AF_PACKET</div>
@@ -75,7 +74,6 @@ url: /learning/data-plane/vpp/module-p3-tap-afxdp/
     <span class="mod-pill">linux-cp plugin</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'ta')">Comparison Matrix</button>
   <button class="tab-btn" onclick="vt(event,'tb')">TAP v2 &amp; linux-cp</button>
@@ -84,7 +82,6 @@ url: /learning/data-plane/vpp/module-p3-tap-afxdp/
   <button class="tab-btn" onclick="vt(event,'te')">AF_PACKET</button>
   <button class="tab-btn" onclick="vt(event,'tf')">Checklist</button>
 </div>
-
 <!-- COMPARISON -->
 <div id="ta" class="tab-pane active">
 <p class="sep">ALL VPP INTERFACE TYPES - SELECTION MATRIX</p>
@@ -105,11 +102,9 @@ url: /learning/data-plane/vpp/module-p3-tap-afxdp/
   <p>💡 <strong>Decision rule for your Docker + Mellanox environment:</strong> Physical traffic → DPDK. Container-to-container fast path → memif. Management/control plane access to Linux → TAP v2 or linux-cp. Testing without hugepages → AF_PACKET. VMs → vhost-user. You want NIC speed + Linux visibility → AF_XDP.</p>
 </div>
 </div>
-
 <!-- TAP v2 -->
 <div id="tb" class="tab-pane">
 <p class="sep">TAP v2 AND linux-cp PLUGIN</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🐧</span><h3>TAP v2 - VPP ↔ Linux Kernel Bridge</h3><span class="tag tag-green">INTERNALS</span></div>
   <div class="cp-body">
@@ -139,13 +134,11 @@ set interface ip address tap0 10.10.0.1/30
 <span class="cm"># Verify both sides</span>
 show interface          <span class="cm"># VPP side: tap0 should be up</span>
 show tap tap0           <span class="cm"># virtio queue details</span>
- 
 <span class="cm"># Linux side (inside the container):</span>
 <span class="cm"># ip link show vpp0    - interface should be visible</span>
 <span class="cm"># ping 10.10.0.1       - reaches VPP tap0 interface</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>linux-cp Plugin - Mirroring DPDK Interfaces to Linux</h3><span class="tag tag-teal">LINUX-CP</span></div>
   <div class="cp-body">
@@ -166,17 +159,14 @@ lcp default netns myns  <span class="cm"># create mirrors in a specific network 
   </div>
 </div>
 </div>
-
 <!-- AF_XDP -->
 <div id="tc" class="tab-pane">
 <p class="sep">AF_XDP - HIGH-PERFORMANCE WITH KERNEL VISIBILITY</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>AF_XDP Architecture - XSK + UMEM</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
     <p>AF_XDP (eXpress Data Path socket) lets a userspace process receive and transmit packets from a NIC queue without full DPDK kernel bypass. An eBPF XDP program in the kernel redirects selected packets from the NIC into a <strong>UMEM</strong> (userspace memory region), from which the AF_XDP socket reads them. The rest of the NIC's traffic continues through the normal kernel path.</p>
     <p>This gives you: kernel-controlled NIC (no VFIO binding, kernel still owns the interface), with near-DPDK performance for the traffic you redirect to userspace.</p>
-
 <div class="cb"><pre><span class="cm">/* AF_XDP components */</span>
  
 NIC → XDP eBPF hook → XDP_REDIRECT → UMEM (shared memory)
@@ -191,16 +181,13 @@ Fill ring:    VPP refills with free frame addresses
 Completion ring: kernel notifies which TX frames are done
 RX ring:      kernel deposits received frame addresses
 TX ring:      VPP places frames to transmit</pre></div>
-
     <p><strong>VPP AF_XDP plugin setup:</strong></p>
 <div class="cb"><pre><span class="cm"># Create AF_XDP interface on eth0 (NIC still owned by kernel mlx5_core)</span>
 create interface af-xdp host-if eth0 name afxdp0
  
 <span class="cm"># Or in startup.conf for persistent config</span>
- 
 <span class="cm"># startup.conf stanza</span>
 <span class="cm"># (AF_XDP is configured via CLI/API, not startup.conf)</span>
- 
 <span class="cm"># Bring up and configure</span>
 set interface state afxdp0 up
 set interface ip address afxdp0 10.0.0.1/24
@@ -208,7 +195,6 @@ set interface ip address afxdp0 10.0.0.1/24
 <span class="cm"># Verify</span>
 show interface afxdp0
 show af-xdp interface</pre></div>
-
     <table class="cmp-table">
       <thead><tr><th>AF_XDP Mode</th><th>Description</th><th>Performance</th><th>Requirement</th></tr></thead>
       <tbody>
@@ -217,23 +203,19 @@ show af-xdp interface</pre></div>
         <tr><td><code>zero-copy</code></td><td>NIC DMA directly into UMEM - no copy between kernel and userspace</td><td><span class="good">Highest</span></td><td>Driver must support zero-copy XDP (mlx5 on kernel 5.3+)</td></tr>
       </tbody>
     </table>
-
     <div class="ins">
       <p>💡 <strong>AF_XDP on Mellanox ConnectX-5:</strong> mlx5 supports native XDP and zero-copy XDP on Linux 5.3+. Your AMD + Docker environment should support this - check kernel version with <code>uname -r</code>. With zero-copy mode, AF_XDP throughput approaches DPDK for single-queue workloads while the NIC remains visible to <code>ip link</code> and <code>ethtool</code>.</p>
     </div>
   </div>
 </div>
 </div>
-
 <!-- VHOST-USER -->
 <div id="td" class="tab-pane">
 <p class="sep">VHOST-USER - VIRTUAL MACHINE CONNECTIVITY</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🖥️</span><h3>vhost-user Architecture - VPP ↔ QEMU VM</h3><span class="tag tag-purple">ARCHITECTURE</span></div>
   <div class="cp-body">
     <p>vhost-user is the standard mechanism for connecting a QEMU/KVM virtual machine to VPP at high performance. The VM sees a virtio-net device (standard paravirtualized NIC). The vhost-user protocol moves the virtio vring management from the kernel (<code>vhost-net</code>) into VPP userspace, enabling zero-copy forwarding between VPP and the VM.</p>
-
 <div class="cb"><pre><span class="cm"># ── VPP side: create vhost-user server ──</span>
 create vhost-user socket /run/vpp/vm0.sock server
  
@@ -254,7 +236,6 @@ qemu-system-x86_64 \
 <span class="cm"># Inside the VM: the interface appears as eth0 or ens3</span>
 <span class="cm"># Configure with: ip addr add 192.168.100.2/24 dev eth0</span>
 <span class="cm"># Ping VPP: ping 192.168.100.1</span>
- 
 <span class="cm"># For multi-queue (improves VM throughput significantly)</span>
 create vhost-user socket /run/vpp/vm0.sock server \
   rx-queue-size 1024 tx-queue-size 1024
@@ -264,7 +245,6 @@ create vhost-user socket /run/vpp/vm0.sock server \
 <span class="cm"># -netdev vhost-user,id=net0,chardev=char0,queues=4</span>
  
 show vhost-user    <span class="cm"># VPP: show all vhost-user interfaces and queue state</span></pre></div>
-
     <p><strong>Performance optimisation for vhost-user:</strong></p>
     <ul>
       <li>Use <strong>huge pages in the VM</strong> - map VM memory with 2MB pages for fewer TLB misses in VPP's shared memory access</li>
@@ -275,11 +255,9 @@ show vhost-user    <span class="cm"># VPP: show all vhost-user interfaces and qu
   </div>
 </div>
 </div>
-
 <!-- AF_PACKET -->
 <div id="te" class="tab-pane">
 <p class="sep">AF_PACKET - DEVELOPMENT AND TESTING</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>AF_PACKET - When You Don't Have Hugepages</h3><span class="tag tag-orange">DEV/TEST</span></div>
   <div class="cp-body">
@@ -291,7 +269,6 @@ show vhost-user    <span class="cm"># VPP: show all vhost-user interfaces and qu
       <li>VPP development on a laptop without DPDK-capable NIC</li>
       <li>Quick experiments with VPP's L2/L3 features</li>
     </ul>
-
 <div class="cb"><pre><span class="cm"># Create AF_PACKET interface on Linux interface eth0</span>
 create host-interface name eth0
  
@@ -309,14 +286,12 @@ ip link set vpp0 up
 ip link set vpp1 up
 <span class="cm"># VPP: create host-interface name vpp0</span>
 <span class="cm"># External process uses vpp1</span></pre></div>
-
     <div class="warn">
       <p>⚠️ <strong>Do not performance-test with AF_PACKET.</strong> AF_PACKET throughput (~100–500Kpps) is not representative of VPP's real capabilities. All performance benchmarking must use DPDK, memif, or AF_XDP. Use AF_PACKET only to verify functional correctness - that packets are processed correctly, not how fast they're processed.</p>
     </div>
   </div>
 </div>
 </div>
-
 <!-- CHECKLIST -->
 <div id="tf" class="tab-pane">
 <p class="sep">P3C COMPLETION CHECKLIST</p>
@@ -339,7 +314,6 @@ ip link set vpp1 up
   <p>✅ Phase 3 complete. You now know every VPP interface type in depth. Move to <strong>Phase 4 - Plugin Development</strong>, where you build production-quality plugins using everything learned so far.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p3-memif/">← memif</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>

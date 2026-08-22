@@ -84,7 +84,6 @@ url: /learning/data-plane/vpp/module-p2-vnet/
 .mod-nav .next-btn:hover{background:#22998a}
 .section-sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 2C · WEEKS 7–8</div>
   <div class="mod-title">🌐 vnet - Networking Layer</div>
@@ -96,7 +95,6 @@ url: /learning/data-plane/vpp/module-p2-vnet/
     <span class="mod-pill">FIB · DPO</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="switchTab(event,'t-ifidx')">sw_if_index</button>
   <button class="tab-btn" onclick="switchTab(event,'t-arcs')">Feature Arcs</button>
@@ -105,12 +103,9 @@ url: /learning/data-plane/vpp/module-p2-vnet/
   <button class="tab-btn" onclick="switchTab(event,'t-l2')">L2 Bridging</button>
   <button class="tab-btn" onclick="switchTab(event,'t-check')">Checklist</button>
 </div>
-
 <!-- ══ SW_IF_INDEX ══ -->
 <div id="t-ifidx" class="tab-pane active">
-
 <p class="section-sep">THE UNIVERSAL INTERFACE HANDLE</p>
-
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">🔌</span><h3>sw_if_index - VPP's Interface Abstraction</h3><span class="tag tag-teal">CORE CONCEPT</span></div>
   <div class="concept-panel-body">
@@ -120,7 +115,6 @@ url: /learning/data-plane/vpp/module-p2-vnet/
       <li><strong>hw_if_index</strong> - hardware interface: corresponds to a physical device or PMD (e.g., the DPDK port). One per physical NIC port.</li>
       <li><strong>sw_if_index</strong> - software interface: can be the base interface OR a sub-interface (VLAN, QinQ). Multiple sw_if_index values can share one hw_if_index.</li>
     </ul>
-
 <div class="code-block"><pre><span class="c-comment">/* Get sw_if_index from a received packet */</span>
 <span class="c-type">u32</span> sw_if_index = vnet_buffer(b)->sw_if_index[VLIB_RX];
  
@@ -143,7 +137,6 @@ vnet_sw_interface_set_flags(vnm, sw_if_index, VNET_SW_INTERFACE_FLAG_ADMIN_UP);
   .is_add      = 1,
 };
 vl_api_ip4_add_del_interface_address_t_handler(&a);</pre></div>
-
     <div class="dpdk-box">
       <div class="dpdk-hdr">⚙️ DPDK PARALLEL</div>
       <ul>
@@ -154,19 +147,14 @@ vl_api_ip4_add_del_interface_address_t_handler(&a);</pre></div>
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- ══ FEATURE ARCS ══ -->
 <div id="t-arcs" class="tab-pane">
-
 <p class="section-sep">COMPOSABLE PACKET PIPELINES</p>
-
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🔗</span><h3>Feature Arcs - What They Are</h3><span class="tag tag-blue">src/vnet/feature/</span></div>
   <div class="concept-panel-body">
     <p>A feature arc is a <strong>per-interface ordered list of processing nodes</strong> that a packet traverses before the main routing/forwarding node. Features are registered at compile time, enabled per-interface at runtime via CLI or API. They are VPP's mechanism for composable, modular packet processing.</p>
-
 <div class="arc-flow"><pre>Packet arrives at ip4-input
         │
         ▼
@@ -180,15 +168,12 @@ vl_api_ip4_add_del_interface_address_t_handler(&a);</pre></div>
         │
         ▼
 ip4-lookup  (main forwarding - arc terminal)</pre></div>
-
     <p>The framework calls <code>vnet_feature_next()</code> at the end of each feature node to advance to the next registered feature, or to the terminal node if none remain. Packets skip disabled features automatically - zero overhead per disabled feature.</p>
   </div>
 </div>
-
 <div class="concept-panel panel-teal">
   <div class="concept-panel-hdr"><span class="icon">📝</span><h3>Registering Your Node in an Arc</h3><span class="tag tag-teal">PATTERN</span></div>
   <div class="concept-panel-body">
-
 <div class="code-block"><pre><span class="c-comment">/* In your plugin .c file: register as a feature in ip4-unicast arc */</span>
 <span class="c-macro">VNET_FEATURE_INIT</span> (my_feature, <span class="c-key">static</span>) = {
   .arc_name    = <span class="c-str">"ip4-unicast"</span>,       <span class="c-comment">/* arc to join */</span>
@@ -205,7 +190,6 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
  
   <span class="c-comment">/* Determine next feature in arc (not a hard-coded node name!) */</span>
   vnet_feature_next(&next_index, b0);   <span class="c-comment">/* reads current_config_index */</span>
- 
   <span class="c-comment">/* OR: early exit - bypass remaining features and go direct to drop */</span>
   next_index = VNET_FEATURE_ARC_DROP_INDEX;
  
@@ -215,10 +199,8 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
  
 <span class="c-comment">/* Enable per interface via CLI */</span>
 <span class="c-comment">/* set interface feature GigabitEthernet0/8/0 my-feature-node ip4-unicast enable */</span>
- 
 <span class="c-comment">/* Enable via API (from GoVPP or Python) */</span>
 <span class="c-comment">/* feature_enable_disable { sw_if_index, arc_name, feature_name, enable=1 } */</span></pre></div>
-
     <p><strong>Key arcs you will use:</strong></p>
     <table class="fib-table">
       <thead><tr><th>Arc Name</th><th>Terminal Node</th><th>Trigger</th></tr></thead>
@@ -232,24 +214,18 @@ ip4-lookup  (main forwarding - arc terminal)</pre></div>
     </table>
   </div>
 </div>
-
 </div>
-
 <!-- ══ FIB / DPO ══ -->
 <div id="t-fib" class="tab-pane">
-
 <p class="section-sep">FORWARDING INFORMATION BASE</p>
-
 <div class="concept-panel panel-orange">
   <div class="concept-panel-hdr"><span class="icon">🗺️</span><h3>FIB Architecture - Prefix → DPO Chain</h3><span class="tag tag-orange">src/vnet/fib/</span></div>
   <div class="concept-panel-body">
     <p>VPP's FIB is a <strong>recursive, multi-path forwarding database</strong>. It maps IP prefixes to <strong>Data Path Objects (DPOs)</strong> - a polymorphic chain of forwarding instructions. Understanding FIB is essential for writing plugins that affect routing.</p>
-
 <div class="code-block"><pre><span class="c-comment">/* FIB entry structure (simplified) */</span>
 <span class="c-comment">/* Prefix: 10.0.0.0/8 → [ECMP DPO → [adj_A, adj_B]]       */</span>
 <span class="c-comment">/* Prefix: 0.0.0.0/0  → [Drop DPO]                        */</span>
 <span class="c-comment">/* Prefix: 1.2.3.4/32 → [Receive DPO]  (local address)    */</span>
- 
 <span class="c-comment">/* Add a route programmatically from a plugin */</span>
 <span class="c-type">fib_prefix_t</span> pfx = {
   .fp_len   = <span class="c-val">24</span>,
@@ -275,10 +251,8 @@ fib_table_entry_path_add(<span class="c-val">0</span>,       <span class="c-comm
  
 <span class="c-comment">/* The normal path: ip4-lookup does this automatically */</span>
 <span class="c-comment">/* You rarely need to call fib_table_lookup directly from a node */</span></pre></div>
-
   </div>
 </div>
-
 <div class="concept-panel panel-green">
   <div class="concept-panel-hdr"><span class="icon">🔗</span><h3>DPO - Data Path Objects</h3><span class="tag tag-green">FORWARDING CHAIN</span></div>
   <div class="concept-panel-body">
@@ -298,23 +272,17 @@ fib_table_entry_path_add(<span class="c-val">0</span>,       <span class="c-comm
     <p>You can register your own DPO type with <code>dpo_register()</code> to intercept traffic and redirect it through a custom graph node. This is the correct mechanism for tunnel encapsulation, policy routing, and SRv6.</p>
   </div>
 </div>
-
 <div class="insight-box">
   <p>💡 <strong>Most plugin authors never touch the FIB directly.</strong> The typical pattern is: register a feature arc node to intercept inbound packets, do your processing, and call <code>vnet_feature_next()</code> to continue normal forwarding. Only plugins that add new route types (tunnels, SRv6, custom DPOs) need to interact with the FIB API.</p>
 </div>
-
 </div>
-
 <!-- ══ ARP ══ -->
 <div id="t-arp" class="tab-pane">
-
 <p class="section-sep">ARP AND NEIGHBOUR RESOLUTION</p>
-
 <div class="concept-panel panel-purple">
   <div class="concept-panel-hdr"><span class="icon">📡</span><h3>How ARP Works in VPP</h3><span class="tag tag-purple">src/vnet/arp/</span></div>
   <div class="concept-panel-body">
     <p>VPP's ARP is entirely in the dataplane. When ip4-lookup resolves a route to a <code>DPO_ADJACENCY_GLEAN</code>, it punts the packet to <code>arp-input-glean</code>, which queues the packet and sends an ARP request. When the ARP reply arrives, <code>arp-reply</code> updates the adjacency table, and queued packets are re-forwarded.</p>
-
 <div class="code-block"><pre><span class="c-comment">/* Manually add a static ARP entry */</span>
 vnet_set_ip4_ethernet_arp(<span class="c-key">NULL</span>,           <span class="c-comment">/* main thread */</span>
                           sw_if_index,
@@ -322,32 +290,23 @@ vnet_set_ip4_ethernet_arp(<span class="c-key">NULL</span>,           <span class
                           mac_addr,
                           <span class="c-val">1</span>,              <span class="c-comment">/* is_static */</span>
                           <span class="c-val">0</span>);             <span class="c-comment">/* is_no */</span>
- 
 <span class="c-comment">/* Show ARP table: vppctl> show ip neighbors */</span>
- 
 <span class="c-comment">/* Walk ARP entries programmatically */</span>
 ip4_neighbor_walk(sw_if_index, my_cb_fn, my_arg);</pre></div>
-
     <p><strong>Important:</strong> ARP processing is slow-path. Production deployments use static ARP entries for known peers (e.g., testpmd containers) to avoid ARP-generated glean drops at startup. In your mini-projects, add static ARP entries for container-to-container communication.</p>
   </div>
 </div>
-
 </div>
-
 <!-- ══ L2 BRIDGING ══ -->
 <div id="t-l2" class="tab-pane">
-
 <p class="section-sep">L2 BRIDGING AND SWITCHING</p>
-
 <div class="concept-panel panel-blue">
   <div class="concept-panel-hdr"><span class="icon">🌉</span><h3>Bridge Domains - L2 Forwarding</h3><span class="tag tag-blue">src/vnet/l2/</span></div>
   <div class="concept-panel-body">
     <p>VPP supports full L2 bridging. Interfaces placed in the same <strong>bridge domain</strong> behave as ports on the same switch. The bridge domain handles MAC learning, flooding, and forwarding without involving the L3 FIB.</p>
-
 <div class="code-block"><pre><span class="c-comment">/* Create bridge domain 1 and add two interfaces */</span>
 <span class="c-comment">/* vppctl> set interface l2 bridge GigabitEthernet0/8/0 1 */</span>
 <span class="c-comment">/* vppctl> set interface l2 bridge memif0/0 1             */</span>
- 
 <span class="c-comment">/* Programmatic: create bridge domain */</span>
 <span class="c-type">l2_bridge_domain_add_del_args_t</span> a = {
   .bd_id     = <span class="c-val">1</span>,
@@ -368,13 +327,10 @@ set_int_l2_mode(vm, vnm, MODE_L2_BRIDGE, sw_if_index, <span class="c-val">1</spa
 <span class="c-comment">/* Show L2 MAC table */</span>
 <span class="c-comment">/* vppctl> show l2fib            */</span>
 <span class="c-comment">/* vppctl> show bridge-domain 1  */</span></pre></div>
-
     <p>Bridge domains are heavily used in the mini-projects - the memif vSwitch (Project 5) uses a bridge domain to connect multiple container VPP instances via memif interfaces.</p>
   </div>
 </div>
-
 </div>
-
 <!-- ══ CHECKLIST ══ -->
 <div id="t-check" class="tab-pane">
 <p class="section-sep">P2C COMPLETION CHECKLIST</p>
@@ -393,13 +349,11 @@ set_int_l2_mode(vm, vnm, MODE_L2_BRIDGE, sw_if_index, <span class="c-val">1</spa
   <p>✅ Phase 2 complete. You now understand all three vpp layers from the ground up. Next: <strong>Phase 3 - Interface Technologies</strong>. Start with the DPDK plugin - it's the most familiar given your background.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p2-vlib/">← P2B: vlib</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>
   <a class="next-btn" href="/learning/data-plane/vpp/module-p3-dpdk/">Next: DPDK Plugin →</a>
 </div>
-
 <script>
 function switchTab(e,id){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));

@@ -63,7 +63,6 @@ url: /learning/data-plane/dpdk/module-p2-rings/
 .mod-nav .nb{background:#0b3028;color:#fff !important;border-color:#0b3028}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">DPDK MASTERY · PHASE 2 OF 3 · MODULE B</div>
   <div class="mod-title">rte_ring, Distributor &amp; App Models</div>
@@ -76,7 +75,6 @@ url: /learning/data-plane/dpdk/module-p2-rings/
     <span class="mod-pill">Weeks 8–10</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t-ring')">Ring Internals</button>
   <button class="tab-btn" onclick="vt(event,'t-cas')">CAS Mechanics</button>
@@ -87,15 +85,12 @@ url: /learning/data-plane/dpdk/module-p2-rings/
   <button class="tab-btn" onclick="vt(event,'t-qa')">Interview Q&amp;A</button>
   <button class="tab-btn" onclick="vt(event,'t-lab')">Lab</button>
 </div>
-
 <!-- TAB: Ring Internals -->
 <div id="t-ring" class="tab-pane active">
-
 <div class="p-teal">
 <h4>rte_ring — The Inter-Core Packet Bus</h4>
 <code>rte_ring</code> is DPDK's lock-free, fixed-size circular buffer. It passes object pointers (typically mbuf pointers) between cores with minimal overhead — no mutexes, no condition variables, no syscalls. It is the primitive that connects Rx cores, worker cores, and Tx cores in a pipeline architecture.
 </div>
-
 <div class="diagram-box">rte_ring Internal Layout (in hugepage memory, power-of-2 sized)
 
 ┌─────────────────────────────────────────────────────────────────┐
@@ -112,21 +107,15 @@ used  slots = (prod.tail - cons.head) & mask
 
 Invariant: prod.tail always ≤ prod.head (producers fill between head and tail)
            cons.tail always ≤ prod.tail (consumers can only see committed data)</div>
-
 <div class="note">&#128204; <strong>Power-of-2 size requirement:</strong> rte_ring uses <code>mask = size - 1</code> for modulo via bitwise AND — <code>idx & mask</code> instead of <code>idx % size</code>. Bitwise AND is a single instruction vs division which can be 20–80 cycles. This is why ring size must always be a power of 2.</div>
-
 </div><!-- /t-ring -->
-
 <!-- TAB: CAS Mechanics -->
 <div id="t-cas" class="tab-pane">
-
 <div class="p-teal">
 <h4>Lock-Free MPMC via CAS (Compare-And-Swap)</h4>
 rte_ring achieves multi-producer multi-consumer safety without mutexes using atomic CAS operations. CAS atomically checks if a memory location holds an expected value and swaps it with a new value — if another thread modified it concurrently, CAS fails and the operation retries.
 </div>
-
 <p class="sep">MULTI-PRODUCER ENQUEUE — CAS PROTOCOL</p>
-
 <div class="diagram-box">Multi-Producer Enqueue (simplified — showing CAS retry)
 
 Producer A and Producer B both want to enqueue simultaneously:
@@ -146,17 +135,13 @@ Step ⑥: Producer A sets prod.tail = 11
 Key insight: CAS failure is not an error — it's the retry signal.
 Under low contention: CAS succeeds first try → near-zero overhead.
 Under high contention: retries add latency → prefer SPSC when possible.</div>
-
 <div class="p-blue">
 <h4>Why Wait-Free is Not the Same as Lock-Free</h4>
 rte_ring is <strong>lock-free</strong> (no thread can block indefinitely holding a lock) but not <em>wait-free</em> (individual threads may retry). In practice, under typical DPDK workloads with one producer and one consumer per ring (SPSC mode), there is no CAS at all — just atomic load/store, which is near-zero cost.
 </div>
-
 </div><!-- /t-cas -->
-
 <!-- TAB: Ring Modes -->
 <div id="t-modes" class="tab-pane">
-
 <table class="t-table">
 <thead><tr><th>Mode</th><th>Enqueue</th><th>Dequeue</th><th>Overhead</th><th>Use Case</th></tr></thead>
 <tbody>
@@ -166,7 +151,6 @@ rte_ring is <strong>lock-free</strong> (no thread can block indefinitely holding
 <tr><td><strong>MPMC</strong><br>Multi Producer, Multi Consumer</td><td>CAS on both sides</td><td>CAS on both sides</td><td>Highest — most general</td><td>Default mode; needed when both sides have multiple cores</td></tr>
 </tbody>
 </table>
-
 <div class="cb"><span class="cm">// Create ring with explicit mode flags</span>
 <span class="ck">struct</span> rte_ring *ring;
 
@@ -177,38 +161,27 @@ ring = <span class="cf">rte_ring_create</span>(<span class="cs">"FAST_RING"</spa
 <span class="cm">// MPMC — default (most general)</span>
 ring = <span class="cf">rte_ring_create</span>(<span class="cs">"WORK_RING"</span>, <span class="cn">4096</span>, <span class="cf">rte_socket_id</span>(),
                       <span class="cn">0</span>);   <span class="cm">// 0 = MPMC</span>
-
 <span class="cm">// Check if creation succeeded</span>
 <span class="ck">if</span> (!ring)
     <span class="cf">rte_exit</span>(<span class="cn">EXIT_FAILURE</span>, <span class="cs">"Ring create failed: %s\n"</span>, <span class="cf">rte_strerror</span>(<span class="cf">rte_errno</span>));</div>
-
 <div class="warn">&#9888;&#65039; <strong>Ring size must be a power of 2.</strong> If you pass a non-power-of-2 size, <code>rte_ring_create()</code> returns NULL. The actual usable capacity is <code>size - 1</code> (one slot is always kept empty to distinguish full from empty). So a ring of size 1024 holds at most 1023 objects.</div>
-
 </div><!-- /t-modes -->
-
 <!-- TAB: Ring API -->
 <div id="t-api" class="tab-pane">
-
 <p class="sep">CORE ENQUEUE / DEQUEUE APIs</p>
-
 <div class="cb"><span class="cm">// Single object</span>
 <span class="co">int</span> ret = <span class="cf">rte_ring_enqueue</span>(ring, obj_ptr);  <span class="cm">// 0 = success, -ENOBUFS = full</span>
 <span class="co">int</span> ret = <span class="cf">rte_ring_dequeue</span>(ring, &amp;obj_ptr); <span class="cm">// 0 = success, -ENOENT = empty</span>
-
 <span class="cm">// Bulk — preferred: reduces CAS contention + better cache efficiency</span>
 <span class="co">unsigned</span> enqueued = <span class="cf">rte_ring_enqueue_bulk</span>(ring, objs, n, &amp;free_space);
 <span class="cm">// Returns n on success, 0 on failure (ring doesn't have n free slots)</span>
-
 <span class="co">unsigned</span> dequeued = <span class="cf">rte_ring_dequeue_bulk</span>(ring, objs, n, &amp;avail);
 <span class="cm">// Returns n on success, 0 on failure (ring doesn't have n objects)</span>
-
 <span class="cm">// Burst — partial success (unlike bulk which is all-or-nothing)</span>
 <span class="co">unsigned</span> enqueued = <span class="cf">rte_ring_enqueue_burst</span>(ring, objs, n, &amp;free_space);
 <span class="cm">// Returns 0..n: enqueued as many as possible</span>
-
 <span class="co">unsigned</span> dequeued = <span class="cf">rte_ring_dequeue_burst</span>(ring, objs, n, &amp;avail);
 <span class="cm">// Returns 0..n: dequeued as many as available</span></div>
-
 <div class="p-teal">
 <h4>bulk vs burst — Which to Use?</h4>
 <ul style="margin:.3rem 0 0;font-size:.87rem;line-height:1.8">
@@ -216,28 +189,21 @@ ring = <span class="cf">rte_ring_create</span>(<span class="cs">"WORK_RING"</spa
 <li><strong>burst</strong>: enqueues as many as possible (0 to n). Use for drain loops where partial success is acceptable — e.g., forwarding loop that drains whatever is available.</li>
 </ul>
 </div>
-
 <p class="sep">RING INSPECTION APIs</p>
-
 <div class="cb"><span class="co">unsigned</span> count    = <span class="cf">rte_ring_count</span>(ring);      <span class="cm">// objects currently in ring</span>
 <span class="co">unsigned</span> free_cnt = <span class="cf">rte_ring_free_count</span>(ring);  <span class="cm">// empty slots available</span>
 <span class="co">int</span>      full      = <span class="cf">rte_ring_full</span>(ring);        <span class="cm">// 1 if no free slots</span>
 <span class="co">int</span>      empty     = <span class="cf">rte_ring_empty</span>(ring);       <span class="cm">// 1 if no objects</span>
-
 <span class="cm">// Named ring lookup (for multi-process — secondary finds ring created by primary)</span>
 <span class="ck">struct</span> rte_ring *ring = <span class="cf">rte_ring_lookup</span>(<span class="cs">"WORK_RING"</span>);
 <span class="ck">if</span> (!ring) <span class="cm">/* ring not yet created by primary */</span>;</div>
-
 </div><!-- /t-api -->
-
 <!-- TAB: rte_distributor -->
 <div id="t-dist" class="tab-pane">
-
 <div class="p-teal">
 <h4>rte_distributor — One RX Core → N Workers</h4>
 <code>rte_distributor</code> implements the <strong>fan-out pattern</strong>: one RX/coordinator lcore receives packets from the NIC and distributes them to a pool of worker lcores based on a flow tag. The key property: all packets with the same tag (e.g., RSS hash) are guaranteed to go to the same worker — enabling per-flow state without locking.
 </div>
-
 <div class="diagram-box">rte_distributor Architecture
 
               ┌─────────────────┐
@@ -255,7 +221,6 @@ ring = <span class="cf">rte_ring_create</span>(<span class="cs">"WORK_RING"</spa
    │ get_pkt()│  │ get_pkt()│  │ get_pkt()│
    └──────────┘  └──────────┘  └──────────┘
    All packets with same hash → same worker → per-flow state, no locks</div>
-
 <div class="cb"><span class="cm">// Coordinator lcore (lcore 0)</span>
 <span class="ck">struct</span> rte_distributor *dist = <span class="cf">rte_distributor_create</span>(
     <span class="cs">"SASE_DIST"</span>,         <span class="cm">// name</span>
@@ -287,16 +252,11 @@ ring = <span class="cf">rte_ring_create</span>(<span class="cs">"WORK_RING"</spa
     }
     <span class="ck">return</span> <span class="cn">0</span>;
 }</div>
-
 <div class="ins">&#127381; <strong>Blaze/SASE-DP Context:</strong> The SASE-DP URL filter uses a distributor-based architecture: the RX core receives packets from a 100G NIC and distributes by RSS hash (= 5-tuple hash) to 8 worker cores. Each worker owns its portion of the flow table — no cross-core lookups, no locking on the hot path. Enterprise and mobility traffic classes separated by RETA programming.</div>
-
 </div><!-- /t-dist -->
-
 <!-- TAB: App Models -->
 <div id="t-appmodel" class="tab-pane">
-
 <p class="sep">TWO FUNDAMENTAL DPDK APPLICATION ARCHITECTURES</p>
-
 <div class="two-col">
 <div class="p-blue">
 <h4>Run-to-Completion (RTC)</h4>
@@ -319,7 +279,6 @@ Different lcores handle different stages: lcore 0 → RX, lcore 1 → classify, 
 <strong>Best for:</strong> Complex NFs with multiple distinct processing stages (DPI, URL filter, stateful firewalls). SASE-DP uses a hybrid.
 </div>
 </div>
-
 <div class="diagram-box">Run-to-Completion (RTC)
 
 lcore 0: RX → process → TX (all ports, all stages)
@@ -337,7 +296,6 @@ lcore 2:  ring_classify[] → policy → ring_policy[] ────────�
 lcore 3:  ring_policy[] → TX NIC
 
 Hybrid (SASE-DP): RTC within each stage, distributor between RX and workers</div>
-
 <table class="t-table">
 <thead><tr><th>Criterion</th><th>Run-to-Completion</th><th>Pipeline</th></tr></thead>
 <tbody>
@@ -349,48 +307,37 @@ Hybrid (SASE-DP): RTC within each stage, distributor between RX and workers</div
 <tr><td>Use case</td><td>Simple forwarding, routing</td><td>DPI, URL filter, stateful NFs</td></tr>
 </tbody>
 </table>
-
 </div><!-- /t-appmodel -->
-
 <!-- TAB: Interview Q&A -->
 <div id="t-qa" class="tab-pane">
-
 <div class="p-slate">
 <h4>Q: How does rte_ring achieve lock-free MPMC operation?</h4>
 Using CAS (Compare-And-Swap) atomic operations. Each producer atomically claims a slot by CAS'ing the producer head pointer. If the CAS fails (another producer claimed the slot concurrently), it retries. Once a producer owns a slot, it writes the object and then waits for the producer tail to reach its slot (to maintain order), then advances the tail. Consumers similarly CAS the consumer head. Under low contention, CAS succeeds on first try with near-zero overhead.
 </div>
-
 <div class="p-slate">
 <h4>Q: Why must rte_ring size be a power of 2?</h4>
 rte_ring uses bitwise AND for modulo: <code>idx & (size-1)</code> instead of <code>idx % size</code>. Bitwise AND is a single-cycle instruction; division can take 20–80 cycles. At millions of enqueue/dequeue operations per second, this difference matters. Power-of-2 also means the mask is simply <code>size - 1</code> — computed once at creation time.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is the difference between rte_ring_enqueue_bulk and enqueue_burst?</h4>
 <strong>bulk</strong>: all-or-nothing. Enqueues exactly <em>n</em> objects or fails entirely (returns 0). The ring must have at least <em>n</em> free slots. Use when atomicity is required — e.g., passing a full burst to a stage.<br>
 <strong>burst</strong>: partial success. Enqueues 0 to <em>n</em> objects — as many as the ring can accept. Returns the actual count. Use in drain loops where you want maximum throughput regardless of how many succeed.
 </div>
-
 <div class="p-slate">
 <h4>Q: What is rte_distributor and when would you use it over rte_ring?</h4>
 <code>rte_distributor</code> is a higher-level fan-out primitive: one coordinator distributes packets to N workers by flow tag (hash), guaranteeing all packets of the same flow go to the same worker. Use it when you need <em>flow affinity</em> — per-flow state on workers without cross-core locks. Use rte_ring directly when you have simpler FIFO queuing needs or want more control over the distribution logic.
 </div>
-
 <div class="p-slate">
 <h4>Q: When should you choose pipeline over run-to-completion?</h4>
 Pipeline is better when: (1) Processing stages have very different compute costs — pipeline lets you add more cores to the bottleneck stage. (2) Stages can be developed and optimized independently. (3) You need different security/isolation boundaries between stages (separate processes via shared rings). RTC is better when: latency is paramount, processing is simple and uniform, or the NF fits cleanly within a single lcore's budget.
 </div>
-
 </div><!-- /t-qa -->
-
 <!-- TAB: Lab -->
 <div id="t-lab" class="tab-pane">
-
 <div class="lab-box">
 <div class="lab-hdr">&#128293; Lab 6: Ring-Based Worker Pipeline</div>
 <div class="lab-body">
 <p style="font-size:.87rem;margin:.3rem 0 .8rem">Implement a two-stage pipeline: RX lcore → rte_ring → Worker lcore → TX. Measure the latency added by the ring hand-off.</p>
-
 <div class="lab-step"><span class="sn">1</span><div>Create two SPSC rings: <code>rte_ring_create("RX_TO_WORKER", 1024, socket, RING_F_SP_ENQ | RING_F_SC_DEQ)</code> and a symmetric TX ring</div></div>
 <div class="lab-step"><span class="sn">2</span><div><strong>RX lcore (lcore 0):</strong> <code>rte_eth_rx_burst()</code> → timestamp each mbuf → <code>rte_ring_enqueue_burst()</code></div></div>
 <div class="lab-step"><span class="sn">3</span><div><strong>Worker lcore (lcore 1):</strong> <code>rte_ring_dequeue_burst()</code> → compute latency = <code>rte_rdtsc() - mbuf_timestamp</code> → <code>rte_eth_tx_burst()</code></div></div>
@@ -399,12 +346,10 @@ Pipeline is better when: (1) Processing stages have very different compute costs
 <div class="lab-step"><span class="sn">6</span><div><strong>Extension:</strong> try MPMC ring with 2 producers and 2 consumers — observe CAS overhead in the latency numbers</div></div>
 </div>
 </div>
-
 <div class="lab-box">
 <div class="lab-hdr">&#128293; Lab 7: rte_distributor Flow Affinity Verification</div>
 <div class="lab-body">
 <p style="font-size:.87rem;margin:.3rem 0 .8rem">Verify that the distributor routes all packets of the same 5-tuple to the same worker core.</p>
-
 <div class="lab-step"><span class="sn">1</span><div>Set up distributor with 4 workers using <code>rte_distributor_create()</code></div></div>
 <div class="lab-step"><span class="sn">2</span><div>In coordinator: set <code>pkts[i]->hash.usr = pkts[i]->hash.rss</code> as flow tag</div></div>
 <div class="lab-step"><span class="sn">3</span><div>In each worker: maintain a per-worker hash map of <code>rss_hash → count</code></div></div>
@@ -412,7 +357,6 @@ Pipeline is better when: (1) Processing stages have very different compute costs
 <div class="lab-step"><span class="sn">5</span><div>After 1M packets: verify each RSS hash value appears on exactly one worker lcore — never split</div></div>
 </div>
 </div>
-
 <p class="sep">MASTERY CHECKLIST</p>
 <ul class="cl">
 <li>Can draw rte_ring internal layout: prod/cons head/tail, ring array, mask calculation</li>
@@ -424,15 +368,12 @@ Pipeline is better when: (1) Processing stages have very different compute costs
 <li>Can identify when pipeline adds value vs when RTC is better</li>
 <li>Can explain why ring size must be a power of 2 (bitwise AND trick)</li>
 </ul>
-
 </div><!-- /t-lab -->
-
 <div class="mod-nav">
   <a href="/learning/data-plane/dpdk/module-p2-pmd/">&#8592; P2A: PMD &amp; Port Config</a>
   <a href="/learning/data-plane/dpdk/dpdk-roadmap/">&#8593; Roadmap</a>
   <a class="nb" href="/learning/data-plane/dpdk/module-p3-advanced/">P3A: Multi-Process &amp; rte_flow &#8594;</a>
 </div>
-
 <script>
 function vt(e,id){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));

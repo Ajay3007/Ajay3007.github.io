@@ -33,7 +33,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
     <div class="mast-col"><div class="mast-col-val">✓</div>Track A End</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nav-tab active" onclick="show('overview',this)">Overview</div>
   <div class="nav-tab" onclick="show('cases',this)">Case Studies</div>
@@ -42,13 +41,10 @@ url: /learning/system-design/lld/module-a6-case-studies/
   <div class="nav-tab" onclick="show('tasks',this)">Tasks</div>
   <div class="nav-tab" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- ===== OVERVIEW ===== -->
 <div class="view active" id="view-overview">
   <div class="rule-hd"><span>Six systems · all Track A patterns applied</span><span>CLICK CARD TO DEEP DIVE</span></div>
-
   <div class="front-grid">
     <div class="front-card" onclick="goCase(0)">
       <div class="fc-num" style="color:var(--c1)">01</div>
@@ -87,7 +83,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
       <div class="fc-challenge">Concurrent room booking with date-range contention. Dynamic pricing. Reservation waitlist.</div>
     </div>
   </div>
-
   <div class="rule-hd"><span>Pattern → Problem mapping</span></div>
   <table class="int-table">
     <thead><tr><th>SYSTEM</th><th>KEY PATTERN</th><th>CONCURRENCY CONCERN</th><th>KILLER INTERVIEW QUESTION</th></tr></thead>
@@ -101,7 +96,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
     </tbody>
   </table>
 </div>
-
 <!-- ===== CASE STUDIES ===== -->
 <div class="view" id="view-cases">
   <div class="case-tabs">
@@ -112,7 +106,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
     <div class="ct-btn" id="cb4" onclick="selCase(4)"><span class="cnum" style="color:var(--c5)">05</span>ATM</div>
     <div class="ct-btn" id="cb5" onclick="selCase(5)"><span class="cnum" style="color:var(--c6)">06</span>Hotel</div>
   </div>
-
   <!-- CHESS -->
   <div class="case-panel active" id="cp0">
     <div class="case-mast" style="border-top:4px solid var(--c1)">
@@ -153,7 +146,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
     <span class="kw">private final</span> <span class="cls">Position</span> from, to;
     <span class="kw">private</span>       <span class="cls">Piece</span>    capturedPiece;  <span class="cm">// Saved for undo</span>
     <span class="kw">private</span>       <span class="kw">boolean</span>  wasFirstMove;   <span class="cm">// Pawn/king special rules</span>
- 
     <span class="kw">public void</span> <span class="fn">execute</span>(<span class="cls">Board</span> board) {
         capturedPiece = board.<span class="fn">getPiece</span>(to);
         wasFirstMove  = piece.<span class="fn">isFirstMove</span>();
@@ -179,7 +171,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
 }</pre>
     </div>
   </div>
-
   <!-- ELEVATOR -->
   <div class="case-panel" id="cp1">
     <div class="case-mast" style="border-top:4px solid var(--c2)">
@@ -243,7 +234,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
 }</pre>
     </div>
   </div>
-
   <!-- LIBRARY -->
   <div class="case-panel" id="cp2">
     <div class="case-mast" style="border-top:4px solid var(--c3)">
@@ -299,7 +289,6 @@ url: /learning/system-design/lld/module-a6-case-studies/
 }</pre>
     </div>
   </div>
-
   <!-- FOOD -->
   <div class="case-panel" id="cp3">
     <div class="case-mast" style="border-top:4px solid var(--c4)">
@@ -342,7 +331,6 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
 <span class="cm">// No changes to ValidationHandler, DeliveryHandler, NotificationHandler (OCP)</span></pre>
     </div>
   </div>
-
   <!-- ATM -->
   <div class="case-panel" id="cp4">
     <div class="case-mast" style="border-top:4px solid var(--c5)">
@@ -393,7 +381,6 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
 }</pre>
     </div>
   </div>
-
   <!-- HOTEL -->
   <div class="case-panel" id="cp5">
     <div class="case-mast" style="border-top:4px solid var(--c6)">
@@ -432,11 +419,9 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
     </div>
   </div>
 </div>
-
 <!-- ===== FRAMEWORK ===== -->
 <div class="view" id="view-framework">
   <div class="rule-hd"><span>5-step LLD interview framework</span></div>
-
   <div class="framework">
     <div class="fw-hdr">THE 5-STEP LLD FRAMEWORK — USE FOR EVERY INTERVIEW</div>
     <div class="fw-steps">
@@ -467,7 +452,6 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
       </div>
     </div>
   </div>
-
   <div class="rule-hd" style="margin-top:24px"><span>Killer questions + strong answers</span></div>
   <table class="int-table">
     <thead><tr><th>SYSTEM</th><th>KILLER QUESTION</th><th>STRONG ANSWER</th></tr></thead>
@@ -481,11 +465,9 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
     </tbody>
   </table>
 </div>
-
 <!-- ===== ANTI-PATTERNS ===== -->
 <div class="view" id="view-anti">
   <div class="rule-hd"><span>Common LLD anti-patterns — avoid these in interviews</span></div>
-
   <div class="anti-grid">
     <div class="anti-card">
       <div class="anti-icon">🧱</div>
@@ -528,7 +510,6 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
       <div class="anti-desc">No thought given to what must always be true: "available + occupied == total", "seat has at most one booking", "balance never goes negative". Fix: state invariants explicitly; enforce in synchronized/locked sections.</div>
     </div>
   </div>
-
   <div style="margin-top:20px;background:var(--cream);border:2px solid var(--ink);padding:20px;">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--grey2);margin-bottom:12px;">// PATTERN SELECTION CHEAT SHEET</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.9;">
@@ -547,7 +528,6 @@ chain.<span class="fn">setNext</span>(<span class="kw">new</span> <span class="c
     </div>
   </div>
 </div>
-
 <!-- ===== TASKS ===== -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -572,7 +552,6 @@ Required patterns:
 Deliver: Full Java + UML + test for 4 players, 10-round game</pre>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">02</div><div class="t-label">Parking Lot V2 — Extensions</div><div class="t-meta">~2.5 hrs · extend A5</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -591,7 +570,6 @@ Design challenge: adding EV state without breaking existing Spot hierarchy.
 Show OCP — new spot type = new class, existing code unchanged.</pre>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">03</div><div class="t-label">Multi-Level Cache System</div><div class="t-meta">~3 hrs · code</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -617,7 +595,6 @@ Invalidation: CacheInvalidationEvent via Observer pattern
 Test: cache hit rates, concurrency safety, write policy correctness</pre>
       </div>
     </div>
-
     <div class="task-card" style="border-top:3px solid var(--red)">
       <div class="task-hd" onclick="tt(this)"><div class="t-num" style="color:var(--red)">★</div><div class="t-label">Capstone — BookMyShow (Full Track A)</div><div class="t-meta">~8 hrs · complete LLD</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -652,12 +629,10 @@ Deliverables:
     </div>
   </div>
 </div>
-
 <!-- ===== CHECKLIST ===== -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 12 completed</span><span>MODULE A6 · TRACK A FINAL</span></div>
   <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-
   <div class="chk-grid">
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Can design Chess Game — move validation, undo, checkmate detection</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Can design Elevator — LOOK algorithm, concurrent requests, pluggable strategy</div></div>
@@ -672,7 +647,6 @@ Deliverables:
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Task 3: Multi-Level Cache — 3 levels, 3 write policies, concurrent</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Capstone: BookMyShow — 9 patterns, concurrency proof, UML, sequence diagram</div></div>
   </div>
-
   <div style="margin-top:32px;background:var(--ink);color:var(--paper);padding:28px;">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--grey2);margin-bottom:12px;">TRACK A COMPLETE</div>
     <div style="font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:2px;margin-bottom:10px;">🎉 Ready for Track B</div>
@@ -686,9 +660,7 @@ Deliverables:
     </div>
   </div>
 </div>
-
 </div><!-- end content -->
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));

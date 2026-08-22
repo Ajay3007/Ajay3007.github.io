@@ -137,7 +137,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#best-time-to-buy-and-sell-stock" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">567</span>
     <span class="problem-status solved">✓ Solved</span>
@@ -146,7 +145,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#permutation-in-string" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">3</span>
     <span class="problem-status solved">✓ Solved</span>
@@ -155,7 +153,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#longest-substring-without-repeating-characters" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">424</span>
     <span class="problem-status solved">✓ Solved</span>
@@ -164,7 +161,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#longest-repeating-character-replacement" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">239</span>
     <span class="problem-status solved">✓ Solved</span>
@@ -173,7 +169,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#sliding-window-maximum" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">76</span>
     <span class="problem-status solved">✓ Solved</span>
@@ -195,7 +190,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#fruits-into-baskets" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">560</span>
     <span class="problem-status unsolved">○ Unsolved</span>
@@ -204,7 +198,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#subarray-sum-equals-k" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">930</span>
     <span class="problem-status unsolved">○ Unsolved</span>
@@ -213,7 +206,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#binary-subarrays-with-sum" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">209</span>
     <span class="problem-status unsolved">○ Unsolved</span>
@@ -235,7 +227,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#subarrays-with-k-different-integers" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">340</span>
     <span class="problem-status unsolved">○ Unsolved</span>
@@ -244,7 +235,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#longest-substring-with-at-most-k-distinct-characters" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">1004</span>
     <span class="problem-status unsolved">○ Unsolved</span>
@@ -253,7 +243,6 @@ for (int right = 0; right < s.size(); right++) {
       <a href="/learning/dsa/arrays/arrays-problems/#max-consecutive-ones-iii" class="problem-btn">📋 View Solution</a>
     </div>
   </div>
-
   <div class="problem-card">
     <span class="problem-number">1248</span>
     <span class="problem-status unsolved">○ Unsolved</span>

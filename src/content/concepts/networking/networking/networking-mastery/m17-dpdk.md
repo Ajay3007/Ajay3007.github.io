@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m17-dpdk/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 4 · MODULE 17 · WEEK 15</div>
   <div class="mod-title">🚀 High-Performance Networking with DPDK</div>
@@ -91,7 +90,6 @@ url: /learning/networking-mastery/m17-dpdk/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Why DPDK</button>
   <button class="tab-btn" onclick="vt(event,'t1')">EAL and Setup</button>
@@ -103,7 +101,6 @@ url: /learning/networking-mastery/m17-dpdk/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">WHY DPDK — THE KERNEL IS NOT FAST ENOUGH</p>
@@ -141,7 +138,6 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">EAL — ENVIRONMENT ABSTRACTION LAYER</p>
@@ -150,18 +146,15 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* DPDK EAL — abstracts OS and hardware */</span>
 <span class="cm">/* Manages: hugepages, NUMA, CPU affinity, PCI devices, logging */</span>
- 
 <span class="cm">/* Minimal DPDK application skeleton */</span>
 <span class="cs">#include &lt;rte_eal.h&gt;
 #include &lt;rte_ethdev.h&gt;
 #include &lt;rte_mbuf.h&gt;</span>
- 
 <span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> **argv) {
     <span class="cm">/* EAL init: parses EAL args, sets up hugepages, maps devices */</span>
     <span class="ck">int</span> ret = rte_eal_init(argc, argv);
     <span class="ck">if</span> (ret < 0) rte_exit(EXIT_FAILURE, <span class="cs">"EAL init failed\n"</span>);
     argc -= ret; argv += ret;  <span class="cm">/* remaining args are app-specific */</span>
- 
     <span class="cm">/* Check available ports */</span>
     uint16_t nb_ports = rte_eth_dev_count_avail();
     printf(<span class="cs">"Available ports: %u\n"</span>, nb_ports);
@@ -174,7 +167,6 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
         0,                    <span class="cm">/* priv_size */</span>
         RTE_MBUF_DEFAULT_BUF_SIZE,
         rte_socket_id());     <span class="cm">/* NUMA socket */</span>
- 
     <span class="cm">/* Configure each port */</span>
     uint16_t port_id;
     RTE_ETH_FOREACH_DEV(port_id) {
@@ -194,7 +186,6 @@ Your servers: AMD EPYC + Mellanox — which PMD are you using?</pre></div>
 --socket-mem 2048  <span class="cm"># 2GB hugepage memory on socket 0</span>
 --vdev eth_pcap0,iface=eth0  <span class="cm"># use pcap driver (for testing without real NIC)</span>
 -a 0000:01:00.0 <span class="cm"># allow only this PCI device</span>
- 
 <span class="cm">/* Hugepage setup (required before DPDK runs) */</span>
 echo 2048 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 mkdir -p /mnt/huge
@@ -202,7 +193,6 @@ mount -t hugetlbfs nodev /mnt/huge</pre></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">mbuf AND MEMPOOL — PACKET BUFFER MANAGEMENT</p>
@@ -218,16 +208,13 @@ mount -t hugetlbfs nodev /mnt/huge</pre></div>
     uint16_t         data_off;       <span class="cm">/* offset to first byte of data (headroom) */</span>
     uint16_t         data_len;       <span class="cm">/* data length in THIS mbuf segment */</span>
     uint32_t         pkt_len;        <span class="cm">/* total packet length (all segments) */</span>
- 
     <span class="cm">/* Segmentation (chained mbufs for large packets) */</span>
     struct rte_mbuf *next;           <span class="cm">/* next segment in chain (NULL if only one) */</span>
     uint8_t          nb_segs;        <span class="cm">/* number of segments */</span>
- 
     <span class="cm">/* Offload flags */</span>
     uint64_t         ol_flags;       <span class="cm">/* PKT_TX_IP_CKSUM, PKT_RX_RSS_HASH, etc. */</span>
     uint32_t         packet_type;    <span class="cm">/* RTE_PTYPE_L3_IPV4, L4_TCP, etc. */</span>
     uint32_t         hash.rss;       <span class="cm">/* RSS hash computed by NIC */</span>
- 
     <span class="cm">/* Port and queue */</span>
     uint16_t         port;
     uint32_t         seqn;
@@ -245,14 +232,12 @@ uint32_t dst_ip = rte_be_to_cpu_32(ip->dst_addr);
  
 <span class="cm">/* rte_mempool — pre-allocated, lock-free pool */</span>
 <span class="cm">/* Pool has: global ring + per-lcore cache (avoids lock on common case) */</span>
- 
 <span class="cm">/* Allocate mbuf from pool */</span>
 <span class="ck">struct</span> rte_mbuf *m = rte_pktmbuf_alloc(mp);
 <span class="ck">if</span> (!m) { <span class="cm">/* pool exhausted — back-pressure or drop */</span> }
  
 <span class="cm">/* Free mbuf back to pool */</span>
 rte_pktmbuf_free(m);  <span class="cm">/* returns to per-lcore cache, then global ring */</span>
- 
 <span class="cm">/* Bulk allocate/free (amortizes pool overhead) */</span>
 <span class="ck">struct</span> rte_mbuf *mbufs[32];
 rte_pktmbuf_alloc_bulk(mp, mbufs, 32);
@@ -260,7 +245,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">PMD AND BURST API — THE CORE FORWARDING LOOP</p>
@@ -309,7 +293,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
             <span class="cm">/* POLL: pull up to BURST_SIZE packets from NIC RX queue */</span>
             uint16_t nb_rx = rte_eth_rx_burst(port, 0, bufs, BURST_SIZE);
             <span class="ck">if</span> (nb_rx == 0) <span class="ck">continue</span>;  <span class="cm">/* nothing received */</span>
- 
             <span class="cm">/* Process each packet */</span>
             <span class="ck">for</span> (uint16_t i = 0; i < nb_rx; i++) {
                 process_packet(bufs[i]);  <span class="cm">/* L3 lookup, NAT, filter... */</span>
@@ -332,7 +315,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">RSS AND FLOW DIRECTOR — HARDWARE PACKET STEERING</p>
@@ -342,7 +324,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
 <div class="cb"><pre><span class="cm">/* RSS — Receive Side Scaling */</span>
 <span class="cm">/* NIC hashes packet 5-tuple → assigns to RX queue → specific lcore */</span>
 <span class="cm">/* Ensures packets of same flow always go to same core (session affinity) */</span>
- 
 <span class="ck">struct</span> rte_eth_conf port_conf = {
     .rxmode = {
         .mq_mode = RTE_ETH_MQ_RX_RSS,
@@ -358,7 +339,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
 <span class="cm">/* Per-packet RSS hash (computed by NIC hardware) */</span>
 <span class="ck">if</span> (m->ol_flags & RTE_MBUF_F_RX_RSS_HASH)
     uint32_t hash = m->hash.rss;  <span class="cm">/* use for flow table lookup */</span>
- 
 <span class="cm">/* Symmetric RSS — ensure fwd and return packets land on same core */</span>
 <span class="cm">/* Standard RSS: hash(sIP,dIP,sPort,dPort) — fwd and return differ! */</span>
 <span class="cm">/* Symmetric: hash(sIP^dIP, sPort^dPort) — XOR makes it symmetric */</span>
@@ -370,7 +350,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
     0x77, 0xcb, 0x2d, 0xa3, 0x80, 0x30, 0xf2, 0x0c,
     0x6a, 0x42, 0xb7, 0x3b, 0xbe, 0xac, 0x01, 0xfa,
 };</span>
- 
 <span class="cm">/* Flow Director — exact-match steering beyond RSS */</span>
 <span class="cm">/* Program specific 5-tuples → specific queue */</span>
 <span class="ck">struct</span> rte_flow_attr attr = { .ingress = 1 };
@@ -390,7 +369,6 @@ rte_mempool_put_bulk(mp, (<span class="ck">void</span> **)mbufs, 32);</pre></div
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">DPDK PIPELINES — STRUCTURING COMPLEX DATA PLANES</p>
@@ -434,7 +412,6 @@ uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">DPDK PERFORMANCE TUNING</p>
@@ -445,7 +422,6 @@ uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs
 <span class="cm"># Kernel boot: isolcpus=4-7,nohz_full=4-7,rcu_nocbs=4-7</span>
 <span class="cm"># DPDK EAL: -l 4-7  (use cores 4-7)</span>
 <span class="cm"># These cores will spin 100% polling — don't share with OS</span>
- 
 <span class="cm">/* 2. NUMA awareness — memory on same socket as NIC */</span>
 <span class="ck">if</span> (rte_eth_dev_socket_id(port) != (<span class="ck">int</span>)rte_socket_id()) {
     printf(<span class="cs">"NUMA mismatch: NIC on socket %d, core on socket %d\n"</span>,
@@ -456,7 +432,6 @@ uint16_t n = rte_ring_dequeue_burst(ring, (<span class="ck">void</span> **)mbufs
 <span class="cm">/* Mempool MUST be on same NUMA as NIC: */</span>
 rte_pktmbuf_pool_create(<span class="cs">"MP"</span>, N, 256, 0, BUF_SIZE,
     rte_eth_dev_socket_id(port));  <span class="cm">/* NOT rte_socket_id() */</span>
- 
 <span class="cm">/* 3. Prefetching — hide memory latency */</span>
 <span class="ck">for</span> (i = 0; i < nb_rx; i++) {
     <span class="ck">if</span> (i + 4 < nb_rx)
@@ -488,7 +463,6 @@ printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elaps
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -501,7 +475,6 @@ printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elaps
     <div class="lab-step"><div class="sn">4</div><div>Benchmark: measure Mpps with different burst sizes (1, 4, 8, 16, 32, 64). Plot throughput vs burst size. Identify the optimal burst size for your hardware. Document what limits throughput (PCIe bandwidth? CPU cycles? Memory bandwidth?).</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Multi-Core DPDK with RSS</h4></div>
   <div class="lab-body">
@@ -511,7 +484,6 @@ printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elaps
     <div class="lab-step"><div class="sn">3</div><div>Compare symmetric vs asymmetric RSS: try the standard Toeplitz key, then the symmetric key. Verify that with symmetric RSS, forward and reverse flows of the same connection land on the same queue.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Performance Profiling Deep-Dive</h4></div>
   <div class="lab-body">
@@ -522,7 +494,6 @@ printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elaps
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <p class="sep">M17 MASTERY CHECKLIST</p>
@@ -552,7 +523,6 @@ printf(<span class="cs">"%.2f Mpps (%.1f ns/packet)\n"</span>, mpps, 1e9 * elaps
   <p>✅ <strong>When complete:</strong> Move to <strong>M18 - VPP and Data Plane Development</strong> — the final Phase 4 module, covering the vector packet processor your team actively uses for R&D.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m16-ebpf-xdp/">← M16 eBPF/XDP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

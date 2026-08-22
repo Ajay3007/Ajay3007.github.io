@@ -68,7 +68,6 @@ url: /learning/backend/m04-grpc/
 .nb:hover{background:#3b82f6;color:#fff}
 .sep{text-align:center;color:#94a3b8;font-size:.8rem;letter-spacing:.1em;margin:1.5rem 0;text-transform:uppercase}
 </style>
-
 <div class="mod-wrap">
 <div class="mod-header">
   <h1>M04 — gRPC &amp; Protocol Buffers Deep Dive</h1>
@@ -77,7 +76,6 @@ url: /learning/backend/m04-grpc/
     Proto3 syntax &amp; field encoding · Wire types &amp; varint · 4 streaming modes · gRPC error model · Interceptors &amp; middleware · gRPC-Gateway · Health checking · Schema evolution &amp; field rules
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t-overview',this)">Overview</button>
   <button class="tab-btn" onclick="vt('t-proto3',this)">Proto3 Syntax</button>
@@ -88,10 +86,8 @@ url: /learning/backend/m04-grpc/
   <button class="tab-btn" onclick="vt('t-c-impl',this)">C Implementation</button>
   <button class="tab-btn" onclick="vt('t-labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ── OVERVIEW ─────────────────────────────────────────────── -->
 <div id="t-overview" class="tab-pane active">
-
 <div class="cp p-blue">
   <div class="cp-hdr">⚡ Why gRPC Exists</div>
   <div class="cp-body">
@@ -102,12 +98,10 @@ url: /learning/backend/m04-grpc/
     HTTP/2 lets 1,000 concurrent RPCs share one TCP connection — no head-of-line blocking per stream.
   </div>
 </div>
-
 <div class="analogy">
   <strong>Analogy — REST vs gRPC:</strong> REST is a postcard: readable by anyone, slow to write and parse.
   gRPC is a binary radio protocol: compact, fast, typed — but you need the schema (proto file) to decode it.
 </div>
-
 <div class="two-col">
   <div class="cp p-indigo">
     <div class="cp-hdr">✅ Use gRPC When…</div>
@@ -136,7 +130,6 @@ url: /learning/backend/m04-grpc/
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🏗 gRPC Stack Layers</div>
   <div class="cp-body">
@@ -161,7 +154,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <table class="t-table">
   <thead><tr><th>Feature</th><th>REST / JSON</th><th>gRPC / Protobuf</th></tr></thead>
   <tbody>
@@ -175,12 +167,9 @@ url: /learning/backend/m04-grpc/
     <tr><td>Error model</td><td>HTTP status + body</td><td>Status code + rich details</td></tr>
   </tbody>
 </table>
-
 </div><!-- /t-overview -->
-
 <!-- ── PROTO3 SYNTAX ─────────────────────────────────────────── -->
 <div id="t-proto3" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">📝 Proto3 File Structure</div>
   <div class="cp-body">
@@ -232,7 +221,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">📋 Field Type Cheat-Sheet</div>
   <div class="cp-body">
@@ -255,7 +243,6 @@ url: /learning/backend/m04-grpc/
 </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔒 Schema Evolution Rules (Backward &amp; Forward Compatibility)</div>
   <div class="cp-body">
@@ -293,17 +280,13 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="warn">
   <strong>Proto3 Default Values Trap:</strong> In proto3, every field has a default (0/""/""/false).
   You cannot distinguish "field not set" from "field set to zero." Use <code>google.protobuf.Int32Value</code> wrappers or <code>optional</code> keyword (proto3 optional) when you need a three-state: unset / zero / non-zero.
 </div>
-
 </div><!-- /t-proto3 -->
-
 <!-- ── WIRE ENCODING ─────────────────────────────────────────── -->
 <div id="t-wire" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr">🔬 The Wire Format</div>
   <div class="cp-body">
@@ -323,7 +306,6 @@ url: /learning/backend/m04-grpc/
 </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📐 Varint Encoding Step by Step</div>
   <div class="cp-body">
@@ -363,7 +345,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">🔄 ZigZag Encoding (sint32/sint64)</div>
   <div class="cp-body">
@@ -384,7 +365,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📦 Length-Delimited Encoding (strings, bytes, nested messages)</div>
   <div class="cp-body">
@@ -407,30 +387,24 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="note">
   <strong>Why know the wire format?</strong> Debugging gRPC in Wireshark, writing custom serialisers (e.g., embedded firmware without a Protobuf runtime), optimising field ordering for cache locality, or implementing partial-decode ("field 5 only") for read amplification reduction.
 </div>
-
 </div><!-- /t-wire -->
-
 <!-- ── STREAMING MODES ────────────────────────────────────────── -->
 <div id="t-streaming" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">📡 The 4 Streaming Patterns</div>
   <div class="cp-body">
     Every gRPC RPC is fundamentally a function: request → response. The streaming variants replace one or both sides with an <em>ordered sequence</em> of messages over the same HTTP/2 stream.
   </div>
 </div>
-
 <ol class="flow-list">
   <li class="fl-step"><span class="fl-num">1</span><div><strong>Unary RPC</strong> — <code>rpc GetUser(Request) returns (Response)</code><br>One request, one response. Equivalent to a REST POST. Client sends request frame → server processes → server sends response + TRAILERS. Simplest; 99% of internal APIs start here.</div></li>
   <li class="fl-step"><span class="fl-num">2</span><div><strong>Server Streaming</strong> — <code>rpc WatchPrices(Symbol) returns (stream Tick)</code><br>Client sends one message; server sends N messages then closes. Ideal for live feeds, log tailing, paginated results without cursor round-trips. HTTP/2 DATA frames keep arriving until FIN.</div></li>
   <li class="fl-step"><span class="fl-num">3</span><div><strong>Client Streaming</strong> — <code>rpc UploadChunks(stream Chunk) returns (Summary)</code><br>Client sends N messages, server responds once at the end. For bulk ingestion (file upload, sensor telemetry). Server buffers or processes incrementally, replies after client sends EOF.</div></li>
   <li class="fl-step"><span class="fl-num">4</span><div><strong>Bidirectional Streaming</strong> — <code>rpc Chat(stream Msg) returns (stream Msg)</code><br>Both sides send independently. Order within each side is preserved; the two streams interleave freely. Real-time collaboration, game state sync, interactive ML inference pipelines.</div></li>
 </ol>
-
 <div class="diagram-box">
 <span class="dg-gray">Mode              Client →              Server →</span>
 <span class="dg-gray">─────────────────────────────────────────────────────────────</span>
@@ -440,7 +414,6 @@ url: /learning/backend/m04-grpc/
 <span class="dg-amber">Bidirectional   ──[R1][R2][R3]...[END]→ ←──[S1][S2]...[END]</span>
 <span class="dg-gray">                Both sides independent; order within side preserved</span>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">⚙️ HTTP/2 Mechanics Under the Hood</div>
   <div class="cp-body">
@@ -473,7 +446,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">⏱ Deadlines &amp; Cancellation</div>
   <div class="cp-body">
@@ -493,12 +465,9 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 </div><!-- /t-streaming -->
-
 <!-- ── ERRORS & INTERCEPTORS ──────────────────────────────────── -->
 <div id="t-errors" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🚨 gRPC Status Codes</div>
   <div class="cp-body">
@@ -528,7 +497,6 @@ url: /learning/backend/m04-grpc/
 </table>
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">📋 Rich Error Details (<code>google.rpc.Status</code>)</div>
   <div class="cp-body">
@@ -558,7 +526,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔗 Interceptors (Middleware)</div>
   <div class="cp-body">
@@ -586,7 +553,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">🔄 Retry Policy</div>
   <div class="cp-body">
@@ -609,16 +575,12 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="warn">
   <strong>Idempotency &amp; Retries:</strong> Only retry RPCs that are idempotent (GET-like unary reads, or marked with the idempotency annotation). Retrying a <code>CreateOrder</code> can result in duplicate orders. Use <code>retry_push_back</code> from <code>RetryInfo</code> for server-directed backoff on RESOURCE_EXHAUSTED.
 </div>
-
 </div><!-- /t-errors -->
-
 <!-- ── gRPC-GATEWAY ───────────────────────────────────────────── -->
 <div id="t-gateway" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🌐 gRPC-Gateway: Serve REST + gRPC from One Proto</div>
   <div class="cp-body">
@@ -627,7 +589,6 @@ url: /learning/backend/m04-grpc/
     One service definition, two surfaces: gRPC for internal services, REST/JSON for browsers and third-party consumers.
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-gray">Browser / curl                   gRPC-Gateway Proxy              gRPC Server</span>
 <span class="dg-gray">─────────────────────────────────────────────────────────────────────────────</span>
@@ -637,7 +598,6 @@ url: /learning/backend/m04-grpc/
 <span class="dg-indigo">                               (Protobuf → JSON)                    </span>
 <span class="dg-green">grpc://svc:50051       ──────────────────────────────────────→      (direct)</span>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">✏️ HTTP Annotations in Proto</div>
   <div class="cp-body">
@@ -671,7 +631,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">💊 gRPC Health Checking Protocol</div>
   <div class="cp-body">
@@ -701,7 +660,6 @@ url: /learning/backend/m04-grpc/
 </div>
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">🔍 gRPC Reflection</div>
   <div class="cp-body">
@@ -723,12 +681,9 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
 </div>
   </div>
 </div>
-
 </div><!-- /t-gateway -->
-
 <!-- ── C IMPLEMENTATION ───────────────────────────────────────── -->
 <div id="t-c-impl" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔧 protobuf-c: Using Protocol Buffers in C</div>
   <div class="cp-body">
@@ -742,7 +697,6 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
 </div>
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">📝 Encode / Decode a Message in C (protobuf-c)</div>
   <div class="cp-body">
@@ -784,7 +738,6 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
 </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🚀 Minimal gRPC Unary Server in C (grpc-c core)</div>
   <div class="cp-body">
@@ -888,16 +841,12 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
 </div>
   </div>
 </div>
-
 <div class="note">
   In production C services, use the higher-level <code>grpc-c</code> wrapper or switch to C++ with gRPC's C++ API — it handles framing, completion queues, and threading for you. The C core API above is valuable for understanding the protocol mechanics and for embedding gRPC in constrained environments (RTOS, firmware).
 </div>
-
 </div><!-- /t-c-impl -->
-
 <!-- ── LABS & CHECKLIST ────────────────────────────────────────── -->
 <div id="t-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 1 — Build a Protobuf Serialiser from Scratch</div>
   <div class="lab-body">
@@ -911,7 +860,6 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     <p><strong>Expected outcome:</strong> Your manual encoding matches protobuf-c output byte-for-byte. Performance within 20% of library.</p>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Bidirectional Streaming Chat Service</div>
   <div class="lab-body">
@@ -925,7 +873,6 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     <p><strong>Expected outcome:</strong> P99 RTT &lt; 10 ms on localhost. Cancellation visible in server logs within 100 ms of client hang.</p>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — Schema Evolution &amp; gRPC-Gateway</div>
   <div class="lab-body">
@@ -940,9 +887,7 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     <p><strong>Expected outcome:</strong> v1→v2 migration is seamless. REST endpoints work with curl. JSON ≈ 3–5× larger than Protobuf.</p>
   </div>
 </div>
-
 <div class="sep">— Concept Checklist —</div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">✅ Phase 1 gRPC Mastery Checklist</div>
   <div class="cp-body">
@@ -965,16 +910,13 @@ grpcurl -plaintext -d <span class="cv">'{"user_id": "42"}'</span> \<br>
     </ul>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/backend/m03-rest/" class="nb">← M03 REST &amp; API Design</a>
   <a href="/learning/backend/" class="nb">↑ Roadmap</a>
   <a href="/learning/backend/m05-graphql/" class="nb">M05 GraphQL →</a>
 </div>
-
 </div><!-- /t-labs -->
 </div><!-- /mod-wrap -->
-
 <script>
 function vt(id,btn){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));

@@ -23,7 +23,6 @@ url: /learning/operating-systems/
 	</ul>
 	<a href="/learning/operating-systems/topics" style="color:#1976d2;font-weight:600;">See Topics &rarr;</a>
 </div>
-
 <div style="text-align:center;margin-top:2.5rem;">
   <a href="/" class="btn-crosslink">
     <span style="font-size:1.3rem;">🏠</span> Back to Home

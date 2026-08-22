@@ -10,7 +10,6 @@ url: /learning/system-design/hld/module-b7-whatsapp/
 ---
 
 <link rel="stylesheet" href="/assets/css/sd-module-b7.css">
-
 <div class="sd-module-b7">
 <header>
   <div class="hdr-bar"></div>
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b7-whatsapp/
     <div class="pt" style="color:var(--grn)">S3 Media</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="mb7_show('req',this)">Requirements</div>
   <div class="nt" onclick="mb7_show('ws',this)">WebSockets</div>
@@ -54,9 +52,7 @@ url: /learning/system-design/hld/module-b7-whatsapp/
   <div class="nt" onclick="mb7_show('tasks',this)">Tasks</div>
   <div class="nt" onclick="mb7_show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- REQUIREMENTS -->
 <div class="view active" id="view-req">
   <div class="sh">Requirements</div>
@@ -88,7 +84,6 @@ url: /learning/system-design/hld/module-b7-whatsapp/
   </div>
   <div class="al grn"><em>The core insight:</em> 100M concurrent users × persistent WebSocket connection = 1,000 Chat Servers. Each server is stateful — it owns those connections. Routing a message means finding the exact server the recipient is connected to. That's the central routing problem.</div>
 </div>
-
 <!-- WEBSOCKETS -->
 <div class="view" id="view-ws">
   <div class="sh">Why WebSockets?</div>
@@ -126,7 +121,6 @@ Connection: Upgrade
 Client → Server: <span class="str">{"type":"message","to":456,"content":"Hey!"}</span>
 Server → Client: <span class="str">{"type":"message","from":123,"content":"What's up?"}</span>
 Server → Client: <span class="str">{"type":"ack","msgId":7890,"status":"delivered"}</span>
- 
 <span class="cm">// 3. Heartbeat every 30s — keeps connection alive through NAT</span>
 Server → Client: PING
 Client → Server: PONG
@@ -135,7 +129,6 @@ Client → Server: PONG
 GET /messages/offline?since=<span class="str">"last_message_id"</span></pre>
   </div>
 </div>
-
 <!-- ARCHITECTURE -->
 <div class="view" id="view-arch">
   <div class="sh">Message Send / Receive Path</div>
@@ -151,17 +144,14 @@ GET /messages/offline?since=<span class="str">"last_message_id"</span></pre>
     <div class="mf-row"><div class="mf-num">7.</div><div class="mf-node">[Server C]</div><div class="mf-arrow">──WS──→</div><div class="mf-desc">[Bob] &nbsp; <span class="mf-note">message delivered ✓✓ (double grey)</span></div></div>
     <div class="mf-row"><div class="mf-num">8.</div><div class="mf-node">[Bob]</div><div class="mf-arrow">opens chat →</div><div class="mf-desc">sends READ receipt → Server C → Server A → Alice &nbsp; <span class="mf-note">✓✓ blue</span></div></div>
   </div>
-
   <div class="sh">Offline Message Delivery</div>
   <div class="cb"><div class="cb-top">Bob is offline when message sent — then reconnects<span class="cb-l">FLOW</span></div>
 <pre class="c"><span class="cm">// Bob is offline: message stored in Cassandra (already done — Step 2 above)</span>
 <span class="cm">// Also: store message_id in inbox:{bobId} sorted set</span>
 ZADD <span class="str">inbox:bob</span> <span class="cy">{message_id}</span> <span class="cy">{message_id}</span>
- 
 <span class="cm">// Bob reconnects (WebSocket upgrade):</span>
 <span class="cm">// 1. REST call to fetch missed messages</span>
 GET /messages/offline?userId=bob&since=<span class="cy">{lastReadMessageId}</span>
- 
 <span class="cm">// 2. Server queries Cassandra for all conversations Bob participates in</span>
 <span class="cm">// 3. Returns all messages with message_id > lastReadMessageId</span>
 <span class="cm">// 4. Push to Bob's new WebSocket connection</span>
@@ -169,12 +159,10 @@ GET /messages/offline?userId=bob&since=<span class="cy">{lastReadMessageId}</spa
 <span class="cm">// 6. Mark each message as delivered → route receipts back to senders</span></pre>
   </div>
 </div>
-
 <!-- RECEIPTS -->
 <div class="view" id="view-receipts">
   <div class="sh">Message Delivery Receipts</div>
   <div class="sr">Three-state system — the detail that separates good answers from great ones</div>
-
   <div class="receipt-row">
     <div class="rr" style="background:rgba(0,232,122,.03)">
       <div class="rr-sym">✓</div>
@@ -192,14 +180,12 @@ GET /messages/offline?userId=bob&since=<span class="cy">{lastReadMessageId}</spa
       <div class="rr-desc">Double blue tick.<br>Recipient opened the conversation.<br>Client sends READ event via WebSocket.<br>Routed back to sender. Privacy: can be disabled.</div>
     </div>
   </div>
-
   <div class="cb"><div class="cb-top">Group message receipt tracking<span class="cb-l">SQL / CASSANDRA</span></div>
 <pre class="c"><span class="cm">-- Option A: counters on message row</span>
 ALTER TABLE messages ADD delivered_count INT DEFAULT 0;
 ALTER TABLE messages ADD read_count INT DEFAULT 0;
 <span class="cm">-- ✓✓ shown when delivered_count = group_size</span>
 <span class="cm">-- ✓✓ blue when read_count = group_size</span>
- 
 <span class="cm">-- Option B: per-recipient receipts table (more granular, scales better)</span>
 CREATE TABLE message_receipts (
     message_id    BIGINT,
@@ -214,12 +200,10 @@ CREATE TABLE message_receipts (
   </div>
   <div class="al amb"><em>Failure case:</em> What if delivered-ACK is lost in transit? The sender doesn't get ✓✓ but the message was delivered. The recipient should re-send the ACK on next heartbeat or reconnect. Delivered status is idempotent — sending it twice is harmless.</div>
 </div>
-
 <!-- PRESENCE -->
 <div class="view" id="view-presence">
   <div class="sh">Presence System</div>
   <div class="sr">100M concurrent users sending heartbeats every 30s = 3.3M writes/sec</div>
-
   <div class="pres-box">
     <div class="pb-label">// PRESENCE LIFECYCLE — ALICE'S SESSION</div>
     <div class="pb-row"><div class="pb-time">T=0:00</div><div class="pb-event" style="border-color:var(--grn);color:var(--grn)">CONNECT</div><div class="pb-note">SET presence:alice "online" EX 45 &nbsp;|&nbsp; Chat Server registers session</div></div>
@@ -228,11 +212,9 @@ CREATE TABLE message_receipts (
     <div class="pb-row"><div class="pb-time">T=1:05</div><div class="pb-event" style="border-color:var(--amber);color:var(--amber)">DISCONNECT</div><div class="pb-note">No explicit DEL — key expires in 45 - 5 = 40s</div></div>
     <div class="pb-row"><div class="pb-time">T=1:45</div><div class="pb-event" style="border-color:var(--red);color:var(--red)">EXPIRED</div><div class="pb-note">Key gone → GET presence:alice returns NULL → "Last seen 1:05"</div></div>
   </div>
-
   <div class="cb"><div class="cb-top">Presence read + subscriber-based push<span class="cb-l">REDIS</span></div>
 <pre class="c"><span class="cm">// Write: every 30s heartbeat via WebSocket</span>
 SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <span class="str">"online"</span>   <span class="cm">// 45s TTL > 30s heartbeat interval</span>
- 
 <span class="cm">// Read: check if user is online</span>
 <span class="kw">String</span> val = redis.<span class="fn">get</span>(<span class="str">"presence:"</span> + userId);
 <span class="kw">if</span> (val != <span class="kw">null</span>) <span class="kw">return</span> <span class="str">"Online"</span>;
@@ -242,19 +224,16 @@ SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <spa
 <span class="cm">// 100M active users × 1 write/30s = 3.3M writes/sec</span>
 <span class="cm">// Redis Cluster: shard by hash(userId) across 10+ nodes</span>
 <span class="cm">// Each node handles ~330K writes/sec → achievable</span>
- 
 <span class="cm">// Subscriber-based presence notifications (avoids fan-out to all contacts):</span>
 <span class="cm">// Bob opens chat with Alice → subscribe to presence:{aliceId}</span>
 <span class="cm">// Alice comes online → notify only active subscribers (open chat windows)</span>
 <span class="cm">// NOT: notify all 300 of Alice's contacts (expensive, most don't care)</span></pre>
   </div>
 </div>
-
 <!-- GROUPS -->
 <div class="view" id="view-groups">
   <div class="sh">Group Messaging</div>
   <div class="sr">1 sender → up to 1,024 recipients — fan-out at delivery time</div>
-
   <div class="fo-boxes">
     <div class="fb" style="border-left-color:var(--grn)">
       <div class="fb-t">Store Once, Route Many</div>
@@ -275,7 +254,6 @@ SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <spa
       </div>
     </div>
   </div>
-
   <div class="cb"><div class="cb-top">Group message fan-out service<span class="cb-l">JAVA</span></div>
 <pre class="c"><span class="kw">public void</span> <span class="fn">handleGroupMessage</span>(GroupMessageEvent e) {
     <span class="cm">// 1. Message already stored in Cassandra by Chat Server</span>
@@ -301,12 +279,10 @@ SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <spa
 }</pre>
   </div>
 </div>
-
 <!-- DATA MODELS -->
 <div class="view" id="view-schema">
   <div class="sh">Data Models</div>
   <div class="sr">Messages (Cassandra), Social Graph, Sessions (Redis)</div>
-
   <div class="schema">
     <div class="schema-hdr"><span>TABLE: messages — Cassandra</span><span style="color:var(--grn)">PRIMARY KEY (conversation_id, message_id DESC)</span></div>
     <div class="schema-body">
@@ -329,13 +305,11 @@ SETEX <span class="str">presence:{userId}</span> <span class="cy">45</span> <spa
       </div>
     </div>
   </div>
-
   <div class="sh">Media Upload Protocol</div>
   <div class="cb"><div class="cb-top">Client uploads directly to S3 — Chat Server never touches media bytes<span class="cb-l">FLOW</span></div>
 <pre class="c"><span class="cm">// Step 1: Client requests pre-signed upload URL</span>
 POST /media/upload/presign
 Response: <span class="str">{uploadUrl: "https://s3.../media/uuid.jpg?X-Amz-Signature=...", mediaId: "uuid"}</span>
- 
 <span class="cm">// Step 2: Client uploads directly to S3 (NOT through Chat Server)</span>
 PUT https://s3.amazonaws.com/wa-media/uuid.jpg
 Content-Type: image/jpeg
@@ -343,17 +317,14 @@ Body: [encrypted image bytes]
  
 <span class="cm">// Step 3: Client sends message with media reference</span>
 WS: <span class="str">{type:"message", to:456, mediaId:"uuid", mediaType:"image", thumbnail:"base64..."}</span>
- 
 <span class="cm">// Step 4: Recipient downloads from CDN (not Chat Server)</span>
 GET https://cdn.wa.me/media/uuid.jpg  <span class="cm">← edge-cached, fast</span>
- 
 <span class="cm">// Benefits:</span>
 <span class="cm">// Chat servers handle only ~200 byte WS frames (never MB of media)</span>
 <span class="cm">// S3 + CDN handle bandwidth independently</span>
 <span class="cm">// E2E encryption: client encrypts before upload, only recipient can decrypt</span></pre>
   </div>
 </div>
-
 <!-- SCALE -->
 <div class="view" id="view-scale">
   <div class="sh">Scale & Estimation</div>
@@ -374,7 +345,6 @@ GET https://cdn.wa.me/media/uuid.jpg  <span class="cm">← edge-cached, fast</sp
   </table>
   <div class="al grn"><em>Key numbers to say aloud:</em> "1,000 Chat Servers for 100M concurrent WebSocket connections." · "Cassandra (conversation_id, message_id DESC) — single partition read for chat history." · "Presence writes at 3.3M/sec require a Redis Cluster, not a single node." · "Media never touches Chat Servers — S3 pre-signed URL + CDN."</div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -431,7 +401,6 @@ GET https://cdn.wa.me/media/uuid.jpg  <span class="cm">← edge-cached, fast</sp
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 15 completed</span><span style="font-family:'Share Tech Mono',monospace">MODULE B7 · WHATSAPP</span></div>
@@ -463,7 +432,6 @@ GET https://cdn.wa.me/media/uuid.jpg  <span class="cm">← edge-cached, fast</sp
     </div>
   </div>
   </div>
-
   <!-- Bottom Navigation -->
   <div class="mb7-bottom-nav">
     <a href="/learning/system-design/hld/module-b6-twitter-feed/" class="mb7-nav-footer-btn">

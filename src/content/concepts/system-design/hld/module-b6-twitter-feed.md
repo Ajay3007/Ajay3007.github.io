@@ -10,7 +10,6 @@ url: /learning/system-design/hld/module-b6-twitter-feed/
 ---
 
 <link rel="stylesheet" href="/assets/css/sd-module-b6.css">
-
 <div class="sd-module-b6">
 <div class="signal-bar"></div>
 <header>
@@ -38,7 +37,6 @@ url: /learning/system-design/hld/module-b6-twitter-feed/
     <div class="tg">CDN Media</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="mb6_show('scale',this)">Scale</div>
   <div class="nt" onclick="mb6_show('core',this)">Core Problem</div>
@@ -51,9 +49,7 @@ url: /learning/system-design/hld/module-b6-twitter-feed/
   <div class="nt" onclick="mb6_show('tasks',this)">Tasks</div>
   <div class="nt" onclick="mb6_show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- SCALE -->
 <div class="view active" id="view-scale">
   <div class="sh">Twitter at Scale</div>
@@ -73,7 +69,6 @@ url: /learning/system-design/hld/module-b6-twitter-feed/
   </table>
   <div class="al cy"><em>The hard constraint:</em> A celebrity with 100M followers tweets once → fan-out on write = 100M Redis writes in seconds. At peak, that's 1.5 TRILLION writes/sec if all celebrities tweet simultaneously. This single fact forces the hybrid approach.</div>
 </div>
-
 <!-- CORE PROBLEM -->
 <div class="view" id="view-core">
   <div class="sh">The Core Problem: Home Timeline</div>
@@ -87,13 +82,11 @@ ORDER BY created_at DESC LIMIT 200;
 <span class="cm">// 320,000 timeline reads/sec × 500 queries = </span><span class="er">160,000,000 queries/sec</span>
 <span class="cm">// A well-tuned MySQL handles ~100,000 QPS → need 1,600 DB nodes</span>
 <span class="cm">// Merge latency: 500 streams × network roundtrip → 200–500ms → SLA violation</span>
- 
 <span class="cm">// Conclusion: pure read-time fan-out is IMPOSSIBLE at Twitter scale</span>
 <span class="cm">// We must pre-compute (at least partially) the home timeline</span></pre>
   </div>
   <div class="al am"><em>Fan-out</em> = distributing one event (a new tweet) to N destinations (follower timelines). The question is: do you fan-out at write time (push) or at read time (pull)?</div>
 </div>
-
 <!-- FAN-OUT MODELS -->
 <div class="view" id="view-fanout">
   <div class="sh">Fan-Out on Write vs Fan-Out on Read</div>
@@ -116,7 +109,6 @@ ORDER BY created_at DESC LIMIT 200;
   </div>
   <div class="al cy"><em>Interview insight:</em> Neither model works alone at Twitter's scale. The question "fan-out on write or read?" is a trap — the correct answer is always "it depends on follower count, and we use a hybrid."</div>
 </div>
-
 <!-- HYBRID -->
 <div class="view" id="view-hybrid">
   <div class="sh">Hybrid Approach ★</div>
@@ -134,7 +126,6 @@ ORDER BY created_at DESC LIMIT 200;
       <div class="hr-action"><span style="color:var(--white)">Fan-out on READ</span> — tweet stored in DB only; injected at timeline read time</div>
     </div>
   </div>
-
   <div class="sh">Timeline Read — Hybrid Merge</div>
   <div class="cb"><div class="cb-top">How timeline service assembles the feed<span class="cb-l">PSEUDOCODE</span></div>
 <pre class="c"><span class="kw">function</span> <span class="fn">getHomeTimeline</span>(userId, limit=200):
@@ -142,7 +133,6 @@ ORDER BY created_at DESC LIMIT 200;
     <span class="cm">// 1. Pre-computed portion (fan-out-on-write tweets)</span>
     precomputed = redis.<span class="fn">ZREVRANGE</span>(<span class="str">"timeline:"</span> + userId, 0, limit * 2, WITHSCORES)
     <span class="cm">//    O(log N) — fast, covers all normal users the person follows</span>
- 
     <span class="cm">// 2. Celebrity injection (fan-out-on-read portion)</span>
     celebrities = socialGraph.<span class="fn">getCelebrityFollowees</span>(userId)
     <span class="cm">//    Typically &lt;50 celebrities per user (manageable)</span>
@@ -152,14 +142,12 @@ ORDER BY created_at DESC LIMIT 200;
         recent = tweetCache.<span class="fn">getRecentTweets</span>(celeb.userId, n=50)
         celeb_tweets.<span class="fn">extend</span>(recent)
     <span class="cm">//    50 celebrities × 50 tweets = 2,500 tweet fetches (cached in Redis)</span>
- 
     <span class="cm">// 3. Merge by timestamp + deduplicate retweets</span>
     merged = <span class="fn">mergeSortedByTimestamp</span>(precomputed, celeb_tweets)
     <span class="kw">return</span> merged[:limit]
  
     <span class="cm">// Total latency: ~5–20ms (all Redis operations)</span></pre>
   </div>
-
   <div class="sh">Fanout Worker Service</div>
   <div class="cb"><div class="cb-top">What happens when @normalUser (800 followers) tweets<span class="cb-l">FLOW</span></div>
 <pre class="c">POST /tweet → [Tweet Service]
@@ -180,7 +168,6 @@ ORDER BY created_at DESC LIMIT 200;
   </div>
   <div class="al gn"><em>The elegance:</em> Normal users (99.9% of accounts) get instant fan-out with manageable write cost. Celebrities get lazy injection with zero write amplification. The merge at read time costs ~50 celebrity fetches — all from Redis — adding only 1–2ms to timeline load.</div>
 </div>
-
 <!-- SCHEMA -->
 <div class="view" id="view-schema">
   <div class="sh">Data Model</div>
@@ -222,17 +209,14 @@ redis.<span class="fn">ZADD</span>(<span class="str">"timeline:123"</span>, <spa
  
 <span class="cm">// Read top 200:</span>
 tweetIds = redis.<span class="fn">ZREVRANGE</span>(<span class="str">"timeline:123"</span>, 0, 199)   <span class="cm">// O(log N + 200)</span>
- 
 <span class="cm">// Batch hydrate (pipeline, single roundtrip):</span>
 tweets = redis.<span class="fn">PIPELINE</span> { tweetIds.<span class="fn">map</span>(id => <span class="fn">HGETALL</span>(<span class="str">"tweet:"</span>+id)) }
  
 <span class="cm">// Trim timeline to 1000 entries (memory bound):</span>
 redis.<span class="fn">ZREMRANGEBYRANK</span>(<span class="str">"timeline:123"</span>, 0, -<span class="cy">1001</span>)  <span class="cm">// keep newest 1000</span>
- 
 <span class="cm">// Memory: 300M users × 1000 IDs × 8 bytes = 2.4 TB → Redis cluster</span></pre>
   </div>
 </div>
-
 <!-- ARCHITECTURE -->
 <div class="view" id="view-arch">
   <div class="sh">Full Architecture</div>
@@ -284,7 +268,6 @@ redis.<span class="fn">ZREMRANGEBYRANK</span>(<span class="str">"timeline:123"</
     </div>
   </div>
 </div>
-
 <!-- COUNTS -->
 <div class="view" id="view-counts">
   <div class="sh">Likes, Retweets & Follower Counts</div>
@@ -292,12 +275,10 @@ redis.<span class="fn">ZREMRANGEBYRANK</span>(<span class="str">"timeline:123"</
   <div class="cb"><div class="cb-top">Why synchronous UPDATE like_count fails<span class="cb-l">MATH</span></div>
 <pre class="c"><span class="cm">// A viral tweet receives 5M likes in 10 minutes</span>
 <span class="cm">// = 8,333 likes/sec at peak</span>
- 
 <span class="cm">// Naive: UPDATE tweets SET like_count = like_count + 1 WHERE tweet_id = ?</span>
 <span class="cm">// Problem: 8,333 concurrent UPDATE ops on SAME row = row-level lock contention</span>
 <span class="cm">// MySQL handles ~10K single-row updates/sec → this saturates the primary</span>
 <span class="cm">// And we have thousands of tweets being liked simultaneously</span>
- 
 <span class="cm">// Solution: decouple write from increment</span></pre>
   </div>
   <div class="count-flow">
@@ -313,7 +294,6 @@ redis.<span class="fn">ZREMRANGEBYRANK</span>(<span class="str">"timeline:123"</
   </div>
   <div class="al gn"><em>Key insight:</em> Users are shown the Redis count (approximate, updated in real-time via INCR). The DB count lags by up to 30 seconds. This is acceptable — Twitter shows "1.2M" not "1,234,567". The <em>likes table</em> is the source of truth for "did I like this?", not the count column.</div>
 </div>
-
 <!-- MEDIA & SEARCH -->
 <div class="view" id="view-media">
   <div class="sh">Media Storage</div>
@@ -325,7 +305,6 @@ Tweet stores: media_ids: [<span class="str">"s3://tweets-raw/2024/01/img_abc.jpg
 CDN serves: https://pbs.twimg.com/media/img_abc.jpg
 <span class="cm">// CDN cache hit rate: 99%+ for viral content</span>
 <span class="cm">// Without CDN: 100M impressions × 500KB = 50TB bandwidth from S3 → $$$</span>
- 
 <span class="cm">// VIDEO UPLOAD (async transcoding):</span>
 Client → S3 raw → <span class="fn">Lambda trigger</span> → <span class="ok">Transcoding worker</span>
   Transcodes to HLS (HTTP Live Streaming) at multiple bitrates:
@@ -333,7 +312,6 @@ Client → S3 raw → <span class="fn">Lambda trigger</span> → <span class="ok
   Output → S3 transcoded bucket → CDN
 <span class="cm">// HLS: browser fetches small segments (2-10sec), adapts bitrate to bandwidth</span></pre>
   </div>
-
   <div class="sh" style="margin-top:22px">Trending Topics</div>
   <div class="cb"><div class="cb-top">Sliding window hashtag counting<span class="cb-l">STREAM PROCESSING</span></div>
 <pre class="c"><span class="cm">// Kafka stream: every tweet → extract hashtags</span>
@@ -342,7 +320,6 @@ Extract: [<span class="str">"#Oppenheimer"</span>, <span class="str">"#movies"</
  
 <span class="cm">// Flink/Storm: count per hashtag in 1-hour sliding window</span>
 <span class="cm">// Min-heap: maintain top-30 hashtags globally + per-region</span>
- 
 <span class="cm">// Store in Redis sorted set:</span>
 redis.<span class="fn">ZINCRBY</span>(<span class="str">"trending:global"</span>, 1, <span class="str">"#Oppenheimer"</span>)
 redis.<span class="fn">ZINCRBY</span>(<span class="str">"trending:US"</span>, 1, <span class="str">"#Oppenheimer"</span>)
@@ -354,7 +331,6 @@ redis.<span class="fn">ZREVRANGE</span>(<span class="str">"trending:global"</spa
 <span class="cm">// Geographic trending: separate sorted set per region</span></pre>
   </div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -411,7 +387,6 @@ redis.<span class="fn">ZREVRANGE</span>(<span class="str">"trending:global"</spa
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 14 completed</span><span style="font-family:'Fira Code',monospace">MODULE B6 · TWITTER FEED</span></div>
@@ -443,10 +418,8 @@ redis.<span class="fn">ZREVRANGE</span>(<span class="str">"trending:global"</spa
     </div>
   </div>
 </div>
-
 </div>
 </div>
-
 <!-- Bottom Navigation -->
 <div class="mb6-bottom-nav">
   <a href="/learning/system-design/hld/module-b5-url-shortener/" class="mb6-nav-footer-btn">

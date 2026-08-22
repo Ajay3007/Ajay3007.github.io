@@ -98,7 +98,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
 .tf-llm{background:#fdf4dc;border-color:#fcd34d;color:#92400e}
 .tf-exec{background:#f0fdf4;border-color:#86efac;color:#15803d}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 4 — LLM API Mastery &nbsp;·&nbsp; Module 12 of 14</div>
@@ -111,7 +110,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
     <span class="mod-pill">📋 Prerequisite: P4-M11</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -124,11 +122,8 @@ url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
   <button class="tab-btn" onclick="vt(event,'t7')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-indigo">Core AI Engineering</span></div>
   <div class="cp-body">
@@ -140,7 +135,6 @@ url: /learning/ai-ml/part4-llm-apis/p4-m12-structured-outputs/
     <p>These two techniques are the foundation of agents, RAG pipelines, and any AI system that needs to interact with the real world. Master them here before building anything complex.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Why Structured Outputs Matter</h3><span class="tag tag-blue">Motivation</span></div>
   <div class="cp-body">
@@ -154,7 +148,6 @@ City: Mumbai"</span>
 <span class="ck">#   {"name": "John", "age": "28", "city": "Mumbai"}  ← age is a string, not int!</span>
 <span class="ck">#   {"name": "John", "age": 28}  ← city missing!</span>
 <span class="ck"># You cannot reliably parse any of these</span>
- 
 <span class="ck"># With structured outputs (Pydantic + Instructor)</span>
 class Person(BaseModel):
     name: str
@@ -166,13 +159,9 @@ print(person.age + <span class="cv">1</span>)   <span class="ck"># 29 — it's a
     <div class="ins"><p>💡 <strong>Structured outputs solve three problems at once:</strong> type safety (age is always an int), completeness (required fields are always present), and consistency (same schema every time, regardless of how the model phrases its response).</p></div>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — STRUCTURED OUTPUTS ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">📐</span><h3>OpenAI Native Structured Outputs</h3><span class="tag tag-indigo">OpenAI Only</span></div>
   <div class="cp-body">
@@ -204,13 +193,11 @@ print(event.name)           <span class="ck"># "Meeting"</span>
 print(event.participants)   <span class="ck"># ["Alice", "Bob"]</span>
 print(event.date)           <span class="ck"># "2024-03-15"</span>
 print(type(event))          <span class="ck"># &lt;class 'CalendarEvent'&gt; — a real Python object</span>
- 
 <span class="ck"># Handle refusal (model refuses to comply with the request)</span>
 if completion.choices[<span class="cv">0</span>].message.refusal:
     print(<span class="cs">f"Model refused: {completion.choices[0].message.refusal}"</span>)</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>JSON Mode vs Structured Outputs</h3><span class="tag tag-blue">Know the Difference</span></div>
   <div class="cp-body">
@@ -234,7 +221,6 @@ data = json.loads(response.choices[<span class="cv">0</span>].message.content)
 <span class="ck"># data["age"] might be "28" or 28 — you don't know</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧩</span><h3>Complex Pydantic Schemas</h3><span class="tag tag-teal">Real-World Patterns</span></div>
   <div class="cp-body">
@@ -254,7 +240,6 @@ class Contact(BaseModel):
     email:   str
     phone:   Optional[str] = None
     address: Optional[Address] = None   <span class="ck"># nested model</span>
- 
 <span class="ck"># Enums for controlled vocabularies</span>
 class Priority(str, Enum):
     LOW    = <span class="cs">"low"</span>
@@ -286,13 +271,9 @@ class Post(BaseModel):
     contents: List[Content]   <span class="ck"># can be text or image blocks</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — INSTRUCTOR ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Instructor — Structured Outputs for Every Provider</h3><span class="tag tag-indigo">Production Standard</span></div>
   <div class="cp-body">
@@ -328,7 +309,6 @@ review = claude_client.messages.create(
 print(review.title)       <span class="ck"># "Interstellar"</span>
 print(review.rating)      <span class="ck"># 9.2  — always a float</span>
 print(review.recommended) <span class="ck"># True — always a bool</span>
- 
 <span class="ck"># ── With OpenAI (GPT-4o) ───────────────────────────────</span>
 oai_client = instructor.from_openai(OpenAI())
  
@@ -340,7 +320,6 @@ review = oai_client.chat.completions.create(
 <span class="ck"># Same API regardless of provider — easy to switch</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Automatic Retries and Partial Extraction</h3><span class="tag tag-blue">Reliability</span></div>
   <div class="cp-body">
@@ -376,7 +355,6 @@ class StrictRating(BaseModel):
  
 <span class="ck"># If model returns score=11.0, Instructor catches the validation error,</span>
 <span class="ck"># tells the model what went wrong, and asks it to try again</span>
- 
 <span class="ck"># Partial extraction — stream partial objects as they are generated</span>
 from instructor import Partial
  
@@ -398,7 +376,6 @@ for partial_report in client.messages.create_partial(
     <div class="ins"><p>💡 <strong>Automatic retries are Instructor's killer feature.</strong> When a field validator raises a ValueError, Instructor sends the model a message saying "Your previous response failed validation: [error]. Please fix and try again." The model almost always succeeds on the second attempt. This makes structured extraction production-ready.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏭</span><h3>Real-World Extraction Patterns</h3><span class="tag tag-teal">Production Use Cases</span></div>
   <div class="cp-body">
@@ -417,7 +394,6 @@ class Invoice(BaseModel):
     tax_rate:       float
     total:          float
     due_date:       str   <span class="ck"># YYYY-MM-DD</span>
- 
 <span class="ck"># 2. Meeting notes → action items</span>
 class ActionItem(BaseModel):
     task:      str
@@ -452,13 +428,9 @@ class SupportTicket(BaseModel):
     needs_human: bool</pre></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — TOOL CALLING ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Tool Calling — The Mental Model</h3><span class="tag tag-indigo">Critical Concept</span></div>
   <div class="cp-body">
@@ -488,7 +460,6 @@ class SupportTicket(BaseModel):
 <span class="ck"># YOUR code then calls: get_weather(city="Mumbai", units="celsius")</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Defining Tools — The 5-Step Pattern</h3><span class="tag tag-blue">Core Pattern</span></div>
   <div class="cp-body">
@@ -582,7 +553,6 @@ final_response = client.messages.create(
 print(final_response.content[<span class="cv">0</span>].text)</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Writing Tool Descriptions That Work</h3><span class="tag tag-teal">Critical Skill</span></div>
   <div class="cp-body">
@@ -629,7 +599,6 @@ or anything not related to company products and policies."""</span>,
     </ul>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>OpenAI Tool Calling</h3><span class="tag tag-orange">Syntax Differences</span></div>
   <div class="cp-body">
@@ -668,13 +637,9 @@ if message.tool_calls:
         <span class="ck"># Execute function based on name...</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — TOOL LOOP PATTERNS ══════════ -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-indigo">
   <div class="cp-hdr"><span class="ico">🔁</span><h3>The Complete Tool Loop — Production Pattern</h3><span class="tag tag-indigo">Production</span></div>
   <div class="cp-body">
@@ -712,7 +677,6 @@ def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="
  
         if response.stop_reason != <span class="cs">"tool_use"</span>:
             break   <span class="ck"># unexpected stop reason</span>
- 
         <span class="ck"># Append assistant message</span>
         messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
  
@@ -740,7 +704,6 @@ def run_tool_loop(user_message: str, tools: list, max_turns: int = <span class="
         messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
  
     return <span class="cs">"Max turns reached without final response"</span>
- 
 <span class="ck"># Usage</span>
 answer = run_tool_loop(
     <span class="cs">"What's the weather in Mumbai and Delhi? Which city is warmer?"</span>,
@@ -749,12 +712,10 @@ answer = run_tool_loop(
 print(answer)</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚙️</span><h3>tool_choice — Controlling Which Tool Gets Called</h3><span class="tag tag-blue">Control</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Anthropic tool_choice options</span>
- 
 <span class="ck"># "auto" (default) — model decides whether to use a tool or respond directly</span>
 tool_choice={<span class="cs">"type"</span>: <span class="cs">"auto"</span>}
  
@@ -768,7 +729,6 @@ tool_choice={<span class="cs">"type"</span>: <span class="cs">"tool"</span>, <sp
 <span class="ck"># "auto"     — conversational agents where tool use is optional</span>
 <span class="ck"># "any"      — when you always need structured output (extraction pipelines)</span>
 <span class="ck"># specific   — when you know exactly which tool to force (single-purpose endpoints)</span>
- 
 <span class="ck"># OpenAI equivalents</span>
 tool_choice = <span class="cs">"auto"</span>       <span class="ck"># let model decide</span>
 tool_choice = <span class="cs">"required"</span>   <span class="ck"># must use a tool (= Anthropic "any")</span>
@@ -776,7 +736,6 @@ tool_choice = <span class="cs">"none"</span>       <span class="ck"># never use 
 tool_choice = {<span class="cs">"type"</span>: <span class="cs">"function"</span>, <span class="cs">"function"</span>: {<span class="cs">"name"</span>: <span class="cs">"get_weather"</span>}}  <span class="ck"># force specific</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Parallel Tool Calls</h3><span class="tag tag-teal">Performance</span></div>
   <div class="cp-body">
@@ -809,10 +768,7 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
     <div class="ins"><p>💡 <strong>Parallel tool calls matter for agents.</strong> An agent researching 5 topics simultaneously via search tools is 5× faster than one that searches sequentially. Always process all tool_use blocks in a single response together, not one by one.</p></div>
   </div>
 </div>
-
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — RESOURCES ══════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -827,12 +783,9 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
   </tbody>
 </table>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — PROJECTS ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -859,11 +812,8 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — LABS ══════════ -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Structured Extraction — Compare JSON Mode vs Instructor</h4></div>
   <div class="lab-body">
@@ -875,7 +825,6 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
     <div class="lab-step"><div class="sn">5</div><div><strong>Document:</strong> What failure modes did JSON mode have that Instructor caught? When is JSON mode "good enough"?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Tool Description Quality — See How It Affects Selection</h4></div>
   <div class="lab-body">
@@ -886,7 +835,6 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
     <div class="lab-step"><div class="sn">4</div><div>Compare selections. How many changed? Which changes were improvements? Document the 3 most impactful improvements you made to descriptions.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Build and Test the Complete Tool Loop</h4></div>
   <div class="lab-body">
@@ -899,10 +847,7 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
     <div class="lab-step"><div class="sn">6</div><div>Test max_turns: give the model a tool that always returns "try again" and verify the loop terminates at max_turns rather than running forever.</div></div>
   </div>
 </div>
-
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — CHECKLIST ══════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">P4-M12 MASTERY CHECKLIST</p>
@@ -928,15 +873,12 @@ async def execute_tool_calls_parallel(tool_calls: list) -> list:
   <p>✅ <strong>When complete:</strong> Move to <strong>P4-M13 — Streaming &amp; Conversation State</strong>. The tool calling patterns you built here are the foundation of agents in Part 6 — agents are just tool loops with more sophisticated decision logic.</p>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part4-llm-apis/p4-m11-prompting/">← P4-M11: Prompting</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part4-llm-apis/p4-m13-streaming-state/">Next: P4-M13 — Streaming →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

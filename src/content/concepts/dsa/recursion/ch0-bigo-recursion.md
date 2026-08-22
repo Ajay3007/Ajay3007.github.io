@@ -29,9 +29,7 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Is Big O Notation?</h2>
 <p>Before you write a single line of code in an interview, your interviewer wants to know one thing: <strong>will your solution scale?</strong> Big O notation is the language we use to answer that question.</p>
@@ -43,10 +41,8 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
     <li><strong>Space complexity</strong> — how much extra memory does it use? (Input itself is usually excluded)</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">1.1 — The Complexity Hierarchy</h3>
 <p>Memorise this table. Every time you write code, you should be able to identify which class it falls into:</p>
-
 <div class="ch-ed-problems">
 <table>
   <thead>
@@ -63,7 +59,6 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
   </tbody>
 </table>
 </div>
-
 <h3 class="section-subheading">1.2 — Big O Rules</h3>
 <div class="insight-box">
   <span class="insight-label">Drop & Simplify Rules</span>
@@ -76,10 +71,8 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
   </ul>
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Analysing Common Patterns</h2>
-
 <h3 class="section-subheading">2.1 — Loop-Based Complexity</h3>
 <div class="pattern-summary">
   <div class="pattern-card"><h4>Single Loop</h4><p>O(n) — each element visited once. Default assumption for array scan.</p></div>
@@ -87,7 +80,6 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
   <div class="pattern-card"><h4>Half-and-Half</h4><p>O(log n) — problem halved each step. Binary search, balanced BST.</p></div>
   <div class="pattern-card"><h4>Two-Phase</h4><p>O(n + m) — e.g., BFS scan + preprocessing. Add, don't multiply when sequential.</p></div>
 </div>
-
 <h3 class="section-subheading">2.2 — Space Complexity</h3>
 <div class="insight-box">
   <ul>
@@ -97,10 +89,9 @@ url: /learning/dsa/recursion/ch0-bigo-recursion/
     <li>In-place operations (two-pointer reversal, bubble sort) = O(1) space.</li>
   </ul>
 </div>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">Space complexity examples</span>
-{% highlight cpp %}
+```cpp
 // O(n) space — new vector of size n
 vector<int> doubled(n);
 for (int i = 0; i < n; i++) doubled[i] = 2 * nums[i];
@@ -114,10 +105,9 @@ int factorial(int n) {
     if (n <= 1) return 1;
     return n * factorial(n-1);  // n stack frames
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Recursion Fundamentals</h2>
 <p>Recursion is a function calling itself with a smaller, simpler version of the same problem. Every recursive function must have exactly two parts:</p>
@@ -129,12 +119,11 @@ int factorial(int n) {
   </ul>
   Without a base case → infinite recursion → stack overflow. Without a recursive case → no recursion.
 </div>
-
 <h3 class="section-subheading">3.1 — The Call Stack</h3>
 <p>Every function call occupies a frame on the call stack. Recursive calls stack up sequentially, then unwind once the base case is hit:</p>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Fibonacci — trace the call stack</span>
-{% highlight cpp %}
+```cpp
 int fib(int n) {
     if (n <= 1) return n;          // base case
     return fib(n-1) + fib(n-2);   // recursive case
@@ -147,13 +136,12 @@ int fib(int n) {
 //   fib(2) → fib(1) → 1
 //           → fib(0) → 0
 // Call tree is O(2ⁿ) without memoization!
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">3.2 — Memoization (Top-Down DP)</h3>
 <p>Memoization eliminates repeated subproblem computation by caching results. Transforms Fibonacci from O(2ⁿ) to O(n):</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 unordered_map<int,int> memo;
 int fib(int n) {
     if (n <= 1) return n;
@@ -162,10 +150,9 @@ int fib(int n) {
 }
 // Time: O(n) — each state computed once
 // Space: O(n) — memo table + call stack
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Recursive Patterns</h2>
 <div class="pattern-summary">
@@ -174,10 +161,9 @@ int fib(int n) {
   <div class="pattern-card"><h4>Tree/DFS Recursion</h4><p>Recurse on left and right children. O(n) for balanced tree, O(n) stack space.</p></div>
   <div class="pattern-card"><h4>Backtracking</h4><p>Choose → Recurse → Unchoose. Explores O(n!) or O(2ⁿ) paths but prunes early.</p></div>
 </div>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">Universal recursion template</span>
-{% highlight cpp %}
+```cpp
 ReturnType solve(params, state) {
     // 1. Base case
     if (baseCondition) return baseValue;
@@ -186,10 +172,9 @@ ReturnType solve(params, state) {
     // 3. Combine and return
     return combine(subResult, currentElement);
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Practice Problems</h2>
 <div class="ch-ed-problems">
@@ -204,9 +189,7 @@ ReturnType solve(params, state) {
 </table>
 </div>
 </div>
-
 </div><!-- end .chapter-content -->
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/dsa-roadmap/" class="ch-nav-footer-btn">← DSA Roadmap</a>
   <a href="/learning/dsa/arrays/ch1-arrays-strings/" class="ch-nav-footer-btn primary">Next: Ch1 — Arrays & Strings →</a>

@@ -16,12 +16,10 @@ Basic programming concepts before Java.
 ## Topics
 
 <div style="display: grid; gap: 1rem; margin: 2rem 0;">
-
 <div class="project-card" style="background:#f8fafc;border-radius:10px;box-shadow:0 2px 8px #e2e8f0;padding:1.5rem;">
   <h3><a href="/learning/programming-language/java/00-foundation/compilation-execution" style="color:#1976d2;text-decoration:none;">Java Compilation & Execution Flow</a></h3>
   <p>How Java source code is compiled into bytecode and executed by the JVM.</p>
 </div>
-
 </div>
 
 ---

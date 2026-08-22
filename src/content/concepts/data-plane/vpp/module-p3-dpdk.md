@@ -74,7 +74,6 @@ url: /learning/data-plane/vpp/module-p3-dpdk/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 3A · WEEKS 9–10</div>
   <div class="mod-title">🔌 DPDK Plugin Deep Dive</div>
@@ -87,7 +86,6 @@ url: /learning/data-plane/vpp/module-p3-dpdk/
     <span class="mod-pill">Mellanox mlx5</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'ta')">Architecture</button>
   <button class="tab-btn" onclick="vt(event,'tb')">dpdk-input Node</button>
@@ -97,7 +95,6 @@ url: /learning/data-plane/vpp/module-p3-dpdk/
   <button class="tab-btn" onclick="vt(event,'tf')">Projects</button>
   <button class="tab-btn" onclick="vt(event,'tg')">Checklist</button>
 </div>
-
 <div id="ta" class="tab-pane active">
 <p class="sep">DPDK PLUGIN ARCHITECTURE</p>
 <div class="cp p-orange">
@@ -114,7 +111,6 @@ dpdk/
 ├── dpdk.h           <span class="cm"># dpdk_main_t, dpdk_device_t - master structs</span>
 └── api/
     └── dpdk.api     <span class="cm"># Binary API: set DPDK interface config etc</span>
- 
 <span class="cm">/* Key structs */</span>
 dpdk_main_t   - singleton: EAL args, device pool, per-worker tx queues
 dpdk_device_t - per-port: port_id, n_rx_queues, rx/tx descriptors, stats</pre></div>
@@ -127,7 +123,6 @@ dpdk_device_t - per-port: port_id, n_rx_queues, rx/tx descriptors, stats</pre></
   </div>
 </div>
 </div>
-
 <div id="tb" class="tab-pane">
 <p class="sep">dpdk-input - THE RX HOT PATH</p>
 <div class="cp p-teal">
@@ -171,7 +166,6 @@ VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
   </div>
 </div>
 </div>
-
 <div id="tc" class="tab-pane">
 <p class="sep">MBUF ↔ VLIB_BUFFER MEMORY BRIDGE</p>
 <div class="cp p-blue">
@@ -191,11 +185,9 @@ VLIB_NODE_FN(dpdk_input_node)(vlib_main_t *vm, vlib_node_runtime_t *node,
 <span class="cm">/* mbuf → vlib_buffer */</span>
 vlib_buffer_t *b = vlib_buffer_from_rte_mbuf(mb);
 <span class="cm">/* equivalent to: (vlib_buffer_t *)RTE_PTR_ADD(mb, sizeof(struct rte_mbuf)) */</span>
- 
 <span class="cm">/* vlib_buffer → mbuf */</span>
 struct rte_mbuf *mb = rte_mbuf_from_vlib_buffer(b);
 <span class="cm">/* equivalent to: (struct rte_mbuf *)RTE_PTR_SUB(b, sizeof(struct rte_mbuf)) */</span>
- 
 <span class="cm">/* Fields are synced at RX entry and TX exit */</span>
 <span class="cm">/* RX: DPDK fills mbuf, plugin copies to vlib_buffer fields */</span>
 b->current_data   = mb->data_off - RTE_PKTMBUF_HEADROOM;
@@ -203,7 +195,6 @@ b->current_length = mb->data_len;
 b->flags |= (mb->ol_flags & PKT_RX_RSS_HASH) ? VLIB_BUFFER_TOTAL_LENGTH_VALID : 0;
 vnet_buffer(b)->sw_if_index[VLIB_RX] = xd->sw_if_index;
 vnet_buffer(b)->sw_if_index[VLIB_TX] = ~0;  <span class="cm">/* unknown at RX */</span>
- 
 <span class="cm">/* TX: vlib_buffer → mbuf */</span>
 mb->data_off = b->current_data + RTE_PKTMBUF_HEADROOM;
 mb->data_len = b->current_length;
@@ -220,7 +211,6 @@ mb->pkt_len  = b->current_length;</pre></div>
   </div>
 </div>
 </div>
-
 <div id="td" class="tab-pane">
 <p class="sep">MELLANOX mlx5 - YOUR NIC</p>
 <div class="cp p-purple">
@@ -263,7 +253,6 @@ dpdk {
   </div>
 </div>
 </div>
-
 <div id="te" class="tab-pane">
 <p class="sep">DPDK STANZA REFERENCE</p>
 <div class="cp p-teal">
@@ -289,7 +278,6 @@ dpdk {
   </div>
 </div>
 </div>
-
 <div id="tf" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 4</span><h4>Interface Technology Comparison Lab</h4></div>
@@ -303,7 +291,6 @@ dpdk {
   </div>
 </div>
 </div>
-
 <div id="tg" class="tab-pane">
 <p class="sep">P3A COMPLETION CHECKLIST</p>
 <ul class="cl">
@@ -322,7 +309,6 @@ dpdk {
   <p>✅ Next: <strong>P3B - memif and shared-memory interfaces</strong>. This is where VPP shines for container-to-container connectivity.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p2-vnet/">← vnet</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>

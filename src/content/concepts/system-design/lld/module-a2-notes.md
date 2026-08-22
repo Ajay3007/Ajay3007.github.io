@@ -29,14 +29,12 @@ url: /learning/system-design/lld/module-a2-notes/
     <span class="stat-badge">Prototype</span>
   </div>
 </div>
-
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
   <a href="/learning/system-design/lld/module-a2-creational/" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:rgba(240,165,0,0.1);border:1px solid rgba(240,165,0,0.3);color:#f0a500;text-decoration:none;font-weight:700;font-size:0.85rem;">
     ⚡ Interactive Visual Version
   </a>
   <span style="color:var(--c-muted,#666);font-size:0.85rem;">← Recommended for learning. This page is the printable reference.</span>
 </div>
-
 <div class="insight-box">
   <div class="ib-title">Overview</div>
   <p>Creational design patterns abstract the instantiation process. They help make a system independent of how its objects are created, composed, and represented. As systems evolve, they often rely more on object composition than class inheritance, shifting the emphasis away from hard-coding a fixed set of behaviours toward defining a smaller set of fundamental behaviours that can be composed into any number of more complex ones. Thus, creating objects with specific behaviours requires more than simply instantiating a class.</p>

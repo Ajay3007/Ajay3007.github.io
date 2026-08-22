@@ -15,7 +15,6 @@ url: /learning/dsa/dsa-roadmap/
   <span>›</span>
   <span>DSA Mastery</span>
 </div>
-
 <div class="dsa-hero">
   <h1>🧠 DSA Mastery Roadmap</h1>
   <p>Data Structures & Algorithms for Coding Interviews — Complete C++ Reference with LeetCode Problems & Chapter Deep-Dives</p>
@@ -26,14 +25,12 @@ url: /learning/dsa/dsa-roadmap/
     <div><span class="dsa-stat-val">13</span><span class="dsa-stat-lbl">Patterns</span></div>
   </div>
 </div>
-
 <div class="dsa-overall-progress">
   <span class="dsa-op-label">📊 Your Progress</span>
   <div class="dsa-op-bar-wrap"><div class="dsa-op-bar"></div></div>
   <span class="dsa-op-pct">0%</span>
   <span class="dsa-op-count">Loading…</span>
 </div>
-
 <div class="dsa-filter-bar">
   <label>Filter:</label>
   <button class="diff-btn active" data-diff="all">All</button>
@@ -41,7 +38,6 @@ url: /learning/dsa/dsa-roadmap/
   <button class="diff-btn" data-diff="medium">Medium</button>
   <button class="diff-btn" data-diff="hard">Hard</button>
 </div>
-
 <nav class="dsa-chapter-nav" aria-label="Chapter navigation">
   <div class="dsa-chapter-pills">
     <a href="#ch0" class="ch-pill">Ch0 — Big O & Recursion<span class="pill-count">0/4</span></a>
@@ -59,9 +55,7 @@ url: /learning/dsa/dsa-roadmap/
     <a href="#ch12" class="ch-pill">Ch12 — Study Plan<span class="pill-count"></span></a>
   </div>
 </nav>
-
 <div class="dsa-chapters">
-
 <!-- ═══════════════════════════════════════════════
      Ch 0 — Big O & Recursion
 ═══════════════════════════════════════════════ -->
@@ -100,7 +94,7 @@ url: /learning/dsa/dsa-roadmap/
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Template</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Generic recursion template
 ReturnType solve(params, state) {
     if (baseCondition) return baseValue;   // 1. Base case
@@ -113,7 +107,7 @@ int dp(int n) {
     if (memo.count(n)) return memo[n];
     return memo[n] = dp(n-1) + dp(n-2);
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Practice Problems</div>
     <table class="ch-problem-table">
@@ -127,7 +121,6 @@ int dp(int n) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 1 — Arrays & Strings
 ═══════════════════════════════════════════════ -->
@@ -164,7 +157,7 @@ int dp(int n) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Opposite ends
 int left = 0, right = arr.size() - 1;
 while (left < right) {
@@ -176,7 +169,7 @@ while (left < right) {
 int slow = 0;
 for (int fast = 0; fast < arr.size(); fast++)
     if (condition(arr[fast])) arr[slow++] = arr[fast];
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -207,7 +200,7 @@ for (int fast = 0; fast < arr.size(); fast++)
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Dynamic window
 int left = 0, curr = 0, ans = 0;
 for (int right = 0; right < nums.size(); right++) {
@@ -223,7 +216,7 @@ for (int i = k; i < nums.size(); i++) {
     curr += nums[i] - nums[i-k];
     ans = max(ans, curr);
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -252,7 +245,7 @@ for (int i = k; i < nums.size(); i++) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Template</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 vector<int> prefix(nums.size() + 1, 0);
 for (int i = 0; i < nums.size(); i++) prefix[i+1] = prefix[i] + nums[i];
 // Sum nums[l..r] = prefix[r+1] - prefix[l]
@@ -261,7 +254,7 @@ for (int i = 0; i < nums.size(); i++) prefix[i+1] = prefix[i] + nums[i];
 unordered_map<int,int> freq; freq[0] = 1; // init: prefix sum 0 seen once
 int curr = 0, ans = 0;
 for (int x : nums) { curr += x; ans += freq[curr - k]; freq[curr]++; }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -278,7 +271,6 @@ for (int x : nums) { curr += x; ans += freq[curr - k]; freq[curr]++; }
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 2 — Hashing
 ═══════════════════════════════════════════════ -->
@@ -318,7 +310,7 @@ for (int x : nums) { curr += x; ans += freq[curr - k]; freq[curr]++; }
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Frequency count
 unordered_map<int,int> freq;
 for (int x : arr) freq[x]++;
@@ -334,7 +326,7 @@ for (string& s : strs) {
     string key = s; sort(key.begin(), key.end());
     groups[key].push_back(s);
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -356,7 +348,6 @@ for (string& s : strs) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 3 — Linked Lists
 ═══════════════════════════════════════════════ -->
@@ -394,7 +385,7 @@ for (string& s : strs) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Fast/slow — find middle
 ListNode *slow = head, *fast = head;
 while (fast && fast->next) { slow = slow->next; fast = fast->next->next; }
@@ -413,7 +404,7 @@ while (l1 && l2) {
     tail = tail->next;
 }
 tail->next = l1 ? l1 : l2;
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -433,7 +424,6 @@ tail->next = l1 ? l1 : l2;
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 4 — Stacks & Queues
 ═══════════════════════════════════════════════ -->
@@ -471,7 +461,7 @@ tail->next = l1 ? l1 : l2;
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Monotonic stack — Next Greater Element
 vector<int> ans(nums.size(), -1);
 stack<int> stk;
@@ -496,7 +486,7 @@ for (int i = 0; i < nums.size(); i++) {
     dq.push_back(i);
     if (i >= k-1) ans.push_back(nums[dq.front()]);
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -516,7 +506,6 @@ for (int i = 0; i < nums.size(); i++) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 5 — Trees & Graphs
 ═══════════════════════════════════════════════ -->
@@ -554,7 +543,7 @@ for (int i = 0; i < nums.size(); i++) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Recursive DFS
 int dfs(TreeNode* node) {
     if (!node) return 0;
@@ -579,7 +568,7 @@ while (!q.empty()) {
     for (int nei : adj[node])
         if (dist[nei]==-1) { dist[nei]=dist[node]+1; q.push(nei); }
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -610,7 +599,6 @@ while (!q.empty()) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 6 — Heaps
 ═══════════════════════════════════════════════ -->
@@ -648,7 +636,7 @@ while (!q.empty()) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Template</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Min-heap
 priority_queue<int, vector<int>, greater<int>> minH;
 // Top-K largest using min-heap of size K
@@ -658,7 +646,7 @@ for (int x : nums) { pq.push(x); if (pq.size() > k) pq.pop(); }
 // Custom comparator
 auto cmp = [](pair<int,int>& a, pair<int,int>& b){ return a.first > b.first; };
 priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(cmp)> pq(cmp);
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -675,7 +663,6 @@ priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(cmp)> pq(cmp);
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 7 — Greedy
 ═══════════════════════════════════════════════ -->
@@ -713,14 +700,14 @@ priority_queue<pair<int,int>, vector<pair<int,int>>, decltype(cmp)> pq(cmp);
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Template</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Interval scheduling — max non-overlapping intervals
 sort(intervals.begin(), intervals.end(),
     [](auto& a, auto& b){ return a[1] < b[1]; }); // sort by end
 int count = 0, prevEnd = INT_MIN;
 for (auto& iv : intervals)
     if (iv[0] >= prevEnd) { count++; prevEnd = iv[1]; }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -737,7 +724,6 @@ for (auto& iv : intervals)
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 8 — Binary Search
 ═══════════════════════════════════════════════ -->
@@ -775,7 +761,7 @@ for (auto& iv : intervals)
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Standard binary search
 int lo = 0, hi = nums.size()-1;
 while (lo <= hi) {
@@ -791,7 +777,7 @@ while (lo <= hi) {
     if (feasible(mid)) { ans = mid; hi = mid-1; }
     else lo = mid+1;
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -809,7 +795,6 @@ while (lo <= hi) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 9 — Backtracking
 ═══════════════════════════════════════════════ -->
@@ -849,7 +834,7 @@ while (lo <= hi) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Template</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 vector<vector<int>> result;
 vector<int> current;
 void backtrack(int start) {
@@ -861,7 +846,7 @@ void backtrack(int start) {
         current.pop_back();                // unchoose
     }
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -881,7 +866,6 @@ void backtrack(int start) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 10 — Dynamic Programming
 ═══════════════════════════════════════════════ -->
@@ -920,7 +904,7 @@ void backtrack(int start) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // 1D DP — Climbing Stairs
 vector<int> dp(n+1, 0); dp[0]=1; dp[1]=1;
 for (int i = 2; i <= n; i++) dp[i] = dp[i-1] + dp[i-2];
@@ -935,7 +919,7 @@ for (int i = 1; i < prices.size(); i++) {
     int ph=hold,ps=sold,pr=rest;
     hold=max(ph,pr-prices[i]); sold=ph+prices[i]; rest=max(pr,ps);
 }
-{% endhighlight %}
+```
     </div>
     <table class="ch-problem-table">
       <thead><tr><th>✓</th><th>#</th><th>Problem</th><th>Difficulty</th></tr></thead>
@@ -955,7 +939,6 @@ for (int i = 1; i < prices.size(); i++) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 11 — Bonus Topics
 ═══════════════════════════════════════════════ -->
@@ -987,7 +970,7 @@ for (int i = 1; i < prices.size(); i++) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show Trie C++ Template</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 struct TrieNode {
     unordered_map<char, TrieNode*> children;
     bool isEnd = false;
@@ -1012,7 +995,7 @@ public:
         return curr->isEnd;
     }
 };
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">11.2 Bit Manipulation</div>
     <div class="dsa-pattern-box">
@@ -1033,7 +1016,7 @@ public:
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C++ Templates</button>
     <div class="code-block-wrap">
-{% highlight cpp %}
+```cpp
 // Core mask operations
 x |= (1 << n);             // SET bit n
 x &= ~(1 << n);            // CLEAR bit n
@@ -1059,7 +1042,7 @@ for (int i = 1; i <= n; i++) dp[i] = dp[i >> 1] + (i & 1);
 uint32_t field = (x >> start) & ((1 << width) - 1);
 // Insert pattern: x = (x & ~mask) | (pattern << start)
 //   where mask = ((1 << width) - 1) << start
-{% endhighlight %}
+```
     </div>
     <div style="margin:.8rem 0;display:flex;flex-wrap:wrap;gap:.5rem;">
       <a href="/learning/dsa/bit-manipulation/" style="display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .9rem;background:#f5f3ff;border:1.5px solid #7c3aed;border-radius:7px;font-size:.82rem;font-weight:700;color:#6d28d9;text-decoration:none;">⚙️ Full Deep-Dive (10 tabs)</a>
@@ -1081,7 +1064,6 @@ uint32_t field = (x >> start) & ((1 << width) - 1);
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════
      Ch 12 — Study Plan & Cheatsheet
 ═══════════════════════════════════════════════ -->
@@ -1154,9 +1136,7 @@ uint32_t field = (x >> start) & ((1 << width) - 1);
     </div>
   </div>
 </div>
-
 </div><!-- end .dsa-chapters -->
-
 <div style="text-align:center;padding:2rem 0 1rem;">
   <a href="/roadmap/" style="display:inline-block;padding:0.6rem 1.4rem;background:linear-gradient(135deg,#00c9a7,#00b4d8);color:#fff;border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:700;">← Back to All Roadmaps</a>
 </div>

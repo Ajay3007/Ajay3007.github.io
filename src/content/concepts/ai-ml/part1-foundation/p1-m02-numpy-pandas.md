@@ -103,7 +103,6 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
 .cmp-table .good{color:#15803d;font-weight:600}
 .cmp-table .bad{color:#dc2626;font-weight:600}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 1 — Universal Foundation &nbsp;·&nbsp; Module 02 of 04</div>
@@ -117,7 +116,6 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
     <span class="mod-pill">🛠 Jupyter / Colab</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -130,11 +128,8 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
   <button class="tab-btn" onclick="vt(event,'t7')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-purple">Foundation</span></div>
   <div class="cp-body">
@@ -150,11 +145,9 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
     </ul>
   </div>
 </div>
-
 <div class="skip-box">
   <strong>⚡ SKIP IF:</strong> You know Java/C++ arrays and ArrayLists — NumPy arrays are conceptually similar but with vectorised operations (no explicit loops needed). Pandas DataFrame is like a database table or Excel spreadsheet. Skim NumPy basics and focus on Pandas, which is uniquely Python/data-focused with no direct equivalent in compiled languages.
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Why These Two Libraries</h3><span class="tag tag-blue">Context</span></div>
   <div class="cp-body">
@@ -168,7 +161,6 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
     <div class="ins"><p>💡 <strong>NumPy array vs Python list:</strong> A Python list can hold mixed types and is stored as pointers to objects. A NumPy array holds a single type in contiguous memory — like a C array. This is why <code>np.sum(arr)</code> is 50× faster than <code>sum(list)</code> for large data.</p></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Module Connections</h3><span class="tag tag-green">Dependencies</span></div>
   <div class="cp-body">
@@ -181,13 +173,9 @@ url: /learning/ai-ml/part1-foundation/p1-m02-numpy-pandas/
     </ul>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — NUMPY ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔢</span><h3>NumPy Array Fundamentals</h3><span class="tag tag-purple">Week 1</span></div>
   <div class="cp-body">
@@ -200,7 +188,6 @@ c = np.ones((<span class="cv">2</span>, <span class="cv">3</span>), dtype=np.flo
 d = np.arange(<span class="cv">0</span>, <span class="cv">10</span>, <span class="cv">2</span>)                   <span class="ck"># [0, 2, 4, 6, 8]</span>
 e = np.linspace(<span class="cv">0</span>, <span class="cv">1</span>, <span class="cv">5</span>)                  <span class="ck"># [0, 0.25, 0.5, 0.75, 1.0]</span>
 f = np.random.randn(<span class="cv">3</span>, <span class="cv">3</span>)                <span class="ck"># 3×3 standard normal</span>
- 
 <span class="ck"># Key attributes</span>
 print(a.shape)    <span class="ck"># (5,)     — 1D with 5 elements</span>
 print(b.shape)    <span class="ck"># (3, 4)   — 2D: 3 rows, 4 cols</span>
@@ -209,7 +196,6 @@ print(b.ndim)     <span class="ck"># 2        — number of dimensions</span>
 print(b.size)     <span class="ck"># 12       — total elements</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">✂️</span><h3>Indexing, Slicing and Boolean Masking</h3><span class="tag tag-blue">Essential</span></div>
   <div class="cp-body">
@@ -218,25 +204,21 @@ print(b.size)     <span class="ck"># 12       — total elements</span></pre></d
 <span class="ck"># Indexing — [row, col]</span>
 print(arr[<span class="cv">0</span>, <span class="cv">1</span>])       <span class="ck"># 2  — row 0, col 1</span>
 print(arr[-<span class="cv">1</span>, -<span class="cv">1</span>])     <span class="ck"># 9  — last row, last col</span>
- 
 <span class="ck"># Slicing — [row_start:row_end, col_start:col_end]</span>
 print(arr[<span class="cv">0</span>:2, <span class="cv">1</span>:])    <span class="ck"># [[2,3],[5,6]]  — rows 0-1, cols 1+</span>
 print(arr[:, <span class="cv">0</span>])        <span class="ck"># [1, 4, 7]  — entire first column</span>
 print(arr[<span class="cv">1</span>, :])         <span class="ck"># [4, 5, 6]  — entire second row</span>
- 
 <span class="ck"># Boolean masking — critical for data filtering</span>
 scores = np.array([<span class="cv">55</span>, <span class="cv">72</span>, <span class="cv">88</span>, <span class="cv">43</span>, <span class="cv">95</span>, <span class="cv">61</span>])
 mask   = scores > <span class="cv">70</span>
 print(mask)             <span class="ck"># [F, T, T, F, T, F]</span>
 print(scores[mask])     <span class="ck"># [72, 88, 95]  — fancy indexing</span>
 print(scores[scores > <span class="cv">70</span>])  <span class="ck"># same — inline</span>
- 
 <span class="ck"># Combine conditions</span>
 print(scores[(scores > <span class="cv">60</span>) &amp; (scores &lt; <span class="cv">90</span>)])  <span class="ck"># [72, 88, 61]</span></pre></div>
     <div class="warn"><p>⚠️ <strong>NumPy slices are VIEWS, not copies.</strong> Modifying a slice modifies the original array. Always use <code>arr.copy()</code> when you need an independent copy. This is the single most common NumPy bug.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Vectorised Operations and Broadcasting</h3><span class="tag tag-teal">Performance</span></div>
   <div class="cp-body">
@@ -249,13 +231,11 @@ print(a + b)          <span class="ck"># [11, 22, 33, 44]</span>
 print(a * b)          <span class="ck"># [10, 40, 90, 160]</span>
 print(a ** <span class="cv">2</span>)         <span class="ck"># [1, 4, 9, 16]</span>
 print(np.sqrt(a))     <span class="ck"># [1.0, 1.41, 1.73, 2.0]</span>
- 
 <span class="ck"># Statistical functions</span>
 print(np.mean(a))     <span class="ck"># 2.5</span>
 print(np.std(a))      <span class="ck"># 1.118...</span>
 print(np.sum(a))      <span class="ck"># 10</span>
 print(np.min(a), np.max(a), np.argmax(a))  <span class="ck"># 1  4  3</span>
- 
 <span class="ck"># Broadcasting — smaller array stretches to match larger</span>
 matrix = np.ones((<span class="cv">3</span>, <span class="cv">4</span>))
 row    = np.array([<span class="cv">1</span>, <span class="cv">2</span>, <span class="cv">3</span>, <span class="cv">4</span>])    <span class="ck"># shape (4,)</span>
@@ -266,7 +246,6 @@ print(result)
 <span class="ck">#  [2,3,4,5]]</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Reshape, Stack and Linear Algebra</h3><span class="tag tag-orange">ML Prep</span></div>
   <div class="cp-body">
@@ -275,17 +254,14 @@ a = np.arange(<span class="cv">12</span>)
 print(a.reshape(<span class="cv">3</span>, <span class="cv">4</span>))    <span class="ck"># 3 rows, 4 cols</span>
 print(a.reshape(<span class="cv">2</span>, -<span class="cv">1</span>))    <span class="ck"># -1 = infer (becomes 2×6)</span>
 print(a.flatten())           <span class="ck"># back to 1D</span>
- 
 <span class="ck"># Transpose — swap rows and cols</span>
 m = np.array([[<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>],[<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>]])
 print(m.T)    <span class="ck"># shape (2,3) → (3,2)</span>
- 
 <span class="ck"># Stacking arrays</span>
 x = np.array([<span class="cv">1</span>,<span class="cv">2</span>,<span class="cv">3</span>])
 y = np.array([<span class="cv">4</span>,<span class="cv">5</span>,<span class="cv">6</span>])
 print(np.vstack([x, y]))    <span class="ck"># [[1,2,3],[4,5,6]]  vertical</span>
 print(np.hstack([x, y]))    <span class="ck"># [1,2,3,4,5,6]  horizontal</span>
- 
 <span class="ck"># Matrix multiplication — critical for ML</span>
 A = np.array([[<span class="cv">1</span>,<span class="cv">2</span>],[<span class="cv">3</span>,<span class="cv">4</span>]])
 B = np.array([[<span class="cv">5</span>,<span class="cv">6</span>],[<span class="cv">7</span>,<span class="cv">8</span>]])
@@ -295,13 +271,9 @@ print(A * B)          <span class="ck"># element-wise (NOT matrix multiply)</spa
     <div class="ins"><p>💡 <strong>Remember:</strong> <code>@</code> is matrix multiplication (dot product). <code>*</code> is element-wise. This distinction is critical — using the wrong one in ML code produces silently wrong results.</p></div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — PANDAS ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Series and DataFrame Basics</h3><span class="tag tag-purple">Week 2</span></div>
   <div class="cp-body">
@@ -312,7 +284,6 @@ import numpy as np
 s = pd.Series([<span class="cv">10</span>, <span class="cv">20</span>, <span class="cv">30</span>], index=[<span class="cs">"a"</span>, <span class="cs">"b"</span>, <span class="cs">"c"</span>])
 print(s[<span class="cs">"b"</span>])    <span class="ck"># 20</span>
 print(s.dtype)   <span class="ck"># int64</span>
- 
 <span class="ck"># DataFrame — 2D table (rows × columns)</span>
 df = pd.DataFrame({
     <span class="cs">"name"</span>:  [<span class="cs">"Alice"</span>, <span class="cs">"Bob"</span>, <span class="cs">"Charlie"</span>],
@@ -334,7 +305,6 @@ print(df.info())        <span class="ck"># types + non-null counts</span>
 print(df.describe())    <span class="ck"># count, mean, std, min, quartiles, max</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>Indexing — .loc vs .iloc</h3><span class="tag tag-blue">Essential</span></div>
   <div class="cp-body">
@@ -342,13 +312,11 @@ print(df.describe())    <span class="ck"># count, mean, std, min, quartiles, max
 df.loc[<span class="cv">0</span>]                       <span class="ck"># row with index label 0</span>
 df.loc[<span class="cv">0</span>, <span class="cs">"name"</span>]               <span class="ck"># cell: row 0, column "name"</span>
 df.loc[<span class="cv">0</span>:<span class="cv">2</span>, [<span class="cs">"name"</span>,<span class="cs">"score"</span>]]   <span class="ck"># rows 0-2, two columns (INCLUSIVE)</span>
- 
 <span class="ck"># .iloc — position-based indexing (like NumPy)</span>
 df.iloc[<span class="cv">0</span>]            <span class="ck"># first row</span>
 df.iloc[<span class="cv">0</span>, <span class="cv">1</span>]         <span class="ck"># row 0, column 1 (exclusive end)</span>
 df.iloc[<span class="cv">0</span>:<span class="cv">3</span>, :<span class="cv">2</span>]      <span class="ck"># first 3 rows, first 2 cols</span>
 df.iloc[-<span class="cv">1</span>]           <span class="ck"># last row</span>
- 
 <span class="ck"># Boolean filtering — the most common pattern</span>
 high_scores = df[df[<span class="cs">"score"</span>] > <span class="cv">80</span>]
 top_students = df[(df[<span class="cs">"score"</span>] > <span class="cv">80</span>) &amp; (df[<span class="cs">"grade"</span>] == <span class="cs">"A"</span>)]
@@ -359,7 +327,6 @@ df[[<span class="cs">"name"</span>, <span class="cs">"score"</span>]]  <span cla
     <div class="warn"><p>⚠️ <strong>.loc endpoint is INCLUSIVE, .iloc endpoint is EXCLUSIVE.</strong> <code>df.loc[0:3]</code> returns rows 0,1,2,3. <code>df.iloc[0:3]</code> returns rows 0,1,2. This trips up everyone coming from Python slicing.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧹</span><h3>Data Cleaning — The Real Work</h3><span class="tag tag-teal">Week 2–3</span></div>
   <div class="cp-body">
@@ -374,24 +341,20 @@ df.dropna(thresh=<span class="cv">3</span>)              <span class="ck"># keep
 df.fillna(<span class="cv">0</span>)                     <span class="ck"># fill all NaN with 0</span>
 df[<span class="cs">"score"</span>].fillna(df[<span class="cs">"score"</span>].mean())  <span class="ck"># fill with column mean</span>
 df[<span class="cs">"score"</span>].ffill()              <span class="ck"># forward fill (time series)</span>
- 
 <span class="ck"># Duplicates</span>
 df.duplicated().sum()             <span class="ck"># count duplicate rows</span>
 df.drop_duplicates()              <span class="ck"># remove all duplicates</span>
 df.drop_duplicates(subset=[<span class="cs">"name"</span>])  <span class="ck"># based on specific cols</span>
- 
 <span class="ck"># Type conversion</span>
 df[<span class="cs">"score"</span>] = df[<span class="cs">"score"</span>].astype(float)
 df[<span class="cs">"date"</span>]  = pd.to_datetime(df[<span class="cs">"date"</span>])
 df[<span class="cs">"grade"</span>] = df[<span class="cs">"grade"</span>].astype(<span class="cs">"category"</span>)  <span class="ck"># saves memory</span>
- 
 <span class="ck"># String cleaning</span>
 df[<span class="cs">"name"</span>] = df[<span class="cs">"name"</span>].str.strip().str.lower()
 df[<span class="cs">"email"</span>] = df[<span class="cs">"email"</span>].str.contains(<span class="cs">"@"</span>)  <span class="ck"># returns bool Series</span></pre></div>
     <div class="ins"><p>💡 <strong>Always use .copy() when creating a subset DataFrame.</strong> <code>df_clean = df[df["score"] > 0].copy()</code> — without .copy() you get a SettingWithCopyWarning and changes to df_clean may or may not affect the original. This is Pandas' most confusing behaviour.</p></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>GroupBy — Split, Apply, Combine</h3><span class="tag tag-orange">Week 3</span></div>
   <div class="cp-body">
@@ -408,7 +371,6 @@ df = pd.DataFrame({
 df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].mean()     <span class="ck"># mean sales per city</span>
 df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].sum()      <span class="ck"># total sales per city</span>
 df.groupby(<span class="cs">"city"</span>)[<span class="cs">"sales"</span>].count()    <span class="ck"># number of records per city</span>
- 
 <span class="ck"># Multiple aggregations at once</span>
 df.groupby(<span class="cs">"city"</span>).agg({
     <span class="cs">"sales"</span>: [<span class="cs">"sum"</span>, <span class="cs">"mean"</span>, <span class="cs">"count"</span>]
@@ -422,7 +384,6 @@ df[<span class="cs">"city_avg"</span>] = df.groupby(<span class="cs">"city"</spa
 df[<span class="cs">"pct_of_city"</span>] = df[<span class="cs">"sales"</span>] / df[<span class="cs">"city_avg"</span>]</pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔀</span><h3>Merge, Join and Concat</h3><span class="tag tag-green">Week 3</span></div>
   <div class="cp-body">
@@ -432,12 +393,10 @@ orders = pd.DataFrame({<span class="cs">"user_id"</span>: [<span class="cv">1</s
  
 pd.merge(orders, users, left_on=<span class="cs">"user_id"</span>, right_on=<span class="cs">"id"</span>, how=<span class="cs">"left"</span>)
 <span class="ck"># how: "inner"(default), "left", "right", "outer"</span>
- 
 <span class="ck"># concat — stack DataFrames vertically or horizontally</span>
 train = pd.read_csv(<span class="cs">"train.csv"</span>)
 test  = pd.read_csv(<span class="cs">"test.csv"</span>)
 full  = pd.concat([train, test], ignore_index=<span class="cv">True</span>)   <span class="ck"># vertical stack</span>
- 
 <span class="ck"># pivot_table — Excel-style pivot</span>
 pivot = df.pivot_table(
     values=<span class="cs">"sales"</span>,
@@ -448,7 +407,6 @@ pivot = df.pivot_table(
 )</pre></div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📅</span><h3>Datetime Handling</h3><span class="tag tag-amber">Time Series</span></div>
   <div class="cp-body">
@@ -471,13 +429,9 @@ df[<span class="cs">"rolling_7"</span>] = df[<span class="cs">"cases"</span>].ro
 df.set_index(<span class="cs">"date"</span>).resample(<span class="cs">"M"</span>)[<span class="cs">"sales"</span>].sum()  <span class="ck"># monthly totals</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — POWER PATTERNS ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>The Pandas Power Patterns — Memorise These</h3><span class="tag tag-purple">Must Know</span></div>
   <div class="cp-body">
@@ -487,7 +441,6 @@ df[df[<span class="cs">"age"</span>] > <span class="cv">30</span>]
 df[(df[<span class="cs">"age"</span>] > <span class="cv">30</span>) &amp; (df[<span class="cs">"city"</span>] == <span class="cs">"Mumbai"</span>)]
 df[df[<span class="cs">"name"</span>].isin([<span class="cs">"Alice"</span>, <span class="cs">"Bob"</span>])]
 df[~df[<span class="cs">"score"</span>].isna()]   <span class="ck"># ~ inverts boolean</span>
- 
 <span class="ck"># 2. Chain operations — readable pipeline</span>
 result = (df
     .dropna(subset=[<span class="cs">"score"</span>])
@@ -511,12 +464,10 @@ df_encoded = pd.get_dummies(df, columns=[<span class="cs">"city"</span>, <span c
 <span class="ck"># 6. value_counts — quick frequency distribution</span>
 df[<span class="cs">"city"</span>].value_counts()
 df[<span class="cs">"city"</span>].value_counts(normalize=<span class="cv">True</span>)  <span class="ck"># proportions</span>
- 
 <span class="ck"># 7. nunique — number of unique values per column</span>
 df.nunique()   <span class="ck"># quick cardinality check before one-hot encoding</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>NumPy ↔ Pandas Interoperability</h3><span class="tag tag-blue">Integration</span></div>
   <div class="cp-body">
@@ -524,7 +475,6 @@ df.nunique()   <span class="ck"># quick cardinality check before one-hot encodin
 X = df[[<span class="cs">"age"</span>, <span class="cs">"score"</span>, <span class="cs">"income"</span>]].values   <span class="ck"># .values returns ndarray</span>
 y = df[<span class="cs">"target"</span>].to_numpy()                   <span class="ck"># explicit and preferred</span>
 print(X.shape)   <span class="ck"># (n_samples, n_features)</span>
- 
 <span class="ck"># NumPy array → DataFrame</span>
 arr = np.random.randn(<span class="cv">100</span>, <span class="cv">3</span>)
 df2 = pd.DataFrame(arr, columns=[<span class="cs">"x1"</span>, <span class="cs">"x2"</span>, <span class="cs">"x3"</span>])
@@ -542,7 +492,6 @@ df[<span class="cs">"z_score"</span>]   = (df[<span class="cs">"score"</span>] -
 <span class="ck"># 6. Pass to Scikit-learn / PyTorch</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🐌</span><h3>Performance — When Pandas Gets Slow</h3><span class="tag tag-amber">Production</span></div>
   <div class="cp-body">
@@ -556,18 +505,13 @@ df[<span class="cs">"z_score"</span>]   = (df[<span class="cs">"score"</span>] -
     <div class="cb"><pre><span class="ck"># Slow — Python loop over rows (never do this)</span>
 for i, row in df.iterrows():
     df.at[i, <span class="cs">"new_col"</span>] = row[<span class="cs">"score"</span>] * <span class="cv">2</span>
- 
 <span class="ck"># Fast — vectorised (1000× faster)</span>
 df[<span class="cs">"new_col"</span>] = df[<span class="cs">"score"</span>] * <span class="cv">2</span>
- 
 <span class="ck"># Check memory usage</span>
 df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024</span>**<span class="cv">2</span>   <span class="ck"># MB</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — WEEK PLAN ══════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">3-WEEK STRUCTURED PLAN</p>
@@ -592,8 +536,6 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
   </tbody>
 </table>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — RESOURCES ══════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -608,7 +550,6 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
     <tr><td class="res-type">Cheatsheet</td><td><a href="https://www.datacamp.com/cheat-sheet/pandas-cheat-sheet-for-data-science-in-python" target="_blank" rel="noopener">Pandas Cheat Sheet — DataCamp (Free PDF)</a></td><td>Quick reference. Print and keep beside you during Week 2–3.</td></tr>
   </tbody>
 </table>
-
 <p class="sep">FREE DATASETS FOR PRACTICE</p>
 <table class="res-table">
   <thead><tr><th>Type</th><th>Dataset</th><th>Practice Focus</th></tr></thead>
@@ -620,12 +561,9 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
   </tbody>
 </table>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — PROJECTS ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -653,16 +591,13 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
     <p><strong>Dataset:</strong> <a href="https://www.kaggle.com/datasets/josephassaker/covid19-global-dataset" target="_blank" rel="noopener">COVID-19 Global Dataset — Kaggle</a></p>
   </div>
 </div>
-
 <p class="sep">MINI-PROJECTS</p>
-
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Week 1 — NumPy Statistics Without Loops</span><span class="proj-dur">1–2 days</span></div>
   <div class="proj-body">
     <p>Generate a random 100×5 array of student scores (np.random.randint). Without any Python for/while loops: compute mean, std, min, max per subject; find students scoring above class average in every subject; normalise all scores to 0–1 range using vectorised operations only.</p>
   </div>
 </div>
-
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Week 2 — Titanic Data Health Report</span><span class="proj-dur">2–3 days</span></div>
   <div class="proj-body">
@@ -670,11 +605,8 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — LABS ══════════ -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>NumPy Vectorisation — Measure the Speedup</h4></div>
   <div class="lab-body">
@@ -687,7 +619,6 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus:</strong> Use np.where() as a vectorised if-else: <code>np.where(arr > 0.5, "high", "low")</code>. Apply this to classify 1000 random scores as pass/fail without any Python loop.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Pandas Data Investigation Pipeline</h4></div>
   <div class="lab-body">
@@ -700,7 +631,6 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
     <div class="lab-step"><div class="sn">6</div><div><strong>Extension:</strong> Add a correlation matrix to your data_report — <code>df.select_dtypes(include=np.number).corr()</code>. Print the top 5 feature pairs with highest absolute correlation.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>The SettingWithCopyWarning — Understand It Once and For All</h4></div>
   <div class="lab-body">
@@ -711,10 +641,7 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
     <div class="lab-step"><div class="sn">4</div><div>Write the rule in your own words: when do you use .copy(), when do you use .loc[]? Document this in a comment block you can paste into future projects.</div></div>
   </div>
 </div>
-
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — CHECKLIST ══════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">P1-M02 MASTERY CHECKLIST</p>
@@ -742,15 +669,12 @@ df.memory_usage(deep=<span class="cv">True</span>).sum() / <span class="cv">1024
   <p>✅ <strong>When complete:</strong> Move to <strong>P1-M03 — Developer Essentials (Git, CLI, APIs &amp; Async)</strong>. The JSON and CSV skills you built here connect directly to calling REST APIs and parsing their responses in M03.</p>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part1-foundation/p1-m01-python/">← P1-M01: Python</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part1-foundation/p1-m03-dev-essentials/">Next: P1-M03 — Dev Essentials →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

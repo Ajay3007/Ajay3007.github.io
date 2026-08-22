@@ -86,7 +86,6 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
 .proj-body{padding:.9rem 1.2rem;font-size:.88rem;line-height:1.7}
 .proj-body strong{color:#1e40af}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 7 — Production &amp; Deployment &nbsp;·&nbsp; Module 24 of 27</div>
@@ -99,7 +98,6 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
     <span class="mod-pill">📋 Prerequisite: P7-M23</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🐳 Dockerfile</button>
@@ -112,8 +110,6 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-navy">
@@ -131,15 +127,12 @@ url: /learning/ai-ml/part7-production/p7-m24-docker-jobs/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — DOCKERFILE ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-navy">
   <div class="cp-hdr"><span class="ico">🐳</span><h3>Production Dockerfile — Multi-Stage Build</h3><span class="tag tag-navy">Container</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># Dockerfile — production multi-stage build</span>
- 
 <span class="ck"># ── Stage 1: dependency builder ───────────────────────</span>
 FROM python:3.12-slim AS builder
  
@@ -203,8 +196,6 @@ docker history ai-api:latest
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — DOCKER COMPOSE ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-navy">
@@ -286,8 +277,6 @@ volumes:
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — BACKGROUND JOBS ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-navy">
@@ -316,8 +305,6 @@ volumes:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — CELERY ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-navy">
@@ -364,7 +351,6 @@ def ingest_documents(self, document_paths: list[str], collection: str) -> dict:
     except Exception as exc:
         logger.error(<span class="cs">f"Ingestion failed: {exc}"</span>)
         raise self.retry(exc=exc, countdown=<span class="cv">60</span>)   <span class="ck"># retry with 60s delay</span>
- 
 <span class="ck"># ── Task: run research agent ──────────────────────────</span>
 @celery_app.task(
     bind=<span class="cv">True</span>,
@@ -394,8 +380,6 @@ celery_app.conf.beat_schedule = {
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — JOB STATUS API ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-navy">
@@ -420,7 +404,6 @@ class JobStatusResponse(BaseModel):
     progress: Optional[float] = None   <span class="ck"># 0.0 – 1.0</span>
     result:   Optional[Any]  = None    <span class="ck"># populated when status=success</span>
     error:    Optional[str]  = None    <span class="ck"># populated when status=failure</span>
- 
 <span class="ck"># ── Submit: returns job_id immediately ────────────────</span>
 class IngestRequest(BaseModel):
     document_paths: list[str]
@@ -480,8 +463,6 @@ def batch_embed_task(self, texts: list[str]) -> dict:
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RESOURCES ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -495,8 +476,6 @@ def batch_embed_task(self, texts: list[str]) -> dict:
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 7 — PROJECTS ══════════ -->
 <div id="t7" class="tab-pane">
 <div class="proj-box">
@@ -526,8 +505,6 @@ def batch_embed_task(self, texts: list[str]) -> dict:
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 8 — LABS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -541,7 +518,6 @@ def batch_embed_task(self, texts: list[str]) -> dict:
     <div class="lab-step"><div class="sn">5</div><div>Trigger the HEALTHCHECK: start the container without the app running (override CMD). Verify <code>docker ps</code> shows "unhealthy" after 3 failed checks.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Docker Compose Stack</h4></div>
   <div class="lab-body">
@@ -552,7 +528,6 @@ def batch_embed_task(self, texts: list[str]) -> dict:
     <div class="lab-step"><div class="sn">4</div><div>Simulate a worker crash: <code>docker compose kill worker</code>. Submit an ingestion job via the API. Restart the worker: <code>docker compose start worker</code>. Verify the job eventually completes.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Celery Task — Retry and Progress</h4></div>
   <div class="lab-body">
@@ -564,8 +539,6 @@ def batch_embed_task(self, texts: list[str]) -> dict:
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — CHECKLIST ══════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">P7-M24 MASTERY CHECKLIST</p>
@@ -594,13 +567,11 @@ def batch_embed_task(self, texts: list[str]) -> dict:
   <p>✅ <strong>When complete:</strong> Move to <strong>P7-M25 — Auth, Logging &amp; Observability</strong>. Your app is containerised and has async jobs. M25 covers what you need to see inside a running production system.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part7-production/p7-m23-fastapi-prod/">← P7-M23: FastAPI Production</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part7-production/p7-m25-auth-logging/">Next: P7-M25 — Auth, Logging &amp; Observability →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

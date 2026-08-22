@@ -12,7 +12,6 @@ url: /learning/system-design/hld/module-b3-caching/
 <link rel="stylesheet" href="/assets/css/sd-module-b3.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,200;0,400;0,600;0,800;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-
 <header>
   <div class="bio-bar"></div>
   <div class="hdr-inner">
@@ -59,7 +58,6 @@ url: /learning/system-design/hld/module-b3-caching/
     </div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nav-tab active" onclick="show('patterns',this)">Cache Patterns</div>
   <div class="nav-tab" onclick="show('eviction',this)">Eviction</div>
@@ -70,16 +68,12 @@ url: /learning/system-design/hld/module-b3-caching/
   <div class="nav-tab" onclick="show('tasks',this)">Tasks</div>
   <div class="nav-tab" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- ══ PATTERNS ══ -->
 <div class="view active" id="view-patterns">
   <div class="sec-h">Cache Patterns</div>
   <div class="sec-sub">Four strategies — choose based on consistency needs and write frequency</div>
-
   <div class="pat-grid">
-
     <!-- CACHE-ASIDE -->
     <div class="pat-card">
       <div class="pat-hdr" style="border-left:3px solid var(--biolum)">
@@ -97,7 +91,6 @@ url: /learning/system-design/hld/module-b3-caching/
       <div class="pat-pros">✓ Only caches requested data (no wasted memory)<br>✓ DB failures degrade gracefully</div>
       <div class="pat-cons">✗ First request after miss is slow<br>✗ Brief stale window between write and invalidation</div>
     </div>
-
     <!-- WRITE-THROUGH -->
     <div class="pat-card">
       <div class="pat-hdr" style="border-left:3px solid var(--algae)">
@@ -114,7 +107,6 @@ url: /learning/system-design/hld/module-b3-caching/
       <div class="pat-pros">✓ Read-after-write consistency guaranteed<br>✓ Cache always has latest data</div>
       <div class="pat-cons">✗ Adds latency to every write (two writes)<br>✗ Caches data that may never be re-read</div>
     </div>
-
     <!-- WRITE-BACK -->
     <div class="pat-card">
       <div class="pat-hdr" style="border-left:3px solid var(--amber)">
@@ -130,7 +122,6 @@ url: /learning/system-design/hld/module-b3-caching/
       <div class="pat-pros">✓ Lowest write latency<br>✓ Batches DB writes (more efficient)</div>
       <div class="pat-cons">✗ Data loss if cache crashes before flush<br>✗ DB temporarily inconsistent with cache</div>
     </div>
-
     <!-- READ-THROUGH -->
     <div class="pat-card">
       <div class="pat-hdr" style="border-left:3px solid var(--spark)">
@@ -147,9 +138,7 @@ url: /learning/system-design/hld/module-b3-caching/
       <div class="pat-pros">✓ Simpler application code<br>✓ Cache manages all miss logic</div>
       <div class="pat-cons">✗ Cold start: all first reads slow<br>✗ Less control over what gets cached</div>
     </div>
-
   </div>
-
   <div class="code-wrap">
     <div class="code-top">Cache-Aside in Java — the full pattern<span class="clang">JAVA</span></div>
 <pre class="code"><span class="kw">class</span> <span class="cls">UserService</span> {
@@ -161,7 +150,6 @@ url: /learning/system-design/hld/module-b3-caching/
  
         <span class="cls">User</span> cached = cache.<span class="fn">get</span>(key);
         <span class="kw">if</span> (cached != <span class="kw">null</span>) <span class="kw">return</span> cached;   <span class="cm">// ✅ CACHE HIT</span>
- 
         <span class="cls">User</span> user = db.<span class="fn">findById</span>(userId);        <span class="cm">// DB query</span>
         cache.<span class="fn">set</span>(key, user, <span class="cls">Duration</span>.<span class="fn">ofMinutes</span>(<span class="str">30</span>)); <span class="cm">// Populate with TTL</span>
         <span class="kw">return</span> user;                            <span class="cm">// CACHE MISS</span>
@@ -173,15 +161,12 @@ url: /learning/system-design/hld/module-b3-caching/
     }
 }</pre>
   </div>
-
   <div class="alert bio"><em>Hit rate target:</em> Cache is only worthwhile if hit rate exceeds ~80%. Monitor your cache hit rate constantly. If it's low: cache size too small, TTL too short, or you're caching long-tail data that's rarely re-read.</div>
 </div>
-
 <!-- ══ EVICTION ══ -->
 <div class="view" id="view-eviction">
   <div class="sec-h">Eviction Policies</div>
   <div class="sec-sub">When the cache is full — which entry gets removed?</div>
-
   <div class="evict-grid">
     <div class="evict-card" style="border-top-color:var(--biolum)">
       <div class="evict-name" style="color:var(--biolum)">LRU</div>
@@ -199,7 +184,6 @@ url: /learning/system-design/hld/module-b3-caching/
       <div class="evict-impl" style="color:var(--amber)">cache.set(key, val, 3600)<br>Use TTL jitter to avoid stampede:<br>TTL = base + random(0, base*0.1)</div>
     </div>
   </div>
-
   <div class="code-wrap">
     <div class="code-top">LRU Cache — DoublyLinkedList + HashMap (O(1) all ops)<span class="clang">JAVA</span></div>
 <pre class="code"><span class="kw">class</span> <span class="cls">LRUCache</span> {
@@ -232,15 +216,12 @@ url: /learning/system-design/hld/module-b3-caching/
     }
 }</pre>
   </div>
-
   <div class="alert amb"><em>TTL Jitter pattern:</em> If many cache keys share the same TTL, they all expire simultaneously → thundering herd. Always add random jitter: TTL = base_ttl + random(0, base_ttl * 0.1). This spreads expiry events across time and prevents concurrent stampedes.</div>
 </div>
-
 <!-- ══ INVALIDATION ══ -->
 <div class="view" id="view-invalidation">
   <div class="sec-h">Cache Invalidation</div>
   <div class="sec-sub">"Only two hard things in CS: cache invalidation and naming things" — Phil Karlton</div>
-
   <div class="code-wrap">
     <div class="code-top">Three invalidation strategies compared<span class="clang">PATTERNS</span></div>
 <pre class="code"><span class="hl">Strategy 1: Delete on Write (safest, most common)</span>
@@ -251,20 +232,17 @@ url: /learning/system-design/hld/module-b3-caching/
 }
 <span class="cm">// Next read misses → fetches fresh from DB → repopulates</span>
 <span class="cm">// Safe: avoids stale-write race condition</span>
- 
 <span class="hl">Strategy 2: Version-Based Keys (no explicit invalidation)</span>
 <span class="cm">// Embed version in key. When data changes, bump version.</span>
 <span class="str">"product:42:v8"</span>  →  <span class="str">"product:42:v9"</span>   <span class="cm">// old key naturally expires via TTL</span>
 <span class="cm">// Application always reads latest version key.</span>
 <span class="cm">// Great for: config data, feature flags, rarely-changing reference data</span>
- 
 <span class="hl">Strategy 3: Event-Based (CDC + Kafka)</span>
 <span class="cm">// DB → Change Data Capture → Kafka → Cache Invalidation Service → Redis.delete(key)</span>
 DB_writes → Debezium/CDC → Kafka.<span class="fn">publish</span>(change_event) → CacheConsumer → cache.<span class="fn">delete</span>(key)
 <span class="cm">// Decoupled, real-time, works for distributed caches</span>
 <span class="cm">// Cost: more infrastructure, event delivery latency, ordering guarantees needed</span></pre>
   </div>
-
   <div class="code-wrap">
     <div class="code-top">The Invalidation Race Condition — and how to prevent it<span class="clang">CONCURRENT</span></div>
 <pre class="code"><span class="cm">// Timeline of a nasty race:</span>
@@ -273,7 +251,6 @@ Thread B: <span class="fn">SELECT</span> product WHERE id=42 → MISS   <span cl
 Thread A: cache.<span class="fn">delete</span>(<span class="str">"product:42"</span>)         <span class="cm">// invalidates</span>
 Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span>, stale_val) <span class="cm">// writes OLD value back!</span>
 <span class="cm">// Result: cache holds stale data indefinitely until TTL expires 😱</span>
- 
 <span class="hl">Prevention:</span>
 <span class="cm">  1. Use TTL as a safety net — even if stale, it expires eventually</span>
 <span class="cm">  2. Use CAS (Compare-And-Set) — only write to cache if key still absent</span>
@@ -284,15 +261,12 @@ Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span
      cache.<span class="fn">delete</span>(key);        <span class="cm">// ← delete INSIDE transaction before commit</span>
      db.<span class="fn">commit</span>();</pre>
   </div>
-
   <div class="alert bad"><em>Never "update" cache on write — always delete.</em> If you SET the cache on write and also SET it on read-miss, two concurrent operations can race to write stale vs fresh values. Deleting is atomic and safe — the next read will always get fresh data from the DB.</div>
 </div>
-
 <!-- ══ STAMPEDE ══ -->
 <div class="view" id="view-stampede">
   <div class="sec-h">Cache Stampede (Thundering Herd)</div>
   <div class="sec-sub">When a popular cache key expires — 10,000 concurrent requests all hit the DB</div>
-
   <div class="stampede-demo">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faded);letter-spacing:2px;margin-bottom:12px">// STAMPEDE VISUALISED — popular key expires at T=0</div>
     <div class="stamp-row">
@@ -312,14 +286,12 @@ Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span
     </div>
     <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--danger)">⚡ All concurrent misses pile onto DB simultaneously → overload → latency cascade</div>
   </div>
-
   <div class="code-wrap">
     <div class="code-top">Three stampede prevention strategies<span class="clang">PATTERNS</span></div>
 <pre class="code"><span class="hl">Strategy 1: Mutex/Lock on Miss (most reliable)</span>
 <span class="cls">String</span> <span class="fn">get</span>(<span class="cls">String</span> key) {
     <span class="cls">String</span> val = cache.<span class="fn">get</span>(key);
     <span class="kw">if</span> (val != <span class="kw">null</span>) <span class="kw">return</span> val;                 <span class="cm">// HIT — fast path</span>
- 
     <span class="cm">// MISS — exactly ONE thread refreshes; others wait</span>
     <span class="kw">boolean</span> locked = cache.<span class="fn">setnx</span>(<span class="str">"lock:"</span>+key, <span class="str">"1"</span>, <span class="str">10_seconds</span>);
     <span class="kw">if</span> (locked) {
@@ -344,15 +316,12 @@ Thread B: cache.<span class="fn">set</span>(<span class="str">"product:42"</span
 <span class="cm">// Requires: popularity tracking (hit count per key)</span>
 scheduler.<span class="fn">scheduleAtFixedRate</span>(() -> hotKeys.<span class="fn">forEach</span>(k -> cache.<span class="fn">refresh</span>(k)), <span class="str">30</span>, <span class="str">30</span>, SECONDS);</pre>
   </div>
-
   <div class="alert bio"><em>CDN stale-while-revalidate:</em> Modern CDNs support Cache-Control: stale-while-revalidate=30 — serve stale content immediately while refreshing in background. This eliminates cache misses for CDN-served content entirely. The same principle applies to application-level caches.</div>
 </div>
-
 <!-- ══ REDIS ══ -->
 <div class="view" id="view-redis">
   <div class="sec-h">Redis Data Structures</div>
   <div class="sec-sub">Five structures — each optimised for a specific access pattern</div>
-
   <div class="redis-grid">
     <div class="redis-card">
       <div class="redis-hdr" style="border-left:3px solid var(--biolum)">
@@ -370,7 +339,6 @@ SETEX session:abc 3600 data
       </div>
       <div class="redis-use" style="color:var(--biolum)">USE: Counters, flags, sessions, rate limit tokens, feature flags</div>
     </div>
-
     <div class="redis-card">
       <div class="redis-hdr" style="border-left:3px solid var(--algae)">
         <div class="redis-icon">📦</div>
@@ -387,7 +355,6 @@ HINCRBY user:42 login_count 1
       </div>
       <div class="redis-use" style="color:var(--algae)">USE: User profiles, config objects, shopping carts — fetch individual fields</div>
     </div>
-
     <div class="redis-card">
       <div class="redis-hdr" style="border-left:3px solid var(--spark)">
         <div class="redis-icon">📋</div>
@@ -404,7 +371,6 @@ LLEN  queue:email
       </div>
       <div class="redis-use" style="color:var(--spark)">USE: Job queues (FIFO), activity feeds, recent items, notifications</div>
     </div>
-
     <div class="redis-card">
       <div class="redis-hdr" style="border-left:3px solid var(--amber)">
         <div class="redis-icon">🎯</div>
@@ -421,7 +387,6 @@ SINTER  followers:A followers:B
       </div>
       <div class="redis-use" style="color:var(--amber)">USE: Tagging, unique visitor tracking, mutual friends, union/intersection</div>
     </div>
-
     <div class="redis-card">
       <div class="redis-hdr" style="border-left:3px solid var(--danger)">
         <div class="redis-icon">🏆</div>
@@ -439,13 +404,11 @@ ZRANGEBYSCORE rate:user:42 (now-60) now
       <div class="redis-use" style="color:var(--danger)">USE: Leaderboards, sliding window rate limiting, priority queues, geo proximity</div>
     </div>
   </div>
-
   <div class="code-wrap">
     <div class="code-top">Sliding Window Rate Limiter — Redis Sorted Set<span class="clang">REDIS</span></div>
 <pre class="code"><span class="cm">// Per-user: 100 requests per 60-second window</span>
 <span class="cm">// ZADD rate_limit:{userId} {timestamp_ms} {unique_request_id}</span>
 <span class="cm">// ZRANGEBYSCORE rate_limit:{userId} (now-60000) now → requests in last 60s</span>
- 
 <span class="kw">boolean</span> <span class="fn">isAllowed</span>(<span class="cls">String</span> userId, <span class="kw">int</span> limit, <span class="kw">long</span> windowMs) {
     <span class="kw">long</span>   now        = <span class="cls">System</span>.<span class="fn">currentTimeMillis</span>();
     <span class="kw">long</span>   windowStart = now - windowMs;
@@ -462,12 +425,10 @@ ZRANGEBYSCORE rate:user:42 (now-60) now
 <span class="cm">// Memory: O(requests in window) per user — scale with caution for large limits</span></pre>
   </div>
 </div>
-
 <!-- ══ CDN ══ -->
 <div class="view" id="view-cdn">
   <div class="sec-h">CDN — Content Delivery Network</div>
   <div class="sec-sub">Geographic caching at the edge — serving content from nearest node</div>
-
   <div class="cdn-diagram">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faded);letter-spacing:2px;margin-bottom:16px">// WITHOUT CDN vs WITH CDN</div>
     <div class="cdn-row">
@@ -495,28 +456,23 @@ ZRANGEBYSCORE rate:user:42 (now-60) now
       <div style="margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faded)">~200ms (first time only)</div>
     </div>
   </div>
-
   <div class="code-wrap">
     <div class="code-top">Cache-Control headers for static vs dynamic vs private<span class="clang">HTTP</span></div>
 <pre class="code"><span class="cm">// STATIC content (images, CSS, JS, fonts)</span>
 <span class="hl">Cache-Control: max-age=31536000, immutable</span>
 <span class="cm">// CDN caches for 1 year. Use hash-based filenames for cache busting.</span>
 app.js → app.<span class="str">8f3d92ab</span>.js   <span class="cm">// Content hash in filename → new deploy = new URL = fresh CDN cache</span>
- 
 <span class="cm">// DYNAMIC content (API responses, partially personalised pages)</span>
 <span class="hl">Cache-Control: max-age=60, stale-while-revalidate=30</span>
 <span class="cm">// CDN caches for 60s. During next 30s after expiry, serve stale while fetching fresh.</span>
 <span class="cm">// Eliminates miss latency for CDN — no thundering herd at origin.</span>
- 
 <span class="cm">// PRIVATE content (user-specific responses)</span>
 <span class="hl">Cache-Control: private, no-store</span>
 <span class="cm">// CDN does NOT cache. Request always reaches origin. Each user's data is unique.</span>
- 
 <span class="cm">// Vary header — separate cache per encoding/format</span>
 <span class="hl">Vary: Accept-Encoding</span>
 <span class="cm">// CDN stores separate versions for gzip and uncompressed.</span></pre>
   </div>
-
   <div class="tips-tbl" style="margin-top:20px">
     <caption style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faded);letter-spacing:2px;text-align:left;padding-bottom:8px;caption-side:top">INTERVIEW TIPS — CACHING</caption>
   </div>
@@ -531,7 +487,6 @@ app.js → app.<span class="str">8f3d92ab</span>.js   <span class="cm">// Conten
     </tbody>
   </table>
 </div>
-
 <!-- ══ TASKS ══ -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -616,12 +571,10 @@ For each:
     </div>
   </div>
 </div>
-
 <!-- ══ CHECKLIST ══ -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 13 completed</span><span>MODULE B3 · CACHING</span></div>
   <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-
   <div class="chk-grid">
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Know the latency numbers: RAM vs Redis vs DB — WHY cache works</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Cache-aside: full read + write path, why delete is safer than update</div></div>
@@ -637,7 +590,6 @@ For each:
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Tasks 1–3: strategy selection, LRU with TTL, stampede design</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Capstone: distributed rate limiter — all 3 algorithms implemented</div></div>
   </div>
-
   <div style="margin-top:32px;background:var(--abyss);border:1px solid var(--edge);padding:24px;border-top:2px solid var(--biolum)">
     <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--faded);letter-spacing:2px;margin-bottom:10px">// NEXT MODULE</div>
     <div style="font-family:'Exo 2',sans-serif;font-size:28px;font-weight:800;color:var(--bright);margin-bottom:8px">B4 — Message Queues</div>
@@ -648,9 +600,7 @@ For each:
     </div>
   </div>
 </div>
-
 </div>
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -672,7 +622,6 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -694,7 +643,6 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-
 <div class="b3-bottom-nav">
   <a href="/learning/system-design/hld/module-b2-databases-at-scale/" class="b3-nav-footer-btn">← B2: Databases at Scale</a>
   <a href="/learning/system-design/hld/module-b3-notes/" class="b3-nav-footer-btn">📄 Full Notes</a>

@@ -12,7 +12,6 @@ url: /learning/system-design/lld/module-a2-creational/
 <link rel="stylesheet" href="/assets/css/sd-module-a2.css">
 
 <div class="m2-page">
-
 <header class="m2-header">
   <div class="m2-header-eyebrow">TRACK A · LLD · MODULE A2 · WEEK 4</div>
   <h1>CREATIONAL<br><em>PATTERNS</em></h1>
@@ -25,7 +24,6 @@ url: /learning/system-design/lld/module-a2-creational/
     <div class="m2-p-badge" style="color:var(--p5);border-color:rgba(90,122,154,0.3);">05 PROTOTYPE</div>
   </div>
 </header>
-
 <nav class="m2-nav">
   <div class="m2-nav-tab active" onclick="m2Show('overview',this)">Overview</div>
   <div class="m2-nav-tab" onclick="m2Show('patterns',this)">Pattern Deep Dives</div>
@@ -34,9 +32,7 @@ url: /learning/system-design/lld/module-a2-creational/
   <div class="m2-nav-tab" onclick="m2Show('tasks',this)">Tasks</div>
   <div class="m2-nav-tab" onclick="m2Show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="m2-content">
-
 <!-- ===== OVERVIEW ===== -->
 <div class="m2-view active" id="m2-view-overview">
   <div style="margin-bottom:28px;">
@@ -44,7 +40,6 @@ url: /learning/system-design/lld/module-a2-creational/
       Creational patterns abstract the instantiation process. They help make a system independent of how its objects are created, composed, and represented. Each solves a different flavour of the same question: <em style="color:var(--gold)">how do we create objects in a flexible, decoupled way?</em>
     </p>
   </div>
-
   <div class="m2-overview-grid">
     <div class="m2-overview-card m2-oc-1" onclick="m2GoToPattern('p1')">
       <div class="m2-oc-num">01</div>
@@ -77,7 +72,6 @@ url: /learning/system-design/lld/module-a2-creational/
       <div class="m2-oc-problem">Clone expensive objects efficiently instead of creating from scratch each time.</div>
     </div>
   </div>
-
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px;margin-top:8px;">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:16px;">// WHEN TO REACH FOR EACH PATTERN</div>
     <div class="table-responsive">
@@ -93,9 +87,7 @@ url: /learning/system-design/lld/module-a2-creational/
     </table>
     </div>
   </div>
-
 </div>
-
 <!-- ===== PATTERNS ===== -->
 <div class="m2-view" id="m2-view-patterns">
   <div class="m2-pat-nav">
@@ -105,7 +97,6 @@ url: /learning/system-design/lld/module-a2-creational/
     <div class="m2-pat-btn p4" onclick="m2SelPat('p4',this)">04 · Builder</div>
     <div class="m2-pat-btn p5" onclick="m2SelPat('p5',this)">05 · Prototype</div>
   </div>
-
   <!-- SINGLETON -->
   <div class="m2-pat-panel active" id="m2-pat-p1">
     <div class="m2-pat-header">
@@ -116,7 +107,6 @@ url: /learning/system-design/lld/module-a2-creational/
         <div class="m2-pat-intent" style="border-left-color:var(--p1)">Ensure a class has exactly one instance and provide a global access point to it. Useful for resources that must be shared and must exist only once.</div>
       </div>
     </div>
-
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;">// THREAD-SAFE IMPLEMENTATION (DOUBLE-CHECKED LOCKING)</div>
     <div class="m2-code-wrap">
       <div class="m2-code-header">Logger.java — Thread-safe Singleton <span class="m2-code-lang">JAVA</span></div>
@@ -126,7 +116,6 @@ url: /learning/system-design/lld/module-a2-creational/
     <span class="m2-kw">private</span> <span class="m2-cls">List</span>&lt;<span class="m2-cls">String</span>&gt; logs = <span class="m2-kw">new</span> <span class="m2-cls">ArrayList</span>&lt;&gt;();
 
     <span class="m2-kw">private</span> <span class="m2-fn">Logger</span>() {}  <span class="m2-cm">// No public constructor</span>
-
     <span class="m2-kw">public static</span> <span class="m2-cls">Logger</span> <span class="m2-fn">getInstance</span>() {
         <span class="m2-kw">if</span> (instance == <span class="m2-kw">null</span>) {              <span class="m2-cm">// 1st check — no lock (fast path)</span>
             <span class="m2-kw">synchronized</span> (<span class="m2-cls">Logger</span>.class) {
@@ -143,13 +132,11 @@ url: /learning/system-design/lld/module-a2-creational/
     }
 }</div>
     </div>
-
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin:20px 0 12px;">// BETTER: ENUM SINGLETON (PREFERRED)</div>
     <div class="m2-code-wrap">
       <div class="m2-code-header">Logger.java — Enum Singleton <span class="m2-code-lang">JAVA</span></div>
       <div class="m2-code-body"><span class="m2-kw">public enum</span> <span class="m2-cls">Logger</span> {
     INSTANCE;  <span class="m2-cm">// JVM guarantees: single init + thread-safe + serialisation-safe</span>
-
     <span class="m2-kw">private final</span> <span class="m2-cls">List</span>&lt;<span class="m2-cls">String</span>&gt; logs = <span class="m2-kw">new</span> <span class="m2-cls">ArrayList</span>&lt;&gt;();
 
     <span class="m2-kw">public void</span> <span class="m2-fn">log</span>(<span class="m2-cls">String</span> msg) { logs.add(msg); }
@@ -183,7 +170,6 @@ url: /learning/system-design/lld/module-a2-creational/
     </div>
     <div class="m2-tip-box">In production: use DI container with singleton scope (@Singleton, @Bean) instead of static getInstance(). Same behaviour — fully injectable and mockable. This satisfies DIP.</div>
   </div>
-
   <!-- FACTORY METHOD -->
   <div class="m2-pat-panel" id="m2-pat-p2">
     <div class="m2-pat-header">
@@ -232,7 +218,6 @@ url: /learning/system-design/lld/module-a2-creational/
     </div>
     <div class="m2-tip-box">Tell-tale sign Factory Method is needed: if/else or switch chains that call `new ConcreteType()` based on a string or enum. The fix: one Creator subclass per product type.</div>
   </div>
-
   <!-- ABSTRACT FACTORY -->
   <div class="m2-pat-panel" id="m2-pat-p3">
     <div class="m2-pat-header">
@@ -286,7 +271,6 @@ url: /learning/system-design/lld/module-a2-creational/
     </div>
     <div class="m2-tip-box">Abstract Factory vs Factory Method: Factory Method creates ONE product via subclassing. Abstract Factory creates a FAMILY of products via composition (inject factory object). When products must be consistent together → Abstract Factory.</div>
   </div>
-
   <!-- BUILDER -->
   <div class="m2-pat-panel" id="m2-pat-p4">
     <div class="m2-pat-header">
@@ -306,7 +290,6 @@ url: /learning/system-design/lld/module-a2-creational/
     <span class="m2-kw">private final boolean</span> hasMoved;      <span class="m2-cm">// optional</span>
     <span class="m2-kw">private final</span> <span class="m2-cls">String</span>  sprite;        <span class="m2-cm">// optional</span>
     <span class="m2-kw">private final int</span>     pointValue;    <span class="m2-cm">// optional</span>
-
     <span class="m2-kw">private</span> <span class="m2-cls">ChessPiece</span>(<span class="m2-cls">Builder</span> b) {
         type = b.type; color = b.color; file = b.file; rank = b.rank;
         hasMoved = b.hasMoved; sprite = b.sprite; pointValue = b.pointValue;
@@ -347,7 +330,6 @@ url: /learning/system-design/lld/module-a2-creational/
     </div>
     <div class="m2-tip-box">Required fields go in the Builder constructor (can't miss them). Optional fields use method chaining. validate() inside build() before object is created. The product's private constructor ensures only Builder can create it.</div>
   </div>
-
   <!-- PROTOTYPE -->
   <div class="m2-pat-panel" id="m2-pat-p5">
     <div class="m2-pat-header">
@@ -408,7 +390,6 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
     <div class="m2-tip-box">Deep vs Shallow: Java's Object.clone() is shallow — nested objects are shared. Always implement deep copy manually via copy constructors. Spring's prototype-scoped beans use this exact pattern.</div>
   </div>
 </div>
-
 <!-- ===== COMPARISON ===== -->
 <div class="m2-view" id="m2-view-compare">
   <div class="table-responsive">
@@ -481,7 +462,6 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
     </tbody>
   </table>
   </div>
-
   <div style="margin-top:28px;background:var(--surface);border:1px solid var(--border);padding:24px;border-radius:4px;">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:16px;">// FACTORY FAMILY COMPARISON</div>
     <div class="table-responsive">
@@ -499,14 +479,12 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
     </div>
   </div>
 </div>
-
 <!-- ===== ATM PROJECT ===== -->
 <div class="m2-view" id="m2-view-atm">
   <div style="margin-bottom:24px;">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:2px;margin-bottom:12px;">// MINI PROJECT — ATM SYSTEM</div>
     <p style="font-size:14px;color:var(--muted);line-height:1.7;max-width:680px;">Design a complete ATM system using all 5 Creational patterns. Each pattern is used where it naturally fits — not forced. The challenge is choosing correctly.</p>
   </div>
-
   <div class="m2-atm-layout">
     <div class="m2-atm-pattern">
       <div class="m2-atm-p-icon">🔁</div>
@@ -534,7 +512,6 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
       <div class="m2-atm-p-use">CardTemplateRegistry — clone pre-built card templates per card type</div>
     </div>
   </div>
-
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:20px;margin-top:20px;">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:12px;">// PROJECT STRUCTURE</div>
     <pre style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a89060;line-height:1.9;background:none;border:none;padding:0;margin:0;white-space:pre-wrap;">atm-system/
@@ -558,7 +535,6 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
 │   └── CardTemplateRegistry.java
 └── ATMController.java           <span style="color:var(--muted)">← wires all patterns together</span></pre>
   </div>
-
   <div style="margin-top:20px;padding:16px 20px;background:rgba(240,165,0,0.04);border:1px solid rgba(240,165,0,0.15);border-radius:4px;">
     <div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:8px;">Evaluation Criteria</div>
     <div style="font-size:12px;color:var(--muted);line-height:1.8;">
@@ -569,7 +545,6 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
     </div>
   </div>
 </div>
-
 <!-- ===== TASKS ===== -->
 <div class="m2-view" id="m2-view-tasks">
   <div class="m2-tasks-list">
@@ -602,7 +577,6 @@ appCfg.<span class="m2-fn">setName</span>(<span class="m2-str">"app-config.json"
 Output: Pattern + 2-sentence justification for each.</pre>
       </div>
     </div>
-
     <div class="m2-task-item">
       <div class="m2-task-hd" onclick="m2ToggleTask(this)">
         <div class="m2-t-num" style="background:rgba(224,123,0,0.1);color:var(--p2)">TASK 02</div>
@@ -624,7 +598,6 @@ Bonus: Add a timeout to getConnection() that throws
        ConnectionTimeoutException after N milliseconds.</pre>
       </div>
     </div>
-
     <div class="m2-task-item">
       <div class="m2-task-hd" onclick="m2ToggleTask(this)">
         <div class="m2-t-num" style="background:rgba(106,143,106,0.1);color:var(--p4)">TASK 03</div>
@@ -659,7 +632,6 @@ Usage should look like:
       .build();</pre>
       </div>
     </div>
-
     <div class="m2-task-item">
       <div class="m2-task-hd" onclick="m2ToggleTask(this)">
         <div class="m2-t-num" style="background:rgba(90,122,154,0.1);color:var(--p5)">TASK 04</div>
@@ -693,7 +665,6 @@ shallow clone intentional? When is it a bug?</pre>
     </div>
   </div>
 </div>
-
 <!-- ===== CHECKLIST ===== -->
 <div class="m2-view" id="m2-view-checklist">
   <div class="m2-prog-row">
@@ -701,7 +672,6 @@ shallow clone intentional? When is it a bug?</pre>
     <span style="color:var(--gold)">A2 → Creational Patterns</span>
   </div>
   <div class="m2-prog-track"><div class="m2-prog-fill" id="m2-prog-fill"></div></div>
-
   <div class="m2-chk-list">
     <div class="m2-chk" onclick="m2Tick(this)"><div class="m2-chk-box"></div><div class="m2-chk-lbl">Can implement thread-safe Singleton (DCL + Enum) from memory</div></div>
     <div class="m2-chk" onclick="m2Tick(this)"><div class="m2-chk-box"></div><div class="m2-chk-lbl">Know why Enum Singleton beats DCL (serialisation, reflection safety)</div></div>
@@ -715,16 +685,13 @@ shallow clone intentional? When is it a bug?</pre>
     <div class="m2-chk" onclick="m2Tick(this)"><div class="m2-chk-box"></div><div class="m2-chk-lbl">✏️ Task 3: HttpRequest Builder with immutability + validation</div></div>
     <div class="m2-chk" onclick="m2Tick(this)"><div class="m2-chk-box"></div><div class="m2-chk-lbl">✏️ Tasks 4 + Project: Deep/shallow clone test + ATM System (all 5 patterns)</div></div>
   </div>
-
   <div style="margin-top:28px;padding:20px 24px;background:var(--surface);border:1px solid var(--border);border-radius:4px;border-top:2px solid var(--p3);">
     <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:8px;">NEXT MODULE</div>
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--bright);margin-bottom:6px;">A3 — Structural Design Patterns</div>
     <div style="font-size:13px;color:var(--muted);line-height:1.6;">Adapter, Decorator, Proxy, Composite, Facade, Bridge, Flyweight — mapped to Vending Machine, Pizza Billing, Car Rental, File System, Splitwise, CricBuzz, TrueCaller. Mini Project: Splitwise + Simplify Algorithm.</div>
   </div>
 </div>
-
 </div><!-- end content -->
-
 <div style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border);padding-top:20px;">
   <a href="/learning/system-design/lld/module-a1-solid/" style="padding:12px 24px;border:1px solid var(--border);border-radius:4px;color:var(--muted);text-decoration:none;">← LLD A1: SOLID + OOP + UML</a>
   <a href="/learning/system-design/lld/module-a2-notes/" style="padding:12px 24px;border:1px solid var(--gold);color:var(--gold);border-radius:4px;text-decoration:none;font-weight:600;">📄 READ STUDY NOTES</a>

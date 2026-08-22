@@ -183,7 +183,6 @@ url: /learning/networking-mastery/
 .mod-nav .nb{background:#1a3a5c;color:#fff !important;border-color:#1a3a5c;}
 .mod-nav .nb:hover{background:#245280;}
 </style>
-
 <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
 <div class="rmap-hero">
   <div class="rmap-hero-eye">NETWORKING MASTERY · FULL ROADMAP · 6 PHASES · 26 MODULES</div>
@@ -200,7 +199,6 @@ url: /learning/networking-mastery/
     <span class="rmap-tag">26 weeks · 20+ Projects</span>
   </div>
 </div>
-
 <!-- ═════════════════════════ SUMMARY ═════════════════════════ -->
 <div class="summary-grid">
   <div class="sg-card"><span class="sg-num" style="color:#1a3a5c">6</span><span class="sg-lbl">Phases</span></div>
@@ -210,12 +208,9 @@ url: /learning/networking-mastery/
   <div class="sg-card"><span class="sg-num" style="color:#8c2020">NGFW</span><span class="sg-lbl">Capstone</span></div>
   <div class="sg-card"><span class="sg-num" style="color:#1a7a6e">0→1</span><span class="sg-lbl">Beginner OK</span></div>
 </div>
-
 <p class="sep">PHASE TIMELINE</p>
-
 <!-- ═════════════════════════ TIMELINE ════════════════════════ -->
 <div class="phase-timeline">
-
   <!-- ── PHASE 1 ── -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#1a3a5c;">1</div>
@@ -255,7 +250,6 @@ url: /learning/networking-mastery/
       </div>
     </div>
   </div>
-
   <!-- ── PHASE 2 ── -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#0f6e56;">2</div>
@@ -300,7 +294,6 @@ url: /learning/networking-mastery/
       <div class="dep-note">📌 Prerequisite: Phase 1 complete. TCP builds directly on IPv4 packet structure.</div>
     </div>
   </div>
-
   <!-- ── PHASE 3 ── -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#c05e1b;">3</div>
@@ -343,7 +336,6 @@ url: /learning/networking-mastery/
       <div class="dep-note">📌 Prerequisite: IPv4 (M03) and TCP (M05). Routing builds on L3 fundamentals.</div>
     </div>
   </div>
-
   <!-- ── PHASE 4 ── -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#5b3a8c;">4</div>
@@ -392,7 +384,6 @@ url: /learning/networking-mastery/
       <div class="dep-note">📌 Prerequisite: Phases 1–3. Socket programming requires solid TCP/IP knowledge. C programming basics assumed.</div>
     </div>
   </div>
-
   <!-- ── ADVANCED BANNER ── -->
   <div class="adv-banner">
     <span class="adv-banner-icon">🔐</span>
@@ -401,7 +392,6 @@ url: /learning/networking-mastery/
       Phases 5 and 6 require a solid foundation in all of the above. Phase 5 covers security protocol internals at the implementation level. Phase 6 is NGFW application development — bringing everything together into a production system.
     </div>
   </div>
-
   <!-- ── PHASE 5 ── -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#8c4a00;">5</div>
@@ -447,7 +437,6 @@ url: /learning/networking-mastery/
       <div class="dep-note">📌 Prerequisite: TCP (M05), HTTP (M08). TLS runs over TCP and wraps HTTP — you need both to understand the full picture.</div>
     </div>
   </div>
-
   <!-- ── PHASE 6 ── -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#8c2020;">6</div>
@@ -495,12 +484,9 @@ url: /learning/networking-mastery/
       <div class="dep-note">📌 Prerequisite: All of Phases 1–5. This phase is the integration layer — every component you build uses knowledge from every prior module.</div>
     </div>
   </div>
-
 </div><!-- end timeline -->
-
 <!-- ═════════════════════ ALL MODULES TABLE ════════════════════ -->
 <p class="sep">ALL 26 MODULES AT A GLANCE</p>
-
 <div style="overflow-x:auto;">
 <table class="mod-full-table">
   <thead>
@@ -542,10 +528,8 @@ url: /learning/networking-mastery/
   </tbody>
 </table>
 </div>
-
 <!-- ═══════════════════ LEARNING PATH NOTE ════════════════════ -->
 <p class="sep">RECOMMENDED LEARNING PATH</p>
-
 <div style="background:var(--card-bg,#fff);border:1.5px solid var(--border-color,#e4e4e4);border-radius:10px;padding:1.2rem 1.4rem;margin-bottom:1.5rem;">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
     <div>
@@ -558,7 +542,6 @@ url: /learning/networking-mastery/
     </div>
   </div>
 </div>
-
 <!-- ═══════════════════ REFERENCES ═══════════════════════════ -->
 <p class="sep">KEY REFERENCES</p>
 

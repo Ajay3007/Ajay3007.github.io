@@ -100,7 +100,6 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 2A · WEEKS 4–5</div>
   <div class="mod-title">🧱 vppinfra - Core Library</div>
@@ -113,7 +112,6 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
     <span class="mod-pill">vec.h</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'ta')">Overview</button>
   <button class="tab-btn" onclick="vt(event,'tb')">vec - Dynamic Array</button>
@@ -122,11 +120,9 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
   <button class="tab-btn" onclick="vt(event,'te')">Memory &amp; Format</button>
   <button class="tab-btn" onclick="vt(event,'tf')">Checklist</button>
 </div>
-
 <!-- ── OVERVIEW ── -->
 <div id="ta" class="tab-pane active">
 <p class="sep">WHY VPPINFRA EXISTS</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📚</span><h3>vppinfra is VPP's Standard Library</h3><span class="tag tag-blue">FOUNDATION</span></div>
   <div class="cp-body">
@@ -134,7 +130,6 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
     <p>Every plugin and node you write will use vppinfra primitives. Understanding these data structures deeply - not just their API but their memory layout - is what separates engineers who write correct VPP code from those who write fast, correct VPP code.</p>
   </div>
 </div>
-
 <div class="ds-grid">
   <div class="ds-card">
     <div class="ds-card-hdr">vec - Dynamic Array · vec.h</div>
@@ -179,7 +174,6 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
     </div>
   </div>
 </div>
-
 <div class="dpdk-box">
   <div class="dh">⚙️ DPDK PARALLEL - Data Structure Mapping</div>
   <ul>
@@ -190,16 +184,13 @@ url: /learning/data-plane/vpp/module-p2-vppinfra/
   </ul>
 </div>
 </div>
-
 <!-- ── VEC ── -->
 <div id="tb" class="tab-pane">
 <p class="sep">VEC - DYNAMIC ARRAY (src/vppinfra/vec.h)</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Memory Layout - The Hidden Header</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
     <p>The key to understanding vec is its memory layout. The header lives <em>before</em> the data in memory, so the pointer you hold points directly to element[0]. This makes vec transparent to any C code expecting a plain array.</p>
-
 <div class="cb"><pre><span class="cm">/* Memory layout of a vec_t */</span>
 +──────────────────────────────────────────────────────+
 |  vec_header_t   |  element[0]  |  element[1]  | ...  |
@@ -215,7 +206,6 @@ vec_add1(my_vec, 42);     <span class="cm">/* grows by 1, may realloc */</span>
 vec_add1(my_vec, 99);
 <span class="cm">/* my_vec[0] == 42, my_vec[1] == 99 - plain array access */</span>
 <span class="ck">u32</span> len = vec_len(my_vec); <span class="cm">/* == 2 */</span></pre></div>
-
     <ul>
       <li><strong>NULL is a valid empty vec</strong> - always initialise to 0, never to an uninitialised pointer</li>
       <li><strong>Never hold pointers to vec elements</strong> - <code>vec_add1</code> may realloc, invalidating all element addresses. Hold indices instead</li>
@@ -223,11 +213,9 @@ vec_add1(my_vec, 99);
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🛠️</span><h3>Complete vec API Reference</h3><span class="tag tag-blue">API</span></div>
   <div class="cp-body">
-
 <table class="api-table">
   <thead><tr><th>Function / Macro</th><th>Signature / Usage</th><th>Notes</th></tr></thead>
   <tbody>
@@ -249,10 +237,8 @@ vec_add1(my_vec, 99);
     <tr><td><code>vec_set_len(v,n)</code></td><td>Force-set length field</td><td>Advanced: use after manual direct writes to vec memory</td></tr>
   </tbody>
 </table>
-
 <div class="cb"><pre><span class="cm">/* Typical plugin usage: building a list of sw_if_index values */</span>
 <span class="ck">u32</span> *sw_if_indices = 0;   <span class="cm">/* NULL = empty vec */</span>
- 
 <span class="cm">/* Collect all interfaces matching a condition */</span>
 pool_foreach(hw, im->hw_interfaces) {
     <span class="ck">if</span> (hw->flags & VNET_HW_INTERFACE_FLAG_LINK_UP)
@@ -272,24 +258,19 @@ vec_reset_length(sw_if_indices);
 <span class="cm">/* Or free completely */</span>
 vec_free(sw_if_indices);
 sw_if_indices = 0;</pre></div>
-
   </div>
 </div>
-
 <div class="warn">
   <p>⚠️ <strong>Critical pitfall - storing pointers to vec elements:</strong> Any operation that can grow the vec (<code>vec_add1</code>, <code>vec_add</code>, <code>vec_validate</code>) <em>may call realloc</em>, which moves the entire array to a new address. Any pointer you saved to an element is now a dangling pointer. Always store the <strong>index</strong> into the vec, not a pointer to the element.</p>
 </div>
 </div>
-
 <!-- ── POOL ── -->
 <div id="tc" class="tab-pane">
 <p class="sep">POOL - FIXED-SIZE OBJECT ALLOCATOR (src/vppinfra/pool.h)</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏊</span><h3>Pool Memory Layout and Design</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
     <p>A pool is a pre-allocated contiguous array of fixed-size objects. It maintains a free-list as a bitmap of free slots. Allocation (<code>pool_get</code>) finds the first free bit and marks it used - O(1). Free (<code>pool_put</code>) marks the slot free again - O(1). Crucially, <strong>object addresses are stable</strong> as long as the pool does not grow - the pool never moves existing elements on alloc.</p>
-
 <div class="cb"><pre><span class="cm">/* Pool memory model */</span>
 pool = [  obj[0]  |  obj[1]  |  obj[2]  |  obj[3]  | ... ]
          (in use)    (FREE)     (in use)    (FREE)
@@ -298,7 +279,6 @@ free_bitmap = 0b...1010   (bits set = free slots)
  
 <span class="cm">/* pool_get: find lowest set bit, clear it, return pointer */</span>
 <span class="cm">/* pool_put: set the bit at this index                     */</span>
- 
 <span class="cm">/* Declaration */</span>
 <span class="ck">typedef struct</span> {
     <span class="ck">u32</span>  conn_id;
@@ -308,14 +288,11 @@ free_bitmap = 0b...1010   (bits set = free slots)
 } my_session_t;
  
 my_session_t *session_pool = 0;   <span class="cm">/* NULL = empty pool */</span></pre></div>
-
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🛠️</span><h3>Complete pool API</h3><span class="tag tag-blue">API</span></div>
   <div class="cp-body">
-
 <table class="api-table">
   <thead><tr><th>Macro / Function</th><th>Usage</th><th>Returns / Effect</th></tr></thead>
   <tbody>
@@ -334,11 +311,9 @@ my_session_t *session_pool = 0;   <span class="cm">/* NULL = empty pool */</span
     <tr><td><code>pool_alloc(P, n)</code></td><td>Pre-allocate pool capacity for n objects</td><td>Avoids repeated realloc during initial population</td></tr>
   </tbody>
 </table>
-
 <div class="cb"><pre><span class="cm">/* Complete example: per-flow session pool */</span>
 my_session_t *sessions = 0;        <span class="cm">/* pool */</span>
 <span class="ck">uword</span> *session_by_key = 0;         <span class="cm">/* hash: key → pool index */</span>
- 
 <span class="cm">/* Create a session */</span>
 my_session_t *s;
 pool_get_zero(sessions, s);        <span class="cm">/* allocate + zero-fill */</span>
@@ -359,30 +334,24 @@ hash_set(session_by_key, flow_key, session_index);
 <span class="cm">/* Destroy a session */</span>
 hash_unset(session_by_key, flow_key);
 pool_put(sessions, s);            <span class="cm">/* marks slot free */</span>
- 
 <span class="cm">/* Walk all active sessions (e.g., for timeout sweep) */</span>
 pool_foreach(s, sessions) {
     <span class="ck">if</span> (now - s->last_seen > SESSION_TIMEOUT)
         expire_session(sessions, session_by_key, s);
 }</pre></div>
-
   </div>
 </div>
-
 <div class="ins">
   <p>💡 <strong>Deriving an index from a pointer:</strong> The idiom <code>index = element_ptr - pool_base_ptr</code> is idiomatic in VPP. It works because pool elements are contiguous. This index is stable even if the pool grows (existing elements don't move). Always <strong>store the index</strong> in inter-subsystem references (e.g., in a buffer's opaque field), never the pointer.</p>
 </div>
 </div>
-
 <!-- ── BIHASH ── -->
 <div id="td" class="tab-pane">
 <p class="sep">BIHASH - BOUNDED-INDEX EXTENSIBLE HASHING (src/vppinfra/bihash_*.h)</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Bihash Architecture - Two-Level Lookup</h3><span class="tag tag-orange">INTERNALS</span></div>
   <div class="cp-body">
     <p>Bihash is VPP's primary hash table for dataplane lookups. Its design is optimised for the read-heavy, write-rare workload of packet forwarding: millions of lookups per second with occasional control-plane insertions.</p>
-
 <div class="cb"><pre><span class="cm">/* Two-level structure */</span>
  
 Level 1 - Bucket Array (always in memory, fits in L2 cache):
@@ -401,17 +370,14 @@ Lookup:
   1. bucket_idx = hash(key) & (N-1)          O(1) - bitmask
   2. page = bucket[bucket_idx].page           O(1) - pointer deref
   3. linear scan page for matching key        O(1) - ≤8 compares</pre></div>
-
     <p>When a bucket fills (all KVP slots taken), it <em>overflows</em> to a chain of pages. The chain length is bounded by the load factor at init time. This gives <strong>worst-case O(chain_len)</strong> lookup - not O(n) like a chaining hash table.</p>
     <p>The lock bit in the bucket enables a <strong>single-writer, multi-reader</strong> protocol: readers spin on the lock bit; the writer sets it, modifies the page, clears it. Readers detect inconsistency via the version counter and retry.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Bihash Variants - Choosing the Right One</h3><span class="tag tag-blue">VARIANTS</span></div>
   <div class="cp-body">
     <p>Bihash is a template implemented via macros. The type name encodes <code>key_size_value_size</code> in bytes:</p>
-
 <table class="api-table">
   <thead><tr><th>Type</th><th>Key</th><th>Value</th><th>Typical Use in VPP</th></tr></thead>
   <tbody>
@@ -422,36 +388,29 @@ Lookup:
     <tr><td><code>bihash_40_8</code></td><td>40 bytes</td><td>8 bytes</td><td>VXLAN tunnel tables (src+dst+vni)</td></tr>
   </tbody>
 </table>
-
 <div class="cb"><pre><span class="cm">/* Include the specific variant you need */</span>
 <span class="cs">#include "vppinfra/bihash_8_8.h"</span>
 <span class="cs">#include "vppinfra/bihash_template.h"</span>  <span class="cm">/* defines BV() macro */</span>
- 
 <span class="cm">/* BV() prepends the type name: BV(clib_bihash_init) → clib_bihash_8_8_init */</span>
 <span class="ck">typedef</span> clib_bihash_8_8_t my_hash_t;
  
 <span class="cm">/* Key-value pair type */</span>
 clib_bihash_kv_8_8_t kv;   <span class="cm">/* kv.key (u64), kv.value (u64) */</span>
- 
 <span class="cm">/* Initialise (call once, control plane) */</span>
 clib_bihash_8_8_t h;
 <span class="ck">u32</span> nbuckets = 64 * 1024;   <span class="cm">/* power of 2, tuned to expected entries */</span>
 <span class="ck">u32</span> mem_bytes = 128 * 1024 * 1024;  <span class="cm">/* 128 MB backing store */</span>
 clib_bihash_init_8_8(&h, <span class="cs">"my-flow-table"</span>, nbuckets, mem_bytes);</pre></div>
-
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Fast-Path Lookup and Insert Patterns</h3><span class="tag tag-teal">DATAPLANE</span></div>
   <div class="cp-body">
-
 <div class="cb"><pre><span class="cm">/* ── LOOKUP (fast path - called per packet) ── */</span>
 clib_bihash_kv_8_8_t kv;
  
 <span class="cm">/* Pack key: for 5-tuple flows you'd pack into 8 bytes */</span>
 kv.key = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;   <span class="cm">/* example: src+dst IP */</span>
- 
 <span class="ck">if</span> (PREDICT_TRUE(
     clib_bihash_search_8_8(&h, &kv, &kv) == 0))
 {
@@ -475,7 +434,6 @@ clib_bihash_add_del_8_8(&h, &kv, 1 <span class="cm">/* is_add */</span>);
 kv.key = ((<span class="ck">u64</span>)src_addr << 32) | dst_addr;
 kv.value = 0;                                 <span class="cm">/* value irrelevant for delete */</span>
 clib_bihash_add_del_8_8(&h, &kv, 0 <span class="cm">/* is_add=0 means delete */</span>);</pre></div>
-
     <div class="dpdk-box">
       <div class="dh">⚙️ DPDK PARALLEL - rte_hash vs bihash</div>
       <ul>
@@ -485,20 +443,16 @@ clib_bihash_add_del_8_8(&h, &kv, 0 <span class="cm">/* is_add=0 means delete */<
         <li>For your session table work: bihash_48_8 is the right choice for full 5-tuple IPv4 flows (src_ip 4B + dst_ip 4B + src_port 2B + dst_port 2B + proto 1B = 13B, padded to 48B for alignment)</li>
       </ul>
     </div>
-
   </div>
 </div>
 </div>
-
 <!-- ── MEMORY & FORMAT ── -->
 <div id="te" class="tab-pane">
 <p class="sep">MEMORY, FORMAT/UNFORMAT, TIMERS</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🖨️</span><h3>format / unformat - Extensible I/O</h3><span class="tag tag-purple">FORMAT</span></div>
   <div class="cp-body">
     <p><code>format</code> is VPP's printf replacement. Instead of writing to a fixed buffer, it appends to a <code>u8 *</code> vec, growing as needed. The <code>%U</code> specifier allows any function with the right signature to be used as a format directive - this is how VPP achieves composable trace output.</p>
-
 <div class="cb"><pre><span class="cm">/* format signature: u8 *format(u8 *s, const char *fmt, ...); */</span>
 <span class="cm">/* Returns the u8-vec with formatted output appended */</span>
  
@@ -528,7 +482,6 @@ unformat_init_string(&input, "192.168.1.1");
 ip4_address_t addr;
 <span class="ck">if</span> (unformat(&input, <span class="cs">"%U"</span>, unformat_ip4_address, &addr))
     vlib_cli_output(vm, <span class="cs">"Parsed: %U\n"</span>, format_ip4_address, &addr);</pre></div>
-
     <ul>
       <li><code>format(0, ...)</code> allocates a new vec - caller must <code>vec_free</code> it</li>
       <li><code>format(existing_vec, ...)</code> appends to existing vec</li>
@@ -538,38 +491,30 @@ ip4_address_t addr;
     </ul>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>clib_time and Timing Primitives</h3><span class="tag tag-green">TIMERS</span></div>
   <div class="cp-body">
-
 <div class="cb"><pre><span class="cm">/* High-resolution time - based on TSC (rdtsc) */</span>
 clib_time_t ct;
 clib_time_init(&ct);
  
 f64 now = clib_time_now(&ct);        <span class="cm">/* seconds since init, f64 */</span>
 u64 cycles = clib_cpu_time_now();    <span class="cm">/* raw TSC cycles */</span>
- 
 <span class="cm">/* In graph nodes: use vlib_time_now() which is pre-computed per dispatch */</span>
 f64 now = vlib_time_now(vm);  <span class="cm">/* preferred in node functions */</span>
- 
 <span class="cm">/* Timer wheel (tw_timer_*.h) for protocol timeouts */</span>
 <span class="cm">/* Used for TCP retransmit timers, NAT session expiry */</span>
 <span class="cs">#include "vppinfra/tw_timer_2t_1w_2048sl.h"</span>
 <span class="cm">/* Parameters: 2 timers/object, 1 wheel, 2048 slots */</span>
 TWT(tw_timer_wheel) tw;
 tw_timer_wheel_init_2t_1w_2048sl(&tw, expired_cb, 1.0, ~0);</pre></div>
-
     <p>For session timeouts in your Stateful Connection Tracker project (Mini-Project 7), use <code>tw_timer_*</code> - it handles expiry callbacks at O(1) per tick regardless of the number of active timers.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🧮</span><h3>clib_mem - Memory Allocation</h3><span class="tag tag-blue">MEMORY</span></div>
   <div class="cp-body">
-
 <div class="cb"><pre><span class="cm">/* Always use clib_mem_*, never malloc/free in VPP code */</span>
- 
 <span class="cm">/* Basic allocation */</span>
 void *p = clib_mem_alloc(size);
 void *p = clib_mem_alloc_aligned(size, CLIB_CACHE_LINE_BYTES);  <span class="cm">/* 64-byte aligned */</span>
@@ -579,23 +524,19 @@ clib_mem_free(p);
 clib_mem_set_numa_affinity(numa_node);  <span class="cm">/* set before alloc */</span>
 void *p = clib_mem_alloc_aligned(size, CLIB_CACHE_LINE_BYTES);
 clib_mem_set_default_numa_affinity();   <span class="cm">/* reset */</span>
- 
 <span class="cm">/* Heap introspection */</span>
 clib_mem_usage_t usage;
 clib_mem_get_heap_usage(clib_mem_get_heap(), &usage);
 <span class="cm">/* usage.bytes_used, usage.bytes_free */</span>
- 
 <span class="cm">/* For per-worker allocations: use per-thread heaps */</span>
 <span class="cm">/* vlib sets up per-thread heaps automatically */</span>
 void *old_heap = clib_mem_set_heap(vm->thread_main->heap);
 <span class="cm">/* allocate on worker-local heap */</span>
 clib_mem_set_heap(old_heap);   <span class="cm">/* restore */</span></pre></div>
-
     <p><strong>CLIB_CACHE_LINE_BYTES</strong> is 64 on x86_64. Always align per-worker data structures to cache lines to avoid false sharing between worker threads - a common source of hidden performance problems in multi-threaded VPP plugins.</p>
   </div>
 </div>
 </div>
-
 <!-- ── CHECKLIST ── -->
 <div id="tf" class="tab-pane">
 <p class="sep">P2A COMPLETION CHECKLIST</p>
@@ -618,13 +559,11 @@ clib_mem_set_heap(old_heap);   <span class="cm">/* restore */</span></pre></div>
   <p>✅ When complete: move to <strong>P2B - vlib</strong>. You now know the data structures. vlib is where you learn how those structures are used in the graph dispatcher - the engine that drives VPP.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p1-foundation/">← P1 Foundation</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/data-plane/vpp/module-p2-vlib/">Next: vlib →</a>
 </div>
-
 <script>
 function vt(e,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById(id).classList.add('active');}
 </script>

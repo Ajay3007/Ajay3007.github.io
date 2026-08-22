@@ -84,7 +84,6 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
 .proj-body{padding:.9rem 1.2rem;font-size:.88rem;line-height:1.7}
 .proj-body strong{color:#1e40af}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 7 — Production &amp; Deployment &nbsp;·&nbsp; Module 26 of 27</div>
   <div class="mod-title">Prompt Versioning, Cost Monitoring &amp; Caching</div>
@@ -96,7 +95,6 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
     <span class="mod-pill">📋 Prerequisite: P7-M25</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">📝 Prompt Versioning</button>
@@ -109,8 +107,6 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-navy">
@@ -127,8 +123,6 @@ url: /learning/ai-ml/part7-production/p7-m26-prompt-versioning/
   </div>
 </div>
 </div>
-
-
 <!-- TAB 1 — PROMPT VERSIONING -->
 <div id="t1" class="tab-pane">
 <div class="cp p-navy">
@@ -205,7 +199,6 @@ def list_prompt_history(name: str) -> list[dict]:
 <span class="ck"># if metrics worsen: rollback_prompt("rag_system", 1)                      → instant</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📁</span><h3>Git-Based Prompt Management</h3><span class="tag tag-blue">File-First</span></div>
   <div class="cp-body">
@@ -250,8 +243,6 @@ def prompt_changed(name: str) -> bool:
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- TAB 2 — PROMPT TESTING -->
 <div id="t2" class="tab-pane">
 <div class="cp p-navy">
@@ -308,15 +299,12 @@ def test_rag_faithfulness_score():
         scores.append(v.score)
     avg = sum(scores) / len(scores)
     assert avg >= <span class="cv">0.85</span>, <span class="cs">f"Faithfulness {avg:.3f} < 0.85 threshold"</span>
- 
 <span class="ck"># Run: pytest tests/test_prompts.py -v</span>
 <span class="ck"># If tests pass: activate_prompt("rag_system", 2)</span>
 <span class="ck"># If tests fail: do NOT activate — investigate and fix prompt</span></pre></div>
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- TAB 3 — COST MONITORING -->
 <div id="t3" class="tab-pane">
 <div class="cp p-navy">
@@ -389,8 +377,6 @@ def cost_report(days: int = <span class="cv">30</span>) -> dict:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- TAB 4 — RESPONSE CACHING -->
 <div id="t4" class="tab-pane">
 <div class="cp p-navy">
@@ -440,7 +426,6 @@ async def cached_llm_call(system: str, messages: list,
         set_cached(system, messages, model, text)
  
     return text, <span class="cv">False</span>
- 
 <span class="ck"># ── Semantic cache — cache similar (not just identical) queries ──</span>
 <span class="ck"># 1. Embed the query</span>
 <span class="ck"># 2. Search cached embeddings for cosine similarity > threshold</span>
@@ -471,8 +456,6 @@ class SemanticCache:
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- TAB 5 — PROMPT CACHING -->
 <div id="t5" class="tab-pane">
 <div class="cp p-navy">
@@ -529,8 +512,6 @@ response = client.messages.create(
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- TAB 6 — RESOURCES -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -544,8 +525,6 @@ response = client.messages.create(
   </tbody>
 </table>
 </div>
-
-
 <!-- TAB 7 — PROJECTS -->
 <div id="t7" class="tab-pane">
 <div class="proj-box">
@@ -568,8 +547,6 @@ response = client.messages.create(
   </div>
 </div>
 </div>
-
-
 <!-- TAB 8 — LABS -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -582,7 +559,6 @@ response = client.messages.create(
     <div class="lab-step"><div class="sn">4</div><div>Verify prompt_changed() returns False (DB matches file). Call list_prompt_history() and verify v1, v2, v3 are all recorded with their authors and timestamps.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Cost Report — Find Your Biggest Spend</h4></div>
   <div class="lab-body">
@@ -593,7 +569,6 @@ response = client.messages.create(
     <div class="lab-step"><div class="sn">4</div><div>Add the response cache. Run the same 100 requests again. How many were served from cache? What is cache_savings in the report? What is the effective cost reduction including caching?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Prompt Caching — Measure the Savings</h4></div>
   <div class="lab-body">
@@ -605,8 +580,6 @@ response = client.messages.create(
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- TAB 9 — CHECKLIST -->
 <div id="t9" class="tab-pane">
 <p class="sep">P7-M26 MASTERY CHECKLIST</p>
@@ -633,13 +606,11 @@ response = client.messages.create(
   <p>✅ <strong>When complete:</strong> Move to <strong>P7-M27 — MLOps Foundations</strong>. The final Part 7 module covers CI/CD for AI, model versioning, and the operational patterns needed for long-running AI products.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part7-production/p7-m25-auth-logging/">← P7-M25: Auth &amp; Logging</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part7-production/p7-m27-mlops/">Next: P7-M27 — MLOps Foundations →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

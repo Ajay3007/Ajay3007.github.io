@@ -12,7 +12,6 @@ url: /learning/system-design/hld/module-b1-hld-fundamentals/
 <link rel="stylesheet" href="/assets/css/sd-module-b1.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
 <!-- HEADER -->
 <header>
   <div class="compass-bar">
@@ -51,7 +50,6 @@ url: /learning/system-design/hld/module-b1-hld-fundamentals/
     <div class="stat-cell"><div class="stat-val">12</div><div class="stat-lbl">Checklist Items</div></div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nav-tab active" onclick="show('cap',this)">CAP Theorem</div>
   <div class="nav-tab" onclick="show('consistency',this)">Consistency</div>
@@ -63,14 +61,11 @@ url: /learning/system-design/hld/module-b1-hld-fundamentals/
   <div class="nav-tab" onclick="show('tasks',this)">Tasks</div>
   <div class="nav-tab" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- ══════════════════════════════════════════ CAP ══════════════════════════════════════════ -->
 <div class="view active" id="view-cap">
   <div class="sec-hd">CAP Theorem</div>
   <div class="sec-rule">In a distributed system, you can guarantee at most 2 of 3 properties</div>
-
   <div class="cap-container">
     <div class="cap-venn">
       <div class="cap-circle cap-c">C — Consistency</div>
@@ -80,7 +75,6 @@ url: /learning/system-design/hld/module-b1-hld-fundamentals/
       <div class="cap-label cap-cp" style="color:var(--c-avail)">CP<br><span style="font-size:8px">HBase · ZooKeeper<br>MongoDB (strong)</span></div>
       <div class="cap-label cap-ap" style="color:var(--c-cons)">AP<br><span style="font-size:8px">Cassandra · DynamoDB<br>CouchDB · DNS</span></div>
     </div>
-
     <div class="cap-legend">
       <div class="cap-row" style="border-left-color:var(--c-cap)">
         <div class="cap-row-title" style="color:var(--c-cap)">The Key Insight</div>
@@ -96,11 +90,9 @@ url: /learning/system-design/hld/module-b1-hld-fundamentals/
       </div>
     </div>
   </div>
-
   <div class="callout rust">
     <em>The interview one-liner:</em> "During a network partition, I can either reject requests to guarantee consistency (CP), or serve potentially stale data to stay available (AP). Since partitions are inevitable, the real design question is: for this use case, which failure is more acceptable?"
   </div>
-
   <div class="sec-hd" style="margin-top:28px">PACELC — The Extension</div>
   <div class="sec-rule">CAP only covers partitions. PACELC adds the non-partition case.</div>
 <pre class="mono"><span class="hl-rust">P → Partition: choose A or C  (same as CAP)</span>
@@ -113,7 +105,6 @@ DynamoDB:    <span class="hl-fad">PA/EL</span>  — same profile as Cassandra
 HBase:       <span class="hl-fad">PC/EC</span>  — consistent always; accepts higher latency
 Zookeeper:   <span class="hl-fad">PC/EC</span>  — built for coordination, strong guarantees
 MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre>
-
   <div class="sec-hd" style="margin-top:28px">CP vs AP — When to Choose</div>
   <table class="lat-table">
     <thead><tr><th>SCENARIO</th><th>CHOOSE</th><th>REASON</th></tr></thead>
@@ -127,12 +118,10 @@ MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre
     </tbody>
   </table>
 </div>
-
 <!-- ══════════════════════════════════════════ CONSISTENCY ══════════════════════════════════════════ -->
 <div class="view" id="view-consistency">
   <div class="sec-hd">Consistency Models</div>
   <div class="sec-rule">From strongest guarantees to weakest — each a deliberate trade-off</div>
-
   <div class="spectrum">
     <div style="display:flex;justify-content:space-between;font-family:'Courier Prime',monospace;font-size:9px;color:var(--aged);margin-bottom:6px;">
       <span>← STRONGER CONSISTENCY (Higher Latency)</span>
@@ -175,11 +164,9 @@ MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre
       </div>
     </div>
   </div>
-
   <div class="callout och">
     <em>Common interview mistake:</em> "Eventual consistency is bad." It's a deliberate trade-off. Facebook doesn't need strong consistency for Like counts — the 1% accuracy cost buys massive availability and throughput gains.
   </div>
-
   <div class="sec-hd" style="margin-top:28px">Consistency vs Latency Trade-off</div>
 <pre class="mono"><span class="hl-fad">Strong consistency (Paxos/Raft):</span>
   Requires majority quorum before returning → adds 1+ network round trips
@@ -197,12 +184,10 @@ MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre
   ONE write + ONE read → eventual
   Trade-off per operation based on use case</pre>
 </div>
-
 <!-- ══════════════════════════════════════════ AVAILABILITY ══════════════════════════════════════════ -->
 <div class="view" id="view-availability">
   <div class="sec-hd">Availability Patterns</div>
   <div class="sec-rule">Measuring and achieving the nines</div>
-
   <div class="nines-grid">
     <div class="nine-card">
       <div class="nine-pct">99%</div>
@@ -225,11 +210,9 @@ MySQL:       <span class="hl-fad">PC/EC</span>  — ACID, consistent always</pre
       <div class="nine-lbl">5 nines — telecom / financial grade</div>
     </div>
   </div>
-
   <div class="callout och">
     <em>Compounding availability:</em> If your system has 3 services in sequence each at 99.9%, the end-to-end availability is 0.999³ = 99.7%. More services in the request path → lower total availability. Prefer parallel over sequential for resilience.
   </div>
-
   <div class="sec-hd" style="margin-top:24px">Active-Passive (Failover)</div>
 <pre class="mono">Normal:    [Client] ──→ [Active Node]      [Passive] (standby, synced)
 Failover:  [Client] ──→ [Passive Node]     [Active]  (dead/recovering)
@@ -243,7 +226,6 @@ Variants:
   Network partition → both nodes think they're active primary
   Both accept writes → divergent, irreconcilable state
   Prevention: Quorum (majority must agree) + Fencing tokens</pre>
-
   <div class="sec-hd" style="margin-top:24px">Active-Active (Load Sharing)</div>
 <pre class="mono">Normal: [Client] ──→ [Load Balancer] ──→ Node A (active, serving)
                                      ──→ Node B (active, serving)
@@ -257,12 +239,10 @@ Conflict resolution required:
  
 Used in: Cassandra, DynamoDB, Akamai CDN, most NoSQL at scale</pre>
 </div>
-
 <!-- ══════════════════════════════════════════ LB ══════════════════════════════════════════ -->
 <div class="view" id="view-lb">
   <div class="sec-hd">Load Balancing</div>
   <div class="sec-rule">Distributing traffic across a fleet · L4 vs L7 · six algorithms</div>
-
   <table class="lat-table">
     <thead><tr><th>FEATURE</th><th>L4 — Transport Layer</th><th>L7 — Application Layer</th></tr></thead>
     <tbody>
@@ -274,7 +254,6 @@ Used in: Cassandra, DynamoDB, Akamai CDN, most NoSQL at scale</pre>
       <tr><td>Examples</td><td>AWS NLB, HAProxy (L4 mode)</td><td>AWS ALB, NGINX, Envoy, Caddy</td></tr>
     </tbody>
   </table>
-
   <div class="sec-hd" style="margin-top:24px">Load Balancing Algorithms</div>
   <div class="lb-grid">
     <div class="lb-card">
@@ -308,17 +287,14 @@ Used in: Cassandra, DynamoDB, Akamai CDN, most NoSQL at scale</pre>
       <div class="lb-use">USE WHEN: distributed caches, CDN routing, sharded databases</div>
     </div>
   </div>
-
   <div class="callout rust">
     <em>Interview trap on sticky sessions:</em> IP Hash is a workaround for stateful servers. The correct solution is to make servers stateless by externalising session state to Redis. Then any server can handle any request — no stickiness needed.
   </div>
 </div>
-
 <!-- ══════════════════════════════════════════ LATENCY ══════════════════════════════════════════ -->
 <div class="view" id="view-latency">
   <div class="sec-hd">Latency & Throughput</div>
   <div class="sec-rule">Numbers every engineer should know by heart</div>
-
   <table class="lat-table">
     <thead><tr><th>OPERATION</th><th>LATENCY</th><th>RELATIVE SCALE</th><th>NOTE</th></tr></thead>
     <tbody>
@@ -364,7 +340,6 @@ Used in: Cassandra, DynamoDB, Akamai CDN, most NoSQL at scale</pre>
       </tr>
     </tbody>
   </table>
-
   <div class="sec-hd" style="margin-top:24px">Little's Law</div>
 <pre class="mono">L = λ × W
  
@@ -376,22 +351,18 @@ W  =  average time in system (latency, seconds)
   Service handles 100 req/sec (λ = 100)
   Average latency is 50ms   (W = 0.05s)
   Avg concurrent requests:  L = 100 × 0.05 = <span class="hl-och">5 concurrent requests</span>
- 
 <span class="hl-rust">Key insight:</span>
   If latency grows (W↑) and arrival rate stays constant (λ=const),
   queue depth grows (L↑). Eventually queue overflows → system collapse.
   <span class="hl-grn">→ Latency spikes are early warning signs of capacity problems.</span></pre>
-
   <div class="callout och">
     <em>Latency vs Throughput trade-off:</em> Processing requests in larger batches increases throughput but adds per-request latency (waiting to fill the batch). Streaming one-at-a-time minimises latency but reduces throughput. Choose based on SLA: batch for analytics pipelines, stream for user-facing APIs.
   </div>
 </div>
-
 <!-- ══════════════════════════════════════════ ESTIMATION ══════════════════════════════════════════ -->
 <div class="view" id="view-estimation">
   <div class="sec-hd">Back-of-Envelope Estimation</div>
   <div class="sec-rule">Show your math · round aggressively · use powers of 10</div>
-
   <div class="est-box">
     <div class="est-title">The 5-Step Estimation Framework</div>
     <div class="est-step"><div class="est-num">1</div><div class="est-body">Clarify scale: DAU, requests per user per day, retention period</div></div>
@@ -400,7 +371,6 @@ W  =  average time in system (latency, seconds)
     <div class="est-step"><div class="est-num">4</div><div class="est-body">Bandwidth = peak_QPS × avg_payload_size</div></div>
     <div class="est-step"><div class="est-num">5</div><div class="est-body">Servers = peak_QPS ÷ capacity_per_server (typically 10K–100K rps/server)</div></div>
   </div>
-
   <div class="est-box">
     <div class="est-title">Worked Example — Twitter Scale</div>
 <pre class="mono">Assumptions:
@@ -424,7 +394,6 @@ W  =  average time in system (latency, seconds)
   Reads:  1M req/s × 1 KB = <span class="hl-och">1 GB/sec</span>
   Writes: 21K req/s × 1 KB ≈ <span class="hl-och">21 MB/sec</span></pre>
   </div>
-
   <div class="est-box">
     <div class="est-title">Storage Cheat Sheet</div>
 <pre class="mono">Character (ASCII):   1 byte       Integer:    4 bytes     Long:      8 bytes
@@ -439,12 +408,10 @@ HD video 1 min:     ~60 MB (H.264 compressed)
 <span class="hl-rust">Rule of 30M:</span>     1 req/sec → ~2.5M req/month ≈ 30M req/year</pre>
   </div>
 </div>
-
 <!-- ══════════════════════════════════════════ FRAMEWORK ══════════════════════════════════════════ -->
 <div class="view" id="view-framework">
   <div class="sec-hd">The 7-Step HLD Interview Framework</div>
   <div class="sec-rule">Apply this to every system design question · 45 minutes total</div>
-
   <div class="fw-steps">
     <div class="fw-step">
       <div class="fw-n">01</div>
@@ -484,7 +451,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
       <div class="fw-body">What changes at 10× more load? Sharding strategy? CDN for static content? Read replicas?</div>
     </div>
   </div>
-
   <div class="sec-hd" style="margin-top:28px">Component Decision Guide</div>
   <table class="lat-table">
     <thead><tr><th>COMPONENT</th><th>USE WHEN</th><th>EXAMPLES</th></tr></thead>
@@ -499,7 +465,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
       <tr><td>Search Engine</td><td>Full-text search, faceted filtering, fuzzy matching</td><td>Elasticsearch, OpenSearch, Algolia</td></tr>
     </tbody>
   </table>
-
   <div class="sec-hd" style="margin-top:24px">Interview Tips — Common Mistakes</div>
   <table class="tips-table">
     <thead><tr><th>MISTAKE</th><th>CORRECTION</th></tr></thead>
@@ -513,7 +478,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
     </tbody>
   </table>
 </div>
-
 <!-- ══════════════════════════════════════════ TASKS ══════════════════════════════════════════ -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -534,7 +498,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
         <p style="margin-top:10px">For each: state the <strong>exact failure mode</strong> if you choose wrong (e.g., "if I choose AP for banking, a user could overdraft").</p>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">02</div><div class="t-label">Back-of-Envelope — WhatsApp + YouTube</div><div class="t-meta">~1.5 hrs</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -543,7 +506,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
         <p style="margin-top:10px">For each: show all steps. Identify the biggest bottleneck revealed by your numbers.</p>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">03</div><div class="t-label">Consistency Model Selection — 6 Scenarios</div><div class="t-meta">~1 hr</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -559,7 +521,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
         <p style="margin-top:10px">For each: name the exact model (Linearizable / Sequential / Causal / Read-Your-Writes / Eventual), the implementation mechanism, and the failure mode if you under-constrain.</p>
       </div>
     </div>
-
     <div class="task-card" style="border-top:3px solid var(--rust)">
       <div class="task-hd" onclick="tt(this)"><div class="t-num" style="color:var(--rust)">★</div><div class="t-label">HLD Framework — URL Shortener (Full Walkthrough)</div><div class="t-meta">~2 hrs · full design</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -583,12 +544,10 @@ HD video 1 min:     ~60 MB (H.264 compressed)
     </div>
   </div>
 </div>
-
 <!-- ══════════════════════════════════════════ CHECKLIST ══════════════════════════════════════════ -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 12 completed</span><span style="font-family:'Courier Prime',monospace">MODULE B1 · HLD FUNDAMENTALS</span></div>
   <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-
   <div class="chk-grid">
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Can explain CAP theorem without buzzwords — the partition choice framing</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Know PACELC extension — how it covers non-partition latency/consistency</div></div>
@@ -603,7 +562,6 @@ HD video 1 min:     ~60 MB (H.264 compressed)
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Know the 7-step HLD framework + time allocation for 45-min interview</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ All 4 tasks completed (CAP, estimation, consistency, URL shortener)</div></div>
   </div>
-
   <div style="margin-top:32px;background:var(--cream);border:1px solid var(--rust);padding:24px;">
     <div style="font-family:'Courier Prime',monospace;font-size:9px;letter-spacing:3px;color:var(--aged);margin-bottom:10px;">NEXT MODULE</div>
     <div style="font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--ink);margin-bottom:8px;">B2 — Databases at Scale</div>
@@ -614,9 +572,7 @@ HD video 1 min:     ~60 MB (H.264 compressed)
     </div>
   </div>
 </div>
-
 </div>
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -639,7 +595,6 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -662,7 +617,6 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-
 <div class="b1-bottom-nav">
   <a href="/learning/system-design/lld/module-a6-case-studies/" class="b1-nav-footer-btn">← A6: LLD Case Studies</a>
   <a href="/learning/system-design/hld/module-b1-notes/" class="b1-nav-footer-btn">📄 Full Notes</a>

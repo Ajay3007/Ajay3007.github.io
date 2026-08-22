@@ -15,7 +15,6 @@ url: /learning/system-design/hld/module-c4-notes/
   <strong>Module C4 · Week 28 · Track C — Advanced Topics</strong><br>
   <span style="color:#666;">Prerequisites: B1–B14, C1–C3 &nbsp;|&nbsp; Goal: Metrics, tracing, logging, SLOs/SLAs, incident response, SRE practices</span>
 </div>
-
 <a href="/learning/system-design/hld/module-c4-observability/" style="display:inline-block;margin-bottom:32px;padding:10px 20px;background:#00c840;color:#000;border-radius:4px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;">⚡ Interactive Visual Version</a>
 
 # Module C4 — Observability & SRE

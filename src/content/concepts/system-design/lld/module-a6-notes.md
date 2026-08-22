@@ -32,7 +32,6 @@ url: /learning/system-design/lld/module-a6-notes/
     <span class="stat-badge">Hotel Booking</span>
   </div>
 </div>
-
 <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
   <a href="/learning/system-design/lld/module-a6-case-studies/" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.2rem;border-radius:8px;background:rgba(124,111,255,0.1);border:1px solid rgba(124,111,255,0.3);color:#7c6fff;text-decoration:none;font-weight:700;font-size:0.85rem;">
     ⚡ Interactive Visual Version

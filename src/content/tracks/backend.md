@@ -17,7 +17,6 @@ url: /learning/backend/backend-roadmap/
   <span>/</span>
   Backend Engineering Roadmap
 </div>
-
 <div class="be-hero">
   <h1>Backend Engineering Roadmap</h1>
   <p>A structured, hands-on path from web fundamentals to production-grade distributed systems — with C/C++ examples, concept checklists, and interactive progress tracking.</p>
@@ -28,14 +27,12 @@ url: /learning/backend/backend-roadmap/
     <div><span class="be-stat-val">∞</span><span class="be-stat-lbl">Depth</span></div>
   </div>
 </div>
-
 <div class="be-overall-progress">
   <span class="be-op-label">Overall Progress</span>
   <div class="be-op-bar-wrap"><div class="be-op-bar"></div></div>
   <span class="be-op-pct">0%</span>
   <span class="be-op-count">0 of 80 concepts checked</span>
 </div>
-
 <nav class="be-phase-nav">
   <div class="be-phase-pills">
     <a class="ch-pill" href="#ph0">Ph0 — Web Basics <span class="pill-count">0/8</span></a>
@@ -48,9 +45,7 @@ url: /learning/backend/backend-roadmap/
     <a class="ch-pill" href="#ph7">Ph7 — Observability <span class="pill-count">0/12</span></a>
   </div>
 </nav>
-
 <div class="be-phases">
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph0 — How the Web Works
      ═══════════════════════════════════════════════════════════ -->
@@ -100,7 +95,7 @@ url: /learning/backend/backend-roadmap/
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* Minimal TCP server skeleton — illustrates accept loop */
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -129,7 +124,7 @@ int main(void) {
         close(client);
     }
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -147,7 +142,6 @@ int main(void) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph1 — API Design & Contracts
      ═══════════════════════════════════════════════════════════ -->
@@ -199,7 +193,7 @@ int main(void) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* user.proto — gRPC service definition */
 // syntax = "proto3";
 //
@@ -235,7 +229,7 @@ void send_json(int fd, int status, const char *body) {
     write(fd, header, strlen(header));
     write(fd, body,   body_len);
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -255,7 +249,6 @@ void send_json(int fd, int status, const char *body) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph2 — Databases & Storage
      ═══════════════════════════════════════════════════════════ -->
@@ -309,7 +302,7 @@ void send_json(int fd, int status, const char *body) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* PostgreSQL via libpq — parameterized query (prevents SQL injection) */
 #include <libpq-fe.h>
 #include <stdio.h>
@@ -354,7 +347,7 @@ redisReply *get_user_cached(redisContext *rc, PGconn *pg,
     /* redisCommand(rc, "SET %s %s EX 300", key, json_val) */
     return NULL;
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -376,7 +369,6 @@ redisReply *get_user_cached(redisContext *rc, PGconn *pg,
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph3 — Authentication & Authorization
      ═══════════════════════════════════════════════════════════ -->
@@ -424,7 +416,7 @@ redisReply *get_user_cached(redisContext *rc, PGconn *pg,
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* JWT HMAC-SHA256 signature verification (OpenSSL) */
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
@@ -456,7 +448,7 @@ int jwt_verify_hs256(const char    *header_payload,
     if (digest_len != sig_len) return 0;
     return const_time_cmp(digest, expected_sig, digest_len);
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -474,7 +466,6 @@ int jwt_verify_hs256(const char    *header_payload,
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph4 — Concurrency & Performance
      ═══════════════════════════════════════════════════════════ -->
@@ -523,7 +514,7 @@ int jwt_verify_hs256(const char    *header_payload,
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* epoll edge-triggered event loop skeleton (Linux) */
 #include <sys/epoll.h>
 #include <sys/socket.h>
@@ -567,7 +558,7 @@ void run_event_loop(int listen_fd) {
         }
     }
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -587,7 +578,6 @@ void run_event_loop(int listen_fd) {
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph5 — Event-Driven Architecture
      ═══════════════════════════════════════════════════════════ -->
@@ -635,7 +625,7 @@ void run_event_loop(int listen_fd) {
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* Kafka producer using librdkafka (C client) */
 #include <librdkafka/rdkafka.h>
 #include <string.h>
@@ -679,7 +669,7 @@ retry:
     rd_kafka_topic_destroy(rkt);
     rd_kafka_destroy(rk);
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -699,7 +689,6 @@ retry:
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph6 — Microservices & Infrastructure
      ═══════════════════════════════════════════════════════════ -->
@@ -749,7 +738,7 @@ retry:
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show Dockerfile Example</button>
     <div class="code-block-wrap">
-{% highlight dockerfile %}
+```dockerfile
 # -- Stage 1: Build (fat image with full toolchain) --
 FROM gcc:13 AS builder
 WORKDIR /src
@@ -778,7 +767,7 @@ HEALTHCHECK --interval=30s --timeout=3s \
   CMD curl -f http://localhost:8080/health || exit 1
 
 ENTRYPOINT ["./server"]
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -798,7 +787,6 @@ ENTRYPOINT ["./server"]
     </table>
   </div>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════
      Ph7 — Observability & Hardening
      ═══════════════════════════════════════════════════════════ -->
@@ -849,7 +837,7 @@ ENTRYPOINT ["./server"]
     </div>
     <button class="code-toggle-btn"><span class="caret">▸</span> Show C Example</button>
     <div class="code-block-wrap">
-{% highlight c %}
+```c
 /* Graceful shutdown via SIGTERM — C implementation */
 #include <signal.h>
 #include <stdatomic.h>
@@ -896,7 +884,7 @@ int main(void) {
     fprintf(stderr, "[shutdown] clean exit\n");
     return 0;
 }
-{% endhighlight %}
+```
     </div>
     <div class="ch-section-label">Concept Checklist</div>
     <table class="ch-problem-table">
@@ -918,9 +906,7 @@ int main(void) {
     </table>
   </div>
 </div>
-
 </div><!-- /.be-phases -->
-
 <script>
 // Inline init — ensure progress is calculated after page load
 document.addEventListener('DOMContentLoaded', function() {

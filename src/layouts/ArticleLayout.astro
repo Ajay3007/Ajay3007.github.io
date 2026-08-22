@@ -52,7 +52,7 @@ const { title, description, kicker, date, meta = [], tags = [], crumbs, headings
         }
       </header>
 
-      <div class="legacy-content prose prose-invert mt-8 max-w-(--container-prose) prose-headings:scroll-mt-20 prose-a:text-accent prose-code:before:content-none prose-code:after:content-none">
+      <div class="legacy-content prose dark:prose-invert mt-8 max-w-(--container-prose) prose-headings:scroll-mt-20 prose-a:text-accent prose-code:before:content-none prose-code:after:content-none">
         <slot />
       </div>
 
@@ -63,7 +63,7 @@ const { title, description, kicker, date, meta = [], tags = [], crumbs, headings
       }
     </article>
     <aside class="hidden lg:block">
-      <div class="sticky top-20"><TableOfContents headings={headings} /></div>
+      <div class="sticky top-20"><TableOfContents /></div>
     </aside>
   </div>
 </BaseLayout>

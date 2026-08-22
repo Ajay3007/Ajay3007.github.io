@@ -1,26 +1,101 @@
 ---
-/** "On this page", built from the headings Astro already extracted. */
-import type { MarkdownHeading } from 'astro';
-interface Props { headings: MarkdownHeading[] }
-const { headings } = Astro.props;
-const items = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
----
-{
-  items.length > 2 && (
-    <nav class="text-[13px]" aria-label="On this page">
-      <p class="mb-2 font-mono text-[12px] tracking-wide text-subtle uppercase">On this page</p>
-      <ul class="space-y-1.5 border-l border-line">
-        {items.map((h) => (
-          <li class:list={[h.depth === 3 && 'ml-3']}>
-            <a
-              href={`#${h.slug}`}
-              class="-ml-px block border-l border-transparent pl-3 text-subtle transition-colors hover:border-accent hover:text-accent"
-            >
-              {h.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  )
+/**
+ * "On this page", built from the DOM rather than from Astro's `headings`.
+ *
+ * Astro only reports headings it generated from markdown, and the migrated
+ * corpus writes its headings as raw HTML — the TCP module has 23 <h3> elements
+ * and zero markdown headings, so the build-time list is empty on essentially
+ * every page. Jekyll's docs.js read the DOM for exactly this reason.
+ *
+ * Progressive enhancement: the aside stays hidden until the script finds
+ * enough headings, so a page with none never shows an empty rail, and the page
+ * is unaffected with JavaScript off. Headings without an id get one, so every
+ * entry is linkable.
+ */
+interface Props {
+  /** Selector for the container to scan. */
+  scope?: string;
 }
+const { scope = '.legacy-content' } = Astro.props;
+---
+
+<nav class="toc text-[13px]" aria-label="On this page" data-toc-scope={scope} hidden>
+  <p class="mb-2 font-mono text-[12px] tracking-wide text-subtle uppercase">On this page</p>
+  <ul class="space-y-1.5 border-l border-line"></ul>
+</nav>
+
+<script>
+  function slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .slice(0, 60) || 'section';
+  }
+
+  function buildToc(): void {
+    const toc = document.querySelector<HTMLElement>('.toc');
+    if (!toc) return;
+    const scope = toc.dataset.tocScope || '.legacy-content';
+    const content = document.querySelector(scope);
+    const list = toc.querySelector('ul');
+    if (!content || !list) return;
+
+    /** Heading text without the rehype-autolink '#' anchor appended to it. */
+    const label = (h: HTMLElement): string => {
+      const clone = h.cloneNode(true) as HTMLElement;
+      clone.querySelectorAll('.heading-anchor').forEach((a) => a.remove());
+      return (clone.textContent || '').trim();
+    };
+
+    const headings = [...content.querySelectorAll<HTMLElement>('h2, h3')].filter(
+      (h) => label(h).length > 1,
+    );
+    if (headings.length < 3) return; // not worth a rail
+
+    const seen = new Set<string>();
+    for (const h of headings) {
+      if (!h.id) {
+        let id = slugify(label(h));
+        let n = 2;
+        while (seen.has(id)) id = `${slugify(label(h))}-${n++}`;
+        h.id = id;
+      }
+      seen.add(h.id);
+
+      const li = document.createElement('li');
+      if (h.tagName === 'H3') li.className = 'ml-3';
+      const a = document.createElement('a');
+      a.href = `#${h.id}`;
+      a.textContent = label(h);
+      a.className =
+        '-ml-px block border-l border-transparent pl-3 text-subtle transition-colors hover:border-accent hover:text-accent';
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+    toc.hidden = false;
+
+    // Scroll-spy: highlight the heading currently nearest the top.
+    const links = new Map(
+      [...list.querySelectorAll('a')].map((a) => [a.getAttribute('href')!.slice(1), a]),
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const link = links.get(e.target.id);
+          if (!link) continue;
+          if (e.isIntersecting) {
+            links.forEach((l) => l.classList.remove('border-accent', 'text-accent'));
+            link.classList.add('border-accent', 'text-accent');
+          }
+        }
+      },
+      { rootMargin: '0px 0px -75% 0px' },
+    );
+    headings.forEach((h) => observer.observe(h));
+  }
+
+  buildToc();
+  document.addEventListener('astro:page-load', buildToc);
+</script>

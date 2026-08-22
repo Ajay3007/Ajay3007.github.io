@@ -276,7 +276,6 @@ url: /learning/data-plane/vpp/module-hoststack/
 .seq-msg { font-size: .82rem; color: var(--text-color, #333); }
 .seq-note { font-size: .75rem; color: var(--light-text, #888); font-style: italic; }
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · HOST STACK · BONUS MODULE</div>
@@ -290,7 +289,6 @@ url: /learning/data-plane/vpp/module-hoststack/
     <span class="mod-pill">200K CPS · 8 Gbps/core</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">What &amp; Why</button>
@@ -305,12 +303,9 @@ url: /learning/data-plane/vpp/module-hoststack/
   <button class="tab-btn" onclick="vt(event,'t9')">Multi-threading</button>
   <button class="tab-btn" onclick="vt(event,'ta')">Checklist</button>
 </div>
-
-
 <!-- ════════════ TAB 0 - WHAT & WHY ════════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THE PROBLEM IT SOLVES</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Why Traditional Networking is Slow for High-Performance Apps</h3><span class="tag tag-blue">MOTIVATION</span></div>
   <div class="cp-body">
@@ -324,7 +319,6 @@ url: /learning/data-plane/vpp/module-hoststack/
     <p>VPP's host stack eliminates all of this. The <strong>entire TCP/IP stack runs inside VPP's userspace process</strong>. Applications communicate with it via shared memory FIFOs - no syscalls, no copies, no kernel crossing on the data path.</p>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-red" style="margin:0">
     <div class="cp-hdr"><span class="ico">🐢</span><h3>Traditional Model</h3><span class="tag tag-red">SLOW PATH</span></div>
@@ -343,7 +337,6 @@ url: /learning/data-plane/vpp/module-hoststack/
     </div>
   </div>
 </div>
-
 <div class="perf-grid">
   <div class="perf-card">
     <div class="perf-num" style="color:#1a7a6e">200K</div>
@@ -366,94 +359,72 @@ url: /learning/data-plane/vpp/module-hoststack/
     <div class="perf-sub">pure shared memory</div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ════════════ TAB 1 - KEY TERMS ════════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">BEGINNER VOCABULARY - KNOW THESE BEFORE GOING DEEPER</p>
-
 <div class="term-grid">
-
   <div class="term-row">
     <span class="term-name">userspace TCP stack</span>
     <span class="term-def">Normally TCP/IP lives inside the Linux kernel. A "userspace stack" means VPP implements its own complete TCP state machine as a regular process - no kernel involvement in packet processing. Your application doesn't use kernel sockets at all.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">shared memory</span>
     <span class="term-def">Two processes map the same physical RAM pages into their own virtual address spaces. Process A writes bytes at address 0x7f000000; Process B reads those same bytes at whatever address it mapped them to. Zero copies, zero kernel involvement - just memory reads and writes.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">SVM</span>
     <span class="term-def">Shared Virtual Memory. VPP's allocator for shared memory regions. An SVM segment is a named, fixed-size chunk of shared memory. Multiple SVM segments can exist simultaneously - one per application namespace, or one per application. Source: <code>src/svm/</code></span>
   </div>
-
   <div class="term-row">
     <span class="term-name">FIFO</span>
     <span class="term-def">First In First Out. A ring buffer - bytes written at the head are read from the tail in order. In VPP host stack, every TCP session has two FIFOs allocated inside a shared memory segment: one for data flowing VPP→App (RX FIFO) and one for App→VPP (TX FIFO).</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">lock-free</span>
     <span class="term-def">The FIFO can be written and read simultaneously by two threads (VPP worker and app) without mutex locks. This works because each FIFO has exactly one writer and one reader - SPSC (single producer single consumer). Atomic operations on head/tail pointers ensure consistency without blocking.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">Binary API</span>
     <span class="term-def">VPP's control-plane message protocol. Structured binary messages sent over a Unix socket or shared memory queue. Used for control operations: create a session, bind a port, connect, set options. NOT used for packet data - that goes through SVM FIFOs. Like the difference between a REST API (control) and a database file (data).</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">session (vs connection)</span>
     <span class="term-def">VPP uses "session" as the generic term for an endpoint-to-endpoint communication channel, regardless of transport protocol (TCP, UDP, TLS, QUIC). A TCP session wraps a TCP connection. The session layer manages all sessions uniformly; the transport layer (TCP) handles the specific protocol.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">5-tuple</span>
     <span class="term-def">The 5 fields that uniquely identify a TCP/UDP flow: source IP, source port, destination IP, destination port, protocol. VPP's session lookup table maps 5-tuple → session object in O(1) using a bihash. Every arriving packet is looked up by its 5-tuple to find the right session and FIFO.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">VCL</span>
     <span class="term-def">VPP Communications Library. A C library that applications link against. It provides POSIX-socket-like functions (vcl_connect, vcl_read, vcl_write, vcl_epoll_wait) that talk to VPP's session layer via Binary API and SVM FIFOs instead of calling into the kernel.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">LD_PRELOAD</span>
     <span class="term-def">A Linux environment variable that forces the dynamic linker to load a specified shared library before all others. VCL provides an LD_PRELOAD library (<code>libvcl_ldpreload.so</code>) that intercepts standard POSIX socket calls (connect, send, recv, epoll_wait) and redirects them to VPP - without modifying or recompiling the application. nginx can use VPP's stack with just <code>LD_PRELOAD=libvcl_ldpreload.so nginx</code>.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">namespace</span>
     <span class="term-def">VPP session namespaces isolate network resources between applications. Each namespace has its own local session lookup table and can be associated with a specific VRF (routing table). App A in namespace 1 cannot see App B's sessions in namespace 2, even though they share the same VPP instance. Think of it like Linux network namespaces, but inside VPP.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">cut-through (redirect)</span>
     <span class="term-def">When a server application advertises itself as a cut-through target, VPP can redirect a new client connection directly to the server's shared memory segment - bypassing TCP entirely for the data path. The client writes to what it thinks is a TCP socket; the bytes appear directly in the server's RX FIFO. Throughput is limited only by memory bandwidth (~120 Gbps).</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">NewReno</span>
     <span class="term-def">A TCP congestion control algorithm. When packet loss is detected, NewReno reduces the sending window size and slowly increases it again. VPP implements NewReno as its baseline congestion control, plus SACK-based fast recovery. You don't need to tune this for most use cases, but knowing it exists matters for latency-sensitive workloads.</span>
   </div>
-
   <div class="term-row">
     <span class="term-name">SACK</span>
     <span class="term-def">Selective Acknowledgement. A TCP extension where the receiver tells the sender exactly which segments it has received (not just the highest in-order byte). This allows the sender to retransmit only the missing segments rather than everything after a loss. VPP's TCP implementation supports SACK for efficient loss recovery.</span>
   </div>
-
 </div>
 </div>
-
-
 <!-- ════════════ TAB 2 - ARCHITECTURE ════════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">FULL STACK ARCHITECTURE</p>
-
 <div class="arch-stack">
   <div class="arch-layer al-app">
     <div class="arch-layer-name">Application</div>
@@ -488,11 +459,9 @@ url: /learning/data-plane/vpp/module-hoststack/
     <div class="arch-layer-sub">Physical NIC · hugepages · zero-copy mbuf RX/TX</div>
   </div>
 </div>
-
 <div class="ins">
   <p>💡 <strong>Key insight - two independent paths:</strong> The Binary API (control plane) and the SVM FIFOs (data plane) are completely separate. The Binary API is used only for setup: creating sessions, binding ports, setting options - think of it like the control socket. The SVM FIFOs are the actual data highway - once a session is established, the app and VPP only talk through shared memory reads/writes. No Binary API messages on the hot path.</p>
 </div>
-
 <p class="sep">SOURCE DIRECTORY MAP</p>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📁</span><h3>Where the Code Lives</h3><span class="tag tag-blue">SOURCE</span></div>
@@ -506,12 +475,9 @@ url: /learning/data-plane/vpp/module-hoststack/
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 3 - SESSION LAYER ════════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">SESSION LAYER - src/vnet/session/</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗂️</span><h3>What the Session Layer Manages</h3><span class="tag tag-blue">OVERVIEW</span></div>
   <div class="cp-body">
@@ -526,13 +492,10 @@ url: /learning/data-plane/vpp/module-hoststack/
     </ul>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Session Lookup Tables - Two-Table Design</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
-
 <div class="cb"><pre><span class="cm">/* Two lookup tables - different key spaces */</span>
- 
 <span class="cm">/* Global session table: ingress packet → active session */</span>
 <span class="cm">/* Key: full 5-tuple (src_ip, src_port, dst_ip, dst_port, proto) */</span>
 <span class="cm">/* Value: session index */</span>
@@ -553,7 +516,6 @@ session_t *s = session_lookup_connection_wt4(fib_index,
  
 <span class="cm">/* Both tables are backed by bihash_48_8 */</span>
 <span class="cm">/* 48-byte key: 4+4 byte IPs + 2+2 ports + 1 proto + padding */</span></pre></div>
-
     <p>The two-table design also supports <strong>session rules</strong> - filter rules attached to either table:</p>
     <ul>
       <li><strong>Local table rules</strong> - namespace-specific, used for egress filtering (which apps can connect out)</li>
@@ -561,7 +523,6 @@ session_t *s = session_lookup_connection_wt4(fib_index,
     </ul>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Transport Protocol Plugin Interface</h3><span class="tag tag-orange">EXTENSIBILITY</span></div>
   <div class="cp-body">
@@ -588,17 +549,13 @@ transport_register_protocol(TRANSPORT_PROTO_TCP, &tcp_proto, FIB_PROTOCOL_IP6, ~
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 4 - SVM FIFOs ════════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">SVM FIFOs - src/svm/svm_fifo.c</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>What a FIFO Looks Like in Memory</h3><span class="tag tag-teal">INTERNALS</span></div>
   <div class="cp-body">
     <p>An SVM FIFO is a ring buffer allocated inside a shared memory segment. Two processes - VPP's dataplane worker and the application - access it simultaneously, with no locks. Safety comes from the SPSC (Single Producer Single Consumer) guarantee: exactly one writer advances the head, exactly one reader advances the tail.</p>
-
     <!-- VISUAL FIFO DIAGRAM -->
     <div class="fifo-wrap">
       <div class="fifo-hdr">RX FIFO - session 42 - 64 KB - VPP writes (head) · App reads (tail)</div>
@@ -619,7 +576,6 @@ transport_register_protocol(TRANSPORT_PROTO_TCP, &tcp_proto, FIB_PROTOCOL_IP6, ~
         <div class="fifo-legend-item"><div class="fifo-legend-dot" style="outline:2.5px solid #c05e1b;background:transparent"></div> Tail (App reads from here)</div>
       </div>
     </div>
-
 <div class="cb"><pre><span class="ck">typedef struct</span> svm_fifo {
     CLIB_CACHE_LINE_ALIGN_MARK(cacheline0);
     <span class="ck">atomic_u32</span> head;          <span class="cm">/* consumer (app) advances this */</span>
@@ -631,7 +587,6 @@ transport_register_protocol(TRANSPORT_PROTO_TCP, &tcp_proto, FIB_PROTOCOL_IP6, ~
     <span class="ck">u8</span>   master_thread_index; <span class="cm">/* worker thread that manages it */</span>
     svm_fifo_chunk_t *ooo_enqueues; <span class="cm">/* out-of-order data list */</span>
 } svm_fifo_t;</pre></div>
-
     <p><strong>Important design properties:</strong></p>
     <ul>
       <li><strong>Fixed position in shared memory:</strong> Once allocated, a FIFO never moves. The app holds a pointer to it from the moment the session is established.</li>
@@ -641,12 +596,10 @@ transport_register_protocol(TRANSPORT_PROTO_TCP, &tcp_proto, FIB_PROTOCOL_IP6, ~
     </ul>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📦</span><h3>SVM Segment - The Shared Memory Container</h3><span class="tag tag-purple">MEMORY MODEL</span></div>
   <div class="cp-body">
     <p>FIFOs are allocated inside an <strong>SVM segment</strong> - a named, fixed-size region of shared memory created with <code>shm_open</code> + <code>mmap</code>. The segment is created by VPP and mapped into both the VPP process and the application process at session establishment time.</p>
-
 <div class="cb"><pre><span class="cm">/* Segment creation (VPP side, triggered by app attach) */</span>
 fifo_segment_create_args_t a = {
     .segment_name = <span class="cs">"app-42-segment"</span>,
@@ -657,30 +610,24 @@ fifo_segment_create(sm, &a);
  
 <span class="cm">/* App maps the segment (VCL side) */</span>
 ssvm_slave_init_shm(sh);  <span class="cm">/* mmap's the segment into the app's VA space */</span>
- 
 <span class="cm">/* After mmap: both sides hold pointers to the same physical pages */</span>
 svm_fifo_t *rx_fifo = session->rx_fifo;   <span class="cm">/* VPP's pointer */</span>
 svm_fifo_t *rx_fifo = vcl_session->rx_fifo; <span class="cm">/* App's pointer - same memory */</span>
- 
 <span class="cm">/* Write (VPP, on packet receive): */</span>
 svm_fifo_enqueue(s->rx_fifo, b->current_length,
                  vlib_buffer_get_current(b));
  
 <span class="cm">/* Read (app, via VCL): */</span>
 n = svm_fifo_dequeue(vcl_s->rx_fifo, buf_len, buf);</pre></div>
-
     <div class="warn">
       <p>⚠️ <strong>Segment size tuning:</strong> The segment is allocated at app attach time and its size is fixed. If your app's sessions have large buffers (e.g., 1 MB RX FIFO per connection) and you have many concurrent connections, segment exhaustion is a common issue. Tune via: <code>session { evt-q-length 64  segment-size 256m  add-segment-size 128m }</code> in startup.conf.</p>
     </div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 5 - TCP ════════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">VPP TCP - src/vnet/tcp/</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Clean-Slate TCP Implementation</h3><span class="tag tag-teal">OVERVIEW</span></div>
   <div class="cp-body">
@@ -698,12 +645,10 @@ n = svm_fifo_dequeue(vcl_s->rx_fifo, buf_len, buf);</pre></div>
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>TCP in the VPP Graph - Node Chain</h3><span class="tag tag-blue">GRAPH NODES</span></div>
   <div class="cp-body">
     <p>TCP processing is decomposed into graph nodes like everything else in VPP. The RX and TX paths are separate node chains:</p>
-
 <div class="cb"><pre><span class="cm">/* RX path (incoming segment) */</span>
 dpdk-input
   → ethernet-input
@@ -715,17 +660,14 @@ dpdk-input
             → tcp4-syn-sent    <span class="cm">/* SYN_SENT state: process SYN-ACK */</span>
             → tcp4-rcv-process <span class="cm">/* other states: FIN, RST processing */</span>
               → session-queue  <span class="cm">/* notify app: data available on rx_fifo */</span>
- 
 <span class="cm">/* TX path (app writes to tx_fifo) */</span>
 session-queue                  <span class="cm">/* reads from tx_fifo */</span>
   → tcp4-output                <span class="cm">/* build TCP segment, set headers */</span>
     → ip4-rewrite              <span class="cm">/* L3 rewrite */</span>
       → dpdk-output</pre></div>
-
     <p>The <strong>session-queue</strong> node is the bridge between the session layer and the graph. On the RX side it notifies the application of new data. On the TX side it reads from the TX FIFO and passes data to TCP for segmentation and transmission.</p>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>TCP Timers - Timer Wheel Integration</h3><span class="tag tag-orange">INTERNALS</span></div>
   <div class="cp-body">
@@ -745,7 +687,6 @@ session-queue                  <span class="cm">/* reads from tx_fifo */</span>
 tcp_timer_set(tc, TCP_TIMER_RETRANSMIT,
               clib_max(tc->rto * TCP_TO_TIMER_TICK, 1));
 <span class="cm">/* tc->rto is in ms; TCP_TO_TIMER_TICK converts to wheel ticks */</span>
- 
 <span class="cm">/* Timer callback (fires on expiry) */</span>
 <span class="ck">static void</span> tcp_timer_retransmit_handler(u32 conn_index) {
     tcp_connection_t *tc = tcp_connection_get(conn_index, vlib_get_thread_index());
@@ -756,12 +697,9 @@ tcp_timer_set(tc, TCP_TIMER_RETRANSMIT,
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 6 - VCL ════════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">VCL - VPP COMMUNICATIONS LIBRARY - src/vcl/</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>What VCL Is and Why It Exists</h3><span class="tag tag-purple">OVERVIEW</span></div>
   <div class="cp-body">
@@ -773,11 +711,9 @@ tcp_timer_set(tc, TCP_TIMER_RETRANSMIT,
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Native VCL API Reference</h3><span class="tag tag-blue">API</span></div>
   <div class="cp-body">
-
 <table class="t-table">
   <thead><tr><th>VCL Function</th><th>POSIX Equivalent</th><th>Notes</th></tr></thead>
   <tbody>
@@ -795,7 +731,6 @@ tcp_timer_set(tc, TCP_TIMER_RETRANSMIT,
     <tr><td><code>vppcom_session_close()</code></td><td><code>close()</code></td><td>Close session; sends TCP FIN if established.</td></tr>
   </tbody>
 </table>
-
 <div class="cb"><pre><span class="cm">/* Minimal VCL server skeleton */</span>
 vppcom_app_create(<span class="cs">"my-server"</span>);
  
@@ -806,7 +741,6 @@ vppcom_session_listen(ls, 10);
 <span class="ck">while</span> (1) {
     <span class="ck">int</span> cs = vppcom_session_accept(ls, &client_ep, 0);
     <span class="cm">/* cs is the connected session handle */</span>
- 
     <span class="ck">char</span> buf[4096];
     <span class="ck">int</span> n = vppcom_session_read(cs, buf, <span class="ck">sizeof</span>(buf));
     <span class="cm">/* buf now contains TCP payload - read directly from RX FIFO */</span>
@@ -816,12 +750,10 @@ vppcom_session_listen(ls, 10);
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🎭</span><h3>LD_PRELOAD - Zero-Code-Change Integration</h3><span class="tag tag-orange">LD_PRELOAD</span></div>
   <div class="cp-body">
     <p>The LD_PRELOAD library (<code>src/vcl/ldp.c</code>) wraps every relevant POSIX socket function. When the dynamic linker loads a program, it loads this library first, so calls to <code>connect()</code>, <code>send()</code>, <code>recv()</code> etc. hit the VCL wrapper, not libc.</p>
-
 <div class="cb"><pre><span class="cm"># Run nginx against VPP's stack - no code changes to nginx</span>
 export VCL_CONFIG=/etc/vpp/vcl.conf
 LD_PRELOAD=/usr/lib/libvcl_ldpreload.so nginx -g "daemon off;"
@@ -831,7 +763,6 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -s -p 5201
  
 <span class="cm"># Run iperf3 as client, connecting to a VPP host-stack server</span>
 LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></div>
-
 <div class="cb"><pre><span class="cm">/* How the interception works (ldp.c) */</span>
 <span class="cm">/* The shim re-defines connect() with the same signature as libc */</span>
 <span class="ck">int</span> connect(<span class="ck">int</span> fd, <span class="ck">const struct</span> sockaddr *addr, socklen_t len) {
@@ -845,19 +776,15 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
         <span class="ck">return</span> libc_connect(fd, addr, len);
     }
 }</pre></div>
-
     <div class="ins">
       <p>💡 <strong>Hybrid mode:</strong> LD_PRELOAD supports a hybrid model - sockets created for non-network purposes (local Unix sockets, pipes, files) continue to use the kernel. Only sockets on the configured IP address/port ranges are redirected to VPP. This allows apps that mix network I/O and file I/O to work without modification.</p>
     </div>
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 7 - CONNECTION FLOW ════════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">STEP-BY-STEP: SESSION ESTABLISHMENT &amp; DATA TRANSFER</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Phase 1 - App Attachment</h3><span class="tag tag-blue">SETUP</span></div>
   <div class="cp-body">
@@ -880,11 +807,9 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📞</span><h3>Phase 2 - Session Establishment (TCP Handshake)</h3><span class="tag tag-teal">CONNECT</span></div>
   <div class="cp-body">
-
     <div class="seq-wrap">
     <table class="seq-table">
       <thead><tr><th>Server App</th><th>VPP (server side)</th><th>Network</th><th>VPP (client side)</th><th>Client App</th></tr></thead>
@@ -903,15 +828,12 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
       </tbody>
     </table>
     </div>
-
     <p>Key point: the TCP handshake (SYN/SYN-ACK/ACK) is handled entirely inside VPP's graph nodes. The <strong>application is not involved</strong> until the handshake completes. Only then does VPP allocate the FIFOs and notify the app via an event message on the Binary API channel.</p>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Phase 3 - Data Transfer</h3><span class="tag tag-green">DATA PATH</span></div>
   <div class="cp-body">
-
     <div class="flow-list">
       <div class="flow-step" data-n="1" style="--step-color:#1e6b3c">
         <div class="flow-step-body">
@@ -952,12 +874,9 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 8 - CUT-THROUGH ════════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">CUT-THROUGH (REDIRECTED) CONNECTIONS</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>What is a Cut-Through Connection?</h3><span class="tag tag-orange">CONCEPT</span></div>
   <div class="cp-body">
@@ -972,7 +891,6 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
     <p>The throughput ceiling is no longer CPU or NIC speed - it is <strong>memory bandwidth</strong> (typically 80–150 GB/s on modern systems), which gives the ~120 Gbps figure quoted in the presentation.</p>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue" style="margin:0">
     <div class="cp-hdr"><span class="ico">🔵</span><h3>Normal TCP Session</h3><span class="tag tag-blue">COMPARISON</span></div>
@@ -991,38 +909,29 @@ LD_PRELOAD=/usr/lib/libvcl_ldpreload.so iperf3 -c 10.0.0.1 -p 5201 -t 10</pre></
     </div>
   </div>
 </div>
-
 <div class="ins" style="margin-top:1rem">
   <p>💡 <strong>When is cut-through useful?</strong> Any time two services on the same host need to pass large volumes of data between each other: a proxy and an origin server, a load balancer and an application, two stages of a data processing pipeline. In container/pod deployments where both ends run on the same physical node, cut-through gives you essentially in-process performance over a network-like API.</p>
 </div>
 </div>
-
-
 <!-- ════════════ TAB 9 - MULTI-THREADING ════════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">MULTI-THREADING MODEL</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧵</span><h3>Session Layer with Multiple Worker Threads</h3><span class="tag tag-teal">THREADING</span></div>
   <div class="cp-body">
     <p>VPP's session layer follows the same per-worker model as the rest of VPP. Each worker thread owns a set of sessions - the sessions whose TCP connections are RSS-hashed to that worker's NIC RX queue. A session's FIFOs are only accessed by its owning worker on the VPP side, and by the application on the app side.</p>
-
 <div class="cb"><pre><span class="cm">/* Session ownership - pinned to worker by RSS hash */</span>
 <span class="cm">/* Worker 0 owns sessions hashed to NIC queue 0 */</span>
 <span class="cm">/* Worker 1 owns sessions hashed to NIC queue 1 */</span>
 <span class="cm">/* etc. */</span>
- 
 <span class="cm">/* Per-thread session pools */</span>
 session_t **sessions_by_thread;    <span class="cm">/* sessions_by_thread[thread_idx] = pool */</span>
 tcp_connection_t **connections;    <span class="cm">/* per-thread TCP connection pool */</span>
- 
 <span class="cm">/* Per-worker timer wheels - no shared state */</span>
 tw_timer_wheel_2t_1w_2048sl_t *timer_wheels; <span class="cm">/* one per worker */</span>
- 
 <span class="cm">/* App event queues - one per app per thread */</span>
 <span class="cm">/* VPP workers post RX/TX events here; app polls them */</span>
 svm_msg_q_t *app_event_queue[MAX_THREADS];</pre></div>
-
     <p><strong>The multi-app, multi-thread picture (from the slide deck):</strong></p>
     <ul>
       <li><strong>Core 0:</strong> App1 process + VPP TCP/IP/Session for App1's sessions</li>
@@ -1032,12 +941,10 @@ svm_msg_q_t *app_event_queue[MAX_THREADS];</pre></div>
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📬</span><h3>App Event Queue - Cross-Boundary Notification</h3><span class="tag tag-blue">EVENTS</span></div>
   <div class="cp-body">
     <p>The app event queue (also in shared memory) is the notification channel from VPP workers to the application. It is an <strong>MPSC queue</strong> (multiple VPP workers can post, one app reads) - so it requires atomic operations, unlike the SPSC FIFOs.</p>
-
 <div class="cb"><pre><span class="ck">typedef struct</span> {
     <span class="ck">u32</span>  session_index;
     <span class="ck">u8</span>   event_type;   <span class="cm">/* SESSION_IO_EVT_RX / TX / CLOSE / etc. */</span>
@@ -1063,12 +970,9 @@ svm_msg_q_add(app->event_queue, &evt, SVM_Q_NOWAIT);
   </div>
 </div>
 </div>
-
-
 <!-- ════════════ TAB A - CHECKLIST ════════════ -->
 <div id="ta" class="tab-pane">
 <p class="sep">HOST STACK MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain why userspace TCP outperforms kernel TCP for high-connection-count workloads</li>
   <li>Know the two planes: Binary API (control) vs SVM FIFO (data) - and which is used on the hot path</li>
@@ -1089,20 +993,16 @@ svm_msg_q_add(app->event_queue, &evt, SVM_Q_NOWAIT);
   <li>Know startup.conf session stanza: segment-size, evt-q-length, add-segment-size</li>
   <li>Know key source directories: src/vnet/session, src/vnet/tcp, src/svm, src/vcl</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem;">
   <p>✅ Host Stack module complete. Suggested next steps: run VCL iperf3 against a VPP instance (<code>LD_PRELOAD=libvcl_ldpreload.so iperf3</code>), inspect <code>show session verbose</code> and <code>show tcp statistics</code> while traffic is flowing, then explore <code>src/vnet/tcp/tcp_input.c</code> to trace a SYN through the state machine.</p>
 </div>
 </div>
-
-
 <!-- MODULE NAV -->
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p5-controlplane/">← Control Plane</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/data-plane/vpp/">↑ VPP Hub</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

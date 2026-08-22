@@ -23,7 +23,6 @@ Scale systems to millions of users — networking, databases, caching, message q
 ## Phase B-I — Foundations (Weeks 11–15)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B1 · Week 11</span>
@@ -36,7 +35,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b1-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B2 · Week 12</span>
@@ -49,7 +47,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b2-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B3 · Week 13</span>
@@ -62,7 +59,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b3-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B4 · Week 14</span>
@@ -75,7 +71,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b4-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B5 · Week 15</span>
@@ -84,7 +79,6 @@ Scale systems to millions of users — networking, databases, caching, message q
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Coming Soon</h3>
     <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Next HLD module — to be announced.</p>
   </div>
-
 </div>
 
 ---
@@ -92,7 +86,6 @@ Scale systems to millions of users — networking, databases, caching, message q
 ## Phase B-II — System Designs at Scale (Weeks 16–20)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B6 · Week 16</span>
@@ -105,7 +98,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b6-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B7 · Week 17</span>
@@ -118,7 +110,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b7-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B8 · Week 18</span>
@@ -131,7 +122,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b8-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B9 · Week 19</span>
@@ -144,7 +134,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b9-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B10 · Week 20</span>
@@ -157,7 +146,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b10-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
 </div>
 
 ---
@@ -165,7 +153,6 @@ Scale systems to millions of users — networking, databases, caching, message q
 ## Phase B-III — Advanced & Distributed Topics (Weeks 21–24)
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.1rem;margin:1.5rem 0 2rem;">
-
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B11 · Week 21</span>
@@ -174,7 +161,6 @@ Scale systems to millions of users — networking, databases, caching, message q
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Storage Systems</h3>
     <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Object storage (S3), blob storage, HDFS, time-series DBs, search engines (Elasticsearch), columnar analytics (BigQuery, Redshift).</p>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;opacity:0.75;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B12 · Week 22</span>
@@ -183,7 +169,6 @@ Scale systems to millions of users — networking, databases, caching, message q
     <h3 style="margin:0 0 0.4rem;color:var(--text-color);">Special Topics</h3>
     <p style="margin:0;font-size:0.88rem;color:var(--light-text);">Full-text search, notification systems (push/pull), geospatial systems, unique ID generation (UUID, Snowflake), top-K / trending.</p>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B13 · Week 23</span>
@@ -196,7 +181,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <a href="/learning/system-design/hld/module-b13-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <div class="project-card" style="border-left:4px solid #00d4aa;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
       <span style="font-size:0.78rem;font-weight:700;color:#00d4aa;text-transform:uppercase;letter-spacing:0.05em;">B14 · Week 24</span>
@@ -209,7 +193,6 @@ Scale systems to millions of users — networking, databases, caching, message q
       <span style="font-size:0.8rem;color:var(--dim);font-weight:600;">📝 Notes soon</span>
     </div>
   </div>
-
 </div>
 
 ---

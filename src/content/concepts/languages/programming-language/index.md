@@ -57,7 +57,6 @@ Explore the basics to advanced concepts of various programming languages. Find l
 		<div style="color:#607d8b; font-size:0.98rem;">Safe, fast, systems</div>
 	</div>
 </div>
-
 <div style="margin-top:2.5rem;">
 <strong>Each language section includes:</strong>
 <ul>

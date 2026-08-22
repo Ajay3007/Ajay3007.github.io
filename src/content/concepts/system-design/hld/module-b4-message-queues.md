@@ -10,7 +10,6 @@ url: /learning/system-design/hld/module-b4-message-queues/
 ---
 
 <link rel="stylesheet" href="/assets/css/sd-module-b4.css">
-
 <div class="mb4-page">
   <header class="mb4-header">
     <div class="mb4-hdr-top">
@@ -40,7 +39,6 @@ url: /learning/system-design/hld/module-b4-message-queues/
       <div class="mb4-tp" style="color:var(--grn)">Config</div>
     </div>
   </header>
-
   <nav class="mb4-nav">
     <div class="mb4-nt active" onclick="mb4Show('why',this)">Why MQ</div>
     <div class="mb4-nt" onclick="mb4Show('kafka',this)">Kafka Arch</div>
@@ -51,9 +49,7 @@ url: /learning/system-design/hld/module-b4-message-queues/
     <div class="mb4-nt" onclick="mb4Show('tasks',this)">Tasks</div>
     <div class="mb4-nt" onclick="mb4Show('checklist',this)">Checklist</div>
   </nav>
-
   <div class="mb4-content">
-    
     <!-- WHY -->
     <div class="mb4-view active" id="view-why">
       <div class="mb4-sh">Why Message Queues?</div>
@@ -63,17 +59,14 @@ url: /learning/system-design/hld/module-b4-message-queues/
 [Order Service] <span class="mb4-er">──sync──→</span> [Inventory Service]  <span class="mb4-cm">// What if inventory is down?</span>
 [Order Service] <span class="mb4-er">──sync──→</span> [Email Service]      <span class="mb4-cm">// What if email is slow (2s)?</span>
 [Order Service] <span class="mb4-er">──sync──→</span> [Analytics Service]  <span class="mb4-cm">// User waits for all 3!</span>
- 
 <span class="mb4-cm">// WITH message queue: decoupled, resilient, fast</span>
 [Order Service] <span class="mb4-ok">──→ [Topic: order-placed] ──→</span> [Inventory]  <span class="mb4-cm">← independent</span>
                                                <span class="mb4-ok">──→</span> [Email]      <span class="mb4-cm">← independent</span>
                                                <span class="mb4-ok">──→</span> [Analytics]  <span class="mb4-cm">← independent</span>
- 
 <span class="mb4-hl">Order Service returns in &lt;1ms.</span> <span class="mb4-cm">Downstream services process asynchronously.</span>
 <span class="mb4-cm">If email is down → messages queue up → processed when it recovers.</span>
 <span class="mb4-cm">Each consumer processes at its own rate. No cascading failures.</span></pre>
       </div>
-
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;">
         <div style="background:var(--panel);border:1px solid var(--bord2);border-top:2px solid var(--mag);padding:14px">
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:900;color:var(--white);margin-bottom:6px">DECOUPLING</div>
@@ -89,12 +82,10 @@ url: /learning/system-design/hld/module-b4-message-queues/
         </div>
       </div>
     </div>
-
     <!-- KAFKA -->
     <div class="mb4-view" id="view-kafka">
       <div class="mb4-sh">Kafka Architecture</div>
       <div class="mb4-sr">Topic → Partitions → Offsets → Consumer Groups — the mental model</div>
-
       <div class="mb4-kaf-box">
         <div class="mb4-kaf-label">// TOPIC: "order-placed" — 3 PARTITIONS, REPLICATION FACTOR 3</div>
         <div class="mb4-kaf-partitions">
@@ -139,34 +130,27 @@ url: /learning/system-design/hld/module-b4-message-queues/
           </div>
         </div>
       </div>
-
       <div class="mb4-al mag"><em>The key insight:</em> Each consumer group maintains its own offset per partition. Group A being at offset 50 has zero effect on Group B at offset 12. They're completely independent readers of the same durable log.</div>
-
       <div class="mb4-sh">Replication & Durability</div>
       <div class="mb4-cb"><div class="mb4-cb-top">ISR and acks configuration<span class="mb4-cb-l">KAFKA CONFIG</span></div>
 <pre class="mb4-c"><span class="mb4-cm">// replication.factor=3 → 1 leader + 2 ISR replicas per partition</span>
 <span class="mb4-cm">// ISR = In-Sync Replicas (have replicated all leader messages)</span>
- 
 <span class="mb4-hl">acks=0:</span>  <span class="mb4-cm">Producer doesn't wait for ACK. Fastest, no durability guarantee.</span>
 <span class="mb4-hl">acks=1:</span>  <span class="mb4-cm">Leader ACKs after writing. Fast, but replica may not have it yet.</span>
 <span class="mb4-hl">acks=all:</span><span class="mb4-cm">All ISR ACKs before producer gets confirmation. Strongest guarantee.</span>
- 
 <span class="mb4-cm">// With acks=all + min.insync.replicas=2 + replication.factor=3:</span>
 <span class="mb4-cm">// → Can lose 1 broker with ZERO data loss</span>
 <span class="mb4-cm">// → Brokers 1 (leader) + Broker 2 (replica) both have message before ACK</span>
 <span class="mb4-cm">// → Broker 1 dies → Broker 2 becomes leader → no data lost</span>
- 
 <span class="mb4-cm">// Partition key routing:</span>
 <span class="mb4-fn">producer.send</span>(<span class="mb4-str">"order-placed"</span>, userId, orderEvent);
 <span class="mb4-cm">// hash(userId) % numPartitions → same userId → same partition → ordered</span></pre>
       </div>
     </div>
-
     <!-- SEMANTICS -->
     <div class="mb4-view" id="view-semantics">
       <div class="mb4-sh">Delivery Semantics</div>
       <div class="mb4-sr">What happens when things go wrong — the three guarantees</div>
-
       <div class="mb4-sem-grid">
         <div class="mb4-sem-card" style="border-top:2px solid var(--yel)">
           <div class="mb4-sc-name" style="color:var(--yel)">AT-MOST-ONCE</div>
@@ -187,7 +171,6 @@ url: /learning/system-design/hld/module-b4-message-queues/
           <div class="mb4-sc-use" style="color:var(--grn)">Use: financial transactions,<br>inventory — real harm from duplication</div>
         </div>
       </div>
-
       <div class="mb4-sh">Idempotent Consumer — Making At-Least-Once Safe</div>
       <div class="mb4-cb"><div class="mb4-cb-top">Processing the same message twice must be safe<span class="mb4-cb-l">JAVA</span></div>
 <pre class="mb4-c"><span class="mb4-kw">public void</span> <span class="mb4-fn">processPayment</span>(PaymentEvent e) {
@@ -209,15 +192,12 @@ url: /learning/system-design/hld/module-b4-message-queues/
 <span class="mb4-cm">// Key: idempotencyKey must uniquely identify the business operation</span>
 <span class="mb4-cm">// Options: UUID in message, (userId + orderId + action), event sequence number</span></pre>
       </div>
-
       <div class="mb4-al grn"><em>Interview insight:</em> Exactly-once in Kafka is real but expensive (~20% throughput cost). In practice, most teams use at-least-once + idempotent consumers. The idempotency key is the secret weapon — if processing the same event twice produces the same DB state, you've achieved the effect of exactly-once without the overhead.</div>
     </div>
-
     <!-- COMPARE -->
     <div class="mb4-view" id="view-compare">
       <div class="mb4-sh">Kafka vs RabbitMQ</div>
       <div class="mb4-sr">Not competing — different tools for different jobs</div>
-
       <table class="mb4-ct">
         <thead><tr><th>ASPECT</th><th>KAFKA</th><th>RABBITMQ</th></tr></thead>
         <tbody>
@@ -231,9 +211,7 @@ url: /learning/system-design/hld/module-b4-message-queues/
           <tr><td>Message TTL</td><td>Topic-level retention only</td><td>Per-message TTL, priority queues</td></tr>
         </tbody>
       </table>
-
       <div class="mb4-al mag"><em>Decision heuristic:</em> "Do I need replay, multiple independent consumers, or millions of events/sec?" → Kafka. "Do I need complex routing, per-message TTL, or a simple work queue?" → RabbitMQ. In practice: use Kafka for event streaming backbone, RabbitMQ for task queues with routing logic.</div>
-
       <div class="mb4-sh" style="margin-top:22px">When to Use Each — Concrete Scenarios</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0">
         <div style="background:var(--panel);border:1px solid var(--bord2);border-top:2px solid var(--mag);padding:14px">
@@ -260,12 +238,10 @@ url: /learning/system-design/hld/module-b4-message-queues/
         </div>
       </div>
     </div>
-
     <!-- PATTERNS -->
     <div class="mb4-view" id="view-patterns">
       <div class="mb4-sh">Key Kafka Patterns</div>
       <div class="mb4-sr">Fan-out · DLQ · Back-pressure · Ordering · Log compaction</div>
-
       <div class="mb4-pat-grid">
         <div class="mb4-pc" style="border-left-color:var(--mag)">
           <div class="mb4-pc-n">Fan-Out via Consumer Groups</div>
@@ -299,12 +275,10 @@ url: /learning/system-design/hld/module-b4-message-queues/
         </div>
       </div>
     </div>
-
     <!-- CONFIG -->
     <div class="mb4-view" id="view-config">
       <div class="mb4-sh">Configuration Cheatsheet</div>
       <div class="mb4-sr">Producer · Consumer · Topic — the settings that matter in interviews</div>
-
       <div class="mb4-cfg-grid">
         <div class="mb4-cfg-card">
           <div class="mb4-cfg-title">Producer</div>
@@ -337,7 +311,6 @@ url: /learning/system-design/hld/module-b4-message-queues/
           <div class="mb4-cfg-row"><span class="mb4-cfg-k">max.message.bytes</span><span class="mb4-cfg-v">1048576</span></div>
         </div>
       </div>
-
       <div class="mb4-sh" style="margin-top:22px">Scale Estimation</div>
       <div class="mb4-cb"><div class="mb4-cb-top">How many partitions do I need?<span class="mb4-cb-l">MATH</span></div>
 <pre class="mb4-c"><span class="mb4-cm">// Example: order event stream</span>
@@ -346,21 +319,17 @@ url: /learning/system-design/hld/module-b4-message-queues/
 Peak events/sec  = 1M orders/day ÷ 86,400 × 50 = <span class="mb4-mg">~580 events/sec</span>
 Event size       = <span class="mb4-or">1 KB</span>
 Peak throughput  = 580 × 1KB = <span class="mb4-mg">~0.6 MB/sec</span>
- 
 <span class="mb4-cm">// Single partition max throughput: ~100 MB/sec write</span>
 Partitions needed = 0.6 MB/sec ÷ 100 MB/sec = <span class="mb4-ok">1 partition</span> <span class="mb4-cm">(use 12 for growth headroom)</span>
- 
 <span class="mb4-cm">// Storage (7-day retention, 3 replicas):</span>
 Daily = 580 events/sec × 86,400 × 1 KB = <span class="mb4-mg">~50 GB/day</span>
 Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
- 
 <span class="mb4-cm">// General rules:</span>
 <span class="mb4-cm">//   num_partitions ≥ max_consumers_in_any_group</span>
 <span class="mb4-cm">//   num_partitions = target_throughput_MB_s ÷ throughput_per_partition_MB_s</span>
 <span class="mb4-cm">//   Start with 12–24, easier to add partitions than subtract</span></pre>
       </div>
     </div>
-
     <!-- TASKS -->
     <div class="mb4-view" id="view-tasks">
       <div class="mb4-task-list">
@@ -378,7 +347,6 @@ Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
             <p style="margin-top:8px">For each: what is the <strong>exact failure scenario</strong> if you choose wrong?</p>
           </div>
         </div>
-
         <div class="mb4-task-card">
           <div class="mb4-task-hd" onclick="mb4ToggleTask(this)"><div class="mb4-t-num">02</div><div class="mb4-t-lbl">Partition Key Design — 5 Scenarios</div><div class="mb4-t-meta">~1 hr</div><div class="mb4-t-arr">›</div></div>
           <div class="mb4-task-bd">
@@ -392,7 +360,6 @@ Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
             </ol>
           </div>
         </div>
-
         <div class="mb4-task-card">
           <div class="mb4-task-hd" onclick="mb4ToggleTask(this)"><div class="mb4-t-num">03</div><div class="mb4-t-lbl">Kafka vs RabbitMQ — 5 Decisions</div><div class="mb4-t-meta">~45 min</div><div class="mb4-t-arr">›</div></div>
           <div class="mb4-task-bd">
@@ -405,7 +372,6 @@ Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
             </ol>
           </div>
         </div>
-
         <div class="mb4-task-card" style="border-top:2px solid var(--mag)">
           <div class="mb4-task-hd" onclick="mb4ToggleTask(this)"><div class="mb4-t-num" style="color:var(--mag)">★</div><div class="mb4-t-lbl">Uber Event Streaming Architecture</div><div class="mb4-t-meta">~3 hrs · full design</div><div class="mb4-t-arr">›</div></div>
           <div class="mb4-task-bd">
@@ -423,12 +389,10 @@ Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
         </div>
       </div>
     </div>
-
     <!-- CHECKLIST -->
     <div class="mb4-view" id="view-checklist">
       <div class="mb4-prog-row"><span id="prog-lbl">0 / 15 completed</span><span style="font-family:'IBM Plex Mono',monospace">MODULE B4 · MESSAGE QUEUES</span></div>
       <div class="mb4-prog-track"><div class="mb4-prog-fill" id="prog-fill"></div></div>
-
       <div class="mb4-chk-grid">
         <div class="mb4-chk" onclick="mb4Tick(this)"><div class="mb4-chk-box"></div><div class="mb4-chk-lbl">3 messaging models: queue, pub-sub, event stream — and when to use each</div></div>
         <div class="mb4-chk" onclick="mb4Tick(this)"><div class="mb4-chk-box"></div><div class="mb4-chk-lbl">Kafka: topic → partition → offset → consumer group mental model</div></div>
@@ -446,7 +410,6 @@ Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
         <div class="mb4-chk" onclick="mb4Tick(this)"><div class="mb4-chk-box"></div><div class="mb4-chk-lbl">✏️ Tasks 1–3: semantics, partition keys, Kafka vs Rabbit decisions</div></div>
         <div class="mb4-chk" onclick="mb4Tick(this)"><div class="mb4-chk-box"></div><div class="mb4-chk-lbl">✏️ Capstone: Uber streaming architecture — full Kafka design with estimates</div></div>
       </div>
-
       <div style="margin-top:28px;background:var(--panel);border:1px solid var(--bord2);padding:22px;border-top:2px solid var(--mag)">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:2px;margin-bottom:8px">// NEXT MODULE</div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;color:var(--white);margin-bottom:6px">B5 — URL SHORTENER</div>
@@ -457,9 +420,7 @@ Total = 50 GB × 7 days × 3 replicas   = <span class="mb4-mg">~1.05 TB</span>
         </div>
       </div>
     </div>
-
   </div>
-  
   <div class="mb4-bottom-nav">
     <a href="/learning/system-design/hld/module-b3-caching/" class="mb4-nav-footer-btn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>

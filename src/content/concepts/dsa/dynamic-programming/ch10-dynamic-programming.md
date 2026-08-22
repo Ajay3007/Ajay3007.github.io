@@ -30,17 +30,14 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
     </div>
   </div>
 </div>
-
 <!-- ========================================== -->
 <!-- LAYOUT WRAPPER                             -->
 <!-- ========================================== -->
 <div class="chapter-content">
-
     <!-- SECTION 1 -->
     <section id="section-1" class="chapter-section">
       <h2> 1 — What Is Dynamic Programming?</h2>
       <p><strong>Dynamic Programming (DP)</strong> solves problems by breaking them into overlapping subproblems and storing the results of each subproblem to avoid redundant computation. It is applicable when a problem has <strong>optimal substructure</strong> (an optimal solution is built from optimal sub-solutions) and <strong>overlapping subproblems</strong> (the same subproblem is solved multiple times in naive recursion).</p>
-      
       <div class="insight-box">
         <h4>Two Implementation Styles</h4>
         <ul>
@@ -50,7 +47,6 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
           <li><strong>Space optimisation:</strong> many DP problems only need the previous row/value, allowing O(n²) space to reduce to O(n) or O(1).</li>
         </ul>
       </div>
-
       <h3>1.1 — The Four-Step DP Framework</h3>
       <ol>
         <li><strong>STEP 1 — DEFINE THE STATE:</strong> What does <code>dp[i]</code> (or <code>dp[i][j]</code>) represent? Be precise. Write it in plain English first.</li>
@@ -58,7 +54,6 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
         <li><strong>STEP 3 — IDENTIFY BASE CASES:</strong> What are the smallest subproblems with known answers? Fill these first to avoid out-of-bounds access.</li>
         <li><strong>STEP 4 — DETERMINE FILL ORDER:</strong> Which order guarantees that when computing <code>dp[i]</code>, all required <code>dp[j &lt; i]</code> are already filled? (Usually left-to-right for 1D, top-left to bottom-right for 2D.)</li>
       </ol>
-
       <h3>1.2 — DP vs Greedy vs Backtracking</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -111,11 +106,9 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
         </table>
       </div>
     </section>
-
     <!-- SECTION 2 -->
     <section id="section-2" class="chapter-section">
       <h2> 2 — Visual Diagrams: DP in Action</h2>
-
       <h3>Diagram 1 — Fibonacci: Naive vs Memoised</h3>
       <div class="ch-code-wrap">
 <pre><code>Fibonacci: Why Memoisation Eliminates Redundancy
@@ -141,7 +134,6 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
  
   Each subproblem solved ONCE. Total: O(n) time, O(n) space.</code></pre>
       </div>
-
       <h3>Diagram 2 — Coin Change DP Table</h3>
       <div class="ch-code-wrap">
 <pre><code>Coin Change: Full DP Table Trace
@@ -171,7 +163,6 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
  
   Answer: dp[11] = 2  (coins 5+6 or coins 2+9).  Correct!</code></pre>
       </div>
-
       <h3>Diagram 3 — LCS DP Table</h3>
       <div class="ch-code-wrap">
 <pre><code>LCS: DP Table Fill and Traceback
@@ -198,7 +189,6 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
   A==A (match): go diagonal to dp[0][0]=0. Track 'A'.
   LCS = 'ACE' (reversed tracking).  Length 3.  Correct!</code></pre>
       </div>
-
       <h3>Diagram 4 — 0/1 Knapsack DP Table</h3>
       <div class="ch-code-wrap">
 <pre><code>0/1 Knapsack: DP Table Fill
@@ -219,7 +209,6 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
                        dp[i-1][w - items[i-1].w] + items[i-1].v)  // include</code></pre>
       </div>
     </section>
-
     <!-- SECTION 3 -->
     <section id="section-3" class="chapter-section">
       <h2> 3 — Real-World Use Cases</h2>
@@ -282,14 +271,12 @@ url: /learning/dsa/dynamic-programming/ch10-dynamic-programming/
         </table>
       </div>
     </section>
-
     <!-- SECTION 4 -->
     <section id="section-4" class="chapter-section">
       <h2> 4 — Core Concepts: DP Patterns</h2>
-
       <h3>4.1 — 1D DP: Climbing Stairs / Fibonacci</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Climbing Stairs (LC 70) — number of ways to reach step n
 // dp[i] = ways to reach step i = dp[i-1] + dp[i-2]
 // Time: O(n)  Space: O(1) after optimisation
@@ -306,12 +293,11 @@ int climbStairs(int n) {
 // Space optimised: only keep the last two values (rolling variables).
 // General pattern: whenever dp[i] depends only on dp[i-1] and dp[i-2],
 // you can reduce O(n) space to O(1).
-{% endhighlight %}
+```
 </div>
-
       <h3>4.2 — 1D DP: Coin Change</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 322 — Coin Change
 // Minimum number of coins to make amount. Unlimited supply per denomination.
 // Time: O(amount * n)  Space: O(amount)
@@ -328,12 +314,11 @@ int coinChange(vector<int>& coins, int amount) {
 }
 // Why amount+1 as INF? Any valid answer is <= amount (using all 1-coins).
 // If dp[amount] > amount after filling, no solution exists.
-{% endhighlight %}
+```
 </div>
-
       <h3>4.3 — 1D DP: Longest Increasing Subsequence (LIS)</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 300 — Longest Increasing Subsequence
 // Time: O(n^2)  Space: O(n)   [O(n log n) with patience sorting]
 int lengthOfLIS(vector<int>& nums) {
@@ -360,12 +345,11 @@ int lengthOfLIS_nlogn(vector<int>& nums) {
     }
     return (int)tails.size();
 }
-{% endhighlight %}
+```
 </div>
-
       <h3>4.4 — 2D DP: Longest Common Subsequence</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 1143 — Longest Common Subsequence
 // Time: O(m*n)  Space: O(m*n) -> O(n) with rolling array
 int longestCommonSubsequence(string s1, string s2) {
@@ -394,12 +378,11 @@ int lcs_space(string s1, string s2) {
     }
     return prev[n];
 }
-{% endhighlight %}
+```
 </div>
-
       <h3>4.5 — 0/1 Knapsack</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // 0/1 Knapsack: each item used at most once
 // Time: O(n*W)  Space: O(W) with 1D optimisation
 int knapsack(vector<int>& w, vector<int>& v, int W) {
@@ -427,12 +410,11 @@ int unboundedKnapsack(vector<int>& w, vector<int>& v, int W) {
                 dp[cap] = max(dp[cap], dp[cap - w[i]] + v[i]);
     return dp[W];
 }
-{% endhighlight %}
+```
 </div>
-
       <h3>4.6 — State Machine DP: Stock Problems</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Best Time to Buy and Sell Stock with Cooldown (LC 309)
 // States: held (holding stock), sold (just sold), rest (cooldown done)
 // Time: O(n)  Space: O(1)
@@ -449,12 +431,11 @@ int maxProfit(vector<int>& prices) {
 // State transition diagram:
 // rest -> held (buy)    held -> sold (sell)    sold -> rest (cooldown)
 // rest -> rest (wait)   held -> held (hold)
-{% endhighlight %}
+```
 </div>
-
       <h3>4.7 — Interval DP: Burst Balloons</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 312 — Burst Balloons
 // dp[l][r] = max coins from bursting all balloons between l and r (exclusive)
 // Key: think of k as the LAST balloon to burst in [l,r], not the first.
@@ -479,10 +460,9 @@ int maxCoins(vector<int>& nums) {
     }
     return dp[0][n-1];
 }
-{% endhighlight %}
+```
 </div>
     </section>
-
     <!-- SECTION 5 -->
     <section id="section-5" class="chapter-section">
       <h2> 5 — Pattern Recognition Guide</h2>
@@ -548,7 +528,6 @@ int maxCoins(vector<int>& nums) {
           </tbody>
         </table>
       </div>
-
       <div class="insight-box">
         <h4>How to Identify a DP Problem</h4>
         <ul>
@@ -560,7 +539,6 @@ int maxCoins(vector<int>& nums) {
           <li><strong>NOT DP:</strong> problems with no ordering, problems that require enumerating all solutions, or problems solvable in O(n) with greedy.</li>
         </ul>
       </div>
-
       <div class="insight-box">
         <h4>Space Optimisation Decision Table</h4>
         <ul>
@@ -573,14 +551,12 @@ int maxCoins(vector<int>& nums) {
         </ul>
       </div>
     </section>
-
     <!-- SECTION 6 -->
     <section id="section-6" class="chapter-section">
       <h2> 6 — Complete C++ Implementations</h2>
-
       <h3>6.1 — Edit Distance (Levenshtein)</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 72 — Edit Distance
 // Min operations (insert, delete, replace) to convert word1 to word2.
 // Time: O(m*n)  Space: O(n) rolling array
@@ -604,12 +580,11 @@ int minDistance(string s, string t) {
     }
     return dp[n];
 }
-{% endhighlight %}
+```
 </div>
-
       <h3>6.2 — Unique Paths on Grid</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 62 — Unique Paths
 // Count paths from top-left to bottom-right moving only right or down.
 // Time: O(m*n)  Space: O(n)
@@ -634,12 +609,11 @@ int uniquePathsWithObstacles(vector<vector<int>>& grid) {
     }
     return (int)dp[n-1];
 }
-{% endhighlight %}
+```
 </div>
-
       <h3>6.3 — Word Break</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 139 — Word Break
 // Can string s be segmented into words from wordDict?
 // Time: O(n^2 * L)  L=avg word length  Space: O(n)
@@ -659,10 +633,9 @@ bool wordBreak(string s, vector<string>& wordDict) {
     }
     return dp[n];
 }
-{% endhighlight %}
+```
 </div>
     </section>
-
     <!-- SECTION 7 -->
     <section id="section-7" class="chapter-section">
       <h2> 7 — Complexity Reference</h2>
@@ -749,7 +722,6 @@ bool wordBreak(string s, vector<string>& wordDict) {
           </tbody>
         </table>
       </div>
-
       <div class="insight-box">
         <h4>Pseudo-polynomial vs Polynomial</h4>
         <ul>
@@ -760,12 +732,10 @@ bool wordBreak(string s, vector<string>& wordDict) {
         </ul>
       </div>
     </section>
-
     <!-- SECTION 8 -->
     <section id="section-8" class="chapter-section">
       <h2> 8 — Solved Problem 1: Coin Change</h2>
       <p>Given an integer array <code>coins</code> and an integer <code>amount</code>, return the fewest number of coins needed to make up <code>amount</code>. If it is impossible, return <code>-1</code>. You may use each coin denomination an unlimited number of times.</p>
-      
       <div class="insight-box">
         <h4>OBSERVATIONS</h4>
         <ul>
@@ -776,9 +746,8 @@ bool wordBreak(string s, vector<string>& wordDict) {
           <li>Initialise <code>dp[0]=0</code> (base case: 0 coins for amount 0). <code>dp[i] = amount+1</code> as sentinel for 'unreachable'.</li>
         </ul>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {
@@ -795,17 +764,14 @@ public:
         return dp[amount] > amount ? -1 : dp[amount];
     }
 };
-{% endhighlight %}
+```
 </div>
       <p><strong>Complexity:</strong> Time O(amount * n), Space O(amount)</p>
     </section>
-
-
     <!-- SECTION 9 -->
     <section id="section-9" class="chapter-section">
       <h2> 9 — Solved Problem 2: Longest Common Subsequence</h2>
       <p>Given two strings <code>text1</code> and <code>text2</code>, return the length of their longest common subsequence (LCS). A subsequence is a sequence derived by deleting some characters without changing the relative order of the remaining characters.</p>
-      
       <div class="insight-box">
         <h4>OBSERVATIONS</h4>
         <ul>
@@ -816,9 +782,8 @@ public:
           <li>Fill order: row by row, left to right. <code>dp[i][j]</code> only depends on <code>dp[i-1][j-1]</code>, <code>dp[i-1][j]</code>, <code>dp[i][j-1]</code> — all already computed.</li>
         </ul>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
@@ -839,15 +804,13 @@ public:
         return prev[n];
     }
 };
-{% endhighlight %}
+```
 </div>
       <p><strong>Complexity:</strong> Time O(m*n), Space O(n)</p>
     </section>
-
     <!-- SECTION 10 -->
     <section id="section-10" class="chapter-section">
       <h2> 10 — Common Mistakes & Edge Cases</h2>
-      
       <h3>10.1 — State Definition Mistakes</h3>
       <ul>
         <li><strong>Imprecise state definition.</strong> <code>dp[i]</code> must have an exact meaning. 'dp[i] = something about index i' is not enough — write 'dp[i] = minimum cost to reach index i from index 0 using exactly i steps'.</li>
@@ -855,14 +818,12 @@ public:
         <li><strong>Wrong base case.</strong> For coin change, initialising <code>dp[0] = 0</code> is critical. For LCS, the entire <code>dp[0][j]</code> and <code>dp[i][0]</code> row/column must be 0. For path counting, <code>dp[0][0] = 1</code>.</li>
         <li><strong>Missing the 'impossible' sentinel.</strong> For coin change, initialise to amount+1 (not INT_MAX — adding 1 to INT_MAX overflows). For paths, -1 or 0 are natural sentinels.</li>
       </ul>
-
       <h3>10.2 — Knapsack Direction Mistakes</h3>
       <ul>
         <li><strong>0/1 knapsack — iterating capacity forward in the 1D optimisation.</strong> This allows the same item to be used multiple times (becomes unbounded knapsack). Always iterate capacity in REVERSE for 0/1 knapsack.</li>
         <li><strong>Coin Change II (combinations) — iterating loops in wrong order.</strong> Iterating coins in inner loop and amounts in outer counts permutations (e.g. [1,2] and [2,1] counted separately). Swap the loops: outer = coins, inner = amounts.</li>
         <li><strong>Confusing 'at most W' capacity with 'exactly W'.</strong> For knapsack, <code>dp[W]</code> gives the answer for capacity AT MOST W. For 'exactly W' problems, initialise with -infinity except <code>dp[0]=0</code>.</li>
       </ul>
-
       <h3>10.3 — Edge Cases</h3>
       <ul>
         <li><strong>Empty string LCS:</strong> if either string is empty, LCS = 0. Base cases <code>dp[0][j]=dp[i][0]=0</code> handle this.</li>
@@ -872,7 +833,6 @@ public:
         <li><strong>All-negative array for max subarray:</strong> Kadane returns the single maximum element (not 0). Initialise both currSum and maxSum to nums[0].</li>
       </ul>
     </section>
-
     <!-- SECTION 11 -->
     <section id="section-11" class="chapter-section">
       <h2> 11 — Common Interview Questions</h2>
@@ -936,7 +896,6 @@ public:
           </tbody>
         </table>
       </div>
-
       <div class="insight-box">
         <h4>Chapter 10 — Key Takeaways</h4>
         <ul>
@@ -952,7 +911,6 @@ public:
         </ul>
       </div>
     </section>
-
     <!-- ========================================== -->
     <!-- CHAPTER NAVIGATION                         -->
     <!-- ========================================== -->
@@ -960,5 +918,4 @@ public:
       <a href="/learning/dsa/backtracking/ch9-backtracking/" class="ch-nav-footer-btn">← Prev: Ch9 Backtracking</a>
       <a href="/learning/dsa/intervals/ch11-bonus-topics/" class="ch-nav-footer-btn">Next: Ch11 Bonus Topics →</a>
     </div>
-
 </div>

@@ -84,7 +84,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m05-stats-viz/
 .viz-card p{margin:0;font-size:.79rem;line-height:1.5;color:var(--text-color,#555)}
 .viz-when{font-size:.7rem;font-family:monospace;color:#9d174d;font-weight:700;margin-top:.3rem}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 2 — Statistics, EDA &amp; Visualisation &nbsp;·&nbsp; Module 5 of 28</div>
   <div class="mod-title">Statistics, EDA &amp; Visualisation</div>
@@ -96,7 +95,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m05-stats-viz/
     <span class="mod-pill">📋 Prerequisite: P1-M02</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">📊 Descriptive Stats</button>
@@ -110,7 +108,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m05-stats-viz/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
 <div id="t0" class="tab-pane active">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 2 Start</span></div>
@@ -128,7 +125,6 @@ url: /learning/ai-ml/part2-stats-eda/p2-m05-stats-viz/
   </div>
 </div>
 </div>
-
 <div id="t1" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Descriptive Statistics — The Complete Toolkit</h3><span class="tag tag-pink">Foundation</span></div>
@@ -144,11 +140,9 @@ print(df.shape)               <span class="ck"># (1460, 81) → rows, columns</s
 print(df.dtypes.value_counts()) <span class="ck"># how many numeric vs object cols</span>
 print(df.isnull().sum().sort_values(ascending=<span class="cv">False</span>)[:10])
 print(df.nunique().sort_values())   <span class="ck"># columns with few unique = likely categorical</span>
- 
 <span class="ck"># ── Phase 2: Summary Statistics ───────────────────────</span>
 df.describe()         <span class="ck"># count, mean, std, min, 25%, 50%, 75%, max</span>
 df.describe(include=<span class="cs">"all"</span>)  <span class="ck"># also shows top/freq for object cols</span>
- 
 <span class="ck"># ── Phase 3: Individual column statistics ─────────────</span>
 col = df[<span class="cs">"SalePrice"</span>]
  
@@ -184,7 +178,6 @@ print(stats_df.sort_values(<span class="cs">"skewness"</span>, ascending=<span c
   </div>
 </div>
 </div>
-
 <div id="t2" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">📈</span><h3>Distributions — Shape Tells You Everything</h3><span class="tag tag-pink">Core Concept</span></div>
@@ -216,7 +209,6 @@ plt.tight_layout()
 stat, p = stats.shapiro(df[<span class="cs">"SalePrice"</span>].dropna().sample(<span class="cv">500</span>, random_state=<span class="cv">42</span>))
 print(<span class="cs">f"Shapiro-Wilk: stat={stat:.4f}, p={p:.6f}"</span>)
 <span class="ck"># Very small p → strongly non-normal (expected for house prices)</span>
- 
 <span class="ck"># ── Box-Cox optimal transformation ───────────────────</span>
 <span class="ck"># lambda ~0 = log, ~0.5 = sqrt, ~1 = no transform</span>
 pos = df[<span class="cs">"SalePrice"</span>].dropna()
@@ -241,7 +233,6 @@ print(high_skew.head(<span class="cv">10</span>))</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t3" class="tab-pane">
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Correlation Analysis — Finding Feature Relationships</h3><span class="tag tag-blue">Feature Selection</span></div>
@@ -277,7 +268,6 @@ plt.tight_layout()
 r, p = stats.pearsonr(df[<span class="cs">"GrLivArea"</span>], df[<span class="cs">"SalePrice"</span>])
 print(<span class="cs">f"GrLivArea vs SalePrice: r={r:.3f}, p={p:.4f}"</span>)
 <span class="ck"># p < 0.001 = highly significant</span>
- 
 <span class="ck"># ── Spearman correlation ──────────────────────────────</span>
 <span class="ck"># Measures MONOTONIC (not just linear) relationship</span>
 <span class="ck"># More robust to outliers and non-normal distributions</span>
@@ -304,7 +294,6 @@ for a, b, r in pairs:
   </div>
 </div>
 </div>
-
 <div id="t4" class="tab-pane">
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🎨</span><h3>Visualisation Toolkit — Right Plot for Every Question</h3><span class="tag tag-teal">Seaborn + Matplotlib</span></div>
@@ -371,7 +360,6 @@ plt.savefig(<span class="cs">"eda_summary.png"</span>, dpi=<span class="cv">150<
   </div>
 </div>
 </div>
-
 <div id="t5" class="tab-pane">
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Systematic EDA Workflow</h3><span class="tag tag-purple">Process</span></div>
@@ -445,7 +433,6 @@ for col in categorical_cols[:6]:
   </div>
 </div>
 </div>
-
 <div id="t6" class="tab-pane">
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>Outlier Detection and Treatment</h3><span class="tag tag-red">Data Quality</span></div>
@@ -502,7 +489,6 @@ df["SalePrice_log"] = np.log1p(df["SalePrice"])</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
 <table class="res-table">
@@ -518,7 +504,6 @@ df["SalePrice_log"] = np.log1p(df["SalePrice"])</pre></div>
   </tbody>
 </table>
 </div>
-
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">House Prices EDA Report</span><span class="proj-dur">[Intermediate] 5–6 days</span></div>
@@ -551,7 +536,6 @@ df["SalePrice_log"] = np.log1p(df["SalePrice"])</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t9" class="tab-pane">
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Descriptive Statistics Deep Dive</h4></div>
@@ -581,7 +565,6 @@ df["SalePrice_log"] = np.log1p(df["SalePrice"])</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t10" class="tab-pane">
 <p class="sep">P2-M05 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -605,13 +588,11 @@ df["SalePrice_log"] = np.log1p(df["SalePrice"])</pre></div>
   <p>✅ <strong>When complete:</strong> Move to <strong>P2-M06 — ML Workflow</strong>: feature engineering, scaling, encoding, train/test split, and sklearn Pipelines.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part1-foundation/p1-m04-sql-fastapi/">← P1-M04: SQL &amp; FastAPI</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part2-stats-eda/p2-m06-ml-workflow/">Next: P2-M06 — ML Workflow →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

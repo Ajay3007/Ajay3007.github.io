@@ -29,9 +29,7 @@ url: /learning/dsa/hashing/ch2-hashing/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Is Hashing?</h2>
 <p>Hashing is the process of converting a key of any type into a fixed-size integer (the <strong>hash code</strong>) and using that integer as an index into an array (the <strong>hash table</strong>). This gives us <strong>O(1) average-case</strong> insertion, deletion, and lookup — regardless of how many elements are stored.</p>
@@ -39,7 +37,6 @@ url: /learning/dsa/hashing/ch2-hashing/
   <span class="insight-label">Why Hashing Matters</span>
   This is the <strong>single most powerful technique</strong> for reducing O(n) or O(n²) solutions to O(n). Almost every medium-hard problem that does not involve ordering or hierarchy has a hash-based optimal solution.
 </div>
-
 <h3 class="section-subheading">1.1 — Hash Function & Collision Handling</h3>
 <p>A hash function maps keys to indices. Two keys can hash to the same index — a <strong>collision</strong>. C++ resolves collisions via <strong>chaining</strong> (linked list at each index) in <code>unordered_map</code>.</p>
 <div class="insight-box">
@@ -49,10 +46,9 @@ url: /learning/dsa/hashing/ch2-hashing/
     <li><strong>In C++:</strong> <code>unordered_map</code> uses open addressing with <code>std::hash</code> internally.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">1.2 — C++ API</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // unordered_map — key-value store
 unordered_map<string, int> freq;
 freq["hello"]++;                   // insert or increment
@@ -68,7 +64,7 @@ seen.count(42);  // 1 if exists, 0 if not
 // Default int value in map is 0
 unordered_map<int,int> cnt;
 cnt[key]++;  // OK — default-initialises to 0 then increments
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>All ops average</span>O(1)</span>
@@ -76,12 +72,11 @@ cnt[key]++;  // OK — default-initialises to 0 then increments
   <span class="ch-cplx"><span>Worst case</span>O(n)</span>
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Pattern: Existence Check</h2>
 <p>Use <code>unordered_set</code> when you just want to know if a value has been seen. O(1) average per lookup.</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Pangram check — has the sentence all 26 letters?
 unordered_set<char> letters(sentence.begin(), sentence.end());
 return letters.size() == 26;
@@ -93,15 +88,14 @@ for (int x : nums) {
     seen.insert(x);
 }
 return false;
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Pattern: Frequency Count</h2>
 <p>Use <code>unordered_map&lt;T, int&gt;</code> to count how many times each element appears. Foundation for anagram, top-K, most-frequent problems.</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Frequency count for any iterable
 unordered_map<int,int> freq;
 for (int x : arr) freq[x]++;
@@ -124,10 +118,9 @@ for (auto& [val, cnt] : freq) {
     pq.push({cnt, val});
     if (pq.size() > k) pq.pop();
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Pattern: Two-Sum Lookup</h2>
 <p>For each element x, check if its complement (target - x) exists in the hash map. One-pass O(n).</p>
@@ -136,7 +129,7 @@ for (auto& [val, cnt] : freq) {
   Store what you have seen so far. For each new element, ask: "Is its complement already here?" This converts O(n²) nested search into O(n) with one hash table lookup.
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Classical two-sum — return indices
 unordered_map<int,int> seen; // val → index
 for (int i = 0; i < nums.size(); i++) {
@@ -149,15 +142,14 @@ unordered_set<int> s(arr.begin(), arr.end());
 int count = 0;
 for (int x : arr) if (s.count(x+1)) count++;
 return count;
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Pattern: Grouping</h2>
 <p>Map a grouping key to a list of all elements sharing that key. Classic example: group anagrams by their sorted form.</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Group Anagrams — map sorted key → strings
 unordered_map<string, vector<string>> groups;
 for (string& s : strs) {
@@ -168,15 +160,14 @@ for (string& s : strs) {
 vector<vector<string>> result;
 for (auto& [key, group] : groups) result.push_back(group);
 return result;
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 6 — Pattern: Sliding Window + HashMap</h2>
 <p>Maintain a frequency map of elements in the current window. Expand right, shrink left when constraint violated.</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Longest substring with at most k distinct characters
 unordered_map<char,int> freq;
 int left = 0, ans = 0;
@@ -188,15 +179,14 @@ for (int right = 0; right < s.size(); right++) {
     }
     ans = max(ans, right - left + 1);
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 7 — Pattern: Prefix Sum + HashMap</h2>
 <p>Store cumulative prefix sums and their frequencies. For each prefix sum curr, the count of subarrays summing to target ending at this index = freq[curr - target].</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Count subarrays with sum == k
 unordered_map<int,int> freq; freq[0] = 1;
 int curr = 0, ans = 0;
@@ -214,10 +204,9 @@ for (int x : nums) {
     ans += freq[curr];
     freq[curr]++;
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Practice Problems</h2>
 <div class="ch-ed-problems">
@@ -241,9 +230,7 @@ for (int x : nums) {
 </table>
 </div>
 </div>
-
 </div><!-- end .chapter-content -->
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/arrays/ch1-arrays-strings/" class="ch-nav-footer-btn">← Ch1: Arrays & Strings</a>
   <a href="/learning/dsa/linked-list/ch3-linked-lists/" class="ch-nav-footer-btn primary">Next: Ch3 — Linked Lists →</a>

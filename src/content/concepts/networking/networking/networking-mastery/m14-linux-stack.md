@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m14-linux-stack/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 4 · MODULE 14 · WEEK 12</div>
   <div class="mod-title">🐧 Linux Network Stack</div>
@@ -91,7 +90,6 @@ url: /learning/networking-mastery/m14-linux-stack/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Stack Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">sk_buff</button>
@@ -104,7 +102,6 @@ url: /learning/networking-mastery/m14-linux-stack/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THE LINUX NETWORK STACK — 5 MILLION LINES OF KERNEL CODE</p>
@@ -140,7 +137,6 @@ Memory copies:         ~35%  (DMA buffer → sk_buff → socket buf → userspac
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">sk_buff — THE KERNEL'S PACKET ABSTRACTION</p>
@@ -155,22 +151,17 @@ Memory copies:         ~35%  (DMA buffer → sk_buff → socket buf → userspac
     unsigned char   *data;      <span class="cm">/* start of valid data (moves on push/pull) */</span>
     unsigned char   *tail;      <span class="cm">/* end of valid data */</span>
     unsigned char   *end;       <span class="cm">/* end of allocated buffer */</span>
- 
     <span class="cm">/* len = tail - data = bytes of valid packet data */</span>
     unsigned int     len;
     unsigned int     data_len;  <span class="cm">/* bytes in page fragments (non-linear data) */</span>
- 
     <span class="cm">/* Protocol info */</span>
     __be16           protocol;  <span class="cm">/* ETH_P_IP, ETH_P_IPV6, etc. */</span>
     __u8             pkt_type;  <span class="cm">/* PACKET_HOST, BROADCAST, MULTICAST */</span>
- 
     <span class="cm">/* Device info */</span>
     struct net_device *dev;     <span class="cm">/* ingress/egress network interface */</span>
- 
     <span class="cm">/* Checksums */</span>
     __wsum           csum;
     __u8             ip_summed; <span class="cm">/* CHECKSUM_NONE/PARTIAL/COMPLETE/UNNECESSARY */</span>
- 
     <span class="cm">/* Netfilter connection tracking */</span>
     struct nf_conntrack *nfct;
  
@@ -189,7 +180,6 @@ skb_trim(skb, len);      <span class="cm">/* tail = data + len (remove tail data
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">RECEIVE PATH — NIC INTERRUPT TO SOCKET BUFFER</p>
@@ -216,12 +206,10 @@ NET_RX softirq (process context, can be deferred):
         napi_complete();         <span class="cm">/* re-enable NIC interrupts */</span>
     if budget exhausted (ring still has packets):
         return budget;           <span class="cm">/* reschedule next softirq tick */</span>
- 
 <span class="cm">/* Interrupt coalescing (ethtool) */</span>
 ethtool -C eth0 rx-usecs 50      <span class="cm"># coalesce for 50µs before interrupt</span>
 ethtool -C eth0 rx-frames 32     <span class="cm"># or coalesce 32 frames</span>
 ethtool -S eth0 | grep -i drop   <span class="cm"># NIC-level drop counters</span>
- 
 <span class="cm">/* RSS — Receive Side Scaling (multi-queue) */</span>
 <span class="cm"># Modern NICs have multiple RX queues</span>
 <span class="cm"># RSS hashes flow 5-tuple → assigns to queue</span>
@@ -232,7 +220,6 @@ ethtool -L eth0 combined 8  <span class="cm"># set 8 combined queues</span>
 cat /proc/interrupts | grep eth0  <span class="cm"># shows per-queue IRQ counts</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>RX Ring Buffer and DMA</h3><span class="tag tag-green">RX RING</span></div>
   <div class="cp-body">
@@ -250,13 +237,11 @@ CPU owns descriptor: NAPI pulls packet, allocates new sk_buff, refills descripto
 <span class="cm"># Driver pre-populates ring with empty sk_buffs on startup</span>
 <span class="cm"># NIC writes directly into these buffers via DMA (zero-copy from NIC perspective)</span>
 <span class="cm"># AFTER NAPI pulls the packet, driver allocates a NEW sk_buff to refill the slot</span>
- 
 <span class="cm">/* Tuning the ring buffer size */</span>
 ethtool -g eth0                   <span class="cm"># show current ring sizes</span>
 ethtool -G eth0 rx 4096 tx 4096  <span class="cm"># set 4096-entry ring</span>
 <span class="cm"># Larger ring: fewer drops under burst, more memory used</span>
 <span class="cm"># Smaller ring: less latency (data sits in ring shorter time)</span>
- 
 <span class="cm">/* Drop diagnosis */</span>
 cat /proc/net/dev                 <span class="cm"># interface stats including drops</span>
 ip -s link show eth0              <span class="cm"># TX/RX errors and drops</span>
@@ -265,7 +250,6 @@ ss -s                             <span class="cm"># socket-level stats</span></
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">TRANSMIT PATH — APPLICATION TO WIRE</p>
@@ -292,7 +276,6 @@ ss -s                             <span class="cm"># socket-level stats</span></
 <span class="cm"># Like RSS for TX: map CPU cores to TX queues</span>
 <span class="cm"># Ensures TX and RX of a flow use the same CPU → better cache locality</span>
 ls /sys/class/net/eth0/queues/tx-0/xps_cpus  <span class="cm"># affinity mask for TX queue 0</span>
- 
 <span class="cm">/* TSO — TCP Segmentation Offload */</span>
 <span class="cm"># Application writes large buffer (64KB)</span>
 <span class="cm"># Without TSO: kernel segments into MTU-sized sk_buffs, adds TCP/IP hdr each</span>
@@ -304,7 +287,6 @@ ethtool -K eth0 gro on    <span class="cm"># Generic Receive Offload (coalesce o
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">NETFILTER — KERNEL PACKET FILTERING FRAMEWORK</p>
@@ -352,7 +334,6 @@ conntrack -D -s 192.168.1.5   <span class="cm"># delete connections from this so
 cat /proc/sys/net/netfilter/nf_conntrack_count    <span class="cm"># current count</span>
 cat /proc/sys/net/netfilter/nf_conntrack_max      <span class="cm"># maximum</span>
 <span class="cm"># conntrack table full → all new connections dropped (NOTRACK bypass for DoS)</span>
- 
 <span class="cm">/* nftables — modern replacement for iptables */</span>
 nft list ruleset
 nft add table inet filter
@@ -361,7 +342,6 @@ nft add rule inet filter input tcp dport 22 accept</pre></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">NETWORK NAMESPACES — LINUX NETWORK VIRTUALISATION</p>
@@ -370,7 +350,6 @@ nft add rule inet filter input tcp dport 22 accept</pre></div>
   <div class="cp-body">
     <p>Linux network namespaces provide complete network stack isolation: each namespace has its own interfaces, routing table, iptables rules, ARP cache, and socket namespace. This is the foundation of Docker container networking, Kubernetes pod networking, and network function testing.</p>
 <div class="cb"><pre><span class="cm">/* Network namespace fundamentals */</span>
- 
 <span class="cm"># Create namespace</span>
 ip netns add ns1
 ip netns add ns2
@@ -402,7 +381,6 @@ ip netns exec ns1 ip addr add 192.168.1.10/24 dev veth-ext
 <span class="cm"># Run a process in a namespace</span>
 ip netns exec ns1 bash              <span class="cm"># shell in ns1</span>
 ip netns exec ns1 tcpdump -i veth0  <span class="cm"># capture in ns1</span>
- 
 <span class="cm"># Inspect</span>
 ip netns list
 ip netns exec ns1 ip route show
@@ -415,7 +393,6 @@ ip netns exec ns1 ip link show
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">TRAFFIC CONTROL — QDISC AND SHAPING</p>
@@ -462,7 +439,6 @@ tc -s qdisc show dev eth0   <span class="cm"># with statistics (packets, drops)<
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <p class="sep">KERNEL BYPASS — WHY AND HOW</p>
@@ -519,7 +495,6 @@ SEC("xdp")
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -532,7 +507,6 @@ SEC("xdp")
     <div class="lab-step"><div class="sn">4</div><div>Profile with perf top: <code>sudo perf top -e cycles:k</code> while running iperf3. Identify which kernel functions consume most cycles during heavy network load (look for napi_poll, __netif_receive_skb, ip_rcv, tcp_rcv_established).</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Network Namespaces — Build a Virtual Network</h4></div>
   <div class="lab-body">
@@ -543,7 +517,6 @@ SEC("xdp")
     <div class="lab-step"><div class="sn">4</div><div>Add iptables rules in ns-router: allow ESTABLISHED/RELATED, allow ICMP, block TCP 23 (telnet), log dropped packets. Test each rule. This is your personal NGFW testbed — reuse for Phase 5/6 labs.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Network Emulation with netem</h4></div>
   <div class="lab-body">
@@ -554,7 +527,6 @@ SEC("xdp")
   </div>
 </div>
 </div>
-
 <!-- TAB 9 -->
 <div id="t9" class="tab-pane">
 <p class="sep">M14 MASTERY CHECKLIST</p>
@@ -586,7 +558,6 @@ SEC("xdp")
   <p>✅ <strong>When complete:</strong> Move to <strong>M15 - Socket Programming</strong> — now that you understand the kernel stack these sockets interact with, the API will make much deeper sense.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m13-tunneling/">← M13 Tunneling</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

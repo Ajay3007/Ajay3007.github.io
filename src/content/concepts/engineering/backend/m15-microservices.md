@@ -89,9 +89,7 @@ url: /learning/backend/m15-microservices/
 .nb:hover{background:#f59e0b;color:#fff}
 .sep{text-align:center;color:#94a3b8;font-size:.8rem;letter-spacing:.1em;margin:1.5rem 0;text-transform:uppercase}
 </style>
-
 <div class="mod-wrap">
-
 <div class="mod-header">
   <h1>M15 — Microservices &amp; Infrastructure</h1>
   <div class="sub">
@@ -99,7 +97,6 @@ url: /learning/backend/m15-microservices/
     Service architecture decisions · API Gateway &amp; service discovery · Circuit breaker &amp; bulkhead · Docker multi-stage builds · Kubernetes fundamentals · CI/CD pipelines · 12-Factor App
   </div>
 </div>
-
 <!-- Tab bar -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t-overview',this)">Overview</button>
@@ -112,12 +109,10 @@ url: /learning/backend/m15-microservices/
   <button class="tab-btn" onclick="vt('t-impl',this)">C Implementation</button>
   <button class="tab-btn" onclick="vt('t-labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 1 — Overview
      ══════════════════════════════════════════════════════════ -->
 <div id="t-overview" class="tab-pane active">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🏗️ Monolith vs Microservices: The Real Decision</div>
   <div class="cp-body">
@@ -139,12 +134,10 @@ url: /learning/backend/m15-microservices/
     </ul>
   </div>
 </div>
-
 <div class="analogy">
   <strong>Analogy — Bounded Contexts (DDD):</strong><br>
   In an e-commerce domain, "Customer" means something different to the <em>Billing</em> context (credit card, payment history) vs the <em>Shipping</em> context (address, preferred carrier). Each bounded context defines its own model of "Customer" — and each maps to a microservice boundary. Crossing context boundaries requires an explicit translation (anti-corruption layer).
 </div>
-
 <div class="two-col">
   <div class="cp p-green">
     <div class="cp-hdr">🌱 Modular Monolith First</div>
@@ -174,7 +167,6 @@ url: /learning/backend/m15-microservices/
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📐 Phase 6 Module Map</div>
   <div class="cp-body">
@@ -188,14 +180,11 @@ url: /learning/backend/m15-microservices/
     <div class="note" style="margin-top:.75rem">Prerequisites: Ph3 (Auth — JWT validation at the gateway), Ph5 (Event-Driven — async inter-service communication, Outbox pattern)</div>
   </div>
 </div>
-
 </div><!-- /t-overview -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 2 — Service Communication
      ══════════════════════════════════════════════════════════ -->
 <div id="t-comms" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🔗 Sync vs Async Inter-Service Communication</div>
   <div class="cp-body">
@@ -213,7 +202,6 @@ url: /learning/backend/m15-microservices/
     <div class="ins"><strong>Hybrid pattern:</strong> Use sync for the user-facing response (place order → return order ID immediately), then async for all side effects (charge payment, send confirmation, update analytics) via events.</div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🌐 REST Design for Microservices</div>
@@ -243,7 +231,6 @@ url: /learning/backend/m15-microservices/
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🚪 API Gateway Responsibilities</div>
   <div class="cp-body">
@@ -262,7 +249,6 @@ url: /learning/backend/m15-microservices/
     </table>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">🔍 Service Discovery</div>
   <div class="cp-body">
@@ -290,7 +276,6 @@ url: /learning/backend/m15-microservices/
     </div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🔀 Correlation ID: Tracing Async Request Chains</div>
   <div class="cp-body">
@@ -311,14 +296,11 @@ rd_kafka_headers_add(headers,
     <div class="note">When debugging a production issue, search all service logs by correlation ID to reconstruct the full request timeline across service boundaries and async event chains.</div>
   </div>
 </div>
-
 </div><!-- /t-comms -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 3 — Resilience Patterns
      ══════════════════════════════════════════════════════════ -->
 <div id="t-resilience" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">⚡ Why Resilience Patterns Are Necessary</div>
   <div class="cp-body">
@@ -336,14 +318,12 @@ rd_kafka_headers_add(headers,
     </table>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🔌 Circuit Breaker — State Machine</div>
   <div class="cp-body">
     Named after electrical circuit breakers that trip to prevent damage. Three states:
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-green">┌──────────────────────────────────────────────────────────────────┐</span>
 <span class="dg-green">│  CLOSED</span> (normal operation)                                        <span class="dg-green">│</span>
@@ -369,7 +349,6 @@ rd_kafka_headers_add(headers,
 <span class="dg-amber">│  Any probe fails → </span><span class="dg-red">OPEN</span> (reset timer)                          <span class="dg-amber">│</span>
 <span class="dg-amber">└──────────────────────────────────────────────────────────────────┘</span>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔑 Circuit Breaker: Key Configuration Parameters</div>
   <div class="cp-body">
@@ -387,7 +366,6 @@ rd_kafka_headers_add(headers,
     <div class="warn"><strong>Don't set timeouts too generously.</strong> If your circuit breaker timeout is 30s but your HTTP timeout is 60s, threads still block 30–60s before the breaker opens. Always set HTTP timeout ≤ circuit breaker slow_call_threshold.</div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🚢 Bulkhead Pattern</div>
   <div class="cp-body">
@@ -408,7 +386,6 @@ bulkhead_pool_t inventory_pool = { .name=<span class="cv">"inventory"</span>, .m
     <div class="note">If Payment Service slows down and fills the payment pool queue, the system returns <code>503 Service Unavailable</code> for payment calls only. Inventory calls proceed normally — the bulkhead contains the failure.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">🔁 Retry with Exponential Backoff + Jitter</div>
   <div class="cp-body">
@@ -420,7 +397,6 @@ bulkhead_pool_t inventory_pool = { .name=<span class="cv">"inventory"</span>, .m
                           <span class="cs">int</span> max_attempts, <span class="cs">int</span> base_ms) {
     <span class="ck">for</span> (<span class="cs">int</span> attempt = <span class="cn">0</span>; attempt &lt; max_attempts; attempt++) {
         <span class="ck">if</span> (fn(ctx) == <span class="cn">0</span>) <span class="ck">return</span> <span class="cn">0</span>;  <span class="cm">/* success */</span>
-
         <span class="ck">if</span> (attempt + <span class="cn">1</span> == max_attempts) <span class="ck">break</span>;
 
         <span class="cm">/* Exponential: base_ms * 2^attempt, capped at 30s */</span>
@@ -439,21 +415,17 @@ retry_with_backoff(call_payment_service, &amp;ctx, <span class="cn">5</span>, <s
     <div class="warn">Only retry <strong>idempotent</strong> operations. Never blindly retry a POST that creates a resource — you'll create duplicates. Use idempotency keys (M13) to make POSTs safe to retry.</div>
   </div>
 </div>
-
 </div><!-- /t-resilience -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 4 — Docker
      ══════════════════════════════════════════════════════════ -->
 <div id="t-docker" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🐳 Multi-Stage Docker Build for C/C++</div>
   <div class="cp-body">
     A C binary compiled in a full build image can run in a minimal runtime image. Multi-stage builds separate compilation from runtime, dramatically reducing image size (from ~1.2GB to ~20MB):
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📄 Dockerfile — Multi-Stage C/C++ Build</div>
   <div class="cp-body">
@@ -480,7 +452,6 @@ retry_with_backoff(call_payment_service, &amp;ctx, <span class="cn">5</span>, <s
 <span class="cm">############################################################</span>
 <span class="cm"># Stage 2: Runtime — minimal image, just the binary</span>
 <span class="ck">FROM</span> debian:<span class="cv">bookworm-slim</span>
-
 <span class="cm"># Install only runtime libraries (no compilers, headers, or build tools)</span>
 <span class="ck">RUN</span> apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
     librdkafka1         \
@@ -505,7 +476,6 @@ retry_with_backoff(call_payment_service, &amp;ctx, <span class="cn">5</span>, <s
 <span class="ck">CMD</span> [<span class="cv">"--port=8080"</span>]</div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-green">
     <div class="cp-hdr">✅ Docker Best Practices</div>
@@ -535,7 +505,6 @@ retry_with_backoff(call_payment_service, &amp;ctx, <span class="cn">5</span>, <s
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📄 .dockerignore</div>
   <div class="cp-body">
@@ -558,7 +527,6 @@ tests/</div>
     <div class="note">Every byte in the build context is sent to the Docker daemon. Large build contexts (accidental <code>.git</code> inclusion) slow down every build. A good <code>.dockerignore</code> is as important as the Dockerfile itself.</div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🔄 ENTRYPOINT vs CMD: Graceful Shutdown</div>
   <div class="cp-body">
@@ -575,14 +543,11 @@ tests/</div>
     <div class="ins">Always use exec form: <code>ENTRYPOINT ["/app/service"]</code>. In your C process, register a SIGTERM handler that drains connections and exits cleanly.</div>
   </div>
 </div>
-
 </div><!-- /t-docker -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 5 — Kubernetes
      ══════════════════════════════════════════════════════════ -->
 <div id="t-k8s" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">☸️ Kubernetes Core Objects</div>
   <div class="cp-body">
@@ -600,7 +565,6 @@ tests/</div>
     </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📄 Kubernetes Deployment — C Service Example</div>
   <div class="cp-body">
@@ -677,7 +641,6 @@ tests/</div>
     <span class="ck">targetPort</span>: <span class="cn">8080</span></div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-green">
     <div class="cp-hdr">💓 Liveness vs Readiness Probes</div>
@@ -706,21 +669,17 @@ tests/</div>
     </div>
   </div>
 </div>
-
 </div><!-- /t-k8s -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 6 — CI/CD
      ══════════════════════════════════════════════════════════ -->
 <div id="t-cicd" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">🔄 CI/CD Pipeline Stages</div>
   <div class="cp-body">
     A complete pipeline runs on every commit and gates production deployment behind automated quality checks:
   </div>
 </div>
-
 <ul class="flow-list">
   <li class="fl-step"><div class="fl-num">1</div><div><strong>Lint &amp; Static Analysis</strong> — clang-tidy, cppcheck, clang-format check. Fail fast: bad code never reaches tests. (~30s)</div></li>
   <li class="fl-step"><div class="fl-num">2</div><div><strong>Unit Tests</strong> — fast, isolated tests with mocked dependencies. Target: &gt;80% coverage on core business logic. (~2m)</div></li>
@@ -731,7 +690,6 @@ tests/</div>
   <li class="fl-step"><div class="fl-num">7</div><div><strong>Deploy to Staging</strong> — <code>kubectl set image</code> or Helm upgrade. Run smoke tests against staging URL.</div></li>
   <li class="fl-step"><div class="fl-num">8</div><div><strong>Deploy to Production</strong> — manual approval gate (or auto on green staging). Blue-green or canary rollout. Monitor error rate + latency for 10 minutes.</div></li>
 </ul>
-
 <div class="two-col">
   <div class="cp p-green">
     <div class="cp-hdr">🟢🔵 Blue-Green Deployment</div>
@@ -763,7 +721,6 @@ tests/</div>
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📄 GitHub Actions Example — C Service CI Pipeline</div>
   <div class="cp-body">
@@ -804,7 +761,6 @@ tests/</div>
       <span class="ck">env</span>:
         <span class="ck">DATABASE_URL</span>: <span class="cv">postgres://postgres:test@localhost/testdb</span>
       <span class="ck">run</span>: <span class="cv">./build/tests/integration_tests</span>
-
   <span class="ck">docker-build</span>:
     <span class="ck">needs</span>: <span class="cv">build-test</span>
     <span class="ck">runs-on</span>: <span class="cv">ubuntu-latest</span>
@@ -822,21 +778,17 @@ tests/</div>
         kubectl rollout status deployment/order-service --timeout=5m</span></div>
   </div>
 </div>
-
 </div><!-- /t-cicd -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 7 — 12-Factor App
      ══════════════════════════════════════════════════════════ -->
 <div id="t-12factor" class="tab-pane">
-
 <div class="cp p-amber">
   <div class="cp-hdr">📋 The 12-Factor App Methodology</div>
   <div class="cp-body">
     A methodology for building software-as-a-service apps that are portable, scalable, and maintainable. Originally from Heroku — now the standard for cloud-native services.
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🔑 The 12 Factors (Microservices-Relevant Highlights)</div>
   <div class="cp-body">
@@ -857,7 +809,6 @@ tests/</div>
     </table>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">⚙️ Factor 3: Config via Environment</div>
@@ -902,7 +853,6 @@ tests/</div>
     </div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">📊 Factor 11: Structured Logs to stdout</div>
   <div class="cp-body">
@@ -919,16 +869,12 @@ LOG_INFO(<span class="cv">"order_placed order_id=%s user_id=%s amount=%.2f"</spa
     <div class="ins">Include in every log line: <code>timestamp</code>, <code>level</code>, <code>service</code>, <code>correlation_id</code>, and the event. This makes logs searchable and correlatable across services in your log aggregator.</div>
   </div>
 </div>
-
 </div><!-- /t-12factor -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 8 — C Implementation
      ══════════════════════════════════════════════════════════ -->
 <div id="t-impl" class="tab-pane">
-
 <div class="sep">── Implementation 1 — Circuit Breaker (Thread-Safe, C11 Atomics) ──</div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">🔌 Circuit Breaker in C (stdatomic, three-state machine)</div>
   <div class="cp-body">
@@ -1038,9 +984,7 @@ circuit_breaker_t payment_cb;
 }</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 2 — Health Check HTTP Server ──</div>
-
 <div class="cp p-green">
   <div class="cp-hdr">💓 Minimal Health Check HTTP Server (POSIX sockets)</div>
   <div class="cp-body">
@@ -1053,7 +997,6 @@ circuit_breaker_t payment_cb;
 <span class="cs">#include</span> &lt;stdio.h&gt;
 
 <span class="cs">static volatile</span> <span class="cs">int</span> ready = <span class="cn">0</span>;  <span class="cm">/* set to 1 once DB connected etc. */</span>
-
 <span class="ck">static void</span> *<span class="cf">health_thread</span>(<span class="cs">void</span> *arg) {
     (void)arg;
     <span class="cs">int</span> srv = socket(AF_INET, SOCK_STREAM, <span class="cn">0</span>);
@@ -1103,14 +1046,11 @@ circuit_breaker_t payment_cb;
     <div class="note">Start the health server before connecting to databases so the <code>/health/live</code> probe succeeds immediately. Set <code>ready=1</code> only after all dependencies (DB, Kafka) are connected — this keeps the pod out of the Service load balancer until it's actually ready.</div>
   </div>
 </div>
-
 </div><!-- /t-impl -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 9 — Labs & Checklist
      ══════════════════════════════════════════════════════════ -->
 <div id="t-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 1 — Circuit Breaker Under Load</div>
   <div class="lab-body">
@@ -1122,7 +1062,6 @@ circuit_breaker_t payment_cb;
     <div class="lab-step"><span class="sn">5</span> <strong>Bonus:</strong> add a sliding window failure rate threshold (failure rate over last 20 calls, not just a count) and verify it's more resilient to bursty failures.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 2 — Docker Multi-Stage Build: Size Comparison</div>
   <div class="lab-body">
@@ -1135,7 +1074,6 @@ circuit_breaker_t payment_cb;
     <div class="lab-step"><span class="sn">6</span> Run <code>docker run --user $(id -u) service:multi-stage</code> — verify non-root execution. Check process inside container: <code>docker exec &lt;id&gt; id</code>.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 3 — Kubernetes Deployment with Probes</div>
   <div class="lab-body">
@@ -1148,7 +1086,6 @@ circuit_breaker_t payment_cb;
     <div class="lab-step"><span class="sn">6</span> Rollback: <code>kubectl rollout undo deployment/order-service</code>. Verify the previous image is running.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 4 — Strangler Fig Migration (Simulated)</div>
   <div class="lab-body">
@@ -1160,9 +1097,7 @@ circuit_breaker_t payment_cb;
     <div class="lab-step"><span class="sn">5</span> Remove the notifications handler from the monolith. Verify all notification requests still work (now served entirely by new service).</div>
   </div>
 </div>
-
 <div class="sep">── Phase 6 Mastery Checklist ──</div>
-
 <div class="two-col">
   <div>
     <strong style="color:#92400e">Architecture</strong>
@@ -1199,17 +1134,13 @@ circuit_breaker_t payment_cb;
     </ul>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/backend/m13-messaging/" class="nb">← M13: Event-Driven Architecture</a>
   <a href="/learning/backend/" class="nb">↑ Roadmap</a>
   <a href="/learning/backend/m17-observability/" class="nb">M17: Observability →</a>
 </div>
-
 </div><!-- /t-labs -->
-
 </div><!-- /mod-wrap -->
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

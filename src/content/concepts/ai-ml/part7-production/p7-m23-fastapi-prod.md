@@ -85,7 +85,6 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 .proj-body{padding:.9rem 1.2rem;font-size:.88rem;line-height:1.7}
 .proj-body strong{color:#1e40af}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 7 — Production &amp; Deployment &nbsp;·&nbsp; Module 23 of 27</div>
@@ -98,7 +97,6 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
     <span class="mod-pill">📋 Prerequisite: P4-M14</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🏗 App Structure</button>
@@ -112,8 +110,6 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-navy">
@@ -131,8 +127,6 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — APP STRUCTURE ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-navy">
@@ -155,7 +149,6 @@ url: /learning/ai-ml/part7-production/p7-m23-fastapi-prod/
 <span class="ck"># └── services/</span>
 <span class="ck">#     ├── llm.py       ← LLM call wrappers</span>
 <span class="ck">#     └── rag.py       ← retrieval pipeline</span>
- 
 <span class="ck"># config.py — all settings from environment</span>
 from pydantic_settings import BaseSettings
 from functools import lru_cache
@@ -205,8 +198,6 @@ app.include_router(admin.router, prefix=<span class="cs">"/admin"</span>, tags=[
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — DEPENDENCY INJECTION ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-navy">
@@ -272,8 +263,6 @@ async def send_message(
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — MIDDLEWARE ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-navy">
@@ -360,8 +349,6 @@ app.add_middleware(CORSMiddleware,
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — ASYNC PATTERNS ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-navy">
@@ -396,7 +383,6 @@ async def chat_with_logging(
         cost=response.usage.output_tokens * <span class="cv">15e-6</span>
     )
     return {<span class="cs">"reply"</span>: reply}   <span class="ck"># returned immediately; logging runs after</span>
- 
 <span class="ck"># ── Never block the event loop ────────────────────────</span>
 import asyncio
  
@@ -429,8 +415,6 @@ async def embed_text(text: str):
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — AUTH & API KEYS ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-navy">
@@ -490,8 +474,6 @@ async def get_current_user_jwt(token: str = Security(oauth2_scheme)) -> str:
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — DEPLOYMENT ══════════ -->
 <div id="t6" class="tab-pane">
 <div class="cp p-navy">
@@ -524,7 +506,6 @@ async def readiness(client: LLMDep, request: Request):
         checks[<span class="cs">"llm"</span>] = <span class="cs">"ok"</span>
     except Exception as e:
         checks[<span class="cs">"llm"</span>] = <span class="cs">f"error: {e}"</span>
- 
     <span class="ck"># Check vector DB</span>
     try:
         vdb = request.app.state.vector_db
@@ -541,8 +522,6 @@ async def readiness(client: LLMDep, request: Request):
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -556,8 +535,6 @@ async def readiness(client: LLMDep, request: Request):
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="proj-box">
@@ -583,8 +560,6 @@ async def readiness(client: LLMDep, request: Request):
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
 <div class="lab-box">
@@ -597,7 +572,6 @@ async def readiness(client: LLMDep, request: Request):
     <div class="lab-step"><div class="sn">4</div><div>Test graceful shutdown: send a request, then Ctrl+C while it is in progress. Does the lifespan cleanup run? Does the in-progress request complete or get cut off?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Middleware Stack</h4></div>
   <div class="lab-body">
@@ -608,7 +582,6 @@ async def readiness(client: LLMDep, request: Request):
     <div class="lab-step"><div class="sn">4</div><div>Test CORS: use a browser fetch() from a different origin. Verify that allowed origins work and blocked origins get a CORS error.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Async Safety</h4></div>
   <div class="lab-body">
@@ -620,8 +593,6 @@ async def readiness(client: LLMDep, request: Request):
   </div>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P7-M23 MASTERY CHECKLIST</p>
@@ -651,13 +622,11 @@ async def readiness(client: LLMDep, request: Request):
   <p>✅ <strong>When complete:</strong> Move to <strong>P7-M24 — Docker &amp; Background Jobs</strong>. Your API is production-structured. M24 covers containerisation and offloading heavy work to background workers.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part6-agents/p6-m22-evaluation/">← P6-M22: Evaluation</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part7-production/p7-m24-docker-jobs/">Next: P7-M24 — Docker &amp; Background Jobs →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

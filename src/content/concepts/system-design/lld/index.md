@@ -23,7 +23,6 @@ Design classes, components, and interactions at the code level — SOLID princip
 ## Track A — Module Map
 
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin:1.5rem 0;">
-
   <!-- A1 -->
   <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
@@ -37,7 +36,6 @@ Design classes, components, and interactions at the code level — SOLID princip
       <a href="/learning/system-design/lld/module-a1-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <!-- A2 -->
   <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
@@ -51,7 +49,6 @@ Design classes, components, and interactions at the code level — SOLID princip
       <a href="/learning/system-design/lld/module-a2-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <!-- A3 -->
   <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
@@ -65,7 +62,6 @@ Design classes, components, and interactions at the code level — SOLID princip
       <a href="/learning/system-design/lld/module-a3-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <!-- A4 -->
   <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
@@ -79,7 +75,6 @@ Design classes, components, and interactions at the code level — SOLID princip
       <a href="/learning/system-design/lld/module-a4-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <!-- A5 -->
   <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
@@ -93,7 +88,6 @@ Design classes, components, and interactions at the code level — SOLID princip
       <a href="/learning/system-design/lld/module-a5-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
   <!-- A6 -->
   <div class="project-card" style="border-left:4px solid #7c6fff;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
@@ -107,7 +101,6 @@ Design classes, components, and interactions at the code level — SOLID princip
       <a href="/learning/system-design/lld/module-a6-notes/" style="font-size:0.8rem;color:var(--light-text);font-weight:600;">📝 Notes →</a>
     </div>
   </div>
-
 </div>
 
 ---

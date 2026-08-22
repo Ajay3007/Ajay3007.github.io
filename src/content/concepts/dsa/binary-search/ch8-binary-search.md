@@ -25,7 +25,6 @@ url: /learning/dsa/binary-search/ch8-binary-search/
     </div>
     <h1 class="ch-title">Binary Search</h1>
     <p class="ch-subtitle">Classic Search • Rotated Array • Answer Space • Lower/Upper Bound</p>
-    
     <div class="ch-hero-stats">
       <div class="stat-box">
         <span class="stat-val">11</span>
@@ -38,17 +37,14 @@ url: /learning/dsa/binary-search/ch8-binary-search/
     </div>
   </div>
 </div>
-
 <!-- ==============================================
      MAIN CONTENT
 =============================================== -->
 <div class="chapter-content">
-
 <!-- Section 1 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Is Binary Search?</h2>
 <p>Binary search finds a target in a sorted (or monotone) space by repeatedly halving the search interval. Each comparison eliminates half the remaining candidates, giving <code>O(log n)</code> time — far superior to <code>O(n)</code> linear search for large inputs.</p>
-
 <div class="insight-box">
   <span class="insight-label">The Core Invariant</span>
   <ul>
@@ -59,13 +55,11 @@ url: /learning/dsa/binary-search/ch8-binary-search/
     <li><strong>Critical:</strong> every iteration MUST reduce the window size. If <code>lo</code> or <code>hi</code> never moves, the loop runs forever.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">1.1 — The Three Binary Search Templates</h3>
 <p>Most binary search bugs come from wrong loop condition or wrong boundary update. The following three templates cover 99% of interview problems.</p>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // ── TEMPLATE 1: Classic exact search ────────────────────────
 // Use when: searching for an exact value in a sorted array.
 // Loop exits when lo > hi (element not found).
@@ -105,9 +99,8 @@ int upperBound(vector<int>& a, int target) {
     return lo; // first index with a[lo] > target
 }
 // C++ equivalents: lower_bound(a.begin(),a.end(),t) and upper_bound(...)
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">1.2 — Template Comparison</h3>
 <div class="ch-ed-problems">
   <table>
@@ -123,15 +116,13 @@ int upperBound(vector<int>& a, int target) {
   </table>
 </div>
 </div>
-
 <!-- Section 2 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Visual Diagrams: Binary Search in Action</h2>
-
 <h3 class="section-subheading">Diagram 1 — Classic Binary Search</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Trace</span>
-{% highlight text %}
+```text
 Classic Binary Search: Target = 7
   Array: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]   target = 7
   Index:  0  1  2  3  4   5   6   7   8   9
@@ -155,13 +146,12 @@ Classic Binary Search: Target = 7
     7 == 7  =>  FOUND at index 3.
 
   Total comparisons: 4 = ceil(log2(10)).  Without binary search: up to 10.
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">Diagram 2 — Lower Bound (First Occurrence)</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Trace</span>
-{% highlight text %}
+```text
 Lower Bound and Upper Bound Trace
   Array: [1, 3, 3, 3, 5, 7, 9]   target = 3
   Index:  0  1  2  3  4  5  6
@@ -186,13 +176,12 @@ Lower Bound and Upper Bound Trace
   Upper bound (first index > 3): returns 4.
   So all occurrences of 3 are in indices [1, 4) = {1, 2, 3}.
   Count of 3s = upperBound - lowerBound = 4 - 1 = 3.  Correct!
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">Diagram 3 — Binary Search on Answer Space</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Trace</span>
-{% highlight text %}
+```text
 Binary Search on Answer Space: Koko Bananas
   Problem: Koko eats bananas. Piles = [3, 6, 7, 11]. H = 8 hours.
   Find minimum eating speed k such that Koko finishes all piles in H hours.
@@ -218,13 +207,12 @@ Binary Search on Answer Space: Koko Bananas
 
   lo=4 == hi=4  =>  return 4.
   Answer: minimum speed = 4.  Correct!
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">Diagram 4 — Rotated Sorted Array</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Trace</span>
-{% highlight text %}
+```text
 Rotated Array: Which Half Is Sorted?
   Original sorted: [1, 2, 3, 4, 5, 6, 7]
   Rotated at index 3: [4, 5, 6, 7, 1, 2, 3]
@@ -245,10 +233,9 @@ Rotated Array: Which Half Is Sorted?
 
   lo=4, hi=5, mid=4, a[mid]=1.
     a[mid] == target  =>  FOUND at index 4.
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- Section 3 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Real-World Use Cases</h2>
@@ -272,15 +259,13 @@ Rotated Array: Which Half Is Sorted?
   </table>
 </div>
 </div>
-
 <!-- Section 4 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Core Concepts & Algorithms</h2>
-
 <h3 class="section-subheading">4.1 — Search in Rotated Sorted Array</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Rotated Sorted Array Search — O(log n)
 // LeetCode 33 — Search in Rotated Sorted Array
 // Time: O(log n)  Space: O(1)
@@ -306,13 +291,12 @@ int search(vector<int>& a, int target) {
     }
     return -1;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.2 — Find Minimum in Rotated Sorted Array</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Find Minimum in Rotated Array — O(log n)
 // LeetCode 153 — Find Minimum in Rotated Sorted Array
 // Time: O(log n)  Space: O(1)
@@ -332,15 +316,13 @@ int findMin(vector<int>& a) {
 // Comparing mid to hi tells us if the right side is 'out of order' (rotated).
 // If a[mid] > a[hi]: right half wraps around, minimum is in [mid+1, hi].
 // If a[mid] <= a[hi]: right half is sorted normally, minimum is in [lo, mid].
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.3 — Binary Search on Answer Space</h3>
 <p>Many optimisation problems can be solved by binary searching on the answer value directly. The key insight: define a feasibility function <code>f(x)</code> that returns true/false. If <code>f</code> is monotone (all true for x &gt;= answer, all false below), binary search finds the boundary.</p>
-
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Binary Search on Answer Space — O(n log(max_val))
 // Generic answer-space binary search template
 // Find minimum x such that feasible(x) is true.
@@ -371,13 +353,12 @@ int minEatingSpeed(vector<int>& piles, int h) {
     }
     return lo;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.4 — Counting Occurrences with Lower/Upper Bound</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Lower/Upper Bound Applications
 // Count occurrences of target in sorted array
 // Time: O(log n)  Space: O(1)
@@ -396,13 +377,12 @@ vector<int> searchRange(vector<int>& a, int target) {
     int last  = (int)(upper_bound(a.begin(),a.end(),target) - a.begin()) - 1;
     return {first, last};
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.5 — Binary Search on 2D Matrix</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Binary Search on 2D Matrix — O(log(mn)) and O(m+n)
 // LeetCode 74 — Search a 2D Matrix
 // Matrix: rows sorted, last element of row < first element of next row.
@@ -433,11 +413,9 @@ bool searchMatrixII(vector<vector<int>>& mat, int target) {
     }
     return false;
 }
-{% endhighlight %}
+```
 </div>
-
 </div>
-
 <!-- Section 5 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Pattern Recognition Guide</h2>
@@ -462,7 +440,6 @@ bool searchMatrixII(vector<vector<int>>& mat, int target) {
     </tbody>
   </table>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">🔍 How to Identify an Answer-Space Binary Search Problem</span>
   <ul>
@@ -474,7 +451,6 @@ bool searchMatrixII(vector<vector<int>>& mat, int target) {
     <li><strong>EXAMPLES:</strong> Koko Bananas, Capacity to Ship Packages, Split Array Largest Sum, Magnetic Force Between Balls.</li>
   </ul>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">🛡️ The Off-By-One Survival Guide</span>
   <ul>
@@ -487,15 +463,13 @@ bool searchMatrixII(vector<vector<int>>& mat, int target) {
   </ul>
 </div>
 </div>
-
 <!-- Section 6 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 6 — Complete C++ Implementations</h2>
-
 <h3 class="section-subheading">6.1 — Capacity to Ship Packages (Answer Space BS)</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Capacity to Ship — O(n log sum)
 // LeetCode 1011 — Capacity to Ship Packages Within D Days
 // Find minimum ship capacity to deliver all packages within D days.
@@ -522,13 +496,12 @@ public:
         return lo;
     }
 };
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">6.2 — Find Peak Element</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Find Peak Element — O(log n)
 // LeetCode 162 — Find Peak Element
 // A peak is an element strictly greater than its neighbours.
@@ -546,13 +519,12 @@ int findPeakElement(vector<int>& a) {
     }
     return lo; // lo == hi == index of a peak
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">6.3 — Split Array Largest Sum</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Split Array Largest Sum — O(n log sum)
 // LeetCode 410 — Split Array Largest Sum
 // Split nums into k non-empty subarrays to minimise the largest subarray sum.
@@ -578,10 +550,9 @@ public:
         return lo;
     }
 };
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- Section 7 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 7 — Complexity Reference</h2>
@@ -607,7 +578,6 @@ public:
     </tbody>
   </table>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">Why is Binary Search O(log n)?</span>
   <ul>
@@ -619,11 +589,9 @@ public:
   </ul>
 </div>
 </div>
-
 <!-- Section 8 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 8 — Solved Problem 1: Search in Rotated Sorted Array</h2>
-
 <div class="insight-box">
 <span class="insight-label">1. Observations & Core Idea</span>
 <p>Given an integer array nums sorted in ascending order that has been rotated at an unknown pivot, and a target value, return the index of target or -1 if not present. Must run in O(log n).</p>
@@ -634,7 +602,6 @@ public:
     <li>If <code>a[lo] &gt; a[mid]</code>: the right half <code>[mid..hi]</code> is sorted. Check if target falls within <code>(a[mid], a[hi]]</code>. If yes, search right; otherwise search left.</li>
 </ul>
 </div>
-
 <h3 class="section-subheading">2. Approach Comparison</h3>
 <div class="ch-ed-problems">
   <table>
@@ -647,11 +614,10 @@ public:
     </tbody>
   </table>
 </div>
-
 <h3 class="section-subheading">3. Optimised Solution</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
@@ -677,9 +643,8 @@ public:
         return -1;
     }
 };
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4. Follow-Up Questions</h3>
 <ul>
   <li><strong>Q: What if the array has duplicates (LC 81)?</strong> When <code>a[lo] == a[mid]</code>, we cannot determine which half is sorted. Increment <code>lo</code> (<code>lo++</code>) to skip the duplicate and continue. Worst case degrades to O(n).</li>
@@ -687,11 +652,9 @@ public:
   <li><strong>Q: Why use <code>a[lo] &lt;= a[mid]</code> instead of <code>&lt;</code>?</strong> When <code>lo == mid</code> (two-element window), <code>a[lo] == a[mid]</code> and the left half of size 1 is trivially sorted. The <code>&lt;=</code> safely handles this.</li>
 </ul>
 </div>
-
 <!-- Section 9 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 9 — Solved Problem 2: Koko Eating Bananas</h2>
-
 <div class="insight-box">
 <span class="insight-label">1. Observations & Core Idea</span>
 <p>Koko has piles of bananas. She eats at speed k (k bananas per hour). Each hour she picks one pile and eats min(pile, k) bananas. Find the minimum k so she can eat all bananas in at most h hours.</p>
@@ -702,7 +665,6 @@ public:
     <li>Binary search finds the minimum <code>k</code> where <code>feasible(k)</code> is true. This is the lower-bound template on the answer space.</li>
 </ul>
 </div>
-
 <h3 class="section-subheading">2. Approach Comparison</h3>
 <div class="ch-ed-problems">
   <table>
@@ -715,11 +677,10 @@ public:
     </tbody>
   </table>
 </div>
-
 <h3 class="section-subheading">3. Optimised Solution</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 class Solution {
     // Can Koko finish all piles at speed k within h hours?
     bool feasible(vector<int>& piles, long long k, int h) {
@@ -743,9 +704,8 @@ public:
         return lo; // lo == hi == minimum feasible speed
     }
 };
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4. Follow-Up Questions</h3>
 <ul>
   <li><strong>Q: Capacity to Ship Packages (LC 1011)?</strong> Identical structure. <code>feasible(cap)</code>: simulate loading, increment day. <code>lo = max weight</code>, <code>hi = sum of weights</code>.</li>
@@ -753,11 +713,9 @@ public:
   <li><strong>Q: Why <code>ceil(p/k) = (p + k - 1) / k</code>?</strong> In integer math for positive integers <code>a</code> and <code>b</code>, <code>ceil(a/b) = (a + b - 1) / b</code>. Verify: <code>ceil(7/3) = (7+2)/3 = 9/3 = 3</code>.</li>
 </ul>
 </div>
-
 <!-- Section 10 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 10 — Common Mistakes & Edge Cases</h2>
-
 <h3 class="section-subheading">10.1 — Classic Off-By-One Errors</h3>
 <ul>
   <li><strong>MISTAKE: Using (lo + hi) / 2</strong>. When lo and hi are both large, lo + hi overflows a 32-bit integer. Always use <code>lo + (hi - lo) / 2</code>.</li>
@@ -765,14 +723,12 @@ public:
   <li><strong>MISTAKE: Using lo &lt;= hi in a lower-bound search</strong>. This can loop forever when lo == hi. Lower-bound uses <code>lo &lt; hi</code>.</li>
   <li><strong>MISTAKE: Initialising hi = n - 1 for lower/upper bound</strong>. The answer can be n (insert at end). Always initialise <code>hi = n</code>.</li>
 </ul>
-
 <h3 class="section-subheading">10.2 — Rotated Array & Answer Space Mistakes</h3>
 <ul>
   <li><strong>MISTAKE: strict less in rotated array search</strong>: using <code>a[lo] &lt; a[mid]</code> instead of <code>&lt;=</code>. Fails on a two-element window.</li>
   <li><strong>MISTAKE: integer overflow in feasibility check</strong>. Use <code>long long</code> for accumulated sums or counts (like hours needed for Koko).</li>
   <li><strong>MISTAKE: confusing minimise vs maximise answer space</strong>. Draw the YES/NO monotone map. If you want the first YES (minimise), use <code>hi = mid</code> on YES. If you want the last YES (maximise), use <code>lo = mid</code> on YES.</li>
 </ul>
-
 <div class="insight-box">
 <span class="insight-label">Warning</span>
 <p><strong>Edge Cases to Consider:</strong></p>
@@ -783,7 +739,6 @@ public:
 </ul>
 </div>
 </div>
-
 <!-- Section 11 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 11 — Common Interview Questions</h2>
@@ -806,10 +761,8 @@ public:
   </table>
 </div>
 </div>
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/greedy/ch7-greedy/" class="ch-nav-footer-btn">← Prev: Ch7 Greedy</a>
   <a href="/learning/dsa/backtracking/ch9-backtracking/" class="ch-nav-footer-btn primary">Next: Ch9 Backtracking →</a>
 </div>
-
 </div>

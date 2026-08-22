@@ -29,14 +29,11 @@ url: /learning/dsa/greedy/ch7-greedy/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <!-- Section 1 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Is a Greedy Algorithm?</h2>
 <p>A greedy algorithm builds a solution by making the locally optimal choice at each step without reconsidering past decisions. It never backtracks. For greedy to yield a globally optimal solution, the problem must satisfy two key properties.</p>
-
 <h3 class="section-subheading">Two Conditions for Greedy Correctness</h3>
 <ul>
   <li><strong>1. GREEDY CHOICE PROPERTY:</strong> A globally optimal solution can be constructed by making locally optimal (greedy) choices. The greedy choice at step <code>k</code> is <em>safe</em> — it is part of some optimal solution.</li>
@@ -44,7 +41,6 @@ url: /learning/dsa/greedy/ch7-greedy/
   <li>If BOTH conditions hold, greedy is correct. If either fails, greedy gives a wrong answer and you need DP or backtracking.</li>
   <li><strong>Proving greedy correctness:</strong> use the <em>exchange argument</em> — assume an optimal solution makes a different choice; show that swapping to the greedy choice does not worsen the result.</li>
 </ul>
-
 <h3 class="section-subheading">1.1 — Greedy vs Dynamic Programming</h3>
 <div class="ch-ed-problems">
   <table>
@@ -62,7 +58,6 @@ url: /learning/dsa/greedy/ch7-greedy/
     </tbody>
   </table>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">💰 Real-World Analogy: Making Change</span>
   <p><strong>Problem:</strong> make change for 41 cents using fewest coins (denominations: 25, 10, 5, 1).</p>
@@ -75,11 +70,9 @@ url: /learning/dsa/greedy/ch7-greedy/
   <p>This illustrates why greedy correctness must always be proven — it is not automatic.</p>
 </div>
 </div>
-
 <!-- Section 2 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Visual Diagrams: Core Greedy Patterns</h2>
-
 <h3 class="section-subheading">Diagram 1 — Interval Scheduling (Activity Selection)</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Intervals</span>
@@ -107,7 +100,6 @@ url: /learning/dsa/greedy/ch7-greedy/
  
   Selected: [1,4], [5,7], [8,11]  =  3 intervals.  Optimal!</code></pre>
 </div>
-
 <h3 class="section-subheading">Diagram 2 — Jump Game</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Jump Game trace</span>
@@ -135,7 +127,6 @@ url: /learning/dsa/greedy/ch7-greedy/
   Key insight: if we ever reach a position where i > maxReach,
   we are stuck in a 'zero island' with no way forward.</code></pre>
 </div>
-
 <h3 class="section-subheading">Diagram 3 — Kadane's Algorithm (Maximum Subarray)</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">Kadane trace</span>
@@ -162,7 +153,6 @@ url: /learning/dsa/greedy/ch7-greedy/
   it is better to start fresh from the current element (restart).</code></pre>
 </div>
 </div>
-
 <!-- Section 3 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Real-World Use Cases</h2>
@@ -183,16 +173,14 @@ url: /learning/dsa/greedy/ch7-greedy/
   </table>
 </div>
 </div>
-
 <!-- Section 4 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Core Concepts & Algorithms</h2>
-
 <h3 class="section-subheading">4.1 — Interval Scheduling & Merging</h3>
 <p>Maximum Non-Overlapping Intervals (Activity Selection)</p>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Activity Selection — O(n log n)
 // Sort by end time; greedily pick earliest-finishing non-conflicting interval
 int maxNonOverlapping(vector<vector<int>>& intervals) {
@@ -207,13 +195,12 @@ int maxNonOverlapping(vector<vector<int>>& intervals) {
     }
     return count;
 }
-{% endhighlight %}
+```
 </div>
-
 <p>Merge Overlapping Intervals</p>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Merge Overlapping Intervals — O(n log n)
 // Sort by start time; merge when current interval overlaps previous
 vector<vector<int>> merge(vector<vector<int>>& intervals) {
@@ -225,13 +212,12 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
     }
     return res;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.2 — Jump Game Variants</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // JUMP GAME I (LC 55) — Can you reach the last index?
 bool canJump(vector<int>& nums) {
     int maxReach = 0;
@@ -253,13 +239,12 @@ int jump(vector<int>& nums) {
     }
     return jumps;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.3 — Kadane's Algorithm</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Kadane's Algorithm — O(n) O(1)
 // LeetCode 53 — Maximum Subarray
 int maxSubArray(vector<int>& nums) {
@@ -270,13 +255,12 @@ int maxSubArray(vector<int>& nums) {
     }
     return maxSum;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.4 — Gas Station Circuit</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // LeetCode 134 — Gas Station
 int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     int totalSurplus = 0, currSurplus = 0, start = 0;
@@ -289,13 +273,12 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     }
     return totalSurplus >= 0 ? start : -1;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">4.5 — Huffman Encoding</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Huffman Encoding — O(n log n)
 struct HNode {
     int freq; char ch;
@@ -318,11 +301,9 @@ HNode* buildHuffman(unordered_map<char,int>& freq) {
     }
     return pq.top(); // root
 }
-{% endhighlight %}
+```
 </div>
-
 </div>
-
 <!-- Section 5 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 5 — Pattern Recognition Guide</h2>
@@ -344,7 +325,6 @@ HNode* buildHuffman(unordered_map<char,int>& freq) {
     </tbody>
   </table>
 </div>
-
 <div class="insight-box">
   <span class="insight-label">🔍 How to Recognise a Greedy Problem</span>
   <ul>
@@ -355,15 +335,13 @@ HNode* buildHuffman(unordered_map<char,int>& freq) {
   </ul>
 </div>
 </div>
-
 <!-- Section 6 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 6 — Complete C++ Implementations</h2>
-
 <h3 class="section-subheading">6.1 — Non-overlapping Intervals</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Minimum intervals to remove so remaining are non-overlapping
 // Time: O(n log n)  Space: O(1)
 int eraseOverlapIntervals(vector<vector<int>>& intervals) {
@@ -377,13 +355,12 @@ int eraseOverlapIntervals(vector<vector<int>>& intervals) {
     }
     return (int)intervals.size() - keep;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">6.2 — Partition Labels</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 // Partition Labels — O(n)
 // Partition string so each letter appears in at most one part.
 vector<int> partitionLabels(string s) {
@@ -401,10 +378,9 @@ vector<int> partitionLabels(string s) {
     }
     return result;
 }
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- Section 7 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 7 — Complexity Reference</h2>
@@ -426,17 +402,14 @@ vector<int> partitionLabels(string s) {
   </table>
 </div>
 </div>
-
 <!-- Section 8 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 8 — Solved Problem 1: Jump Game</h2>
-
 <div class="insight-box">
 <span class="insight-label">1. Observations & Core Idea</span>
 <p>In DP form, this is reachability. To reach <code>i</code>, we need to reach some <code>j &lt; i</code> where <code>j + nums[j] &gt;= i</code>. The DP takes <code>O(n^2)</code>.</p>
 <p><strong>Greedy Insight:</strong> If we can reach any index <code>k</code>, we can naturally reach any index <code>&lt; k</code>. So we just need to track the single "farthest reachable index" (<code>maxReach</code>) scanned from left to right. If at index <code>i</code>, we find <code>i &gt; maxReach</code>, we are stranded!</p>
 </div>
-
 <h3 class="section-subheading">2. Approach Comparison</h3>
 <div class="ch-ed-problems">
   <table>
@@ -449,11 +422,10 @@ vector<int> partitionLabels(string s) {
     </tbody>
   </table>
 </div>
-
 <h3 class="section-subheading">3. Optimized Greedy Approach</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
@@ -472,20 +444,17 @@ public:
         return true;
     }
 };
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- Section 9 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 9 — Solved Problem 2: Merge Intervals</h2>
-
 <div class="insight-box">
 <span class="insight-label">1. Observations & Core Idea</span>
 <p>Intervals can overlap in arbitrary orders. Standard greedy tells us: sort by START time.</p>
 <p>If sorted by start time, overlapping intervals will always be strictly adjacent in the sorted array. If the current interval's start <code>&lt;=</code> the previous interval's end, they overlap. We merge them by making the new end = <code>max(end1, end2)</code>.</p>
 </div>
-
 <h3 class="section-subheading">2. Approach Comparison</h3>
 <div class="ch-ed-problems">
   <table>
@@ -498,11 +467,10 @@ public:
     </tbody>
   </table>
 </div>
-
 <h3 class="section-subheading">3. Optimized Greedy Approach</h3>
 <div class="ch-code-wrap">
 <span class="ch-code-label">C++</span>
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
@@ -532,10 +500,9 @@ public:
         return merged;
     }
 };
-{% endhighlight %}
+```
 </div>
 </div>
-
 <!-- Section 10 -->
 <div class="chapter-section">
 <h2 class="section-heading">Section 10 — Common Mistakes & Edge Cases</h2>
@@ -544,7 +511,6 @@ public:
   <li><strong>Sorting by the wrong attribute in intervals:</strong> Non-overlapping/activity selection -> Sort by END time. Merging -> Sort by START time. Meeting rooms -> Split into events and sort by TIME.</li>
   <li><strong>Tie-breaking incorrectly:</strong> E.g., in Meeting Rooms, if a meeting ends at time <code>t</code> and another starts at time <code>t</code>, the end must be processed FIRST (-1 before +1) to avoid allocating a phantom extra room.</li>
 </ul>
-
 <div class="insight-box">
 <span class="insight-label">Warning</span>
 <p><strong>Edge Cases to Consider:</strong></p>
@@ -555,7 +521,6 @@ public:
 </ul>
 </div>
 </div>
-
 <!-- Practice Problems -->
 <div class="chapter-section">
 <h2 class="section-heading">Practice Problems</h2>
@@ -578,10 +543,8 @@ public:
   </table>
 </div>
 </div>
-
 <div class="ch-nav-footer">
   <a href="/learning/dsa/heaps/ch6-heaps/" class="ch-nav-btn prev">← Prev: Ch6 Heaps</a>
   <a href="/learning/dsa/dsa-roadmap/" class="ch-nav-btn next">Next: Ch8 Binary Search (Locked)<i class="fas fa-lock" style="margin-left: 8px;"></i></a>
 </div>
-
 </div>

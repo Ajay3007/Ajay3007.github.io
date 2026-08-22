@@ -96,7 +96,6 @@ url: /learning/ai-ml/part5-rag/p5-m18-rag-pipelines/
 .ps-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.6rem .9rem;font-size:.82rem;color:#d1fae5}
 .ps-item::before{content:"✓  ";color:#34d399;font-weight:700}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 5 — RAG Systems &nbsp;·&nbsp; Module 18 of 18</div>
@@ -109,7 +108,6 @@ url: /learning/ai-ml/part5-rag/p5-m18-rag-pipelines/
     <span class="mod-pill">📋 Prerequisite: P5-M17</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🏗 RAG from Scratch</button>
@@ -123,8 +121,6 @@ url: /learning/ai-ml/part5-rag/p5-m18-rag-pipelines/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-emerald">
@@ -143,8 +139,6 @@ url: /learning/ai-ml/part5-rag/p5-m18-rag-pipelines/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — RAG FROM SCRATCH ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-emerald">
@@ -226,7 +220,6 @@ def rag_query(question: str, n_results: int = <span class="cv">5</span>, thresho
     }</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">💬</span><h3>Conversational RAG — Multi-Turn with Memory</h3><span class="tag tag-blue">Chat Pattern</span></div>
   <div class="cp-body">
@@ -277,8 +270,6 @@ class ConversationalRAG:
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — LLAMAINDEX ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-emerald">
@@ -298,7 +289,6 @@ Settings.embed_model = OpenAIEmbedding(model=<span class="cs">"text-embedding-3-
 Settings.llm         = Anthropic(model=<span class="cs">"claude-3-5-sonnet-20241022"</span>)
 Settings.chunk_size  = <span class="cv">512</span>
 Settings.chunk_overlap = <span class="cv">50</span>
- 
 <span class="ck"># ── INDEX: load documents and build vector index ──────</span>
 documents = SimpleDirectoryReader(<span class="cs">"./docs/"</span>).load_data()
 index     = VectorStoreIndex.from_documents(documents, show_progress=<span class="cv">True</span>)
@@ -323,7 +313,6 @@ response = chat_engine.chat(<span class="cs">"How does it compare to kernel netw
 <span class="ck"># Remembers prior turns automatically</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>LlamaIndex Advanced — Custom Retrievers and Postprocessors</h3><span class="tag tag-blue">Production</span></div>
   <div class="cp-body">
@@ -363,8 +352,6 @@ response = sub_qe.query(<span class="cs">"Compare DPDK ring buffer and mempool p
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — LANGCHAIN RAG ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-emerald">
@@ -427,8 +414,6 @@ for doc in result[<span class="cs">"sources"</span>]:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — GROUNDING & CITATIONS ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-emerald">
@@ -454,7 +439,6 @@ GROUNDED_USER = <span class="cs">"""&lt;context&gt;
 &lt;/context&gt;
  
 Question: {question}"""</span>
- 
 <span class="ck"># Test grounding with adversarial queries</span>
 adversarial_tests = [
     <span class="cs">"What is 2 + 2?"</span>,                       <span class="ck"># general knowledge not in docs</span>
@@ -465,7 +449,6 @@ adversarial_tests = [
 <span class="ck"># If any provide an answer, your grounding prompt needs strengthening</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📎</span><h3>Structured Citations — Verifiable Answers</h3><span class="tag tag-blue">Attribution</span></div>
   <div class="cp-body">
@@ -516,8 +499,6 @@ for cit in result.citations:
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — HALLUCINATION REDUCTION ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-emerald">
@@ -569,11 +550,9 @@ def safe_rag_query(question: str, min_score: float = <span class="cv">0.45</span
 <span class="ck"># "If not found, say: The documents don't address this topic."</span>
 <span class="ck"># Vague: "say you don't know" → model still makes up an answer</span>
 <span class="ck"># Specific: exact phrase → model reliably uses it</span>
- 
 <span class="ck"># Strategy 4: Temperature = 0 for factual RAG</span>
 <span class="ck"># Non-zero temperature increases variation → hallucination risk</span>
 <span class="ck"># Always use temperature=0.0 for document Q&A tasks</span>
- 
 <span class="ck"># Strategy 5: Answer + Verify loop</span>
 async def verified_rag(question: str) -> dict:
     <span class="ck"># Generate answer</span>
@@ -593,8 +572,6 @@ async def verified_rag(question: str) -> dict:
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — PRODUCTION RAG API ══════════ -->
 <div id="t6" class="tab-pane">
 <div class="cp p-emerald">
@@ -654,7 +631,6 @@ async def ask_stream(request: RAGRequest):
     async def generate():
         <span class="ck"># First SSE: send sources immediately</span>
         yield <span class="cs">f"data: {json.dumps({'type': 'sources', 'sources': sources})}\n\n"</span>
- 
         <span class="ck"># Stream the answer</span>
         async with client.messages.stream(
             model=<span class="cs">"claude-3-5-sonnet-20241022"</span>,
@@ -675,8 +651,6 @@ async def ask_stream(request: RAGRequest):
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — RESOURCES ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -691,8 +665,6 @@ async def ask_stream(request: RAGRequest):
   </tbody>
 </table>
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — PROJECTS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="proj-box">
@@ -723,8 +695,6 @@ async def ask_stream(request: RAGRequest):
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — LABS ══════════ -->
 <div id="t9" class="tab-pane">
 <div class="lab-box">
@@ -738,7 +708,6 @@ async def ask_stream(request: RAGRequest):
     <div class="lab-step"><div class="sn">5</div><div>Add faithfulness checking. On your (a) queries, what % are flagged as unfaithful? Inspect each case — is the faithfulness checker accurate?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>LlamaIndex vs From-Scratch — Compare Outputs</h4></div>
   <div class="lab-body">
@@ -750,7 +719,6 @@ async def ask_stream(request: RAGRequest):
     <div class="lab-step"><div class="sn">5</div><div><strong>Document your conclusion:</strong> What does LlamaIndex give you for free? What does it hide that you need to control? When would you use a framework vs build from scratch?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>End-to-End RAG Quality Audit</h4></div>
   <div class="lab-body">
@@ -763,8 +731,6 @@ async def ask_stream(request: RAGRequest):
   </div>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ══════════ TAB 10 — CHECKLIST ══════════ -->
 <div id="t10" class="tab-pane">
 <p class="sep">P5-M18 MASTERY CHECKLIST</p>
@@ -790,7 +756,6 @@ async def ask_stream(request: RAGRequest):
   <p>✅ <strong>Part 5 Complete!</strong> You can now build production-grade RAG systems. Move to <strong>Part 6 — Agents, Workflows &amp; Evaluation</strong> to learn how to build systems that don't just answer questions — they take actions.</p>
 </div>
 </div><!-- end t10 -->
-
 <!-- ── PART 5 COMPLETION BANNER ── -->
 <div class="part-complete">
   <h3>🎉 Part 5 — RAG Systems Complete!</h3>
@@ -806,13 +771,11 @@ async def ask_stream(request: RAGRequest):
     <div class="ps-item">Build and ship a streaming RAG FastAPI application</div>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part5-rag/p5-m17-retrieval-quality/">← P5-M17: Retrieval Quality</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part6-agents/p6-m19-agent-loops/">Next: P6-M19 — Agent Loops →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

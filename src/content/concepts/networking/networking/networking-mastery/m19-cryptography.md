@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m19-cryptography/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 5 · MODULE 19 · WEEK 17</div>
   <div class="mod-title">🔐 Cryptography Foundations</div>
@@ -90,7 +89,6 @@ url: /learning/networking-mastery/m19-cryptography/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Why Crypto</button>
   <button class="tab-btn" onclick="vt(event,'t1')">Symmetric Encryption</button>
@@ -102,7 +100,6 @@ url: /learning/networking-mastery/m19-cryptography/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THREE SECURITY PROPERTIES CRYPTOGRAPHY PROVIDES</p>
@@ -119,7 +116,6 @@ url: /learning/networking-mastery/m19-cryptography/
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">SYMMETRIC ENCRYPTION — FAST, SHARED-KEY CIPHERS</p>
@@ -128,7 +124,6 @@ url: /learning/networking-mastery/m19-cryptography/
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Symmetric encryption: same key encrypts and decrypts */</span>
 <span class="cm">/* Problem: how do two parties share the key securely? → Key Exchange (Tab 4) */</span>
- 
 <span class="cm">/* AES (Advanced Encryption Standard) */</span>
 Block cipher: processes 128-bit (16-byte) blocks
 Key sizes:    128, 192, or 256 bits (AES-128, AES-192, AES-256)
@@ -160,7 +155,6 @@ Decrypt:
 <span class="cm">/* Critical: nonce MUST be unique per (key, message) */</span>
 <span class="cm">/* Nonce reuse with AES-GCM → catastrophic key recovery possible */</span>
 <span class="cm">/* TLS 1.3 uses XOR of static IV with sequence number as nonce */</span>
- 
 <span class="cm">/* OpenSSL AEAD in C */</span>
 EVP_AEAD_CTX *ctx = EVP_AEAD_CTX_new(EVP_aead_aes_128_gcm(),
     key, 16, EVP_AEAD_DEFAULT_TAG_LENGTH);
@@ -171,7 +165,6 @@ EVP_AEAD_CTX_open(ctx, plaintext, &plen, max_out,
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">ASYMMETRIC CRYPTOGRAPHY — PUBLIC KEY SYSTEMS</p>
@@ -191,7 +184,6 @@ Sign:   sig = m^d mod n    (private key d)
 Verify: m   = sig^e mod n  (public key e)
 <span class="cm">/* In practice: sign H(message) not message itself */</span>
 <span class="cm">/* Padding: PKCS#1 v1.5 (legacy) or PSS (modern, recommended) */</span>
- 
 <span class="cm">/* Elliptic Curve Cryptography (ECC) */</span>
 Based on:  hardness of ECDLP (Elliptic Curve Discrete Logarithm Problem)
 Key sizes: 256-bit ECC ≈ 3072-bit RSA security
@@ -208,7 +200,6 @@ Curves:
 <span class="cm">/* WARNING: ECDSA requires a unique random nonce per signature */</span>
 <span class="cm">/* Nonce reuse → private key recovery (PS3 hack, Bitcoin theft) */</span>
 <span class="cm">/* Solution: use Ed25519 (EdDSA) which derives nonce deterministically */</span>
- 
 <span class="cm">/* Key generation with OpenSSL */</span>
 openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 -out ec_key.pem
 openssl pkey -in ec_key.pem -pubout -out ec_pub.pem
@@ -216,7 +207,6 @@ openssl genpkey -algorithm Ed25519 -out ed_key.pem</pre></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">HASH FUNCTIONS AND MACs — INTEGRITY PRIMITIVES</p>
@@ -248,16 +238,13 @@ HMAC-SHA384: 384-bit tag (used in IPsec/IKEv2 PRF)
  
 <span class="cm">/* HKDF — HMAC-based Key Derivation Function (RFC 5869) */</span>
 <span class="cm">/* Extract-then-Expand: derive multiple keys from one master secret */</span>
- 
 <span class="cm">/* Extract phase */</span>
 prk = HMAC-SHA256(salt, ikm)    <span class="cm">/* input keying material → pseudorandom key */</span>
- 
 <span class="cm">/* Expand phase */</span>
 OKM = T(1) || T(2) || ... where T(i) = HMAC-SHA256(prk, T(i-1) || info || i)
  
 <span class="cm">/* TLS 1.3 uses HKDF to derive all session keys from the master secret */</span>
 <span class="cm">/* IPsec uses PRF (usually HMAC-SHA256 or AES-XCBC) similarly */</span>
- 
 <span class="cm">/* OpenSSL hash in C */</span>
 unsigned char digest[SHA256_DIGEST_LENGTH];
 SHA256((unsigned char *)msg, msg_len, digest);
@@ -269,7 +256,6 @@ HMAC(EVP_sha256(), key, key_len, data, data_len, hmac, &hlen);</pre></div>
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">KEY EXCHANGE — SECURE SHARED SECRET OVER PUBLIC CHANNEL</p>
@@ -312,7 +298,6 @@ EVP_PKEY_CTX *ctx = EVP_PKEY_CTX_new_id(EVP_PKEY_X25519, NULL);
 EVP_PKEY_keygen_init(ctx);
 EVP_PKEY *pkey = NULL;
 EVP_PKEY_keygen(ctx, &pkey);   <span class="cm">/* generate ephemeral keypair */</span>
- 
 <span class="cm">/* After receiving peer's public key: */</span>
 EVP_PKEY_CTX *dctx = EVP_PKEY_CTX_new(pkey, NULL);
 EVP_PKEY_derive_init(dctx);
@@ -323,7 +308,6 @@ EVP_PKEY_derive(dctx, shared_secret, &slen);  <span class="cm">/* 32-byte X25519
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">PKI — PUBLIC KEY INFRASTRUCTURE</p>
@@ -368,7 +352,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
 <span class="cm"># All public TLS certs must be logged to CT logs</span>
 <span class="cm"># Browsers require SCT (Signed Certificate Timestamp) in TLS handshake</span>
 <span class="cm"># Enables detection of mis-issued certs (NGFW relevance: detect rogue CAs)</span>
- 
 <span class="cm">/* OCSP Stapling */</span>
 <span class="cm"># Server fetches OCSP response (revocation status) from CA</span>
 <span class="cm"># Staples it to TLS handshake — client doesn't need to query CA separately</span>
@@ -376,7 +359,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">ALGORITHM SELECTION REFERENCE</p>
@@ -396,7 +378,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
         <tr><td>Post-quantum (future)</td><td>CRYSTALS-Kyber (KEM), CRYSTALS-Dilithium (sig)</td><td>Hybrid classical+PQ</td><td>Pure classical for PQ-sensitive data</td></tr>
       </tbody>
     </table>
-
     <h4>Key Sizes — Security Level Reference</h4>
     <table class="t-table">
       <thead><tr><th>Security Level</th><th>Symmetric</th><th>RSA/DH</th><th>ECC</th><th>Good Until</th></tr></thead>
@@ -409,7 +390,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -422,7 +402,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
     <div class="lab-step"><div class="sn">4</div><div>Certificate parsing: fetch a live TLS certificate: <code>openssl s_client -connect github.com:443 2>/dev/null | openssl x509 -text -noout</code>. Identify: issuer, subject, SANs, key type and size, validity period, CT SCT extension. Verify the certificate chain: does github.com use RSA or EC? What intermediate CA signed it?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a Secure Channel from Primitives</h4></div>
   <div class="lab-body">
@@ -434,7 +413,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <p class="sep">M19 MASTERY CHECKLIST</p>
@@ -467,7 +445,6 @@ openssl verify -CAfile /etc/ssl/certs/ca-certificates.crt cert.pem
   <p>✅ <strong>When complete:</strong> Move to <strong>M20 - TLS Internals</strong> — now that you understand the primitives, the TLS protocol will make complete sense as the composition of exactly these building blocks.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m18-vpp/">← M18 VPP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

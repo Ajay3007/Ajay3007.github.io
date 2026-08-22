@@ -11,7 +11,6 @@ url: /learning/system-design/hld/module-c5-security/
 
 <link rel="stylesheet" href="/assets/css/sd-module-c5.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
-
 <header>
   <div class="hdr-bar"></div>
   <div class="hdr-top">
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-c5-security/
     <div class="tg" style="color:var(--blu)">DDoS / Rate Limit</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="show('authn',this)">AuthN vs AuthZ</div>
   <div class="nt" onclick="show('oauth',this)">OAuth2 / OIDC</div>
@@ -54,9 +52,7 @@ url: /learning/system-design/hld/module-c5-security/
   <div class="nt" onclick="show('tasks',this)">Tasks</div>
   <div class="nt" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- AUTHN -->
 <div class="view active" id="view-authn">
   <div class="sh">Authentication vs Authorization</div>
@@ -77,7 +73,6 @@ url: /learning/system-design/hld/module-c5-security/
   </div>
   <div class="al red"><em>Common mistake:</em> checking authentication but not authorization. A user who is logged in can call any endpoint — even ones that belong to other users. Always check: (1) is this request authenticated? (2) does this principal have permission for THIS specific resource? Missing step 2 = IDOR (Insecure Direct Object Reference) = OWASP #1.</div>
 </div>
-
 <!-- OAUTH -->
 <div class="view" id="view-oauth">
   <div class="sh">OAuth2 & OpenID Connect</div>
@@ -95,7 +90,6 @@ url: /learning/system-design/hld/module-c5-security/
   </div>
   <div class="al gold"><em>Why PKCE?</em> On mobile, the OS can intercept redirects from any app. Without PKCE, a malicious app could steal the authorization code from the redirect and exchange it for tokens. PKCE binds the code to a verifier that only the legitimate app knows — stolen codes are useless without code_verifier.</div>
 </div>
-
 <!-- JWT -->
 <div class="view" id="view-jwt">
   <div class="sh">JWT Deep Dive</div>
@@ -146,7 +140,6 @@ url: /learning/system-design/hld/module-c5-security/
 <span class="cm">// If any service is compromised → attacker can forge any token.</span>
 token = jwt.<span class="fn">sign</span>(payload, <span class="str">"shared-secret-key"</span>, { algorithm: <span class="str">"HS256"</span> })
 jwt.<span class="fn">verify</span>(token, <span class="str">"shared-secret-key"</span>)   <span class="cm">← every service needs this key</span>
- 
 <span class="cm">// RS256 (RSA-SHA256) — ASYMMETRIC ← PREFERRED</span>
 <span class="cm">// Auth server signs with PRIVATE key (kept secret, only auth server has it).</span>
 <span class="cm">// All services verify with PUBLIC key (published at JWKS endpoint).</span>
@@ -160,7 +153,6 @@ jwt.<span class="fn">verify</span>(token, public_key, {
 })</pre>
   </div>
 </div>
-
 <!-- MTLS -->
 <div class="view" id="view-mtls">
   <div class="sh">mTLS — Mutual TLS</div>
@@ -188,21 +180,18 @@ Client (order-service)            Server (payment-service)
     |                                   |
     |=== Encrypted channel established ==|
     |--- GET /charge (HTTP/1.1) ------->|  <span class="cm">← now authorized</span>
- 
 <span class="cm">// Service mesh (Istio) automates all of this:</span>
 <span class="cm">// Envoy sidecar handles mTLS transparently.</span>
 <span class="cm">// Policy: "order-service → payment-service: ALLOW"</span>
 <span class="cm">//         "frontend → payment-service: DENY"</span>
 <span class="cm">// Your application code calls http://payment-service/charge</span>
 <span class="cm">// Envoy sidecar upgrades to mTLS automatically.</span>
- 
 <span class="cm">// Cert rotation (SPIRE):</span>
 <span class="cm">// SPIRE issues short-lived SVIDs (24–72 hrs) to every workload.</span>
 <span class="cm">// Automatic rotation before expiry — zero manual cert management.</span></pre>
   </div>
   <div class="al grn"><em>Why mTLS over API keys for service-to-service?</em> API keys are static strings — once compromised they're valid until manually rotated. mTLS certificates are short-lived (24–72 hours), automatically rotated, cryptographically bound to a specific workload, and revocable via CRL. A compromised cert is useless after its short TTL. A compromised API key may go undetected for months.</div>
 </div>
-
 <!-- ZERO TRUST -->
 <div class="view" id="view-zerotrust">
   <div class="sh">Zero-Trust Architecture</div>
@@ -237,10 +226,8 @@ Client (order-service)            Server (payment-service)
   <div class="cb"><div class="cb-top">Microsegmentation — explicit allow vs flat network<span class="cb-l">K8S NETWORK POLICY</span></div>
 <pre class="c"><span class="cm">// Flat network (DEFAULT, DANGEROUS):</span>
 <span class="cm">// Any pod can call any pod. Compromised frontend → calls payment DB directly.</span>
- 
 <span class="cm">// Microsegmented (ZERO-TRUST):</span>
 <span class="cm">// All traffic denied by default. Explicit allows only.</span>
- 
 <span class="kw">apiVersion</span>: networking.k8s.io/v1
 <span class="kw">kind</span>: NetworkPolicy
 <span class="kw">metadata</span>:
@@ -258,14 +245,12 @@ Client (order-service)            Server (payment-service)
   - <span class="kw">to</span>:
     - <span class="kw">podSelector</span>:
         <span class="kw">matchLabels</span>: { app: payment-db }     <span class="cm">← ONLY payment-db may be called</span>
- 
 <span class="cm">// Blast radius comparison:</span>
 <span class="cm">// Without Zero-Trust: compromised transcoding pod → access to payment DB, user DB, secrets</span>
 <span class="cm">// With Zero-Trust: compromised transcoding pod → can only reach video-storage S3 bucket</span>
 <span class="cm">//                  (its only explicit allow). Attacker is contained.</span></pre>
   </div>
 </div>
-
 <!-- SECRETS -->
 <div class="view" id="view-secrets">
   <div class="sh">Secrets Management</div>
@@ -279,9 +264,7 @@ Client (order-service)            Server (payment-service)
   <div class="cb"><div class="cb-top">HashiCorp Vault dynamic secrets — no long-lived credentials<span class="cb-l">VAULT</span></div>
 <pre class="c"><span class="cm">// STATIC secret (dangerous): long-lived DB password stored as a secret</span>
 <span class="cm">// If the secret leaks: valid forever until manually rotated.</span>
- 
 <span class="cm">// DYNAMIC secret (Vault): Vault generates credentials per-request, with TTL</span>
- 
 <span class="cm">// App startup: request DB credentials from Vault</span>
 response = vault.<span class="fn">read</span>(<span class="str">"database/creds/my-role"</span>)
 <span class="cm">// Vault generates: { username: "v-app-20250307-abc", password: "xyz", lease_ttl: "1h" }</span>
@@ -296,7 +279,6 @@ db.<span class="fn">connect</span>(
  
 <span class="cm">// App renews lease before expiry:</span>
 vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← extend by another hour</span>
- 
 <span class="cm">// Benefits:</span>
 <span class="cm">// • No long-lived credentials → breach window is at most 1 hour</span>
 <span class="cm">// • Full audit log: who requested what credential, when</span>
@@ -304,7 +286,6 @@ vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← ext
 <span class="cm">// • Unique per instance: compromise of one pod ≠ compromise of all pods</span></pre>
   </div>
 </div>
-
 <!-- OWASP -->
 <div class="view" id="view-owasp">
   <div class="sh">OWASP Top 10 (2021)</div>
@@ -336,7 +317,6 @@ vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← ext
     </div>
   </div>
 </div>
-
 <!-- RATE LIMIT / DDOS -->
 <div class="view" id="view-ratelimit">
   <div class="sh">Rate Limiting for Security & DDoS Mitigation</div>
@@ -364,7 +344,6 @@ vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← ext
 <span class="cm">// Fix: rate limit per user_id (not just IP). CAPTCHA after 3 failures.</span>
 <span class="cm">// HIBP (Have I Been Pwned) check: reject passwords in known breach datasets.</span>
 <span class="cm">// Device fingerprinting: flag new device + failed login → MFA challenge.</span>
- 
 <span class="cm">// DDoS mitigation layers:</span>
 <span class="cm">// L3/4 volumetric (millions of packets): ISP BGP blackholing, AWS Shield Standard</span>
 <span class="cm">// L7 application (HTTP flood): Cloudflare WAF, AWS WAF, rate limiting, CAPTCHA</span>
@@ -388,7 +367,6 @@ vault.<span class="fn">renew</span>(response.lease_id)  <span class="cm">← ext
     </div>
   </div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -448,7 +426,6 @@ if token["user_id"] == requested_user_id:
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 24 completed</span><span style="font-family:'Courier Prime',monospace">MODULE C5 · SECURITY ARCHITECTURE</span></div>
@@ -479,7 +456,6 @@ if token["user_id"] == requested_user_id:
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">DDoS: L3/4 Shield, L7 WAF + rate limit, Anycast absorption at edge</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Tasks 1–4 completed (OAuth2, JWT review, Zero-Trust, Stripe security)</div></div>
   </div>
-
   <div class="complete-banner">
     <div class="cb-title">🎓 COURSE COMPLETE</div>
     <div style="font-family:'Cinzel',serif;font-size:16px;color:var(--white);margin-bottom:12px;letter-spacing:1px">System Design Mastery — All Three Tracks</div>
@@ -498,13 +474,10 @@ if token["user_id"] == requested_user_id:
   </div>
 </div>
 </div>
-
-
 <div class="mb-nav">
   <a href="/learning/system-design/hld/module-c4-observability/">← C4 Observability</a>
   <a href="/learning/system-design/hld/module-c5-notes/">📄 Study Notes</a>
   <a href="/learning/system-design/system-design-roadmap/">↑ Roadmap</a>
   <a href="/learning/system-design/system-design-roadmap/" class="primary">✅ Track Complete</a>
 </div>
-
 <script src="/assets/js/sd-module-c5.js"></script>

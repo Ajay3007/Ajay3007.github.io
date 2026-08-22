@@ -107,14 +107,12 @@ url: /learning/backend/m07-nosql/
 
 .sep{border:none;border-top:1px solid #e5e7eb;margin:1.2rem 0;}
 </style>
-
 <div class="mod-header">
   <h1>M07 — NoSQL: Redis, MongoDB &amp; Cassandra</h1>
   <p>NoSQL taxonomy, Redis data structures with complexity guarantees, caching patterns, persistence &amp; pub/sub, Lua scripting, rate limiting, MongoDB aggregation pipeline, Cassandra data modeling by access pattern, and hiredis in C.</p>
   <span class="mod-badge">Phase 2 — Databases &amp; Storage</span>
   <span class="mod-badge">~5 hrs</span>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('overview',this)">Overview</button>
   <button class="tab-btn" onclick="vt('redis-fundamentals',this)">Redis Fundamentals</button>
@@ -125,14 +123,11 @@ url: /learning/backend/m07-nosql/
   <button class="tab-btn" onclick="vt('c-hiredis',this)">C &amp; hiredis</button>
   <button class="tab-btn" onclick="vt('labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 1: OVERVIEW -->
 <div id="tab-overview" class="tab-pane active">
-
 <div class="cp p-violet">
   <div class="cp-hdr">🗺️ NoSQL Taxonomy — When to Choose What</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Category</th><th>Model</th><th>Flagship</th><th>Strength</th><th>Weakness</th><th>Sweet Spot</th></tr></thead>
 <tbody>
@@ -143,15 +138,12 @@ url: /learning/backend/m07-nosql/
 <tr><td><strong>Time-Series</strong></td><td>Timestamped metrics</td><td>InfluxDB, TimescaleDB</td><td>Compression, retention policies</td><td>Poor ad-hoc relational queries</td><td>Monitoring, telemetry</td></tr>
 </tbody>
 </table>
-
   </div>
 </div>
-
 <div class="cp p-indigo">
   <div class="cp-hdr">⚖️ CAP Theorem — The Impossibility Triangle</div>
   <div class="cp-body">
 <p>In a network partition you must choose between <strong>Consistency</strong> and <strong>Availability</strong>. You can never have all three simultaneously.</p>
-
 <div class="diagram-box">
 <pre>
           Consistency
@@ -174,15 +166,12 @@ AP examples: Cassandra (tunable), DynamoDB, CouchDB
 CA example:  Single-node PostgreSQL (no partition tolerance)
 </pre>
   </div>
-
 <div class="warn"><strong>PACELC extension:</strong> Even without a partition (P), there is a latency (L) vs consistency (C) tradeoff. Cassandra lets you tune this per-query with consistency levels (ONE → QUORUM → ALL).</div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🔄 SQL vs NoSQL — Decision Checklist</div>
   <div class="cp-body">
-
 <div class="two-col">
 <div>
 <strong>Choose SQL when:</strong>
@@ -205,20 +194,15 @@ CA example:  Single-node PostgreSQL (no partition tolerance)
 </ul>
 </div>
 </div>
-
 <div class="analogy"><strong>Analogy:</strong> SQL is a Swiss Army knife — powerful for unknown problems. NoSQL tools are surgical instruments — each optimized for one job. Use the right tool.</div>
   </div>
 </div>
-
 </div><!-- /tab-overview -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 2: REDIS FUNDAMENTALS -->
 <div id="tab-redis-fundamentals" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr">🏗️ Redis Architecture — Single-Threaded Event Loop</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Client 1 ──┐
@@ -245,11 +229,9 @@ Client 3 ──┼───────────────►│  I/O Multi
 <div class="note">Because the main thread is single-threaded, a slow command (e.g., <code>KEYS *</code> on a large dataset) blocks all other clients. Never run <code>KEYS</code> in production — use <code>SCAN</code> with a cursor instead.</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📦 Data Structures — Commands &amp; Complexity</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Type</th><th>Key Commands</th><th>Complexity</th><th>Internal Encoding</th><th>Use Case</th></tr></thead>
 <tbody>
@@ -311,46 +293,36 @@ Client 3 ──┼───────────────►│  I/O Multi
 </tr>
 </tbody>
 </table>
-
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔑 Key Patterns &amp; Naming Conventions</div>
   <div class="cp-body">
-
 <div class="cb"><span class="cm"># Naming: use colon-separated namespaces</span>
 <span class="cv">user</span><span class="co">:</span><span class="cn">42</span><span class="co">:</span><span class="cv">profile</span>          <span class="cm"># Hash — user 42's profile fields</span>
 <span class="cv">session</span><span class="co">:</span><span class="cs">abc123</span>          <span class="cm"># String — session token → user_id mapping</span>
 <span class="cv">post</span><span class="co">:</span><span class="cn">7</span><span class="co">:</span><span class="cv">views</span>              <span class="cm"># String — view counter for post 7</span>
 <span class="cv">leaderboard</span><span class="co">:</span><span class="cs">"2026-03"</span>  <span class="cm"># Sorted Set — monthly leaderboard</span>
 <span class="cv">queue</span><span class="co">:</span><span class="cv">email</span>              <span class="cm"># List — email job queue</span>
-
 <span class="cm"># Setting a value with TTL (session expires in 30 min)</span>
 <span class="ck">SET</span> <span class="cv">session</span><span class="co">:</span><span class="cs">abc123</span> <span class="cn">42</span> <span class="ck">EX</span> <span class="cn">1800</span>
-
 <span class="cm"># Atomic increment — safe without transactions</span>
 <span class="ck">INCR</span> <span class="cv">post</span><span class="co">:</span><span class="cn">7</span><span class="co">:</span><span class="cv">views</span>          <span class="cm"># returns new value, atomic</span>
-
 <span class="cm"># Hash — store object fields separately (partial updates)</span>
 <span class="ck">HSET</span> <span class="cv">user</span><span class="co">:</span><span class="cn">42</span><span class="co">:</span><span class="cv">profile</span>  name <span class="cs">"Alice"</span>  email <span class="cs">"alice@example.com"</span>  age <span class="cn">28</span>
 <span class="ck">HGET</span> <span class="cv">user</span><span class="co">:</span><span class="cn">42</span><span class="co">:</span><span class="cv">profile</span>  name       <span class="cm"># → "Alice"</span>
 <span class="ck">HINCRBY</span> <span class="cv">user</span><span class="co">:</span><span class="cn">42</span><span class="co">:</span><span class="cv">profile</span>  age  <span class="cn">1</span>   <span class="cm"># happy birthday — no read-modify-write</span>
-
 <span class="cm"># Sorted set leaderboard</span>
 <span class="ck">ZADD</span> <span class="cv">leaderboard</span><span class="co">:</span><span class="cs">"2026-03"</span>  <span class="cn">1500</span>  <span class="cs">"alice"</span>
 <span class="ck">ZADD</span> <span class="cv">leaderboard</span><span class="co">:</span><span class="cs">"2026-03"</span>  <span class="cn">2200</span>  <span class="cs">"bob"</span>
 <span class="ck">ZRANGE</span> <span class="cv">leaderboard</span><span class="co">:</span><span class="cs">"2026-03"</span>  <span class="cn">0</span>  <span class="cn">-1</span>  <span class="ck">REV WITHSCORES</span>
 <span class="cm"># → [bob 2200, alice 1500]  (descending)</span></div>
-
 <div class="warn"><strong>Key expiry gotcha:</strong> Redis TTL applies to the top-level key, not fields. If you store user fields in <code>user:42:profile</code> hash, setting TTL on the hash expires ALL fields at once. There is no per-field TTL.</div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🚫 Commands to Avoid in Production</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Dangerous Command</th><th>Why Dangerous</th><th>Safe Alternative</th></tr></thead>
 <tbody>
@@ -362,19 +334,14 @@ Client 3 ──┼───────────────►│  I/O Multi
 <tr><td><code>SMEMBERS big-set</code></td><td>O(n) — returns all members</td><td><code>SSCAN</code> with cursor</td></tr>
 </tbody>
 </table>
-
   </div>
 </div>
-
 </div><!-- /tab-redis-fundamentals -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 3: CACHING PATTERNS -->
 <div id="tab-caching" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr">🔄 Cache-Aside (Lazy Loading) — Most Common Pattern</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Application                   Cache (Redis)           Database
@@ -393,7 +360,6 @@ Application                   Cache (Redis)           Database
      │◄─── {id:42, name:...} ───────│   HIT — no DB call  │
 </pre>
   </div>
-
 <div class="cb"><span class="cm">// Node.js pseudo-code</span>
 <span class="ck">async function</span> <span class="cf">getUser</span>(<span class="cv">userId</span>) {
   <span class="ck">const</span> <span class="cv">key</span> = <span class="cs">`user:<span class="co">${</span><span class="cv">userId</span><span class="co">}</span>`</span>;
@@ -410,14 +376,11 @@ Application                   Cache (Redis)           Database
   <span class="ck">await</span> <span class="cv">db</span>.<span class="cf">query</span>(<span class="cs">'UPDATE users SET name=$1 WHERE id=$2'</span>, [<span class="cv">data</span>.<span class="cv">name</span>, <span class="cv">userId</span>]);
   <span class="ck">await</span> <span class="cv">redis</span>.<span class="cf">del</span>(<span class="cs">`user:<span class="co">${</span><span class="cv">userId</span><span class="co">}</span>`</span>); <span class="cm">// evict stale entry</span>
 }</div>
-
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📊 All Four Caching Patterns Compared</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Pattern</th><th>Who Manages Cache</th><th>On Read Miss</th><th>On Write</th><th>Consistency</th><th>Best For</th></tr></thead>
 <tbody>
@@ -455,14 +418,11 @@ Application                   Cache (Redis)           Database
 </tr>
 </tbody>
 </table>
-
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🗑️ Eviction Policies — What Happens When Memory Is Full</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Policy</th><th>Behavior</th><th>When to Use</th></tr></thead>
 <tbody>
@@ -474,18 +434,14 @@ Application                   Cache (Redis)           Database
 <tr><td><code>allkeys-random</code></td><td>Evict random key — no intelligence</td><td>Uniform access patterns (rare)</td></tr>
 </tbody>
 </table>
-
 <div class="cb"><span class="cm"># redis.conf</span>
 maxmemory <span class="cn">2gb</span>
 maxmemory-policy <span class="cv">allkeys-lru</span></div>
-
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">⚠️ Cache Stampede (Thundering Herd) &amp; Fixes</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Scenario: popular cache key expires at T=0
@@ -507,7 +463,6 @@ Fix 3: Background refresh
   → cache never actually empty for popular keys
 </pre>
   </div>
-
 <div class="cb"><span class="cm">// Redis distributed lock for cache stampede prevention</span>
 <span class="ck">const</span> <span class="cv">lockKey</span> = <span class="cs">`lock:user:<span class="co">${</span><span class="cv">userId</span><span class="co">}</span>`</span>;
 <span class="ck">const</span> <span class="cv">token</span>   = <span class="cv">crypto</span>.<span class="cf">randomUUID</span>();
@@ -523,19 +478,14 @@ Fix 3: Background refresh
   <span class="ck">await</span> <span class="cf">sleep</span>(<span class="cn">50</span>);
   <span class="ck">return</span> <span class="cf">getUser</span>(<span class="cv">userId</span>);    <span class="cm">// retry</span>
 }</div>
-
   </div>
 </div>
-
 </div><!-- /tab-caching -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 4: REDIS ADVANCED -->
 <div id="tab-redis-advanced" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr">💾 Persistence — RDB vs AOF</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th></th><th>RDB (Redis Database)</th><th>AOF (Append-Only File)</th></tr></thead>
 <tbody>
@@ -547,28 +497,22 @@ Fix 3: Background refresh
 <tr><td><strong>Production rec.</strong></td><td>Use for backups / fast restarts</td><td>Use for durability (near-zero data loss)</td></tr>
 </tbody>
 </table>
-
 <div class="ins"><strong>Best practice:</strong> Run both. RDB for point-in-time backups; AOF with <code>appendfsync everysec</code> for durability. Redis docs call this "the best of both worlds."</div>
-
 <div class="cb"><span class="cm"># redis.conf — recommended production settings</span>
 <span class="cm"># RDB</span>
 save <span class="cn">900 1</span>       <span class="cm"># snapshot if ≥1 change in 900s</span>
 save <span class="cn">300 10</span>      <span class="cm"># snapshot if ≥10 changes in 300s</span>
 save <span class="cn">60  10000</span>   <span class="cm"># snapshot if ≥10000 changes in 60s</span>
-
 <span class="cm"># AOF</span>
 appendonly <span class="cv">yes</span>
 appendfsync <span class="cv">everysec</span>       <span class="cm"># balance: 1s max loss</span>
 auto-aof-rewrite-percentage <span class="cn">100</span>  <span class="cm"># rewrite when AOF doubles</span>
 auto-aof-rewrite-min-size  <span class="cn">64mb</span></div>
-
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">📢 Pub/Sub — Fire-and-Forget Messaging</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Publisher                    Redis                     Subscribers
@@ -583,7 +527,6 @@ Publisher                    Redis                     Subscribers
     │                          │  message is LOST)         │
 </pre>
   </div>
-
 <div class="cb"><span class="cm">// Publisher (Node.js)</span>
 <span class="ck">await</span> <span class="cv">redis</span>.<span class="cf">publish</span>(<span class="cs">'notifications'</span>, <span class="cv">JSON</span>.<span class="cf">stringify</span>({ type: <span class="cs">'like'</span>, postId: <span class="cn">7</span>, userId: <span class="cn">42</span> }));
 
@@ -593,17 +536,13 @@ Publisher                    Redis                     Subscribers
   <span class="ck">const</span> <span class="cv">event</span> = <span class="cv">JSON</span>.<span class="cf">parse</span>(<span class="cv">message</span>);
   <span class="cv">console</span>.<span class="cf">log</span>(<span class="cs">'Received:'</span>, <span class="cv">event</span>);
 });</div>
-
 <div class="warn"><strong>Pub/Sub vs Streams:</strong> Pub/Sub has no persistence and no consumer groups. If a subscriber is down, messages are lost. For reliable messaging with replay and consumer groups, use <strong>Redis Streams</strong> (<code>XADD</code>/<code>XREAD</code>/<code>XGROUP</code>).</div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">⚙️ Lua Scripting — Atomic Multi-Command Operations</div>
   <div class="cp-body">
-
 <p>Redis executes Lua scripts atomically — no other command runs between script operations. This is the safe way to implement read-modify-write patterns without transactions.</p>
-
 <div class="cb"><span class="cm">-- Lua: atomic check-and-set with condition</span>
 <span class="cm">-- KEYS[1] = key, ARGV[1] = expected value, ARGV[2] = new value</span>
 <span class="ck">local</span> <span class="cv">current</span> = redis.<span class="cf">call</span>(<span class="cs">'GET'</span>, KEYS[<span class="cn">1</span>])
@@ -612,7 +551,6 @@ Publisher                    Redis                     Subscribers
   <span class="ck">return</span> <span class="cn">1</span>
 <span class="ck">end</span>
 <span class="ck">return</span> <span class="cn">0</span></div>
-
 <div class="cb"><span class="cm">// Node.js: run the Lua script (EVAL)</span>
 <span class="ck">const</span> <span class="cv">script</span> = <span class="cs">`
   local current = redis.call('GET', KEYS[1])
@@ -623,14 +561,11 @@ Publisher                    Redis                     Subscribers
   return 0
 `</span>;
 <span class="ck">const</span> <span class="cv">result</span> = <span class="ck">await</span> <span class="cv">redis</span>.<span class="cf">eval</span>(<span class="cv">script</span>, <span class="cn">1</span>, <span class="cs">'mykey'</span>, <span class="cs">'old-value'</span>, <span class="cs">'new-value'</span>);</div>
-
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🚦 Rate Limiting with Redis</div>
   <div class="cp-body">
-
 <p><strong>Pattern 1 — Fixed Window (INCR + EXPIRE)</strong></p>
 <div class="cb"><span class="cm">// Allow 100 requests per minute per IP</span>
 <span class="ck">async function</span> <span class="cf">isAllowed</span>(<span class="cv">ip</span>) {
@@ -640,7 +575,6 @@ Publisher                    Redis                     Subscribers
   <span class="ck">if</span> (<span class="cv">count</span> === <span class="cn">1</span>) <span class="ck">await</span> <span class="cv">redis</span>.<span class="cf">expire</span>(<span class="cv">key</span>, <span class="cn">60</span>);  <span class="cm">// set TTL on first request</span>
   <span class="ck">return</span> <span class="cv">count</span> <= <span class="cn">100</span>;
 }</div>
-
 <p><strong>Pattern 2 — Sliding Window (Sorted Set)</strong></p>
 <div class="cb"><span class="cm">// More accurate: tracks exact timestamps of requests</span>
 <span class="ck">async function</span> <span class="cf">isAllowedSliding</span>(<span class="cv">ip</span>, <span class="cv">limit</span> = <span class="cn">100</span>, <span class="cv">windowMs</span> = <span class="cn">60000</span>) {
@@ -655,20 +589,15 @@ Publisher                    Redis                     Subscribers
   <span class="ck">const</span> <span class="cv">count</span>   = <span class="cv">results</span>[<span class="cn">2</span>][<span class="cn">1</span>];   <span class="cm">// ZCARD result</span>
   <span class="ck">return</span> <span class="cv">count</span> <= <span class="cv">limit</span>;
 }</div>
-
 <div class="note">Fixed window is simpler but has a boundary burst problem: 100 requests at 0:59 and 100 at 1:01 = 200 requests in 2 seconds. Sliding window prevents this at the cost of more memory per key.</div>
   </div>
 </div>
-
 </div><!-- /tab-redis-advanced -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 5: MONGODB -->
 <div id="tab-mongodb" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr">📄 Document Model — BSON &amp; Schema Design</div>
   <div class="cp-body">
-
 <div class="cb"><span class="cm">// BSON document example (stored as blog post)</span>
 {
   <span class="cv">_id</span>: <span class="cf">ObjectId</span>(<span class="cs">"65e3f1a2b4c8d9e0f1234567"</span>),  <span class="cm">// 12-byte: timestamp+machine+pid+counter</span>
@@ -683,7 +612,6 @@ Publisher                    Redis                     Subscribers
   <span class="cv">stats</span>: { <span class="cv">views</span>: <span class="cn">1502</span>, <span class="cv">likes</span>: <span class="cn">87</span> },
   <span class="cv">status</span>: <span class="cs">"published"</span>
 }</div>
-
 <p><strong>Embedding vs Referencing — the core schema decision:</strong></p>
 <table class="t-table">
 <thead><tr><th>Embed when…</th><th>Reference when…</th></tr></thead>
@@ -693,26 +621,21 @@ Publisher                    Redis                     Subscribers
 <tr><td>Update pattern writes the whole document</td><td>Many documents share the same sub-document</td></tr>
 </tbody>
 </table>
-
 <div class="warn"><strong>16 MB document limit:</strong> MongoDB caps documents at 16 MB. Embedding unbounded arrays (e.g., all comments in a post document) will hit this limit. Use references + separate collection for comments.</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🔍 Indexes in MongoDB</div>
   <div class="cp-body">
-
 <div class="cb"><span class="cm">// Single field index — ascending (1) or descending (-1)</span>
 db.posts.<span class="cf">createIndex</span>({ <span class="cv">slug</span>: <span class="cn">1</span> }, { <span class="cv">unique</span>: <span class="ck">true</span> });
 
 <span class="cm">// Compound index — left-prefix rule applies (same as SQL)</span>
 db.posts.<span class="cf">createIndex</span>({ <span class="cv">status</span>: <span class="cn">1</span>, <span class="cv">publishedAt</span>: <span class="cn">-1</span> });
 <span class="cm">// Supports: {status}, {status, publishedAt}  NOT: {publishedAt} alone</span>
-
 <span class="cm">// Multikey index — automatically created when field is an array</span>
 db.posts.<span class="cf">createIndex</span>({ <span class="cv">tags</span>: <span class="cn">1</span> });
 <span class="cm">// Allows: db.posts.find({ tags: "redis" })  ← single element match</span>
-
 <span class="cm">// Text index — full-text search</span>
 db.posts.<span class="cf">createIndex</span>({ <span class="cv">title</span>: <span class="cs">"text"</span>, <span class="cv">body</span>: <span class="cs">"text"</span> });
 db.posts.<span class="cf">find</span>({ <span class="co">$</span><span class="cv">text</span>: { <span class="co">$</span><span class="cv">search</span>: <span class="cs">"redis caching"</span> } });
@@ -725,21 +648,17 @@ db.posts.<span class="cf">createIndex</span>(
 
 <span class="cm">// Explain query plan</span>
 db.posts.<span class="cf">find</span>({ <span class="cv">status</span>: <span class="cs">"published"</span> }).<span class="cf">explain</span>(<span class="cs">"executionStats"</span>);</div>
-
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔗 Aggregation Pipeline — Multi-Stage Transforms</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Collection → [$match] → [$lookup] → [$unwind] → [$group] → [$sort] → [$limit] → Result
                filter    join        flatten     aggregate   order     paginate
 </pre>
   </div>
-
 <div class="cb">db.posts.<span class="cf">aggregate</span>([
   <span class="cm">// Stage 1: filter published posts from 2026</span>
   { <span class="co">$</span><span class="cv">match</span>: {
@@ -767,15 +686,12 @@ Collection → [$match] → [$lookup] → [$unwind] → [$group] → [$sort] →
   { <span class="co">$</span><span class="cv">sort</span>:  { <span class="cv">count</span>: <span class="cn">-1</span> } },
   { <span class="co">$</span><span class="cv">limit</span>: <span class="cn">10</span> }
 ]);</div>
-
 <div class="note"><strong>$match early:</strong> Always put <code>$match</code> stages as early as possible in the pipeline to reduce documents flowing through subsequent stages. MongoDB can use indexes for the first <code>$match</code> stage.</div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">✏️ Write Operations &amp; Operators</div>
   <div class="cp-body">
-
 <div class="cb"><span class="cm">// insertOne / insertMany</span>
 <span class="ck">await</span> <span class="cv">db</span>.<span class="cf">collection</span>(<span class="cs">'posts'</span>).<span class="cf">insertOne</span>({ <span class="cv">title</span>: <span class="cs">"New Post"</span>, <span class="cv">status</span>: <span class="cs">"draft"</span> });
 
@@ -795,19 +711,14 @@ Collection → [$match] → [$lookup] → [$unwind] → [$group] → [$sort] →
   { <span class="co">$</span><span class="cv">set</span>: { <span class="cv">status</span>: <span class="cs">"processing"</span>, <span class="cv">lockedAt</span>: <span class="ck">new</span> <span class="cf">Date</span>() } },
   { <span class="cv">sort</span>: { <span class="cv">createdAt</span>: <span class="cn">1</span> }, <span class="cv">returnDocument</span>: <span class="cs">"after"</span> }  <span class="cm">// FIFO queue claim</span>
 );</div>
-
   </div>
 </div>
-
 </div><!-- /tab-mongodb -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 6: CASSANDRA -->
 <div id="tab-cassandra" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr">🏛️ Cassandra Architecture — Write-Optimized, Distributed</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Cassandra Cluster (3 nodes, replication_factor=3)
@@ -836,16 +747,12 @@ Token Ring (consistent hashing):
   </div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🔑 Data Modeling — Partition Key, Clustering Key</div>
   <div class="cp-body">
-
 <p>Cassandra schema design is <strong>query-driven</strong>: design your table for one specific query. Joins do not exist; denormalization is expected.</p>
-
 <div class="cb"><span class="cm">-- Schema for: "get user's posts, ordered by date descending"</span>
 <span class="cm">-- Query pattern: WHERE user_id = ? ORDER BY created_at DESC LIMIT 20</span>
-
 <span class="ck">CREATE TABLE</span> posts_by_user (
   user_id     uuid,
   created_at  timestamp,   <span class="cm">-- clustering key: sorted on disk</span>
@@ -858,7 +765,6 @@ Token Ring (consistent hashing):
 ) <span class="ck">WITH</span> CLUSTERING ORDER BY (created_at DESC, post_id ASC)
   <span class="ck">AND</span> COMPACTION = {'class': 'TimeWindowCompactionStrategy', 'compaction_window_size': 1, 'compaction_window_unit': 'DAYS'};
 <span class="cm">-- TWCS: optimized for time-series (SSTable per time window)</span></div>
-
 <div class="two-col">
 <div>
 <strong>Partition Key</strong>
@@ -881,14 +787,11 @@ Token Ring (consistent hashing):
 </ul>
 </div>
 </div>
-
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📊 Consistency Levels — Tunable per Query</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Level</th><th>Writes to</th><th>Reads from</th><th>Tradeoff</th></tr></thead>
 <tbody>
@@ -899,21 +802,16 @@ Token Ring (consistent hashing):
 <tr><td><code>ANY</code></td><td>At least 1 (hint OK)</td><td>N/A (write only)</td><td>Highest availability; weakest durability</td></tr>
 </tbody>
 </table>
-
 <div class="ins"><strong>Strong consistency formula:</strong> Write CL + Read CL > RF<br>
 Example with RF=3: QUORUM write (2) + QUORUM read (2) = 4 > 3 ✓ → guaranteed to see latest write.</div>
-
 <div class="cb"><span class="cm">-- CQL: set consistency level per query in cqlsh</span>
 <span class="ck">CONSISTENCY</span> QUORUM;
 <span class="ck">SELECT</span> * <span class="ck">FROM</span> posts_by_user <span class="ck">WHERE</span> user_id = <span class="cn">abc123</span> <span class="ck">LIMIT</span> <span class="cn">20</span>;</div>
-
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">⚠️ Common Cassandra Anti-Patterns</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th>Anti-Pattern</th><th>Why It Fails</th><th>Fix</th></tr></thead>
 <tbody>
@@ -924,14 +822,11 @@ Example with RF=3: QUORUM write (2) + QUORUM read (2) = 4 > 3 ✓ → guaranteed
 <tr><td>Logged batches for performance</td><td>Batches add coordinator overhead; not for performance, only for atomicity across tables</td><td>Use unlogged batches only for same-partition multi-row writes</td></tr>
 </tbody>
 </table>
-
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🆚 MongoDB vs Cassandra vs Redis — Quick Reference</div>
   <div class="cp-body">
-
 <table class="t-table">
 <thead><tr><th></th><th>Redis</th><th>MongoDB</th><th>Cassandra</th></tr></thead>
 <tbody>
@@ -943,27 +838,20 @@ Example with RF=3: QUORUM write (2) + QUORUM read (2) = 4 > 3 ✓ → guaranteed
 <tr><td><strong>Best for</strong></td><td>Caching, sessions, rate limiting</td><td>Flexible catalogs, CMS, user data</td><td>Time-series, activity feeds, IoT</td></tr>
 </tbody>
 </table>
-
   </div>
 </div>
-
 </div><!-- /tab-cassandra -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 7: C & HIREDIS -->
 <div id="tab-c-hiredis" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr">⚙️ hiredis — Redis Client in C</div>
   <div class="cp-body">
-
 <p>hiredis is the official, lightweight C client for Redis. It provides a synchronous API for simple use cases and an async API (libevent/libev/libuv adapters) for non-blocking I/O.</p>
-
 <div class="cb"><span class="cm">/* hiredis_demo.c — connect, set, get, expire, hash ops */</span>
 <span class="ck">#include</span> <span class="cs">&lt;hiredis/hiredis.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdlib.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
-
 <span class="cm">/* Helper: check reply type and abort on error */</span>
 <span class="ck">static void</span> <span class="cf">check</span>(<span class="cg">redisReply</span> <span class="co">*</span>r, <span class="ck">const char</span> <span class="co">*</span>label) {
     <span class="ck">if</span> (!r) { <span class="cf">fprintf</span>(stderr, <span class="cs">"%s: null reply\n"</span>, label); <span class="cf">exit</span>(<span class="cn">1</span>); }
@@ -1021,17 +909,13 @@ Example with RF=3: QUORUM write (2) + QUORUM read (2) = 4 > 3 ✓ → guaranteed
     <span class="cf">redisFree</span>(c);
     <span class="ck">return</span> <span class="cn">0</span>;
 }</div>
-
 <div class="cb"><span class="cm"># Compile: link against hiredis</span>
 gcc -o hiredis_demo hiredis_demo.c -lhiredis</div>
-
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔢 Pipelining — Batch Commands Without Round-Trips</div>
   <div class="cp-body">
-
 <div class="diagram-box">
 <pre>
 Without pipelining (N commands = N round-trips):
@@ -1044,7 +928,6 @@ With pipelining (N commands = 1 round-trip):
   RTT: 1 × 50ms = 50ms for 10 commands
 </pre>
   </div>
-
 <div class="cb"><span class="cm">/* hiredis pipelining — queue commands, flush once */</span>
 <span class="ck">void</span> <span class="cf">pipeline_demo</span>(<span class="cg">redisContext</span> <span class="co">*</span>c) {
     <span class="cm">/* Queue commands without waiting for reply */</span>
@@ -1066,19 +949,15 @@ With pipelining (N commands = 1 round-trip):
         }
     }
 }</div>
-
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🔒 Distributed Lock in C (Redlock-lite)</div>
   <div class="cp-body">
-
 <div class="cb"><span class="cm">/* Simple Redis distributed lock using SET NX EX */</span>
 <span class="ck">#include</span> <span class="cs">&lt;hiredis/hiredis.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;time.h&gt;</span>
-
 <span class="cm">/* Returns 1 if lock acquired, 0 otherwise.
    token must be unique per lock-holder (used to safely release) */</span>
 <span class="ck">int</span> <span class="cf">redis_lock</span>(<span class="cg">redisContext</span> <span class="co">*</span>c, <span class="ck">const char</span> <span class="co">*</span>key, <span class="ck">const char</span> <span class="co">*</span>token, <span class="ck">int</span> ttl_sec) {
@@ -1106,7 +985,6 @@ With pipelining (N commands = 1 round-trip):
     <span class="cg">redisContext</span> <span class="co">*</span>c = <span class="cf">redisConnect</span>(<span class="cs">"127.0.0.1"</span>, <span class="cn">6379</span>);
     <span class="ck">const char</span> <span class="co">*</span>lock_key   = <span class="cs">"lock:job:42"</span>;
     <span class="ck">const char</span> <span class="co">*</span>lock_token = <span class="cs">"unique-token-abc"</span>;  <span class="cm">/* use UUID in practice */</span>
-
     <span class="ck">if</span> (<span class="cf">redis_lock</span>(c, lock_key, lock_token, <span class="cn">5</span>)) {
         <span class="cf">printf</span>(<span class="cs">"Lock acquired — doing work\n"</span>);
         <span class="cm">/* ... critical section ... */</span>
@@ -1118,15 +996,11 @@ With pipelining (N commands = 1 round-trip):
     <span class="cf">redisFree</span>(c);
     <span class="ck">return</span> <span class="cn">0</span>;
 }</div>
-
   </div>
 </div>
-
 </div><!-- /tab-c-hiredis -->
-
 <!-- ═══════════════════════════════════════════════════════════ TAB 8: LABS -->
 <div id="tab-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 1 — Redis Caching Layer for a REST API</div>
   <div class="lab-body">
@@ -1140,7 +1014,6 @@ With pipelining (N commands = 1 round-trip):
     <div class="lab-step"><div class="sn">7</div><div>Test invalidation: update user in DB, verify Redis key is deleted, next request repopulates.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 2 — Rate Limiter Middleware (Sliding Window)</div>
   <div class="lab-body">
@@ -1152,7 +1025,6 @@ With pipelining (N commands = 1 round-trip):
     <div class="lab-step"><div class="sn">5</div><div>Inspect Redis: <code>ZSCORE ratelimit:sliding:127.0.0.1</code> — confirm timestamps are in sorted set.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🧪 Lab 3 — MongoDB Aggregation: Top Tags Report</div>
   <div class="lab-body">
@@ -1164,9 +1036,7 @@ With pipelining (N commands = 1 round-trip):
     <div class="lab-step"><div class="sn">5</div><div>Cache the result in Redis as <code>report:top-tags</code> with TTL 3600. Serve from cache on repeat requests.</div></div>
   </div>
 </div>
-
 <hr class="sep"/>
-
 <div class="cp p-violet">
   <div class="cp-hdr">✅ Module Mastery Checklist</div>
   <div class="cp-body">
@@ -1189,15 +1059,12 @@ With pipelining (N commands = 1 round-trip):
 </ul>
   </div>
 </div>
-
 </div><!-- /tab-labs -->
-
 <div class="mod-nav">
   <a href="/learning/backend/m06-sql-indexing/" class="nb">← M06 SQL Indexing</a>
   <a href="/learning/backend/backend-roadmap/" class="nb">↑ Roadmap</a>
   <span class="nb" style="opacity:.55;cursor:default;">M08 DB Scaling · soon</span>
 </div>
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

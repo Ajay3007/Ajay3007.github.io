@@ -113,7 +113,6 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
 .sc-document{background:#faeee4;border-color:#fdba74}.sc-document h4{color:#9a3412}.sc-document .when{color:#ea580c}
 .sc-agentic{background:#ede8f5;border-color:#c4b5fd}.sc-agentic h4{color:#5b21b6}.sc-agentic .when{color:#7c3aed}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 5 — RAG Systems &nbsp;·&nbsp; Module 16 of 18</div>
@@ -126,7 +125,6 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
     <span class="mod-pill">📋 Prerequisite: P5-M15</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
@@ -140,11 +138,8 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-emerald">RAG Layer 2</span></div>
   <div class="cp-body">
@@ -159,7 +154,6 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🧠</span><h3>Why Chunking Quality Determines RAG Quality</h3><span class="tag tag-blue">Motivation</span></div>
   <div class="cp-body">
@@ -179,7 +173,6 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
 <span class="ck"># → embedding captures a complete idea</span>
 <span class="ck"># → LLM gets enough context to answer</span>
 <span class="ck"># → small enough for high precision retrieval</span>
- 
 <span class="ck"># The overlap problem:</span>
 <span class="ck"># Without overlap — answers that span chunk boundaries are lost</span>
 <span class="ck"># "The mempool must be... [CHUNK BOUNDARY] ...initialised before the port"</span>
@@ -189,13 +182,9 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
 <span class="ck"># → At least one chunk retrieved will contain the complete answer</span></pre></div>
   </div>
 </div>
-
 </div><!-- end t0 -->
-
-
 <!-- ══════════ TAB 1 — CHUNKING STRATEGIES ══════════ -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">✂️</span><h3>The Five Chunking Strategies</h3><span class="tag tag-emerald">Decision Framework</span></div>
   <div class="cp-body">
@@ -228,7 +217,6 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Chunk Size Guidelines</h3><span class="tag tag-blue">Calibration</span></div>
   <div class="cp-body">
@@ -249,15 +237,12 @@ url: /learning/ai-ml/part5-rag/p5-m16-chunking/
  
 chunk_size = <span class="cv">500</span>   <span class="ck"># tokens</span>
 overlap    = <span class="cv">50</span>    <span class="ck"># tokens — 10% overlap</span>
- 
 <span class="ck"># Chunk 1: tokens 0-500</span>
 <span class="ck"># Chunk 2: tokens 450-950  (50 token overlap)</span>
 <span class="ck"># Chunk 3: tokens 900-1400 (50 token overlap)</span>
- 
 <span class="ck"># Too little overlap (0): boundary-spanning answers lost</span>
 <span class="ck"># Too much overlap (50%): doubles storage, slows indexing, redundant retrieval</span>
 <span class="ck"># Sweet spot: 50-100 tokens for chunk_size=500</span></pre></div>
-
     <div class="chunk-demo">
       <div style="font-size:.75rem;font-family:monospace;font-weight:700;color:#065f46;margin-bottom:.5rem">OVERLAP VISUALISATION (chunk_size=10 words, overlap=3 words)</div>
       <div class="text">
@@ -272,13 +257,9 @@ overlap    = <span class="cv">50</span>    <span class="ck"># tokens — 10% ove
     </div>
   </div>
 </div>
-
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — LANGCHAIN SPLITTERS ══════════ -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>LangChain Text Splitters — The Standard Toolkit</h3><span class="tag tag-emerald">Production Tools</span></div>
   <div class="cp-body">
@@ -322,7 +303,6 @@ split_docs = splitter.split_documents(docs)
 print(split_docs[<span class="cv">0</span>].metadata)   <span class="ck"># {"source": "dpdk_guide.pdf", "page": 1}</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📑</span><h3>Structure-Aware Splitters</h3><span class="tag tag-blue">Document-Aware</span></div>
   <div class="cp-body">
@@ -338,7 +318,6 @@ md_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split_on
 md_docs = md_splitter.split_text(markdown_text)
 <span class="ck"># Each doc has metadata: {"h1": "DPDK Guide", "h2": "Memory Management"}</span>
 <span class="ck"># This lets you filter by section during retrieval</span>
- 
 <span class="ck"># Then apply size-based splitting to large sections</span>
 secondary_splitter = RecursiveCharacterTextSplitter(chunk_size=<span class="cv">500</span>, chunk_overlap=<span class="cv">50</span>)
 final_chunks = secondary_splitter.split_documents(md_docs)
@@ -347,7 +326,6 @@ final_chunks = secondary_splitter.split_documents(md_docs)
 python_splitter = PythonCodeTextSplitter(chunk_size=<span class="cv">1000</span>, chunk_overlap=<span class="cv">0</span>)
 code_chunks = python_splitter.split_text(python_source_code)
 <span class="ck"># Splits at: class def, def, comments, then fallback to character</span>
- 
 <span class="ck"># ── Custom separators for any format ──────────────────</span>
 <span class="ck"># C/C++ code</span>
 cpp_splitter = RecursiveCharacterTextSplitter(
@@ -362,7 +340,6 @@ rst_splitter = RecursiveCharacterTextSplitter(
 )</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🧠</span><h3>Semantic Chunking — Split on Topic Changes</h3><span class="tag tag-teal">Highest Quality</span></div>
   <div class="cp-body">
@@ -391,13 +368,9 @@ chunks = semantic_splitter.split_text(long_text)
     <div class="warn"><p>⚠️ <strong>Semantic chunking makes an embedding API call for every sentence.</strong> For a 100-page PDF (~5000 sentences), that is 5000 embedding calls before you even start indexing. Use it for small, high-value corpora where retrieval quality matters more than ingestion speed or cost.</p></div>
   </div>
 </div>
-
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — DOCUMENT LOADERS ══════════ -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">📄</span><h3>Loading Documents — PDF, DOCX, HTML, Markdown</h3><span class="tag tag-emerald">Source Agnostic</span></div>
   <div class="cp-body">
@@ -467,7 +440,6 @@ def load_directory(dir_path: str, extensions: list[str] = [<span class="cs">".tx
     return docs</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🧹</span><h3>Text Cleaning — Remove Noise Before Chunking</h3><span class="tag tag-blue">Quality Gate</span></div>
   <div class="cp-body">
@@ -478,11 +450,9 @@ def clean_text(text: str) -> str:
     <span class="ck"># Remove excessive whitespace</span>
     text = re.sub(r<span class="cs">'\s+'</span>, <span class="cs">' '</span>, text)           <span class="ck"># collapse spaces/tabs</span>
     text = re.sub(r<span class="cs">'\n{3,}'</span>, <span class="cs">'\n\n'</span>, text)     <span class="ck"># max 2 consecutive newlines</span>
- 
     <span class="ck"># Remove PDF artefacts (page numbers, headers, footers)</span>
     text = re.sub(r<span class="cs">'\nPage \d+ of \d+\n'</span>, <span class="cs">'\n'</span>, text)
     text = re.sub(r<span class="cs">'\n\d+\n'</span>, <span class="cs">'\n'</span>, text)        <span class="ck"># standalone page numbers</span>
- 
     <span class="ck"># Remove non-printable characters</span>
     text = re.sub(r<span class="cs">'[^\x20-\x7E\n]'</span>, <span class="cs">' '</span>, text)
  
@@ -501,12 +471,10 @@ def is_noise_chunk(chunk: str, min_words: int = <span class="cv">10</span>) -> b
     if alpha_ratio < <span class="cv">0.4</span>:
         return <span class="cv">True</span>
     return <span class="cv">False</span>
- 
 <span class="ck"># Filter after chunking</span>
 chunks = [c for c in raw_chunks if not is_noise_chunk(c)]</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Unstructured — Universal Document Parser</h3><span class="tag tag-teal">Production Grade</span></div>
   <div class="cp-body">
@@ -526,7 +494,6 @@ for elem in elements[:5]:
 <span class="ck"># NarrativeText   | This guide explains the Data Plane Development Kit</span>
 <span class="ck"># Table           | | Feature | Status | Notes |</span>
 <span class="ck"># Image           | [Image: figure1.png]</span>
- 
 <span class="ck"># Chunk by section title — respects document structure</span>
 chunks = chunk_by_title(
     elements,
@@ -543,13 +510,9 @@ for chunk in chunks:
     <div class="ins"><p>💡 <strong>Use Unstructured when document quality matters more than speed.</strong> It extracts tables as structured data, ignores headers/footers intelligently, handles multi-column PDFs, and preserves heading hierarchy. The free version handles most formats; the hosted API handles scanned PDFs with OCR.</p></div>
   </div>
 </div>
-
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — METADATA & ENRICHMENT ══════════ -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🏷</span><h3>Metadata — The Secret Weapon of Good RAG</h3><span class="tag tag-emerald">Often Neglected</span></div>
   <div class="cp-body">
@@ -587,7 +550,6 @@ web_chunk_metadata = {
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">✨</span><h3>Contextual Retrieval — LLM-Generated Chunk Summaries</h3><span class="tag tag-blue">Anthropic Technique</span></div>
   <div class="cp-body">
@@ -621,20 +583,15 @@ async def add_context(chunk: str, full_doc: str) -> str:
     )
     context = response.content[<span class="cv">0</span>].text.strip()
     return <span class="cs">f"{context}\n\n{chunk}"</span>   <span class="ck"># context-enriched chunk ready to embed</span>
- 
 <span class="ck"># Apply to all chunks before embedding</span>
 async def enrich_chunks(chunks: list[str], full_doc: str) -> list[str]:
     return await asyncio.gather(*[add_context(c, full_doc) for c in chunks])</pre></div>
     <div class="ins"><p>💡 <strong>This technique is worth the cost.</strong> Anthropic reported 49% reduction in retrieval failures on their benchmarks. A chunk saying "This section covers DPDK mempool initialisation. The ring buffer..." retrieves far better than a bare chunk starting mid-explanation without context.</p></div>
   </div>
 </div>
-
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — INGESTION PIPELINE ══════════ -->
 <div id="t5" class="tab-pane">
-
 <div class="cp p-emerald">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>Complete Ingestion Pipeline — Production Class</h3><span class="tag tag-emerald">Reusable</span></div>
   <div class="cp-body">
@@ -686,14 +643,12 @@ class DocumentIngestionPipeline:
         text = clean_text(text)
         if not text.strip():
             return <span class="cv">0</span>
- 
         <span class="ck"># Chunk</span>
         chunks = self.splitter.split_text(text)
         chunks = [c for c in chunks if len(c) >= self.config.min_chunk_len]
  
         if not chunks:
             return <span class="cv">0</span>
- 
         <span class="ck"># Build IDs, documents, metadatas</span>
         ids, docs, metas = [], [], []
         for i, chunk in enumerate(chunks):
@@ -761,10 +716,7 @@ class DocumentIngestionPipeline:
         ]</pre></div>
   </div>
 </div>
-
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RESOURCES ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -779,12 +731,9 @@ class DocumentIngestionPipeline:
   </tbody>
 </table>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — PROJECTS ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">MILESTONE PROJECT</p>
-
 <div class="proj-box">
   <div class="proj-hdr">
     <span>🛠</span>
@@ -812,11 +761,8 @@ class DocumentIngestionPipeline:
   </div>
 </div>
 </div><!-- end t7 -->
-
-
 <!-- ══════════ TAB 8 — LABS ══════════ -->
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Chunking Parameter Sensitivity — Find the Sweet Spot</h4></div>
   <div class="lab-body">
@@ -828,7 +774,6 @@ class DocumentIngestionPipeline:
     <div class="lab-step"><div class="sn">5</div><div><strong>Key finding to document:</strong> what chunk size and overlap would you use for this document type in production?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Metadata Filtering — See the Quality Jump</h4></div>
   <div class="lab-body">
@@ -839,7 +784,6 @@ class DocumentIngestionPipeline:
     <div class="lab-step"><div class="sn">4</div><div>Compare precision@5: with vs without filtering. Document the improvement. This is the argument for rich metadata in production RAG.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Contextual Retrieval — Measure the Improvement</h4></div>
   <div class="lab-body">
@@ -851,10 +795,7 @@ class DocumentIngestionPipeline:
     <div class="lab-step"><div class="sn">5</div><div>Compare: Collection A score vs Collection B score. Also compare: total Haiku API cost for enrichment. Is the quality gain worth the cost for your use case?</div></div>
   </div>
 </div>
-
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — CHECKLIST ══════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">P5-M16 MASTERY CHECKLIST</p>
@@ -883,15 +824,12 @@ class DocumentIngestionPipeline:
   <p>✅ <strong>When complete:</strong> Move to <strong>P5-M17 — Retrieval Quality</strong>. You now have a solid ingestion pipeline. M17 covers how to improve what comes back from that pipeline: filtering, reranking with Cohere, HyDE, and diagnosing retrieval failures.</p>
 </div>
 </div><!-- end t9 -->
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/ai-ml/part5-rag/p5-m15-embeddings-vectordb/">← P5-M15: Embeddings &amp; Vector DBs</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part5-rag/p5-m17-retrieval-quality/">Next: P5-M17 — Retrieval Quality →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

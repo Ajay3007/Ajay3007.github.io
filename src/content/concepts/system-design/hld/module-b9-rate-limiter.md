@@ -11,7 +11,6 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
 
 <link rel="stylesheet" href="/assets/css/sd-module-b9.css">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&family=Fira+Code:wght@300;400;600&display=swap" rel="stylesheet">
-
 <div class="sd-module-b9">
 <header>
   <div class="hdr-stripe"></div>
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
     <div class="alg-tag" style="color:var(--ora)">Redis Lua</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="mb9_show('why',this)">Why Rate Limit</div>
   <div class="nt" onclick="mb9_show('fixed',this)">Fixed Window</div>
@@ -55,9 +53,7 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
   <div class="nt" onclick="mb9_show('tasks',this)">Tasks</div>
   <div class="nt" onclick="mb9_show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- WHY -->
 <div class="view active" id="view-why">
   <div class="sh">Why Rate Limit?</div>
@@ -89,7 +85,6 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
     </div>
   </div>
 </div>
-
 <!-- FIXED WINDOW -->
 <div class="view" id="view-fixed">
   <div class="sh">Fixed Window Counter</div>
@@ -97,21 +92,18 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
   <div class="cb"><div class="cb-top">Fixed window: simple Redis INCR per time bucket<span class="cb-l">REDIS</span></div>
 <pre class="c"><span class="cm">// Key: ratelimit:{userId}:{window_minute}</span>
 <span class="cm">// Limit: 100 req/min</span>
- 
 <span class="kw">function</span> <span class="fn">checkLimit</span>(userId) {
   window = Math.<span class="fn">floor</span>(Date.<span class="fn">now</span>() / <span class="cy">60000</span>)   <span class="cm">// minute bucket</span>
   key = <span class="str">`rl:${userId}:${window}`</span>
  
   count = redis.<span class="fn">incr</span>(key)
   <span class="kw">if</span> (count == <span class="cy">1</span>) redis.<span class="fn">expire</span>(key, <span class="cy">120</span>)  <span class="cm">// set TTL on first request</span>
- 
   <span class="kw">return</span> count <= <span class="cy">100</span>
 }
  
 <span class="cm">// Memory: O(1) — just one counter per user</span>
 <span class="cm">// Speed: one INCR + one EXPIRE (conditional)</span></pre>
   </div>
-
   <div class="al red"><em>⚠ THE BOUNDARY BURST ATTACK:</em><br><br>
     12:00:58 → user sends 100 requests (window A, last 2 seconds)<br>
     12:01:00 → window resets to 0<br>
@@ -120,7 +112,6 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
     Result: 200 requests in 3 seconds — 2× the intended 100/min limit.<br>
     Fixed window counter CANNOT prevent this.
   </div>
-
   <div class="burst-vis">
     <div class="bv-label">// BURST ATTACK TIMELINE — 200 requests in 3 seconds</div>
     <div style="display:flex;gap:0;align-items:flex-end;height:90px;overflow-x:auto;margin-bottom:8px">
@@ -138,12 +129,10 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
     <div class="bv-note" style="color:var(--red)">200 requests arrive in under 3 seconds — rate limit completely bypassed at the window boundary</div>
   </div>
 </div>
-
 <!-- SLIDING WINDOW -->
 <div class="view" id="view-sliding">
   <div class="sh">Sliding Window Algorithms</div>
   <div class="sr">Log (exact) vs Counter (approximate) — production trade-off</div>
-
   <div class="sh" style="font-size:16px;margin-top:14px">Sliding Window Log (Exact)</div>
   <div class="cb"><div class="cb-top">Sorted set of timestamps — exact but memory-heavy<span class="cb-l">REDIS</span></div>
 <pre class="c"><span class="cm">// Key: ratelimit:{userId} — Sorted Set, score = timestamp</span>
@@ -154,7 +143,6 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
  
   redis.<span class="fn">zremrangebyscore</span>(<span class="str">`rl:${userId}`</span>, <span class="cy">0</span>, cutoff)  <span class="cm">// remove old</span>
   count = redis.<span class="fn">zcard</span>(<span class="str">`rl:${userId}`</span>)               <span class="cm">// count remaining</span>
- 
   <span class="kw">if</span> (count >= <span class="cy">100</span>) <span class="kw">return</span> <span class="er">REJECT</span>
  
   redis.<span class="fn">zadd</span>(<span class="str">`rl:${userId}`</span>, now, now)             <span class="cm">// log this request</span>
@@ -164,7 +152,6 @@ url: /learning/system-design/hld/module-b9-rate-limiter/
 <span class="cm">// Memory: O(N) — stores EVERY request timestamp</span>
 <span class="cm">// 100 req/min × 1M users = 100M Redis entries → expensive</span></pre>
   </div>
-
   <div class="sh" style="font-size:16px;margin-top:18px">Sliding Window Counter ★ (Recommended)</div>
   <div class="sw-math">
     <div class="sw-label">// WEIGHTED INTERPOLATION FORMULA</div>
@@ -204,7 +191,6 @@ estimated_rate = 100 × 0.983 + 95 = 98.3 + 95 = <span style="color:var(--red)">
 <span class="cm">// Accuracy: ~99.997% vs true sliding window (0.003% error)</span></pre>
   </div>
 </div>
-
 <!-- BUCKETS -->
 <div class="view" id="view-bucket">
   <div class="sh">Token Bucket &amp; Leaky Bucket</div>
@@ -238,7 +224,6 @@ estimated_rate = 100 × 0.983 + 95 = 98.3 + 95 = <span style="color:var(--red)">
   <div class="cb"><div class="cb-top">Token bucket — Redis Lua for atomicity<span class="cb-l">LUA</span></div>
 <pre class="c"><span class="cm">-- KEYS[1] = bucket key</span>
 <span class="cm">-- ARGV[1] = capacity, ARGV[2] = rate/sec, ARGV[3] = now_ms</span>
- 
 <span class="kw">local</span> capacity = tonumber(ARGV[<span class="cy">1</span>])
 <span class="kw">local</span> rate     = tonumber(ARGV[<span class="cy">2</span>])
 <span class="kw">local</span> now      = tonumber(ARGV[<span class="cy">3</span>])
@@ -261,7 +246,6 @@ tokens = math.<span class="fn">min</span>(capacity, tokens + elapsed * rate)
 <span class="kw">end</span></pre>
   </div>
 </div>
-
 <!-- COMPARISON -->
 <div class="view" id="view-compare">
   <div class="sh">Algorithm Comparison</div>
@@ -278,7 +262,6 @@ tokens = math.<span class="fn">min</span>(capacity, tokens + elapsed * rate)
   </table>
   <div class="al grn"><em>Interview default:</em> "I'd use Sliding Window Counter as the default — O(1) memory, no boundary burst vulnerability, 0.003% accuracy error which is negligible for rate limiting. For APIs where genuine burst traffic should be allowed (e.g., bulk file uploads), I'd switch to Token Bucket."</div>
 </div>
-
 <!-- REDIS IMPLEMENTATIONS -->
 <div class="view" id="view-redis">
   <div class="sh">Redis Lua Scripts — Why Atomic?</div>
@@ -290,12 +273,10 @@ Thread B: GET tokens → <span class="cy">1</span>             <span class="cm">
 Thread A: SET tokens 0                 <span class="cm">// decrements to 0, allows request</span>
 Thread B: SET tokens 0                 <span class="cm">// also decrements to 0, ALSO allows request</span>
 <span class="er">// Result: 2 requests allowed when only 1 token existed!</span>
- 
 <span class="cm">// With Lua script — CORRECT:</span>
 <span class="cm">// Redis executes Lua scripts atomically</span>
 <span class="cm">// No other Redis command can interleave between Lua lines</span>
 <span class="cm">// Equivalent to a Redis MULTI/EXEC transaction but faster</span>
- 
 <span class="cm">// Execute Lua script in application code:</span>
 <span class="kw">const</span> script = redis.<span class="fn">createScript</span>(luaCode);
 <span class="kw">const</span> result = <span class="kw">await</span> script.<span class="fn">eval</span>(
@@ -305,7 +286,6 @@ Thread B: SET tokens 0                 <span class="cm">// also decrements to 0,
   </div>
   <div class="al cy"><em>Why not MULTI/EXEC (Redis transactions)?</em> MULTI/EXEC doesn't support conditional logic — you can't say "if tokens > 0 then decrement, else reject" inside a transaction. Lua scripts can. For rate limiting, you always need the check-and-decrement to be conditional and atomic.</div>
 </div>
-
 <!-- DISTRIBUTED -->
 <div class="view" id="view-distributed">
   <div class="sh">Distributed Rate Limiting</div>
@@ -342,13 +322,11 @@ Thread B: SET tokens 0                 <span class="cm">// also decrements to 0,
     <span class="cm">// Pro: service stays up, users unaffected</span>
     <span class="cm">// Con: during Redis outage, limits not enforced → potential abuse</span>
     <span class="cm">// Use for: internal services, non-critical limits</span>
- 
     <span class="cm">// Option B: Fail-Closed (reject all)</span>
     <span class="kw">return</span> <span class="er">REJECT</span>
     <span class="cm">// Pro: strict — no abuse during outage</span>
     <span class="cm">// Con: service degraded for ALL users when Redis is down</span>
     <span class="cm">// Use for: financial APIs, security-critical endpoints</span>
- 
     <span class="cm">// Option C: Local fallback (temporary local counter)</span>
     <span class="kw">return</span> localFallback.<span class="fn">checkLimit</span>(userId)  <span class="cm">// in-memory, less accurate</span>
     <span class="cm">// Best of both worlds for most production systems</span>
@@ -356,7 +334,6 @@ Thread B: SET tokens 0                 <span class="cm">// also decrements to 0,
 }</pre>
   </div>
 </div>
-
 <!-- 429 RESPONSE -->
 <div class="view" id="view-response">
   <div class="sh">HTTP 429 Response Design</div>
@@ -395,7 +372,6 @@ X-RateLimit-Remaining: <span class="cy">73</span>   <span class="cm">← still h
 X-RateLimit-Reset:     <span class="cy">1700000060</span></pre>
   </div>
 </div>
-
 <!-- MULTI-TIER -->
 <div class="view" id="view-multitier">
   <div class="sh">Multi-Tier Rate Limiting</div>
@@ -429,7 +405,6 @@ X-RateLimit-Reset:     <span class="cy">1700000060</span></pre>
   </div>
   <div class="al cy"><em>Key design insight:</em> Different tiers protect different concerns and are applied at different layers. IP limits live at the CDN (before hitting origin). User limits live at the gateway. Quota lives in the application. Each layer defends against a different threat model.</div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -488,7 +463,6 @@ X-RateLimit-Reset:     <span class="cy">1700000060</span></pre>
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 17 completed</span><span style="font-family:'Fira Code',monospace">MODULE B9 · RATE LIMITER</span></div>
@@ -523,7 +497,6 @@ X-RateLimit-Reset:     <span class="cy">1700000060</span></pre>
   </div>
 </div>
 </div>
-
 <!-- Bottom Navigation -->
 <div class="mb9-bottom-nav">
   <a href="/learning/system-design/hld/module-b8-youtube/" class="mb9-nav-footer-btn" style="border-right: 1px solid var(--bord2);">

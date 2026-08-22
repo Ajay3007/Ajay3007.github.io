@@ -78,7 +78,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
 .proj-dur{font-size:.78rem;opacity:.85;margin-left:auto;font-family:monospace}
 .proj-body{padding:.9rem 1.2rem;font-size:.88rem;line-height:1.7}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Part 3 — Classical ML &nbsp;·&nbsp; Module 8 of 28</div>
   <div class="mod-title">Classification: Decision Trees, Random Forest &amp; SVM</div>
@@ -90,7 +89,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
     <span class="mod-pill">📋 Prerequisite: P3-M07</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🌳 Decision Trees</button>
@@ -104,7 +102,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
   <button class="tab-btn" onclick="vt(event,'t9')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t10')">✅ Checklist</button>
 </div>
-
 <div id="t0" class="tab-pane active">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🎯</span><h3>What This Module Covers</h3><span class="tag tag-pink">Part 3</span></div>
@@ -122,7 +119,6 @@ url: /learning/ai-ml/part3-classical-ml/p3-m08-classification/
   </div>
 </div>
 </div>
-
 <div id="t1" class="tab-pane">
 <div class="cp p-pink">
   <div class="cp-hdr"><span class="ico">🌳</span><h3>Decision Trees — Interpretable Splitting</h3><span class="tag tag-pink">Foundation</span></div>
@@ -186,7 +182,6 @@ plt.axvline(depths[np.argmax(test_scores)], color="red", linestyle="--",
   </div>
 </div>
 </div>
-
 <div id="t2" class="tab-pane">
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌲</span><h3>Random Forest — Ensemble of Trees</h3><span class="tag tag-blue">Ensemble</span></div>
@@ -242,7 +237,6 @@ print(f"Best CV F1:  {gs.best_score_:.4f}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t3" class="tab-pane">
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📏</span><h3>Support Vector Machine (SVM)</h3><span class="tag tag-teal">Maximum Margin</span></div>
@@ -295,7 +289,6 @@ print(f"Best CV F1: {rs.best_score_:.4f}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t4" class="tab-pane">
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Classification Metrics — Beyond Accuracy</h3><span class="tag tag-purple">Critical</span></div>
@@ -360,7 +353,6 @@ for t in thresholds:
   </div>
 </div>
 </div>
-
 <div id="t5" class="tab-pane">
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚖</span><h3>Imbalanced Data — When Classes Are Skewed</h3><span class="tag tag-red">Critical for Real Data</span></div>
@@ -425,7 +417,6 @@ print(f"Optimal threshold: {best_threshold:.3f}")</pre></div>
   </div>
 </div>
 </div>
-
 <div id="t6" class="tab-pane">
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Feature Importance and SHAP Values</h3><span class="tag tag-green">Interpretability</span></div>
@@ -475,7 +466,6 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
   </div>
 </div>
 </div>
-
 <div id="t7" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
 <table class="res-table">
@@ -489,7 +479,6 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
   </tbody>
 </table>
 </div>
-
 <div id="t8" class="tab-pane">
 <div class="proj-box">
   <div class="proj-hdr"><span>🛠</span><span class="proj-title">Heart Disease Classifier with SHAP Analysis</span><span class="proj-dur">[Intermediate] 5–6 days</span></div>
@@ -509,7 +498,6 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
   </div>
 </div>
 </div>
-
 <div id="t9" class="tab-pane">
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Classification Metrics Deep Dive</h4></div>
@@ -527,7 +515,6 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
   </div>
 </div>
 </div>
-
 <div id="t10" class="tab-pane">
 <p class="sep">P3-M08 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -550,13 +537,11 @@ shap.waterfall_plot(shap.Explanation(values=shap_values[1][idx],
   <p>✅ <strong>When complete:</strong> Move to <strong>P3-M09 — Ensembles</strong>: XGBoost, LightGBM, SMOTE, Optuna hyperparameter tuning.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part3-classical-ml/p3-m07-regression/">← P3-M07: Regression</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part3-classical-ml/p3-m09-ensembles/">Next: P3-M09 — Ensembles →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

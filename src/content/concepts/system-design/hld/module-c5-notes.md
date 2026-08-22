@@ -15,7 +15,6 @@ url: /learning/system-design/hld/module-c5-notes/
   <strong>Module C5 · Week 29 · Track C — Advanced Topics</strong><br>
   <span style="color:#666;">Prerequisites: B1–B14, C1–C4 &nbsp;|&nbsp; Goal: AuthN/AuthZ, mTLS, Zero Trust, API security, secret management</span>
 </div>
-
 <a href="/learning/system-design/hld/module-c5-security/" style="display:inline-block;margin-bottom:32px;padding:10px 20px;background:#e03040;color:#fff;border-radius:4px;text-decoration:none;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;">⚡ Interactive Visual Version</a>
 
 # Module C5 — Security Architecture

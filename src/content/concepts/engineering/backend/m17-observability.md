@@ -90,9 +90,7 @@ url: /learning/backend/m17-observability/
 .nb:hover{background:#e11d48;color:#fff}
 .sep{text-align:center;color:#94a3b8;font-size:.8rem;letter-spacing:.1em;margin:1.5rem 0;text-transform:uppercase}
 </style>
-
 <div class="mod-wrap">
-
 <div class="mod-header">
   <h1>M17 — Observability &amp; Hardening</h1>
   <div class="sub">
@@ -100,7 +98,6 @@ url: /learning/backend/m17-observability/
     3 pillars: logs · metrics · traces · Prometheus &amp; PromQL · Distributed tracing &amp; OpenTelemetry · Rate limiting · OWASP Top 10 · Secrets management · Graceful shutdown
   </div>
 </div>
-
 <!-- Tab bar -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t-overview',this)">Overview</button>
@@ -113,12 +110,10 @@ url: /learning/backend/m17-observability/
   <button class="tab-btn" onclick="vt('t-impl',this)">C Implementation</button>
   <button class="tab-btn" onclick="vt('t-labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 1 — Overview
      ══════════════════════════════════════════════════════════ -->
 <div id="t-overview" class="tab-pane active">
-
 <div class="cp p-rose">
   <div class="cp-hdr">🔭 The 3 Pillars of Observability</div>
   <div class="cp-body">
@@ -134,12 +129,10 @@ url: /learning/backend/m17-observability/
     <div class="note">The three pillars are <em>complementary</em>, not interchangeable. An alert fires on a metric (high p99 latency). You look at a trace to find the slow span. You look at logs from that span to see the exact error. Use all three together.</div>
   </div>
 </div>
-
 <div class="analogy">
   <strong>Analogy — The flight data recorder:</strong><br>
   Logs are the cockpit voice recorder — full narrative of what was said. Metrics are the flight data recorder — altitude, speed, attitude plotted over time. Traces are the air traffic control replay — the full path of the aircraft from departure to destination. An accident investigation uses all three.
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📐 Observability vs Monitoring</div>
   <div class="cp-body">
@@ -155,7 +148,6 @@ url: /learning/backend/m17-observability/
     <div class="ins">Start with monitoring (dashboards for known metrics, alerts on thresholds). Add observability as system complexity grows — when you start debugging failures you didn't anticipate.</div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📐 Phase 7 Module Map</div>
   <div class="cp-body">
@@ -169,14 +161,11 @@ url: /learning/backend/m17-observability/
     <div class="note" style="margin-top:.75rem">Prerequisites: Ph6 (Microservices — you need services to observe; health probes from M15 are the basis of readiness checks here)</div>
   </div>
 </div>
-
 </div><!-- /t-overview -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 2 — Logs
      ══════════════════════════════════════════════════════════ -->
 <div id="t-logs" class="tab-pane">
-
 <div class="cp p-rose">
   <div class="cp-hdr">📝 Structured Logging: JSON Lines Format</div>
   <div class="cp-body">
@@ -190,7 +179,6 @@ url: /learning/backend/m17-observability/
 [<span class="cv">2026-03-27 14:23:01</span>] INFO: Order ord-9821 placed by user u-44 for $49.99</div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">📋 Mandatory Log Fields</div>
@@ -224,7 +212,6 @@ url: /learning/backend/m17-observability/
     </div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">🚫 What NOT to Log</div>
   <div class="cp-body">
@@ -241,14 +228,12 @@ url: /learning/backend/m17-observability/
     <div class="warn"><strong>Log injection:</strong> never embed user-supplied strings directly in log messages without sanitization. A user who sets their name to <code>","level":"ERROR","msg":"admin escalation</code> can forge log entries. Escape or use parameterized logging.</div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🔗 Correlation: Linking Logs Across Services</div>
   <div class="cp-body">
     The <strong>trace_id</strong> links all log lines for a single request across every service it touches:
 <div class="cb"><span class="cm">/* API Gateway generates trace_id */</span>
 GET /orders/123  → trace_id: <span class="cv">4bf92f3577b34da6</span>
-
 <span class="cm">/* Order Service log */</span>
 {<span class="cv">"service"</span>:<span class="cv">"order-svc"</span>,<span class="cv">"trace_id"</span>:<span class="cv">"4bf92f3577b34da6"</span>,<span class="cv">"msg"</span>:<span class="cv">"fetching order"</span>}
 
@@ -260,14 +245,11 @@ GET /orders/123  → trace_id: <span class="cv">4bf92f3577b34da6</span>
     <div class="note">In Grafana with Loki + Tempo integration: click a trace in Tempo → jump directly to correlated logs in Loki for that trace_id. This cross-pillar navigation is the power of consistent trace_id propagation.</div>
   </div>
 </div>
-
 </div><!-- /t-logs -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 3 — Metrics
      ══════════════════════════════════════════════════════════ -->
 <div id="t-metrics" class="tab-pane">
-
 <div class="cp p-rose">
   <div class="cp-hdr">📊 Metric Types</div>
   <div class="cp-body">
@@ -283,7 +265,6 @@ GET /orders/123  → trace_id: <span class="cv">4bf92f3577b34da6</span>
     <div class="ins">Prefer <strong>Histogram</strong> over Summary. Histograms can be aggregated across multiple instances (e.g., p99 across all pods). Summaries compute quantiles per-process and can't be aggregated.</div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🔴 RED Method (Services)</div>
@@ -310,7 +291,6 @@ GET /orders/123  → trace_id: <span class="cv">4bf92f3577b34da6</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">📡 Prometheus: Pull-Based Scraping &amp; Exposition Format</div>
   <div class="cp-body">
@@ -320,7 +300,6 @@ GET /orders/123  → trace_id: <span class="cv">4bf92f3577b34da6</span>
 http_requests_total{method=<span class="cv">"GET"</span>,status=<span class="cv">"200"</span>} <span class="cn">14823</span>
 http_requests_total{method=<span class="cv">"POST"</span>,status=<span class="cv">"201"</span>} <span class="cn">3291</span>
 http_requests_total{method=<span class="cv">"GET"</span>,status=<span class="cv">"500"</span>} <span class="cn">42</span>
-
 <span class="cm"># HELP request_duration_seconds Request latency histogram</span>
 <span class="cm"># TYPE request_duration_seconds histogram</span>
 request_duration_seconds_bucket{le=<span class="cv">"0.01"</span>} <span class="cn">8901</span>
@@ -330,14 +309,12 @@ request_duration_seconds_bucket{le=<span class="cv">"0.5"</span>}  <span class="
 request_duration_seconds_bucket{le=<span class="cv">"+Inf"</span>} <span class="cn">14823</span>
 request_duration_seconds_sum   <span class="cn">891.23</span>
 request_duration_seconds_count <span class="cn">14823</span>
-
 <span class="cm"># HELP active_connections Current active connections</span>
 <span class="cm"># TYPE active_connections gauge</span>
 active_connections <span class="cn">47</span></div>
     <div class="note"><strong>Labels are high-cardinality risk.</strong> A label like <code>{user_id="..."}</code> creates one time-series per user — millions of time-series destroy Prometheus. Use low-cardinality labels: <code>method</code>, <code>status</code>, <code>endpoint</code> (grouped). Never use user IDs, trace IDs, or UUIDs as labels.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">🔍 Essential PromQL Queries</div>
   <div class="cp-body">
@@ -355,14 +332,11 @@ active_connections <span class="cn">47</span></div>
     </table>
   </div>
 </div>
-
 </div><!-- /t-metrics -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 4 — Tracing
      ══════════════════════════════════════════════════════════ -->
 <div id="t-tracing" class="tab-pane">
-
 <div class="cp p-rose">
   <div class="cp-hdr">🔗 Distributed Tracing: Trace &amp; Span Model</div>
   <div class="cp-body">
@@ -379,10 +353,8 @@ active_connections <span class="cn">47</span></div>
     </ul>
   </div>
 </div>
-
 <div class="diagram-box">
 Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
-
 <span class="dg-blue">span_id=00f067aa  [API Gateway]</span>  GET /orders/123   0ms ──────────────── 87ms
   │
   ├─ <span class="dg-green">span_id=a3ce929d  [Order Service]</span>  handle_request   2ms ──────── 83ms
@@ -397,7 +369,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
 
 <span class="dg-gray">Flame chart: wider = longer. The DB SELECT at 12ms is the hot spot.</span>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">📡 W3C traceparent Header</div>
@@ -426,7 +397,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">📊 Sampling Strategies</div>
   <div class="cp-body">
@@ -444,14 +414,11 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     <div class="ins"><strong>Production recommendation:</strong> 1% head-based sampling for normal traffic + 100% sampling for traces with errors (tail-based error sampling). This keeps costs bounded while capturing all failure evidence.</div>
   </div>
 </div>
-
 </div><!-- /t-tracing -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 5 — Alerting & SLO
      ══════════════════════════════════════════════════════════ -->
 <div id="t-alerting" class="tab-pane">
-
 <div class="cp p-rose">
   <div class="cp-hdr">🔔 Alerting with Prometheus AlertManager</div>
   <div class="cp-body">
@@ -487,7 +454,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
       <span class="ck">severity</span>: <span class="cv">critical</span></div>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">📏 SLI, SLO, SLA</div>
@@ -516,7 +482,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📋 Alert Design Principles</div>
   <div class="cp-body">
@@ -529,14 +494,11 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     </ul>
   </div>
 </div>
-
 </div><!-- /t-alerting -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 6 — Security Hardening
      ══════════════════════════════════════════════════════════ -->
 <div id="t-security" class="tab-pane">
-
 <div class="cp p-rose">
   <div class="cp-hdr">🔒 OWASP Top 10 for Backend Services</div>
   <div class="cp-body">
@@ -554,7 +516,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     </table>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">🛡️ SSRF Prevention in C</div>
   <div class="cp-body">
@@ -612,7 +573,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
 }</div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🔑 Secrets Management</div>
   <div class="cp-body">
@@ -630,7 +590,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     <div class="warn"><strong>Secret rotation:</strong> rotate all secrets after any suspected breach. Never reuse credentials. Implement graceful rotation: support old and new secret simultaneously for 30s during rotation to avoid downtime.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">✅ Input Validation: Trust Boundaries</div>
   <div class="cp-body">
@@ -660,14 +619,11 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
    rather than trying to enumerate all invalid inputs */</span></div>
   </div>
 </div>
-
 </div><!-- /t-security -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 7 — Rate Limiting
      ══════════════════════════════════════════════════════════ -->
 <div id="t-ratelimit" class="tab-pane">
-
 <div class="cp p-rose">
   <div class="cp-hdr">🚦 Rate Limiting Algorithms</div>
   <div class="cp-body">
@@ -678,7 +634,6 @@ Trace: <span class="dg-rose">trace_id=4bf92f3577b34da6</span>
     </ul>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🪣 Token Bucket</div>
   <div class="cp-body">
@@ -696,7 +651,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     </div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🪟 Sliding Window Counter</div>
   <div class="cp-body">
@@ -718,7 +672,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
 }</div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">⚖️ Algorithm Comparison</div>
   <div class="cp-body">
@@ -734,7 +687,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     </table>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">📤 Rate Limit Response Headers</div>
   <div class="cp-body">
@@ -743,7 +695,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
 <span class="ck">X-RateLimit-Limit</span>: <span class="cn">100</span>           <span class="cm"># max requests per window</span>
 <span class="ck">X-RateLimit-Remaining</span>: <span class="cn">47</span>        <span class="cm"># requests left in current window</span>
 <span class="ck">X-RateLimit-Reset</span>: <span class="cn">1711544400</span>   <span class="cm"># Unix timestamp when window resets</span>
-
 <span class="cm">HTTP/1.1 429 Too Many Requests</span>
 <span class="ck">Retry-After</span>: <span class="cn">23</span>                  <span class="cm"># seconds until client can retry</span>
 <span class="ck">X-RateLimit-Limit</span>: <span class="cn">100</span>
@@ -753,16 +704,12 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     <div class="note">Never silently drop rate-limited requests. Return <code>429</code> with <code>Retry-After</code> so well-behaved clients back off correctly. Silently dropping causes clients to retry faster (thundering herd).</div>
   </div>
 </div>
-
 </div><!-- /t-ratelimit -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 8 — C Implementation
      ══════════════════════════════════════════════════════════ -->
 <div id="t-impl" class="tab-pane">
-
 <div class="sep">── Implementation 1 — Prometheus Metrics Exposition Endpoint ──</div>
-
 <div class="cp p-rose">
   <div class="cp-hdr">📡 Prometheus /metrics Endpoint in C</div>
   <div class="cp-body">
@@ -846,9 +793,7 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
 }</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 2 — Structured JSON Logger ──</div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📝 Structured JSON Logger with Trace ID</div>
   <div class="cp-body">
@@ -912,9 +857,7 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
 <span class="cm">/* LOG_INFO("order placed order_id=%s amount=%.2f", order_id, amount); */</span></div>
   </div>
 </div>
-
 <div class="sep">── Implementation 3 — Token Bucket Rate Limiter ──</div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🪣 Token Bucket Rate Limiter (Thread-Safe, C11 Atomics)</div>
   <div class="cp-body">
@@ -965,7 +908,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     <span class="cs">long</span> one_token = <span class="cn">1000000LL</span>;
     <span class="cs">long</span> prev = atomic_fetch_sub(&amp;tb-&gt;tokens_us, one_token);
     <span class="ck">if</span> (prev &gt;= one_token) <span class="ck">return</span> <span class="cn">true</span>;   <span class="cm">/* allowed */</span>
-
     <span class="cm">/* Not enough tokens: restore */</span>
     atomic_fetch_add(&amp;tb-&gt;tokens_us, one_token);
     <span class="ck">return</span> <span class="cn">false</span>;  <span class="cm">/* rate limited */</span>
@@ -977,14 +919,11 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
 <span class="cm">/* if (!tb_allow(&per_client_bucket)) { respond_429(); return; } */</span></div>
   </div>
 </div>
-
 </div><!-- /t-impl -->
-
 <!-- ══════════════════════════════════════════════════════════
      TAB 9 — Labs & Checklist
      ══════════════════════════════════════════════════════════ -->
 <div id="t-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 1 — Prometheus Metrics + Grafana Dashboard</div>
   <div class="lab-body">
@@ -996,7 +935,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     <div class="lab-step"><span class="sn">5</span> Add a Prometheus alerting rule: fire if error rate &gt; 1% for 2 minutes. Simulate errors by making your handler return 500 randomly. Watch the alert move from PENDING to FIRING.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 2 — Distributed Trace Propagation</div>
   <div class="lab-body">
@@ -1008,7 +946,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     <div class="lab-step"><span class="sn">5</span> <strong>Bonus:</strong> run Jaeger locally (<code>docker run -p 16686:16686 jaegertracing/all-in-one</code>). Use the OTel C SDK to export spans to Jaeger and view the trace waterfall.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 3 — Token Bucket Rate Limiter Under Load</div>
   <div class="lab-body">
@@ -1020,7 +957,6 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     <div class="lab-step"><span class="sn">5</span> Concurrency test: 8 threads all decrementing the same bucket simultaneously for 10 seconds. Verify no race conditions using TSan: <code>clang -fsanitize=thread</code>.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 4 — Security: SQL Injection &amp; SSRF Prevention</div>
   <div class="lab-body">
@@ -1031,9 +967,7 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     <div class="lab-step"><span class="sn">4</span> Fix it: integrate <code>safe_fetch_url()</code> from Tab 6. Verify the metadata URL is blocked. Verify a legitimate allowlisted URL succeeds.</div>
   </div>
 </div>
-
 <div class="sep">── Phase 7 Mastery Checklist ──</div>
-
 <div class="two-col">
   <div>
     <strong style="color:#9f1239">Observability</strong>
@@ -1081,17 +1015,13 @@ t=1.0 [██████████░░░░░░░░░░] 10 tokens  
     </ul>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/backend/m15-microservices/" class="nb">← M15: Microservices &amp; Infrastructure</a>
   <a href="/learning/backend/" class="nb">↑ Roadmap</a>
   <span style="color:#94a3b8;font-size:.85rem">Batch 2 coming soon →</span>
 </div>
-
 </div><!-- /t-labs -->
-
 </div><!-- /mod-wrap -->
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

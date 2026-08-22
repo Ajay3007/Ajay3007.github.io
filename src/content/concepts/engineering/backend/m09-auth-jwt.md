@@ -141,7 +141,6 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
 .seq .msg{color:#86efac}
 .seq .note{color:#fbbf24;background:transparent;border:none;padding:0}
 </style>
-
 <div class="mod-header">
   <h1>M09 — Authentication &amp; Authorization</h1>
   <div class="sub">Phase 3 · Auth &amp; Authz · Sessions · JWT · OAuth2 · RBAC · Argon2</div>
@@ -151,7 +150,6 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
     <span class="badge b-lang">C / OpenSSL / libsodium</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('overview',this)">Overview</button>
   <button class="tab-btn" onclick="vt('sessions',this)">Sessions &amp; Cookies</button>
@@ -163,10 +161,8 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
   <button class="tab-btn" onclick="vt('labs',this)">Labs</button>
   <button class="tab-btn" onclick="vt('checklist',this)">Checklist</button>
 </div>
-
 <!-- ═══════════════════════ OVERVIEW ═══════════════════════ -->
 <div class="tab-pane active" id="tab-overview">
-
 <div class="cp p-red">
   <div class="cp-hdr">What this module covers</div>
   <div class="cp-body">
@@ -176,7 +172,6 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
     All code examples use <strong>C with OpenSSL</strong> and <strong>libsodium</strong>.
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">Why get this right</div>
   <div class="cp-body">
@@ -188,9 +183,7 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
     </ul>
   </div>
 </div>
-
 <hr class="sep">
-
 <div class="cp p-blue">
   <div class="cp-hdr">The authentication landscape</div>
   <div class="cp-body">
@@ -206,7 +199,6 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
     </table>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">Phase 3 concept map</div>
   <div class="cp-body">
@@ -221,17 +213,13 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
     </ul>
   </div>
 </div>
-
 <div class="note">
   <strong>Module path:</strong> This is M09 in Phase 3 (of 8 phases). Prerequisites: M01 (TCP/TLS), M03 (REST APIs), M06 (SQL/PostgreSQL).
   Concepts build on each other within this module — read tabs in order on your first pass.
 </div>
-
 </div><!-- /overview -->
-
 <!-- ═══════════════════════ SESSIONS & COOKIES ═══════════════════════ -->
 <div class="tab-pane" id="tab-sessions">
-
 <div class="cp p-red">
   <div class="cp-hdr">How session-based authentication works</div>
   <div class="cp-body">
@@ -246,7 +234,6 @@ code{font-family:'Cascadia Code','Fira Code',monospace;font-size:.85em;
     </ol>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-orange">
     <div class="cp-hdr">Cookie attributes — every one matters</div>
@@ -287,7 +274,6 @@ HGETALL session:a3f9b2c1...
     </div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">Session fixation attack &amp; defence</div>
   <div class="cp-body">
@@ -329,7 +315,6 @@ HGETALL session:a3f9b2c1...
 </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">CSRF — Cross-Site Request Forgery</div>
   <div class="cp-body">
@@ -349,7 +334,6 @@ HGETALL session:a3f9b2c1...
     <div class="warn">SameSite=Lax still allows CSRF via cross-site top-level navigation (e.g., clicking a link). Use Strict for login flows. If you use both SameSite and CSRF tokens, you get defense-in-depth.</div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">Session security checklist</div>
   <div class="cp-body">
@@ -364,12 +348,9 @@ HGETALL session:a3f9b2c1...
     </ul>
   </div>
 </div>
-
 </div><!-- /sessions -->
-
 <!-- ═══════════════════════ JWT DEEP DIVE ═══════════════════════ -->
 <div class="tab-pane" id="tab-jwt">
-
 <div class="cp p-red">
   <div class="cp-hdr">JWT anatomy — every byte matters</div>
   <div class="cp-body">
@@ -399,7 +380,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     <div class="warn">The payload is <strong>not encrypted</strong> — only signed. Anyone with the token can base64-decode and read the claims. Never put secrets, PII, or sensitive data in JWT payload unless using JWE (JSON Web Encryption).</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">Signing algorithms: HS256 vs RS256 vs ES256</div>
   <div class="cp-body">
@@ -433,7 +413,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </div>
   </div>
 </div>
-
 <div class="cp p-violet">
   <div class="cp-hdr">Access + Refresh token pattern</div>
   <div class="cp-body">
@@ -441,7 +420,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
       <strong>Problem:</strong> If you make access tokens long-lived (24h+), a stolen token is valid for a long time.
       If you make them short-lived (15min), users must re-login constantly. The solution is two tokens with different lifetimes.
     </div>
-
 <div class="seq">
 <span class="actor">Client</span>          <span class="actor">Auth Server</span>                      <span class="actor">Resource Server</span>
   │                    │                                   │
@@ -462,7 +440,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
   │◄──new access(15m)──│                                   │
   │   new refresh(30d) │                                   │
 </div>
-
     <table class="t-table" style="margin-top:.8rem">
       <thead><tr><th>Property</th><th>Access Token</th><th>Refresh Token</th></tr></thead>
       <tbody>
@@ -476,7 +453,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     <div class="ins">Refresh token rotation: if server receives a previously-used (already-rotated) refresh token, assume token theft → revoke all tokens for that user/session immediately (refresh token reuse detection).</div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr">Critical JWT vulnerabilities</div>
   <div class="cp-body">
@@ -512,7 +488,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </table>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">JWT revocation strategies</div>
   <div class="cp-body">
@@ -528,12 +503,9 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </table>
   </div>
 </div>
-
 </div><!-- /jwt -->
-
 <!-- ═══════════════════════ OAUTH2 & API KEYS ═══════════════════════ -->
 <div class="tab-pane" id="tab-oauth">
-
 <div class="cp p-orange">
   <div class="cp-hdr">OAuth2 — delegation, not authentication</div>
   <div class="cp-body">
@@ -553,7 +525,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">Authorization Code + PKCE flow (recommended for SPAs &amp; mobile)</div>
   <div class="cp-body">
@@ -583,7 +554,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     <div class="note">PKCE (Proof Key for Code Exchange) prevents authorization code interception attacks. Even if the code is stolen in transit, the attacker doesn't have the code_verifier needed to exchange it for a token.</div>
   </div>
 </div>
-
 <div class="cp p-violet">
   <div class="cp-hdr">Client Credentials flow (machine-to-machine)</div>
   <div class="cp-body">
@@ -608,9 +578,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     <div class="warn">Client secrets are like passwords — store in environment variables or a secrets manager (Vault, AWS Secrets Manager), never in code or git.</div>
   </div>
 </div>
-
 <hr class="sep">
-
 <div class="cp p-red">
   <div class="cp-hdr">API Keys — design for security</div>
   <div class="cp-body">
@@ -622,7 +590,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
       <li><span class="fl-step">5</span><div><strong>Rotation:</strong> Allow multiple active keys; deactivate old key after grace period</div></li>
       <li><span class="fl-step">6</span><div><strong>Rate limiting:</strong> Limit by key, not just IP — prevents key sharing abuse</div></li>
     </ul>
-
 <div class="cb">
 <span class="cm">-- API key DB schema</span>
 <span class="ck">CREATE TABLE</span> api_keys (
@@ -641,7 +608,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">OAuth2 security pitfalls</div>
   <div class="cp-body">
@@ -657,12 +623,9 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </table>
   </div>
 </div>
-
 </div><!-- /oauth -->
-
 <!-- ═══════════════════════ AUTHORIZATION ═══════════════════════ -->
 <div class="tab-pane" id="tab-authz">
-
 <div class="cp p-indigo">
   <div class="cp-hdr">RBAC — Role-Based Access Control</div>
   <div class="cp-body">
@@ -696,7 +659,6 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     </table>
   </div>
 </div>
-
 <div class="cp p-violet">
   <div class="cp-hdr">ABAC — Attribute-Based Access Control</div>
   <div class="cp-body">
@@ -740,7 +702,6 @@ deny {
     </table>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">Authorization enforcement patterns</div>
   <div class="cp-body">
@@ -760,7 +721,6 @@ deny {
     </div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">JWT claims as lightweight RBAC</div>
   <div class="cp-body">
@@ -780,12 +740,9 @@ deny {
     </div>
   </div>
 </div>
-
 </div><!-- /authz -->
-
 <!-- ═══════════════════════ PASSWORD SECURITY ═══════════════════════ -->
 <div class="tab-pane" id="tab-passwords">
-
 <div class="cp p-red">
   <div class="cp-hdr">Why fast hashes are catastrophically wrong</div>
   <div class="cp-body">
@@ -805,7 +762,6 @@ deny {
     </div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">bcrypt — the reliable default</div>
   <div class="cp-body">
@@ -813,7 +769,6 @@ deny {
 <span class="cm">/* bcrypt: cost factor controls iteration count (2^cost rounds) */</span>
 <span class="cm">/* Target: ~100ms hash time on your server hardware */</span>
 <span class="cm">/* Start at cost=12; benchmark; increase as hardware improves */</span>
-
 <span class="cm">/* Format: $2b$12$&lt;22-char salt&gt;&lt;31-char hash&gt; */</span>
 $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLcOHo.
 
@@ -826,7 +781,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     <div class="warn">bcrypt truncates inputs longer than 72 bytes. If users might have longer passwords, pre-hash with SHA-256 (to compress to 32 bytes) before bcrypt — but use a constant encoding, not just SHA-256 alone.</div>
   </div>
 </div>
-
 <div class="cp p-violet">
   <div class="cp-hdr">Argon2id — OWASP recommended</div>
   <div class="cp-body">
@@ -841,14 +795,10 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="cm">/* - t = 2       iterations                                          */</span>
 <span class="cm">/* - p = 1       parallelism                                         */</span>
 <span class="cm">/* - tag_len = 32 bytes output                                       */</span>
-
 <span class="cm">/* For high-security (allow >500ms): m=65536, t=3, p=4              */</span>
-
 <span class="cm">/* libsodium (C library) — preferred over rolling your own: */</span>
 <span class="ck">#include</span> <span class="cs">&lt;sodium.h&gt;</span>
-
 <span class="ck">char</span> hashed_password[crypto_pwhash_STRBYTES];  <span class="cm">/* 128 bytes */</span>
-
 <span class="ck">if</span> (crypto_pwhash_str(
         hashed_password,
         password, strlen(password),
@@ -858,7 +808,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     <span class="cm">/* out of memory — return 500 */</span>
 }
 <span class="cm">/* Store hashed_password in DB */</span>
-
 <span class="cm">/* Verification: */</span>
 <span class="ck">if</span> (crypto_pwhash_str_verify(
         hashed_password,
@@ -869,7 +818,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">Timing-safe comparison — critical for security</div>
   <div class="cp-body">
@@ -886,11 +834,9 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;openssl/crypto.h&gt;</span>
 <span class="ck">int</span> result = CRYPTO_memcmp(computed_hmac, stored_hmac, HMAC_LEN);
 <span class="cm">/* result == 0 means equal — no early exit */</span>
-
 <span class="cm">/* Also safe: libsodium's constant-time equal */</span>
 <span class="ck">#include</span> <span class="cs">&lt;sodium.h&gt;</span>
 <span class="ck">int</span> ok = sodium_memcmp(a, b, len);  <span class="cm">/* 0 = equal */</span>
-
 <span class="cm">/* Use constant-time comparison for: */</span>
 <span class="cm">/* - HMAC verification (JWT, CSRF tokens, webhook signatures) */</span>
 <span class="cm">/* - API key comparison (though hash-then-compare is better) */</span>
@@ -900,7 +846,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     <div class="ins">When comparing API keys: hash both submitted and stored values with SHA-256, then compare the hashes with a constant-time function. This is safer than comparing raw keys.</div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">Pepper — defense in depth for password hashing</div>
   <div class="cp-body">
@@ -910,7 +855,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">void</span> <span class="cf">hash_password_with_pepper</span>(<span class="ck">const char</span> *password, <span class="ck">char</span> *out) {
     <span class="cn">uint8_t</span> pepper[<span class="cn">32</span>];
     get_pepper_from_env(pepper);  <span class="cm">/* load from secrets manager */</span>
-
     <span class="cm">/* HMAC-SHA256(pepper, password) → 32 bytes */</span>
     <span class="cn">uint8_t</span> peppered[<span class="cn">32</span>];
     HMAC(EVP_sha256(), pepper, <span class="cn">32</span>,
@@ -927,12 +871,9 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 </div>
   </div>
 </div>
-
 </div><!-- /passwords -->
-
 <!-- ═══════════════════════ C IMPLEMENTATION ═══════════════════════ -->
 <div class="tab-pane" id="tab-impl">
-
 <div class="cp p-red">
   <div class="cp-hdr">JWT HS256 sign and verify in C (OpenSSL)</div>
   <div class="cp-body">
@@ -944,7 +885,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdint.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;time.h&gt;</span>
-
 <span class="cm">/* Base64url encoding (no padding) */</span>
 <span class="ck">static const char</span> b64url_chars[] =
     <span class="cs">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"</span>;
@@ -1037,7 +977,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 </div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">API key generation and verification in C</div>
   <div class="cp-body">
@@ -1047,7 +986,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;openssl/crypto.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
-
 <span class="cm">/* Generate API key: "sk_live_" + 32 random bytes as hex = 72 chars total */</span>
 <span class="ck">void</span> <span class="cf">generate_api_key</span>(<span class="ck">char</span> *out_key, <span class="cn">size_t</span> key_len,
                        <span class="ck">char</span> *out_prefix, <span class="ck">char</span> *out_hash_hex)
@@ -1106,7 +1044,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 </div>
   </div>
 </div>
-
 <div class="cp p-violet">
   <div class="cp-hdr">Argon2id password hashing with libsodium</div>
   <div class="cp-body">
@@ -1114,7 +1051,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;sodium.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
-
 <span class="cm">/* Hash a password for storage */</span>
 <span class="ck">int</span> <span class="cf">hash_password</span>(<span class="ck">const char</span> *password, <span class="ck">char</span> *hash_out)
 {
@@ -1170,7 +1106,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     <div class="note">After a successful login, call <code>needs_rehash()</code> — if true, transparently re-hash the plaintext password (which you have in memory at login time only) and update the DB. This handles algorithm upgrades without forcing password resets.</div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">Session ID generation — CSPRNG in C</div>
   <div class="cp-body">
@@ -1178,13 +1113,11 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 <span class="ck">#include</span> <span class="cs">&lt;openssl/rand.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cs">&lt;string.h&gt;</span>
-
 <span class="cm">/* Generate 128-bit session ID as 32-char hex string */</span>
 <span class="ck">int</span> <span class="cf">generate_session_id</span>(<span class="ck">char</span> *out)  <span class="cm">/* out: 33+ bytes */</span>
 {
     <span class="cn">uint8_t</span> raw[<span class="cn">16</span>];
     <span class="ck">if</span> (RAND_bytes(raw, <span class="ck">sizeof</span>(raw)) != <span class="cn">1</span>) <span class="ck">return</span> -<span class="cn">1</span>;  <span class="cm">/* CSPRNG failure */</span>
-
     <span class="ck">for</span> (<span class="ck">int</span> i = <span class="cn">0</span>; i < <span class="cn">16</span>; i++)
         sprintf(out + i*<span class="cn">2</span>, <span class="cs">"%02x"</span>, raw[i]);
     out[<span class="cn">32</span>] = <span class="cs">'\0'</span>;
@@ -1202,12 +1135,9 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     <div class="warn">Never use <code>rand()</code>, <code>srand(time(NULL))</code>, or sequential counters for session IDs. These are predictable. Only use a CSPRNG: <code>RAND_bytes()</code> (OpenSSL), <code>randombytes_buf()</code> (libsodium), or <code>/dev/urandom</code> directly.</div>
   </div>
 </div>
-
 </div><!-- /impl -->
-
 <!-- ═══════════════════════ LABS ═══════════════════════ -->
 <div class="tab-pane" id="tab-labs">
-
 <div class="lab-box">
   <div class="lab-hdr">Lab 1 — JWT from scratch in C</div>
   <div class="lab-body">
@@ -1224,7 +1154,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
     <div class="note">Decode any token at jwt.io to verify your base64url encoding is correct.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">Lab 2 — Password hashing benchmark and upgrade path</div>
   <div class="lab-body">
@@ -1247,7 +1176,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 ./pwhash_bench</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">Lab 3 — API key system with PostgreSQL</div>
   <div class="lab-body">
@@ -1277,7 +1205,6 @@ $2b$<span class="cn">12</span>$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/leHD7dNzT0pLc
 ./apikey</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">Lab 4 — RBAC middleware in a minimal HTTP server</div>
   <div class="lab-body">
@@ -1304,17 +1231,13 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
     <div class="lab-step"><span class="sn">6</span><div><strong>Bonus:</strong> Add <code>POST /refresh</code> with a refresh token (store in Redis-like in-memory map), implement rotation and reuse detection.</div></div>
   </div>
 </div>
-
 </div><!-- /labs -->
-
 <!-- ═══════════════════════ CHECKLIST ═══════════════════════ -->
 <div class="tab-pane" id="tab-checklist">
-
 <div class="cp p-red">
   <div class="cp-hdr">Phase 3 concept checklist</div>
   <div class="cp-body">
     <p style="margin-bottom:.8rem;font-size:.88rem;color:#64748b">Check each item after you can explain it clearly and implement it without referencing notes.</p>
-
     <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin-bottom:.4rem">Sessions &amp; Cookies</div>
     <ul class="cl">
       <li>Session ID is ≥128-bit CSPRNG output, hex or base64url encoded, never predictable</li>
@@ -1324,7 +1247,6 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
       <li>Logout deletes session from Redis, doesn't just expire the cookie</li>
       <li>CSRF: SameSite=Strict prevents cross-site request forgery for modern browsers</li>
     </ul>
-
     <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">JWT</div>
     <ul class="cl">
       <li>JWT = base64url(header) + "." + base64url(payload) + "." + base64url(signature)</li>
@@ -1336,7 +1258,6 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
       <li>Access token: 15min, stateless. Refresh token: 7-30d, stored in DB for revocation</li>
       <li>Refresh token rotation: each use issues a new token; reuse detection revokes family</li>
     </ul>
-
     <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">OAuth2 &amp; API Keys</div>
     <ul class="cl">
       <li>OAuth2 = authorization framework (delegation), not authentication</li>
@@ -1346,7 +1267,6 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
       <li>API keys: generate with CSPRNG, store SHA-256 hash in DB, show plaintext once</li>
       <li>API key lookup: prefix column (fast) + constant-time hash comparison</li>
     </ul>
-
     <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">Authorization</div>
     <ul class="cl">
       <li>RBAC: users → roles → permissions; simple, auditable, works for most systems</li>
@@ -1354,7 +1274,6 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
       <li>Always check resource ownership (IDOR prevention): <code>WHERE user_id = $current</code></li>
       <li>JWT role/permission claims go stale — short access token TTL limits the window</li>
     </ul>
-
     <div class="ch-section-label" style="font-size:.8rem;font-weight:700;color:#ef4444;margin:.8rem 0 .4rem">Password Security</div>
     <ul class="cl">
       <li>Never use MD5/SHA-256 for passwords — they're too fast (&gt;billion/sec on GPU)</li>
@@ -1366,7 +1285,6 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
     </ul>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">Common mistakes to avoid</div>
   <div class="cp-body">
@@ -1385,15 +1303,12 @@ curl -H "Authorization: Bearer $TOKEN" localhost:8080/api/admin/users  # expect 
     </table>
   </div>
 </div>
-
 </div><!-- /checklist -->
-
 <div class="mod-nav">
   <a href="/learning/backend/m06-sql-indexing/" class="nb">← M06 SQL &amp; Indexing</a>
   <a href="/learning/backend/backend-roadmap/" class="nb">↑ Back to Roadmap</a>
   <a href="/learning/backend/m11-concurrency/" class="nb">M11 Concurrency →</a>
 </div>
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

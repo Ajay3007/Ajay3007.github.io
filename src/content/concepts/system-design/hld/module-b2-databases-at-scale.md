@@ -12,7 +12,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
 <link rel="stylesheet" href="/assets/css/sd-module-b2.css">
 
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Code+Pro:wght@300;400;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <header>
   <div class="hdr-accent"></div>
   <div class="hdr-inner">
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     <div class="topic-pill" style="border-color:var(--lime);color:var(--lime)">DB Selection</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nav-tab active" onclick="show('index',this)">Indexing</div>
   <div class="nav-tab" onclick="show('acid',this)">ACID vs BASE</div>
@@ -52,14 +50,11 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
   <div class="nav-tab" onclick="show('tasks',this)">Tasks</div>
   <div class="nav-tab" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- ══ INDEXING ══ -->
 <div class="view active" id="view-index">
   <div class="sec-h">Indexing</div>
   <div class="sec-sub">Why queries go from O(n) to O(log n) — and what it costs</div>
-
   <div class="idx-grid">
     <div class="idx-card" style="border-top-color:var(--ice)">
       <div class="idx-name">B-Tree Index</div>
@@ -77,37 +72,30 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
       <div class="idx-use" style="color:var(--mint)">INDEX(user_id, created_at)<br>✓ WHERE user_id=5<br>✓ WHERE user_id=5 AND created_at&gt;X<br>✗ WHERE created_at&gt;X (skips prefix)</div>
     </div>
   </div>
-
   <div class="code-wrap">
     <div class="code-top">Covering Index — query satisfied entirely from index<span class="code-lang">SQL</span></div>
 <pre class="code"><span class="cm">-- Table: orders (10M rows)</span>
 <span class="cm">-- Query: SELECT user_id, created_at FROM orders WHERE user_id = 5</span>
- 
 <span class="cm">-- Regular index on user_id:</span>
 <span class="cm">--   1. B-tree lookup → row pointer</span>
 <span class="cm">--   2. Fetch row from heap (random disk I/O) to read created_at</span>
- 
 <span class="cm">-- Covering index on (user_id, created_at):</span>
 <span class="kw">CREATE INDEX</span> idx_covering <span class="kw">ON</span> orders(user_id, created_at);
 <span class="cm">--   1. B-tree lookup → both columns found IN the index leaf</span>
 <span class="cm">--   2. NO heap access at all → drastically reduced I/O</span>
 <span class="cm">--   ✅ PostgreSQL calls this "Index Only Scan"</span>
- 
 <span class="cm">-- Index design for common queries:</span>
 <span class="kw">CREATE INDEX</span> idx_user   <span class="kw">ON</span> orders(user_id);                  <span class="cm">-- Q1: orders by user</span>
 <span class="kw">CREATE INDEX</span> idx_rest_t <span class="kw">ON</span> orders(restaurant_id, created_at); <span class="cm">-- Q2: restaurant + time range</span>
 <span class="kw">CREATE INDEX</span> idx_status <span class="kw">ON</span> orders(status) <span class="kw">WHERE</span> status = <span class="str">'pending'</span>; <span class="cm">-- Q3: partial index!</span>
 <span class="kw">CREATE INDEX</span> idx_user_d <span class="kw">ON</span> orders(user_id, created_at);      <span class="cm">-- Q4: user + date range</span></pre>
   </div>
-
   <div class="alert gold"><em>Index cost trade-off:</em> Every write (INSERT/UPDATE/DELETE) must update all indexes on that table. A table with 10 indexes needs 10 B-tree updates per write. Index only columns used in WHERE, JOIN ON, ORDER BY. Low-cardinality columns (boolean, status with 3 values) often give poor selectivity — the optimizer may prefer a full scan.</div>
 </div>
-
 <!-- ══ ACID vs BASE ══ -->
 <div class="view" id="view-acid">
   <div class="sec-h">ACID vs BASE</div>
   <div class="sec-sub">The consistency guarantee spectrum — choose based on use case</div>
-
   <div class="ab-grid">
     <div class="ab-card">
       <div class="ab-hdr" style="background:rgba(96,208,255,0.06)">
@@ -138,7 +126,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
       </div>
     </div>
   </div>
-
   <div class="sec-h" style="margin-top:24px">Isolation Levels Deep-Dive</div>
   <table class="big-table">
     <thead><tr><th>ISOLATION LEVEL</th><th>DIRTY READ</th><th>NON-REPEATABLE</th><th>PHANTOM READ</th><th>DEFAULT IN</th></tr></thead>
@@ -151,12 +138,10 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
   </table>
   <div class="alert ice"><em>Interview pattern:</em> Higher isolation level = fewer anomalies but more locking = lower throughput. Most applications run at READ COMMITTED. SERIALIZABLE is used for financial systems where phantom reads would cause incorrect calculations (e.g., calculating remaining inventory before inserting an order).</div>
 </div>
-
 <!-- ══ SQL vs NOSQL ══ -->
 <div class="view" id="view-sqlnosql">
   <div class="sec-h">SQL vs NoSQL</div>
   <div class="sec-sub">Not a religion — a trade-off based on access patterns and consistency needs</div>
-
   <table class="big-table">
     <thead><tr><th>DIMENSION</th><th>SQL (Relational)</th><th>NoSQL (Distributed)</th></tr></thead>
     <tbody>
@@ -168,7 +153,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
       <tr><td>Examples</td><td>PostgreSQL, MySQL, Aurora, SQLite</td><td>DynamoDB, Cassandra, MongoDB, Redis, Neo4j</td></tr>
     </tbody>
   </table>
-
   <div class="sec-h" style="margin-top:22px">The 5 NoSQL Data Models</div>
   <div class="shard-grid" style="grid-template-columns:repeat(3,1fr)">
     <div class="shard-card">
@@ -223,12 +207,10 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     </div>
   </div>
 </div>
-
 <!-- ══ REPLICATION ══ -->
 <div class="view" id="view-replication">
   <div class="sec-h">Replication</div>
   <div class="sec-sub">How to survive node failures and serve more reads</div>
-
   <div class="rep-diagram">
     <div style="font-family:'Source Code Pro',monospace;font-size:9px;color:var(--faded);letter-spacing:2px;margin-bottom:14px">// PRIMARY-REPLICA (LEADER-FOLLOWER)</div>
     <div class="rep-row">
@@ -253,32 +235,26 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
       <span style="color:var(--coral)">✗</span> Primary is still single write point
     </div>
   </div>
-
   <div class="sec-h">Replication Lag — Solutions</div>
   <div class="code-wrap">
     <div class="code-top">Strategies to handle stale reads<span class="code-lang">PATTERNS</span></div>
 <pre class="code"><span class="cm">Problem: User updates profile → reads from replica → sees old data (lag ~100ms–2s)</span>
- 
 <span class="hl">Strategy 1: Read-your-own-writes</span>
   <span class="cm">Route user's reads to PRIMARY for their own data only.</span>
   <span class="cm">How: track last_write_time per user; if recent → route to primary.</span>
   <span class="cm">Cost: extra load on primary for the write author's reads.</span>
- 
 <span class="hl">Strategy 2: Monotonic Reads</span>
   <span class="cm">Always route same user to same replica.</span>
   <span class="cm">Prevents user seeing data "go backwards" (newer on one replica, older on next).</span>
   <span class="cm">How: Hash(userId) % numReplicas → sticky routing.</span>
- 
 <span class="hl">Strategy 3: Semi-Synchronous Replication</span>
   <span class="cm">Primary waits for ACK from at least 1 replica before confirming write.</span>
   <span class="cm">Zero data loss on primary crash (at least 1 replica has the write).</span>
   <span class="cm">Cost: write latency += 1 network RTT to replica.</span>
- 
 <span class="hl">Strategy 4: Route critical paths to primary</span>
   <span class="cm">Payment confirmation, inventory check → always read from primary.</span>
   <span class="cm">Profile photos, comment counts → can read from replica.</span></pre>
   </div>
-
   <div class="sec-h" style="margin-top:22px">Multi-Primary (Active-Active) Replication</div>
   <table class="big-table">
     <thead><tr><th>ASPECT</th><th>PRIMARY-REPLICA</th><th>MULTI-PRIMARY</th></tr></thead>
@@ -291,12 +267,10 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     </tbody>
   </table>
 </div>
-
 <!-- ══ SHARDING ══ -->
 <div class="view" id="view-sharding">
   <div class="sec-h">Sharding (Horizontal Partitioning)</div>
   <div class="sec-sub">Distributing rows across multiple DB nodes — when one machine isn't enough</div>
-
   <div class="shard-grid">
     <div class="shard-card">
       <div class="shard-hdr">
@@ -344,39 +318,31 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
       </div>
     </div>
   </div>
-
   <div class="alert coral"><em>The Hotkey Problem:</em> A single shard key (Taylor Swift's user_id during a concert drop) gets 100× more traffic than others. Solutions: (1) Key suffixing — distribute post_id_0...post_id_9 across shards; (2) Cache in Redis; (3) Per-shard read replicas. Design your shard key to co-locate related data and distribute write load.</div>
-
   <div class="sec-h" style="margin-top:22px">Cross-Shard Query Problem</div>
   <div class="code-wrap">
     <div class="code-top">Strategies for queries that span shards<span class="code-lang">PATTERNS</span></div>
 <pre class="code"><span class="cm">Problem: SELECT COUNT(*) FROM orders GROUP BY restaurant_id</span>
 <span class="cm">         orders are sharded by user_id → restaurant data is spread across all shards</span>
 <span class="cm">         → Must query ALL shards and merge results in application layer</span>
- 
 <span class="hl">Solution 1: Denormalise (NoSQL pattern)</span>
   <span class="cm">Embed related data in the same document.</span>
   <span class="cm">User document includes their recent orders → no cross-shard JOIN needed.</span>
- 
 <span class="hl">Solution 2: Co-locate by access pattern</span>
   <span class="cm">Shard ALL of a user's data by user_id.</span>
   <span class="cm">Query "all my orders" stays on one shard.</span>
   <span class="cm">But "all orders for this restaurant" still requires scatter-gather.</span>
- 
 <span class="hl">Solution 3: Separate analytics store</span>
   <span class="cm">Write events to Kafka → consume into data warehouse (BigQuery, Redshift).</span>
   <span class="cm">Cross-tenant/cross-shard analytics run on the warehouse, not the OLTP DB.</span>
- 
 <span class="hl">Solution 4: Accept scatter-gather for rare queries</span>
   <span class="cm">Fan out to all shards, merge in application layer, cache the result aggressively.</span></pre>
   </div>
 </div>
-
 <!-- ══ DB SELECTION ══ -->
 <div class="view" id="view-dbselect">
   <div class="sec-h">Database Selection Guide</div>
   <div class="sec-sub">The right database for the right job — based on access patterns, not familiarity</div>
-
   <div class="db-select">
     <div class="dbs-card"><div class="dbs-q">Need ACID + complex JOINs?</div><div class="dbs-a">PostgreSQL / MySQL / Aurora</div></div>
     <div class="dbs-card"><div class="dbs-q">Need massive write throughput (millions/sec)?</div><div class="dbs-a">Cassandra / DynamoDB</div></div>
@@ -387,7 +353,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     <div class="dbs-card"><div class="dbs-q">Need distributed SQL (geo-global)?</div><div class="dbs-a">CockroachDB / Google Spanner</div></div>
     <div class="dbs-card"><div class="dbs-q">Need in-memory cache / pub-sub / leaderboard?</div><div class="dbs-a">Redis / Memcached</div></div>
   </div>
-
   <div class="sec-h" style="margin-top:22px">Comparison Matrix</div>
   <table class="big-table">
     <thead><tr><th>DATABASE</th><th>TYPE</th><th>CONSISTENCY</th><th>SCALE</th><th>BEST FOR</th></tr></thead>
@@ -402,7 +367,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
       <tr><td>InfluxDB</td><td>Time-series</td><td>Eventual</td><td>Horizontal</td><td>Metrics, monitoring, IoT telemetry</td></tr>
     </tbody>
   </table>
-
   <div class="sec-h" style="margin-top:22px">Interview Tips</div>
   <table class="big-table">
     <thead><tr><th>QUESTION</th><th>STRONG ANSWER</th></tr></thead>
@@ -415,7 +379,6 @@ url: /learning/system-design/hld/module-b2-databases-at-scale/
     </tbody>
   </table>
 </div>
-
 <!-- ══ TASKS ══ -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -445,7 +408,6 @@ For each query:
   Bonus: Q3 — would a partial index help? Why?</pre>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">02</div><div class="t-label">Sharding Design — Multi-Tenant SaaS</div><div class="t-meta">~1.5 hrs</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -459,7 +421,6 @@ For each query:
         </ol>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">03</div><div class="t-label">Replication Lag Decision Scenarios</div><div class="t-meta">~1 hr</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -474,7 +435,6 @@ For each query:
         </ol>
       </div>
     </div>
-
     <div class="task-card" style="border-top:2px solid var(--ice)">
       <div class="task-hd" onclick="tt(this)"><div class="t-num" style="color:var(--ice)">★</div><div class="t-label">Design Instagram's Storage Layer</div><div class="t-meta">~3 hrs · full HLD</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -492,12 +452,10 @@ For each query:
     </div>
   </div>
 </div>
-
 <!-- ══ CHECKLIST ══ -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 14 completed</span><span>MODULE B2 · DATABASES AT SCALE</span></div>
   <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-
   <div class="chk-grid">
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">B-tree indexing: O(log n), left-most prefix rule, range query support</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Composite and covering indexes — when and how to design them</div></div>
@@ -514,7 +472,6 @@ For each query:
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Tasks 1–3 completed (index design, sharding, replication lag)</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Capstone: Instagram storage layer — full design with estimates</div></div>
   </div>
-
   <div style="margin-top:32px;background:var(--panel);border:1px solid var(--bord2);padding:24px;border-top:2px solid var(--ice)">
     <div style="font-family:'Source Code Pro',monospace;font-size:9px;color:var(--faded);letter-spacing:2px;margin-bottom:10px">// NEXT MODULE</div>
     <div style="font-family:'DM Serif Display',serif;font-size:30px;color:var(--bright);margin-bottom:8px">B3 — Caching</div>
@@ -525,9 +482,7 @@ For each query:
     </div>
   </div>
 </div>
-
 </div>
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -549,7 +504,6 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
@@ -571,7 +525,6 @@ function tick(el) {
   document.getElementById('prog-fill').style.width = `${(done/total)*100}%`;
 }
 </script>
-
 <div class="b2-bottom-nav">
   <a href="/learning/system-design/hld/module-b1-hld-fundamentals/" class="b2-nav-footer-btn">← B1: HLD Fundamentals</a>
   <a href="/learning/system-design/hld/module-b2-notes/" class="b2-nav-footer-btn">📄 Full Notes</a>

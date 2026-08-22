@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m25-ids-ips/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 6 · MODULE 25 · WEEK 24</div>
   <div class="mod-title">🚨 IDS/IPS and Threat Detection</div>
@@ -90,7 +89,6 @@ url: /learning/networking-mastery/m25-ids-ips/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">IDS vs IPS</button>
   <button class="tab-btn" onclick="vt(event,'t1')">Snort Rules</button>
@@ -103,11 +101,8 @@ url: /learning/networking-mastery/m25-ids-ips/
   <button class="tab-btn" onclick="vt(event,'t8')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">Checklist</button>
 </div>
-
-
 <div id="t0" class="tab-pane active">
 <p class="sep">IDS vs IPS — DETECTION vs PREVENTION</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🚨</span><h3>IDS, IPS, and Their Role in NGFW</h3><span class="tag tag-red">OVERVIEW</span></div>
   <div class="cp-body">
@@ -149,11 +144,8 @@ url: /learning/networking-mastery/m25-ids-ips/
   </div>
 </div>
 </div>
-
-
 <div id="t1" class="tab-pane">
 <p class="sep">SNORT/SURICATA RULE SYNTAX</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📋</span><h3>Rule Anatomy and Key Options</h3><span class="tag tag-orange">RULES</span></div>
   <div class="cp-body">
@@ -222,11 +214,8 @@ rev:3;                       /* revision number */</pre></div>
   </div>
 </div>
 </div>
-
-
 <div id="t2" class="tab-pane">
 <p class="sep">SURICATA — MULTI-THREADED IDS/IPS ENGINE</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>Suricata Architecture</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -313,11 +302,8 @@ suricata:
   </div>
 </div>
 </div>
-
-
 <div id="t3" class="tab-pane">
 <p class="sep">ANOMALY DETECTION — STATISTICAL BASELINES AND DEVIATIONS</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📊</span><h3>Network Anomaly Detection Techniques</h3><span class="tag tag-purple">ANOMALY DETECTION</span></div>
   <div class="cp-body">
@@ -397,11 +383,8 @@ float ewma_update(float prev_avg, float new_val, float alpha) {
   </div>
 </div>
 </div>
-
-
 <div id="t4" class="tab-pane">
 <p class="sep">BEACON DETECTION — FINDING C2 COMMUNICATION</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">📡</span><h3>Detecting Periodic C2 Callbacks</h3><span class="tag tag-red">BEACON DETECTION</span></div>
   <div class="cp-body">
@@ -475,11 +458,8 @@ beacon_result_t detect_beacon(beacon_tracker_t *t) {
   </div>
 </div>
 </div>
-
-
 <div id="t5" class="tab-pane">
 <p class="sep">THREAT INTELLIGENCE — IOC CORRELATION</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>IoC Types, Sources, and Integration</h3><span class="tag tag-teal">THREAT INTEL</span></div>
   <div class="cp-body">
@@ -564,11 +544,8 @@ void threat_intel_update(threat_intel_db_t **live, const char *feed_url) {
   </div>
 </div>
 </div>
-
-
 <div id="t6" class="tab-pane">
 <p class="sep">DNS THREAT DETECTION — DGA, TUNNELLING, FAST-FLUX</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>DNS as Both an Attack Vector and Detection Goldmine</h3><span class="tag tag-amber">DNS THREATS</span></div>
   <div class="cp-body">
@@ -649,11 +626,8 @@ void detect_dns_tunnel(dns_info_t *di, dns_tracker_t *t) {
   </div>
 </div>
 </div>
-
-
 <div id="t7" class="tab-pane">
 <p class="sep">ALERT TUNING — MANAGING FALSE POSITIVES IN PRODUCTION</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🎚️</span><h3>False Positive Management and Rule Tuning</h3><span class="tag tag-blue">TUNING</span></div>
   <div class="cp-body">
@@ -731,10 +705,7 @@ void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
   </div>
 </div>
 </div>
-
-
 <div id="t8" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Suricata IDS/IPS Deployment and Tuning</h4></div>
   <div class="lab-body">
@@ -746,7 +717,6 @@ void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
     <div class="lab-step"><div class="sn">5</div><div>Tune false positives: run normal office traffic through Suricata for 1 hour. Count FPs. Suppress the top 3 noisy rules for known-good sources. Add threshold to the next 3 highest-volume rules. Document before/after alert volume. Achieve <100 alerts/hour from normal traffic.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Beacon Detection Engine</h4></div>
   <div class="lab-body">
@@ -757,7 +727,6 @@ void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
     <div class="lab-step"><div class="sn">4</div><div>Add evasion testing: modify the simulated beacon to use random sleep times (exponential distribution with same mean) instead of fixed interval with jitter. Does your detector still trigger? What statistical test (Kolmogorov-Smirnov, runs test) would better distinguish exponential-random from uniform-with-jitter? Implement one and compare.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Threat Intelligence Pipeline</h4></div>
   <div class="lab-body">
@@ -769,8 +738,6 @@ void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
   </div>
 </div>
 </div>
-
-
 <div id="t9" class="tab-pane">
 <p class="sep">M25 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -808,7 +775,6 @@ void threat_score_update(threat_score_t *ts, const char *sig, uint32_t weight) {
   <p>✅ <strong>When complete:</strong> Move to <strong>M26 - Policy Engine and Capstone</strong> — the final module bringing together all Phase 6 subsystems into a complete NGFW architecture, plus a capstone project designing your team's NGFW.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m24-dpi/">← M24 DPI</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

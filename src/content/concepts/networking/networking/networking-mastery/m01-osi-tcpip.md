@@ -212,7 +212,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}
 @media(max-width:560px){.two-col{grid-template-columns:1fr}}
 </style>
-
 <!-- ── HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 1 · MODULE 01 · WEEK 1</div>
@@ -226,7 +225,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <!-- ── TAB BAR ── -->
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Why Layers?</button>
@@ -239,12 +237,9 @@ url: /learning/networking-mastery/m01-osi-tcpip/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — WHY LAYERS ══════════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">THE PROBLEM LAYERS SOLVE</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🤔</span><h3>Why Does Networking Need a Layered Model?</h3><span class="tag tag-blue">MOTIVATION</span></div>
   <div class="cp-body">
@@ -258,12 +253,10 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     </ul>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">📮 Analogy — Sending a Physical Letter</div>
   <p>Think of layers like the postal system. You (the app) write a letter and seal it in an envelope (Layer 6/5). The envelope gets a delivery address and return address (Layer 3 — IP addressing). It gets placed in a mail bag (Layer 2 — grouped for a specific route). The mail bag travels by truck, plane, boat (Layer 1 — physical transport). At each stage, that layer's workers do their specific job without needing to read your personal letter. The letter arrives, gets opened, and you read it — each layer unwrapped in reverse. This is exactly what happens to network packets.</p>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📜</span><h3>Two Models — OSI and TCP/IP</h3><span class="tag tag-teal">OVERVIEW</span></div>
   <div class="cp-body">
@@ -276,16 +269,12 @@ url: /learning/networking-mastery/m01-osi-tcpip/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — OSI MODEL ══════════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">THE 7-LAYER OSI MODEL — VISUAL REFERENCE</p>
-
 <div class="cp-body" style="padding:0">
 <p style="font-size:.88rem;color:var(--text-color,#444);margin:.5rem 0 1rem;line-height:1.65">The OSI model has 7 layers numbered 1 (bottom, physical) to 7 (top, application). Each layer adds its own header/trailer to data as it travels down the stack (sender side), and strips it off as it travels up (receiver side). Click any layer to learn more.</p>
 </div>
-
 <div class="osi-stack">
   <div class="osi-layer l7" onclick="vt_direct('t2','s7')">
     <div class="osi-layer-num">7</div>
@@ -330,11 +319,9 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <div class="osi-layer-pdu" style="background:#fad8b8;color:#6a2800">Bits</div>
   </div>
 </div>
-
 <div class="ins">
   <p>💡 <strong>Memory trick — "Please Do Not Throw Sausage Pizza Away"</strong> (Physical, Data Link, Network, Transport, Session, Presentation, Application — bottom to top). Or top-to-bottom: "All People Seem To Need Data Processing". Either works — pick one and stick to it.</p>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">📦</span><h3>PDU — Protocol Data Unit</h3><span class="tag tag-orange">KEY TERM</span></div>
   <div class="cp-body">
@@ -350,12 +337,9 @@ url: /learning/networking-mastery/m01-osi-tcpip/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 2 — EACH LAYER EXPLAINED ══════════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">EACH LAYER — WHAT IT DOES, WHAT PROTOCOLS LIVE HERE</p>
-
 <!-- Layer 7 -->
 <div id="s7" class="cp p-purple">
   <div class="cp-hdr"><span class="ico">💻</span><h3>Layer 7 — Application Layer</h3><span class="tag tag-purple">L7 · DATA</span></div>
@@ -371,7 +355,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p><strong>NGFW relevance:</strong> This is where DPI (Deep Packet Inspection) operates. An NGFW inspects L7 content to identify applications, detect malware payloads, and enforce URL/content policies.</p>
   </div>
 </div>
-
 <!-- Layer 6 -->
 <div id="s6" class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔐</span><h3>Layer 6 — Presentation Layer</h3><span class="tag tag-blue">L6 · DATA</span></div>
@@ -387,7 +370,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p><strong>NGFW relevance:</strong> SSL inspection (decrypting HTTPS traffic for inspection) is a Layer 6 operation.</p>
   </div>
 </div>
-
 <!-- Layer 5 -->
 <div id="s5" class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Layer 5 — Session Layer</h3><span class="tag tag-teal">L5 · DATA</span></div>
@@ -404,7 +386,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p><strong>Protocols:</strong> NetBIOS, PPTP, RPC session management, SQL session management</p>
   </div>
 </div>
-
 <!-- Layer 4 -->
 <div id="s4" class="cp p-green">
   <div class="cp-hdr"><span class="ico">🚚</span><h3>Layer 4 — Transport Layer</h3><span class="tag tag-green">L4 · SEGMENT</span></div>
@@ -426,7 +407,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p><strong>NGFW relevance:</strong> Stateful firewalls operate at Layer 4. Connection tracking matches packets to established sessions by (src_ip, src_port, dst_ip, dst_port, proto) — the 5-tuple.</p>
   </div>
 </div>
-
 <!-- Layer 3 -->
 <div id="s3" class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>Layer 3 — Network Layer</h3><span class="tag tag-amber">L3 · PACKET</span></div>
@@ -444,7 +424,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p><strong>NGFW relevance:</strong> Every packet processed by a firewall goes through Layer 3 — source/destination IP ACLs, routing decisions, and IP-based threat intelligence all live here.</p>
   </div>
 </div>
-
 <!-- Layer 2 -->
 <div id="s2" class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Layer 2 — Data Link Layer</h3><span class="tag tag-orange">L2 · FRAME</span></div>
@@ -466,7 +445,6 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p><strong>Devices:</strong> Network switches, bridges, NICs, WiFi access points</p>
   </div>
 </div>
-
 <!-- Layer 1 -->
 <div id="s1" class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Layer 1 — Physical Layer</h3><span class="tag tag-red">L1 · BITS</span></div>
@@ -485,12 +463,9 @@ url: /learning/networking-mastery/m01-osi-tcpip/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 3 — TCP/IP MODEL ══════════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">THE TCP/IP MODEL — HOW THE REAL INTERNET IS STRUCTURED</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>Why the TCP/IP Model Exists</h3><span class="tag tag-blue">BACKGROUND</span></div>
   <div class="cp-body">
@@ -498,9 +473,7 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     <p>It has <strong>4 layers</strong> instead of 7, collapsing the top three OSI layers into one and the bottom two into one. This reflects how implementations actually work — operating systems don't have separate Session and Presentation modules; they're handled by libraries your app calls.</p>
   </div>
 </div>
-
 <p class="sep">OSI vs TCP/IP — MAPPING</p>
-
 <table class="model-compare">
   <thead>
     <tr>
@@ -537,16 +510,13 @@ url: /learning/networking-mastery/m01-osi-tcpip/
     </tr>
   </tbody>
 </table>
-
 <div class="ins">
   <p>💡 <strong>Which model do engineers actually use?</strong> Both, depending on context. When troubleshooting or talking to vendors, engineers use OSI layer numbers ("is this a L2 or L3 issue?"). When writing code and reading RFCs, you use TCP/IP model terminology. In NGFW development specifically, you'll hear "L3 ACL", "L4 stateful inspection", "L7 DPI" — these are OSI layer numbers applied to firewall feature descriptions.</p>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Where Does Each Protocol Actually Run?</h3><span class="tag tag-teal">REAL MAPPING</span></div>
   <div class="cp-body">
     <p>Understanding which layer a protocol belongs to is crucial — it tells you which device processes it, what header format to look for, and what tools to use for debugging.</p>
-
 <div class="cb"><pre><span class="cm">/* In your OS — the TCP/IP stack as seen by a C program */</span>
  
 Your application code
@@ -562,17 +532,13 @@ Your application code
 <span class="ck">NIC hardware</span>           <span class="cm">← Physical (converts to electrical/optical signals)</span>
     ↓
 <span class="cs">wire / fibre / air</span></pre></div>
-
     <p>When you call <code>send(sockfd, buf, len, 0)</code> in C, the OS kernel handles everything below the socket API. Your app only touches the Application layer. The kernel builds the TCP segment, IP packet, and Ethernet frame automatically.</p>
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 4 — ENCAPSULATION ══════════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">ENCAPSULATION AND DE-ENCAPSULATION</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📦</span><h3>What is Encapsulation?</h3><span class="tag tag-blue">CORE CONCEPT</span></div>
   <div class="cp-body">
@@ -581,24 +547,19 @@ Your application code
     <p>On the receiving end, the process reverses — each layer strips off its own header and passes the inner data up. This is called <strong>de-encapsulation</strong>.</p>
   </div>
 </div>
-
 <p class="sep">ENCAPSULATION STEP BY STEP — SENDING AN HTTP REQUEST</p>
-
 <div class="encap-wrap">
-
   <div class="encap-row">
     <div class="encap-label">L7 App</div>
     <div class="encap-block eb-app eb-new" style="flex:4">HTTP Request: "GET /index.html HTTP/1.1\r\nHost: example.com\r\n"</div>
   </div>
   <div class="encap-arrow">↓ Transport layer wraps with TCP header</div>
-
   <div class="encap-row">
     <div class="encap-label">L4 Segment</div>
     <div class="encap-block eb-tcp eb-new" style="flex:1">TCP Header<br><span style="font-size:.65rem">src:52341 dst:80<br>seq:1001 ack:0<br>flags:PSH|ACK</span></div>
     <div class="encap-block eb-app" style="flex:4">HTTP Data</div>
   </div>
   <div class="encap-arrow">↓ Network layer wraps with IP header</div>
-
   <div class="encap-row">
     <div class="encap-label">L3 Packet</div>
     <div class="encap-block eb-ip eb-new" style="flex:1">IP Header<br><span style="font-size:.65rem">src:10.0.0.5<br>dst:93.184.216.34<br>TTL:64 proto:TCP</span></div>
@@ -606,7 +567,6 @@ Your application code
     <div class="encap-block eb-app" style="flex:3">HTTP Data</div>
   </div>
   <div class="encap-arrow">↓ Data Link layer wraps with Ethernet header + trailer</div>
-
   <div class="encap-row">
     <div class="encap-label">L2 Frame</div>
     <div class="encap-block eb-eth eb-new" style="flex:1">Eth Header<br><span style="font-size:.65rem">dst MAC<br>src MAC<br>Type:0x0800</span></div>
@@ -616,18 +576,14 @@ Your application code
     <div class="encap-block eb-eth eb-new" style="flex:.6">CRC<br><span style="font-size:.65rem">4 bytes</span></div>
   </div>
   <div class="encap-arrow">↓ Physical layer converts to bits on the wire</div>
-
   <div class="encap-row">
     <div class="encap-label">L1 Bits</div>
     <div class="encap-block eb-bit eb-new">01001000 01010100 01010100 01010000 ... (everything above as raw bits)</div>
   </div>
-
 </div>
-
 <div class="ins">
   <p>💡 <strong>Important:</strong> The highlighted (outlined) blocks show what each layer <em>added</em>. Notice that each layer treats everything from the layer above as opaque data — IP does not look inside the TCP header; Ethernet does not look inside the IP header. This is the fundamental principle that makes the internet extensible — you can run any Layer 4 protocol over IP, and any Layer 3 protocol over Ethernet.</p>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📖</span><h3>Header Fields — What Each Layer Adds</h3><span class="tag tag-teal">REFERENCE</span></div>
   <div class="cp-body">
@@ -642,7 +598,6 @@ Your application code
         <div class="pdu-field eb-eth" style="flex:1">CRC<br><span style="font-size:.65rem;font-weight:400">4 bytes</span></div>
       </div>
     </div>
-
     <h4>IPv4 Header (20 bytes minimum)</h4>
     <div class="pdu-breakdown">
       <div class="pdu-row">
@@ -658,7 +613,6 @@ Your application code
         <div class="pdu-field eb-ip" style="flex:3">Dest IP<br><span style="font-size:.62rem;font-weight:400">4 bytes</span></div>
       </div>
     </div>
-
     <h4>TCP Header (20 bytes minimum)</h4>
     <div class="pdu-breakdown">
       <div class="pdu-row">
@@ -676,16 +630,12 @@ Your application code
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 5 — PROTOCOLS PER LAYER ══════════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">PROTOCOLS MAPPED TO OSI LAYERS</p>
-
 <div class="cp-body" style="padding:0 0 .5rem">
   <p style="font-size:.88rem;color:var(--text-color,#444);line-height:1.65">This is your reference map — every protocol you'll encounter in networking and NGFW development, mapped to the OSI layer it operates at. Study this until it's second nature.</p>
 </div>
-
 <div class="proto-grid">
   <div class="proto-card">
     <div class="proto-card-layer" style="color:#5b3a8c">Layer 7 — Application</div>
@@ -716,11 +666,9 @@ Your application code
     <div class="proto-card-items">Ethernet physical (100BASE-T, 1000BASE-T, 10GBASE-SR) · USB · RS-232 · DSL · SONET · OTN · Bluetooth (PHY) · 802.11 (radio PHY)</div>
   </div>
 </div>
-
 <div class="warn">
   <p>⚠️ <strong>Some protocols span multiple layers.</strong> ARP bridges L2 and L3 — it uses Ethernet frames (L2) to resolve IP addresses (L3). MPLS is sometimes called "Layer 2.5". IPsec in tunnel mode wraps an entire IP packet (L3) inside a new IP packet (L3) — it straddles L3 and L4. The OSI model is a framework; real protocols don't always fit neatly into one box.</p>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔥</span><h3>NGFW — Which Layer Does Each Feature Operate At?</h3><span class="tag tag-green">NGFW MAP</span></div>
   <div class="cp-body">
@@ -741,21 +689,16 @@ Your application code
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 6 — DATA FLOW END-TO-END ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">END-TO-END DATA FLOW — HTTP REQUEST ACROSS TWO NETWORKS</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>The Full Journey of a Packet</h3><span class="tag tag-blue">WALKTHROUGH</span></div>
   <div class="cp-body">
     <p>Scenario: Your laptop (<code>10.0.0.5</code>) sends an HTTP GET request to a web server (<code>93.184.216.34</code>) on the internet. There is one router between you and the internet. Let's trace every layer.</p>
   </div>
 </div>
-
 <div class="flow-path">
-
   <div class="fp-step" data-n="1" style="--step-col:#5b3a8c">
     <div>
       <div class="fp-title">Your Browser — L7 Application</div>
@@ -763,7 +706,6 @@ Your application code
       <div class="fp-code">send(sockfd, "GET /index.html HTTP/1.1\r\n...", len, 0)</div>
     </div>
   </div>
-
   <div class="fp-step" data-n="2" style="--step-col:#0f5a48">
     <div>
       <div class="fp-title">OS Kernel — L4 Transport (TCP)</div>
@@ -771,7 +713,6 @@ Your application code
       <div class="fp-code">[TCP hdr: sport=52341 dport=80 seq=1001 flags=PSH|ACK] + [HTTP data]</div>
     </div>
   </div>
-
   <div class="fp-step" data-n="3" style="--step-col:#1a5a1a">
     <div>
       <div class="fp-title">OS Kernel — L3 Network (IP)</div>
@@ -779,7 +720,6 @@ Your application code
       <div class="fp-code">[IP hdr: src=10.0.0.5 dst=93.184.216.34 TTL=64 proto=6] + [TCP] + [HTTP]</div>
     </div>
   </div>
-
   <div class="fp-step" data-n="4" style="--step-col:#7a5800">
     <div>
       <div class="fp-title">NIC Driver — L2 Data Link (Ethernet)</div>
@@ -787,7 +727,6 @@ Your application code
       <div class="fp-code">[Eth: dst=aa:bb:cc:dd:ee:01 src=your_mac type=0x0800] + [IP] + [TCP] + [HTTP] + [CRC]</div>
     </div>
   </div>
-
   <div class="fp-step" data-n="5" style="--step-col:#6a2800">
     <div>
       <div class="fp-title">NIC Hardware — L1 Physical</div>
@@ -795,7 +734,6 @@ Your application code
       <div class="fp-code">01001000 01010100 01010100... (raw bits on wire)</div>
     </div>
   </div>
-
   <div class="fp-step" data-n="6" style="--step-col:#1a3a5c">
     <div>
       <div class="fp-title">Router — L2 De-encapsulation + L3 Processing</div>
@@ -803,7 +741,6 @@ Your application code
       <div class="fp-code">New Eth frame: [dst=isp_router_mac src=router_wan_mac] + [IP TTL=63] + [TCP] + [HTTP]</div>
     </div>
   </div>
-
   <div class="fp-step" data-n="7" style="--step-col:#0f6e56">
     <div>
       <div class="fp-title">Web Server — De-encapsulation (all layers)</div>
@@ -811,18 +748,13 @@ Your application code
       <div class="fp-code">recv(sockfd, buf, len, 0) → buf = "GET /index.html HTTP/1.1\r\nHost: example.com..."</div>
     </div>
   </div>
-
 </div>
-
 <div class="ins">
   <p>💡 <strong>Key insight — the router only processes L1, L2, and L3.</strong> It strips the Ethernet frame, reads the IP destination, decrements TTL, builds a new Ethernet frame for the next hop, and forwards. It never looks at TCP or HTTP content. A firewall doing deep packet inspection is special because it deliberately reaches up to L4–L7 — which is why DPI is computationally expensive compared to simple IP routing.</p>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 7 — LABS ══════════ -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Packet Dissection with Wireshark</h4></div>
   <div class="lab-body">
@@ -836,7 +768,6 @@ Your application code
     <div class="lab-step"><div class="sn">7</div><div><strong>Bonus:</strong> Right-click the packet and select "Follow > TCP Stream". See the full HTTP conversation — request and response — reassembled by Wireshark from multiple packets. Notice that Wireshark stripped all headers for you, showing only the L7 application data.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Trace a Packet with tcpdump and Identify Layers</h4></div>
   <div class="lab-body">
@@ -849,14 +780,10 @@ Your application code
     <div class="lab-step"><div class="sn">6</div><div><strong>Bonus challenge:</strong> Write a 10-line Python script using the <code>scapy</code> library (<code>pip install scapy</code>) that constructs a raw Ethernet + IP + TCP + HTTP frame from scratch and prints each layer's fields. This directly demonstrates encapsulation in code:<br><code>from scapy.all import *</code><br><code>pkt = Ether()/IP(dst="93.184.216.34")/TCP(dport=80)/Raw(b"GET / HTTP/1.0\r\n\r\n")</code><br><code>pkt.show()</code></div></div>
   </div>
 </div>
-
 </div>
-
-
 <!-- ══════════ TAB 8 — CHECKLIST ══════════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">M01 MASTERY CHECKLIST</p>
-
 <ul class="cl">
   <li>Can explain why layered models exist and name the two key benefits: separation of concerns and interchangeability</li>
   <li>Can name all 7 OSI layers in order (both top-to-bottom and bottom-to-top) without looking</li>
@@ -874,20 +801,16 @@ Your application code
   <li>Completed Lab 2: used tcpdump to capture traffic, saved to .pcap, and compared with Wireshark output</li>
   <li>Completed Bonus: constructed a raw Ethernet/IP/TCP packet in Scapy and identified each layer's fields</li>
 </ul>
-
 <div class="ins" style="margin-top:1.2rem">
   <p>✅ <strong>When complete:</strong> Move to <strong>M02 - Ethernet and L2</strong>. You've seen the Ethernet header in this module — M02 goes deep on it: MAC addressing, ARP, VLANs, 802.1Q tagging, STP, and Layer 2 switching internals.</p>
 </div>
 </div>
-
-
 <!-- ── MODULE NAV ── -->
 <div class="mod-nav">
   <a href="/learning/networking-mastery/">← Roadmap</a>
   <a href="/learning/networking-mastery/">🗺️ All Modules</a>
   <a class="nb" href="/learning/networking-mastery/m02-ethernet-l2/">Next: M02 - Ethernet and L2 →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

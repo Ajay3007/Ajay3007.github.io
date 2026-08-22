@@ -12,9 +12,7 @@ url: /learning/system-design/lld/module-a1-solid/
 <link rel="stylesheet" href="/assets/css/sd-module-a1.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
-
 <div class="m1-page">
-
 <!-- ── HEADER ────────────────────────────────────────────────── -->
 <div class="m1-header">
   <div class="m1-header-glow"></div>
@@ -31,7 +29,6 @@ url: /learning/system-design/lld/module-a1-solid/
     <div class="m1-pill">Track <span>A — Low-Level Design</span></div>
   </div>
 </div>
-
 <!-- ── NAV ───────────────────────────────────────────────────── -->
 <nav class="m1-nav">
   <div class="m1-nav-tab active" onclick="m1Show('oop',this)">OOP Pillars</div>
@@ -42,9 +39,7 @@ url: /learning/system-design/lld/module-a1-solid/
   <div class="m1-nav-tab" onclick="m1Show('tasks',this)">Tasks</div>
   <div class="m1-nav-tab" onclick="m1Show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="m1-content">
-
 <!-- ===== VIEW 1: OOP PILLARS ===== -->
 <div class="m1-view active" id="m1-view-oop">
   <div class="m1-pillars-grid">
@@ -73,7 +68,6 @@ url: /learning/system-design/lld/module-a1-solid/
       <div class="m1-pillar-body">One method call, many implementations. Runtime polymorphism via overriding. Compile-time via overloading. Core to OCP and all design patterns that use substitution.</div>
     </div>
   </div>
-
   <div class="m1-rule-box">
     <div class="m1-rule-label">⚠️ CRITICAL RULE</div>
     <div class="m1-rule-title">Favour Composition Over Inheritance</div>
@@ -84,7 +78,6 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
   </div>
 </div>
-
 <!-- ===== VIEW 2: SOLID DEEP DIVE ===== -->
 <div class="m1-view" id="m1-view-solid">
   <div class="m1-solid-nav">
@@ -94,7 +87,6 @@ url: /learning/system-design/lld/module-a1-solid/
     <div class="m1-solid-btn i" onclick="m1SelectSolid('i',this)">I — Interface Segregation</div>
     <div class="m1-solid-btn d" onclick="m1SelectSolid('d',this)">D — Dependency Inversion</div>
   </div>
-
   <!-- S -->
   <div class="m1-solid-panel active" id="m1-solid-s">
     <div class="m1-principle-header">
@@ -144,7 +136,6 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
     <div class="m1-interview-tip">SRP violations are the #1 reason codebases become unmaintainable. In interviews, when asked "what's wrong with this design?", look for classes doing too many things. Count the "reasons to change" — should always be 1.</div>
   </div>
-
   <!-- O -->
   <div class="m1-solid-panel" id="m1-solid-o">
     <div class="m1-principle-header">
@@ -184,7 +175,6 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
     <div class="m1-interview-tip">OCP is directly embodied by the Strategy Pattern (A2) and Template Method (A4). When you see an if/else chain branching on type — that's OCP violation territory. The fix is almost always a Strategy or polymorphism.</div>
   </div>
-
   <!-- L -->
   <div class="m1-solid-panel" id="m1-solid-l">
     <div class="m1-principle-header">
@@ -227,7 +217,6 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
     <div class="m1-interview-tip">LSP violations show up as <code>instanceof</code> checks or <code>UnsupportedOperationException</code> throws. These scream "inheritance hierarchy is wrong." Common trap: Penguin extends Bird (fly() throws!).</div>
   </div>
-
   <!-- I -->
   <div class="m1-solid-panel" id="m1-solid-i">
     <div class="m1-principle-header">
@@ -268,7 +257,6 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
     <div class="m1-interview-tip">ISP violations are common in legacy codebases. Look for: interfaces with 10+ methods, classes implementing interface methods that throw UnsupportedOperationException, or clients importing an interface but only using 2 of its 12 methods.</div>
   </div>
-
   <!-- D -->
   <div class="m1-solid-panel" id="m1-solid-d">
     <div class="m1-principle-header">
@@ -313,7 +301,6 @@ url: /learning/system-design/lld/module-a1-solid/
     <div class="m1-interview-tip">DIP is the principle that makes unit testing possible. Without it, you can't mock dependencies. In LLD interviews, always inject dependencies via constructor — never instantiate them inside the class.</div>
   </div>
 </div>
-
 <!-- ===== VIEW 3: VIOLATION PATTERNS ===== -->
 <div class="m1-view" id="m1-view-violations">
   <div class="m1-scanner">
@@ -349,7 +336,6 @@ url: /learning/system-design/lld/module-a1-solid/
       </div>
     </div>
   </div>
-
   <div class="m1-uml-container">
     <div class="m1-uml-title">📋 Interview One-Liners — Say These Verbatim</div>
     <div style="display:flex;flex-direction:column;gap:12px;">
@@ -376,7 +362,6 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
   </div>
 </div>
-
 <!-- ===== VIEW 4: UML REFERENCE ===== -->
 <div class="m1-view" id="m1-view-uml">
   <div class="m1-uml-container">
@@ -390,7 +375,6 @@ url: /learning/system-design/lld/module-a1-solid/
       <div class="m1-rel-item"><div class="m1-rel-symbol">A - - -> B</div><div class="m1-rel-info"><div class="m1-rel-name">Dependency</div><div class="m1-rel-desc">A depends on B transitively</div></div></div>
     </div>
   </div>
-
   <div class="m1-uml-container">
     <div class="m1-uml-title">CLASS BOX NOTATION</div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;">
@@ -435,7 +419,6 @@ url: /learning/system-design/lld/module-a1-solid/
       </div>
     </div>
   </div>
-
   <div class="m1-uml-container">
     <div class="m1-uml-title">SEQUENCE DIAGRAM NOTATION</div>
     <div style="background:#141c2e;padding:20px 16px 16px;border-radius:8px;overflow-x:auto;">
@@ -448,55 +431,43 @@ url: /learning/system-design/lld/module-a1-solid/
             <polygon points="0 0, 8 3.5, 0 7" fill="#69ff47"/>
           </marker>
         </defs>
-
         <!-- ── Actor boxes ─────────────────────────────────── -->
         <!-- Customer x=80 -->
         <rect x="35" y="8" width="90" height="26" rx="4" fill="#1e2a40" stroke="#263450"/>
         <text x="80" y="25" text-anchor="middle" fill="#d4deff" font-size="11">Customer</text>
-
         <!-- OrderSvc x=240 -->
         <rect x="195" y="8" width="90" height="26" rx="4" fill="#001e2e" stroke="#00e5ff" stroke-width="1.5"/>
         <text x="240" y="25" text-anchor="middle" fill="#00e5ff" font-size="11">OrderSvc</text>
-
         <!-- PaymentSvc x=400 -->
         <rect x="352" y="8" width="96" height="26" rx="4" fill="#1e2a40" stroke="#263450"/>
         <text x="400" y="25" text-anchor="middle" fill="#d4deff" font-size="11">PaymentSvc</text>
-
         <!-- EmailSvc x=570 -->
         <rect x="525" y="8" width="90" height="26" rx="4" fill="#1e2a40" stroke="#263450"/>
         <text x="570" y="25" text-anchor="middle" fill="#d4deff" font-size="11">EmailSvc</text>
-
         <!-- ── Lifelines ────────────────────────────────────── -->
         <line x1="80"  y1="34" x2="80"  y2="260" stroke="#263450" stroke-dasharray="4,3"/>
         <line x1="240" y1="34" x2="240" y2="260" stroke="#00e5ff" stroke-dasharray="4,3" opacity="0.35"/>
         <line x1="400" y1="34" x2="400" y2="260" stroke="#263450" stroke-dasharray="4,3"/>
         <line x1="570" y1="34" x2="570" y2="260" stroke="#263450" stroke-dasharray="4,3"/>
-
         <!-- ── Messages ──────────────────────────────────────── -->
         <!-- 1. Customer → OrderSvc : placeOrder(cart) -->
         <line x1="82" y1="65" x2="233" y2="65" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
         <text x="157" y="60" text-anchor="middle" fill="#00e5ff" font-size="10">placeOrder(cart)</text>
-
         <!-- 2. OrderSvc → PaymentSvc : validatePayment(card) -->
         <line x1="242" y1="98" x2="393" y2="98" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
         <text x="317" y="93" text-anchor="middle" fill="#00e5ff" font-size="10">validatePayment(card)</text>
-
         <!-- 3. PaymentSvc → OrderSvc : paymentConfirmed  [return] -->
         <line x1="398" y1="131" x2="247" y2="131" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
         <text x="322" y="126" text-anchor="middle" fill="#69ff47" font-size="10">paymentConfirmed</text>
-
         <!-- 4. OrderSvc → EmailSvc : sendEmail(email) -->
         <line x1="242" y1="164" x2="563" y2="164" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
         <text x="403" y="159" text-anchor="middle" fill="#00e5ff" font-size="10">sendEmail(email)</text>
-
         <!-- 5. EmailSvc → OrderSvc : sent  [return] -->
         <line x1="568" y1="197" x2="247" y2="197" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
         <text x="406" y="192" text-anchor="middle" fill="#69ff47" font-size="10">sent</text>
-
         <!-- 6. OrderSvc → Customer : orderId  [return] -->
         <line x1="238" y1="230" x2="87" y2="230" stroke="#69ff47" stroke-width="1.2" stroke-dasharray="5,3" marker-end="url(#a1-arr-ret)"/>
         <text x="160" y="225" text-anchor="middle" fill="#69ff47" font-size="10">orderId</text>
-
         <!-- ── Legend ──────────────────────────────────────────── -->
         <line x1="36" y1="273" x2="66" y2="273" stroke="#00e5ff" stroke-width="1.5" marker-end="url(#a1-arr-sync)"/>
         <text x="73" y="277" fill="#7888b8" font-size="10">synchronous call</text>
@@ -509,13 +480,11 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
   </div>
 </div>
-
 <!-- ===== VIEW 5: PARKING LOT ===== -->
 <div class="m1-view" id="m1-view-parking">
   <div class="m1-uml-container">
     <div class="m1-uml-title">REFACTORED PARKING LOT — UML Class Diagram (SOLID-compliant)</div>
     <div class="m1-parking-diagram">
-
       <!-- ParkingLot -->
       <div class="m1-parking-row">
         <div class="m1-uml-class" style="min-width:200px;">
@@ -530,13 +499,11 @@ url: /learning/system-design/lld/module-a1-solid/
           </div>
         </div>
       </div>
-
       <div class="m1-parking-connector">
         <div class="m1-connector-diamond"></div>
         <div class="m1-connector-line"></div>
         <div style="font-size:10px">1..*</div>
       </div>
-
       <!-- Floor -->
       <div class="m1-parking-row">
         <div class="m1-uml-class" style="min-width:200px;">
@@ -549,13 +516,11 @@ url: /learning/system-design/lld/module-a1-solid/
           </div>
         </div>
       </div>
-
       <div class="m1-parking-connector">
         <div class="m1-connector-diamond"></div>
         <div class="m1-connector-line"></div>
         <div style="font-size:10px">1..*</div>
       </div>
-
       <!-- Spots row -->
       <div class="m1-parking-row">
         <div class="m1-uml-class" style="min-width:180px;">
@@ -582,7 +547,6 @@ url: /learning/system-design/lld/module-a1-solid/
           <div class="m1-uml-class"><div class="m1-uml-class-name">FlatRatePricing</div><div class="m1-uml-class-section"><div class="m1-uml-method">+ calculateFee(h): double</div></div></div>
         </div>
       </div>
-
       <div class="m1-parking-row">
         <div style="background:rgba(255,184,0,0.06);border:1px solid rgba(255,184,0,0.2);border-radius:8px;padding:16px 20px;font-size:12px;color:var(--m1-l);font-family:'Fira Code',monospace;max-width:560px;text-align:center;line-height:1.7;">
           SRP: ParkingLot, Floor, Spot, Ticket, Bill, PricingStrategy all separate<br>
@@ -594,11 +558,9 @@ url: /learning/system-design/lld/module-a1-solid/
     </div>
   </div>
 </div>
-
 <!-- ===== VIEW 6: TASKS ===== -->
 <div class="m1-view" id="m1-view-tasks">
   <div class="m1-task-grid">
-
     <div class="m1-task-card">
       <div class="m1-task-head" onclick="m1ToggleTask(this)">
         <div class="m1-task-num">TASK 01</div>
@@ -644,7 +606,6 @@ class NotificationService {
 }</pre>
       </div>
     </div>
-
     <div class="m1-task-card">
       <div class="m1-task-head" onclick="m1ToggleTask(this)">
         <div class="m1-task-num">TASK 02</div>
@@ -669,7 +630,6 @@ Include: composition vs aggregation distinction
          all multiplicities on every relationship</pre>
       </div>
     </div>
-
     <div class="m1-task-card">
       <div class="m1-task-head" onclick="m1ToggleTask(this)">
         <div class="m1-task-num">TASK 03</div>
@@ -695,7 +655,6 @@ Also model: what happens when payment fails?
             Show the failure path as an alt block</pre>
       </div>
     </div>
-
     <div class="m1-task-card">
       <div class="m1-task-head" onclick="m1ToggleTask(this)">
         <div class="m1-task-num star">⭐ PROJECT</div>
@@ -759,10 +718,8 @@ Deliverable:
 3. UML class diagram of the refactored design</pre>
       </div>
     </div>
-
   </div>
 </div>
-
 <!-- ===== VIEW 7: CHECKLIST ===== -->
 <div class="m1-view" id="m1-view-checklist">
   <div class="m1-progress-wrap">
@@ -772,7 +729,6 @@ Deliverable:
     </div>
     <div class="m1-progress-track"><div class="m1-progress-fill" id="m1-prog-fill"></div></div>
   </div>
-
   <div class="m1-checklist">
     <div class="m1-chk" onclick="m1Toggle(this)"><div class="m1-chk-box"></div><div class="m1-chk-label">Can explain all 5 SOLID principles from memory without notes</div></div>
     <div class="m1-chk" onclick="m1Toggle(this)"><div class="m1-chk-box"></div><div class="m1-chk-label">Can identify SOLID violations in code and name the exact principle</div></div>
@@ -784,16 +740,13 @@ Deliverable:
     <div class="m1-chk" onclick="m1Toggle(this)"><div class="m1-chk-box"></div><div class="m1-chk-label">✏️ Task 2 + 3: Library UML + E-Commerce sequence diagram drawn</div></div>
     <div class="m1-chk" onclick="m1Toggle(this)"><div class="m1-chk-box"></div><div class="m1-chk-label">✏️ Mini Project: Parking Lot violations listed + refactored code + UML</div></div>
   </div>
-
   <div style="margin-top:28px;padding:20px 24px;background:var(--m1-surface);border:1px solid var(--m1-border);border-radius:10px;border-top:2px solid var(--m1-o);">
     <div style="font-family:'Fira Code',monospace;font-size:11px;color:var(--m1-muted);letter-spacing:1px;margin-bottom:8px;">NEXT MODULE</div>
     <div style="font-size:15px;font-weight:700;color:var(--m1-bright);margin-bottom:6px;">A2 — Creational Design Patterns</div>
     <div style="font-size:13px;color:var(--m1-muted);line-height:1.6;">Singleton, Factory, Abstract Factory, Builder, Prototype — each mapped to a real system. Mini Project: ATM System design using Creational patterns.</div>
   </div>
 </div>
-
 </div><!-- end .m1-content -->
-
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
 <div class="m1-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--m1-border);padding-top:20px;">
   <a href="/learning/system-design/foundation/phase0-foundation/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-border);border-radius:4px;color:var(--m1-muted);text-decoration:none;">← PREVIOUS: PHASE 0</a>
@@ -801,7 +754,6 @@ Deliverable:
   <a href="/learning/system-design/system-design-roadmap/" class="m1-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--m1-border);border-radius:4px;color:var(--m1-muted);text-decoration:none;">↑ ROADMAP</a>
   <a href="/learning/system-design/lld/module-a2-creational/" class="m1-nav-footer-btn" style="padding:12px 24px;background:var(--m1-s);color:var(--m1-bg);border-radius:4px;text-decoration:none;font-weight:600;">NEXT: LLD A2 →</a>
 </div>
-
 </div><!-- end .m1-page -->
 
 

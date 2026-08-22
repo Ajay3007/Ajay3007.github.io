@@ -10,7 +10,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
 ---
 
 <link rel="stylesheet" href="/assets/css/sd-module-b5.css">
-
 <div class="mb5-wrap">
 <header>
   <div class="hdr-rule"></div>
@@ -37,7 +36,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     <div class="req-tag" style="border-color:var(--amber);color:var(--amber)">Expiry / TTL</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="show('req',this)">Requirements</div>
   <div class="nt" onclick="show('est',this)">Estimation</div>
@@ -51,9 +49,7 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   <div class="nt" onclick="show('tasks',this)">Tasks</div>
   <div class="nt" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- REQUIREMENTS -->
 <div class="view active" id="view-req">
   <div class="sh">Requirements</div>
@@ -86,7 +82,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   </div>
   <div class="al amb"><em>Key insight to say aloud:</em> "The 100:1 read:write ratio tells me this is a read-heavy system. My entire architecture will be optimised for fast redirects — nearly every redirect should be served from cache without touching the database."</div>
 </div>
-
 <!-- ESTIMATION -->
 <div class="view" id="view-est">
   <div class="sh">Capacity Estimation</div>
@@ -108,7 +103,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   </table>
   <div class="al grn"><em>Key insight to say aloud:</em> "150 GB fits comfortably on a single DB node — no sharding needed. The hot set (30 GB) fits in a Redis cluster. At this scale, the bottleneck is read latency, not storage — hence the 2-layer cache strategy."</div>
 </div>
-
 <!-- ARCHITECTURE -->
 <div class="view" id="view-arch">
   <div class="sh">High-Level Architecture</div>
@@ -163,7 +157,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
    Publish click event to Kafka → Analytics consumer updates click_count</pre>
   </div>
 </div>
-
 <!-- CODE GENERATION -->
 <div class="view" id="view-codegen">
   <div class="sh">Short Code Generation</div>
@@ -224,7 +217,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
 <span class="cm">// 62^7 = 3,521,614,606,208 ≈ 3.5 trillion unique 7-char codes</span></pre>
   </div>
 </div>
-
 <!-- SCHEMA -->
 <div class="view" id="view-schema">
   <div class="sh">Database Schema</div>
@@ -255,7 +247,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   </div>
   <div class="al amb"><em>Why MySQL over NoSQL?</em> 150GB fits on one node. Access pattern is pure primary-key lookup — no scatter-gather needed. ACID prevents duplicate short_code under concurrent inserts. Read replicas handle the 100:1 read:write ratio. NoSQL would work too (DynamoDB keyed on short_code) but adds operational overhead without benefit at this scale.</div>
 </div>
-
 <!-- CACHING -->
 <div class="view" id="view-cache">
   <div class="sh">Caching Strategy</div>
@@ -309,7 +300,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
 }</pre>
   </div>
 </div>
-
 <!-- REDIRECT -->
 <div class="view" id="view-redirect">
   <div class="sh">301 vs 302 Redirect</div>
@@ -332,7 +322,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   </div>
   <div class="al amb"><em>Interview answer:</em> "I'll use 302 by default because analytics are a core requirement. If a URL provider wants maximum performance and no analytics tracking, we can expose a '301 mode' as an opt-in option. The trade-off is explicit and user-controlled."</div>
 </div>
-
 <!-- EDGE CASES -->
 <div class="view" id="view-edge">
   <div class="sh">Edge Cases & Deep Dives</div>
@@ -370,7 +359,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     </div>
   </div>
 </div>
-
 <!-- FRAMEWORK -->
 <div class="view" id="view-framework">
   <div class="sh">7-Step Framework Applied</div>
@@ -386,7 +374,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
   </div>
   <div class="al grn"><em>Numbers to say aloud:</em> "150 GB fits on a single node — no sharding." · "62^7 = 3.5 trillion codes — won't exhaust for centuries." · "99% cache hit rate means 1% of redirects touch MySQL." · "302 because analytics is a requirement, with a 301 opt-in for CDN offload."</div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -444,7 +431,6 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 15 completed</span><span style="font-family:'Inconsolata',monospace">MODULE B5 · URL SHORTENER</span></div>
@@ -476,10 +462,8 @@ url: /learning/system-design/hld/module-b5-url-shortener/
     </div>
   </div>
 </div>
-
 </div>
 </div>
-
 <!-- Bottom Navigation -->
 <div class="mb5-bottom-nav">
   <a href="/learning/system-design/hld/module-b4-message-queues/" class="mb5-nav-footer-btn">

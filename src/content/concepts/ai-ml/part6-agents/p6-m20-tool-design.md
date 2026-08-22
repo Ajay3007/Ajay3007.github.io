@@ -104,7 +104,6 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
 .dm-table tr:nth-child(even) td{background:var(--bg-color,#f8f8f8)}
 .dm-use{color:#059669;font-weight:600}.dm-avoid{color:#dc2626;font-weight:600}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 6 — Agents, Workflows &amp; Evaluation &nbsp;·&nbsp; Module 20 of 22</div>
@@ -117,7 +116,6 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
     <span class="mod-pill">📋 Prerequisite: P6-M19</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🔧 Tool Design</button>
@@ -130,8 +128,6 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-violet">
@@ -148,8 +144,6 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — TOOL DESIGN ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-violet">
@@ -159,7 +153,6 @@ url: /learning/ai-ml/part6-agents/p6-m20-tool-design/
     <div class="cb"><pre><span class="ck"># ── PRINCIPLE 1: Idempotent tools ────────────────────</span>
 <span class="ck"># If the agent calls a tool twice with the same args, the result should be the same</span>
 <span class="ck"># and no duplicate side effects should occur</span>
- 
 <span class="ck"># BAD: calling twice creates two records</span>
 def create_ticket(title: str, description: str) -> dict:
     return db.insert(<span class="cs">"tickets"</span>, {<span class="cs">"title"</span>: title, <span class="cs">"description"</span>: description})
@@ -173,11 +166,9 @@ def create_or_get_ticket(title: str, description: str) -> dict:
  
 <span class="ck"># ── PRINCIPLE 2: Explicit error contracts ────────────</span>
 <span class="ck"># Never raise exceptions — return structured errors the agent can understand</span>
- 
 <span class="ck"># BAD: agent receives an unhandled exception, gets confused</span>
 def get_user(user_id: str) -> dict:
     return db.get(<span class="cs">"users"</span>, user_id)   <span class="ck"># raises KeyError if not found</span>
- 
 <span class="ck"># GOOD: structured error the agent can reason about</span>
 def get_user(user_id: str) -> dict:
     user = db.find_one(<span class="cs">"users"</span>, {<span class="cs">"id"</span>: user_id})
@@ -189,7 +180,6 @@ def get_user(user_id: str) -> dict:
  
 <span class="ck"># ── PRINCIPLE 3: Atomic operations ───────────────────</span>
 <span class="ck"># One tool should do ONE thing — not a chain of things</span>
- 
 <span class="ck"># BAD: one tool does too much — partial failures are unrecoverable</span>
 def process_order(order_id: str) -> dict:
     validate_stock()
@@ -204,13 +194,11 @@ def send_confirmation_email(order_id: str, email: str) -> dict: ...
 def update_inventory(items: list, delta: int) -> dict: ...</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Tool Description Engineering</h3><span class="tag tag-blue">Selection Precision</span></div>
   <div class="cp-body">
     <div class="cb"><pre><span class="ck"># The description determines WHEN the agent calls the tool.</span>
 <span class="ck"># Bad descriptions → wrong tool selection → wrong results.</span>
- 
 <span class="ck"># ── Pattern: Use When / Don't Use When ───────────────</span>
 SEARCH_TOOL = {
     <span class="cs">"name"</span>: <span class="cs">"search_knowledge_base"</span>,
@@ -255,7 +243,6 @@ def tool_error(code: str, message: str, suggestion: str = <span class="cs">""</s
     <div class="ins"><p>💡 <strong>Tool names are critical.</strong> <code>search</code> is ambiguous — the agent doesn't know what it searches. <code>search_knowledge_base</code>, <code>search_web</code>, <code>search_customer_records</code> are unambiguous. When you have multiple search tools, the names must make the distinction obvious without reading the description.</p></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>Tool Safety — Scope Limiting and Validation</h3><span class="tag tag-teal">Production</span></div>
   <div class="cp-body">
@@ -302,8 +289,6 @@ def rate_limit_check(tool_name: str) -> bool:
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — WORKFLOW PATTERNS ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-violet">
@@ -339,7 +324,6 @@ def rate_limit_check(tool_name: str) -> bool:
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Prompt Chaining — Implementation</h3><span class="tag tag-blue">Most Common</span></div>
   <div class="cp-body">
@@ -395,7 +379,6 @@ Return JSON: {"score": 1-10, "issues": [...], "passed": bool}"""</span>,
     return output</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔀</span><h3>Routing Pattern — LLM as Classifier</h3><span class="tag tag-teal">Scalable</span></div>
   <div class="cp-body">
@@ -434,8 +417,6 @@ def process_ticket(ticket: str) -> dict:
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — WHEN NOT AGENTS ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-red">
@@ -478,8 +459,6 @@ def process_ticket(ticket: str) -> dict:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — PARALLEL WORKFLOWS ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-violet">
@@ -544,8 +523,6 @@ async def gather_with_fallback(coroutines: list) -> list:
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — ORCHESTRATOR ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-violet">
@@ -617,8 +594,6 @@ Available agents:
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RESOURCES ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -631,8 +606,6 @@ Available agents:
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 7 — PROJECTS ══════════ -->
 <div id="t7" class="tab-pane">
 <div class="proj-box">
@@ -669,8 +642,6 @@ Available agents:
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 8 — LABS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -683,7 +654,6 @@ Available agents:
     <div class="lab-step"><div class="sn">4</div><div>Add the USE/DON'T USE pattern to each tool description. Test with ambiguous queries that could trigger multiple tools — does selection improve?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Pattern Selection — Choose the Right Architecture</h4></div>
   <div class="lab-body">
@@ -693,7 +663,6 @@ Available agents:
     <div class="lab-step"><div class="sn">3</div><div><strong>Document:</strong> For which tasks was the simpler architecture actually better? What would have gone wrong with the agent approach?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Parallel Fan-Out — Measure Real Speedup</h4></div>
   <div class="lab-body">
@@ -705,8 +674,6 @@ Available agents:
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — CHECKLIST ══════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">P6-M20 MASTERY CHECKLIST</p>
@@ -734,13 +701,11 @@ Available agents:
   <p>✅ <strong>When complete:</strong> Move to <strong>P6-M21 — Failure Handling in Agents</strong>. You now know how to design good agents. M21 covers what to do when they go wrong — which they will, at scale.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part6-agents/p6-m19-agent-loops/">← P6-M19: Agent Loops</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part6-agents/p6-m21-failure-handling/">Next: P6-M21 — Failure Handling →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

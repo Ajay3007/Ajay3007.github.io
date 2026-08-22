@@ -120,7 +120,6 @@ Two pointers is a general approach where you use two indices (or iterators) to t
         <a href="https://leetcode.com/problems/valid-palindrome/solutions/7386854/efficient-on-palindrome-check-using-two-yt59z/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
 </div>
-
 <!-- Remove Duplicates from Sorted Array -->
 <div class="problem-card-easy">
     <span class="problem-number">26</span>
@@ -146,7 +145,6 @@ Two pointers is a general approach where you use two indices (or iterators) to t
         <a href="/learning/dsa/arrays/two-pointers/leetcode-167.pdf" class="problem-btn-link btn-solution">💻 PDF Solution</a>
     </div>
 </div>
-
 <!-- 3Sum -->
 <div class="problem-card-medium">
     <span class="problem-number">15</span>
@@ -157,7 +155,6 @@ Two pointers is a general approach where you use two indices (or iterators) to t
         <a href="https://leetcode.com/problems/3sum/solutions/7388635/three-sum-using-sorting-two-pointers-c-o-r6ta/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
 </div>
-
 <!-- Container With Most Water -->
 <div class="problem-card-medium">
     <span class="problem-number">11</span>
@@ -168,7 +165,6 @@ Two pointers is a general approach where you use two indices (or iterators) to t
         <a href="https://leetcode.com/problems/container-with-most-water/solutions/7388718/container-with-most-water-two-pointer-op-k9im/" target="_blank" rel="noopener noreferrer" class="problem-btn-link btn-solution">💻 Solution</a>
     </div>
 </div>
-
 <!-- Next Permutation -->
 <div class="problem-card-medium">
     <span class="problem-number">31</span>

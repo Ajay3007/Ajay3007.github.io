@@ -97,7 +97,6 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
 /* state diagram */
 .state-box{display:inline-block;background:#1e0a3a;border:1.5px solid #7c3aed;border-radius:8px;padding:.6rem 1rem;font-family:monospace;font-size:.82rem;color:#ede9fe;margin:.3rem}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 6 — Agents, Workflows &amp; Evaluation &nbsp;·&nbsp; Module 19 of 22</div>
@@ -110,7 +109,6 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
     <span class="mod-pill">📋 Prerequisite: P4-M12 (Tool Calling)</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">📋 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">🧠 Agent Mental Model</button>
@@ -123,8 +121,6 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
   <button class="tab-btn" onclick="vt(event,'t8')">🔬 Labs</button>
   <button class="tab-btn" onclick="vt(event,'t9')">✅ Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp p-violet">
@@ -142,8 +138,6 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — MENTAL MODEL ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp p-violet">
@@ -153,7 +147,6 @@ url: /learning/ai-ml/part6-agents/p6-m19-agent-loops/
     <div class="cb"><pre><span class="ck"># NOT an agent — you decide what to call:</span>
 weather = get_weather(<span class="cs">"Mumbai"</span>)       <span class="ck"># you chose to call this</span>
 summary = summarise(weather)          <span class="ck"># you chose to call this next</span>
- 
 <span class="ck"># IS an agent — the LLM decides what to call:</span>
 <span class="ck"># User: "Should I carry an umbrella in Mumbai today?"</span>
 <span class="ck">#</span>
@@ -163,7 +156,6 @@ summary = summarise(weather)          <span class="ck"># you chose to call this 
 <span class="ck"># LLM responds: "Probably not necessary, but a light one wouldn't hurt."</span>
 <span class="ck">#</span>
 <span class="ck"># The LLM made ALL the decisions. You only provided tools and a question.</span></pre></div>
-
     <div class="agent-loop">
       <div class="al-box al-llm">🧠 LLM: Think about what to do next</div>
       <div class="al-arrow">↓</div>
@@ -179,8 +171,6 @@ summary = summarise(weather)          <span class="ck"># you chose to call this 
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — REACT LOOP ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp p-violet">
@@ -246,7 +236,6 @@ def run_agent(user_message: str, system: str = <span class="cs">""</span>,
                 if hasattr(block, <span class="cs">"text"</span>):
                     return block.text
             return <span class="cs">""</span>
- 
         <span class="ck"># Agent wants to use tools</span>
         if response.stop_reason == <span class="cs">"tool_use"</span>:
             messages.append({<span class="cs">"role"</span>: <span class="cs">"assistant"</span>, <span class="cs">"content"</span>: response.content})
@@ -273,7 +262,6 @@ def run_agent(user_message: str, system: str = <span class="cs">""</span>,
             messages.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: tool_results})
  
     return <span class="cs">f"Agent reached max_turns ({max_turns}) without completing."</span>
- 
 <span class="ck"># Run the agent</span>
 answer = run_agent(
     <span class="cs">"What is the square root of 1764, and what day of the week is it today?"</span>
@@ -282,8 +270,6 @@ print(answer)</pre></div>
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — STATE & MEMORY ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp p-violet">
@@ -313,7 +299,6 @@ class AgentState:
     subtasks:      list[str]        = field(default_factory=list)
     completed:     list[str]        = field(default_factory=list)
     status:        str              = <span class="cs">"running"</span>   <span class="ck"># running | waiting | done | failed</span>
- 
     <span class="ck"># Human interaction</span>
     awaiting_approval: bool         = <span class="cv">False</span>
     pending_action:    Optional[dict] = None
@@ -358,8 +343,6 @@ def agent_with_state(user_message: str, state: AgentState = None) -> AgentState:
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — LANGGRAPH ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp p-violet">
@@ -378,7 +361,6 @@ import operator
 <span class="ck"># ── 1. Define state schema ────────────────────────────</span>
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]   <span class="ck"># reducer: add new messages</span>
- 
 <span class="ck"># ── 2. Define nodes ───────────────────────────────────</span>
 llm = ChatAnthropic(model=<span class="cs">"claude-3-5-sonnet-20241022"</span>)
 llm_with_tools = llm.bind_tools(langchain_tools)   <span class="ck"># tools bound to LLM</span>
@@ -408,7 +390,6 @@ def should_continue(state: AgentState) -> str:
     if hasattr(last, <span class="cs">"tool_calls"</span>) and last.tool_calls:
         return <span class="cs">"tools"</span>
     return <span class="cs">"end"</span>
- 
 <span class="ck"># ── 4. Build the graph ────────────────────────────────</span>
 graph = StateGraph(AgentState)
  
@@ -421,7 +402,6 @@ graph.add_conditional_edges(<span class="cs">"llm"</span>, should_continue, {
     <span class="cs">"end"</span>:   END
 })
 graph.add_edge(<span class="cs">"tools"</span>, <span class="cs">"llm"</span>)   <span class="ck"># after tools, always go back to LLM</span>
- 
 <span class="ck"># ── 5. Compile with checkpointer (persistence) ────────</span>
 memory  = MemorySaver()
 agent   = graph.compile(checkpointer=memory)
@@ -436,7 +416,6 @@ print(result[<span class="cs">"messages"</span>][-<span class="cv">1</span>].con
     <div class="ins"><p>💡 <strong>The thread_id in config enables multi-session persistence.</strong> Every invocation with the same thread_id continues from where it left off — the graph state is checkpointed automatically. Different users get different thread_ids and completely isolated state.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>LangGraph State Reducers — Advanced Patterns</h3><span class="tag tag-blue">Power Feature</span></div>
   <div class="cp-body">
@@ -468,8 +447,6 @@ graph.add_edge([<span class="cs">"search"</span>, <span class="cs">"calculate"</
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — HUMAN-IN-THE-LOOP ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp p-violet">
@@ -525,15 +502,12 @@ print(<span class="cs">f"Waiting for approval: {pending[0]['value']}"</span>)
  
 <span class="ck"># Human approves (or rejects)</span>
 human_response = {<span class="cs">"approved"</span>: <span class="cv">True</span>}   <span class="ck"># or False</span>
- 
 <span class="ck"># Resume the graph from where it paused</span>
 result = agent.invoke(Command(resume=human_response), config)</pre></div>
     <div class="warn"><p>⚠️ <strong>Human-in-the-loop is not optional for consequential actions.</strong> An agent that autonomously sends emails, deletes records, or makes API calls is an accident waiting to happen. Always implement interrupt-based approval for irreversible or high-stakes tool calls (OWASP LLM08: Excessive Agency).</p></div>
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — RESOURCES ══════════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">FREE LEARNING RESOURCES</p>
@@ -547,8 +521,6 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
   </tbody>
 </table>
 </div>
-
-
 <!-- ══════════ TAB 7 — PROJECTS ══════════ -->
 <div id="t7" class="tab-pane">
 <div class="proj-box">
@@ -577,8 +549,6 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 8 — LABS ══════════ -->
 <div id="t8" class="tab-pane">
 <div class="lab-box">
@@ -592,7 +562,6 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
     <div class="lab-step"><div class="sn">5</div><div>Add logging: print every turn number, stop_reason, and tools called. Run 5 different queries and compare turn counts. Which queries take the most turns and why?</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>LangGraph — Visualise and Trace the Graph</h4></div>
   <div class="lab-body">
@@ -603,7 +572,6 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
     <div class="lab-step"><div class="sn">4</div><div>Test checkpoint persistence: run 3 turns with a thread_id, then: <code>snapshot = agent.get_state(config)</code>. Print the snapshot. Kill the Python process, restart, restore from snapshot, continue.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Human-in-the-Loop — Approval Flow</h4></div>
   <div class="lab-body">
@@ -616,8 +584,6 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
   </div>
 </div>
 </div><!-- end t8 -->
-
-
 <!-- ══════════ TAB 9 — CHECKLIST ══════════ -->
 <div id="t9" class="tab-pane">
 <p class="sep">P6-M19 MASTERY CHECKLIST</p>
@@ -644,13 +610,11 @@ result = agent.invoke(Command(resume=human_response), config)</pre></div>
   <p>✅ <strong>When complete:</strong> Move to <strong>P6-M20 — Tool Design, Workflow Patterns &amp; When NOT to Use Agents</strong>. You now know how agents work mechanically. M20 teaches you to design agents that are reliable in production — which is harder than it looks.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part5-rag/p5-m18-rag-pipelines/">← P5-M18: RAG Pipelines</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ All Modules</a>
   <a class="nb" href="/learning/ai-ml/part6-agents/p6-m20-tool-design/">Next: P6-M20 — Tool Design →</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

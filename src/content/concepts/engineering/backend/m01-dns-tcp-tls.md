@@ -141,7 +141,6 @@ url: /learning/backend/m01-dns-tcp-tls/
 /* Section separator */
 .sep{border:none;border-top:1.5px dashed var(--border-color,#ddd);margin:1.5rem 0}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Backend Engineering · Phase 0 · Module 1</div>
   <div class="mod-title">DNS, TCP &amp; TLS Deep Dive</div>
@@ -156,7 +155,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <span class="mod-pill">C/C++</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t0',this)">📋 Overview</button>
   <button class="tab-btn" onclick="vt('t1',this)">🌐 DNS</button>
@@ -167,10 +165,8 @@ url: /learning/backend/m01-dns-tcp-tls/
   <button class="tab-btn" onclick="vt('t6',this)">🔬 Labs</button>
   <button class="tab-btn" onclick="vt('t7',this)">✅ Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t0 Overview -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>The Hidden Cost of "Hello, Server"</h3><span class="tag tag-teal">MENTAL MODEL</span></div>
   <div class="cp-body">
@@ -178,7 +174,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <p>This module gives you full mental ownership of the connection lifecycle — from the moment a hostname is typed to the moment encrypted application data flows.</p>
   </div>
 </div>
-
 <h3>Connection Lifecycle: Cold Start</h3>
 <div class="seq-diagram"><pre>
   Client                      DNS Resolver          TCP Stack         TLS Stack        Server App
@@ -197,7 +192,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     │                              │                    │                 │  TLS ESTABLISHED │
     │══════════════════════ Encrypted Application Data ═══════════════════════════════════▶│
 </pre></div>
-
 <h3>Latency Budget: Cold vs Warm</h3>
 <table class="t-table">
   <thead><tr><th>Phase</th><th>Cold start</th><th>Warm (cached/reused)</th><th>Where saved</th></tr></thead>
@@ -209,28 +203,22 @@ url: /learning/backend/m01-dns-tcp-tls/
     <tr><td><strong>Total cold</strong></td><td colspan="3"><strong>≈ 3–4 RTT + DNS. On 50 ms RTT link: ~200 ms before any data.</strong></td></tr>
   </tbody>
 </table>
-
 <div class="ins"><p><strong>Key insight:</strong> TLS 1.3 reduced handshake cost from 2 RTT (TLS 1.2) to 1 RTT — and 0-RTT resumption eliminates it entirely for repeat connections. This is why upgrading TLS version has measurable user-facing impact.</p></div>
-
 <h3>Why Each Layer Exists</h3>
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>DNS</strong> — humans use names; routers use IPs. DNS is the distributed phonebook that maps one to the other. It also carries routing policy (round-robin, geo, health-check failover) via multiple A/AAAA records.</span></li>
   <li><span class="fl-step">2</span><span><strong>TCP</strong> — IP is unreliable and unordered. TCP adds reliability (retransmission), ordering (sequence numbers), and flow + congestion control. The 3-way handshake establishes shared state (ISNs) before data flows.</span></li>
   <li><span class="fl-step">3</span><span><strong>TLS</strong> — TCP provides delivery but not privacy or authenticity. TLS negotiates cipher suites, authenticates the server via certificates, and derives symmetric session keys — turning a transparent pipe into an encrypted tunnel.</span></li>
 </ul>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t1 DNS -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌐</span><h3>DNS Architecture</h3><span class="tag tag-blue">DISTRIBUTED SYSTEM</span></div>
   <div class="cp-body">
     <p>DNS is a globally distributed, hierarchical, eventually-consistent key-value store. It is the largest distributed database on the internet. Understanding its resolution chain is essential for diagnosing outages and designing resilient services.</p>
   </div>
 </div>
-
 <h3>Recursive Resolution Chain</h3>
 <div class="seq-diagram"><pre>
   Browser/App          Stub Resolver       Recursive Resolver      Root NS       TLD NS (.io)    Auth NS (api.io)
@@ -246,9 +234,7 @@ url: /learning/backend/m01-dns-tcp-tls/
       │◀──── 1.2.3.4 ───────│◀──── 1.2.3.4 ──────│                   │               │                 │
       │                     │  (cached for 300s)  │                   │               │                 │
 </pre></div>
-
 <div class="analogy"><p>🏢 <strong>Analogy:</strong> Ask reception (stub resolver) for "Bob in Engineering". Reception calls the central operator (recursive resolver) who consults the building directory (root), which points to the floor directory (.io TLD), which finally has Bob's desk number (authoritative NS returns the IP).</p></div>
-
 <h3>DNS Record Types</h3>
 <table class="t-table">
   <thead><tr><th>Type</th><th>Purpose</th><th>Example value</th><th>Backend use</th></tr></thead>
@@ -264,7 +250,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <tr><td><span class="rec-type">SOA</span></td><td>Zone authority</td><td>Serial, refresh, retry, expire</td><td>Zone transfer, negative TTL</td></tr>
   </tbody>
 </table>
-
 <h3>DNS Message Format</h3>
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📦</span><h3>Wire Format (RFC 1035)</h3><span class="tag tag-teal">BINARY PROTOCOL</span></div>
@@ -283,7 +268,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <p><strong>Label encoding:</strong> <code>api.io</code> becomes <code>\x03api\x02io\x00</code> — each label prefixed with its length byte, terminated with zero byte. DNS uses pointer compression (2-byte offset) to avoid repeating names.</p>
   </div>
 </div>
-
 <h3>TTL and Caching Behaviour</h3>
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>Stub resolver</strong> (in libc) — caches based on TTL. <code>nscd</code> or <code>systemd-resolved</code> may add another caching layer. Call <code>getaddrinfo()</code> — never roll your own DNS in production.</span></li>
@@ -291,7 +275,6 @@ url: /learning/backend/m01-dns-tcp-tls/
   <li><span class="fl-step">2</span><span><strong>Negative caching</strong> (NXDOMAIN) — the SOA record's MINIMUM field caps negative TTL. A wrong hostname lookup causes a 60-second penalty per resolver, per negative TTL.</span></li>
   <li><span class="fl-step">3</span><span><strong>TTL strategy:</strong> During normal operation use 300s–3600s. During deployments or planned failovers, lower TTL to 30–60s <em>before</em> the change, then restore after.</span></li>
 </ul>
-
 <h3>Security: DNS Cache Poisoning</h3>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Kaminsky Attack (2008)</h3><span class="tag tag-red">ATTACK VECTOR</span></div>
@@ -306,7 +289,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     </ul>
   </div>
 </div>
-
 <h3>C Code: <code>getaddrinfo()</code></h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/types.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
@@ -314,14 +296,12 @@ url: /learning/backend/m01-dns-tcp-tls/
 <span class="ck">#include</span> <span class="cv">&lt;arpa/inet.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
- 
 <span class="cm">/* Resolve hostname → IP(s), prefer IPv4 */</span>
 <span class="ck">int</span> resolve_host(<span class="ck">const char</span> *host, <span class="ck">char</span> out_ip[<span class="cv">INET6_ADDRSTRLEN</span>]) {
     <span class="ck">struct</span> addrinfo hints, *res, *rp;
     <span class="ck">memset</span>(&amp;hints, <span class="cv">0</span>, <span class="ck">sizeof</span>(hints));
     hints.ai_family   = AF_UNSPEC;    <span class="cm">/* IPv4 or IPv6 */</span>
     hints.ai_socktype = SOCK_STREAM;  <span class="cm">/* TCP */</span>
- 
     <span class="ck">int</span> rc = getaddrinfo(host, <span class="cs">NULL</span>, &amp;hints, &amp;res);
     <span class="ck">if</span> (rc != <span class="cv">0</span>) {
         fprintf(stderr, <span class="cs">"getaddrinfo: %s\n"</span>, gai_strerror(rc));
@@ -345,14 +325,10 @@ url: /learning/backend/m01-dns-tcp-tls/
     freeaddrinfo(res);
     <span class="ck">return</span> <span class="cv">0</span>;
 }</pre></div>
-
 <div class="warn"><p>⚠️ <strong>Never call <code>gethostbyname()</code></strong> — it is not thread-safe (returns pointer to static buffer), doesn't support IPv6, and is deprecated in POSIX.1-2008. Always use <code>getaddrinfo()</code>.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t2 TCP Handshake -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🤝</span><h3>Why a 3-Way Handshake?</h3><span class="tag tag-teal">RELIABILITY</span></div>
   <div class="cp-body">
@@ -360,7 +336,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <p>A 2-way handshake would suffice for the client to know the server is reachable — but the server wouldn't know the client received the SYN-ACK. The third ACK closes this gap.</p>
   </div>
 </div>
-
 <h3>3-Way Handshake in Detail</h3>
 <div class="seq-diagram"><pre>
   Client (CLOSED)                                    Server (LISTEN)
@@ -376,7 +351,6 @@ url: /learning/backend/m01-dns-tcp-tls/
        │                                                    │
        │══════════════ DATA FLOWS ══════════════════════════▶│
 </pre></div>
-
 <h3>Initial Sequence Number (ISN) Randomness</h3>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🎲</span><h3>Why ISNs Must Be Random</h3><span class="tag tag-orange">SECURITY</span></div>
@@ -385,7 +359,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <p>Modern kernels (Linux, BSD) use ISNs derived from a keyed hash of the 4-tuple (src-ip, src-port, dst-ip, dst-port) plus a secret key and timestamp — making ISNs unpredictable while still monotonically increasing within a connection.</p>
   </div>
 </div>
-
 <h3>TCP Options Negotiated During Handshake</h3>
 <table class="t-table">
   <thead><tr><th>Option</th><th>Kind</th><th>Purpose</th><th>Default if absent</th></tr></thead>
@@ -396,7 +369,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <tr><td><strong>Timestamps</strong></td><td>8</td><td>RTT measurement + PAWS (Protection Against Wrapped Sequence numbers). Also mitigates blind RST injection</td><td>No RTT measurement from headers</td></tr>
   </tbody>
 </table>
-
 <h3>Connection Teardown: FIN vs RST</h3>
 <div class="two-col">
   <div>
@@ -432,7 +404,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     </div>
   </div>
 </div>
-
 <h3>Key Socket Options</h3>
 <table class="t-table">
   <thead><tr><th>Option</th><th>Level</th><th>Effect</th><th>When to use</th></tr></thead>
@@ -445,7 +416,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <tr><td><code>SO_LINGER</code></td><td>SOL_SOCKET</td><td>Controls close() behaviour: wait for drain vs send RST immediately</td><td>Set <code>l_linger=0</code> only when intentionally aborting</td></tr>
   </tbody>
 </table>
-
 <h3>C: TCP Server Skeleton</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;netinet/in.h&gt;</span>
@@ -453,7 +423,6 @@ url: /learning/backend/m01-dns-tcp-tls/
 <span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
- 
 <span class="ck">int</span> main(<span class="ck">void</span>) {
     <span class="cm">/* 1. Create socket */</span>
     <span class="ck">int</span> server_fd = socket(AF_INET, SOCK_STREAM, <span class="cv">0</span>);
@@ -499,21 +468,16 @@ url: /learning/backend/m01-dns-tcp-tls/
         close(conn_fd);
     }
 }</pre></div>
-
 <div class="note"><p><strong>accept() backlog:</strong> The backlog parameter to <code>listen()</code> limits the number of completed-but-not-yet-accepted connections in the kernel's accept queue. Under SYN flood, the incomplete SYN queue fills first. Set <code>net.ipv4.tcp_syncookies=1</code> to handle SYN floods without dropping legitimate connections.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t3 TCP States -->
 <div id="t3" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>TCP State Machine</h3><span class="tag tag-teal">11 STATES</span></div>
   <div class="cp-body">
     <p>TCP is a finite state machine. Each connection independently transitions through states based on segments received and API calls made. Knowing these states helps you diagnose stuck connections, TIME_WAIT accumulation, and FIN_WAIT_2 leaks using <code>ss</code> or <code>netstat</code>.</p>
   </div>
 </div>
-
 <div class="states-grid">
   <div class="state-box">
     <div class="st-name">CLOSED</div>
@@ -560,7 +524,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <div class="st-desc">Active closer waits 2×MSL (≈60s) before CLOSED.</div>
   </div>
 </div>
-
 <h3>Diagnosing with <code>ss</code></h3>
 <table class="t-table">
   <thead><tr><th>Command</th><th>Shows</th></tr></thead>
@@ -572,7 +535,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <tr><td><code>ss -s</code></td><td>Summary statistics per state</td></tr>
   </tbody>
 </table>
-
 <h3>TIME_WAIT Deep Dive</h3>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>Why TIME_WAIT Exists and Why It Matters</h3><span class="tag tag-orange">COMMON ISSUE</span></div>
@@ -594,7 +556,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <div class="warn"><p>⚠️ <strong>Do NOT set <code>tcp_tw_recycle</code></strong> — it was removed in Linux 4.12 because it breaks clients behind NAT (multiple clients appear to have same IP, causing packets to be dropped).</p></div>
   </div>
 </div>
-
 <h3>CLOSE_WAIT Accumulation: A Common Bug</h3>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🐛</span><h3>CLOSE_WAIT Leak</h3><span class="tag tag-red">BUG PATTERN</span></div>
@@ -604,7 +565,6 @@ url: /learning/backend/m01-dns-tcp-tls/
     <p><strong>Diagnosis:</strong> <code>ss -tanp state close-wait</code> to find which process, then check the source for missing <code>close()</code> calls after <code>recv() == 0</code>.</p>
   </div>
 </div>
-
 <h3>Half-Open Connections and Keepalive</h3>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">💤</span><h3>Dead Peer Detection</h3><span class="tag tag-blue">RELIABILITY</span></div>
@@ -629,12 +589,9 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <span class="cm">/* Now dead peer detected in 10 + 5×3 = 25 seconds */</span></pre></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t4 TLS 1.3 -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>TLS 1.3: Why It Matters</h3><span class="tag tag-teal">RFC 8446</span></div>
   <div class="cp-body">
@@ -652,7 +609,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     </table>
   </div>
 </div>
-
 <h3>TLS 1.3 Handshake: 1-RTT</h3>
 <div class="seq-diagram"><pre>
   Client                                                      Server
@@ -683,7 +639,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     │══ {Application Data} ═══════════════════════════════════▶│◀│
     │   (first app data can go with Finished — effectively 1 RTT) │
 </pre></div>
-
 <h3>ECDHE: Forward Secrecy Explained</h3>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔑</span><h3>Ephemeral Diffie-Hellman (ECDHE)</h3><span class="tag tag-purple">FORWARD SECRECY</span></div>
@@ -694,7 +649,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     <div class="note"><p><strong>Common curves in TLS 1.3:</strong> X25519 (preferred, fast, safe), P-256, P-384. X25519 is a modern curve with better performance and simpler implementation than NIST curves.</p></div>
   </div>
 </div>
-
 <h3>Certificate Chain Validation</h3>
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>Receive cert chain</strong> — server sends its certificate and any intermediate CA certs. Leaf cert → intermediate → root CA.</span></li>
@@ -704,7 +658,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
   <li><span class="fl-step">5</span><span><strong>Check revocation</strong> — via CRL (Certificate Revocation List) or OCSP (Online Certificate Status Protocol). Browsers may use OCSP stapling to speed this up.</span></li>
   <li><span class="fl-step">6</span><span><strong>Check validity period</strong> — cert must not be expired or not-yet-valid. Short-lived certs (90 days from Let's Encrypt) are best practice.</span></li>
 </ul>
-
 <h3>SNI and ALPN</h3>
 <div class="two-col">
   <div class="cp p-blue" style="margin:0">
@@ -722,7 +675,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     </div>
   </div>
 </div>
-
 <h3>0-RTT Session Resumption</h3>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>0-RTT (Early Data)</h3><span class="tag tag-amber">PERFORMANCE vs SECURITY</span></div>
@@ -739,7 +691,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     </ul>
   </div>
 </div>
-
 <h3>Common TLS Mistakes</h3>
 <table class="t-table">
   <thead><tr><th>Mistake</th><th>Risk</th><th>Fix</th></tr></thead>
@@ -752,12 +703,9 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
     <tr><td>Using self-signed certs in prod</td><td>Clients reject or users click through warnings</td><td>Use Let's Encrypt (free, 90-day, automatable)</td></tr>
   </tbody>
 </table>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t5 C Implementation -->
 <div id="t5" class="tab-pane">
-
 <h3>TCP Client (C)</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;netdb.h&gt;</span>
@@ -765,7 +713,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;errno.h&gt;</span>
- 
 <span class="ck">int</span> tcp_connect(<span class="ck">const char</span> *host, <span class="ck">const char</span> *port) {
     <span class="ck">struct</span> addrinfo hints = {
         .ai_family   = AF_UNSPEC,
@@ -802,7 +749,6 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
  
     close(fd);
 }</pre></div>
-
 <h3>TLS Client with OpenSSL</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;openssl/ssl.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;openssl/err.h&gt;</span>
@@ -811,11 +757,8 @@ setsockopt(fd, IPPROTO_TCP, TCP_KEEPCNT,   &amp;cnt,   <span class="ck">sizeof</
 <span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;string.h&gt;</span>
- 
 <span class="cm">/* Compile: gcc tls_client.c -lssl -lcrypto -o tls_client */</span>
- 
 <span class="ck">static int</span> tcp_connect_fd(<span class="ck">const char</span> *host, <span class="ck">const char</span> *port);  <span class="cm">/* as above */</span>
- 
 <span class="ck">int</span> main(<span class="ck">int</span> argc, <span class="ck">char</span> **argv) {
     <span class="ck">const char</span> *host = argc > <span class="cv">1</span> ? argv[<span class="cv">1</span>] : <span class="cs">"example.com"</span>;
  
@@ -888,18 +831,15 @@ cleanup:
     SSL_CTX_free(ctx);
     <span class="ck">return</span> <span class="cv">0</span>;
 }</pre></div>
-
 <h3>TCP Server with Concurrent Connections (pthreads)</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;sys/socket.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;netinet/in.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;pthread.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;unistd.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
- 
 <span class="ck">static void</span> *handle_client(<span class="ck">void</span> *arg) {
     <span class="ck">int</span> fd = (<span class="ck">int</span>)(intptr_t)arg;
     pthread_detach(pthread_self());  <span class="cm">/* auto-reclaim resources */</span>
- 
     <span class="ck">char</span> buf[<span class="cv">4096</span>];
     ssize_t n;
     <span class="ck">while</span> ((n = recv(fd, buf, <span class="ck">sizeof</span>(buf), <span class="cv">0</span>)) > <span class="cv">0</span>) {
@@ -928,9 +868,7 @@ cleanup:
         <span class="cm">/* thread detached inside handle_client */</span>
     }
 }</pre></div>
-
 <div class="warn"><p>⚠️ <strong>Thread-per-connection</strong> doesn't scale beyond a few thousand connections — each thread uses ~8 MB stack by default. For high concurrency, use <strong>epoll + event loop</strong> (covered in Phase 4 — I/O Multiplexing). This example is correct for understanding the basic model.</p></div>
-
 <h3>Error Handling Patterns</h3>
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Handling EINTR, EAGAIN, Partial Reads/Writes</h3><span class="tag tag-orange">RELIABILITY</span></div>
@@ -956,12 +894,9 @@ cleanup:
 <span class="cm">/* MSG_NOSIGNAL: don't raise SIGPIPE on broken pipe — return EPIPE instead */</span></pre></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t6 Labs -->
 <div id="t6" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 1 — Wireshark: Observe DNS + TCP + TLS</h3>
@@ -978,7 +913,6 @@ cleanup:
     <p><strong>Expected findings:</strong> DNS: ~20–100 ms. TCP: 1 RTT. TLS 1.3: 1 RTT. Total before first byte ≈ DNS + 2 RTTs. TLS ClientHello and Certificate records are visible; application data is opaque (encrypted).</p>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 2 — TCP Echo Server in C</h3>
@@ -994,7 +928,6 @@ cleanup:
     <div class="lab-step"><span class="sn">6</span><span><strong>Challenge:</strong> Modify the server to print the client IP and port for each connection using <code>inet_ntop()</code> on the <code>sockaddr_in</code> returned by <code>accept()</code>.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 3 — TLS Client: Connect, Print Cert Chain &amp; Cipher</h3>
@@ -1011,7 +944,6 @@ cleanup:
     <div class="lab-step"><span class="sn">7</span><span><strong>Stretch:</strong> Add TLS 1.3 session resumption. After first connection, call <code>SSL_SESSION_print_fp()</code> to inspect the session ticket. Store it and present it on reconnect. Measure latency difference.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 4 — DNS Deep Dive with dig</h3>
@@ -1026,19 +958,15 @@ cleanup:
     <div class="lab-step"><span class="sn">5</span><span>Measure DNS latency over time: <code>for i in $(seq 10); do dig +stats github.com A | grep "Query time"; done</code>. First query is cold; subsequent should be fast (cached by resolver). Note the caching effect.</span></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t7 Checklist -->
 <div id="t7" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">✅</span><h3>Module Mastery Checklist</h3><span class="tag tag-teal">M01 COMPLETE</span></div>
   <div class="cp-body">
     <p>You have mastered this module when you can check off every item below without referring to notes.</p>
   </div>
 </div>
-
 <h3>DNS</h3>
 <ul class="cl">
   <li>Explain the full recursive DNS resolution chain — stub resolver → recursive resolver → root → TLD → authoritative NS</li>
@@ -1048,7 +976,6 @@ cleanup:
   <li>Describe how DNS cache poisoning works and name three defences (source port randomisation, DNSSEC, DoH/DoT)</li>
   <li>Use <code>dig +trace</code> to walk the resolution chain; interpret the TTL values at each delegation level</li>
 </ul>
-
 <h3>TCP — Handshake &amp; Options</h3>
 <ul class="cl">
   <li>Draw the 3-way handshake with correct flag names (SYN, SYN-ACK, ACK) and state transitions on both sides</li>
@@ -1059,7 +986,6 @@ cleanup:
   <li>Write a TCP server socket setup in C: <code>socket() → setsockopt() → bind() → listen() → accept()</code></li>
   <li>Handle partial writes correctly with a <code>send_all()</code> loop; explain MSG_NOSIGNAL</li>
 </ul>
-
 <h3>TCP — State Machine</h3>
 <ul class="cl">
   <li>Name all 11 TCP states and identify the 3 most commonly encountered in production (ESTABLISHED, TIME_WAIT, CLOSE_WAIT)</li>
@@ -1068,7 +994,6 @@ cleanup:
   <li>Configure per-socket TCP keepalive to detect dead peers within 25 seconds</li>
   <li>Use <code>ss -tan</code> to count connections by state on a live server</li>
 </ul>
-
 <h3>TLS 1.3</h3>
 <ul class="cl">
   <li>List 4 improvements TLS 1.3 made over TLS 1.2 (1-RTT, mandatory forward secrecy, fewer cipher suites, encrypted certs)</li>
@@ -1079,19 +1004,15 @@ cleanup:
   <li>Write an OpenSSL TLS client that: sets <code>SSL_VERIFY_PEER</code>, sets SNI, sets hostname for cert validation, prints the cipher suite and TLS version</li>
   <li>Name 5 common TLS configuration mistakes and their consequences</li>
 </ul>
-
 <hr class="sep">
 <div class="ins"><p><strong>Next module:</strong> M02 covers HTTP Internals — how HTTP/1.1, HTTP/2, and HTTP/3 use the TCP/TLS layer you just mastered. You'll understand pipelining, multiplexing, header compression (HPACK/QPACK), and QUIC's 0-RTT connection establishment.</p></div>
-
 </div>
-
 <!-- Module Nav -->
 <div class="mod-nav">
   <a href="/learning/backend/backend-roadmap/" class="nb">← Back to Roadmap</a>
   <span style="font-size:.8rem;color:var(--text-color,#888);font-family:monospace">Phase 0 · Module 1 of 2</span>
   <a href="/learning/backend/m02-http-servers/" class="nb">M02 HTTP Internals →</a>
 </div>
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

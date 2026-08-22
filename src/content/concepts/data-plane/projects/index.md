@@ -26,7 +26,6 @@ url: /learning/data-plane/projects/
     Kafka CDR export, and DNS sinkholing. Each module is a standalone C program
     with downloadable source files.
   </p>
-
   <h2 style="margin-top:2.5rem;margin-bottom:1rem;font-size:1.1rem;color:var(--secondary-color,#00d4ff);letter-spacing:.08em;text-transform:uppercase;">Phase 1 — C Foundations (Modules 01–07)</h2>
   <p style="color:var(--text-secondary,#4a5568);margin-bottom:1.25rem;font-size:.93rem;">Pure C — no external dependencies. Build and run on any Linux box.</p>
   <div class="c-card-grid c-cols-5" style="margin-bottom:2.5rem;">
@@ -66,7 +65,6 @@ url: /learning/data-plane/projects/
       <div class="c-topic-note">ClientHello parsing + Hyperscan offsets</div>
     </a>
   </div>
-
   <h2 style="margin-top:2.5rem;margin-bottom:1rem;font-size:1.1rem;color:var(--secondary-color,#00d4ff);letter-spacing:.08em;text-transform:uppercase;">Phase 2 — DPDK Infrastructure (Modules 08–14)</h2>
   <p style="color:var(--text-secondary,#4a5568);margin-bottom:1.25rem;font-size:.93rem;">Reference code — requires DPDK. Read alongside the DPDK documentation.</p>
   <div class="c-card-grid c-cols-5" style="margin-bottom:2.5rem;">
@@ -106,7 +104,6 @@ url: /learning/data-plane/projects/
       <div class="c-topic-note">Socket placement, rte_malloc, memzone</div>
     </a>
   </div>
-
   <h2 style="margin-top:2.5rem;margin-bottom:1rem;font-size:1.1rem;color:var(--secondary-color,#00d4ff);letter-spacing:.08em;text-transform:uppercase;">Phase 3 — SASE Engine (Modules 15–18)</h2>
   <p style="color:var(--text-secondary,#4a5568);margin-bottom:1.25rem;font-size:.93rem;">Hyperscan required for 15–17. Module 18 is pure C.</p>
   <div class="c-card-grid c-cols-5" style="margin-bottom:2.5rem;">
@@ -131,7 +128,6 @@ url: /learning/data-plane/projects/
       <div class="c-topic-note">In-place mbuf rewrite, answer injection</div>
     </a>
   </div>
-
   <h2 style="margin-top:2.5rem;margin-bottom:1rem;font-size:1.1rem;color:var(--secondary-color,#00d4ff);letter-spacing:.08em;text-transform:uppercase;">Phase 4 — Integration (Modules 19–21)</h2>
   <p style="color:var(--text-secondary,#4a5568);margin-bottom:1.25rem;font-size:.93rem;">librdkafka required for 19–20. Module 21 is standalone.</p>
   <div class="c-card-grid c-cols-5" style="margin-bottom:2.5rem;">

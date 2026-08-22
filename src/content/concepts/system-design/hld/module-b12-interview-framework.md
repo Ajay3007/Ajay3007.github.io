@@ -11,7 +11,6 @@ url: /learning/system-design/hld/module-b12-interview-framework/
 
 <link rel="stylesheet" href="/assets/css/sd-module-b12.css">
 <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@300;400;600&display=swap" rel="stylesheet">
-
 <div class="sd-module-b12">
 <header>
   <div class="hdr-stamp">
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b12-interview-framework/
     <div class="tg">Quick Answers</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="mb12_show('framework',this)">7-Step Framework</div>
   <div class="nt" onclick="mb12_show('timer',this)">Time Map</div>
@@ -52,9 +50,7 @@ url: /learning/system-design/hld/module-b12-interview-framework/
   <div class="nt" onclick="mb12_show('quickanswers',this)">Quick Answers</div>
   <div class="nt" onclick="mb12_show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- FRAMEWORK -->
 <div class="view active" id="view-framework">
   <div class="sh">The 7-Step Framework</div>
@@ -135,7 +131,6 @@ url: /learning/system-design/hld/module-b12-interview-framework/
     </div>
   </div>
 </div>
-
 <!-- TIMER -->
 <div class="view" id="view-timer">
   <div class="sh">45-Minute Time Map</div>
@@ -172,7 +167,6 @@ url: /learning/system-design/hld/module-b12-interview-framework/
   </div>
   <div class="al ink"><em>The Deep Dive is where you are judged.</em> Steps 1–4 are table stakes — everyone can draw boxes. Steps 5–6 (deep dive + scaling) is where senior candidates separate themselves. Protect those 15 minutes fiercely. If you're still doing requirements at minute 10, cut it short and move on.</div>
 </div>
-
 <!-- ESTIMATION -->
 <div class="view" id="view-estimation">
   <div class="sh">Capacity Estimation Cheat Sheet</div>
@@ -204,12 +198,10 @@ Daily storage: 150M × 550B = <span class="hl">82 GB/day</span>
  
 Cache for hot tweets: 20% of reads hit 80% of data (Pareto)
 Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="hl">~18 GB hot set</span>
- 
 <span class="cm">// Now I know: I need a system handling 180K reads/sec, 2K writes/sec,</span>
 <span class="cm">// ~80 GB/day new storage, 18 GB hot cache. This drives my design choices.</span></pre>
   </div>
 </div>
-
 <!-- COMMUNICATION -->
 <div class="view" id="view-communication">
   <div class="sh">Communication Patterns</div>
@@ -238,7 +230,6 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
   </div>
   <div class="al grn"><em>The senior-signal question:</em> Before committing to any technology, say: "I see two approaches here — [A] and [B]. [A] gives us [benefit] but costs [trade-off]. [B] is simpler but doesn't handle [edge case]. Given [constraint from requirements], I'll go with [A]." This shows that you considered alternatives — which is what senior engineers actually do.</div>
 </div>
-
 <!-- MISTAKES -->
 <div class="view" id="view-mistakes">
   <div class="sh">7 Common Mistakes</div>
@@ -253,7 +244,6 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
     <div class="mk"><div class="mk-num">7</div><div class="mk-body"><div class="mk-title">NO FAILURE HANDLING IN THE DESIGN</div><div class="mk-fix">Fix: Proactively discuss failures. "What if the cache is unavailable? I'd add a circuit breaker and fall back to DB reads." "What if the notification service is slow? I'd make it async with a queue and retry." Cover the top 2–3 failure scenarios before being asked.</div></div></div>
   </div>
 </div>
-
 <!-- MOCKS -->
 <div class="view" id="view-mocks">
   <div class="sh">6 Mock Interview Problems</div>
@@ -334,7 +324,6 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
   </div>
   <div class="al ink"><em>Practice protocol:</em> Set a 45-minute timer. Draw on paper or a whiteboard. No notes. After time is up, review against the module notes and identify the 2–3 things you missed. Do NOT review the answer before attempting — the discomfort of not knowing is the practice.</div>
 </div>
-
 <!-- QUICK ANSWERS -->
 <div class="view" id="view-quickanswers">
   <div class="sh">Quick Answer Cheat Sheet</div>
@@ -349,7 +338,6 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
     <div class="qa"><div class="qa-hd" onclick="mb12_qa(this)"><div class="qa-q">"How do you ensure high availability for stateful services?"</div><div class="qa-arr">›</div></div><div class="qa-bd">Run multiple instances behind a load balancer. For sessions: externalize state to Redis (stateless app servers). For leader election (e.g., Saga Orchestrator): use Zookeeper ephemeral nodes or etcd leases — leader holds a lease, followers compete to acquire it on expiry. Health checks: remove unhealthy instances from rotation within 10–30 seconds. DB: primary-replica with automatic failover (RDS Multi-AZ, Patroni for Postgres).</div></div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 13 completed</span><span style="font-family:'Source Code Pro',monospace">MODULE B12 · INTERVIEW FRAMEWORK</span></div>
@@ -369,7 +357,6 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
     <div class="chk" onclick="mb12_tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Mock 6 (Autocomplete) — 45-min timed session completed</div></div>
     <div class="chk" onclick="mb12_tick(this)"><div class="chk-box"></div><div class="chk-lbl">All 6 mocks reviewed against module notes — gaps identified and studied</div></div>
   </div>
-
   <div style="margin-top:32px;background:var(--ink);color:var(--bg);padding:28px;text-align:center">
     <div style="font-family:'Source Code Pro',monospace;font-size:8px;letter-spacing:3px;color:var(--faded);margin-bottom:10px">TRACK B — COMPLETE</div>
     <div style="font-family:'Special Elite',cursive;font-size:32px;margin-bottom:12px">Track B: HLD Mastered</div>
@@ -383,9 +370,7 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
     </div>
   </div>
 </div>
-
 </div>
-
 <!-- Bottom Navigation (3-button — final module) -->
 <div class="mb12-bottom-nav">
   <a href="/learning/system-design/hld/module-b11-distributed-tx/" class="mb12-nav-footer-btn" style="border-right: 1px solid var(--bord2);">
@@ -405,6 +390,5 @@ Hot set: cache 20% of daily reads = 20% × 180K QPS × avg 500B = <span class="h
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="mb12-icon" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
   </a>
 </div>
-
 </div>
 <script src="/assets/js/sd-module-b12.js"></script>

@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m24-dpi/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 6 · MODULE 24 · WEEK 23</div>
   <div class="mod-title">🔬 Deep Packet Inspection and Application Identification</div>
@@ -90,7 +89,6 @@ url: /learning/networking-mastery/m24-dpi/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">DPI Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">Pattern Matching Engines</button>
@@ -104,11 +102,8 @@ url: /learning/networking-mastery/m24-dpi/
   <button class="tab-btn" onclick="vt(event,'t9')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'ta')">Checklist</button>
 </div>
-
-
 <div id="t0" class="tab-pane active">
 <p class="sep">DPI — LOOKING INSIDE THE PACKET PAYLOAD</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔬</span><h3>What DPI Is and Why It Matters</h3><span class="tag tag-green">OVERVIEW</span></div>
   <div class="cp-body">
@@ -125,7 +120,6 @@ url: /learning/networking-mastery/m24-dpi/
     <p><strong>DPI challenges:</strong> inspecting every byte of every packet at line rate (10–100 Gbps) while maintaining per-flow reassembled context is computationally expensive. The key is making the common case (established, known-good, classified flow) as fast as possible — and only doing deep work on new or suspicious flows.</p>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🏗️</span><h3>DPI Architecture — Three Inspection Layers</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -179,11 +173,8 @@ typedef struct dpi_state {
   </div>
 </div>
 </div>
-
-
 <div id="t1" class="tab-pane">
 <p class="sep">PATTERN MATCHING ENGINES</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>String Matching Algorithms Compared</h3><span class="tag tag-blue">ALGORITHMS</span></div>
   <div class="cp-body">
@@ -199,7 +190,6 @@ typedef struct dpi_state {
         <tr><td><strong>Bloom filter pre-filter</strong></td><td>O(1) per byte — probabilistic</td><td>Fast elimination of non-matching flows</td><td>First stage: if bloom says no-match, skip Aho-Corasick entirely</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre>/* Why Aho-Corasick is the standard for multi-pattern matching */
  
 Problem: we have 50,000 signatures. For each packet payload:
@@ -224,11 +214,8 @@ Match time:  O(text_length + matches) — linear scan, ideal for DPI
   </div>
 </div>
 </div>
-
-
 <div id="t2" class="tab-pane">
 <p class="sep">AHO-CORASICK — BUILDING AND USING THE AUTOMATON</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Aho-Corasick Implementation</h3><span class="tag tag-teal">IMPLEMENTATION</span></div>
   <div class="cp-body">
@@ -330,11 +317,8 @@ void dpi_process_segment(dpi_state_t *dpi, const uint8_t *data, size_t len) {
   </div>
 </div>
 </div>
-
-
 <div id="t3" class="tab-pane">
 <p class="sep">HYPERSCAN — INTEL'S SIMD-ACCELERATED REGEX ENGINE</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Hyperscan Architecture and NGFW Integration</h3><span class="tag tag-purple">HYPERSCAN</span></div>
   <div class="cp-body">
@@ -403,11 +387,8 @@ hs_free_scratch(scratch);
   </div>
 </div>
 </div>
-
-
 <div id="t4" class="tab-pane">
 <p class="sep">PROTOCOL DISSECTION — STRUCTURED PAYLOAD PARSING</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>HTTP and DNS Dissectors</h3><span class="tag tag-blue">DISSECTORS</span></div>
   <div class="cp-body">
@@ -490,11 +471,8 @@ int dns_dissect(const uint8_t *data, size_t len, dns_info_t *di) {
   </div>
 </div>
 </div>
-
-
 <div id="t5" class="tab-pane">
 <p class="sep">APPLICATION IDENTIFICATION</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🏷️</span><h3>Multi-Layer App ID Engine</h3><span class="tag tag-purple">APP ID</span></div>
   <div class="cp-body">
@@ -575,11 +553,8 @@ uint16_t identify_application(session_t *s, const uint8_t *payload,
   </div>
 </div>
 </div>
-
-
 <div id="t6" class="tab-pane">
 <p class="sep">TLS FINGERPRINTING — IDENTIFYING WITHOUT DECRYPTION</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🔏</span><h3>JA3, JA3S, JA4 and JARM</h3><span class="tag tag-teal">TLS FINGERPRINTING</span></div>
   <div class="cp-body">
@@ -642,11 +617,8 @@ known_malware_ja3 = {
   </div>
 </div>
 </div>
-
-
 <div id="t7" class="tab-pane">
 <p class="sep">DPI EVASION TECHNIQUES AND COUNTERMEASURES</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>How Attackers Evade DPI</h3><span class="tag tag-red">EVASION</span></div>
   <div class="cp-body">
@@ -666,11 +638,8 @@ known_malware_ja3 = {
   </div>
 </div>
 </div>
-
-
 <div id="t8" class="tab-pane">
 <p class="sep">DPI IN VPP — INTEGRATION ARCHITECTURE</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>VPP DPI Plugin Architecture</h3><span class="tag tag-green">VPP DPI</span></div>
   <div class="cp-body">
@@ -755,10 +724,7 @@ void dpi_session_destroy(session_t *s) {
   </div>
 </div>
 </div>
-
-
 <div id="t9" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>Aho-Corasick Multi-Pattern Matching Engine</h4></div>
   <div class="lab-body">
@@ -770,7 +736,6 @@ void dpi_session_destroy(session_t *s) {
     <div class="lab-step"><div class="sn">5</div><div><strong>Evasion test:</strong> take 5 known signatures and create evaded variants: (a) URL-encode one character, (b) split across two segments, (c) change case, (d) insert extra whitespace. Which evasions bypass your current engine? What changes would detect each? Implement URL decode as a pre-processing step and rerun.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>HTTP and DNS Protocol Dissector</h4></div>
   <div class="lab-body">
@@ -782,7 +747,6 @@ void dpi_session_destroy(session_t *s) {
     <div class="lab-step"><div class="sn">5</div><div>Integrate with your M23 session table: when the HTTP dissector identifies an application (Host header → known service), update session->app_id. When DNS reveals a new domain being queried, look it up in a threat intel database (use a simple in-memory hash of known-bad domains). Log a threat if found.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>TLS Fingerprinting and JA3 Calculator</h4></div>
   <div class="lab-body">
@@ -794,8 +758,6 @@ void dpi_session_destroy(session_t *s) {
   </div>
 </div>
 </div>
-
-
 <div id="ta" class="tab-pane">
 <p class="sep">M24 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -827,7 +789,6 @@ void dpi_session_destroy(session_t *s) {
   <p>✅ <strong>When complete:</strong> Move to <strong>M25 - IDS/IPS and Threat Detection</strong> — combining DPI signature matching with network anomaly detection and threat intelligence correlation.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m23-conntrack-nat/">← M23 Conntrack/NAT</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

@@ -29,9 +29,7 @@ url: /learning/dsa/arrays/ch1-arrays-strings/
     </div>
   </div>
 </div>
-
 <div class="chapter-content">
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 1 — What Are Arrays & Strings?</h2>
 <p>Arrays and strings are the most common data structures in coding interviews. Nearly every problem — regardless of topic — involves manipulating sequences of elements.</p>
@@ -50,7 +48,7 @@ url: /learning/dsa/arrays/ch1-arrays-strings/
 <h3 class="section-subheading">1.2 — Strings in C++</h3>
 <p>C++ strings are mutable arrays of characters with O(1) random access. Key operations to know:</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 string s = "hello world";
 s.length();         // O(1) — size cached
 s.substr(2, 4);     // O(k) — creates new string of length k
@@ -62,14 +60,12 @@ reverse(s.begin(), s.end());
 // Convert int ↔ string
 int n = stoi("42");   // string to int
 string t = to_string(99); // int to string
-{% endhighlight %}
+```
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 2 — Pattern: Two Pointers</h2>
 <p>Two Pointers eliminates an inner loop by maintaining two indices that together cover the search space. Result: O(n²) → O(n).</p>
-
 <h3 class="section-subheading">2.1 — Opposite-End Pointers</h3>
 <p>Start with left=0 and right=n-1. Move inward based on a condition. Converge in O(n).</p>
 <div class="insight-box">
@@ -81,7 +77,7 @@ string t = to_string(99); // int to string
   </ul>
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Palindrome check — O(n) time, O(1) space
 int left = 0, right = s.size()-1;
 while (left < right) {
@@ -96,13 +92,12 @@ while (left < right) {
     else if (sum < target) left++;
     else right--;
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">2.2 — Fast/Slow Pointers (Same Direction)</h3>
 <p>Both pointers move right, but at different speeds or with different conditions. Used to filter or compact arrays in-place.</p>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Remove duplicates from sorted array — slow tracks write head
 int slow = 0;
 for (int fast = 1; fast < nums.size(); fast++) {
@@ -121,14 +116,12 @@ int i = 0, j = 0;
 while (i < s.size() && j < t.size())
     if (s[i] == t[j++]) i++;
 return i == s.size();
-{% endhighlight %}
+```
 </div>
-
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(n)</span>
   <span class="ch-cplx"><span>Space</span>O(1)</span>
 </div>
-
 <div class="ch-ed-problems">
 <table>
   <thead><tr><th>#</th><th>Problem</th><th>Pattern</th><th>Diff</th></tr></thead>
@@ -147,11 +140,9 @@ return i == s.size();
 </table>
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 3 — Pattern: Sliding Window</h2>
 <p>A window is a contiguous subarray [left, right]. Sliding Window maintains and updates a window as right expands — avoiding recompution by only adding/removing boundary elements.</p>
-
 <div class="insight-box">
   <span class="insight-label">Two Sliding Window Variants</span>
   <ul>
@@ -159,10 +150,9 @@ return i == s.size();
     <li><strong>Fixed size window (size k):</strong> slide — add nums[right], subtract nums[right-k] each step. Used for 'average/max/sum over every window of size k'.</li>
   </ul>
 </div>
-
 <h3 class="section-subheading">3.1 — Variable-Size Window</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Longest subarray with sum ≤ k
 int left = 0, curr = 0, ans = 0;
 for (int right = 0; right < nums.size(); right++) {
@@ -181,12 +171,11 @@ for (int right = 0; right < s.size(); right++) {
     }
     ans = max(ans, right - left + 1);
 }
-{% endhighlight %}
+```
 </div>
-
 <h3 class="section-subheading">3.2 — Fixed-Size Window</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Max sum subarray of size k — O(n)
 int curr = 0;
 for (int i = 0; i < k; i++) curr += nums[i]; // init window
@@ -195,7 +184,7 @@ for (int i = k; i < nums.size(); i++) {
     curr += nums[i] - nums[i-k];             // slide
     ans = max(ans, curr);
 }
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Time</span>O(n) amortized</span>
@@ -217,7 +206,6 @@ for (int i = k; i < nums.size(); i++) {
 </table>
 </div>
 </div>
-
 <div class="chapter-section">
 <h2 class="section-heading">Section 4 — Pattern: Prefix Sum</h2>
 <p>Prefix Sum pre-computes cumulative sums so that any range sum query [l,r] takes O(1) instead of O(n).</p>
@@ -229,7 +217,7 @@ for (int i = k; i < nums.size(); i++) {
   For every curr, ans += freq[curr - target]. This counts subarrays summing to target in O(n).
 </div>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Build 1D prefix sum — O(n)
 vector<int> prefix(nums.size()+1, 0);
 for (int i = 0; i < nums.size(); i++) prefix[i+1] = prefix[i] + nums[i];
@@ -244,7 +232,7 @@ for (int x : nums) {
     ans += freq[curr - k];
     freq[curr]++;
 }
-{% endhighlight %}
+```
 </div>
 <div class="ch-cplx-row">
   <span class="ch-cplx"><span>Build</span>O(n)</span>
@@ -267,9 +255,7 @@ for (int x : nums) {
 </table>
 </div>
 </div>
-
 </div><!-- end .chapter-content -->
-
 <div class="chapter-nav-footer">
   <a href="/learning/dsa/recursion/ch0-bigo-recursion/" class="ch-nav-footer-btn">← Ch0: Big O & Recursion</a>
   <a href="/learning/dsa/hashing/ch2-hashing/" class="ch-nav-footer-btn primary">Next: Ch2 — Hashing →</a>

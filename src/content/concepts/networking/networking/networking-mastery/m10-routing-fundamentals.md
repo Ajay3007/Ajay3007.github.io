@@ -103,7 +103,6 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 3 · MODULE 10 · WEEK 8</div>
   <div class="mod-title">🗺️ Routing Fundamentals and FIB</div>
@@ -116,7 +115,6 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Routing Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">RIB and FIB</button>
@@ -128,12 +126,9 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
-
 <!-- ════ TAB 0 — ROUTING OVERVIEW ════ -->
 <div id="t0" class="tab-pane active">
 <p class="sep">HOW ROUTERS DECIDE WHERE PACKETS GO</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🗺️</span><h3>The Routing Problem</h3><span class="tag tag-green">OVERVIEW</span></div>
   <div class="cp-body">
@@ -146,12 +141,10 @@ url: /learning/networking-mastery/m10-routing-fundamentals/
     </ul>
   </div>
 </div>
-
 <div class="analogy">
   <div class="analogy-title">🚦 Analogy — GPS Navigation System</div>
   <p>A router's routing table is like a GPS navigation system's map. When you enter a destination, the GPS looks at all known roads, finds the best route, and gives you turn-by-turn directions. A routing table contains all known network destinations (like roads on a map) with their next hops (like turns). The GPS's "fastest route" is like a router's "lowest metric". Just as GPS updates its map when roads are closed, dynamic routing protocols update the routing table when links fail. And just as GPS uses the most specific address you enter — a full street address wins over just a city name — routers use the most specific prefix that matches.</p>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📊</span><h3>The Five-Step Packet Forwarding Process</h3><span class="tag tag-blue">FORWARDING</span></div>
   <div class="cp-body">
@@ -188,12 +181,9 @@ Step 5: Rewrite L2 header + transmit
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 1 — RIB AND FIB ════ -->
 <div id="t1" class="tab-pane">
 <p class="sep">RIB AND FIB — THE TWO ROUTING DATABASES</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📚</span><h3>RIB vs FIB — Different Purposes, Different Structures</h3><span class="tag tag-blue">ARCHITECTURE</span></div>
   <div class="cp-body">
@@ -210,7 +200,6 @@ Step 5: Rewrite L2 header + transmit
         <p>The FIB is optimised for <strong>speed</strong>: it may be stored in TCAM (hardware), a radix trie, or a hash table. In VPP, the FIB is a multi-level lookup structure in hugepage memory. In Linux, it's the kernel routing table.</p>
       </div>
     </div>
-
 <div class="cb"><pre><span class="cm">/* RIB → FIB population process */</span>
  
 RIB contains (for destination 10.0.0.0/8):
@@ -229,14 +218,12 @@ FIB entry: 10.0.0.0/8 → egress=eth1 nexthop=192.168.1.3 mac=aa:bb:cc:dd:ee:ff
 ip route show table main        <span class="cm"># FIB (main routing table)</span>
 ip route show table all         <span class="cm"># all routing tables</span>
 ip route get 8.8.8.8            <span class="cm"># which route would be used for 8.8.8.8?</span>
- 
 <span class="cm">/* VPP FIB inspection */</span>
 <span class="cm"># vppctl: show ip fib</span>
 <span class="cm"># vppctl: show ip fib 10.0.0.0/8</span>
 <span class="cm"># vppctl: show ip fib summary</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🏎️</span><h3>Hardware FIB — TCAM</h3><span class="tag tag-teal">HARDWARE</span></div>
   <div class="cp-body">
@@ -245,7 +232,6 @@ ip route get 8.8.8.8            <span class="cm"># which route would be used for
 <div class="cb"><pre><span class="cm">/* TCAM entry for 192.168.1.0/24 */</span>
 Value: 11000000.10101000.00000001.00000000
 Mask:  11111111.11111111.11111111.00000000  <span class="cm">(X = don't care on unmasked bits)</span>
- 
 <span class="cm">/* A lookup of 192.168.1.55: */</span>
 Match: 11000000.10101000.00000001.00110111
 AND mask: first 24 bits match → HIT
@@ -259,12 +245,9 @@ AND mask: first 24 bits match → HIT
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 2 — LPM ALGORITHM ════ -->
 <div id="t2" class="tab-pane">
 <p class="sep">LONGEST PREFIX MATCH — THE CORE ROUTING ALGORITHM</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>What is Longest Prefix Match?</h3><span class="tag tag-green">CONCEPT</span></div>
   <div class="cp-body">
@@ -275,7 +258,6 @@ AND mask: first 24 bits match → HIT
 10.10.1.0/24     via 192.168.1.3   <span class="cm"># matches any 10.10.1.x</span>
 10.10.1.5/32     via 192.168.1.4   <span class="cm"># matches ONLY 10.10.1.5</span>
 0.0.0.0/0        via 192.168.1.254 <span class="cm"># default — matches anything</span>
- 
 <span class="cm">/* LPM for destination 10.10.1.5 */</span>
 0.0.0.0/0     matches  → /0  prefix length
 10.0.0.0/8    matches  → /8  prefix length
@@ -295,7 +277,6 @@ AND mask: first 24 bits match → HIT
     <div class="ins"><p>💡 <strong>The /32 host route is the most specific possible</strong> — it matches exactly one IP address. Used for: BGP next-hop routes, traffic engineering, sinkholing specific IPs, loopback interfaces. In VPP/DPDK data planes you will frequently add /32 routes for specific flows.</p></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🌳</span><h3>LPM Data Structures — Radix Trie</h3><span class="tag tag-blue">ALGORITHM</span></div>
   <div class="cp-body">
@@ -333,18 +314,14 @@ uint32_t lpm_lookup(trie_node_t *root, uint32_t dst_ip) {
     <span class="ck">if</span> (node && node->nexthop) best_nexthop = node->nexthop;
     <span class="ck">return</span> best_nexthop; <span class="cm">/* 0 = no route (drop) */</span>
 }</pre></div>
-
     <h4>LPM at Scale — DIR-24-8 and LC-Trie</h4>
     <p>For IPv4 in software at high speed, routers often use <strong>DIR-24-8</strong> (Direct Index Route lookup): a two-level table where the first 24 bits index a 16M-entry array (with one 32-bit entry per /24 prefix), and the last 8 bits are resolved with a secondary table for prefixes longer than /24. This achieves O(1) or O(2) lookup with excellent cache performance.</p>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 3 — ECMP ════ -->
 <div id="t3" class="tab-pane">
 <p class="sep">ECMP — EQUAL-COST MULTI-PATH ROUTING</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚖️</span><h3>What ECMP Is and Why It Exists</h3><span class="tag tag-teal">CONCEPT</span></div>
   <div class="cp-body">
@@ -356,12 +333,10 @@ $ ip route show
     nexthop via 192.168.1.2 dev eth1 weight 1
     nexthop via 192.168.1.3 dev eth2 weight 1
 <span class="cm"># Three equal-cost paths — traffic balanced across all three</span>
- 
 <span class="cm">/* ECMP hashing — how traffic is distributed */</span>
 <span class="cm"># Each packet is assigned to a path using a hash of its flow identifier</span>
 <span class="cm"># This ensures packets of the SAME FLOW go to the SAME next-hop</span>
 <span class="cm"># (required for stateful protocols — TCP reordering causes retransmits)</span>
- 
 <span class="cm">/* Hash inputs (per-flow consistent hashing) */</span>
 5-tuple hash (most common):
   hash(src_ip, dst_ip, src_port, dst_port, protocol) % num_paths
@@ -375,7 +350,6 @@ hash(src_ip6, dst_ip6, flow_label) % num_paths
     nexthop via 192.168.1.2 weight 1   <span class="cm"># 1/4 of traffic</span></pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>ECMP Challenges — The Polarisation Problem</h3><span class="tag tag-blue">CHALLENGES</span></div>
   <div class="cp-body">
@@ -384,7 +358,6 @@ hash(src_ip6, dst_ip6, flow_label) % num_paths
       <li><strong>Hash polarisation</strong> — if every router in a topology uses the same hash function and inputs, all traffic may land on the same path through the network. The fix: vary hash seeds per router, or include router-specific fields (e.g., ingress interface) in the hash.</li>
       <li><strong>Large flows dominate</strong> — ECMP distributes by flow, not by byte count. A single TCP elephant flow (file download) sending 10 Gbps gets one path. 1000 small flows might be evenly distributed across 3 paths but the elephant's path carries 10× more traffic. Fix: flow-aware traffic engineering (MPLS TE, Segment Routing).</li>
     </ul>
-
     <h4>ECMP and Stateful Firewalls</h4>
     <p>ECMP creates a critical challenge for stateful firewalls and NGFW clusters: if outbound and inbound packets of the same TCP session take different paths and hit different firewall nodes, the firewall node handling the return traffic has no state for the connection and drops it (asymmetric routing). Solutions: session synchronisation between firewall nodes, consistent hashing to ensure symmetric path, or stateless inspection modes.</p>
 <div class="cb"><pre><span class="cm">/* ECMP configuration in Linux */</span>
@@ -398,7 +371,6 @@ sysctl net.ipv4.fib_multipath_hash_policy
 <span class="cm"># 0 = L3 (src+dst IP only)</span>
 <span class="cm"># 1 = L3+L4 (5-tuple) — recommended for better distribution</span>
 <span class="cm"># 2 = L3+L4 including inner headers for encapsulated packets</span>
- 
 <span class="cm"># VPP ECMP (load-balance object)</span>
 <span class="cm"># vppctl: ip route add 10.0.0.0/8 via 192.168.1.1 GigE0/0</span>
 <span class="cm"># vppctl: ip route add 10.0.0.0/8 via 192.168.1.2 GigE0/1</span>
@@ -406,17 +378,13 @@ sysctl net.ipv4.fib_multipath_hash_policy
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 4 — ADMINISTRATIVE DISTANCE ════ -->
 <div id="t4" class="tab-pane">
 <p class="sep">ADMINISTRATIVE DISTANCE — ROUTE TRUSTWORTHINESS</p>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🏆</span><h3>Administrative Distance — Route Source Preference</h3><span class="tag tag-amber">AD</span></div>
   <div class="cp-body">
     <p>When multiple routing protocols learn routes to the same destination, the router must choose which one to install in the FIB. Administrative Distance (AD) is the preference value assigned to each routing source — lower AD = more trusted = preferred. AD is a Cisco term; other vendors use similar concepts (route preference, distance).</p>
-
     <table class="t-table">
       <thead><tr><th>Route Source</th><th>AD (Cisco)</th><th>AD (Linux metric)</th><th>Why This Priority</th></tr></thead>
       <tbody>
@@ -432,7 +400,6 @@ sysctl net.ipv4.fib_multipath_hash_policy
         <tr><td>Unreachable (blackhole)</td><td>255</td><td>—</td><td>Used to mark routes as unusable</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre><span class="cm">/* AD in practice — floating static route */</span>
 <span class="cm"># Primary path: OSPF learns 10.0.0.0/8 via fiber link (AD=110)</span>
 <span class="cm"># Backup: static route via 4G modem (should only be used if OSPF fails)</span>
@@ -442,7 +409,6 @@ ip route add 10.0.0.0/8 via 192.168.100.1 metric 200
 <span class="cm"># While OSPF is active: OSPF route wins (metric 110)</span>
 <span class="cm"># When OSPF fails: OSPF route removed → static route with metric 200 activates</span>
 <span class="cm"># This is a "floating static route" — floats below dynamic routes</span>
- 
 <span class="cm">/* Viewing route sources in Linux */</span>
 ip route show proto ospf    <span class="cm"># routes from OSPF</span>
 ip route show proto bgp     <span class="cm"># routes from BGP</span>
@@ -451,20 +417,15 @@ ip route show proto kernel  <span class="cm"># connected (kernel-generated)</spa
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 5 — POLICY ROUTING ════ -->
 <div id="t5" class="tab-pane">
 <p class="sep">POLICY-BASED ROUTING — BEYOND DESTINATION-ONLY FORWARDING</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📋</span><h3>What Policy Routing Adds</h3><span class="tag tag-purple">PBR</span></div>
   <div class="cp-body">
     <p>Standard routing forwards packets based only on <strong>destination IP address</strong>. Policy-Based Routing (PBR) allows routing decisions based on additional criteria: source IP, DSCP/TOS, protocol, port, or even incoming interface. This is essential for NGFW deployments where different traffic classes must take different paths.</p>
 <div class="cb"><pre><span class="cm">/* Linux Policy Routing (ip rule + multiple routing tables) */</span>
- 
 <span class="cm"># Scenario: ISP-A (eth0) for normal traffic, ISP-B (eth1) for VoIP</span>
- 
 <span class="cm"># Step 1: Create separate routing tables</span>
 <span class="cm"># /etc/iproute2/rt_tables: add "200 isp_b"</span>
 echo "200 isp_b" >> /etc/iproute2/rt_tables
@@ -472,13 +433,11 @@ echo "200 isp_b" >> /etc/iproute2/rt_tables
 <span class="cm"># Step 2: Populate table for ISP-B</span>
 ip route add default via 10.2.0.1 dev eth1 table isp_b
 ip route add 10.2.0.0/24 dev eth1 table isp_b  <span class="cm"># local subnet</span>
- 
 <span class="cm"># Step 3: Create rules to select table based on criteria</span>
 ip rule add from 192.168.1.0/24 dport 5060 table isp_b  <span class="cm"># SIP → ISP-B</span>
 ip rule add dscp 46 table isp_b                           <span class="cm"># EF (VoIP) → ISP-B</span>
 ip rule add from 10.0.0.5 table isp_b                    <span class="cm"># specific host → ISP-B</span>
 <span class="cm"># Default rule: use main table (ISP-A)</span>
- 
 <span class="cm"># View rules (evaluated in priority order, lower = first)</span>
 ip rule show
 <span class="cm"># 0:      from all lookup local</span>
@@ -486,32 +445,25 @@ ip rule show
 <span class="cm"># 200:    dscp 46 lookup isp_b</span>
 <span class="cm"># 32766:  from all lookup main</span>
 <span class="cm"># 32767:  from all lookup default</span></pre></div>
-
     <div class="ins"><p>💡 <strong>NGFW use cases for PBR:</strong> Route management traffic out a dedicated OOB (out-of-band) interface. Send IDS/IPS traffic to an inline inspection appliance. Route different VLANs to different next-hops. Forward specific threat-tagged traffic to a honeypot or sandbox. Force all DNS to the internal resolver regardless of destination port.</p></div>
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 6 — LINUX ROUTING ════ -->
 <div id="t6" class="tab-pane">
 <p class="sep">LINUX ROUTING INTERNALS AND COMMANDS</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">🐧</span><h3>Linux Kernel Routing Architecture</h3><span class="tag tag-teal">LINUX</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Linux routing table management commands */</span>
- 
 <span class="cm"># View main routing table (FIB)</span>
 ip route show
 ip route show table main
 route -n   <span class="cm"># older tool (still useful)</span>
- 
 <span class="cm"># View a specific route and which would be used</span>
 ip route get 8.8.8.8
 <span class="cm"># 8.8.8.8 via 192.168.1.1 dev eth0 src 192.168.1.5 uid 1000</span>
 <span class="cm">#    cache</span>
- 
 <span class="cm"># Add static routes</span>
 ip route add 10.0.0.0/8 via 192.168.1.1              <span class="cm"># via next-hop</span>
 ip route add 10.0.0.0/8 dev eth0                     <span class="cm"># directly connected</span>
@@ -519,29 +471,24 @@ ip route add 10.0.0.0/8 via 192.168.1.1 metric 100  <span class="cm"># with metr
 ip route add blackhole 203.0.113.0/24                <span class="cm"># null route (drop)</span>
 ip route add prohibit 192.0.2.0/24                   <span class="cm"># drop + ICMP prohibit</span>
 ip route add unreachable 198.51.100.0/24             <span class="cm"># drop + ICMP unreachable</span>
- 
 <span class="cm"># Delete routes</span>
 ip route del 10.0.0.0/8 via 192.168.1.1
  
 <span class="cm"># Default route</span>
 ip route add default via 192.168.1.1
 ip route add 0.0.0.0/0 via 192.168.1.1  <span class="cm"># same thing</span>
- 
 <span class="cm"># Make Linux forward packets (act as router)</span>
 sysctl net.ipv4.ip_forward=1
 echo 1 > /proc/sys/net/ipv4/ip_forward
 <span class="cm"># Permanent: add to /etc/sysctl.conf</span>
- 
 <span class="cm"># Route cache (Linux 3.6+ uses FIB directly — no separate route cache)</span>
 <span class="cm"># Previous versions had a route cache (dst_entry) that caused hash table attacks</span>
- 
 <span class="cm"># IPv6 routing</span>
 ip -6 route show
 ip -6 route add 2001:db8::/32 via fe80::1 dev eth0
 ip -6 route get 2001:4860:4860::8888</pre></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Routing in VPP — The Data-Plane Perspective</h3><span class="tag tag-green">VPP</span></div>
   <div class="cp-body">
@@ -549,7 +496,6 @@ ip -6 route get 2001:4860:4860::8888</pre></div>
 <span class="cm"># VPP uses a multi-level FIB structure in hugepage memory</span>
 <span class="cm"># IP4 FIB: hash table + mtrie (multi-way trie) for IPv4</span>
 <span class="cm"># IP6 FIB: hash table for /128s, mtrie for others</span>
- 
 <span class="cm"># VPP routing commands (vppctl)</span>
 show ip fib                          <span class="cm"># entire IPv4 FIB</span>
 show ip fib 10.0.0.0/8              <span class="cm"># specific prefix</span>
@@ -563,7 +509,6 @@ ip route add 10.0.0.0/8 via 192.168.1.1 GigabitEthernet0/8/0
 ip route add 10.0.0.0/8 via 192.168.1.2 GigabitEthernet0/8/1
 <span class="cm"># VPP automatically creates a load-balance adjacency with flow-hash buckets</span>
 show ip fib 10.0.0.0/8    <span class="cm"># shows load-balance object with N buckets</span>
- 
 <span class="cm"># VPP FIB lookup in C (graph node)</span>
 <span class="cm">/* In ip4_lookup.c: */</span>
 ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 0);
@@ -574,8 +519,6 @@ ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 7 — LABS ════ -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -588,7 +531,6 @@ ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
     <div class="lab-step"><div class="sn">4</div><div>Benchmark: insert 100,000 random /24 prefixes and measure lookups/second. Compare with a linear scan of the same routes. The trie should be 100–1000× faster on large tables.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Build a Multi-Path Router with ECMP</h4></div>
   <div class="lab-body">
@@ -599,7 +541,6 @@ ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
     <div class="lab-step"><div class="sn">4</div><div>Test failover: bring down eth1 (<code>sudo ip link set eth1 down</code>). Verify the ECMP route has only one nexthop remaining: <code>ip route show</code>. Bring it back up and re-add the nexthop.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>Policy Routing — Multiple Uplinks</h4></div>
   <div class="lab-body">
@@ -610,8 +551,6 @@ ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
   </div>
 </div>
 </div>
-
-
 <!-- ════ TAB 8 — CHECKLIST ════ -->
 <div id="t8" class="tab-pane">
 <p class="sep">M10 MASTERY CHECKLIST</p>
@@ -643,13 +582,11 @@ ip4_fib_mtrie_lookup_step (mtrie, &leaf, &a->dst_address, 3);
   <p>✅ <strong>When complete:</strong> Move to <strong>M11 - OSPF Internals</strong>. You now understand how routers forward packets — M11 covers how they <em>learn</em> routes dynamically via OSPF's link-state flooding and Dijkstra's SPF algorithm.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m09-app-protocols/">← M09 SMTP/FTP/DHCP</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>
   <a class="nb" href="/learning/networking-mastery/m11-ospf/">Next: M11 - OSPF →</a>
 </div>
-
 <script>
 function vt(e,id){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));e.target.classList.add('active');document.getElementById(id).classList.add('active')}
 </script>

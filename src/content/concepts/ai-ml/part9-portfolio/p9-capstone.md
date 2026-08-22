@@ -73,7 +73,6 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
 .cl li.done::before{content:"☑";color:#059669}
 .cl li.done{color:var(--light-text,#888);text-decoration:line-through}
 </style>
-
 <!-- ── MODULE HEADER ── -->
 <div class="mod-header">
   <div class="mod-eyebrow">Part 9 — Portfolio &amp; Launch &nbsp;·&nbsp; Final Module</div>
@@ -86,7 +85,6 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
     <span class="mod-pill">🎯 Goal: AI Engineering Job</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">🗺 Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">📂 Portfolio Projects</button>
@@ -97,8 +95,6 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
   <button class="tab-btn" onclick="vt(event,'t6')">🚀 Capstone Project</button>
   <button class="tab-btn" onclick="vt(event,'t7')">✅ Launch Checklist</button>
 </div>
-
-
 <!-- ══════════ TAB 0 — OVERVIEW ══════════ -->
 <div id="t0" class="tab-pane active">
 <div class="cp">
@@ -118,8 +114,6 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
   </div>
 </div>
 </div>
-
-
 <!-- ══════════ TAB 1 — PORTFOLIO PROJECTS ══════════ -->
 <div id="t1" class="tab-pane">
 <div class="cp">
@@ -155,8 +149,6 @@ url: /learning/ai-ml/part9-portfolio/p9-capstone/
   </div>
 </div>
 </div><!-- end t1 -->
-
-
 <!-- ══════════ TAB 2 — GITHUB READMES ══════════ -->
 <div id="t2" class="tab-pane">
 <div class="cp">
@@ -232,8 +224,6 @@ asciinema upload demo.cast  # get a shareable URL
   </div>
 </div>
 </div><!-- end t2 -->
-
-
 <!-- ══════════ TAB 3 — RESUME ══════════ -->
 <div id="t3" class="tab-pane">
 <div class="cp">
@@ -288,8 +278,6 @@ SHAP · model evaluation · evals · DeepEval · Ragas</pre></div>
   </div>
 </div>
 </div><!-- end t3 -->
-
-
 <!-- ══════════ TAB 4 — LINKEDIN & OUTREACH ══════════ -->
 <div id="t4" class="tab-pane">
 <div class="cp">
@@ -329,8 +317,6 @@ Happy to share what I've learned from my production RAG work if that's useful.
   </div>
 </div>
 </div><!-- end t4 -->
-
-
 <!-- ══════════ TAB 5 — TECHNICAL INTERVIEWS ══════════ -->
 <div id="t5" class="tab-pane">
 <div class="cp">
@@ -380,8 +366,6 @@ Happy to share what I've learned from my production RAG work if that's useful.
   </div>
 </div>
 </div><!-- end t5 -->
-
-
 <!-- ══════════ TAB 6 — CAPSTONE ══════════ -->
 <div id="t6" class="tab-pane">
 <div class="cp">
@@ -415,8 +399,6 @@ Happy to share what I've learned from my production RAG work if that's useful.
   </div>
 </div>
 </div><!-- end t6 -->
-
-
 <!-- ══════════ TAB 7 — CHECKLIST ══════════ -->
 <div id="t7" class="tab-pane">
 <p class="sep">LAUNCH CHECKLIST — DO ALL OF THESE</p>
@@ -466,8 +448,6 @@ Happy to share what I've learned from my production RAG work if that's useful.
   <li>At least one blog post or LinkedIn post explaining what you built and why</li>
 </ul>
 </div>
-
-
 <!-- COMPLETION BANNER -->
 <div class="complete-banner">
   <h2>🎉 AI/ML Roadmap Complete</h2>
@@ -491,12 +471,10 @@ Happy to share what I've learned from my production RAG work if that's useful.
     </div>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/ai-ml/part8-specialisation/">← Part 8: Specialisation</a>
   <a href="/learning/ai-ml/ai-ml-roadmap/">🗺️ Full Roadmap</a>
 </div>
-
 <script>
 function vt(e, id) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

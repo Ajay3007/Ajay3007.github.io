@@ -63,7 +63,6 @@ url: /learning/data-plane/vpp/module-p5-controlplane/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">VPP MASTERY · PHASE 5 · WEEKS 19–22+</div>
   <div class="mod-title">🎛️ Control Plane &amp; GoVPP</div>
@@ -75,7 +74,6 @@ url: /learning/data-plane/vpp/module-p5-controlplane/
     <span class="mod-pill">Projects 8 &amp; 9</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'ta')">GoVPP Basics</button>
   <button class="tab-btn" onclick="vt(event,'tb')">GoVPP Advanced</button>
@@ -85,7 +83,6 @@ url: /learning/data-plane/vpp/module-p5-controlplane/
   <button class="tab-btn" onclick="vt(event,'tf')">Projects</button>
   <button class="tab-btn" onclick="vt(event,'tg')">Checklist</button>
 </div>
-
 <!-- GOVPP BASICS -->
 <div id="ta" class="tab-pane active">
 <p class="sep">GOVPP - GO CLIENT FOR VPP BINARY API</p>
@@ -137,11 +134,10 @@ func main() {
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Interface Operations</h3><span class="tag tag-blue">API PATTERNS</span></div>
   <div class="cp-body">
-<div class="cb"><pre>{% raw %}<span class="cm">// ── List all interfaces ──</span>
+<div class="cb"><pre><span class="cm">// ── List all interfaces ──</span>
 reqCtx := ch.SendMultiRequest(&interfaces.SwInterfaceDump{
     SwIfIndex: interface_types.InterfaceIndex(^uint32(0)), <span class="cm">// ~0 = all</span>
 })
@@ -198,11 +194,10 @@ _, err = ch.SendRequest(&ip.IPRouteAddDel{
             Preference: 0,
         }},
     },
-}).ReceiveReply(&ip.IPRouteAddDelReply{}){% endraw %}</pre></div>
+}).ReceiveReply(&ip.IPRouteAddDelReply{})</pre></div>
   </div>
 </div>
 </div>
-
 <!-- GOVPP ADVANCED -->
 <div id="tb" class="tab-pane">
 <p class="sep">GOVPP - NOTIFICATIONS AND CHANNELS</p>
@@ -265,7 +260,6 @@ func (w *VPPWorker) programRoutes(routes []Route) error {
   </div>
 </div>
 </div>
-
 <!-- STATS API -->
 <div id="tc" class="tab-pane">
 <p class="sep">STATS API - HIGH-FREQUENCY TELEMETRY</p>
@@ -324,7 +318,6 @@ func monitorVPP() {
   </div>
 </div>
 </div>
-
 <!-- VPP_PAPI -->
 <div id="td" class="tab-pane">
 <p class="sep">VPP_PAPI - PYTHON BINDINGS</p>
@@ -389,7 +382,6 @@ vpp.disconnect()</pre></div>
   </div>
 </div>
 </div>
-
 <!-- PERFORMANCE TUNING -->
 <div id="te" class="tab-pane">
 <p class="sep">PERFORMANCE TUNING AND PRODUCTION PATTERNS</p>
@@ -400,11 +392,9 @@ vpp.disconnect()</pre></div>
 <div class="cb"><pre><span class="cm"># Step 1: Find which NUMA node your Mellanox NIC is on</span>
 cat /sys/bus/pci/devices/0000:03:00.0/numa_node
 <span class="cm"># e.g. output: 0  → NUMA 0</span>
- 
 <span class="cm"># Step 2: Find NUMA-local CPU cores</span>
 lscpu | grep -A5 "NUMA node0"
 <span class="cm"># e.g. NUMA node0 CPU(s): 0-11,24-35</span>
- 
 <span class="cm"># Step 3: Configure startup.conf to use NUMA-local cores</span>
 cpu {
   main-core 0          <span class="cm"># core 0 on NUMA 0</span>
@@ -420,7 +410,6 @@ buffers {
 <span class="cm"># Step 4: Verify with VPP</span>
 <span class="cm"># vppctl: show interface rx-placement</span>
 <span class="cm"># Verify each queue is on the worker thread whose core is NUMA-local to the NIC</span></pre></div>
-
     <table class="cp-body" style="padding:0">
       <tr><td>
         <table style="width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.86rem">
@@ -440,7 +429,6 @@ buffers {
   </div>
 </div>
 </div>
-
 <!-- PROJECTS -->
 <div id="tf" class="tab-pane">
 <div class="proj-box">
@@ -455,7 +443,6 @@ buffers {
     <div class="ps"><div class="sn">6</div><div>Add a REST API: <code>GET /interfaces</code> returns JSON list of all VPP interfaces with counters. <code>POST /routes</code> programs a new route. <code>DELETE /routes/{prefix}</code> removes it. Test with curl.</div></div>
   </div>
 </div>
-
 <div class="proj-box">
   <div class="proj-hdr"><span class="pn">PROJECT 9</span><h4>End-to-End Production Topology</h4></div>
   <div class="proj-body">
@@ -468,7 +455,6 @@ buffers {
   </div>
 </div>
 </div>
-
 <!-- CHECKLIST -->
 <div id="tg" class="tab-pane">
 <p class="sep">P5 COMPLETION CHECKLIST</p>
@@ -490,7 +476,6 @@ buffers {
   <p>🎉 <strong>Phase 5 complete.</strong> You can now build production VPP deployments end-to-end: from DPDK physical interfaces through custom plugins to a fully automated GoVPP control plane with observability. <strong>Bonus:</strong> continue to the Host Stack module to explore VPP's TCP/Session layer, VCL, and application namespaces.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/data-plane/vpp/module-p4-plugin-dev/">← Plugin Dev</a>
   <a href="/learning/data-plane/vpp/vpp-roadmap/">🗺️ Roadmap</a>

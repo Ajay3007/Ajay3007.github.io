@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m23-conntrack-nat/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 6 · MODULE 23 · WEEK 22</div>
   <div class="mod-title">🔗 Connection Tracking and NAT</div>
@@ -90,7 +89,6 @@ url: /learning/networking-mastery/m23-conntrack-nat/
     <span class="mod-pill">3 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">Stateful Inspection</button>
   <button class="tab-btn" onclick="vt(event,'t1')">Session Table Design</button>
@@ -104,11 +102,8 @@ url: /learning/networking-mastery/m23-conntrack-nat/
   <button class="tab-btn" onclick="vt(event,'t9')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'ta')">Checklist</button>
 </div>
-
-
 <div id="t0" class="tab-pane active">
 <p class="sep">WHY STATEFUL INSPECTION — THE FOUNDATION OF NGFW</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔗</span><h3>Stateless vs Stateful Packet Filtering</h3><span class="tag tag-purple">CONCEPT</span></div>
   <div class="cp-body">
@@ -138,7 +133,6 @@ url: /learning/networking-mastery/m23-conntrack-nat/
     </div>
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📐</span><h3>The Five-Tuple — Unique Flow Identifier</h3><span class="tag tag-blue">FIVE-TUPLE</span></div>
   <div class="cp-body">
@@ -184,11 +178,8 @@ void normalise_key(flow_key_t *k, int *is_initiator) {
   </div>
 </div>
 </div>
-
-
 <div id="t1" class="tab-pane">
 <p class="sep">SESSION TABLE — DESIGN FOR CORRECTNESS AND SPEED</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🗄️</span><h3>Session Entry Structure — Every Field Explained</h3><span class="tag tag-blue">DATA STRUCTURE</span></div>
   <div class="cp-body">
@@ -249,7 +240,6 @@ void normalise_key(flow_key_t *k, int *is_initiator) {
 /* Typical enterprise NGFW: 500K–4M concurrent sessions */</pre></div>
   </div>
 </div>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Hash Table and Memory Pool — Lock-Free Design</h3><span class="tag tag-teal">HASH TABLE</span></div>
   <div class="cp-body">
@@ -291,7 +281,6 @@ session_t *session_pool = rte_malloc_socket("sessions",
     <div class="ins"><p>💡 <strong>Two critical performance design choices:</strong> (1) Use a pre-allocated memory pool indexed by integer — malloc/free per session causes heap fragmentation and cache thrashing at scale. (2) Per-NUMA-socket tables with per-CPU-core session creation — eliminate cross-socket locking entirely. VPP's clib_bihash is designed exactly for this access pattern.</p></div>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⏱️</span><h3>Timer Wheel — O(1) Session Expiry</h3><span class="tag tag-green">TIMEOUTS</span></div>
   <div class="cp-body">
@@ -350,11 +339,8 @@ void timer_wheel_advance(timer_wheel_t *tw, session_table_t *st) {
   </div>
 </div>
 </div>
-
-
 <div id="t2" class="tab-pane">
 <p class="sep">TCP STATE MACHINE — NGFW SEQUENCE TRACKING</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔄</span><h3>TCP Conntrack States and Transitions</h3><span class="tag tag-blue">TCP STATES</span></div>
   <div class="cp-body">
@@ -410,7 +396,6 @@ if (new_state != s->tcp_state) {
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>TCP Sequence Number Validation</h3><span class="tag tag-red">SEQ VALIDATION</span></div>
   <div class="cp-body">
@@ -462,11 +447,8 @@ int tcp_seq_in_window(session_t *s, const struct tcphdr *th,
   </div>
 </div>
 </div>
-
-
 <div id="t3" class="tab-pane">
 <p class="sep">UDP AND ICMP TRACKING</p>
-
 <div class="cp p-teal">
   <div class="cp-hdr"><span class="ico">📡</span><h3>UDP Pseudo-Session Tracking</h3><span class="tag tag-teal">UDP</span></div>
   <div class="cp-body">
@@ -518,7 +500,6 @@ if (!session_lookup(&key)) {
 }</pre></div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">📶</span><h3>ICMP Tracking — Echo and Error Correlation</h3><span class="tag tag-amber">ICMP</span></div>
   <div class="cp-body">
@@ -569,11 +550,8 @@ void icmp_error_correlate(const struct icmphdr *ich, size_t len,
   </div>
 </div>
 </div>
-
-
 <div id="t4" class="tab-pane">
 <p class="sep">NAT FUNDAMENTALS — TYPES AND POLICY</p>
-
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">🔀</span><h3>NAT Type Taxonomy</h3><span class="tag tag-purple">NAT TYPES</span></div>
   <div class="cp-body">
@@ -615,11 +593,8 @@ src:10.0.0.5 dst:10.0.0.1 → src:172.16.0.5 dst:172.16.0.1
   </div>
 </div>
 </div>
-
-
 <div id="t5" class="tab-pane">
 <p class="sep">NAPT MECHANICS — PORT ALLOCATION AND PACKET REWRITE</p>
-
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔌</span><h3>Port Pool and Packet Rewrite</h3><span class="tag tag-blue">NAPT</span></div>
   <div class="cp-body">
@@ -708,11 +683,8 @@ void nat_rewrite_outbound(struct iphdr *iph, struct tcphdr *th,
   </div>
 </div>
 </div>
-
-
 <div id="t6" class="tab-pane">
 <p class="sep">ALG — APPLICATION LEVEL GATEWAYS</p>
-
 <div class="cp p-orange">
   <div class="cp-hdr"><span class="ico">🔧</span><h3>Why Protocols Break NAT and How ALGs Fix Them</h3><span class="tag tag-orange">ALG</span></div>
   <div class="cp-body">
@@ -765,11 +737,8 @@ typedef struct sip_alg {
   </div>
 </div>
 </div>
-
-
 <div id="t7" class="tab-pane">
 <p class="sep">VPP NAT44-ED — PRODUCTION IMPLEMENTATION</p>
-
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>VPP NAT44-ED Architecture</h3><span class="tag tag-green">VPP NAT</span></div>
   <div class="cp-body">
@@ -826,11 +795,8 @@ nat44 del session in 10.0.0.5:54321 out 203.0.113.1:12345 tcp
   </div>
 </div>
 </div>
-
-
 <div id="t8" class="tab-pane">
 <p class="sep">ATTACKS AND HARDENING</p>
-
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">⚠️</span><h3>Attack Taxonomy and Mitigations</h3><span class="tag tag-red">SECURITY</span></div>
   <div class="cp-body">
@@ -847,7 +813,6 @@ nat44 del session in 10.0.0.5:54321 out 203.0.113.1:12345 tcp
         <tr><td><strong>Teardrop / Tiny Fragment</strong></td><td>Fragment so small that TCP header split across two fragments</td><td>Stack crash (historical); policy bypass</td><td>Drop fragments too small to contain complete L4 header</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre>/* SYN Cookie — no state until 3-way handshake verified */
 /* ISN = HMAC(4-tuple + timestamp) — encodes connection info */
  
@@ -891,10 +856,7 @@ int session_allow_new_syn(uint32_t src_ip) {
   </div>
 </div>
 </div>
-
-
 <div id="t9" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 1</span><h4>High-Performance Session Table in C</h4></div>
   <div class="lab-body">
@@ -907,7 +869,6 @@ int session_allow_new_syn(uint32_t src_ip) {
     <div class="lab-step"><div class="sn">6</div><div><strong>Integration:</strong> combine all components. Process a 10,000-packet pcap through your session table: create sessions on SYN, track state through handshake and data, expire on FIN/RST. Print the final session table contents and verify they match what Wireshark shows for the same pcap. Use <code>tcpdump -r test.pcap -tttt</code> to generate your test data.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>NAPT Packet Rewriter</h4></div>
   <div class="lab-body">
@@ -919,7 +880,6 @@ int session_allow_new_syn(uint32_t src_ip) {
     <div class="lab-step"><div class="sn">5</div><div><strong>Fragment handling:</strong> test with fragmented packets: <code>ping -s 3000 -M dont 10.2.0.2</code> (sends oversized packets that will be fragmented). Verify that your NAPT correctly handles fragment 1 (has TCP/UDP header) and fragment 2+ (no transport header — use session from fragment 1). Incorrect handling here is a common security bypass.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 3</span><h4>VPP NAT44-ED Deep Inspection</h4></div>
   <div class="lab-body">
@@ -931,8 +891,6 @@ int session_allow_new_syn(uint32_t src_ip) {
   </div>
 </div>
 </div>
-
-
 <div id="ta" class="tab-pane">
 <p class="sep">M23 MASTERY CHECKLIST</p>
 <ul class="cl">
@@ -972,7 +930,6 @@ int session_allow_new_syn(uint32_t src_ip) {
   <p>✅ <strong>When complete:</strong> Move to <strong>M24 - Deep Packet Inspection and Application Identification</strong> — building L7 inspection on top of the conntrack session table foundation you now fully understand.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m22-ssl-inspection/">← M22 SSL Inspection</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

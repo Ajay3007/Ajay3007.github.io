@@ -51,7 +51,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <div class="cbar-seg" style="background:var(--orange)"></div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nav-tab active" onclick="show('jmm',this)">JMM</div>
   <div class="nav-tab" onclick="show('primitives',this)">Primitives</div>
@@ -62,13 +61,10 @@ url: /learning/system-design/lld/module-a5-concurrency/
   <div class="nav-tab" onclick="show('tasks',this)">Tasks</div>
   <div class="nav-tab" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- ===== JMM ===== -->
 <div class="view active" id="view-jmm">
   <div class="sec-hd">Java Memory Model — why threads see stale data</div>
-
   <div class="thread-demo">
     <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:14px;">// THREAD EXECUTION — RACE CONDITION VISUALISED</div>
     <div class="thread-row">
@@ -88,7 +84,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
     </div>
     <div style="margin-top:12px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--amber);">⚠ count++ is 3 bytecode ops — threads interleave, updates get lost</div>
   </div>
-
   <div class="concept-grid">
     <div class="concept-card">
       <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)"></div>
@@ -127,7 +122,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
       <div class="cc-desc">Lock-free via CAS (Compare-And-Swap). Hardware instruction: atomic read-modify-write. Best for single counters/references under moderate contention. No blocking.</div>
     </div>
   </div>
-
   <div class="code-block">
     <div class="code-hdr">volatile vs synchronized vs Atomic<span class="clang">JAVA</span></div>
 <pre class="code"><span class="cm">// ❌ BROKEN — race condition on count++</span>
@@ -150,14 +144,11 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <span class="kw">public void</span> <span class="fn">run</span>()   { <span class="kw">while</span> (running) <span class="fn">work</span>(); } <span class="cm">// multi-reader</span>
 }</pre>
   </div>
-
   <div class="alert warn">⚠ <em>Common interview trap:</em> "Is volatile enough for a counter?" — No. volatile fixes visibility but count++ still has the read-modify-write race. Use AtomicInteger or synchronized.</div>
 </div>
-
 <!-- ===== PRIMITIVES ===== -->
 <div class="view" id="view-primitives">
   <div class="sec-hd">Synchronization Primitives</div>
-
   <table class="prim-table">
     <thead><tr><th>PRIMITIVE</th><th>ATOMICITY</th><th>VISIBILITY</th><th>TRY-LOCK</th><th>TIMEOUT</th><th>FAIRNESS</th><th>BEST FOR</th></tr></thead>
     <tbody>
@@ -170,13 +161,11 @@ url: /learning/system-design/lld/module-a5-concurrency/
       <tr><td>LongAdder</td><td class="yes">✓</td><td class="yes">✓</td><td class="no">N/A</td><td class="no">N/A</td><td class="no">N/A</td><td style="color:var(--text)">High-contention counter (striped)</td></tr>
     </tbody>
   </table>
-
   <div class="code-block">
     <div class="code-hdr">ReentrantLock — full API<span class="clang">JAVA</span></div>
 <pre class="code"><span class="kw">class</span> <span class="cls">BankAccount</span> {
     <span class="kw">private double</span>              balance = <span class="num">0</span>;
     <span class="kw">private final</span> <span class="cls">ReentrantLock</span> lock = <span class="kw">new</span> <span class="cls">ReentrantLock</span>(<span class="kw">true</span>); <span class="cm">// fair=true</span>
- 
     <span class="cm">// Basic lock — ALWAYS unlock in finally</span>
     <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) {
         lock.<span class="fn">lock</span>();
@@ -205,7 +194,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
 }
 </pre>
   </div>
-
   <div class="code-block">
     <div class="code-hdr">ReadWriteLock — concurrent reads, exclusive writes<span class="clang">JAVA</span></div>
 <pre class="code"><span class="kw">class</span> <span class="cls">ConfigCache</span> {
@@ -242,14 +230,11 @@ url: /learning/system-design/lld/module-a5-concurrency/
     }
 }</pre>
   </div>
-
   <div class="alert info">ℹ <em>ReadWriteLock rule:</em> Lock downgrade (write→read) is allowed in Java. Lock upgrade (read→write) is NOT — it deadlocks. Always release read lock before acquiring write lock.</div>
 </div>
-
 <!-- ===== PATTERNS ===== -->
 <div class="view" id="view-patterns">
   <div class="sec-hd">Concurrency Patterns</div>
-
   <div class="sec-hd" style="margin-top:0">Producer-Consumer — BlockingQueue</div>
   <div class="code-block">
     <div class="code-hdr">LogPipeline.java — classic producer-consumer<span class="clang">JAVA</span></div>
@@ -281,7 +266,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
     }
 }</pre>
   </div>
-
   <div class="sec-hd" style="margin-top:24px">Condition Variables — await() ALWAYS in while</div>
   <div class="code-block">
     <div class="code-hdr">BoundedBuffer.java — two conditions<span class="clang">JAVA</span></div>
@@ -313,7 +297,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
 }</pre>
   </div>
   <div class="alert warn">⚠ <em>Spurious wakeups:</em> The JVM can wake a thread from await() without signal() — allowed by spec. ALWAYS re-check the guard condition in a while loop after await(). This is one of the most common concurrency bugs.</div>
-
   <div class="sec-hd" style="margin-top:24px">Semaphore — bounded resource pool</div>
   <div class="code-block">
     <div class="code-hdr">DBConnectionPool.java<span class="clang">JAVA</span></div>
@@ -344,13 +327,10 @@ url: /learning/system-design/lld/module-a5-concurrency/
 }</pre>
   </div>
 </div>
-
 <!-- ===== DEADLOCK ===== -->
 <div class="view" id="view-deadlock">
   <div class="sec-hd">Deadlock — Detection, Prevention, Avoidance</div>
-
   <div class="alert error">⛔ <em>Deadlock:</em> Thread A holds Lock-1 waiting for Lock-2. Thread B holds Lock-2 waiting for Lock-1. Neither can proceed. Program hangs forever.</div>
-
   <div class="dl-grid">
     <div class="dl-card">
       <div class="dl-hdr" style="background:rgba(255,64,96,0.1);color:var(--red)">❌ BROKEN — circular wait</div>
@@ -423,11 +403,9 @@ url: /learning/system-design/lld/module-a5-concurrency/
     </div>
   </div>
 </div>
-
 <!-- ===== RATE LIMITER ===== -->
 <div class="view" id="view-ratelimiter">
   <div class="sec-hd">Rate Limiter — Token Bucket Algorithm</div>
-
   <div class="flow-row">
     <div class="flow-box" style="border-color:var(--cyan);color:var(--cyan)">Bucket<br><div class="flow-label">capacity N tokens</div></div>
     <div class="flow-arrow">←</div>
@@ -439,7 +417,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
     <div class="flow-arrow">→ NO →</div>
     <div class="flow-box" style="border-color:var(--red);color:var(--red)">Reject<br><div class="flow-label">429 / wait</div></div>
   </div>
-
   <div class="code-block">
     <div class="code-hdr">TokenBucketRateLimiter.java<span class="clang">JAVA</span></div>
 <pre class="code"><span class="kw">class</span> <span class="cls">TokenBucketRateLimiter</span> {
@@ -493,7 +470,6 @@ url: /learning/system-design/lld/module-a5-concurrency/
     }
 }</pre>
   </div>
-
   <table class="prim-table">
     <thead><tr><th>ALGORITHM</th><th>BURST ALLOWED</th><th>RATE SMOOTHING</th><th>BEST FOR</th></tr></thead>
     <tbody>
@@ -504,11 +480,9 @@ url: /learning/system-design/lld/module-a5-concurrency/
     </tbody>
   </table>
 </div>
-
 <!-- ===== PROJECTS ===== -->
 <div class="view" id="view-projects">
   <div class="sec-hd">Production LLD Projects</div>
-
   <div class="proj-grid">
     <div class="proj-card">
       <div class="proj-hdr" style="border-left:3px solid var(--cyan)">
@@ -533,13 +507,11 @@ url: /learning/system-design/lld/module-a5-concurrency/
           <div class="code-hdr">Key concurrency design<span class="clang">JAVA</span></div>
 <pre class="code"><span class="cm">// 1. Semaphore limits concurrent parkers per type</span>
 sem.<span class="fn">acquire</span>();  <span class="cm">// blocks if no spots</span>
- 
 <span class="cm">// 2. CAS claims specific spot — no explicit lock</span>
 <span class="kw">if</span> (spot.occupied.<span class="fn">compareAndSet</span>(<span class="kw">false</span>, <span class="kw">true</span>)) { ...claim... }
  
 <span class="cm">// 3. ReadWriteLock on display board</span>
 <span class="cm">//    many readers, write only on park/unpark</span>
- 
 <span class="cm">// 4. AtomicInteger for available count — no lock</span>
 availableCar.<span class="fn">decrementAndGet</span>();
  
@@ -548,7 +520,6 @@ availableCar.<span class="fn">decrementAndGet</span>();
         </div>
       </div>
     </div>
-
     <div class="proj-card">
       <div class="proj-hdr" style="border-left:3px solid var(--green)">
         <div class="proj-icon">📨</div>
@@ -572,7 +543,6 @@ availableCar.<span class="fn">decrementAndGet</span>();
           <div class="code-hdr">Key concurrency design<span class="clang">JAVA</span></div>
 <pre class="code"><span class="cm">// 1. Producer: non-blocking publish</span>
 queue.<span class="fn">offer</span>(msg);  <span class="cm">// false if full — backpressure</span>
- 
 <span class="cm">// 2. CopyOnWriteArrayList: safe to iterate</span>
 <span class="cm">//    while other threads subscribe/unsubscribe</span>
 subscribers.<span class="fn">computeIfAbsent</span>(topic,
@@ -593,10 +563,8 @@ pool.<span class="fn">awaitTermination</span>(<span class="num">30</span>, <span
       </div>
     </div>
   </div>
-
   <div class="alert good">✅ <em>Why CopyOnWriteArrayList for subscribers?</em> Iteration is snapshot-based — adding/removing subscribers mid-dispatch doesn't throw ConcurrentModificationException. Write operations are O(n) but dispatch iteration is lock-free. Perfect for read-heavy, write-rare lists like subscriber registries.</div>
 </div>
-
 <!-- ===== TASKS ===== -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -638,7 +606,6 @@ class Worker {
 }</pre>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">02</div><div class="t-label">Thread-Safe LRU Cache</div><div class="t-meta">~2.5 hrs · code</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -659,7 +626,6 @@ Bonus: Benchmark vs Collections.synchronizedMap(new LinkedHashMap())
   Measure: throughput (ops/sec), latency p50/p99</pre>
       </div>
     </div>
-
     <div class="task-card">
       <div class="task-hd" onclick="tt(this)"><div class="t-num">03</div><div class="t-label">Dining Philosophers — Two Solutions</div><div class="t-meta">~2 hrs · code</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -683,7 +649,6 @@ Step 3: Fix with arbitrator (Semaphore)
 Verify: 100 rounds, each philosopher eats at least once (no starvation)</pre>
       </div>
     </div>
-
     <div class="task-card" style="border-top:2px solid var(--cyan)">
       <div class="task-hd" onclick="tt(this)"><div class="t-num" style="color:var(--cyan)">★</div><div class="t-label">Mini Project — Production Parking Lot</div><div class="t-meta">~5 hrs · full LLD</div><div class="t-arr">›</div></div>
       <div class="task-bd">
@@ -713,12 +678,10 @@ Deliverable: Full Java code + JUnit test + UML with sync annotations</pre>
     </div>
   </div>
 </div>
-
 <!-- ===== CHECKLIST ===== -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl" style="color:var(--muted)">0 / 13 completed</span><span style="color:var(--cyan)">MODULE A5 · CONCURRENCY IN LLD</span></div>
   <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
-
   <div class="chk-grid">
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Understand JMM: visibility, atomicity, happens-before — and their differences</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">Know when to use volatile vs synchronized vs AtomicXxx vs LongAdder</div></div>
@@ -734,7 +697,6 @@ Deliverable: Full Java code + JUnit test + UML with sync annotations</pre>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Mini Project: Parking Lot — zero double-bookings verified under load</div></div>
     <div class="chk" onclick="tick(this)"><div class="chk-box"></div><div class="chk-lbl">✏️ Pub/Sub Queue implemented and tested with concurrent publishers</div></div>
   </div>
-
   <div style="margin-top:28px;background:var(--panel);border:1px solid var(--border2);padding:22px;border-top:2px solid var(--cyan);">
     <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:10px;">// TRACK A COMPLETE → MOVING TO TRACK B</div>
     <div style="font-family:'Orbitron',monospace;font-size:22px;color:var(--bright);margin-bottom:6px;">Track B — High-Level System Design</div>
@@ -748,9 +710,7 @@ Deliverable: Full Java code + JUnit test + UML with sync annotations</pre>
     </div>
   </div>
 </div>
-
 </div><!-- end content -->
-
 <script>
 function show(tab, el) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));

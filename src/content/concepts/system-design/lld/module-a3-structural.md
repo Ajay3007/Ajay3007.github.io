@@ -42,7 +42,6 @@ url: /learning/system-design/lld/module-a3-structural/
     </div>
   </div>
 </header>
-
 <m3-nav class="m3-nav">
   <div class="m3-nav-tab active" onclick="m3Show('overview',this)">Overview</div>
   <div class="m3-nav-tab" onclick="m3Show('patterns',this)">Pattern Deep Dives</div>
@@ -51,15 +50,12 @@ url: /learning/system-design/lld/module-a3-structural/
   <div class="m3-nav-tab" onclick="m3Show('tasks',this)">Tasks</div>
   <div class="m3-nav-tab" onclick="m3Show('checklist',this)">Checklist</div>
 </m3-nav>
-
 <div class="m3-content">
-
 <!-- ===== OVERVIEW ===== -->
 <div class="m3-view active" id="m3-view-overview">
   <p style="font-size:14px;color:var(--muted);line-height:1.8;max-width:700px;margin-bottom:32px;font-style:italic;">
     Structural patterns deal with <strong style="color:var(--ink)">object composition</strong> — how classes and objects are assembled into larger structures. They ensure that when one part changes, the entire structure doesn't need to be redesigned.
   </p>
-
   <div class="m3-overview-grid">
     <div class="m3-ov-card" onclick="m3GoToPattern(0)">
       <div class="m3-ov-top" style="background:var(--c1)"></div>
@@ -111,7 +107,6 @@ url: /learning/system-design/lld/module-a3-structural/
       <div class="m3-ov-problem">Share intrinsic state across millions of objects. Memory efficiency.</div>
     </div>
   </div>
-
   <div style="margin-top:8px;">
     <table class="m3-sd-table">
       <thead><tr><th>PATTERN</th><th>TRIGGER / SMELL</th><th>KEY MECHANISM</th><th>REAL WORLD</th></tr></thead>
@@ -127,7 +122,6 @@ url: /learning/system-design/lld/module-a3-structural/
     </table>
   </div>
 </div>
-
 <!-- ===== PATTERNS ===== -->
 <div class="m3-view" id="m3-view-patterns">
   <div class="m3-pat-selector">
@@ -153,7 +147,6 @@ url: /learning/system-design/lld/module-a3-structural/
       <span class="m3-m3-ps-btn-num" style="color:var(--c7)">07</span>Flyweight
     </div>
   </div>
-
   <!-- ADAPTER -->
   <div class="m3-pat-panel active" id="m3-pp0">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">01</div>
@@ -206,7 +199,6 @@ url: /learning/system-design/lld/module-a3-structural/
 vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<span class="m3-fn">selectProduct</span>(<span class="m3-str">"A1"</span>); vm.<span class="m3-fn">dispense</span>();</pre></div>
     <div class="m3-tip-box"><em>Interview:</em> "I use Adapter when integrating third-party systems — create an internal interface, write an Adapter per provider. Stripe, PayPal, Razorpay all become swappable behind one PaymentGateway interface."</div>
   </div>
-
   <!-- DECORATOR -->
   <div class="m3-pat-panel" id="m3-pp1">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">02</div>
@@ -250,7 +242,6 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
 <span class="m3-cm">// → "Margherita + Cheese + Mushroom + Cheese"  cost: 335.0</span></pre></div>
     <div class="m3-tip-box"><em>Interview:</em> "Java I/O is Decorator: BufferedReader(InputStreamReader(FileInputStream)). Each wrapper adds one responsibility. Real production use: MetricService(CachingService(DatabaseService)) — cross-cutting concerns as transparent wrappers."</div>
   </div>
-
   <!-- PROXY -->
   <div class="m3-pat-panel" id="m3-pp2">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">03</div>
@@ -303,7 +294,6 @@ vm.<span class="m3-fn">insertCoin</span>(<span class="m3-str">1000</span>); vm.<
     </div>
     <div class="m3-tip-box"><em>Interview:</em> "Spring AOP generates proxies at runtime — @Cacheable wraps method, checks cache first. @Transactional wraps method in DB transaction. Understanding this means understanding how Spring works internally."</div>
   </div>
-
   <!-- COMPOSITE -->
   <div class="m3-pat-panel" id="m3-pp3">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">04</div>
@@ -359,7 +349,6 @@ root.<span class="m3-fn">add</span>(src);          <span class="m3-cm">// src is
 root.<span class="m3-fn">getSize</span>();         <span class="m3-cm">// Recursively sums all nested files</span></pre></div>
     <div class="m3-tip-box"><em>Interview:</em> "Composite is the pattern behind the HTML DOM — a div can contain buttons or other divs, all support the same operations. When you see a tree where leaf and branch must be interchangeable, Composite is the answer."</div>
   </div>
-
   <!-- FACADE -->
   <div class="m3-pat-panel" id="m3-pp4">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">05</div>
@@ -404,7 +393,6 @@ root.<span class="m3-fn">getSize</span>();         <span class="m3-cm">// Recurs
 sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</span>, <span class="m3-str">"Dinner"</span>, <span class="m3-str">1200.0</span>, <span class="m3-str">"ajay"</span>, members);</pre></div>
     <div class="m3-tip-box"><em>Interview:</em> "Facade vs Adapter: Facade simplifies access to a SUBSYSTEM (multiple classes). Adapter converts ONE incompatible interface. Facade vs Mediator: Facade is one-directional — client talks to Facade. Mediator encapsulates how PEERS communicate with each other."</div>
   </div>
-
   <!-- BRIDGE -->
   <div class="m3-pat-panel" id="m3-pp5">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">06</div>
@@ -448,7 +436,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
 <span class="m3-kw">new</span> <span class="m3-cls">SixNotification</span>(<span class="m3-kw">new</span> <span class="m3-cls">PushSender</span>()).<span class="m3-fn">notify</span>(<span class="m3-str">"device_xyz"</span>, <span class="m3-str">"Dhoni"</span>);</pre></div>
     <div class="m3-tip-box"><em>Interview:</em> "The tell-tale sign for Bridge: two independent dimensions of variation (what × how, shape × rendering, device × OS). Without Bridge: N×M subclasses. With Bridge: N+M classes connected by composition."</div>
   </div>
-
   <!-- FLYWEIGHT -->
   <div class="m3-pat-panel" id="m3-pp6">
     <div class="m3-pat-masthead"><div class="m3-pat-big-num" style="color:#eee">07</div>
@@ -482,7 +469,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> phoneNumber;  <span class="m3-cm">// unique — extrinsic</span>
     <span class="m3-kw">private final</span> <span class="m3-cls">String</span> callerName;   <span class="m3-cm">// unique — extrinsic</span>
     <span class="m3-kw">private final</span> <span class="m3-cls">ContactMetadata</span> meta; <span class="m3-cm">// SHARED — flyweight</span>
- 
     <span class="m3-kw">public</span> <span class="m3-cls">PhoneContact</span>(<span class="m3-cls">String</span> num, <span class="m3-cls">String</span> name, <span class="m3-cls">String</span> op, <span class="m3-cls">String</span> type, <span class="m3-cls">String</span> spam) {
         <span class="m3-kw">this</span>.phoneNumber = num;
         <span class="m3-kw">this</span>.callerName  = name;
@@ -497,7 +483,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
     <div class="m3-tip-box"><em>Interview:</em> "Java's String pool IS Flyweight — string literals are interned and shared. Integer.valueOf(-128 to 127) returns cached instances. Game engines use Flyweight for particles: one texture/physics object shared by 100,000 bullets."</div>
   </div>
 </div>
-
 <!-- ===== DISTINCTIONS ===== -->
 <div class="m3-view" id="m3-view-distinctions">
   <div class="m3-distinction">
@@ -528,7 +513,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
       <div class="m3-m3-distinction-cell">Adding features without subclassing</div>
     </div>
   </div>
-
   <div class="m3-distinction" style="margin-top:16px;">
     <div class="m3-m3-distinction-header">ADAPTER vs DECORATOR vs PROXY (continued)</div>
     <div class="m3-m3-distinction-row" style="background:var(--lighter)">
@@ -557,7 +541,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
       <div class="m3-m3-distinction-cell">Client shouldn't know subsystem details</div>
     </div>
   </div>
-
   <div style="margin-top:24px;background:var(--ink);color:var(--paper);padding:24px 28px;">
     <div style="font-family:'Inconsolata',monospace;font-size:11px;color:#888;letter-spacing:2px;margin-bottom:16px;">// THE ONE-LINE TEST</div>
     <div style="font-size:14px;line-height:2;font-family:'Inconsolata',monospace;">
@@ -570,7 +553,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
       <span style="color:var(--c7)">Flyweight:</span> <span style="color:#aaa">"I have millions of similar objects and I'm running out of memory"</span>
     </div>
   </div>
-
   <table class="m3-sd-table" style="margin-top:24px;">
     <thead><tr><th>PATTERN</th><th>ADVANTAGE</th><th>TRADE-OFF</th></tr></thead>
     <tbody>
@@ -584,7 +566,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
     </tbody>
   </table>
 </div>
-
 <!-- ===== SPLITWISE ===== -->
 <div class="m3-view" id="m3-view-splitwise">
   <div style="margin-bottom:28px;">
@@ -592,7 +573,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
     <div style="font-family:'Playfair Display',serif;font-size:32px;font-weight:900;margin-bottom:8px;">Splitwise Clone</div>
     <p style="font-size:14px;color:var(--muted);line-height:1.7;max-width:680px;">Complete LLD implementation with the Simplify Algorithm. This is the most architecturally rich problem in Module A3 — it naturally requires Facade + Algorithm + Adapter + Decorator + Composite.</p>
   </div>
-
   <div class="m3-algorithm-box">
     <div class="m3-algorithm-header">The Splitwise Simplify Algorithm — Minimum Transactions</div>
     <div class="m3-algorithm-body">
@@ -611,7 +591,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
       </div>
     </div>
   </div>
-
   <div style="margin-top:20px;background:var(--paper);border:1px solid var(--light);padding:20px;">
     <div style="font-family:'Inconsolata',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-bottom:16px;">PATTERN USAGE IN SPLITWISE</div>
     <table class="m3-sd-table">
@@ -626,7 +605,6 @@ sw.<span class="m3-fn">addExpenseEqualSplit</span>(<span class="m3-str">"grp1"</
     </table>
   </div>
 </div>
-
 <!-- ===== TASKS ===== -->
 <div class="m3-view" id="m3-view-tasks">
   <div class="m3-task-list">
@@ -707,7 +685,6 @@ Demo scenario:
     </div>
   </div>
 </div>
-
 <!-- ===== CHECKLIST ===== -->
 <div class="m3-view" id="m3-view-checklist">
   <div class="m3-prog-wrap">
@@ -727,16 +704,13 @@ Demo scenario:
     <div class="m3-chk" onclick="m3Tick(this)"><div class="m3-m3-chk-box"></div><div class="m3-m3-chk-lbl">✏️ Task 3: WeatherService CachingProxy with TTL implemented</div></div>
     <div class="m3-chk" onclick="m3Tick(this)"><div class="m3-m3-chk-box"></div><div class="m3-m3-chk-lbl">✏️ Mini Project: Splitwise clone with Simplify Algorithm + UML complete</div></div>
   </div>
-
   <div style="margin-top:28px;background:var(--ink);color:var(--paper);padding:24px 28px;">
     <div style="font-family:'Inconsolata',monospace;font-size:10px;color:#666;letter-spacing:2px;margin-bottom:10px;">NEXT MODULE</div>
     <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;margin-bottom:6px;">A4 — Behavioral Design Patterns</div>
     <div style="font-size:13px;color:#888;line-height:1.7;">12 patterns: Strategy, Observer, Chain of Responsibility, State, Command, Iterator, Mediator, Memento, Template Method, Visitor, Null Object, Interpreter. Mini Project: BookMyShow with concurrency handling.</div>
   </div>
 </div>
-
 </div><!-- end m3-content -->
-
 <!-- ── BOTTOM NAV ─────────────────────────────────────────────── -->
 <div class="m3-bottom-nav" style="margin-top:40px;display:flex;flex-wrap:wrap;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:13px;border-top:1px solid var(--border2);padding-top:20px;">
   <a href="/learning/system-design/lld/module-a2-creational/" class="m3-nav-footer-btn" style="padding:12px 24px;border:1px solid var(--border2);border-radius:4px;color:var(--muted);text-decoration:none;">← PREVIOUS: LLD A2</a>

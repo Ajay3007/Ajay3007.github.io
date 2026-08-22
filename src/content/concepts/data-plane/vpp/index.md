@@ -202,7 +202,6 @@ url: /learning/data-plane/vpp/
   border-bottom: 1px solid var(--border-color, #eee);
 }
 </style>
-
 <div class="vpp-hero">
   <div class="vpp-hero-badge">
     <span class="vpp-badge">DATA PLANE</span>
@@ -221,7 +220,6 @@ url: /learning/data-plane/vpp/
   </div>
   <a href="/learning/data-plane/vpp/vpp-roadmap/" class="vpp-cta">🗺️ View Full Roadmap →</a>
 </div>
-
 <div class="tech-tags">
   <span class="tech-tag">C / C++</span>
   <span class="tech-tag">DPDK</span>
@@ -236,11 +234,8 @@ url: /learning/data-plane/vpp/
   <span class="tech-tag">vlib</span>
   <span class="tech-tag">vnet</span>
 </div>
-
 <p class="hub-section-title">LEARNING PHASES</p>
-
 <div class="phase-grid">
-
   <div class="phase-card">
     <div class="phase-card-header">
       <div class="phase-num" style="background:#2e6da4;">1</div>
@@ -260,7 +255,6 @@ url: /learning/data-plane/vpp/
       </div>
     </div>
   </div>
-
   <div class="phase-card">
     <div class="phase-card-header">
       <div class="phase-num" style="background:#1a7a6e;">2</div>
@@ -290,7 +284,6 @@ url: /learning/data-plane/vpp/
       </div>
     </div>
   </div>
-
   <div class="phase-card">
     <div class="phase-card-header">
       <div class="phase-num" style="background:#c05e1b;">3</div>
@@ -320,7 +313,6 @@ url: /learning/data-plane/vpp/
       </div>
     </div>
   </div>
-
   <div class="phase-card">
     <div class="phase-card-header">
       <div class="phase-num" style="background:#5b3a8c;">4</div>
@@ -340,7 +332,6 @@ url: /learning/data-plane/vpp/
       </div>
     </div>
   </div>
-
   <div class="phase-card">
     <div class="phase-card-header">
       <div class="phase-num" style="background:#1e6b3c;">5</div>
@@ -365,9 +356,7 @@ url: /learning/data-plane/vpp/
       </div>
     </div>
   </div>
-
 </div>
-
 <p class="hub-section-title">MINI-PROJECTS OVERVIEW</p>
 
 | # | Project | Phase | Core Skill |

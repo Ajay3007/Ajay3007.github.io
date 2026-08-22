@@ -65,7 +65,6 @@ url: /learning/backend/m02-http-servers/
 .nb:hover{background:#00c9a7;color:#fff}
 .sep{text-align:center;color:#94a3b8;font-size:.8rem;letter-spacing:.1em;margin:1.5rem 0;text-transform:uppercase}
 </style>
-
 <div class="mod-wrap">
 <div class="mod-header">
   <h1>M02 — HTTP Deep Dive &amp; Web Server Internals</h1>
@@ -74,7 +73,6 @@ url: /learning/backend/m02-http-servers/
     HTTP request parsing · Header internals · epoll event loop · Middleware pipeline · Trie-based routing · Content negotiation · Chunked transfer · Keep-alive &amp; connection pooling
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t-overview',this)">Overview</button>
   <button class="tab-btn" onclick="vt('t-parsing',this)">HTTP Parsing</button>
@@ -85,17 +83,14 @@ url: /learning/backend/m02-http-servers/
   <button class="tab-btn" onclick="vt('t-impl',this)">C Implementation</button>
   <button class="tab-btn" onclick="vt('t-labs',this)">Labs &amp; Checklist</button>
 </div>
-
 <!-- TAB 1 — Overview -->
 <div id="t-overview" class="tab-pane active">
-
 <div class="cp p-teal">
   <div class="cp-hdr">🔧 What This Module Covers</div>
   <div class="cp-body">
     M01 covered the transport layer (TCP, TLS) and protocol overview. M02 goes deeper into <strong>how HTTP actually works at the byte level</strong> and how a production web server processes requests — the request pipeline every backend engineer must understand to debug performance issues, write efficient servers, and understand frameworks like Nginx, Express, or Actix.
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">📋 HTTP/1.1 Request Format — Byte by Byte</div>
   <div class="cp-body">
@@ -117,7 +112,6 @@ url: /learning/backend/m02-http-servers/
     </ul>
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">📋 HTTP/1.1 Response Format</div>
   <div class="cp-body">
@@ -131,12 +125,9 @@ url: /learning/backend/m02-http-servers/
     <div class="note">HTTP is a <strong>text protocol</strong> — both request and response are human-readable ASCII (headers). The body can be binary. This is why HTTP/2 moved to binary framing — text parsing is slower and more fragile.</div>
   </div>
 </div>
-
 </div><!-- /t-overview -->
-
 <!-- TAB 2 — HTTP Parsing -->
 <div id="t-parsing" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr">⚙️ HTTP/1.1 Request Parser State Machine</div>
   <div class="cp-body">
@@ -149,7 +140,6 @@ url: /learning/backend/m02-http-servers/
     </ul>
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-teal">PARSE_REQUEST_LINE</span> → reads until first CRLF
   extract method, URI, HTTP-version
@@ -172,7 +162,6 @@ url: /learning/backend/m02-http-servers/
                   ↓
 <span class="dg-amber">REQUEST_COMPLETE</span> → dispatch to router
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🧩 Chunked Transfer Encoding</div>
   <div class="cp-body">
@@ -188,7 +177,6 @@ url: /learning/backend/m02-http-servers/
     <div class="warn">Never trust <code>Content-Length</code> if <code>Transfer-Encoding: chunked</code> is also set. Per RFC 7230, chunked wins and <code>Content-Length</code> must be removed. A mismatch is a potential HTTP request smuggling vector.</div>
   </div>
 </div>
-
 <div class="cp p-orange">
   <div class="cp-hdr">🔒 HTTP Request Smuggling</div>
   <div class="cp-body">
@@ -205,7 +193,6 @@ url: /learning/backend/m02-http-servers/
     <strong>Prevention:</strong> normalize all requests at the proxy; reject ambiguous requests; use HTTP/2 end-to-end (binary framing eliminates this class).
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">📏 Parser Security: Limits to Enforce</div>
   <div class="cp-body">
@@ -222,12 +209,9 @@ url: /learning/backend/m02-http-servers/
     </table>
   </div>
 </div>
-
 </div><!-- /t-parsing -->
-
 <!-- TAB 3 — Headers & Encoding -->
 <div id="t-headers" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr">📋 Essential Request Headers</div>
   <div class="cp-body">
@@ -248,7 +232,6 @@ url: /learning/backend/m02-http-servers/
     </table>
   </div>
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🗜️ Content Negotiation</div>
@@ -258,7 +241,6 @@ url: /learning/backend/m02-http-servers/
 Accept: <span class="cv">application/json;q=1.0</span>,
         <span class="cv">application/xml;q=0.8</span>,
         <span class="cv">text/html;q=0.5</span>
-
 <span class="cm">/* Server algorithm */</span>
 <span class="ck">for each</span> supported_type in server_types:
     <span class="ck">find</span> matching accept entry
@@ -286,7 +268,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     </div>
   </div>
 </div>
-
 <div class="cp p-purple">
   <div class="cp-hdr">🔄 Keep-Alive &amp; Connection Pooling</div>
   <div class="cp-body">
@@ -312,7 +293,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="note">HTTP/2 solves keep-alive inefficiency better — it multiplexes all requests over one connection without head-of-line blocking between requests.</div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">📏 CORS — Cross-Origin Resource Sharing</div>
   <div class="cp-body">
@@ -330,12 +310,9 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="warn"><strong>Preflight:</strong> browsers send an <code>OPTIONS</code> request before any non-simple cross-origin request. Your server must respond to OPTIONS with CORS headers, or the actual request is blocked. Never set <code>Access-Control-Allow-Origin: *</code> with <code>Allow-Credentials: true</code> — that's a security mistake browsers reject.</div>
   </div>
 </div>
-
 </div><!-- /t-headers -->
-
 <!-- TAB 4 — Event Loop -->
 <div id="t-eventloop" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr">⚡ epoll vs Thread-Per-Request: The C10K Problem</div>
   <div class="cp-body">
@@ -348,7 +325,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <strong>Solution:</strong> I/O multiplexing with <code>epoll</code> — one thread, thousands of connections, only active on I/O events.
   </div>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔄 epoll Edge-Triggered Event Loop</div>
   <div class="cp-body">
@@ -368,10 +344,8 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     </ul>
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-teal">Event Loop</span>
-
 <span class="dg-gray">1. Create listen socket + set O_NONBLOCK</span>
 <span class="dg-gray">2. Create epoll fd</span>
 <span class="dg-gray">3. Register listen socket: EPOLLIN (new connection)</span>
@@ -389,11 +363,9 @@ Accept: <span class="cv">application/json;q=1.0</span>,
          <span class="dg-green">route_and_dispatch(request)</span>
          <span class="dg-amber">send_response(events[i].fd)</span>
          if !keep_alive: <span class="dg-gray">epoll_ctl(DEL); close(fd)</span>
-
 <span class="dg-purple">Worker threads</span>: for CPU-bound work, use a thread pool
   event loop enqueues work → thread pool executes → posts result back
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🏗️ Nginx Architecture: Master + Workers</div>
   <div class="cp-body">
@@ -406,19 +378,15 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="ins">A single Nginx worker can handle ~10,000+ simultaneous connections because all I/O is non-blocking and the worker never sleeps waiting for one connection's data while others are ready.</div>
   </div>
 </div>
-
 </div><!-- /t-eventloop -->
-
 <!-- TAB 5 — Middleware & Routing -->
 <div id="t-middleware" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr">🔗 Middleware Pipeline Pattern</div>
   <div class="cp-body">
     A middleware pipeline is an ordered chain of functions where each function can: process the request, modify it, call the next middleware, or short-circuit (return a response without calling next).
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-teal">Request</span> → [Logger] → [Rate Limiter] → [Auth] → [CORS] → [Body Parser] → [Handler]
                                                                                               ↓
@@ -427,7 +395,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 <span class="dg-gray">Each middleware: (ctx, next) → { pre-logic; next(ctx); post-logic }</span>
 <span class="dg-amber">Short circuit: Rate Limiter returns 429 without calling next()</span>
 </div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🌲 Trie-Based HTTP Router</div>
   <div class="cp-body">
@@ -453,7 +420,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <strong>Path parameters</strong>: captured values (<code>id=42</code>) are extracted during trie traversal and placed in the request context.
   </div>
 </div>
-
 <div class="cp p-green">
   <div class="cp-hdr">🔌 Common Middleware Implementations</div>
   <div class="cp-body">
@@ -472,12 +438,9 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     </table>
   </div>
 </div>
-
 </div><!-- /t-middleware -->
-
 <!-- TAB 6 — HTTP/2 Internals -->
 <div id="t-http2" class="tab-pane">
-
 <div class="cp p-teal">
   <div class="cp-hdr">🔢 HTTP/2 Binary Framing Layer</div>
   <div class="cp-body">
@@ -486,7 +449,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <strong>Frame structure</strong> (9-byte fixed header):
   </div>
 </div>
-
 <div class="diagram-box">
 <span class="dg-teal">HTTP/2 Frame Format (9 bytes fixed header + variable payload)</span>
 
@@ -514,7 +476,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
   WINDOW_UPDATE(0x8)→ flow control
   CONTINUATION(0x9)→ continuation of HEADERS
 </div>
-
 <div class="two-col">
   <div class="cp p-blue">
     <div class="cp-hdr">🌊 Streams &amp; Multiplexing</div>
@@ -542,7 +503,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     </div>
   </div>
 </div>
-
 <div class="cp p-amber">
   <div class="cp-hdr">🚰 HTTP/2 Flow Control</div>
   <div class="cp-body">
@@ -556,14 +516,10 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="note">HTTP/2 flow control is independent of TCP flow control. A receiver can throttle a single stream without blocking others — unlike HTTP/1.1 where slow reading of one response blocks the entire connection.</div>
   </div>
 </div>
-
 </div><!-- /t-http2 -->
-
 <!-- TAB 7 — C Implementation -->
 <div id="t-impl" class="tab-pane">
-
 <div class="sep">── Implementation 1 — HTTP/1.1 Request Parser ──</div>
-
 <div class="cp p-teal">
   <div class="cp-hdr">🔧 HTTP/1.1 Parser in C (State Machine)</div>
   <div class="cp-body">
@@ -576,7 +532,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 <span class="cs">#define</span> MAX_HEADERS   <span class="cn">64</span>
 <span class="cs">#define</span> MAX_URI_LEN   <span class="cn">8192</span>
 <span class="cs">#define</span> MAX_HDR_LEN   <span class="cn">8192</span>
-
 <span class="cs">typedef struct</span> {
     <span class="cs">char</span>  method[<span class="cn">16</span>];
     <span class="cs">char</span>  uri[MAX_URI_LEN];
@@ -613,7 +568,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     *colon = <span class="cn">'\0'</span>;
     <span class="cs">char</span> *value = colon + <span class="cn">1</span>;
     <span class="ck">while</span> (*value == <span class="cn">' '</span>) value++;  <span class="cm">/* strip leading whitespace */</span>
-
     <span class="cs">int</span> i = req-&gt;header_count++;
     <span class="cm">/* Normalize name to lowercase */</span>
     strncpy(req-&gt;headers[i].name, line, <span class="cn">127</span>);
@@ -659,9 +613,7 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 }</div>
   </div>
 </div>
-
 <div class="sep">── Implementation 2 — epoll HTTP Server ──</div>
-
 <div class="cp p-blue">
   <div class="cp-hdr">🔄 Non-Blocking epoll HTTP Server with Middleware</div>
   <div class="cp-body">
@@ -679,7 +631,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 <span class="cs">#define</span> MAX_EVENTS  <span class="cn">1024</span>
 <span class="cs">#define</span> BUF_SIZE    <span class="cn">65536</span>
 <span class="cs">#define</span> PORT        <span class="cn">8080</span>
-
 <span class="cs">typedef struct</span> {
     <span class="cs">int</span>    fd;
     <span class="cs">char</span>   rbuf[BUF_SIZE];
@@ -822,12 +773,9 @@ Accept: <span class="cv">application/json;q=1.0</span>,
 }</div>
   </div>
 </div>
-
 </div><!-- /t-impl -->
-
 <!-- TAB 8 — Labs & Checklist -->
 <div id="t-labs" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 1 — Build &amp; Benchmark an epoll HTTP Server</div>
   <div class="lab-body">
@@ -837,7 +785,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="lab-step"><span class="sn">4</span> Add a keep-alive test: <code>wrk --connections 100 --threads 4 --duration 30s --pipeline 10</code>. Observe connection reuse in server logs.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 2 — HTTP Parser Fuzzing</div>
   <div class="lab-body">
@@ -847,7 +794,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="lab-step"><span class="sn">4</span> <strong>Bonus:</strong> use libFuzzer: <code>clang -fsanitize=fuzzer,address -o fuzz_parser fuzz_parser.c http_parser.c</code>. Run for 60 seconds and inspect corpus.</div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">🔬 Lab 3 — HTTP Headers &amp; Content Negotiation</div>
   <div class="lab-body">
@@ -857,7 +803,6 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     <div class="lab-step"><span class="sn">4</span> Implement CORS middleware: add <code>Access-Control-Allow-Origin</code> and handle <code>OPTIONS</code> preflight. Test with a browser <code>fetch()</code> from a different origin.</div>
   </div>
 </div>
-
 <div class="sep">── Phase 0 Batch 2 Checklist ──</div>
 <div class="two-col">
   <div>
@@ -877,16 +822,13 @@ Accept: <span class="cv">application/json;q=1.0</span>,
     </ul>
   </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/backend/m01-dns-tcp-tls/" class="nb">← M01: DNS, TCP &amp; TLS</a>
   <a href="/learning/backend/" class="nb">↑ Roadmap</a>
   <a href="/learning/backend/m03-rest/" class="nb">M03: REST &amp; API Design →</a>
 </div>
-
 </div><!-- /t-labs -->
 </div><!-- /mod-wrap -->
-
 <script>
 function vt(id,btn){
   document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));

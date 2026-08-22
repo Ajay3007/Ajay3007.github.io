@@ -78,7 +78,6 @@ url: /learning/networking-mastery/m21-ipsec/
 .mod-nav .nb:hover{background:#245280}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 5 · MODULE 21 · WEEK 19</div>
   <div class="mod-title">🛡️ IPsec and IKEv2</div>
@@ -91,7 +90,6 @@ url: /learning/networking-mastery/m21-ipsec/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">IPsec Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">ESP Protocol</button>
@@ -103,7 +101,6 @@ url: /learning/networking-mastery/m21-ipsec/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">IPsec — INTERNET PROTOCOL SECURITY</p>
@@ -119,7 +116,6 @@ url: /learning/networking-mastery/m21-ipsec/
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">ESP — ENCAPSULATING SECURITY PAYLOAD</p>
@@ -168,7 +164,6 @@ Recommendation: always use ESP with authentication (GCM or AES-CBC + HMAC)</pre>
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">SA, SPD, AND SAD — THE IPsec POLICY AND STATE DATABASES</p>
@@ -220,7 +215,6 @@ ip xfrm state add src 10.0.0.1 dst 10.0.0.2 proto esp spi 0x12345678 \
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">IKEv2 — THE KEY EXCHANGE AND NEGOTIATION PROTOCOL</p>
@@ -289,7 +283,6 @@ SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared sec
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">TRANSPORT VS TUNNEL MODE</p>
@@ -331,7 +324,6 @@ SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared sec
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">NAT TRAVERSAL — IPsec THROUGH NAT</p>
@@ -341,7 +333,6 @@ SKEYSEED = PRF(Ni | Nr, g^ir)           <span class="cm">/* g^ir = DH shared sec
 <div class="cb"><pre><span class="cm">/* Problem: ESP is IP protocol 50 (not TCP/UDP) */</span>
 <span class="cm">/* NAT translates TCP/UDP port numbers — has no concept of ESP SPI */</span>
 <span class="cm">/* Multiple ESP sessions through same NAT → ambiguity (which client?) */</span>
- 
 <span class="cm">/* NAT-T (NAT Traversal) — RFC 3948 */</span>
 <span class="cm">/* Encapsulate ESP inside UDP to allow NAT translation */</span>
  
@@ -365,7 +356,6 @@ If NAT detected:
 <span class="cm">/* IKEv2 NAT-T keepalive: single 0xFF byte every 20s on UDP 4500 */</span>
 dpd-timeout 30         <span class="cm"># StrongSwan: dead peer detection</span>
 nat-keepalive 20       <span class="cm"># keepalive interval</span>
- 
 <span class="cm">/* AH cannot work through NAT */</span>
 <span class="cm">/* AH authenticates the outer IP header including src IP */</span>
 <span class="cm">/* NAT changes src IP → AH authentication fails → AH is dead */</span>
@@ -373,7 +363,6 @@ nat-keepalive 20       <span class="cm"># keepalive interval</span>
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">IPsec IN LINUX — XFRM AND STRONGSWAN</p>
@@ -381,7 +370,6 @@ nat-keepalive 20       <span class="cm"># keepalive interval</span>
   <div class="cp-hdr"><span class="ico">🐧</span><h3>Linux IPsec Configuration</h3><span class="tag tag-blue">LINUX</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Linux IPsec: kernel handles ESP (via xfrm), StrongSwan handles IKEv2 */</span>
- 
 <span class="cm">/* /etc/swanctl/swanctl.conf — StrongSwan IKEv2 config */</span>
 connections {
   site-to-site {
@@ -422,11 +410,9 @@ swanctl --list-sas        <span class="cm"># show active IKE and Child SAs</span
 ip xfrm state             <span class="cm"># kernel ESP SAs (keys, algorithms, byte counts)</span>
 ip xfrm policy            <span class="cm"># kernel SPD (traffic selectors, actions)</span>
 ip xfrm monitor           <span class="cm"># real-time SA events</span>
- 
 <span class="cm"># Check tunnel traffic</span>
 tcpdump -i eth0 esp       <span class="cm"># ESP packets</span>
 tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</span>
- 
 <span class="cm">/* XFRM offload to hardware (Intel QAT, Mellanox IPsec offload) */</span>
 <span class="cm"># For your Mellanox ConnectX cards:</span>
 <span class="cm"># ip xfrm state add ... offload dev eth0 dir in</span>
@@ -434,7 +420,6 @@ tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</s
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -447,7 +432,6 @@ tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</s
     <div class="lab-step"><div class="sn">4</div><div>Test the tunnel: ping from 192.168.1.5 (behind GW1) to 192.168.2.5 (behind GW2). Capture ESP packets: <code>tcpdump -i eth0 esp</code>. Verify: IP protocol is 50 (ESP). Check the kernel SA byte counters: <code>ip xfrm state | grep bytes</code> — should increase as traffic flows. Try pinging an address outside the traffic selector — verify it's NOT tunnelled.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Manual XFRM SA — IPsec Without IKE</h4></div>
   <div class="lab-body">
@@ -458,7 +442,6 @@ tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</s
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <p class="sep">M21 MASTERY CHECKLIST</p>
@@ -488,7 +471,6 @@ tcpdump -i eth0 udp port 500 or udp port 4500  <span class="cm"># IKE packets</s
   <p>✅ <strong>When complete:</strong> Move to <strong>M22 - SSL/TLS Inspection and PKI Operations</strong> — the final Phase 5 module, bringing together TLS and PKI knowledge into operational NGFW inspection workflows.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m20-tls/">← M20 TLS</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

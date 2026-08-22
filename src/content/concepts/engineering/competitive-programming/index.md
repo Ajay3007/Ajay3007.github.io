@@ -24,7 +24,6 @@ url: /learning/competitive-programming/
 	</ul>
 	<a href="/learning/competitive-programming/topics" style="color:#1976d2;font-weight:600;">See Topics &rarr;</a>
 </div>
-
 <div style="text-align:center;margin-top:2.5rem;">
 	<a href="/" style="color:#607d8b;">&larr; Back to home</a>
 </div>

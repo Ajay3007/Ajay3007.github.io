@@ -162,7 +162,6 @@ url: /learning/backend/m06-sql-indexing/
 
 .sep{border:none;border-top:1.5px dashed var(--border-color,#ddd);margin:1.5rem 0}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">Backend Engineering · Phase 2 · Module 6</div>
   <div class="mod-title">SQL &amp; Indexing</div>
@@ -177,7 +176,6 @@ url: /learning/backend/m06-sql-indexing/
     <span class="mod-pill">libpq / C</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt('t0',this)">📋 Overview</button>
   <button class="tab-btn" onclick="vt('t1',this)">📇 Indexes</button>
@@ -189,10 +187,8 @@ url: /learning/backend/m06-sql-indexing/
   <button class="tab-btn" onclick="vt('t7',this)">🔬 Labs</button>
   <button class="tab-btn" onclick="vt('t8',this)">✅ Checklist</button>
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t0 Overview -->
 <div id="t0" class="tab-pane active">
-
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🗄️</span><h3>SQL is the Most Underestimated Backend Skill</h3><span class="tag tag-violet">POSTGRESQL FOCUS</span></div>
   <div class="cp-body">
@@ -200,7 +196,6 @@ url: /learning/backend/m06-sql-indexing/
     <p>This module covers how PostgreSQL executes queries, how indexes work at the data-structure level, how to read execution plans, and what the ACID properties and isolation levels actually guarantee — with enough depth to diagnose real production incidents.</p>
   </div>
 </div>
-
 <h3>SQL Query Execution Pipeline</h3>
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>Parse</strong> — SQL text is lexed and parsed into an Abstract Syntax Tree (AST). Syntax errors are caught here. Output: parse tree.</span></li>
@@ -208,9 +203,7 @@ url: /learning/backend/m06-sql-indexing/
   <li><span class="fl-step">3</span><span><strong>Plan / Optimise</strong> — The query planner generates candidate execution plans, estimates cost for each using table statistics (<code>pg_statistic</code>), and picks the cheapest plan. This is where index decisions are made. Output: plan tree.</span></li>
   <li><span class="fl-step">4</span><span><strong>Execute</strong> — The executor walks the plan tree, pulling rows from leaf nodes (seq scan, index scan) up through joins, aggregates, and sorts. Output: result rows.</span></li>
 </ul>
-
 <div class="analogy"><p>📚 <strong>Analogy:</strong> The planner is like a GPS. It doesn't know the actual traffic (data) — it estimates travel time based on historical averages (statistics). Outdated statistics = bad route choice = slow query. <code>ANALYZE</code> updates the statistics. <code>VACUUM ANALYZE</code> also reclaims dead tuple space.</p></div>
-
 <h3>Key PostgreSQL Concepts: Quick Reference</h3>
 <table class="t-table">
   <thead><tr><th>Concept</th><th>What it is</th><th>Why it matters</th></tr></thead>
@@ -222,12 +215,9 @@ url: /learning/backend/m06-sql-indexing/
     <tr><td><code>WAL</code></td><td>Write-Ahead Log — changes written to WAL before data pages; enables crash recovery and replication</td><td>Understanding WAL is essential for replication, point-in-time recovery</td></tr>
   </tbody>
 </table>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t1 Indexes -->
 <div id="t1" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">📇</span><h3>What an Index Actually Is</h3><span class="tag tag-violet">DATA STRUCTURE</span></div>
   <div class="cp-body">
@@ -235,7 +225,6 @@ url: /learning/backend/m06-sql-indexing/
     <p><strong>PostgreSQL index types:</strong> B-tree (default), Hash, GiST, SP-GiST, GIN, BRIN. For backend engineering, B-tree covers 95% of use cases.</p>
   </div>
 </div>
-
 <h3>B-tree Internals</h3>
 <div class="btree"><pre>
   Root page
@@ -253,14 +242,12 @@ url: /learning/backend/m06-sql-indexing/
   │  <span class="bt-ptr">→ heap page 0, tuple 5</span>                              │
   └─────────────────────────────────────────────────────┘
 </pre></div>
-
 <ul class="flow-list">
   <li><span class="fl-step">1</span><span><strong>Root → inner pages → leaf pages:</strong> B-tree is balanced — every leaf is at the same depth. Lookup is O(log N). For 1 million rows with 100 entries per page, depth ≈ 3. That's 3 page reads for any lookup.</span></li>
   <li><span class="fl-step">2</span><span><strong>Leaf pages are doubly linked</strong> — range scans (<code>WHERE id BETWEEN 100 AND 200</code>) walk the linked list after finding the start, without re-traversing from root.</span></li>
   <li><span class="fl-step">3</span><span><strong>Each leaf entry stores: key value + ctid</strong> (physical location: page number, tuple offset in page). The executor fetches the heap page using the ctid.</span></li>
   <li><span class="fl-step">4</span><span><strong>Index-only scan:</strong> If all needed columns are in the index (covering index), the heap page fetch is skipped entirely. Check: <code>EXPLAIN</code> shows "Index Only Scan".</span></li>
 </ul>
-
 <h3>Index Types Reference</h3>
 <table class="t-table">
   <thead><tr><th>Type</th><th>Operators supported</th><th>Best for</th><th>Notes</th></tr></thead>
@@ -272,14 +259,12 @@ url: /learning/backend/m06-sql-indexing/
     <tr><td><strong>BRIN</strong></td><td>Range queries on physically ordered data</td><td>Time-series, append-only tables (created_at)</td><td>Very small index (stores min/max per block range). Useless if data not correlated with physical order.</td></tr>
   </tbody>
 </table>
-
 <h3>Composite Indexes: Column Order Matters</h3>
 <div class="cp p-purple">
   <div class="cp-hdr"><span class="ico">📐</span><h3>The Left-Prefix Rule</h3><span class="tag tag-purple">CRITICAL</span></div>
   <div class="cp-body">
     <p>A composite index <code>(a, b, c)</code> can satisfy queries that filter on: <code>a</code>, <code>(a, b)</code>, or <code>(a, b, c)</code>. It <strong>cannot</strong> be used for queries that only filter on <code>b</code> or <code>c</code> alone, because the B-tree is sorted by <code>a</code> first.</p>
     <div class="cb"><pre><span class="sql-cm">-- Index: (user_id, status, created_at)</span>
- 
 <span class="sql-cm">-- ✅ Uses index (full prefix)</span>
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> orders
 <span class="sql-kw">WHERE</span> user_id = <span class="sql-num">42</span> <span class="sql-kw">AND</span> status = <span class="sql-str">'pending'</span>
@@ -295,7 +280,6 @@ url: /learning/backend/m06-sql-indexing/
     <p><strong>Rule of thumb:</strong> Put the most selective column first (highest cardinality — most distinct values). Equality columns before range columns. The range column should be last — once you hit a range condition, the remaining columns in the index cannot be used for filtering.</p>
   </div>
 </div>
-
 <h3>Partial Indexes</h3>
 <div class="cp p-green">
   <div class="cp-hdr"><span class="ico">✂️</span><h3>Index Only the Rows You Query</h3><span class="tag tag-green">PERFORMANCE</span></div>
@@ -316,7 +300,6 @@ url: /learning/backend/m06-sql-indexing/
 <span class="sql-kw">WHERE</span> status = <span class="sql-str">'pending'</span> <span class="sql-kw">AND</span> created_at < now() - interval <span class="sql-str">'5 minutes'</span>;</pre></div>
   </div>
 </div>
-
 <h3>Expression Indexes</h3>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔣</span><h3>Indexing the Result of a Function</h3><span class="tag tag-blue">FUNCTIONAL INDEXES</span></div>
@@ -331,14 +314,12 @@ url: /learning/backend/m06-sql-indexing/
  
 <span class="sql-cm">-- Now the query above uses the index.
 -- The index stores lower(email) values, not raw email values.</span>
- 
 <span class="sql-cm">-- Other common examples:</span>
 <span class="sql-kw">CREATE INDEX</span> ON events(date_trunc(<span class="sql-str">'day'</span>, created_at));
 <span class="sql-kw">CREATE INDEX</span> ON products((metadata->>
 <span class="sql-str">'sku'</span>));  <span class="sql-cm">-- JSONB field extraction</span></pre></div>
   </div>
 </div>
-
 <h3>The Real Cost of Indexes</h3>
 <table class="t-table">
   <thead><tr><th>Operation</th><th>Impact</th></tr></thead>
@@ -350,14 +331,10 @@ url: /learning/backend/m06-sql-indexing/
     <tr><td>Cache pollution</td><td>Indexes compete with table data for <code>shared_buffers</code>. Unused indexes evict useful data.</td></tr>
   </tbody>
 </table>
-
 <div class="warn"><p>⚠️ <strong>Find and drop unused indexes:</strong> <code>SELECT indexrelname, idx_scan FROM pg_stat_user_indexes WHERE idx_scan = 0 AND schemaname = 'public';</code> — Zero scans since last stats reset means the index is dead weight. Drop it.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t2 EXPLAIN -->
 <div id="t2" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔍</span><h3>Reading Query Plans</h3><span class="tag tag-violet">EXPLAIN ANALYZE</span></div>
   <div class="cp-body">
@@ -372,7 +349,6 @@ url: /learning/backend/m06-sql-indexing/
 <span class="sql-kw">LIMIT</span> <span class="sql-num">10</span>;</pre></div>
   </div>
 </div>
-
 <h3>Anatomy of an EXPLAIN Output</h3>
 <div class="explain-block"><pre>
 <span class="ep-node">Limit</span>  (cost=<span class="ep-cost">1240.50..1240.53</span> rows=<span class="ep-rows">10</span> width=<span class="ep-width">40</span>)
@@ -399,7 +375,6 @@ url: /learning/backend/m06-sql-indexing/
 Planning Time: 0.842 ms
 Execution Time: <span class="ep-good">18.521 ms</span>
 </pre></div>
-
 <h3>How to Read It</h3>
 <table class="t-table">
   <thead><tr><th>Field</th><th>Meaning</th><th>What to watch for</th></tr></thead>
@@ -414,7 +389,6 @@ Execution Time: <span class="ep-good">18.521 ms</span>
     <tr><td><code>Nested Loop</code></td><td>For each outer row, scan inner. O(N×M) worst case.</td><td>Good when outer is small + inner has an index. Bad on large tables without index.</td></tr>
   </tbody>
 </table>
-
 <h3>Warning Signs in Plans</h3>
 <div class="two-col">
   <div class="cp p-red" style="margin:0">
@@ -444,14 +418,10 @@ Execution Time: <span class="ep-good">18.521 ms</span>
     </div>
   </div>
 </div>
-
 <div class="ins"><p><strong>Use <a href="https://explain.dalibo.com" target="_blank" rel="noopener noreferrer">explain.dalibo.com</a></strong> to paste <code>EXPLAIN (FORMAT JSON)</code> output and get a visual, colour-coded plan tree. Far easier to navigate than text format for complex queries.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t3 Query Patterns -->
 <div id="t3" class="tab-pane">
-
 <h3>The N+1 Query Problem</h3>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">🐛</span><h3>N+1: The Silent Performance Killer</h3><span class="tag tag-red">ANTI-PATTERN</span></div>
@@ -462,20 +432,17 @@ users = <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> us
 <span class="sql-kw">FOR</span> u <span class="sql-kw">IN</span> users:
     posts = <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> posts <span class="sql-kw">WHERE</span> user_id = u.id;  <span class="sql-cm">-- 100 queries</span>
 <span class="sql-cm">-- Total: 101 queries. On 50ms RTT: ~5 seconds.</span>
- 
 <span class="sql-cm">-- ✅ Solution 1: JOIN</span>
 <span class="sql-kw">SELECT</span> u.*, p.title, p.created_at
 <span class="sql-kw">FROM</span> users u
 <span class="sql-kw">LEFT JOIN</span> posts p <span class="sql-kw">ON</span> p.user_id = u.id
 <span class="sql-kw">LIMIT</span> <span class="sql-num">100</span>;  <span class="sql-cm">-- 1 query</span>
- 
 <span class="sql-cm">-- ✅ Solution 2: Batch load (IN clause)</span>
 user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">SELECT</span> * <span class="sql-kw">FROM</span> posts
 <span class="sql-kw">WHERE</span> user_id = <span class="sql-kw">ANY</span>($1);  <span class="sql-cm">-- 2 total queries</span></pre></div>
   </div>
 </div>
-
 <h3>JOIN Types</h3>
 <table class="t-table">
   <thead><tr><th>JOIN Type</th><th>Returns</th><th>Use when</th></tr></thead>
@@ -488,7 +455,6 @@ user_ids = [1, 2, 3, ..., 100];
     <tr><td><code>LATERAL JOIN</code></td><td>Subquery that can reference outer query's columns</td><td>"For each user, get their 3 most recent orders" — correlated subquery without N+1.</td></tr>
   </tbody>
 </table>
-
 <h3>CTEs vs Subqueries</h3>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">📝</span><h3>Common Table Expressions</h3><span class="tag tag-blue">WITH CLAUSE</span></div>
@@ -523,7 +489,6 @@ user_ids = [1, 2, 3, ..., 100];
     <div class="note"><p><strong>PostgreSQL ≥ 12:</strong> CTEs are inlined by default (treated as subqueries, planner can optimise through them). Use <code>WITH ... AS MATERIALIZED</code> to force the old behaviour — the CTE is executed once and cached, which can be faster when referenced multiple times.</p></p></div>
   </div>
 </div>
-
 <h3>Window Functions</h3>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">🪟</span><h3>Aggregates Without Collapsing Rows</h3><span class="tag tag-amber">OVER CLAUSE</span></div>
@@ -561,7 +526,6 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">FROM</span> stock_prices;</pre></div>
   </div>
 </div>
-
 <h3>UPSERT and Conflict Handling</h3>
 <div class="cb"><pre><span class="sql-cm">-- Insert or update on conflict (upsert)</span>
 <span class="sql-kw">INSERT INTO</span> user_stats (user_id, login_count, last_seen)
@@ -569,7 +533,6 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">ON CONFLICT</span> (user_id) <span class="sql-kw">DO UPDATE</span>
   <span class="sql-kw">SET</span> login_count = user_stats.login_count + <span class="sql-num">1</span>,
       last_seen   = <span class="sql-kw">EXCLUDED</span>.last_seen;  <span class="sql-cm">-- EXCLUDED = the rejected row</span>
- 
 <span class="sql-cm">-- Insert and ignore duplicates</span>
 <span class="sql-kw">INSERT INTO</span> events (id, payload)
 <span class="sql-kw">VALUES</span> ($1, $2)
@@ -579,49 +542,40 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">INSERT INTO</span> users (name, email)
 <span class="sql-kw">VALUES</span> ($1, $2)
 <span class="sql-kw">RETURNING</span> id, created_at;</pre></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t4 Normalization -->
 <div id="t4" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">📐</span><h3>Normalization: Eliminating Redundancy</h3><span class="tag tag-violet">DATA MODELLING</span></div>
   <div class="cp-body">
     <p>Normalization is the process of structuring tables to minimise data redundancy and prevent update anomalies. Each normal form adds a constraint. In practice, design to 3NF/BCNF and deliberately denormalize specific hot paths with explicit justification.</p>
   </div>
 </div>
-
 <h3>Normal Forms</h3>
-
 <div class="nf-step">
   <div class="nf-hdr"><span class="nf-badge">1NF</span><h4>First Normal Form — Atomic Values</h4></div>
   <p><strong>Rule:</strong> Each column holds a single, indivisible value. No repeating groups (multiple phone numbers in one column). Each row is uniquely identifiable (primary key exists).</p>
   <p><strong>Violation:</strong> <code>users(id, name, phones="555-1234,555-5678")</code> — comma-delimited phones in one column.</p>
   <p><strong>Fix:</strong> Separate <code>user_phones(user_id, phone_number)</code> table with one row per phone.</p>
 </div>
-
 <div class="nf-step">
   <div class="nf-hdr"><span class="nf-badge">2NF</span><h4>Second Normal Form — No Partial Dependencies</h4></div>
   <p><strong>Rule:</strong> Must be 1NF. Every non-key column must depend on the <em>whole</em> primary key, not just part of it. Only relevant for tables with composite primary keys.</p>
   <p><strong>Violation:</strong> <code>order_items(order_id, product_id, quantity, product_name)</code> — <code>product_name</code> depends only on <code>product_id</code>, not the full <code>(order_id, product_id)</code> key.</p>
   <p><strong>Fix:</strong> Move <code>product_name</code> to the <code>products</code> table. <code>order_items</code> keeps only <code>quantity</code>.</p>
 </div>
-
 <div class="nf-step">
   <div class="nf-hdr"><span class="nf-badge">3NF</span><h4>Third Normal Form — No Transitive Dependencies</h4></div>
   <p><strong>Rule:</strong> Must be 2NF. No non-key column depends on another non-key column (transitive dependency).</p>
   <p><strong>Violation:</strong> <code>employees(id, dept_id, dept_name, salary)</code> — <code>dept_name</code> depends on <code>dept_id</code>, not directly on <code>id</code>.</p>
   <p><strong>Fix:</strong> Extract <code>departments(dept_id, dept_name)</code>. <code>employees</code> keeps only <code>dept_id</code> as a foreign key.</p>
 </div>
-
 <div class="nf-step">
   <div class="nf-hdr"><span class="nf-badge">BCNF</span><h4>Boyce-Codd Normal Form — Every Determinant Is a Candidate Key</h4></div>
   <p><strong>Rule:</strong> Stricter than 3NF. For every functional dependency X → Y, X must be a superkey (uniquely identifies rows). Fixes edge cases in 3NF with overlapping composite candidate keys.</p>
   <p><strong>Violation:</strong> <code>course_teachers(student, course, teacher)</code> where a teacher teaches only one course but a course can have multiple teachers. The dependency <code>teacher → course</code> exists, but <code>teacher</code> is not a key.</p>
   <p><strong>Fix:</strong> Decompose into <code>teacher_courses(teacher, course)</code> and <code>student_courses(student, course)</code>.</p>
 </div>
-
 <h3>When to Denormalize</h3>
 <div class="cp p-amber">
   <div class="cp-hdr"><span class="ico">⚡</span><h3>Deliberate Denormalization</h3><span class="tag tag-amber">TRADE-OFF</span></div>
@@ -638,26 +592,21 @@ user_ids = [1, 2, 3, ..., 100];
     </table>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t5 ACID & Isolation -->
 <div id="t5" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">🔒</span><h3>ACID: Four Guarantees</h3><span class="tag tag-violet">CORRECTNESS</span></div>
   <div class="cp-body">
     <p>ACID is the contract a database makes about what happens to your data, even in the face of crashes, errors, and concurrent access. Understanding each property tells you what you can and cannot rely on.</p>
   </div>
 </div>
-
 <ul class="flow-list">
   <li><span class="fl-step">A</span><span><strong>Atomicity</strong> — A transaction is all-or-nothing. If any statement within a transaction fails, <em>all</em> changes are rolled back. There is no partial transaction. Implemented via the WAL: on crash, incomplete transactions are rolled back during recovery using the WAL log.</span></li>
   <li><span class="fl-step">C</span><span><strong>Consistency</strong> — The database moves from one valid state to another. Constraints (FK, NOT NULL, CHECK, UNIQUE) are enforced at commit time. The application is responsible for domain-level consistency (business rules).</span></li>
   <li><span class="fl-step">I</span><span><strong>Isolation</strong> — Concurrent transactions behave as if they ran serially. The degree of isolation is configurable (see isolation levels below). Full isolation is expensive; databases offer weaker but faster levels.</span></li>
   <li><span class="fl-step">D</span><span><strong>Durability</strong> — Committed transactions survive crashes. Achieved by flushing WAL to disk before acknowledging the commit. <code>synchronous_commit = off</code> trades durability for latency (risk: last few milliseconds of commits lost on crash).</span></li>
 </ul>
-
 <h3>Read Phenomena (What Can Go Wrong)</h3>
 <table class="t-table">
   <thead><tr><th>Phenomenon</th><th>Description</th><th>Example</th></tr></thead>
@@ -668,7 +617,6 @@ user_ids = [1, 2, 3, ..., 100];
     <tr><td><strong>Serialisation Anomaly</strong></td><td>Result is inconsistent with any serial order of the transactions</td><td>Write skew: two doctors both read "at least 1 on call", both go off-call — result: zero doctors on call.</td></tr>
   </tbody>
 </table>
-
 <h3>Isolation Levels</h3>
 <table class="t-table">
   <thead>
@@ -716,9 +664,7 @@ user_ids = [1, 2, 3, ..., 100];
     </tr>
   </tbody>
 </table>
-
 <div class="note"><p>*PostgreSQL's Repeatable Read uses snapshot isolation which prevents phantoms too — stronger than the SQL standard requires. PG's Serializable uses Serializable Snapshot Isolation (SSI), a lock-free algorithm that detects and aborts transactions that would create anomalies.</p></p></div>
-
 <h3>Deadlocks</h3>
 <div class="cp p-red">
   <div class="cp-hdr"><span class="ico">💀</span><h3>Deadlock Detection and Prevention</h3><span class="tag tag-red">CONCURRENCY</span></div>
@@ -740,7 +686,6 @@ user_ids = [1, 2, 3, ..., 100];
     </ul>
   </div>
 </div>
-
 <h3>Advisory Locks</h3>
 <div class="cp p-blue">
   <div class="cp-hdr"><span class="ico">🔑</span><h3>Application-Level Mutex via PostgreSQL</h3><span class="tag tag-blue">DISTRIBUTED LOCKING</span></div>
@@ -759,17 +704,13 @@ user_ids = [1, 2, 3, ..., 100];
 <span class="sql-kw">SELECT</span> pg_advisory_unlock(<span class="sql-num">12345</span>);</pre></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t6 C with libpq -->
 <div id="t6" class="tab-pane">
-
 <h3>Connecting to PostgreSQL with libpq</h3>
 <div class="cb"><pre><span class="ck">#include</span> <span class="cv">&lt;libpq-fe.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdio.h&gt;</span>
 <span class="ck">#include</span> <span class="cv">&lt;stdlib.h&gt;</span>
- 
 <span class="cm">/* Compile: gcc db.c -lpq -o db
    Requires: libpq-dev package (apt install libpq-dev)  */</span>
  
@@ -794,10 +735,8 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
     PQfinish(conn);
     <span class="ck">return</span> <span class="cv">0</span>;
 }</pre></div>
-
 <h3>Prepared Statements (Parameterised Queries)</h3>
 <div class="cb"><pre><span class="cm">/* Always use prepared statements — never string-concatenate user input */</span>
- 
 <span class="ck">int</span> get_user_by_id(PGconn *conn, <span class="ck">int</span> user_id) {
     <span class="cm">/* Prepare once, execute many times */</span>
     PGresult *prep = PQprepare(conn,
@@ -848,7 +787,6 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
     PQclear(res);
     <span class="ck">return</span> rows;
 }</pre></div>
-
 <h3>Transactions in C</h3>
 <div class="cb"><pre><span class="ck">int</span> transfer_funds(PGconn *conn, <span class="ck">int</span> from_id, <span class="ck">int</span> to_id, <span class="ck">int</span> amount_cents) {
     <span class="cm">/* BEGIN */</span>
@@ -894,12 +832,9 @@ PGconn *db_connect(<span class="ck">const char</span> *connstr) {
     PQclear(r);
     <span class="ck">return</span> ok ? <span class="cv">0</span> : -<span class="cv">1</span>;
 }</pre></div>
-
 <h3>Minimal Connection Pool in C</h3>
 <div class="cb"><pre><span class="cm">/* Production uses PgBouncer. This illustrates the concept. */</span>
- 
 <span class="ck">#define</span> POOL_SIZE <span class="cv">8</span>
- 
 <span class="ck">typedef struct</span> {
     PGconn  *conn;
     <span class="ck">int</span>      in_use;
@@ -940,14 +875,10 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
     }
     pthread_mutex_unlock(&amp;pool_lock);
 }</pre></div>
-
 <div class="ins"><p><strong>In production:</strong> use <strong>PgBouncer</strong> (transaction-mode pooling) in front of PostgreSQL. It handles thousands of client connections multiplexed over a small number of server connections. Never create a new PGconn per request in a high-throughput server.</p></div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t7 Labs -->
 <div id="t7" class="tab-pane">
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 1 — Index Experiments on Real Data</h3>
@@ -963,7 +894,6 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
     <div class="lab-step"><span class="sn">6</span><span>Find unused indexes: <code>SELECT indexrelname, idx_scan FROM pg_stat_user_indexes WHERE schemaname='public' ORDER BY idx_scan;</code>. Drop any with 0 scans.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 2 — Isolation Levels in Action</h3>
@@ -990,7 +920,6 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
     <div class="lab-step"><span class="sn">5</span><span>Fix the deadlock: always update rows in a consistent order (lower id first). Rewrite both transactions to update id=1 before id=2. Verify no deadlock occurs.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 3 — libpq CRUD Application in C</h3>
@@ -1006,7 +935,6 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
     <div class="lab-step"><span class="sn">6</span><span><strong>Stretch:</strong> Implement the minimal connection pool from the Implementation tab. Run the tool from multiple threads simultaneously using <code>pthread_create</code>. Verify correctness under concurrent inserts.</span></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr">
     <h3>🔬 Lab 4 — Normalization Design Exercise</h3>
@@ -1021,26 +949,21 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
     <div class="lab-step"><span class="sn">5</span><span><strong>Deliberate denormalization:</strong> Add a <code>total_amount</code> column to orders (computed as SUM of quantity × unit_price). Update it via a trigger. Measure query time for "get orders with total > 1000" with vs without the denormalized column.</span></div>
   </div>
 </div>
-
 </div>
-
 <!-- ══════════════════════════════════════════════════════ t8 Checklist -->
 <div id="t8" class="tab-pane">
-
 <div class="cp p-violet">
   <div class="cp-hdr"><span class="ico">✅</span><h3>Module Mastery Checklist</h3><span class="tag tag-violet">M06 COMPLETE</span></div>
   <div class="cp-body">
     <p>You have mastered this module when you can check off every item below without referring to notes.</p>
   </div>
 </div>
-
 <h3>SQL Internals</h3>
 <ul class="cl">
   <li>Describe the 4 stages of SQL query execution in PostgreSQL (parse → rewrite → plan → execute)</li>
   <li>Explain what <code>pg_statistic</code> contains and why stale statistics cause bad query plans</li>
   <li>Explain MVCC: why readers don't block writers, and what VACUUM does</li>
 </ul>
-
 <h3>Indexes</h3>
 <ul class="cl">
   <li>Describe the B-tree internal structure: root, inner pages, leaf pages, leaf page linked list, ctid pointers</li>
@@ -1051,14 +974,12 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
   <li>State the write overhead of indexes and how to find unused indexes using <code>pg_stat_user_indexes</code></li>
   <li>Distinguish B-tree, Hash, GIN, and BRIN — name the use case each is best suited for</li>
 </ul>
-
 <h3>EXPLAIN</h3>
 <ul class="cl">
   <li>Interpret an EXPLAIN output: identify seq scan vs index scan vs bitmap scan, explain cost fields, identify row count mismatch</li>
   <li>State 4 red flags in a query plan (seq scan on large table, estimate vs actual mismatch, nested loop with high loops, sort spill)</li>
   <li>Explain what <code>EXPLAIN (ANALYZE, BUFFERS)</code> adds over plain <code>EXPLAIN</code></li>
 </ul>
-
 <h3>Query Patterns</h3>
 <ul class="cl">
   <li>Define the N+1 problem and write two solutions (JOIN and batch IN clause)</li>
@@ -1067,14 +988,12 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
   <li>Use a window function to rank rows within a partition and compute a running total</li>
   <li>Write an UPSERT using <code>ON CONFLICT DO UPDATE</code></li>
 </ul>
-
 <h3>Normalization</h3>
 <ul class="cl">
   <li>State the rules for 1NF, 2NF, 3NF, and BCNF; identify which normal form a given table violates</li>
   <li>Normalize a denormalized flat table to 3NF, producing correct FK relationships</li>
   <li>Name 3 deliberate denormalization patterns and the maintenance cost of each</li>
 </ul>
-
 <h3>ACID &amp; Isolation</h3>
 <ul class="cl">
   <li>Define Atomicity, Consistency, Isolation, Durability — and state which mechanism implements each in PostgreSQL</li>
@@ -1084,26 +1003,21 @@ PGconn *pool_acquire(<span class="ck">void</span>) {
   <li>Write a fund transfer in C using libpq with correct BEGIN/COMMIT/ROLLBACK error handling</li>
   <li>Explain advisory locks and give one production use case</li>
 </ul>
-
 <h3>C / libpq</h3>
 <ul class="cl">
   <li>Write a libpq connection, prepared statement, and parameterised execution in C</li>
   <li>Handle <code>PQresultStatus</code> correctly for all result types (TUPLES_OK, COMMAND_OK, FATAL_ERROR)</li>
   <li>Explain why PgBouncer is needed in production rather than creating a new PGconn per request</li>
 </ul>
-
 <hr class="sep">
 <div class="ins"><p><strong>Next in Phase 2:</strong> M07 covers Transactions & MVCC in depth (savepoints, advisory locks, SKIP LOCKED job queues) and M08 covers NoSQL & Redis (when to reach for a non-relational store and how to use it alongside PostgreSQL).</p></div>
-
 </div>
-
 <!-- Module Nav -->
 <div class="mod-nav">
   <a href="/learning/backend/m03-rest/" class="nb">← M03 REST Design</a>
   <span style="font-size:.8rem;color:var(--text-color,#888);font-family:monospace">Phase 2 · Module 6 of 3</span>
   <a href="/learning/backend/backend-roadmap/" class="nb">↑ Roadmap</a>
 </div>
-
 <script>
 function vt(id, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));

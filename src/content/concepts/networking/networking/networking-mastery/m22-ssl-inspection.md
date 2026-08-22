@@ -81,7 +81,6 @@ url: /learning/networking-mastery/m22-ssl-inspection/
 .phase-complete h3{margin:0 0 .5rem;font-size:1.1rem;font-weight:800;color:#fff;border:none}
 .phase-complete p{margin:0;font-size:.88rem;line-height:1.65;color:#ffd0d8}
 </style>
-
 <div class="mod-header">
   <div class="mod-eyebrow">NETWORKING MASTERY · PHASE 5 · MODULE 22 · WEEK 20 · PHASE 5 FINAL</div>
   <div class="mod-title">🔍 SSL Inspection and PKI Operations</div>
@@ -93,7 +92,6 @@ url: /learning/networking-mastery/m22-ssl-inspection/
     <span class="mod-pill">2 Labs</span>
   </div>
 </div>
-
 <div class="tab-bar">
   <button class="tab-btn active" onclick="vt(event,'t0')">SSL Inspection Overview</button>
   <button class="tab-btn" onclick="vt(event,'t1')">MITM Proxy Architecture</button>
@@ -105,7 +103,6 @@ url: /learning/networking-mastery/m22-ssl-inspection/
   <button class="tab-btn" onclick="vt(event,'t7')">Labs</button>
   <button class="tab-btn" onclick="vt(event,'t8')">Checklist</button>
 </div>
-
 <!-- TAB 0 -->
 <div id="t0" class="tab-pane active">
 <p class="sep">SSL INSPECTION — THE NGFW'S WINDOW INTO ENCRYPTED TRAFFIC</p>
@@ -127,7 +124,6 @@ url: /learning/networking-mastery/m22-ssl-inspection/
   </div>
 </div>
 </div>
-
 <!-- TAB 1 -->
 <div id="t1" class="tab-pane">
 <p class="sep">MITM PROXY ARCHITECTURE — HOW SSL INSPECTION WORKS</p>
@@ -183,7 +179,6 @@ Session resumption: NGFW must manage its own session cache client-side
   </div>
 </div>
 </div>
-
 <!-- TAB 2 -->
 <div id="t2" class="tab-pane">
 <p class="sep">CERTIFICATE GENERATION — CREATING CERTIFICATES ON THE FLY</p>
@@ -191,7 +186,6 @@ Session resumption: NGFW must manage its own session cache client-side
   <div class="cp-hdr"><span class="ico">📜</span><h3>Dynamic Certificate Generation with OpenSSL</h3><span class="tag tag-teal">CERT GEN</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Dynamic certificate generation — runs for every new HTTPS connection */</span>
- 
 <span class="ck">int</span> generate_inspection_cert(
         const char *hostname,        <span class="cm">/* from SNI or server cert CN */</span>
         X509 *real_server_cert,      <span class="cm">/* for SAN list preservation */</span>
@@ -206,7 +200,6 @@ Session resumption: NGFW must manage its own session cache client-side
     <span class="cm">/* 2. Create certificate */</span>
     X509 *cert = X509_new();
     X509_set_version(cert, 2);      <span class="cm">/* version 3 */</span>
- 
     <span class="cm">/* Random serial number (each cert needs unique serial) */</span>
     BIGNUM *serial = BN_new();
     BN_rand(serial, 64, 0, 0);
@@ -251,7 +244,6 @@ Session resumption: NGFW must manage its own session cache client-side
   </div>
 </div>
 </div>
-
 <!-- TAB 3 -->
 <div id="t3" class="tab-pane">
 <p class="sep">CA MANAGEMENT — BUILDING AND OPERATING AN INSPECTION CA</p>
@@ -259,7 +251,6 @@ Session resumption: NGFW must manage its own session cache client-side
   <div class="cp-hdr"><span class="ico">🏛️</span><h3>NGFW CA Lifecycle and Deployment</h3><span class="tag tag-purple">CA MANAGEMENT</span></div>
   <div class="cp-body">
 <div class="cb"><pre><span class="cm">/* Creating the NGFW inspection CA */</span>
- 
 <span class="cm"># Generate 4096-bit RSA CA key (CA key compromise = all inspection certs compromised)</span>
 openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 -out ngfw-ca.key
  
@@ -271,14 +262,12 @@ openssl req -new -x509 -key ngfw-ca.key -out ngfw-ca.crt -days 3650 \
 <span class="cm"># Verify CA cert</span>
 openssl x509 -in ngfw-ca.crt -text -noout | grep -A5 "Basic Constraints"
 <span class="cm"># Must show: CA:TRUE</span>
- 
 <span class="cm">/* Security hardening of CA key */</span>
 <span class="cm"># Store CA private key in HSM (Hardware Security Module) if possible</span>
 <span class="cm"># If software: encrypt with strong passphrase, restrict file permissions</span>
 chmod 400 ngfw-ca.key
 <span class="cm"># Or use PKCS#11 engine to access HSM from OpenSSL:</span>
 <span class="cm"># openssl engine pkcs11 -pre MODULE_PATH:/usr/lib/softhsm/libsofthsm2.so</span>
- 
 <span class="cm">/* CA distribution — push to all managed endpoints */</span>
  
 Windows (Group Policy):
@@ -300,7 +289,6 @@ Android/iOS (MDM):
 <span class="cm"># Process: generate new CA key → deploy new CA cert → phase out old</span>
 <span class="cm"># Overlap period: both CAs active simultaneously during rollout</span>
 <span class="cm"># Use sub-CA: root CA signs a sub-CA cert used for signing; rotate sub-CA annually</span>
- 
 <span class="cm">/* Sub-CA architecture (recommended for enterprise) */</span>
 Offline Root CA (air-gapped, 4096-bit RSA, 20-year cert)
   └── Online Sub-CA (HSM-backed, ECDSA P-384, 5-year cert)
@@ -308,7 +296,6 @@ Offline Root CA (air-gapped, 4096-bit RSA, 20-year cert)
   </div>
 </div>
 </div>
-
 <!-- TAB 4 -->
 <div id="t4" class="tab-pane">
 <p class="sep">BYPASS POLICY — WHEN NOT TO INSPECT</p>
@@ -328,7 +315,6 @@ Offline Root CA (air-gapped, 4096-bit RSA, 20-year cert)
         <tr><td>Legal counsel / IR tools</td><td>Attorney-client privilege</td><td>Known legal SaaS, law firm domains</td><td>Privileged communication exposure</td></tr>
       </tbody>
     </table>
-
 <div class="cb"><pre><span class="cm">/* Bypass decision flowchart in NGFW */</span>
 For each new TLS connection:
  
@@ -362,7 +348,6 @@ QUIC/HTTP3 detection:
   </div>
 </div>
 </div>
-
 <!-- TAB 5 -->
 <div id="t5" class="tab-pane">
 <p class="sep">CERTIFICATE PINNING — THE INSPECTION ADVERSARY</p>
@@ -390,7 +375,6 @@ Result with SSL inspection:
 <span class="cm"># Test: enable inspection → app fails; disable → app works</span>
 <span class="cm"># Tool: mitmproxy bypass detection log</span>
 <span class="cm"># Android: frida-based SSLUnpinning script (for testing/research)</span>
- 
 <span class="cm">/* NGFW handling strategies */</span>
  
 Option 1: Bypass list (most practical)
@@ -418,7 +402,6 @@ Historical: Google Chrome (Chrome pins Symantec certs — removed 2018)</pre></d
   </div>
 </div>
 </div>
-
 <!-- TAB 6 -->
 <div id="t6" class="tab-pane">
 <p class="sep">ECH AND FUTURE CHALLENGES TO SSL INSPECTION</p>
@@ -486,7 +469,6 @@ Major browser adoption + CDN deployment = ECH becomes common by 2026-2027
   </div>
 </div>
 </div>
-
 <!-- TAB 7 -->
 <div id="t7" class="tab-pane">
 <div class="lab-box">
@@ -499,7 +481,6 @@ Major browser adoption + CDN deployment = ECH becomes common by 2026-2027
     <div class="lab-step"><div class="sn">4</div><div>Write a mitmproxy addon (Python script) that: logs the full URL, request headers, and response status for every request, saves POST body content to a file (DLP simulation), and blocks any response body containing the string "password" (test with a custom HTTP server). This demonstrates what real NGFW SSL inspection engines do.</div></div>
   </div>
 </div>
-
 <div class="lab-box">
   <div class="lab-hdr"><span class="lab-n">LAB 2</span><h4>Enterprise CA Setup and Certificate Management</h4></div>
   <div class="lab-body">
@@ -511,7 +492,6 @@ Major browser adoption + CDN deployment = ECH becomes common by 2026-2027
   </div>
 </div>
 </div>
-
 <!-- TAB 8 -->
 <div id="t8" class="tab-pane">
 <p class="sep">M22 MASTERY CHECKLIST</p>
@@ -536,13 +516,11 @@ Major browser adoption + CDN deployment = ECH becomes common by 2026-2027
   <li>Completed Lab 1: ran mitmproxy SSL inspection proxy; tested cert pinning failure; wrote DLP addon</li>
   <li>Completed Lab 2: built two-tier CA hierarchy; generated inspection certs programmatically; benchmarked cert generation</li>
 </ul>
-
 <div class="phase-complete">
   <h3>🎉 Phase 5 Complete — Security Protocols</h3>
   <p>You have completed all 4 modules of Phase 5: Cryptography Foundations (M19), TLS Internals (M20), IPsec and IKEv2 (M21), and SSL Inspection and PKI Operations (M22). You now have a thorough understanding of the cryptographic protocols underpinning modern network security — the same protocols your NGFW must implement, inspect, and in some cases circumvent. Move to <strong>Phase 6 — NGFW Development</strong>, the capstone phase.</p>
 </div>
 </div>
-
 <div class="mod-nav">
   <a href="/learning/networking-mastery/m21-ipsec/">← M21 IPsec</a>
   <a href="/learning/networking-mastery/">🗺️ Roadmap</a>

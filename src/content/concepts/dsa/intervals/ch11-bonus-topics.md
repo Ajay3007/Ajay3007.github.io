@@ -30,19 +30,15 @@ url: /learning/dsa/intervals/ch11-bonus-topics/
     </div>
   </div>
 </div>
-
 <!-- ========================================== -->
 <!-- LAYOUT WRAPPER                             -->
 <!-- ========================================== -->
 <div class="chapter-content">
-
     <!-- TOPIC A: TRIE -->
     <section id="topic-a" class="chapter-section">
       <h2> Topic A — Trie (Prefix Tree)</h2>
-      
       <h3>A.1 — What Is a Trie?</h3>
       <p>A <strong>Trie</strong> (pronounced 'try', from retrieval) is a tree-shaped data structure for storing strings where each node represents a single character. Strings that share a common prefix share the same path from the root. This gives <strong>O(L) insert, search, and prefix-search</strong> operations where L is the string length — independent of the number of stored strings.</p>
-
       <div class="ch-code-wrap">
 <pre><code>Trie Structure: Character-by-Character Branching
   Insert: ['apple', 'app', 'apt', 'bat', 'bad']
@@ -69,10 +65,9 @@ url: /learning/dsa/intervals/ch11-bonus-topics/
   StartsWith 'ap': traverse a->p, node exists -> true.
   Search 'ap': traverse a->p, isEnd=false -> false.</code></pre>
       </div>
-
       <h3>A.2 — Trie Implementation</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Trie — O(L) per operation
 // Insert/Search/StartsWith: O(L) time, O(L) space per word
 struct TrieNode {
@@ -116,12 +111,11 @@ public:
         return true;  // prefix exists, word completeness irrelevant
     }
 };
-{% endhighlight %}
+```
 </div>
-
       <h3>A.3 — Word Search II (Trie + Backtracking)</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 212 — Word Search II
 // Find all words from a dictionary that exist in a 2D grid.
 // Time: O(M*N * 4^L)  L=longest word  Space: O(total chars in dict)
@@ -165,9 +159,8 @@ public:
         return res;
     }
 };
-{% endhighlight %}
+```
 </div>
-
       <h3>A.4 — When to Use a Trie</h3>
       <div class="table-responsive">
         <table class="insight-table">
@@ -223,14 +216,11 @@ public:
         </ul>
       </div>
     </section>
-
     <!-- TOPIC B: UNION-FIND -->
     <section id="topic-b" class="chapter-section">
       <h2> Topic B — Union-Find (Disjoint Set Union)</h2>
-
       <h3>B.1 — What Is Union-Find?</h3>
       <p><strong>Union-Find</strong> (also called Disjoint Set Union, DSU) is a data structure that tracks a partition of elements into disjoint sets. It supports two operations in near-constant amortised time: <code>union(a, b)</code> — merge the sets containing a and b — and <code>find(a)</code> — identify which set a belongs to (by its representative).</p>
-
       <div class="ch-code-wrap">
 <pre><code>Union-Find: Union by Rank + Path Compression
   Elements: {0, 1, 2, 3, 4, 5}  Initially each element is its own set.
@@ -248,10 +238,9 @@ public:
  
   Sets: Set A: {0, 1, 2, 3}   Set B: {4}   Set C: {5}</code></pre>
       </div>
-
       <h3>B.2 — Union-Find Implementation</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Union-Find with Union by Rank + Path Compression
 // find: amortised O(alpha(n)) ~ O(1)   unite: amortised O(alpha(n))
 class UnionFind {
@@ -283,12 +272,11 @@ public:
     bool connected(int a, int b) { return find(a) == find(b); }
     int  count()                 { return components; }
 };
-{% endhighlight %}
+```
 </div>
-
       <h3>B.3 — Number of Islands Using Union-Find</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 200 — Number of Islands (Union-Find approach)
 // Time: O(M*N * alpha(M*N))  Space: O(M*N)
 int numIslands(vector<vector<char>>& grid) {
@@ -309,9 +297,8 @@ int numIslands(vector<vector<char>>& grid) {
     }
     return uf.count() - water; // subtract water cells
 }
-{% endhighlight %}
+```
 </div>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -351,14 +338,11 @@ int numIslands(vector<vector<char>>& grid) {
         </table>
       </div>
     </section>
-
     <!-- TOPIC C: MONOTONIC STACK -->
     <section id="topic-c" class="chapter-section">
       <h2> Topic C — Monotonic Stack</h2>
-
       <h3>C.1 — What Is a Monotonic Stack?</h3>
       <p>A <strong>monotonic stack</strong> is a stack that maintains its elements in either strictly increasing or strictly decreasing order from bottom to top. When a new element is pushed, elements that violate the monotone property are popped first. This gives <strong>O(n) solutions</strong> to problems that naively require O(n²) nested loops.</p>
-
       <div class="ch-code-wrap">
 <pre><code>Monotonic Stack: Next Greater Element Trace
   Array: [2, 1, 5, 6, 2, 3]
@@ -380,10 +364,9 @@ int numIslands(vector<vector<char>>& grid) {
   Result: NGE = [5, 5, 6, -1, 3, -1]
   Each element pushed and popped at most once -> O(n) total.</code></pre>
       </div>
-
       <h3>C.2 — Next Greater Element</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // Next Greater Element I (LC 496) — O(n)
 vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
     unordered_map<int,int> nge; // nge[val] = next greater element value
@@ -399,12 +382,11 @@ vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
     for (int x : nums1) res.push_back(nge.count(x) ? nge[x] : -1);
     return res;
 }
-{% endhighlight %}
+```
 </div>
-
       <h3>C.3 — Daily Temperatures</h3>
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // LeetCode 739 — Daily Temperatures
 // For each day, how many days until a warmer temperature?
 // Time: O(n)  Space: O(n)
@@ -421,9 +403,8 @@ vector<int> dailyTemperatures(vector<int>& temps) {
     }
     return res; // indices still in stack: res[j]=0 (never warmer)
 }
-{% endhighlight %}
+```
 </div>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -484,14 +465,11 @@ vector<int> dailyTemperatures(vector<int>& temps) {
         </ul>
       </div>
     </section>
-
     <!-- TOPIC D: SLIDING WINDOW -->
     <section id="topic-d" class="chapter-section">
       <h2> Topic D — Sliding Window</h2>
-
       <h3>D.1 — Fixed vs Variable Window</h3>
       <p>The <strong>sliding window</strong> technique maintains a contiguous subarray or substring by moving two pointers. It reduces O(n²) brute-force to O(n) by avoiding recomputation — instead of restarting from scratch, we slide forward: add the new element on the right, remove the old element on the left.</p>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -518,9 +496,8 @@ vector<int> dailyTemperatures(vector<int>& temps) {
           </tbody>
         </table>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // ── FIXED WINDOW: Maximum sum subarray of size k ────────────
 // Time: O(n)  Space: O(1)
 int maxSumFixed(vector<int>& nums, int k) {
@@ -570,17 +547,14 @@ string minWindow(string s, string t) {
     }
     return minLen == INT_MAX ? "" : s.substr(start, minLen);
 }
-{% endhighlight %}
+```
 </div>
     </section>
-
     <!-- TOPIC E: TWO POINTERS -->
     <section id="topic-e" class="chapter-section">
       <h2> Topic E — Two Pointers</h2>
-
       <h3>E.1 — Two Pointer Patterns</h3>
       <p><strong>Two pointers</strong> uses two indices that move through a data structure, typically towards each other or in the same direction. This eliminates the inner loop of an O(n²) solution when the data has monotone properties (sorted array, or a constraint that improves/worsens as pointers move).</p>
-
       <div class="table-responsive">
         <table class="insight-table">
           <thead>
@@ -609,9 +583,8 @@ string minWindow(string s, string t) {
           </tbody>
         </table>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 // ── OPPOSITE ENDS: Two Sum on sorted array ──────────────────
 // Time: O(n)  Space: O(1)
 vector<int> twoSumSorted(vector<int>& nums, int target) {
@@ -649,15 +622,13 @@ bool hasCycle(ListNode* head) {
     }
     return false;
 }
-{% endhighlight %}
+```
 </div>
     </section>
-
     <!-- SOLVED PROBLEM 1 -->
     <section id="solved-1" class="chapter-section">
       <h2> Solved Problem 1: Implement Trie (Prefix Tree)</h2>
       <p>Implement a Trie supporting <code>insert(word)</code>, <code>search(word)</code>, and <code>startsWith(prefix)</code>. (LeetCode 208 — Medium)</p>
-
       <div class="insight-box">
         <h4>OBSERVATIONS</h4>
         <ul>
@@ -666,9 +637,8 @@ bool hasCycle(ListNode* head) {
           <li><strong>Common mistake:</strong> returning true in <code>search()</code> as soon as the path exists without checking <code>isEnd</code>. 'app' exists as a path even if only 'apple' was inserted.</li>
         </ul>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class Trie {
     struct Node {
         Node* ch[26] = {};
@@ -701,16 +671,14 @@ public:
         return traverse(prefix) != nullptr; // path existence is sufficient
     }
 };
-{% endhighlight %}
+```
 </div>
       <p><strong>Complexity:</strong> Time O(L) per operation, Space O(total_chars * 26)</p>
     </section>
-
     <!-- SOLVED PROBLEM 2 -->
     <section id="solved-2" class="chapter-section">
       <h2> Solved Problem 2: Number of Connected Components</h2>
       <p>Given n nodes (0 to n-1) and a list of undirected edges, return the number of connected components. (LeetCode 323 — Medium)</p>
-
       <div class="insight-box">
         <h4>OBSERVATIONS</h4>
         <ul>
@@ -719,9 +687,8 @@ public:
           <li>Every time <code>unite(a,b)</code> successfully merges two different sets, the component count decreases by 1. Start from n, apply all edges.</li>
         </ul>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     int countComponents(int n, vector<vector<int>>& edges) {
@@ -745,16 +712,14 @@ public:
         return components;
     }
 };
-{% endhighlight %}
+```
 </div>
       <p><strong>Complexity:</strong> Time O((V+E) * alpha(V)), Space O(V)</p>
     </section>
-
     <!-- SOLVED PROBLEM 3 -->
     <section id="solved-3" class="chapter-section">
       <h2> Solved Problem 3: Largest Rectangle in Histogram</h2>
       <p>Given an array of bar heights representing a histogram, return the area of the largest rectangle. (LeetCode 84 — Hard)</p>
-
       <div class="insight-box">
         <h4>OBSERVATIONS</h4>
         <ul>
@@ -765,9 +730,8 @@ public:
           <li><strong>Sentinel:</strong> append 0 to heights to force all bars to pop at the end.</li>
         </ul>
       </div>
-
 <div class="ch-code-wrap">
-{% highlight cpp %}
+```cpp
 class Solution {
 public:
     int largestRectangleArea(vector<int>& heights) {
@@ -786,11 +750,10 @@ public:
         return maxArea;
     }
 };
-{% endhighlight %}
+```
 </div>
       <p><strong>Complexity:</strong> Time O(n), Space O(n)</p>
     </section>
-
     <!-- SECTION: COMPLEXITY REFERENCE -->
     <section id="complexity" class="chapter-section">
       <h2> Complexity Reference — All Bonus Topics</h2>
@@ -863,7 +826,6 @@ public:
         </table>
       </div>
     </section>
-
     <!-- SECTION: INTERVIEW QUESTIONS -->
     <section id="interview" class="chapter-section">
       <h2> Common Interview Questions</h2>
@@ -985,7 +947,6 @@ public:
           </tbody>
         </table>
       </div>
-
       <div class="insight-box">
         <h4>Chapter 11 — Key Takeaways</h4>
         <ul>
@@ -998,7 +959,6 @@ public:
         </ul>
       </div>
     </section>
-
     <!-- ========================================== -->
     <!-- CHAPTER NAVIGATION                         -->
     <!-- ========================================== -->
@@ -1006,5 +966,4 @@ public:
       <a href="/learning/dsa/dynamic-programming/ch10-dynamic-programming/" class="ch-nav-footer-btn">← Prev: Ch10 Dynamic Programming</a>
       <a href="/learning/dsa/ch12-cheat-sheet/" class="ch-nav-footer-btn">Next: Ch12 Interview Cheat Sheet →</a>
     </div>
-
 </div>

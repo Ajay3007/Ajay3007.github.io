@@ -39,13 +39,11 @@ url: /learning/data-plane/dpdk/dpdk-roadmap/
 .mod-nav .nb{background:#0a2040;color:#fff !important;border-color:#0a2040}
 .sep{font-size:.7rem;font-family:monospace;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--light-text,#888);margin:2rem 0 .8rem;padding-bottom:.35rem;border-bottom:1px solid var(--border-color,#eee)}
 </style>
-
 <div class="rmap-hero">
   <div style="font-size:.7rem;font-family:monospace;letter-spacing:.12em;color:#5ab0d0;text-transform:uppercase;margin-bottom:.5rem">DPDK MASTERY · FULL ROADMAP · 3 PHASES</div>
   <h1>&#9889; DPDK Learning Roadmap</h1>
   <p>3–4 months · Intel / Mellanox NICs · C · 6 modules · 7 mini-projects · Production SASE-DP context</p>
 </div>
-
 <div class="summary-grid">
   <div class="sg-card"><span class="sg-num" style="color:#2e6da4">3</span><span class="sg-lbl">Phases</span></div>
   <div class="sg-card"><span class="sg-num" style="color:#1a7a6e">6</span><span class="sg-lbl">Modules</span></div>
@@ -53,11 +51,8 @@ url: /learning/data-plane/dpdk/dpdk-roadmap/
   <div class="sg-card"><span class="sg-num" style="color:#5b3a8c">14+</span><span class="sg-lbl">Weeks</span></div>
   <div class="sg-card"><span class="sg-num" style="color:#0a6a40">SASE</span><span class="sg-lbl">Capstone</span></div>
 </div>
-
 <p class="sep">PHASE TIMELINE</p>
-
 <div class="phase-timeline">
-
   <!-- PHASE 1 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#2e6da4">1</div>
@@ -98,7 +93,6 @@ url: /learning/data-plane/dpdk/dpdk-roadmap/
       </div>
     </div>
   </div>
-
   <!-- PHASE 2 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#1a7a6e">2</div>
@@ -141,7 +135,6 @@ url: /learning/data-plane/dpdk/dpdk-roadmap/
       <div class="dep-note">&#9888;&#65039; Phase 1 memory knowledge is prerequisite — PMD and ring patterns build directly on mempool and mbuf internals.</div>
     </div>
   </div>
-
   <!-- PHASE 3 -->
   <div class="pt-phase">
     <div class="pt-dot" style="background:#c05e1b">3</div>
@@ -186,9 +179,7 @@ url: /learning/data-plane/dpdk/dpdk-roadmap/
       </div>
     </div>
   </div>
-
 </div>
-
 <p class="sep">ALL MINI-PROJECTS</p>
 
 | # | Project | Phase | Key Skills |

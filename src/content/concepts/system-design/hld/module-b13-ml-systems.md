@@ -11,7 +11,6 @@ url: /learning/system-design/hld/module-b13-ml-systems/
 
 <link rel="stylesheet" href="/assets/css/sd-module-b13.css">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Syne+Mono&display=swap" rel="stylesheet">
-
 <header>
   <div class="hdr-bar"></div>
   <div class="hdr-top">
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-b13-ml-systems/
     <div class="tg" style="color:var(--bri)">YouTube Recs</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="show('stack',this)">ML Stack</div>
   <div class="nt" onclick="show('featurestore',this)">Feature Store</div>
@@ -54,9 +52,7 @@ url: /learning/system-design/hld/module-b13-ml-systems/
   <div class="nt" onclick="show('tasks',this)">Tasks</div>
   <div class="nt" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- STACK -->
 <div class="view active" id="view-stack">
   <div class="sh">The ML System Stack</div>
@@ -83,7 +79,6 @@ url: /learning/system-design/hld/module-b13-ml-systems/
   </div>
   <div class="al red"><em>Training-serving skew</em> — the #1 cause of silent model degradation. If the features computed for training differ even slightly from features computed during serving (different code paths, different data sources, different timestamp handling), the model will perform worse in production than it did offline. The feature store's job is to ensure identical computation for both paths.</div>
 </div>
-
 <!-- FEATURE STORE -->
 <div class="view" id="view-featurestore">
   <div class="sh">Feature Stores</div>
@@ -115,19 +110,16 @@ url: /learning/system-design/hld/module-b13-ml-systems/
 <pre class="c"><span class="cm">// Training on historical data: label occurred at time T</span>
 <span class="cm">// Must retrieve feature values AS OF time T, not current values</span>
 <span class="cm">// Using future features to predict the past = data leakage = inflated offline metrics</span>
- 
 <span class="cm">// WRONG — uses today's feature value to predict a past label:</span>
 <span class="er">features = feature_store.get(entity_id=user_123, feature="avg_session_30d")</span>
 <span class="cm">// This returns the feature as it is TODAY — but the label was from 6 months ago</span>
 <span class="cm">// The feature includes 6 months of future data. Model appears great offline, fails in prod.</span>
- 
 <span class="cm">// CORRECT — point-in-time correct retrieval:</span>
 <span class="ok">features = feature_store.get(</span>
 <span class="ok">    entity_id=user_123,</span>
 <span class="ok">    feature="avg_session_30d",</span>
 <span class="ok">    as_of=label_timestamp  ← retrieve value AS OF when the label occurred</span>
 <span class="ok">)</span>
- 
 <span class="cm">// Feature store must store full history of feature values with timestamps</span>
 <span class="cm">// Offline store schema:</span>
 <span class="cm">// (entity_id, feature_name, value, event_timestamp, created_timestamp)</span>
@@ -135,7 +127,6 @@ url: /learning/system-design/hld/module-b13-ml-systems/
 <span class="cm">//        AND event_timestamp <= label_timestamp ORDER BY event_timestamp DESC LIMIT 1</span></pre>
   </div>
 </div>
-
 <!-- TRAINING -->
 <div class="view" id="view-training">
   <div class="sh">Training Pipeline</div>
@@ -153,7 +144,6 @@ validator.<span class="fn">check_schema</span>(dataset)           <span class="c
 validator.<span class="fn">check_distributions</span>(dataset)    <span class="cm">// feature values in expected range?</span>
 validator.<span class="fn">check_null_rates</span>(dataset)       <span class="cm">// null rate &lt; threshold per feature?</span>
 validator.<span class="fn">check_label_balance</span>(dataset)    <span class="cm">// not extreme class imbalance?</span>
- 
 <span class="cm">// Stage 3: FEATURE PREPROCESSING (saved as artifact → identical at serving time)</span>
 preprocessor = <span class="fn">Pipeline</span>([
     <span class="fn">StandardScaler</span>(cols=[<span class="str">"age"</span>, <span class="str">"session_duration"</span>]),
@@ -161,7 +151,6 @@ preprocessor = <span class="fn">Pipeline</span>([
     <span class="fn">MeanImputer</span>(cols=[<span class="str">"avg_purchase_value"</span>])
 ])
 preprocessor.<span class="fn">fit_transform</span>(train_data)    <span class="cm">// saved as artifact, applied at serving</span>
- 
 <span class="cm">// Stage 4: MODEL TRAINING</span>
 model = <span class="fn">TwoTowerModel</span>(user_dim=<span class="vi">256</span>, item_dim=<span class="vi">256</span>)
 trainer = <span class="fn">DistributedTrainer</span>(model, gpus=<span class="vi">8</span>)   <span class="cm">// Horovod / PyTorch DDP</span>
@@ -182,7 +171,6 @@ registry.<span class="fn">register</span>(model, {
   </div>
   <div class="al vio"><em>Retraining triggers — three strategies:</em> (1) Scheduled: retrain daily regardless. Simple, catches gradual drift, may miss sudden shifts. (2) Drift-triggered: monitor PSI on feature distributions, retrain when PSI &gt; 0.2. More responsive, requires monitoring infra. (3) Performance-triggered: online business metrics (CTR, conversion) drop &gt; X% — immediate retrain. Most responsive, but online metrics lag by hours.</div>
 </div>
-
 <!-- SERVING -->
 <div class="view" id="view-serving">
   <div class="sh">Model Serving</div>
@@ -218,14 +206,12 @@ logger.<span class="fn">log</span>({<span class="str">"shadow_prediction"</span>
 <span class="cm">//    Keep v1 (blue) running. Deploy v2 (green). Validate green.</span>
 <span class="cm">//    Switch load balancer: 100% → green. Keep blue for 1hr (fast rollback).</span>
 load_balancer.<span class="fn">set_backend</span>(<span class="str">"green"</span>)   <span class="cm">← instant switch</span>
- 
 <span class="cm">// Automated rollback trigger:</span>
 <span class="kw">if</span> metrics.p99_latency > champion.p99_latency * <span class="vi">1.1</span>:   <span class="cm">← 10% regression</span>
     load_balancer.<span class="fn">set_backend</span>(<span class="str">"blue"</span>)  <span class="cm">← instant rollback</span>
     alerting.<span class="fn">page</span>(<span class="str">"Challenger model rolled back: latency regression"</span>)</pre>
   </div>
 </div>
-
 <!-- TWO TOWER -->
 <div class="view" id="view-twotower">
   <div class="sh">Two-Tower Model</div>
@@ -252,7 +238,6 @@ user_emb = user_tower.<span class="fn">embed</span>(user_features)     <span cla
 candidates = ann_index.<span class="fn">search</span>(user_emb, k=<span class="vi">500</span>)  <span class="cm">// ScaNN ANN search, ~15ms</span>
 <span class="cm">// ANN index: 10M items × 256 dims × 4 bytes = ~10 GB → fits in RAM</span>
 <span class="cm">// ScaNN achieves ~95% recall@100 at 10ms for 10M items</span>
- 
 <span class="cm">// STAGE 2: RANKING — score each of 500 candidates precisely</span>
 <span class="kw">for</span> item_id <span class="kw">in</span> candidates:
     item_features = feature_store.<span class="fn">get</span>(item_id)    <span class="cm">// Redis batch fetch</span>
@@ -271,7 +256,6 @@ final = post_processor.<span class="fn">apply</span>(ranked[:100], rules=[
 <span class="kw">return</span> final[:20]  <span class="cm">// top 20 to user</span></pre>
   </div>
 </div>
-
 <!-- AB TEST -->
 <div class="view" id="view-abtest">
   <div class="sh">A/B Testing at Scale</div>
@@ -292,11 +276,9 @@ final = post_processor.<span class="fn">apply</span>(ranked[:100], rules=[
 n_per_group = <span class="fn">sample_size</span>(
     baseline=<span class="vi">0.02</span>, mde=<span class="vi">0.002</span>, power=<span class="vi">0.8</span>, alpha=<span class="vi">0.05</span>
 )  <span class="cm">→ ~156,000 users per group → ~312K total</span>
- 
 <span class="cm">// Primary metric: business metric (CTR, watch time, conversion rate)</span>
 <span class="cm">// NOT offline AUC — model can improve AUC while hurting business metrics</span>
 <span class="cm">// Guardrail metrics: must not regress (latency p99, revenue, crash rate)</span>
- 
 <span class="cm">// Peeking problem: DO NOT stop early because p &lt; 0.05 after 3 days</span>
 <span class="cm">// Each time you check, you increase false positive rate.</span>
 <span class="cm">// Fix: pre-commit to run duration (2 weeks), use sequential testing if early stopping needed</span></pre>
@@ -322,7 +304,6 @@ n_per_group = <span class="fn">sample_size</span>(
     </div>
   </div>
 </div>
-
 <!-- DRIFT -->
 <div class="view" id="view-drift">
   <div class="sh">Feature & Concept Drift</div>
@@ -351,17 +332,14 @@ n_per_group = <span class="fn">sample_size</span>(
 <pre class="c"><span class="cm">// PSI = Population Stability Index</span>
 <span class="cm">// Compares distribution of a feature between training (baseline) and production (current)</span>
 <span class="cm">// Higher PSI = more drift</span>
- 
 <span class="cm">// Formula:</span>
 PSI = Σ (P_current_i - P_baseline_i) × ln(P_current_i / P_baseline_i)
  
 <span class="cm">// Where P_i = proportion of observations in bucket i (e.g., 10 equal-frequency buckets)</span>
- 
 <span class="cm">// Thresholds (industry standard):</span>
 PSI &lt; <span class="vi">0.1</span>   <span class="ok">→ No significant change, model stable</span>
 PSI <span class="vi">0.1–0.2</span> <span class="yel">→ Minor shift, investigate further</span>
 PSI &gt; <span class="vi">0.2</span>   <span class="er">→ Significant shift, retrain model</span>
- 
 <span class="cm">// Monitoring stack (6 daily metrics to track):</span>
 <span class="vi">1.</span> PSI per feature           <span class="cm">← data drift</span>
 <span class="vi">2.</span> Prediction score dist     <span class="cm">← model output drift</span>
@@ -371,7 +349,6 @@ PSI &gt; <span class="vi">0.2</span>   <span class="er">→ Significant shift, r
 <span class="vi">6.</span> Inference latency p99     <span class="cm">← serving health</span></pre>
   </div>
 </div>
-
 <!-- YOUTUBE -->
 <div class="view" id="view-youtube">
   <div class="sh">YouTube Recommendations — Full ML System</div>
@@ -414,7 +391,6 @@ PSI &gt; <span class="vi">0.2</span>   <span class="er">→ Significant shift, r
 user_features  = <span class="fn">compute</span>(watch_history_30d, search_history_7d, demographics)
 video_features = <span class="fn">compute</span>(view_count, like_ratio, avg_watch_pct, transcript_emb)
 <span class="cm">// → Written to BigQuery (offline) + Bigtable (online, low-latency lookup)</span>
- 
 <span class="cm">// TRAINING DATA GENERATION:</span>
 positives = events <span class="kw">WHERE</span> watch_pct &gt; <span class="vi">0.5</span>        <span class="cm">// user watched &gt;50% of video</span>
 negatives = <span class="fn">sample</span>(shown_but_not_clicked, n=<span class="vi">10</span>) <span class="cm">// 10 negatives per positive</span>
@@ -423,19 +399,16 @@ dataset   = <span class="fn">join_pit_correct</span>(positives + negatives, feat
 <span class="cm">// TWO-TOWER RETRIEVAL TRAINING:</span>
 <span class="cm">// Goal: Recall@100 (are ground-truth videos in top-100 from 10M?)</span>
 <span class="cm">// Pre-index: all 10M video embeddings → ScaNN index (~10 GB in RAM)</span>
- 
 <span class="cm">// RANKING MODEL TRAINING:</span>
 <span class="cm">// Input: (user_emb, video_emb, cross_features, context)</span>
 <span class="cm">// Output: predicted watch time (regression)</span>
 <span class="cm">// Eval: NDCG@20 on held-out test set</span>
- 
 <span class="cm">// A/B TEST PROMOTION:</span>
 <span class="cm">// New model → 5% canary → primary metric: watch time per session</span>
 <span class="cm">// Guardrail: p99 latency must not exceed 110ms</span>
 <span class="cm">// Run 2 weeks → evaluate → ramp 5% → 10% → 50% → 100%</span></pre>
   </div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -491,7 +464,6 @@ dataset   = <span class="fn">join_pit_correct</span>(positives + negatives, feat
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 21 completed</span><span style="font-family:'IBM Plex Mono',monospace">MODULE C3 · ML SYSTEMS</span></div>
@@ -530,13 +502,10 @@ dataset   = <span class="fn">join_pit_correct</span>(positives + negatives, feat
   </div>
 </div>
 </div>
-
-
 <div class="mb-nav">
   <a href="/learning/system-design/hld/module-b12-interview-framework/">← B12 Interview Framework</a>
   <a href="/learning/system-design/hld/module-b13-notes/">📄 Study Notes</a>
   <a href="/learning/system-design/system-design-roadmap/">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-b14-kubernetes/" class="primary">B14 Kubernetes →</a>
 </div>
-
 <script src="/assets/js/sd-module-b13.js"></script>

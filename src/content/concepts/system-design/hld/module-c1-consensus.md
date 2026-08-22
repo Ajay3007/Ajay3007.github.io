@@ -11,7 +11,6 @@ url: /learning/system-design/hld/module-c1-consensus/
 
 <link rel="stylesheet" href="/assets/css/sd-module-c1.css">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
-
 <header>
   <div class="hdr-line"></div>
   <div class="hdr-top">
@@ -41,7 +40,6 @@ url: /learning/system-design/hld/module-c1-consensus/
     <div class="tg" style="color:var(--bri)">etcd · CockroachDB · KRaft</div>
   </div>
 </header>
-
 <nav class="nav">
   <div class="nt active" onclick="show('problem',this)">Consensus Problem</div>
   <div class="nt" onclick="show('paxos',this)">Paxos</div>
@@ -54,16 +52,13 @@ url: /learning/system-design/hld/module-c1-consensus/
   <div class="nt" onclick="show('tasks',this)">Tasks</div>
   <div class="nt" onclick="show('checklist',this)">Checklist</div>
 </nav>
-
 <div class="content">
-
 <!-- PROBLEM -->
 <div class="view active" id="view-problem">
   <div class="sh">The Consensus Problem</div>
   <div class="sr">Getting N nodes to agree on a value despite failures</div>
   <div class="cb"><div class="cb-top">What consensus must guarantee<span class="cb-l">DEFINITION</span></div>
 <pre class="c"><span class="cm">// Consensus: N nodes must agree on ONE value, even when nodes crash.</span>
- 
 <span class="cm">// Three properties required:</span>
 <span class="kw">Agreement</span>:   All non-faulty nodes decide on the same value.
 <span class="kw">Validity</span>:    The decided value was proposed by some node (not fabricated).
@@ -85,7 +80,6 @@ url: /learning/system-design/hld/module-c1-consensus/
   </div>
   <div class="al blu"><em>Why FLP matters in interviews:</em> When asked "can your system guarantee both consistency and availability?", the correct answer is no — CAP theorem. FLP is the theoretical underpinning. Raft/Paxos are CP systems: they choose consistency (safety) over availability (liveness) during partitions.</div>
 </div>
-
 <!-- PAXOS -->
 <div class="view" id="view-paxos">
   <div class="sh">Paxos — The Original</div>
@@ -114,7 +108,6 @@ url: /learning/system-design/hld/module-c1-consensus/
   </div>
   <div class="al yel"><em>Why the "must use already-accepted value" rule?</em> Imagine two proposers A and B racing. A gets value "X" accepted by nodes 1 and 2. B comes along and sees node 2's accepted value "X" in its PROMISE response. B must continue with "X" — not its own value. This prevents two different values from being chosen by different majorities. Safety preserved.</div>
 </div>
-
 <!-- RAFT OVERVIEW -->
 <div class="view" id="view-raft">
   <div class="sh">Raft — Designed for Understandability</div>
@@ -157,7 +150,6 @@ url: /learning/system-design/hld/module-c1-consensus/
   </div>
   <div class="al blu"><em>Terms — Raft's logical clock:</em> Every RPC includes the sender's term. If a node receives an RPC with a higher term, it immediately updates its term and reverts to Follower. This means a stale leader that reconnects after a network partition instantly steps down — it will always see a higher term from the new leader. No split-brain from reconnected old leaders.</div>
 </div>
-
 <!-- ELECTION -->
 <div class="view" id="view-election">
   <div class="sh">Leader Election</div>
@@ -165,13 +157,11 @@ url: /learning/system-design/hld/module-c1-consensus/
   <div class="cb"><div class="cb-top">RequestVote RPC — the two critical checks<span class="cb-l">ELECTION PROTOCOL</span></div>
 <pre class="c"><span class="cm">// Follower starts election when election timeout expires (150–300ms, RANDOM per node)</span>
 <span class="cm">// Randomization prevents all nodes timing out simultaneously</span>
- 
 <span class="kw">function</span> <span class="fn">startElection</span>(node) {
   node.currentTerm += <span class="bl">1</span>           <span class="cm">// increment term</span>
   node.state = <span class="str">'CANDIDATE'</span>
   node.votedFor = node.id           <span class="cm">// vote for self</span>
   votes = <span class="bl">1</span>
- 
   <span class="kw">for each</span> peer <span class="kw">in</span> cluster:
     response = peer.<span class="fn">requestVote</span>({
       term:         node.currentTerm,
@@ -206,7 +196,6 @@ url: /learning/system-design/hld/module-c1-consensus/
   </div>
   <div class="al grn"><em>Log completeness guarantee:</em> A Candidate can only win if its log is as up-to-date as a majority of nodes. Since committed entries are on a majority of nodes, the winner is guaranteed to have all committed entries. This is why committed entries are never lost — any future leader will have them.</div>
 </div>
-
 <!-- LOG REPLICATION -->
 <div class="view" id="view-replication">
   <div class="sh">Log Replication & Healing</div>
@@ -259,7 +248,6 @@ url: /learning/system-design/hld/module-c1-consensus/
 <span class="cm">// On AppendEntries rejection (consistency check failed):</span>
 <span class="cm">//   Decrement nextIndex[i] and retry with older entries</span>
 <span class="cm">//   Eventually: follower finds a matching point, then sync forward</span>
- 
 <span class="cm">// AppendEntries includes a consistency check:</span>
 AppendEntries({
   term:         currentTerm,
@@ -275,12 +263,10 @@ AppendEntries({
 <span class="cm">// F4 checks: log[2].term == 1? YES → accepts</span>
 <span class="cm">// F4 replaces log[3] (t1:x=9) with (t2:c=3) — the conflict is overwritten</span>
 <span class="cm">// F4 appends entries[4] = (t2:d=4)</span>
- 
 <span class="cm">// Key: committed entries are NEVER overwritten</span>
 <span class="cm">// (idx 1,2 were committed — majority had them — F4's idx 3 conflict was NOT committed)</span></pre>
   </div>
 </div>
-
 <!-- QUORUM -->
 <div class="view" id="view-quorum">
   <div class="sh">Quorum Math & Failure Tolerance</div>
@@ -330,7 +316,6 @@ Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
  
 <span class="cm">// Partition A: can elect leader, process writes → active</span>
 <span class="cm">// Partition B: cannot reach quorum → cannot elect leader → rejects all writes</span>
- 
 <span class="cm">// Two active leaders simultaneously is IMPOSSIBLE:</span>
 <span class="cm">// They would each need a majority of N nodes.</span>
 <span class="cm">// Two separate majorities of N nodes requires 2 × (⌊N/2⌋ + 1) > N nodes.</span>
@@ -338,7 +323,6 @@ Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
 <span class="cm">// ∴ At most ONE partition can ever have quorum. No split-brain. ∎</span></pre>
   </div>
 </div>
-
 <!-- REAL WORLD -->
 <div class="view" id="view-realworld">
   <div class="sh">Real-World Systems</div>
@@ -381,7 +365,6 @@ Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
     </tbody>
   </table>
 </div>
-
 <!-- INTERVIEW -->
 <div class="view" id="view-interview">
   <div class="sh">Interview Q&A</div>
@@ -395,7 +378,6 @@ Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
     <div class="iqa"><div class="iqa-hd" onclick="qa(this)"><div class="iqa-q">"How does CockroachDB use Raft?"</div><div class="iqa-arr">›</div></div><div class="iqa-bd">CockroachDB shards table data into 64MB ranges, each with 3 replicas. Each range's replicas form an independent Raft group. A node simultaneously acts as Raft leader for some ranges and follower for others — load is naturally distributed. Writes to a key go to the Raft leader for that key's range, which replicates to the other two replicas and commits when 2 of 3 acknowledge. This gives CockroachDB serializable SQL transactions across a distributed cluster, with each range providing its own linearizable log.</div></div>
   </div>
 </div>
-
 <!-- TASKS -->
 <div class="view" id="view-tasks">
   <div class="task-list">
@@ -450,7 +432,6 @@ Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
     </div>
   </div>
 </div>
-
 <!-- CHECKLIST -->
 <div class="view" id="view-checklist">
   <div class="prog-row"><span id="prog-lbl">0 / 20 completed</span><span style="font-family:'JetBrains Mono',monospace">MODULE C1 · CONSENSUS</span></div>
@@ -488,13 +469,10 @@ Partition B: [Node 4, Node 5]           ← no quorum (2 of 5) ✗
   </div>
 </div>
 </div>
-
-
 <div class="mb-nav">
   <a href="/learning/system-design/hld/module-b14-kubernetes/">← B14 Kubernetes</a>
   <a href="/learning/system-design/hld/module-c1-notes/">📄 Study Notes</a>
   <a href="/learning/system-design/system-design-roadmap/">↑ Roadmap</a>
   <a href="/learning/system-design/hld/module-c2-geo-distribution/" class="primary">C2 Geo-Distribution →</a>
 </div>
-
 <script src="/assets/js/sd-module-c1.js"></script>
