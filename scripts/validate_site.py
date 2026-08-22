@@ -9,6 +9,7 @@ Scans for:
 """
 
 import re
+import sys
 from pathlib import Path
 from typing import List, Tuple
 
@@ -86,19 +87,22 @@ def check_image_src_no_relative_url(files: List[Path]) -> List[Tuple[Path, int, 
     return issues
 
 def main():
-    # Scan learning directory
-    learning_dir = Path('learning')
+    # Scan the learning collection. This was `learning/` until the content moved
+    # into the Jekyll collection at `_learning/`, after which the script silently
+    # exited 0 on every run without checking anything.
+    learning_dir = Path('_learning')
     if not learning_dir.exists():
-        print("❌ Learning directory not found.")
-        return
+        print("❌ _learning/ directory not found. Run this from the repository root.")
+        return 1
 
-    md_files = list(learning_dir.rglob('*.md'))
+    # manim-scripts is video tooling, excluded from the site build.
+    md_files = [p for p in learning_dir.rglob('*.md') if 'manim-scripts' not in p.parts]
     layout_files = list(Path('_layouts').rglob('*.html')) if Path('_layouts').exists() else []
     all_files = md_files + layout_files
 
     if not all_files:
         print("⚠️ No markdown or layout files found.")
-        return
+        return 1
 
     # Run checks
     checks = [
@@ -124,10 +128,11 @@ def main():
 
     print(f"\n{'='*60}")
     if total_issues == 0:
-        print("✅ All checks passed!")
+        print(f"✅ All checks passed! ({len(all_files)} files scanned)")
     else:
         print(f"❌ {total_issues} issue(s) found. Fix before committing.")
     print(f"{'='*60}")
+    return 1 if total_issues else 0
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

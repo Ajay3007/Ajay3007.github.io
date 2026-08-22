@@ -16,18 +16,26 @@ gem install jekyll bundler
 bundle install
 ```
 
-**Python maintenance scripts** (no external dependencies required):
+**Python maintenance scripts** (stdlib only, except `generate_og_image.py` which needs Pillow):
 ```bash
-python scripts/generate_summary.py learning/dsa/Arrays/index.md   # Single file
-python scripts/generate_summary.py --batch learning/dsa/           # Directory
+python scripts/generate_summary.py _learning/dsa/Arrays/index.md  # Single file
+python scripts/generate_summary.py --batch _learning/dsa/          # Directory
 python scripts/generate_summary.py --all                           # All learning sections
 python scripts/add_changelog_entry.py "Message"                    # Log entry
-python scripts/validate_site.py                                    # Validate structure/links
+python scripts/validate_site.py                                    # Validate conventions; exits 1 on findings
+python scripts/generate_og_image.py                                # Rebuild the social card
 ```
 
 ## Architecture
 
-This is a Jekyll static site deployed to GitHub Pages at https://ajay3007.github.io. The working branch is `master`; GitHub Actions deploys on push to `main`.
+This is a Jekyll static site deployed to GitHub Pages at https://ajay3007.github.io. The working
+branch is `master`, and `.github/workflows/jekyll-gh-pages.yml` builds and deploys on **push to
+`master`** — pushing to this branch publishes to production.
+
+> **Migration in progress (2026-08):** the site is moving to Astro. See
+> `CURRENT_ARCHITECTURE.md` (audit), `REFERENCE_ARCHITECTURE.md`, `PROPOSED_ARCHITECTURE.md`
+> and `MIGRATION_PLAN.md`. Jekyll remains the production build until the Phase 11 cutover, so
+> everything below still applies.
 
 **Template hierarchy:**
 - `_layouts/default.html` — base shell with header, nav (active state via Liquid `page.url` matching), footer, and shared scripts

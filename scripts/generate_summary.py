@@ -8,7 +8,7 @@ similar to the TaxHrd documentation style.
 
 Usage:
     python generate_summary.py <file_path>
-    python generate_summary.py --batch learning/dsa/
+    python generate_summary.py --batch _learning/dsa/
     python generate_summary.py --all
 
 Author: Ajay Gupta
@@ -300,21 +300,25 @@ def main():
         print("  Directory:    python generate_summary.py --batch <directory>")
         print("  All learning: python generate_summary.py --all")
         print("\nExamples:")
-        print("  python generate_summary.py learning/dsa/Arrays/index.md")
-        print("  python generate_summary.py --batch learning/dsa/")
+        print("  python generate_summary.py _learning/dsa/Arrays/index.md")
+        print("  python generate_summary.py --batch _learning/dsa/")
         print("  python generate_summary.py --all")
         return
-    
+
     arg = sys.argv[1]
-    
+
     if arg == "--all":
-        # Process all learning directories
-        base = Path("learning")
+        # Process all learning directories. This was `learning/` until the content
+        # moved into the Jekyll collection at `_learning/`; --all was a silent
+        # no-op for as long as the old path was hardcoded here.
+        base = Path("_learning")
         if not base.exists():
-            print("❌ learning/ directory not found")
+            print("❌ _learning/ directory not found. Run this from the repository root.")
             return
-        
-        for subdir in ["dsa", "oop", "system-design", "networking", "operating-systems", "finance"]:
+
+        for subdir in ["dsa", "oop", "system-design", "networking", "operating-systems",
+                       "finance", "ai-ml", "backend", "data-plane", "programming-language",
+                       "competitive-programming", "4g-5g"]:
             dir_path = base / subdir
             if dir_path.exists():
                 process_directory(str(dir_path), recursive=True)
