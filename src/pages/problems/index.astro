@@ -1,0 +1,94 @@
+---
+/**
+ * The problems hub.
+ *
+ * Jekyll's version opened with a hand-written stats strip whose numbers were
+ * Liquid expressions, and a hand-maintained row of topic chips. Both are
+ * derived here, so adding a problem to problems.json updates every count and
+ * can create a new topic chip without touching this file.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import ProblemCard from '../../components/ui/ProblemCard.astro';
+import Badge from '../../components/ui/Badge.astro';
+import ProgressStore from '../../components/learning/ProgressStore.astro';
+import { getProblems, statsFor, getTopics, getEditorialsByProblem } from '../../lib/problems';
+
+const [problems, topics, editorials] = await Promise.all([
+  getProblems(),
+  getTopics(),
+  getEditorialsByProblem(),
+]);
+const stats = statsFor(problems);
+const editorialFor = (id: string) => editorials.get(String(id))?.data.url;
+
+const unsolved = problems.filter((p) => !p.data.solved);
+const solved = problems.filter((p) => p.data.solved);
+---
+
+<BaseLayout
+  title="Practice Problems"
+  description={`${stats.total} curated DSA problems across ${topics.length} topics — ${stats.solved} solved (${stats.percent}%). Difficulty breakdown, approach notes and editorials.`}
+>
+  <ProgressStore />
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Problems' }]} />
+
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// PRACTICE</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">Problems</h1>
+      <p class="mt-3 max-w-(--container-prose) text-[17px] leading-relaxed text-muted">
+        {stats.total} problems across {topics.length} topics. Every count on this page is read
+        from the database, so it cannot drift from what is actually tracked.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+        <div><div class="text-2xl font-semibold text-fg">{stats.total}</div><div class="text-[12px] text-subtle">Total</div></div>
+        <div><div class="text-2xl font-semibold text-ok">{stats.solved}</div><div class="text-[12px] text-subtle">Solved</div></div>
+        <div><div class="text-2xl font-semibold text-fg">{stats.percent}%</div><div class="text-[12px] text-subtle">Complete</div></div>
+        <div><div class="text-2xl font-semibold text-ok">{stats.easy}</div><div class="text-[12px] text-subtle">Easy</div></div>
+        <div><div class="text-2xl font-semibold text-warn">{stats.medium}</div><div class="text-[12px] text-subtle">Medium</div></div>
+        <div><div class="text-2xl font-semibold text-danger">{stats.hard}</div><div class="text-[12px] text-subtle">Hard</div></div>
+        <div><div class="text-2xl font-semibold text-fg">{editorials.size}</div><div class="text-[12px] text-subtle">Editorials</div></div>
+      </div>
+    </header>
+
+    <h2 class="mt-10 font-mono text-[12px] tracking-wide text-subtle uppercase">Topics</h2>
+    <ul class="mt-3 flex flex-wrap gap-2">
+      {
+        topics.map((t) => (
+          <li>
+            {t.page ? (
+              <a
+                href={t.page}
+                class="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[13px] text-muted transition-colors hover:border-accent-border hover:text-accent"
+              >
+                {t.topic.replace(/-/g, ' ')}
+                <span class="font-mono text-[11px] text-subtle">{t.count}</span>
+              </a>
+            ) : (
+              <span class="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[13px] text-subtle">
+                {t.topic.replace(/-/g, ' ')}
+                <span class="font-mono text-[11px]">{t.count}</span>
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="mt-10 flex items-baseline gap-3 font-mono text-[12px] tracking-wide text-subtle uppercase">
+      To do <Badge>{unsolved.length}</Badge>
+    </h2>
+    <ul class="mt-3 grid gap-3 lg:grid-cols-2">
+      {unsolved.map((p) => <li><ProblemCard problem={p.data} editorialUrl={editorialFor(p.data.id)} /></li>)}
+    </ul>
+
+    <h2 class="mt-10 flex items-baseline gap-3 font-mono text-[12px] tracking-wide text-ok uppercase">
+      Solved <Badge tone="ok">{solved.length}</Badge>
+    </h2>
+    <ul class="mt-3 grid gap-3 lg:grid-cols-2">
+      {solved.map((p) => <li><ProblemCard problem={p.data} editorialUrl={editorialFor(p.data.id)} /></li>)}
+    </ul>
+  </section>
+</BaseLayout>

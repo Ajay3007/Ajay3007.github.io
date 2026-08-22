@@ -1,0 +1,22 @@
+---
+/**
+ * Shared implementation for the mental-model sections (brief §10).
+ *
+ * Each section is a labelled block that also registers itself via
+ * data-concept-section, so a page can report which perspectives it covers and
+ * a domain index can answer "which concepts have a compiler view?".
+ *
+ * None of them is mandatory. The author decides which perspectives a concept
+ * actually needs; an unused section simply does not appear.
+ */
+interface Props { kind: string; label: string; icon: string; tone?: string }
+const { kind, label, icon, tone = 'text-subtle' } = Astro.props;
+---
+<section class="my-7 rounded-card border border-line bg-bg-subtle p-5" data-concept-section={kind}>
+  <h3 class:list={['mb-2.5 flex items-center gap-2 font-mono text-[12px] tracking-wide uppercase', tone]}>
+    <span aria-hidden="true">{icon}</span>{label}
+  </h3>
+  <div class="text-[15px] leading-relaxed text-muted [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <slot />
+  </div>
+</section>

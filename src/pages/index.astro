@@ -1,0 +1,169 @@
+---
+/**
+ * Home.
+ *
+ * Every section is derived. The Jekyll homepage hand-listed ten topic cards
+ * from three parallel comma-split Liquid strings, and the learning hub carried
+ * a second copy of the same grid; adding a domain meant editing both. Nothing
+ * on this page is written down twice.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/ui/Card.astro';
+import Badge from '../components/ui/Badge.astro';
+import StatusChip from '../components/ui/StatusChip.astro';
+import { getCollection } from 'astro:content';
+import { SITE, PROFILE, SOCIALS, DOMAIN_GROUPS } from '../consts';
+import { getConcepts, getTracks, conceptUrl, trackUrl, isPublished } from '../lib/content';
+import { getProblems, statsFor } from '../lib/problems';
+
+const [concepts, tracks, problems, posts, projects] = await Promise.all([
+  getConcepts(),
+  getTracks(),
+  getProblems(),
+  getCollection('posts', isPublished),
+  getCollection('projects', isPublished),
+]);
+const stats = statsFor(problems);
+
+const learning = concepts.filter((c) => c.data.status === 'learning').slice(0, 4);
+const recentPosts = [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 4);
+const featured = [...projects].sort((a, b) => a.data.order - b.data.order || b.data.year - a.data.year).slice(0, 4);
+const countFor = (d: string) => concepts.filter((c) => c.data.domain === d).length;
+const postUrl = (p: (typeof posts)[number]) => p.data.url ?? `/blog/${p.id}/`;
+const projectUrl = (p: (typeof projects)[number]) => p.data.url ?? `/projects/${p.id}/`;
+---
+
+<BaseLayout title={SITE.title} description={SITE.description}>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-16 sm:px-8 sm:pt-20">
+    <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">
+      // {PROFILE.role.toUpperCase()} · {PROFILE.company.toUpperCase()} · {PROFILE.location.toUpperCase()}
+    </p>
+    <h1 class="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-fg sm:text-5xl">
+      {PROFILE.name}
+    </h1>
+    <p class="mt-5 max-w-(--container-prose) text-lg leading-relaxed text-muted">{SITE.description}</p>
+
+    <div class="mt-6 flex flex-wrap gap-4 text-[14px]">
+      <a href="/learning/" class="text-accent hover:underline">Browse the notebook →</a>
+      <a href="/projects/" class="text-accent hover:underline">Projects →</a>
+      {SOCIALS.map((s) => (
+        <a href={s.href} target="_blank" rel="noopener noreferrer" class="text-subtle hover:text-accent">
+          {s.label} ↗
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 flex flex-wrap gap-x-10 gap-y-3 border-y border-line py-5">
+      <div><div class="text-2xl font-semibold text-fg">{concepts.length}</div><div class="text-[12px] text-subtle">Pages</div></div>
+      <div><div class="text-2xl font-semibold text-fg">{tracks.length}</div><div class="text-[12px] text-subtle">Tracks</div></div>
+      <div><div class="text-2xl font-semibold text-fg">{stats.total}</div><div class="text-[12px] text-subtle">Problems</div></div>
+      <div><div class="text-2xl font-semibold text-ok">{stats.solved}</div><div class="text-[12px] text-subtle">Solved</div></div>
+      <div><div class="text-2xl font-semibold text-fg">{projects.length}</div><div class="text-[12px] text-subtle">Projects</div></div>
+      <div><div class="text-2xl font-semibold text-fg">{posts.length}</div><div class="text-[12px] text-subtle">Posts</div></div>
+    </div>
+
+    <div class="mt-10 rounded-card border border-accent-border bg-accent-tint p-5">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">Currently learning</p>
+      <p class="mt-2 max-w-(--container-prose) text-[15px] leading-relaxed text-fg">
+        {PROFILE.currentFocus}
+      </p>
+      {
+        learning.length > 0 && (
+          <ul class="mt-3 flex flex-wrap gap-2">
+            {learning.map((c) => (
+              <li>
+                <a href={conceptUrl(c)} class="inline-flex items-center gap-2 rounded-full border border-accent-border px-3 py-1 text-[13px] text-fg hover:text-accent">
+                  <StatusChip status={c.data.status} showLabel={false} />
+                  {c.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+
+    <h2 class="mt-14 font-mono text-[12px] tracking-wide text-subtle uppercase">Knowledge domains</h2>
+    <div class="mt-3 grid gap-6 sm:grid-cols-3">
+      {
+        DOMAIN_GROUPS.map(({ group, domains }) => {
+          const populated = domains.filter((d) => countFor(d.slug) > 0);
+          return (
+            populated.length > 0 && (
+              <div>
+                <p class="mb-2 text-[13px] text-subtle">{group}</p>
+                <ul class="space-y-1">
+                  {populated.map((d) => (
+                    <li>
+                      <a href={`/learning/${d.slug}/`} class="flex items-baseline gap-2 text-[14.5px] text-muted hover:text-accent">
+                        {d.label}
+                        <span class="ml-auto font-mono text-[11px] text-subtle">{countFor(d.slug)}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          );
+        })
+      }
+    </div>
+
+    <div class="mt-14 flex items-baseline gap-3">
+      <h2 class="font-mono text-[12px] tracking-wide text-subtle uppercase">Roadmaps</h2>
+      <a href="/roadmap/" class="text-[13px] text-accent hover:underline">All {tracks.length} →</a>
+    </div>
+    <ul class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tracks.slice(0, 6).map((t) => (
+          <li>
+            <Card href={trackUrl(t)} class="h-full">
+              <p class="text-[15px] font-medium text-fg">{t.data.title}</p>
+              <p class="mt-1 text-[13.5px] leading-relaxed text-subtle">{t.data.tagline}</p>
+            </Card>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-14 flex items-baseline gap-3">
+      <h2 class="font-mono text-[12px] tracking-wide text-subtle uppercase">Projects</h2>
+      <a href="/projects/" class="text-[13px] text-accent hover:underline">All {projects.length} →</a>
+    </div>
+    <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+      {
+        featured.map((p) => (
+          <li>
+            <Card href={projectUrl(p)} class="h-full">
+              <div class="flex items-baseline gap-2">
+                <span class="text-[15px] font-medium text-fg">{p.data.title}</span>
+                <span class="ml-auto font-mono text-[11px] text-subtle">{p.data.year}</span>
+              </div>
+              <p class="mt-1 text-[13.5px] leading-relaxed text-subtle">{p.data.description}</p>
+              {p.data.tech.length > 0 && (
+                <div class="mt-2 flex flex-wrap gap-1.5">{p.data.tech.slice(0, 4).map((t) => <Badge>{t}</Badge>)}</div>
+              )}
+            </Card>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-14 flex items-baseline gap-3">
+      <h2 class="font-mono text-[12px] tracking-wide text-subtle uppercase">Writing</h2>
+      <a href="/blogs/" class="text-[13px] text-accent hover:underline">Archive →</a>
+    </div>
+    <ul class="mt-3 divide-y divide-line border-y border-line">
+      {
+        recentPosts.map((p) => (
+          <li>
+            <a href={postUrl(p)} class="group flex flex-wrap items-baseline gap-x-4 gap-y-1 py-3.5">
+              <span class="font-mono text-[12px] text-subtle">{p.data.date.toISOString().slice(0, 10)}</span>
+              <span class="text-[15px] text-fg group-hover:text-accent">{p.data.title}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

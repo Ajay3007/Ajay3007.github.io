@@ -53,6 +53,12 @@ exclude:
   - Gemfile.lock
   - vendor/
   - .venv/
+  # Astro migration tree — Jekyll must never build or copy any of it
+  - src/
+  - dist/
+  - .astro/
+  - astro.config.mjs
+  - tsconfig.json
   # Restored Jekyll defaults
   - node_modules/
   - package.json
@@ -78,3 +84,5 @@ exclude:
   - MIGRATION_PLAN.md
   - AUDIT_URL_INVENTORY.txt
   - MIGRATION_INVENTORY.csv
+  - MIGRATION_REPORT.md
+  - COPILOT_RULES.md

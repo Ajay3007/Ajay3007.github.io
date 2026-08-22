@@ -1,0 +1,48 @@
+---
+/**
+ * Port of _includes/problem-card.html — the one genuinely reusable component
+ * the Jekyll site had. Same information, same affordances, shared tokens.
+ */
+import Badge from './Badge.astro';
+import type { CollectionEntry } from 'astro:content';
+interface Props {
+  problem: CollectionEntry<'problems'>['data'];
+  /** Resolved from the editorials collection — declared once, on the editorial. */
+  editorialUrl?: string;
+}
+const { problem: p, editorialUrl } = Astro.props;
+const tone = { easy: 'ok', medium: 'warn', hard: 'danger' } as const;
+const ext = (u: string) => u.startsWith('http');
+---
+<article class="rounded-card border border-line bg-surface p-3.5">
+  <div class="flex items-baseline gap-2">
+    <span class="font-mono text-[12px] text-subtle">#{p.id}</span>
+    {p.problem_url
+      ? <a href={p.problem_url} target="_blank" rel="noopener noreferrer" class="text-[15px] text-fg hover:text-accent">{p.title}</a>
+      : <span class="text-[15px] text-fg">{p.title}</span>}
+    <span class="ml-auto shrink-0 text-[13px]" title={p.solved ? 'Solved' : 'Not solved'}>
+      {p.solved ? <span class="text-ok">✓</span> : <span class="text-subtle">○</span>}
+    </span>
+  </div>
+  <div class="mt-2 flex flex-wrap items-center gap-1.5">
+    <Badge tone={tone[p.difficulty]}>{p.difficulty}</Badge>
+    {p.topics.map((t) => <Badge>{t.replace(/-/g, ' ')}</Badge>)}
+  </div>
+  {
+    (editorialUrl || p.approach_url || p.solution_url) && (
+      <div class="mt-2.5 flex gap-3 text-[13px]">
+        {editorialUrl && (
+          <a href={editorialUrl} class="text-accent hover:underline">Editorial</a>
+        )}
+        {p.approach_url && (
+          <a href={p.approach_url} class="text-accent hover:underline"
+             {...(ext(p.approach_url) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>Approach</a>
+        )}
+        {p.solution_url && (
+          <a href={p.solution_url} class="text-accent hover:underline"
+             {...(ext(p.solution_url) ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>Solution</a>
+        )}
+      </div>
+    )
+  }
+</article>

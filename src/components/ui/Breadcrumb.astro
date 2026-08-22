@@ -1,0 +1,24 @@
+---
+/** Derived trail. The Jekyll include did this well; it is carried over. */
+interface Crumb { label: string; href?: string }
+interface Props { items: Crumb[] }
+const { items } = Astro.props;
+---
+<nav aria-label="Breadcrumb">
+  <ol class="flex flex-wrap items-center gap-1.5 text-[13px] text-subtle">
+    {
+      items.map((c, i) => (
+        <>
+          {i > 0 && <li aria-hidden="true">/</li>}
+          <li>
+            {c.href ? (
+              <a href={c.href} class="transition-colors hover:text-accent">{c.label}</a>
+            ) : (
+              <span class="text-muted" aria-current="page">{c.label}</span>
+            )}
+          </li>
+        </>
+      ))
+    }
+  </ol>
+</nav>

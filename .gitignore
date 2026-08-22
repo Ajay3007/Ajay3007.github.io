@@ -41,3 +41,11 @@ node_modules/
 _learning/manim-scripts/**/media/
 *_draft_*.mp4
 
+# Astro build output
+dist/
+.astro/
+
+# Mirrored from the Jekyll tree by scripts/sync-public.mjs — not a second copy in git
+public/assets/
+public/images/
+public/learning/

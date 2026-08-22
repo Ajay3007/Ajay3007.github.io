@@ -1,0 +1,67 @@
+---
+/**
+ * The projects index.
+ *
+ * Jekyll hand-coded all five cards in HTML while _projects/*.md already held
+ * title, description, tech, year, github and demo — and the homepage rendered
+ * the same five from the collection. One fact, two representations, one of them
+ * manual. This reads the collection.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
+import { getCollection } from 'astro:content';
+import { isPublished } from '../../lib/content';
+
+const projects = (await getCollection('projects', isPublished)).sort(
+  (a, b) => a.data.order - b.data.order || b.data.year - a.data.year,
+);
+const url = (p: (typeof projects)[number]) => p.data.url ?? `/projects/${p.id}/`;
+---
+
+<BaseLayout
+  title="Projects"
+  description={`${projects.length} things I have built — packet analysis, workspace tooling, tax calculation and AI agents.`}
+  indexable={false}
+>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Projects' }]} />
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// SHIPPED</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">Projects</h1>
+      <p class="mt-3 text-[17px] text-muted">{projects.length} things I have built and written up.</p>
+    </header>
+
+    <ul class="mt-8 grid gap-3 lg:grid-cols-2">
+      {
+        projects.map((p) => (
+          <li>
+            <Card class="h-full">
+              <div class="flex items-baseline gap-2">
+                <a href={url(p)} class="text-[15px] font-medium text-fg hover:text-accent">{p.data.title}</a>
+                {p.data.status !== 'completed' && <Badge>{p.data.status}</Badge>}
+                <span class="ml-auto font-mono text-[11px] text-subtle">{p.data.year}</span>
+              </div>
+              <p class="mt-1.5 text-[13.5px] leading-relaxed text-subtle">{p.data.description}</p>
+              {p.data.tech.length > 0 && (
+                <div class="mt-2.5 flex flex-wrap gap-1.5">
+                  {p.data.tech.map((t) => <Badge>{t}</Badge>)}
+                </div>
+              )}
+              <div class="mt-3 flex flex-wrap gap-3 text-[13px]">
+                <a href={url(p)} class="text-accent hover:underline">Case study →</a>
+                {p.data.github && (
+                  <a href={p.data.github} target="_blank" rel="noopener noreferrer" class="text-subtle hover:text-accent">GitHub ↗</a>
+                )}
+                {p.data.demo && (
+                  <a href={p.data.demo} target="_blank" rel="noopener noreferrer" class="text-subtle hover:text-accent">Demo ↗</a>
+                )}
+              </div>
+            </Card>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

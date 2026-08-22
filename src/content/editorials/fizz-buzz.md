@@ -1,0 +1,43 @@
+---
+title: "Fizz Buzz Solution"
+description: "Fizz Buzz Solution."
+problem_id: "412"
+date: 2026-02-25
+url: /editorials/fizz-buzz/
+---
+
+```cpp
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<string> fizzBuzz(int n) {
+        vector<string> result;
+        for(int i = 1; i <= n; i++) {
+            if(i % 3 == 0 && i % 5 == 0) {
+                result.push_back("FizzBuzz");
+            } else if(i % 3 == 0) {
+                result.push_back("Fizz");
+            } else if(i % 5 == 0) {
+                result.push_back("Buzz");
+            } else {
+                result.push_back(to_string(i));
+            }
+        }
+        return result;
+    }
+};
+
+int main() {
+    Solution sol;
+    int n = 15; // Example input
+    vector<string> output = sol.fizzBuzz(n);
+    
+    for(const string &s : output) {
+        cout << s << endl;
+    }
+    
+    return 0;
+}
+```

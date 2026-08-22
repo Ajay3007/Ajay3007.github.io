@@ -1,0 +1,121 @@
+---
+/**
+ * Visitor completion tracking.
+ *
+ * This is the second of the two progress layers. The first is the author's own
+ * `status:` in frontmatter — a claim about the content, fixed at build time.
+ * This one is the reader's, per-browser, and cannot be a build-time concern.
+ *
+ * Replaces eight independent localStorage implementations in the Jekyll site,
+ * each with its own key and none of them aggregated.
+ *
+ * Components opt in declaratively, so a new component gets progress for free:
+ *   [data-done-toggle="<id>"]      a button that toggles completion
+ *   [data-done-tick="<id>"]        gets .is-done when that id is complete
+ *   [data-progress-group="a,b,c"]  fills its bar / counts / percentage
+ *
+ * Pages render at zero and hydrate after load, so there is no layout shift and
+ * the page is perfectly readable with JavaScript off — you just get no ticks.
+ */
+---
+
+<script is:inline>
+  (() => {
+    const KEY = 'ajdevhub:progress:v1';
+
+    function read() {
+      try {
+        return JSON.parse(localStorage.getItem(KEY) || '{}');
+      } catch {
+        // Corrupt, or private mode. Behave as "nothing done" rather than
+        // throwing and taking the rest of the page down with it.
+        return {};
+      }
+    }
+
+    function write(state) {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(state));
+      } catch {
+        /* quota or private mode — progress simply will not persist */
+      }
+      document.dispatchEvent(new CustomEvent('progress:change', { detail: state }));
+    }
+
+    const store = {
+      all: read,
+      isDone: (id) => read()[id]?.done === true,
+      set(id, done) {
+        const state = read();
+        if (done) state[id] = { done: true, at: Date.now() };
+        else delete state[id];
+        write(state);
+        return done;
+      },
+      toggle(id) {
+        return store.set(id, !store.isDone(id));
+      },
+      countDone(ids) {
+        const state = read();
+        return ids.reduce((n, id) => n + (state[id]?.done ? 1 : 0), 0);
+      },
+      /** Most recently completed, for "continue where you left off". */
+      lastTouched() {
+        let best = null;
+        for (const [id, v] of Object.entries(read())) {
+          if (v?.done && (!best || v.at > best.at)) best = { id, at: v.at };
+        }
+        return best;
+      },
+      reset: () => write({}),
+      export: () => JSON.stringify(read(), null, 2),
+      import(json) {
+        const parsed = JSON.parse(json);
+        if (typeof parsed !== 'object' || parsed === null) throw new Error('Not a progress file');
+        write(parsed);
+      },
+    };
+
+    window.ajProgress = store;
+
+    function paint() {
+      const state = read();
+
+      document.querySelectorAll('[data-done-tick]').forEach((el) => {
+        el.classList.toggle('is-done', state[el.dataset.doneTick]?.done === true);
+      });
+
+      document.querySelectorAll('[data-done-toggle]').forEach((el) => {
+        const done = state[el.dataset.doneToggle]?.done === true;
+        el.setAttribute('aria-pressed', String(done));
+        const label = el.querySelector('[data-done-label]');
+        if (label) label.textContent = done ? 'Completed' : 'Mark complete';
+      });
+
+      document.querySelectorAll('[data-progress-group]').forEach((el) => {
+        const ids = el.dataset.progressGroup.split(',').filter(Boolean);
+        const done = ids.reduce((n, id) => n + (state[id]?.done ? 1 : 0), 0);
+        const total = ids.length;
+        const pct = total ? Math.round((done / total) * 100) : 0;
+
+        el.querySelectorAll('[data-progress-bar]').forEach((b) => (b.style.width = pct + '%'));
+        el.querySelectorAll('[data-progress-done]').forEach((n) => (n.textContent = String(done)));
+        el.querySelectorAll('[data-progress-total]').forEach((n) => (n.textContent = String(total)));
+        el.querySelectorAll('[data-progress-percent]').forEach((n) => (n.textContent = pct + '%'));
+
+        const meter = el.querySelector('[role="progressbar"]');
+        if (meter) meter.setAttribute('aria-valuenow', String(pct));
+        el.classList.toggle('is-complete', total > 0 && done === total);
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest?.('[data-done-toggle]');
+      if (btn) store.toggle(btn.dataset.doneToggle);
+    });
+
+    document.addEventListener('progress:change', paint);
+    document.addEventListener('astro:page-load', paint);
+    paint();
+  })();
+</script>

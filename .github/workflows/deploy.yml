@@ -1,0 +1,78 @@
+name: Deploy
+
+# Production. Replaced jekyll-gh-pages.yml at the Phase 11 cutover.
+#
+# Unlike the workflow it replaces, this one verifies before it publishes: a
+# schema violation, a type error, a dropped URL or a broken internal link fails
+# the run instead of shipping. The Jekyll workflow only ever built and deployed.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; let an in-progress one finish rather than
+# publishing a half-uploaded artifact.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Mirrors the Jekyll static tree (assets/, images/, the PDFs and code
+      # samples inside _learning) into public/. Retires when those files move
+      # into public/ for real.
+      - name: Sync static assets
+        run: node scripts/sync-public.mjs
+
+      # URL uniqueness and preservation, prerequisite resolution and cycles,
+      # editorial <-> problem integrity, and the visibility:review gate.
+      - name: Validate content
+        run: node scripts/validate-content.mjs --production
+
+      - name: Type check
+        run: npx astro check
+
+      # Zod schema violations fail here, naming the file and the field.
+      - name: Build
+        run: npx astro build
+
+      - name: Build search index
+        run: npx pagefind --site dist
+
+      - name: Check internal links
+        run: node scripts/check-links.mjs
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

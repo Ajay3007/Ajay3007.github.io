@@ -1,0 +1,57 @@
+name: Astro CI
+
+# Verification for pull requests. Pushes to master run the same checks inside
+# deploy.yml before publishing, so this exists to catch problems before merge
+# rather than after.
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: astro-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Relational checks a schema cannot express: URL uniqueness and
+      # preservation, prerequisite resolution and cycles, editorial ↔ problem
+      # integrity, and the visibility:review confidentiality gate.
+      - name: Validate content
+        run: node scripts/validate-content.mjs --production
+
+      - name: Type check
+        run: npm run check
+
+      # Zod schema violations fail here, naming the file and the field.
+      - name: Build
+        run: npx astro build
+
+      - name: Build search index
+        run: npx pagefind --site dist
+
+      # Pending links (URLs Jekyll still serves) are reported, not failed.
+      # Anything else is a typo and fails the run.
+      - name: Check internal links
+        run: node scripts/check-links.mjs
+
+      - name: Upload build
+        uses: actions/upload-artifact@v4
+        with:
+          name: astro-dist
+          path: dist
+          retention-days: 7

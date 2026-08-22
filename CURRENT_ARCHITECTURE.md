@@ -421,7 +421,14 @@ collection asks the author to type a `permalink` by hand.
 
 ## 8. URL inventory
 
-**407 live URLs.** The complete list is in `AUDIT_URL_INVENTORY.txt` (generated from a clean
+**401 live URLs.** The complete list is in `AUDIT_URL_INVENTORY.txt`
+
+> Corrected 2026-08-22: the first pass listed 407, six of which
+> (`/learning/oop/index.md/`, `topics.md/` and the same pair under
+> `competitive-programming` and `operating-systems`) were artifacts of the local
+> Jekyll build. All six return 404 on the live site, so they were never real
+> URLs and have been removed from the inventory. Production is the authority
+> here, not a local build. (generated from a clean
 build, sorted, one URL per line). Distribution:
 
 | Route prefix | URLs |

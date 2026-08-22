@@ -1,0 +1,9 @@
+---
+/** The one card. Everything that looked like a card in the Jekyll site was
+    a bespoke div with its own stylesheet; this replaces all of them. */
+interface Props { href?: string; class?: string }
+const { href, class: cls = '' } = Astro.props;
+const base =
+  'block rounded-card border border-line bg-surface p-4 transition-colors hover:border-line-strong';
+---
+{href ? <a href={href} class:list={[base, cls]}><slot /></a> : <div class:list={[base, cls]}><slot /></div>}

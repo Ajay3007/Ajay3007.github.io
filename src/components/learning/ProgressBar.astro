@@ -1,0 +1,31 @@
+---
+/**
+ * Completion across a set of concepts. Server-renders at zero and fills in
+ * after hydration, so there is no layout shift and no flash of wrong numbers.
+ */
+interface Props { ids: string[]; label?: string }
+const { ids, label } = Astro.props;
+---
+{
+  ids.length > 0 && (
+    <div data-progress-group={ids.join(',')} class="group">
+      <div class="flex items-baseline justify-between text-[13px] text-subtle">
+        <span>{label ?? 'Your progress'}</span>
+        <span>
+          <span data-progress-done>0</span>/<span data-progress-total>{ids.length}</span>
+          <span class="ml-1.5 text-subtle">(<span data-progress-percent>0%</span>)</span>
+        </span>
+      </div>
+      <div
+        class="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-line"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+        aria-label={label ?? 'Your progress'}
+      >
+        <div data-progress-bar class="h-full w-0 rounded-full bg-accent transition-[width] duration-300"></div>
+      </div>
+    </div>
+  )
+}

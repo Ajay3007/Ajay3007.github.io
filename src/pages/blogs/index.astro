@@ -1,0 +1,67 @@
+---
+/**
+ * The blog archive, grouped by tag.
+ *
+ * Jekyll listed the seven categories by hand in a Liquid split string, and
+ * maintained a separate page per category under blogs/. Both are derived here:
+ * the groups come from the tags posts actually carry.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+import { isPublished } from '../../lib/content';
+
+const posts = (await getCollection('posts', isPublished)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const tags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+const postUrl = (p: (typeof posts)[number]) => p.data.url ?? `/blog/${p.id}/`;
+---
+
+<BaseLayout
+  title="Blog"
+  description={`${posts.length} posts across ${tags.length} topics — data plane, system design, DSA, finance and the occasional aside.`}
+  indexable={false}
+>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Blog' }]} />
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// JOURNAL</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">Archive</h1>
+      <p class="mt-3 text-[17px] text-muted">{posts.length} posts</p>
+    </header>
+
+    <ul class="mt-6 flex flex-wrap gap-2">
+      {
+        tags.map((t) => (
+          <li>
+            <a
+              href={`/blogs/${t}/`}
+              class="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[13px] text-muted transition-colors hover:border-accent-border hover:text-accent"
+            >
+              {t.replace(/-/g, ' ')}
+              <span class="font-mono text-[11px] text-subtle">
+                {posts.filter((p) => p.data.tags.includes(t)).length}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="mt-8 divide-y divide-line border-y border-line">
+      {
+        posts.map((p) => (
+          <li>
+            <a href={postUrl(p)} class="group flex flex-wrap items-baseline gap-x-4 gap-y-1 py-3.5">
+              <span class="font-mono text-[12px] text-subtle">{p.data.date.toISOString().slice(0, 10)}</span>
+              <span class="text-[15px] text-fg group-hover:text-accent">{p.data.title}</span>
+              <span class="ml-auto font-mono text-[11px] text-subtle">{p.data.tags[0]}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

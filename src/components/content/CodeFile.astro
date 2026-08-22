@@ -1,0 +1,26 @@
+---
+/**
+ * A titled panel wrapping a code block — by a wide margin the most common
+ * structure in the existing content (cp / cp-hdr / cp-body, 1,035 uses).
+ *
+ * The code inside is a plain fenced block, so Shiki highlights it. The Jekyll
+ * pages hand-wrote the highlighting as <span class="kw"> etc: 18,666 spans
+ * across the corpus, all of which this makes unnecessary.
+ */
+interface Props { name?: string; lang?: string; note?: string }
+const { name, lang, note } = Astro.props;
+---
+<figure class="my-6 overflow-hidden rounded-card border border-line">
+  {
+    (name || lang) && (
+      <figcaption class="flex items-center gap-3 border-b border-line bg-bg-subtle px-4 py-2">
+        {name && <span class="font-mono text-[13px] text-fg">{name}</span>}
+        {lang && <span class="ml-auto font-mono text-[11px] tracking-wide text-subtle uppercase">{lang}</span>}
+      </figcaption>
+    )
+  }
+  <div class="[&>pre]:my-0 [&>pre]:rounded-none [&>pre]:border-0 [&>pre]:p-4">
+    <slot />
+  </div>
+  {note && <figcaption class="border-t border-line px-4 py-2 text-[13px] text-subtle">{note}</figcaption>}
+</figure>

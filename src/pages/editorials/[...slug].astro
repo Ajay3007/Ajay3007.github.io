@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { isPublished } from '../../lib/content';
+
+interface Props {
+  editorial: CollectionEntry<'editorials'>;
+  problem?: CollectionEntry<'problems'>;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const [editorials, problems] = await Promise.all([
+    getCollection('editorials', isPublished),
+    getCollection('problems'),
+  ]);
+  const byId = new Map(problems.map((p) => [String(p.data.id), p]));
+  return editorials.map((editorial) => ({
+    params: {
+      slug: (editorial.data.url ?? `/editorials/${editorial.id}/`)
+        .replace(/^\/editorials\//, '').replace(/\/$/, ''),
+    },
+    props: { editorial, problem: byId.get(String(editorial.data.problem_id)) },
+  }));
+};
+
+const { editorial, problem } = Astro.props as Props;
+const { Content, headings } = await render(editorial);
+const d = editorial.data;
+---
+<ArticleLayout
+  title={d.title}
+  description={d.description}
+  kicker={problem ? `LEETCODE #${problem.data.id} · ${problem.data.difficulty.toUpperCase()}` : 'EDITORIAL'}
+  date={d.date}
+  headings={headings}
+  crumbs={[{ label: 'Problems', href: '/problems/' }, { label: d.title }]}
+  links={problem?.data.problem_url ? [{ label: 'Problem on LeetCode', href: problem.data.problem_url }] : []}
+>
+  <Content />
+</ArticleLayout>

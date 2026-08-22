@@ -1,0 +1,29 @@
+---
+/**
+ * The workhorse. In the Jekyll content this was written by hand every time as
+ * a div with a bespoke class and a matching entry in a per-page stylesheet
+ * (lab-box, p-blue, p-teal, …). One component, five tones.
+ */
+interface Props {
+  type?: 'note' | 'tip' | 'warning' | 'danger' | 'insight';
+  title?: string;
+}
+const { type = 'note', title } = Astro.props;
+const styles = {
+  note:    { border: 'border-line',          accent: 'text-subtle', icon: 'ⓘ',  label: 'Note' },
+  tip:     { border: 'border-current/25',    accent: 'text-ok',     icon: '✓',  label: 'Tip' },
+  warning: { border: 'border-current/25',    accent: 'text-warn',   icon: '▲',  label: 'Warning' },
+  danger:  { border: 'border-current/25',    accent: 'text-danger', icon: '✕',  label: 'Careful' },
+  insight: { border: 'border-accent-border', accent: 'text-accent', icon: '◆',  label: 'Insight' },
+} as const;
+const s = styles[type];
+---
+<aside class:list={['my-6 rounded-card border bg-bg-subtle p-4', s.border]}>
+  <p class:list={['mb-2 flex items-center gap-2 font-mono text-[12px] tracking-wide uppercase', s.accent]}>
+    <span aria-hidden="true">{s.icon}</span>
+    <span>{title ?? s.label}</span>
+  </p>
+  <div class="prose-callout text-[15px] leading-relaxed text-muted [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <slot />
+  </div>
+</aside>

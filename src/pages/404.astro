@@ -1,0 +1,24 @@
+---
+/**
+ * Not found.
+ *
+ * The Jekyll site had none, so GitHub Pages served its generic page. Offers the
+ * places people are most likely to be looking for rather than a dead end.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NAV } from '../consts';
+---
+
+<BaseLayout title="Page not found" description="That page does not exist." indexable={false}>
+  <section class="mx-auto max-w-(--container-prose) px-5 py-24 sm:px-8">
+    <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// 404</p>
+    <h1 class="mt-3 text-3xl font-semibold tracking-tight text-fg">That page does not exist.</h1>
+    <p class="mt-3 text-[17px] leading-relaxed text-muted">
+      It may have moved during the site rebuild. Search with <kbd class="font-mono text-[13px]">⌘K</kbd>,
+      or start from one of these.
+    </p>
+    <ul class="mt-6 flex flex-wrap gap-3 text-[14px]">
+      {NAV.map((n) => <li><a href={n.href} class="text-accent hover:underline">{n.label} →</a></li>)}
+    </ul>
+  </section>
+</BaseLayout>

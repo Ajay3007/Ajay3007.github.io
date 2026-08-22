@@ -1,0 +1,107 @@
+---
+/**
+ * Domain index — everything filed under one of the eleven knowledge domains.
+ *
+ * Generated only for domains that do not already have a migrated Jekyll index
+ * page at the same URL, so the hand-written ones keep serving until Phase 6
+ * replaces them. Adding a domain to consts.DOMAINS creates its page here with
+ * no further edit.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/ui/Breadcrumb.astro';
+import Card from '../../../components/ui/Card.astro';
+import StatusChip from '../../../components/ui/StatusChip.astro';
+import { DOMAINS } from '../../../consts';
+import {
+  getConcepts, getTracks, conceptUrl, trackUrl, isPublished,
+  type Concept, type Track,
+} from '../../../lib/content';
+
+interface Props {
+  domain: (typeof DOMAINS)[number];
+  tracks: Track[];
+  loose: Concept[];
+  total: number;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const [concepts, allTracks] = await Promise.all([
+    getCollection('concepts', isPublished),
+    getCollection('tracks', isPublished),
+  ]);
+  // URLs already claimed by migrated content — never generate over them.
+  const taken = new Set([...concepts.map(conceptUrl), ...allTracks.map(trackUrl)]);
+
+  const paths = [];
+  for (const domain of DOMAINS) {
+    if (taken.has(`/learning/${domain.slug}/`)) continue;
+    const inDomain = await getConcepts({ domain: domain.slug });
+    const tracks = await getTracks(domain.slug);
+    const trackIds = new Set(tracks.map((t) => t.id));
+    paths.push({
+      params: { domain: domain.slug },
+      props: {
+        domain,
+        tracks,
+        loose: inDomain.filter((c) => !c.data.track || !trackIds.has(c.data.track)),
+        total: inDomain.length,
+      },
+    });
+  }
+  return paths;
+};
+
+const { domain, tracks, loose, total } = Astro.props as Props;
+---
+
+<BaseLayout title={domain.label} description={`${domain.blurb}. ${total} pages.`} indexable={false}>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Learning', href: '/learning/' }, { label: domain.label }]} />
+    <header class="mt-6">
+      <h1 class="text-3xl font-semibold tracking-tight text-fg sm:text-4xl">{domain.label}</h1>
+      <p class="mt-3 text-[17px] text-muted">{domain.blurb}</p>
+      <p class="mt-2 text-[13px] text-subtle">{total} pages</p>
+    </header>
+
+    {
+      tracks.length > 0 && (
+        <>
+          <h2 class="mt-10 font-mono text-[12px] tracking-wide text-subtle uppercase">Tracks</h2>
+          <ul class="mt-3 grid gap-3 sm:grid-cols-2">
+            {tracks.map((t) => (
+              <li>
+                <Card href={trackUrl(t)}>
+                  <p class="text-[15px] text-fg">{t.data.title}</p>
+                  <p class="mt-1 text-[13.5px] leading-relaxed text-subtle">{t.data.tagline}</p>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+
+    {
+      loose.length > 0 && (
+        <>
+          <h2 class="mt-10 font-mono text-[12px] tracking-wide text-subtle uppercase">Pages</h2>
+          <ul class="mt-3 grid gap-2 sm:grid-cols-2">
+            {loose.map((c) => (
+              <li>
+                <a
+                  href={conceptUrl(c)}
+                  class="flex items-baseline gap-3 rounded border border-line px-3 py-2 transition-colors hover:border-accent-border"
+                >
+                  <span class="text-[15px] text-fg">{c.data.title}</span>
+                  <span class="ml-auto shrink-0"><StatusChip status={c.data.status} showLabel={false} /></span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </section>
+</BaseLayout>

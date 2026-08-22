@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ai-ml-engineering/part1-foundation",
+    "track": "ai-ml-engineering",
+    "slug": "part1-foundation",
+    "title": "Foundation",
+    "description": "Foundation — part of the ai-ml-engineering track.",
+    "order": 1
+  },
+  {
+    "id": "ai-ml-engineering/part2-stats-eda",
+    "track": "ai-ml-engineering",
+    "slug": "part2-stats-eda",
+    "title": "Stats eda",
+    "description": "Stats eda — part of the ai-ml-engineering track.",
+    "order": 2
+  },
+  {
+    "id": "ai-ml-engineering/part3-classical-ml",
+    "track": "ai-ml-engineering",
+    "slug": "part3-classical-ml",
+    "title": "Classical ml",
+    "description": "Classical ml — part of the ai-ml-engineering track.",
+    "order": 3
+  },
+  {
+    "id": "ai-ml-engineering/part4-llm-apis",
+    "track": "ai-ml-engineering",
+    "slug": "part4-llm-apis",
+    "title": "Llm apis",
+    "description": "Llm apis — part of the ai-ml-engineering track.",
+    "order": 4
+  },
+  {
+    "id": "ai-ml-engineering/part5-rag",
+    "track": "ai-ml-engineering",
+    "slug": "part5-rag",
+    "title": "Rag",
+    "description": "Rag — part of the ai-ml-engineering track.",
+    "order": 5
+  },
+  {
+    "id": "ai-ml-engineering/part6-agents",
+    "track": "ai-ml-engineering",
+    "slug": "part6-agents",
+    "title": "Agents",
+    "description": "Agents — part of the ai-ml-engineering track.",
+    "order": 6
+  },
+  {
+    "id": "ai-ml-engineering/part7-production",
+    "track": "ai-ml-engineering",
+    "slug": "part7-production",
+    "title": "Production",
+    "description": "Production — part of the ai-ml-engineering track.",
+    "order": 7
+  },
+  {
+    "id": "ai-ml-engineering/part8-specialisation",
+    "track": "ai-ml-engineering",
+    "slug": "part8-specialisation",
+    "title": "Specialisation",
+    "description": "Specialisation — part of the ai-ml-engineering track.",
+    "order": 8
+  },
+  {
+    "id": "ai-ml-engineering/part9-portfolio",
+    "track": "ai-ml-engineering",
+    "slug": "part9-portfolio",
+    "title": "Portfolio",
+    "description": "Portfolio — part of the ai-ml-engineering track.",
+    "order": 9
+  },
+  {
+    "id": "networking-mastery/foundations",
+    "track": "networking-mastery",
+    "slug": "foundations",
+    "title": "Foundations",
+    "description": "The layered model and the two protocols everything else is built on.",
+    "order": 1,
+    "stage": "Phase 1"
+  },
+  {
+    "id": "networking-mastery/transport",
+    "track": "networking-mastery",
+    "slug": "transport",
+    "title": "Transport",
+    "description": "TCP and UDP in enough depth to reason about real traffic.",
+    "order": 2,
+    "stage": "Phase 2"
+  }
+]
