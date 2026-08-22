@@ -427,7 +427,7 @@ prompt.md,Repo doc,,,(not published),,KEEP,Excluded from the built site
 redesign-prompt.md,Repo doc,,,(not published),,KEEP,Excluded from the built site
 roadmap.md,Site page,Learning Roadmaps,/roadmap/,pages/,/roadmap/,REWRITE,Hand-coded HTML; rebuild as a derived page
 _data/problems.yml,Data (164 problems),DSA problem database,,content/problems.json,,MIGRATE,Schema preserved; add concepts[] field
-_data/roadmaps.yml,Data (7 roadmaps),Roadmap hub cards,,(derived),,RETIRE,"Becomes a view over tracks+modules+concepts; removes hardcoded ""100+"" count"
+_data/roadmaps.yml,Data (7 roadmaps),Roadmap hub cards,,(derived),,RETIRE,"Superseded by /roadmap/, which derives every figure from tracks, modules and concepts. Kept until the Phase 11 cutover because the Jekyll roadmap.md still reads it and Jekyll is still production."
 _data/nav.yml,Data (nav),Navigation,,src/consts.ts,,MIGRATE,
 assets/diagrams/**,Generated SVG (83),PlantUML output,,public/diagrams/,,MIGRATE,PlantUML CI workflow carried over unchanged
 _learning/**/*.puml,Diagram source (43),PlantUML sources,,content/ (co-located),,MIGRATE,

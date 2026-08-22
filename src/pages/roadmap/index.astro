@@ -1,0 +1,143 @@
+---
+/**
+ * The roadmap hub.
+ *
+ * Replaces _data/roadmaps.yml, which held seven cards whose every statistic was
+ * a hand-written string — "13 chapters complete", "6 Phases · 26 Modules",
+ * "100+" curated problems when the database actually held 166. A roadmap is not
+ * a separate thing to maintain: it is a view over tracks, their modules and the
+ * concepts inside them, so the counts below cannot drift.
+ *
+ * It also shows more than the YAML did. That file described seven roadmaps
+ * because someone had written seven cards; there are eleven tracks.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
+import StatusChip from '../../components/ui/StatusChip.astro';
+import ProgressStore from '../../components/learning/ProgressStore.astro';
+import ProgressBar from '../../components/learning/ProgressBar.astro';
+import { getCollection } from 'astro:content';
+import { DOMAIN_GROUPS, DOMAIN_LABELS } from '../../consts';
+import { getConcepts, getTracks, trackUrl, conceptUrl } from '../../lib/content';
+import { getProblems, statsFor } from '../../lib/problems';
+
+const [tracks, concepts, modules, problems] = await Promise.all([
+  getTracks(),
+  getConcepts(),
+  getCollection('modules'),
+  getProblems(),
+]);
+const problemStats = statsFor(problems);
+
+const rows = tracks.map((track) => {
+  const items = concepts.filter((c) => c.data.track === track.id);
+  const mods = modules.filter((m) => m.data.track === track.id);
+  const stages = [...new Set(mods.map((m) => m.data.stage).filter(Boolean))];
+  const solid = items.filter((c) => c.data.status === 'solid').length;
+  return { track, items, mods, stages, solid };
+});
+
+const byDomain = (d: string) => rows.filter((r) => r.track.data.domain === d);
+
+/** Tracked pages that sit in a domain but outside any track. */
+const looseCount = concepts.filter((c) => !c.data.track).length;
+---
+
+<BaseLayout
+  title="Roadmaps"
+  description={`${tracks.length} learning tracks covering ${concepts.length} pages and ${problemStats.total} problems. Every count is read from the content, not maintained by hand.`}
+  indexable={false}
+>
+  <ProgressStore />
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'Roadmaps' }]} />
+
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// PATHS</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">Roadmaps</h1>
+      <p class="mt-3 max-w-(--container-prose) text-[17px] leading-relaxed text-muted">
+        Structured paths through the notebook. Each one is a view over its tracks, modules and
+        pages — the numbers are counted at build time rather than written down.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+        <div><div class="text-2xl font-semibold text-fg">{tracks.length}</div><div class="text-[12px] text-subtle">Tracks</div></div>
+        <div><div class="text-2xl font-semibold text-fg">{modules.length}</div><div class="text-[12px] text-subtle">Modules</div></div>
+        <div><div class="text-2xl font-semibold text-fg">{concepts.length}</div><div class="text-[12px] text-subtle">Pages</div></div>
+        <div><div class="text-2xl font-semibold text-fg">{problemStats.total}</div><div class="text-[12px] text-subtle">Problems</div></div>
+        <div><div class="text-2xl font-semibold text-ok">{problemStats.solved}</div><div class="text-[12px] text-subtle">Solved</div></div>
+      </div>
+    </header>
+
+    {
+      DOMAIN_GROUPS.map(({ group, domains }) => {
+        const populated = domains.filter((d) => byDomain(d.slug).length > 0);
+        return (
+          populated.length > 0 && (
+            <>
+              <h2 class="mt-12 font-mono text-[12px] tracking-wide text-subtle uppercase">{group}</h2>
+              {populated.map((d) => (
+                <div class="mt-4">
+                  <p class="mb-2 text-[13px] text-subtle">{DOMAIN_LABELS[d.slug]}</p>
+                  <ul class="grid gap-3 lg:grid-cols-2">
+                    {byDomain(d.slug).map(({ track, items, mods, stages, solid }) => (
+                      <li>
+                        <Card class="h-full">
+                          <div class="flex items-baseline gap-2">
+                            <a href={trackUrl(track)} class="text-[15px] font-medium text-fg hover:text-accent">
+                              {track.data.title}
+                            </a>
+                            {track.data.status !== 'active' && <Badge>{track.data.status}</Badge>}
+                            <span class="ml-auto font-mono text-[11px] text-subtle">{items.length}</span>
+                          </div>
+                          <p class="mt-1 text-[13.5px] leading-relaxed text-subtle">{track.data.tagline}</p>
+
+                          <p class="mt-2 font-mono text-[11px] text-subtle">
+                            {[
+                              stages.length > 0 && `${stages.length} ${stages.length === 1 ? 'stage' : 'stages'}`,
+                              mods.length > 0 && `${mods.length} ${mods.length === 1 ? 'module' : 'modules'}`,
+                              `${items.length} pages`,
+                              solid > 0 && `${solid} solid`,
+                            ]
+                              .filter(Boolean)
+                              .join(' · ')}
+                          </p>
+
+                          {items.length > 0 && (
+                            <div class="mt-3">
+                              <ProgressBar ids={items.map((c) => c.id)} label="Completed" />
+                            </div>
+                          )}
+
+                          <div class="mt-3 flex flex-wrap gap-3 text-[13px]">
+                            <a href={trackUrl(track)} class="text-accent hover:underline">Open track →</a>
+                            {items[0] && (
+                              <a href={conceptUrl(items[0])} class="text-subtle hover:text-accent">
+                                Start at {items[0].data.title} →
+                              </a>
+                            )}
+                          </div>
+                        </Card>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </>
+          )
+        );
+      })
+    }
+
+    {
+      looseCount > 0 && (
+        <p class="mt-12 text-[13px] text-subtle">
+          {looseCount} pages sit outside any track — browse them from{' '}
+          <a href="/learning/" class="text-accent hover:underline">the learning hub</a>.
+        </p>
+      )
+    }
+  </section>
+</BaseLayout>
