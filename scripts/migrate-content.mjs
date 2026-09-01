@@ -456,12 +456,14 @@ const written = new Map();
  */
 const assetIndex = new Map();
 {
-  const base = join(ROOT, '_learning');
+  // Static files moved out of _learning into public/learning when sync-public
+  // was retired; they are served from there, so that is what a link resolves to.
+  const base = join(ROOT, 'public/learning');
   const walkAll = (dir) => {
     for (const n of readdirSync(dir)) {
       const p = join(dir, n);
       if (statSync(p).isDirectory()) { if (n !== 'manim-scripts') walkAll(p); }
-      else if (!p.endsWith('.md')) {
+      else {
         const served = '/learning/' + relative(base, p).split(sep).join('/');
         assetIndex.set(served.toLowerCase(), served);
       }

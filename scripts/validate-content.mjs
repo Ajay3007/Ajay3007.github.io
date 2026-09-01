@@ -202,14 +202,14 @@ for (const p of problems)
 {
   const servedPages = new Set(byUrl.keys());
   const staticFiles = new Set();
-  const learningDir = join(ROOT, '_learning');
+  const learningDir = join(ROOT, 'public/learning');
   const walkStatic = (dir) => {
     if (!existsSync(dir)) return;
     for (const name of readdirSync(dir)) {
       const abs = join(dir, name);
       if (statSync(abs).isDirectory()) {
         if (name !== 'manim-scripts') walkStatic(abs);
-      } else if (!name.endsWith('.md')) {
+      } else {
         staticFiles.add('/learning/' + relative(learningDir, abs).split(sep).join('/'));
       }
     }

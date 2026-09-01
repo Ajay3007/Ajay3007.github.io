@@ -12,13 +12,12 @@
     "dev": "astro dev",
     "start": "astro dev",
     "preview": "astro preview",
-    "assets": "node scripts/sync-public.mjs && python3 scripts/generate_og_image.py",
+    "assets": "python3 scripts/generate_og_image.py",
     "validate": "node scripts/validate-content.mjs",
     "check": "astro check",
-    "build": "node scripts/sync-public.mjs && astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist",
     "check:links": "node scripts/check-links.mjs",
-    "verify": "npm run validate && npm run check && npm run build && npm run check:links",
-    "prebuild": "node scripts/sync-public.mjs"
+    "verify": "npm run validate && npm run check && npm run build && npm run check:links"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.2.2",
