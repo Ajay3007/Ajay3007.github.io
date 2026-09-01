@@ -45,14 +45,18 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
-          mkdir -p assets/diagrams
+          mkdir -p public/assets/diagrams
           tmp="$(mktemp -d)"
           failed=0
           # Render each file to a temp dir first; only copy into place on success,
           # so a .puml with a syntax error never overwrites a good committed SVG.
           while IFS= read -r file; do
             rel_path="${file#./}"
-            out_dir="assets/diagrams/$(dirname "$rel_path")"
+            # Sources moved from _learning/ to public/learning/ when public/
+            # became real, but the rendered SVGs must keep the URLs the content
+            # already points at: /assets/diagrams/_learning/<path>.svg
+            mapped="${rel_path#public/learning/}"
+            out_dir="public/assets/diagrams/_learning/$(dirname "$mapped")"
             mkdir -p "$out_dir"
             rm -f "$tmp"/*.svg
             echo "Rendering: $rel_path"
@@ -71,7 +75,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add assets/diagrams
+          git add public/assets/diagrams
 
           if git diff --cached --quiet; then
             echo "No rendered SVG changes to commit."
