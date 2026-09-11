@@ -1,656 +1,1141 @@
-You are an expert Senior Frontend Engineer, UX Designer, Information Architect, Technical Writer, and Open Source Portfolio Designer.
+# Ajdevhub — Complete Architecture Modernization & Knowledge Platform Migration
 
-I have an existing GitHub Pages website that contains all my learning resources, notes, curated roadmaps, projects, and technical knowledge.
+You are working on my personal GitHub Pages repository:
 
-Repository:
+**My repository:**
 https://github.com/Ajay3007/Ajay3007.github.io
 
-Your goal is NOT to simply improve the UI.
+I also want you to study this repository as an architectural/reference example:
 
-Your goal is to redesign and restructure the entire website into a world-class developer knowledge hub that delivers an exceptional user experience while keeping all existing content intact.
+**Reference repository:**
+https://github.com/aspiremis/aspiremis.github.io
 
-The final website should feel like a combination of:
+The reference repository belongs to a friend. Do NOT copy its content, personal information, branding, or blindly reproduce its implementation. Study its architecture, organization, content-driven design, reusable components, learning-system patterns, automation, and UX ideas.
 
-- roadmap.sh
-- Vercel Docs
-- Stripe Docs
-- GitHub Docs
-- Cloudflare Learning Center
-- Kubernetes Documentation
-- ByteByteGo
-- Microsoft Learn
+---
 
-Use them only for inspiration. Do NOT copy their designs.
+# 1. CONTEXT
 
-==================================================
-PRIMARY OBJECTIVES
-==================================================
+My current GitHub Pages site has evolved organically over time.
 
-1. Make the website feel premium and modern.
+It contains:
 
-2. Make navigation effortless.
+* Learning notes
+* DSA content
+* DSA problems
+* Projects
+* Editorials
+* Blog/posts
+* Roadmaps
+* Resources
+* Technical notes
+* Various custom UI components
+* Data-driven DSA functionality
+* Other personal/professional content
 
-3. Make every resource discoverable.
+The current repository works, but the architecture has become messy and difficult to maintain.
 
-4. Organize information professionally.
+A lot of the UI, navigation, pages, and relationships between content are manually maintained.
 
-5. Keep it highly maintainable.
+I now want to transform this repository into a **long-term personal Engineering Knowledge Platform**.
 
-6. Ensure it scales to thousands of pages.
+This is NOT merely a portfolio website.
 
-7. Keep it fully compatible with GitHub Pages.
+The long-term goal is:
 
-==================================================
-STEP 1 — UNDERSTAND THE EXISTING WEBSITE
-==================================================
+> Build a structured, searchable, interconnected representation of everything I learn, build, and explore as a software engineer.
 
-Do NOT start coding.
+---
 
-First, thoroughly analyze the entire repository.
+# 2. MY LONG-TERM KNOWLEDGE DOMAINS
 
-Understand:
+The platform should eventually support domains such as:
 
-- Folder structure
-- HTML pages
-- CSS
-- JavaScript
-- Markdown files
-- Assets
-- Images
-- Existing navigation
-- Current components
-- Roadmaps
-- Learning resources
-- Notes
-- Categories
-- Overall architecture
+* AI / ML
+* Neural Networks
+* Deep Learning
+* Transformers
+* LLMs
+* Graph Compilers
+* Compiler Fundamentals
+* Computational Graphs
+* IR / Intermediate Representations
+* Graph Optimization
+* Hardware Acceleration
+* Networking
+* Dataplane
+* DPDK
+* Distributed Systems
+* System Design
+* C / C++
+* Java
+* Python
+* DSA
+* Algorithms
+* Projects
+* Research / Papers
+* Books
+* Courses
+* Tools
+* Engineering Resources
 
-Create a complete mental model of the website before suggesting changes.
+The exact taxonomy should NOT be hardcoded prematurely.
 
-==================================================
-STEP 2 — PERFORM A COMPLETE AUDIT
-==================================================
+Design the system so that I can add new domains later without changing the application architecture.
 
-Write a comprehensive report covering:
+---
 
-### Information Architecture
+# 3. VERY IMPORTANT: FIRST AUDIT, DO NOT MODIFY
 
-- Current content hierarchy
-- Navigation flow
-- Discoverability
-- Organization
-- Scalability
+Before changing ANYTHING:
 
-### UX Audit
+## Completely audit my existing repository.
 
-Identify problems such as:
+Inspect:
 
-- Poor navigation
-- Too much scrolling
-- Visual clutter
-- Inconsistent layouts
-- Weak hierarchy
-- Poor spacing
-- Weak typography
-- Missing search
-- Dead-end pages
-- Inconsistent buttons
-- Missing breadcrumbs
-- Weak mobile experience
-- Accessibility issues
+* Entire directory structure
+* Existing Jekyll configuration
+* Collections
+* `_data`
+* `_includes`
+* `_layouts`
+* Markdown files
+* HTML files
+* JavaScript
+* CSS
+* Scripts
+* Build/deployment configuration
+* GitHub Actions
+* Existing search functionality
+* DSA system
+* Problem database
+* Roadmaps
+* Projects
+* Posts
+* Editorials
+* Existing navigation
+* Existing URLs
+* Existing reusable components
+* Existing special-case logic
+* Existing SEO metadata
+* Existing assets
+* Existing dependencies
 
-### UI Audit
+Also inspect the git history sufficiently to understand important architectural decisions.
 
-Review:
+DO NOT delete or rewrite anything during this phase.
 
-- Color palette
-- Typography
-- Icons
-- Cards
-- Buttons
-- Components
-- Responsiveness
-- White space
-- Readability
+---
 
-### Performance Audit
+# 4. STUDY THE REFERENCE REPOSITORY
 
-Review:
+Analyze:
 
-- CSS organization
-- JS organization
-- Asset optimization
-- Image loading
-- Lazy loading
-- Bundle size
-- Caching
-- SEO
-- Accessibility
+https://github.com/aspiremis/aspiremis.github.io
 
-==================================================
-STEP 3 — REDESIGN THE INFORMATION ARCHITECTURE
-==================================================
+Study especially:
 
-Create a much better site structure.
+* Overall architecture
+* Content organization
+* Astro usage
+* Content Collections
+* Schema validation
+* Markdown/MDX approach
+* Reusable components
+* Layout system
+* Learning tracks
+* Modules
+* Lessons
+* Progress system
+* Search
+* Mathematical rendering
+* GitHub Actions
+* TypeScript usage
+* Content metadata
+* Navigation generation
+* Prerequisites
+* Related content
+* UX patterns
+* Responsive design
+* Maintainability
+
+Create a comparison:
+
+```text
+My current architecture
+        ↓
+Reference architecture
+        ↓
+What is worth adopting
+        ↓
+What should NOT be copied
+        ↓
+Recommended Ajdevhub architecture
+```
+
+---
+
+# 5. DO NOT BLINDLY MIGRATE TO ASTRO
+
+Evaluate whether migrating from Jekyll to Astro is actually the best decision.
+
+I suspect Astro + TypeScript + Content Collections is a strong fit, but I want you to verify this based on my current repository.
+
+Compare at least:
+
+### Option A
+
+Improve existing Jekyll architecture.
+
+### Option B
+
+Migrate to Astro.
+
+### Option C
+
+Another suitable static-site architecture.
+
+Evaluate:
+
+* Maintainability
+* Content scalability
+* Type safety
+* Developer experience
+* Build performance
+* Search
+* Markdown/MDX
+* Dynamic content generation
+* Learning progress
+* Content relationships
+* Math/code rendering
+* GitHub Pages compatibility
+* Migration complexity
+* Long-term extensibility
+
+Then make a recommendation.
+
+If Astro is the best choice, use Astro.
+
+Do not migrate simply because the reference repository uses Astro.
+
+---
+
+# 6. CORE ARCHITECTURAL PRINCIPLE
+
+The most important architectural principle should be:
+
+> **CONTENT SHOULD DRIVE THE UI.**
+
+I should NOT have to manually update:
+
+* Navigation
+* Cards
+* Breadcrumbs
+* Related topics
+* Previous/next links
+* Search index
+* Roadmap pages
+* Topic indexes
+* Category pages
+* Learning progress pages
+
+when I add a new piece of content.
+
+For example, if I create:
+
+```text
+src/content/learning/ai/transformers/attention.md
+```
+
+with appropriate metadata, the system should automatically understand:
+
+* Title
+* Domain
+* Category
+* Topic
+* Difficulty
+* Status
+* Prerequisites
+* Related topics
+* Tags
+* Ordering
+* Learning path
+* Search metadata
+
+and automatically update the appropriate UI.
+
+---
+
+# 7. PROPOSE A CONTENT MODEL
+
+Design a scalable content schema.
+
+Potential content types include:
+
+```text
+Learning Concepts
+Courses / Tracks
+Modules
+Lessons
+Notes
+Problems
+Projects
+Roadmaps
+Resources
+Papers
+Books
+Tools
+Editorials
+Posts
+```
+
+Do NOT blindly implement all of them if they are unnecessary.
+
+Create schemas with validation.
 
 For example:
 
-Home
-
-Learning Roadmaps
-    AI / ML
-    Linux
-    Networking
-    Dataplane
-    DPDK
-    System Design
-    C++
-    Java
-    Python
-    Security
-    DevOps
-
-Notes
-
-Projects
-
-Learning Resources
-
-Books
-
-Cheat Sheets
-
-Blogs
-
-About
-
-GitHub
-
-If you think another structure is better, propose it.
-
-Explain why.
-
-==================================================
-STEP 4 — DEFINE THE TARGET USERS
-==================================================
-
-Design for these users.
-
-1. Recruiters
-
-Need to understand within 30 seconds:
-
-- Who am I?
-- What do I specialize in?
-- My projects
-- My skills
-- My experience
-
-2. Software Engineers
-
-Need:
-
-- Roadmaps
-- Notes
-- Technical resources
-- Reference material
-
-3. Students
-
-Need:
-
-- Guided learning
-- Beginner-friendly navigation
-- Clear progression
-
-4. Myself
-
-Need to:
-
-- Add new content quickly
-- Publish notes easily
-- Update roadmaps
-- Maintain the site effortlessly
-
-==================================================
-STEP 5 — DESIGN SYSTEM
-==================================================
-
-Create a complete design system.
-
-Include:
-
-Typography
-
-Spacing
-
-Grid
-
-Color palette
-
-Icons
-
-Buttons
-
-Cards
-
-Navigation
-
-Forms
-
-Tables
-
-Code blocks
-
-Callouts
-
-Badges
-
-Tags
-
-Choose a modern, documentation-focused aesthetic.
-
-Dark mode should be the primary experience.
-
-Support light mode.
-
-==================================================
-STEP 6 — HOMEPAGE REDESIGN
-==================================================
-
-Redesign the homepage so that within 10 seconds a visitor understands:
-
-Who I am
-
-What this website contains
-
-Why it is useful
-
-Suggested sections:
-
-Hero
-
-About
-
-Featured Roadmaps
-
-Latest Notes
-
-Featured Projects
-
-Popular Resources
-
-Learning Categories
-
-Recently Updated
-
-GitHub Activity
-
-Quick Links
-
-Search
-
-Statistics
-
-Call to Action
-
-==================================================
-STEP 7 — ROADMAP EXPERIENCE
-==================================================
-
-Roadmaps are the most important feature.
-
-Design them similar to roadmap.sh but personalized.
-
-Each roadmap should include:
-
-Overview
-
-Difficulty
-
-Prerequisites
-
-Estimated Time
-
-Learning Goals
-
-Topics
-
-Subtopics
-
-Related Notes
-
-Related Projects
-
-Related Resources
-
-Books
-
-Videos
-
-Articles
-
-Practice Questions
-
-Mini Projects
-
-Final Projects
-
-Navigation between topics
-
-Progress indicator
-
-Estimated completion
-
-Bookmarks
-
-==================================================
-STEP 8 — NOTES
-==================================================
-
-Convert notes into documentation-style pages.
-
-Support:
-
-Table of Contents
-
-Sticky TOC
-
-Anchor links
-
-Syntax highlighting
-
-Copy buttons
-
-Callouts
-
-Warning blocks
-
-Info blocks
-
-Tips
-
-Images
-
-Mermaid diagrams
-
-Tables
-
-Collapsible sections
-
-Reading progress
-
-Reading time
-
-==================================================
-STEP 9 — SEARCH
-==================================================
-
-Implement a powerful search.
-
-Search across:
-
-Roadmaps
-
-Notes
-
-Projects
-
-Resources
-
-Tags
-
-Categories
-
-==================================================
-STEP 10 — NAVIGATION
-==================================================
-
-Redesign navigation.
-
-Desktop
-
-Sidebar
-
-Top navigation
-
-Breadcrumbs
-
-Sticky header
-
-Mobile navigation
-
-Keyboard shortcut (Ctrl + K)
-
-Command palette (optional)
-
-==================================================
-STEP 11 — COMPONENTS
-==================================================
-
-Create reusable components.
-
-Examples:
-
-Navbar
-
-Sidebar
-
-Footer
-
-Cards
-
-Roadmap cards
-
-Topic cards
-
-Resource cards
-
-Project cards
-
-Code blocks
-
-Callouts
-
-Badges
-
-Timeline
-
-Search
-
-Pagination
-
-Breadcrumbs
-
-Tag chips
-
-==================================================
-STEP 12 — PERFORMANCE
-==================================================
-
-Optimize everything.
-
-Images
-
-Fonts
-
-CSS
-
-JavaScript
-
-SEO
-
-Accessibility
-
-Caching
-
-Lazy loading
-
-Prefetching
-
-GitHub Pages compatibility
-
-==================================================
-STEP 13 — ACCESSIBILITY
-==================================================
-
-Meet WCAG best practices.
-
-Keyboard navigation
-
-ARIA labels
-
-Color contrast
-
-Focus states
-
-Screen readers
-
-==================================================
-STEP 14 — SEO
-==================================================
-
-Improve:
-
-Meta tags
-
-Open Graph
-
-Twitter Cards
-
-Structured Data
-
-robots.txt
-
-Sitemap
-
-RSS
-
-Canonical URLs
-
-==================================================
-STEP 15 — GITHUB PAGES COMPATIBILITY
-==================================================
-
-The site MUST work flawlessly on GitHub Pages.
-
-You may recommend migrating to:
-
-- Astro
-- Eleventy
-- Jekyll
-
-If migration is beneficial:
-
-Explain why.
-
-Compare the options.
-
-Recommend the best choice.
-
-Provide a migration strategy.
-
-==================================================
-STEP 16 — REFACTORING
-==================================================
-
-Refactor the project into reusable architecture.
-
-Suggested structure:
-
-src/
-    components/
-    layouts/
-    pages/
-    roadmaps/
-    notes/
-    resources/
-    projects/
-    assets/
-    styles/
-    utils/
-
-Avoid duplicated code.
-
-Prioritize maintainability.
-
-==================================================
-STEP 17 — IMPLEMENTATION PLAN
-==================================================
-
-Do NOT rewrite everything at once.
-
-Create a phased implementation plan.
+```yaml
+title:
+description:
+domain:
+category:
+tags:
+status:
+difficulty:
+prerequisites:
+related:
+order:
+date:
+```
+
+Use strongly typed schemas where appropriate.
+
+---
+
+# 8. LEARNING SYSTEM
+
+The new site should support a structured learning system.
+
+I want to be able to represent:
+
+```text
+Domain
+  ↓
+Track
+  ↓
+Module
+  ↓
+Concept
+  ↓
+Sub-concepts
+```
 
 Example:
 
+```text
+AI / ML
+  ↓
+Neural Networks
+  ↓
+Foundations
+  ↓
+Forward Pass
+  ↓
+Matrix Multiplication
+  ↓
+Tensor
+```
+
+Another example:
+
+```text
+Compilers
+  ↓
+Graph Compiler
+  ↓
+Graph Optimization
+  ↓
+Operator Fusion
+```
+
+The hierarchy must be data-driven.
+
+---
+
+# 9. LEARNING STATUS
+
+Every learning concept should optionally support status such as:
+
+```text
+not-started
+learning
+understood
+solid
+```
+
+Do not force every piece of content to have a status.
+
+The UI should be able to display learning progress automatically.
+
+For example:
+
+```text
+Transformers
+
+Embedding              ✓ Solid
+Attention              ◐ Learning
+Multi-Head Attention   ○ Not Started
+Transformer Block      ○ Not Started
+```
+
+The exact visual design is up to you.
+
+---
+
+# 10. MENTAL MODEL SYSTEM
+
+This is one of the most important features.
+
+My goal is to build mental models rather than simply collect notes.
+
+Each technical concept should be able to contain sections such as:
+
+```text
+What is it?
+Why does it exist?
+Intuition
+Mental Model
+Mathematical View
+Example
+Computational Graph
+Implementation
+Compiler Perspective
+Hardware Perspective
+Common Confusions
+Prerequisites
+Related Concepts
+My Understanding
+```
+
+Do NOT force all sections to exist on every page.
+
+The content author should decide what is appropriate.
+
+---
+
+# 11. KNOWLEDGE GRAPH / RELATED CONCEPTS
+
+The system should support relationships between concepts.
+
+For example:
+
+```text
+Attention
+ ├── Tensor
+ ├── Matrix Multiplication
+ ├── Softmax
+ ├── QKV
+ └── Transformer Block
+```
+
+And:
+
+```text
+Operator Fusion
+ ├── Computational Graph
+ ├── Graph Optimization
+ ├── IR
+ ├── Memory Optimization
+ └── Hardware Execution
+```
+
+I want these relationships to become navigable.
+
+If possible, create reusable components for:
+
+* Prerequisites
+* Related concepts
+* See also
+* Next concept
+* Previous concept
+* Dependency graph
+
+Do not over-engineer this initially.
+
+---
+
+# 12. GRAPH-COMPILER LEARNING
+
+A major new learning area for me is:
+
+> AI / ML → Computational Graphs → Graph Compiler → Hardware
+
+The website should support this progression.
+
+I want to eventually document concepts such as:
+
+```text
+Tensor
+Operator
+Computational Graph
+Graph IR
+Intermediate Representation
+Graph Optimization
+Constant Folding
+Dead Node Elimination
+Operator Fusion
+Layout Transformation
+Shape Inference
+Quantization
+Memory Planning
+Scheduling
+Lowering
+Code Generation
+Hardware Mapping
+```
+
+These should NOT contain proprietary company information.
+
+They should represent generic technical knowledge.
+
+---
+
+# 13. IMPORTANT CONFIDENTIALITY RULE
+
+I am working on a real internal Graph Compiler project at my company.
+
+Some of my private Claude conversations may contain internal company documentation.
+
+The public GitHub repository MUST NOT contain:
+
+* Company confidential information
+* Proprietary architecture
+* Internal component names
+* Internal APIs
+* Internal algorithms
+* Internal implementation details
+* Internal performance numbers
+* Internal benchmarks
+* Internal chip specifications
+* Internal diagrams
+* Internal code
+* Internal terminology that could expose the implementation
+* Any copied text from confidential documents
+
+The GitHub documentation should contain only:
+
+* Generic technical concepts
+* Publicly known concepts
+* My own generalized understanding
+* Public references
+* Non-confidential examples
+
+When helping me document something related to my work, prefer:
+
+```text
+Generic concept
++
+General compiler explanation
++
+General hardware perspective
+```
+
+rather than:
+
+```text
+Our internal implementation does X.
+```
+
+If there is uncertainty about whether something is safe to publish, flag it instead of publishing it.
+
+---
+
+# 14. DSA SYSTEM
+
+My current repository already has a relatively data-driven DSA problem system.
+
+Preserve the useful design principles from it.
+
+I want a single source of truth for problems.
+
+The system should be able to automatically generate:
+
+* Problem listing
+* Topic listing
+* Difficulty filters
+* Status
+* Problem cards
+* Problem details
+* Related concepts
+* Solution/editorial links
+
+Do not destroy existing DSA content.
+
+Migrate it carefully.
+
+---
+
+# 15. ROADMAP SYSTEM
+
+I already maintain learning roadmaps.
+
+Roadmaps should become data-driven.
+
+For example:
+
+```text
+Roadmap
+  ↓
+Stage
+  ↓
+Topic
+  ↓
+Concept
+```
+
+The roadmap should automatically link to actual learning content.
+
+For example:
+
+```text
+AI / ML Roadmap
+
+Stage 1
+ ├── Linear Algebra ✓
+ ├── Probability
+ └── Tensors
+
+Stage 2
+ ├── Neural Networks
+ ├── Backpropagation
+ └── Optimization
+
+Stage 3
+ ├── Transformers
+ ├── Attention
+ └── LLMs
+```
+
+Avoid maintaining the same information in multiple places.
+
+---
+
+# 16. SEARCH
+
+Implement a proper static search solution suitable for GitHub Pages.
+
+Evaluate Pagefind or an equivalent solution.
+
+Search should be able to find:
+
+* Concepts
+* Notes
+* DSA problems
+* Projects
+* Resources
+* Roadmaps
+
+Search results should clearly show:
+
+* Title
+* Category
+* Type
+* Short description
+* Relevant match
+
+---
+
+# 17. UI / UX
+
+Redesign the UI after the architecture is stable.
+
+Desired characteristics:
+
+* Clean
+* Modern
+* Technical
+* Minimal
+* Fast
+* Responsive
+* Excellent typography
+* Excellent code rendering
+* Excellent mathematical rendering
+* Dark/light mode
+* Keyboard-friendly navigation
+* Mobile-friendly
+* Accessible
+
+Avoid:
+
+* Excessive animations
+* Overly flashy portfolio effects
+* Huge hero sections
+* Unnecessary gradients
+* UI that prioritizes appearance over information
+
+This is primarily a knowledge platform.
+
+---
+
+# 18. HOMEPAGE
+
+The homepage should communicate:
+
+1. Who I am
+2. What I work on
+3. What I'm currently learning
+4. My major technical domains
+5. My projects
+6. My roadmaps
+7. My knowledge base
+
+Potential high-level structure:
+
+```text
+Ajay Gupta
+
+Software Engineer
+Systems • Networking • Dataplane • AI • Compilers
+
+Currently Learning
+------------------
+Transformers → Graph Compilers
+
+Knowledge Domains
+------------------
+AI / ML
+Systems
+Networking
+Compilers
+DSA
+Java
+C/C++
+
+Projects
+--------
+...
+
+Roadmaps
+--------
+...
+
+Recently Updated
+----------------
+...
+```
+
+Use your judgment to improve this.
+
+---
+
+# 19. AUTOMATED UI
+
+I want to minimize manual UI maintenance.
+
+Automatically generate wherever appropriate:
+
+* Navigation
+* Sidebar
+* Breadcrumbs
+* Cards
+* Topic indexes
+* Domain indexes
+* Related content
+* Prerequisites
+* Previous/next
+* Search
+* Roadmap references
+* Learning progress
+* Tags
+* RSS/feed if useful
+* Sitemap
+* SEO metadata
+
+Adding content should generally require adding/updating content metadata rather than editing UI code.
+
+---
+
+# 20. DESIGN SYSTEM
+
+Create reusable components.
+
+Potential components:
+
+```text
+Card
+Badge
+Tag
+Breadcrumb
+Sidebar
+Search
+ProgressIndicator
+LearningStatus
+PrerequisiteList
+RelatedConcepts
+CodeBlock
+MathBlock
+Callout
+Diagram
+Timeline
+Roadmap
+ProjectCard
+ProblemCard
+ResourceCard
+```
+
+Avoid creating one-off components unless necessary.
+
+---
+
+# 21. URL COMPATIBILITY
+
+This is extremely important.
+
+Before migration, generate a map of:
+
+```text
+Current URL → New URL
+```
+
+Preserve existing URLs wherever practical.
+
+For URLs that must change:
+
+* Add redirects where GitHub Pages allows.
+* Preserve important legacy routes.
+* Avoid breaking existing indexed pages.
+
+Do NOT casually rename everything.
+
+---
+
+# 22. SEO
+
+Preserve/improve:
+
+* Page titles
+* Meta descriptions
+* Canonical URLs
+* Open Graph metadata
+* Twitter/social metadata
+* Sitemap
+* robots.txt
+* Semantic HTML
+* Structured metadata where useful
+
+---
+
+# 23. PERFORMANCE
+
+The site should remain a static-first site.
+
+Prefer:
+
+* Static generation
+* Minimal JavaScript
+* Optimized assets
+* Code splitting where appropriate
+* No unnecessary client-side frameworks
+
+Do not introduce a backend unless there is a compelling reason.
+
+---
+
+# 24. GITHUB ACTIONS
+
+Create a clean CI/CD pipeline.
+
+It should:
+
+```text
+Push
+ ↓
+Install
+ ↓
+Validate content
+ ↓
+Type check
+ ↓
+Build
+ ↓
+Run tests/checks
+ ↓
+Deploy
+```
+
+If a content schema is invalid, the build should fail with a useful error.
+
+---
+
+# 25. MIGRATION STRATEGY
+
+DO NOT perform a destructive migration.
+
+Create a staged plan.
+
+Recommended approach:
+
+```text
+Phase 0
+Audit
+
 Phase 1
-- Repository cleanup
-- Folder restructuring
-- Navigation
+Architecture design
 
 Phase 2
-- Homepage redesign
+Create new foundation
 
 Phase 3
-- Roadmap redesign
+Create content schemas
 
 Phase 4
-- Documentation pages
+Create reusable UI
 
 Phase 5
-- Search
+Migrate DSA
 
 Phase 6
-- Performance optimization
+Migrate Learning
 
 Phase 7
-- Accessibility
+Migrate Projects
 
 Phase 8
-- Final polish
+Migrate Roadmaps
 
-Keep the website functional after every phase.
+Phase 9
+Migrate remaining content
 
-==================================================
-STEP 18 — IMPLEMENTATION
-==================================================
+Phase 10
+Search + SEO + performance
 
-After the planning is approved:
+Phase 11
+Visual redesign
 
-Implement every phase incrementally.
+Phase 12
+Final validation
+```
 
-For every phase:
+At each phase:
 
-1. Explain what will change.
-2. Explain why.
-3. Make the changes.
-4. Ensure nothing breaks.
-5. Summarize the improvements.
+* Preserve content
+* Preserve metadata
+* Preserve links
+* Validate build
+* Check visual output
+* Check mobile layout
 
-==================================================
-IMPORTANT REQUIREMENTS
-==================================================
+---
 
-- Preserve all existing content unless consolidation clearly improves usability.
-- Do not remove resources without explaining why.
-- Focus on long-term maintainability.
-- Prioritize user experience over visual effects.
-- Avoid unnecessary animations.
-- Keep the website fast.
-- Ensure mobile-first responsiveness.
-- Write clean, modular, well-documented code.
-- Follow modern frontend best practices.
-- Think like a Staff Frontend Engineer and UX Architect, not just a UI designer.
+# 26. DO NOT DELETE OLD CONTENT
 
-Finally, before writing any code, provide:
-1. A complete repository analysis.
-2. A UX/UI audit.
-3. A proposed information architecture.
-4. Low-fidelity wireframes (ASCII is fine).
-5. A design system proposal.
-6. Component hierarchy.
-7. Recommended technology stack (with justification).
-8. A phased implementation roadmap.
+Before migration:
 
-Only after those are approved should you begin implementing the redesign.
+Create a migration inventory.
+
+For every current content item record:
+
+```text
+Old path
+Content type
+Title
+Destination
+Status
+New path
+Migration notes
+```
+
+No content should disappear silently.
+
+If something is obsolete, mark it for review instead of deleting it automatically.
+
+---
+
+# 27. GIT STRATEGY
+
+Do not make one giant commit.
+
+Use logical commits such as:
+
+```text
+chore: add new site foundation
+feat: add content schemas
+feat: add learning layouts
+feat: migrate DSA content
+feat: migrate learning content
+feat: add search
+feat: add roadmap system
+feat: redesign homepage
+chore: improve CI
+```
+
+This will make rollback much easier.
+
+---
+
+# 28. CLAUDE CODE WORKFLOW
+
+Follow this workflow:
+
+## STEP 1 — AUDIT
+
+Do not modify files.
+
+Produce:
+
+```text
+CURRENT_ARCHITECTURE.md
+```
+
+containing:
+
+* Current architecture
+* Major components
+* Content types
+* Problems
+* Technical debt
+* Existing automation
+* Existing features
+* URLs
+* Dependencies
+* Deployment
+* Migration risks
+
+---
+
+## STEP 2 — REFERENCE ANALYSIS
+
+Produce:
+
+```text
+REFERENCE_ARCHITECTURE.md
+```
+
+Explain what architectural patterns from the reference repository are useful for Ajdevhub.
+
+---
+
+## STEP 3 — PROPOSED ARCHITECTURE
+
+Produce:
+
+```text
+PROPOSED_ARCHITECTURE.md
+```
+
+Include:
+
+* Directory structure
+* Content model
+* Schemas
+* Component architecture
+* Routing
+* Search
+* Learning system
+* Roadmap system
+* DSA system
+* Progress system
+* Deployment
+* Migration strategy
+
+Do NOT modify the production site yet.
+
+---
+
+## STEP 4 — MIGRATION PLAN
+
+Produce:
+
+```text
+MIGRATION_PLAN.md
+```
+
+with:
+
+* Phases
+* Risks
+* Dependencies
+* Content mapping
+* URL mapping
+* Rollback strategy
+
+STOP after this stage and show me the architecture and migration plan.
+
+I will review it before implementation.
+
+---
+
+# 29. AFTER I APPROVE
+
+Once I explicitly approve the architecture:
+
+Implement the migration incrementally.
+
+Do not make assumptions about destructive changes.
+
+Whenever you encounter ambiguity:
+
+* Prefer preserving existing functionality.
+* Prefer backward compatibility.
+* Prefer reusable architecture.
+* Prefer content-driven solutions.
+* Avoid unnecessary complexity.
+
+---
+
+# 30. FINAL QUALITY BAR
+
+The finished repository should feel like:
+
+> **A personal engineering knowledge platform maintained by a software engineer, not a manually assembled GitHub Pages website.**
+
+The key properties should be:
+
+```text
+Content-driven
+        +
+Type-safe
+        +
+Automated
+        +
+Searchable
+        +
+Interconnected
+        +
+Maintainable
+        +
+Fast
+        +
+Responsive
+        +
+Extensible
+```
+
+And most importantly:
+
+> **I should be able to learn a new technical concept and add one well-structured content file, and the website should automatically integrate that concept into the appropriate navigation, search, relationships, roadmap, and learning views.**
+
+---
+
+# 31. IMPORTANT FINAL RULE
+
+Do not optimize for the number of features.
+
+Optimize for:
+
+**Simplicity + maintainability + excellent information architecture.**
+
+If a feature requires excessive manual maintenance, redesign the architecture.
+
+If two pieces of information are duplicated, find a single source of truth.
+
+If the UI needs to be manually updated whenever content changes, improve the content model.
+
+If something can be derived automatically, derive it rather than storing it twice.
+
+The end result should make it easy for me to continuously build this knowledge base for many years.
+
+Start now with **STEP 1 — repository audit only**.
+
+Do not modify the repository yet.
