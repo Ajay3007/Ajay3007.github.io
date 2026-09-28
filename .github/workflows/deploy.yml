@@ -45,6 +45,13 @@ jobs:
       - name: Type check
         run: npx astro check
 
+      # AxioByte interactive experiences (/axiobyte/…): a pinned release of
+      # github.com/Ajay3007/axiobyte-studio, verified by sha256 and mounted at
+      # public/axiobyte/ before the build, so the hub pages can list them and
+      # the link check can verify every link into them. Never committed.
+      - name: Mount AxioByte experiences
+        run: node scripts/fetch-axiobyte.mjs
+
       # Zod schema violations fail here, naming the file and the field.
       - name: Build
         run: npx astro build

@@ -4,38 +4,39 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-**Local development:**
+The site is **Astro** (production since the Phase 11 cutover). Node ≥ 20.
+
 ```bash
-bundle exec jekyll serve --livereload
-# Opens at http://127.0.0.1:4000
+npm ci
+npm run dev          # astro dev → http://localhost:4321
+npm run verify       # what CI runs: validate content, astro check, mount AxioByte, build, link check
+npm run build        # astro build && pagefind
+npm run axiobyte     # mount the pinned AxioByte experiences at public/axiobyte/ (see below)
 ```
 
-**First-time setup:**
-```bash
-gem install jekyll bundler
-bundle install
-```
+`.github/workflows/deploy.yml` builds and deploys on **push to `master`** — pushing to this branch
+publishes to production. `astro-ci.yml` runs the same checks on pull requests.
 
-**Python maintenance scripts** (stdlib only, except `generate_og_image.py` which needs Pillow):
-```bash
-python scripts/generate_summary.py _learning/dsa/Arrays/index.md  # Single file
-python scripts/generate_summary.py --batch _learning/dsa/          # Directory
-python scripts/generate_summary.py --all                           # All learning sections
-python scripts/add_changelog_entry.py "Message"                    # Log entry
-python scripts/validate_site.py                                    # Validate conventions; exits 1 on findings
-python scripts/generate_og_image.py                                # Rebuild the social card
-```
+## AxioByte — interactive experiences under /axiobyte/
 
-## Architecture
+`/axiobyte/<domain>/<concept>/` (e.g. `/axiobyte/networking/nic/`) is **not built here**. Its source
+is `github.com/Ajay3007/axiobyte-studio` (`experiences/`). This repo only:
 
-This is a Jekyll static site deployed to GitHub Pages at https://ajay3007.github.io. The working
-branch is `master`, and `.github/workflows/jekyll-gh-pages.yml` builds and deploys on **push to
-`master`** — pushing to this branch publishes to production.
+- pins a released build in `axiobyte.json` (`tag`, `asset`, `sha256`);
+- mounts it at build time with `scripts/fetch-axiobyte.mjs` into `public/axiobyte/` (gitignored —
+  never commit it);
+- renders the hub pages `src/pages/axiobyte/` from its `manifest.json` (`src/lib/axiobyte.ts`).
 
-> **Migration in progress (2026-08):** the site is moving to Astro. See
-> `CURRENT_ARCHITECTURE.md` (audit), `REFERENCE_ARCHITECTURE.md`, `PROPOSED_ARCHITECTURE.md`
-> and `MIGRATION_PLAN.md`. Jekyll remains the production build until the Phase 11 cutover, so
-> everything below still applies.
+To upgrade, bump the three pin values from the Studio release notes. To work against a local
+Studio build: `AXIOBYTE_LOCAL=../axiobyte-studio/experiences/dist npm run axiobyte`.
+AxioByte is deliberately **not** a `projects` collection entry.
+
+## Legacy Jekyll sources
+
+The sections below describe the **Jekyll** site that preceded the Astro cutover. Its sources
+(`_layouts/`, `_posts/`, `_projects/`, `_config.yml`, `Gemfile`) are still in the repository but are
+no longer built or deployed. The Astro source is `src/` (content collections in
+`src/content.config.ts`, pages in `src/pages/`).
 
 **Template hierarchy:**
 - `_layouts/default.html` — base shell with header, nav (active state via Liquid `page.url` matching), footer, and shared scripts

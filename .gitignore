@@ -44,3 +44,7 @@ _learning/manim-scripts/**/media/
 # Astro build output
 dist/
 .astro/
+
+# AxioByte interactive experiences — fetched at build time from a pinned release
+# of github.com/Ajay3007/axiobyte-studio (axiobyte.json). Never committed.
+public/axiobyte/

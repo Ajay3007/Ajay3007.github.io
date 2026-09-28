@@ -1,0 +1,34 @@
+---
+/** One AxioByte domain (Networking, later Dataplane …) and its interactive models. */
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/ui/Breadcrumb.astro';
+import ExperienceCard from '../../../components/ui/ExperienceCard.astro';
+import { axiobyteManifest, type Domain } from '../../../lib/axiobyte';
+
+export function getStaticPaths() {
+  return axiobyteManifest().domains.map((domain) => ({ params: { domain: domain.id }, props: { domain } }));
+}
+
+interface Props { domain: Domain }
+const { domain } = Astro.props;
+---
+
+<BaseLayout title={`${domain.title} · AxioByte`} description={domain.summary}>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'AxioByte', href: '/axiobyte/' }, { label: domain.title }]} />
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// AXIOBYTE · {domain.id}</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">{domain.title}</h1>
+      <p class="mt-3 max-w-2xl text-[17px] text-muted">{domain.summary}</p>
+    </header>
+    <ul class="mt-8 grid gap-3 lg:grid-cols-2">
+      {
+        domain.experiences.map((e) => (
+          <li>
+            <ExperienceCard experience={e} />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

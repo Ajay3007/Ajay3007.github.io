@@ -1,0 +1,30 @@
+---
+/** One AxioByte concept: its interactive page, and its video and prose when they exist. */
+import Card from './Card.astro';
+import Badge from './Badge.astro';
+import { experienceUrl, type Experience } from '../../lib/axiobyte';
+
+interface Props { experience: Experience }
+const { experience: e } = Astro.props;
+---
+<Card class="h-full">
+  <div class="flex items-baseline gap-2">
+    <a href={experienceUrl(e)} class="text-[15px] font-medium text-fg hover:text-accent">{e.title}</a>
+    <Badge tone="accent" class="ml-auto">interactive 3D</Badge>
+  </div>
+  <p class="mt-1.5 text-[13.5px] leading-relaxed text-subtle">{e.summary}</p>
+  {
+    e.tags && e.tags.length > 0 && (
+      <div class="mt-2.5 flex flex-wrap gap-1.5">
+        {e.tags.map((t) => <Badge>{t}</Badge>)}
+      </div>
+    )
+  }
+  <div class="mt-3 flex flex-wrap gap-3 text-[13px]">
+    <a href={experienceUrl(e)} class="text-accent hover:underline">Open the model →</a>
+    {e.video && (
+      <a href={e.video} target="_blank" rel="noopener noreferrer" class="text-subtle hover:text-accent">Watch the video ↗</a>
+    )}
+    {e.docs && <a href={e.docs} class="text-subtle hover:text-accent">Read the notes →</a>}
+  </div>
+</Card>

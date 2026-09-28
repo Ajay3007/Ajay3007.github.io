@@ -1,0 +1,7 @@
+{
+  "$comment": "The AxioByte interactive experiences this site serves under /axiobyte/. Built and released by github.com/Ajay3007/axiobyte-studio (experiences/); fetched at build time by scripts/fetch-axiobyte.mjs and never committed. To upgrade: bump tag, asset and sha256 together — the sha256 is published next to the asset as <asset>.sha256.",
+  "repo": "Ajay3007/axiobyte-studio",
+  "tag": "experiences-v1.0.0",
+  "asset": "axiobyte-experiences-1.0.0.tar.gz",
+  "sha256": ""
+}

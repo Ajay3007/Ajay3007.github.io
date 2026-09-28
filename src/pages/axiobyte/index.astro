@@ -1,0 +1,53 @@
+---
+/**
+ * AxioByte — interactive, 3D representations of systems concepts, grouped by
+ * domain. Each is the web side of an AxioByte Studio episode: the same scene the
+ * video is rendered from, served so it can be explored.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import ExperienceCard from '../../components/ui/ExperienceCard.astro';
+import { axiobyteManifest } from '../../lib/axiobyte';
+
+const manifest = axiobyteManifest();
+const count = manifest.domains.reduce((n, d) => n + d.experiences.length, 0);
+---
+
+<BaseLayout
+  title="AxioByte"
+  description="Interactive 3D models of high-performance systems: NICs, PCIe, DMA, RSS and DPDK — the same scenes the AxioByte videos are made from."
+>
+  <section class="mx-auto max-w-(--container-wide) px-5 pt-10 sm:px-8">
+    <Breadcrumb items={[{ label: 'AxioByte' }]} />
+    <header class="mt-6">
+      <p class="font-mono text-[12px] tracking-wide text-subtle uppercase">// INTERACTIVE SYSTEMS</p>
+      <h1 class="mt-2 text-3xl font-semibold tracking-tight text-fg sm:text-4xl">AxioByte</h1>
+      <p class="mt-3 max-w-2xl text-[17px] text-muted">
+        Systems concepts you can take apart. Each model here is the same 3D scene an AxioByte video is
+        rendered from — orbit it, click a part, and follow the data through it.
+      </p>
+      <p class="mt-2 font-mono text-[12px] text-subtle">{count} interactive {count === 1 ? 'model' : 'models'} · release {manifest.version}</p>
+    </header>
+
+    {
+      manifest.domains.map((d) => (
+        <section class="mt-10">
+          <div class="flex items-baseline gap-3">
+            <h2 class="text-xl font-semibold text-fg">
+              <a href={`/axiobyte/${d.id}/`} class="hover:text-accent">{d.title}</a>
+            </h2>
+            <span class="font-mono text-[11px] text-subtle">{d.experiences.length}</span>
+          </div>
+          <p class="mt-1 max-w-2xl text-[14px] text-subtle">{d.summary}</p>
+          <ul class="mt-4 grid gap-3 lg:grid-cols-2">
+            {d.experiences.map((e) => (
+              <li>
+                <ExperienceCard experience={e} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+  </section>
+</BaseLayout>
