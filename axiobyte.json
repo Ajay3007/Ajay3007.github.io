@@ -1,7 +1,7 @@
 {
   "$comment": "The AxioByte interactive experiences this site serves under /axiobyte/. Built and released by github.com/Ajay3007/axiobyte-studio (experiences/); fetched at build time by scripts/fetch-axiobyte.mjs and never committed. To upgrade: bump tag, asset and sha256 together — the sha256 is published next to the asset as <asset>.sha256.",
   "repo": "Ajay3007/axiobyte-studio",
-  "tag": "experiences-v1.2.0",
-  "asset": "axiobyte-experiences-1.2.0.tar.gz",
-  "sha256": "71a56a179fd0c4f772900eabe2d65750f03ea838ae5e240f61123e6539c09bcd"
+  "tag": "experiences-v1.3.0",
+  "asset": "axiobyte-experiences-1.3.0.tar.gz",
+  "sha256": "7302a281d7f2675e3fda2aac027aa849079d718f3c30d742407b65f9cec6d6fc"
 }
